@@ -10,20 +10,21 @@ class Generator(ABC):
     @abstractmethod
     def generate(self, *args, **kwargs):
         """ Abstract method for generating mock users. """
-        pass
+        raise NotImplementedError
 
 class UserGenerator(Generator, BaseProvider):
     """ Class for generating mock users. """
 
-    def __init__(self, tags: list = None):
+    def __init__(self, available_tags: list[str] | None = None):
         """ Constructor for UserGenerator class. """
         self.__faker = Faker()
         Faker.seed(2137)
         random.seed(2137)
 
-        self.__tags = tags
-        if self.__tags is None:
+        if available_tags is None:
             self.__tags = ["Python", "C", "C++", "Java"]
+        else:
+            self.__tags: list[str] = available_tags # type: ignore
 
     def generate(self, amount: int = 1) -> Iterable[dict]:
         """ Method for generating mock users. """
