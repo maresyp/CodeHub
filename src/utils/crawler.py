@@ -1,10 +1,14 @@
 import requests
 import random
 import string
+import os
 from bs4 import BeautifulSoup
 
+langs_and_extensions = {'python' : 'py', 'cpp' : 'cpp', 'c' : 'c', 'php' : 'php', 'c++' : 'cpp', 'py' : 'py'}
+langs_and_archives = {'python' : 'python', 'cpp' : 'cpp', 'c' : 'c', 'php' : 'php', 'c++' : 'cpp', 'py' : 'python'}
+
 def get_list_of_paste_ids(wanted_lang: str):
-    url = "https://pastebin.com/archive/%s" % wanted_lang
+    url = "https://pastebin.com/archive/%s" % langs_and_archives[wanted_lang]
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     pastes_list = []
@@ -15,6 +19,7 @@ def get_list_of_paste_ids(wanted_lang: str):
 
     return pastes_list
 
+# Returns file's relative directory
 def get_random_code(wanted_lang: str):
     paste_ids = get_list_of_paste_ids(wanted_lang)
 
@@ -22,15 +27,22 @@ def get_random_code(wanted_lang: str):
 
     # Replace the URL with the raw Pastebin URL of the code you want to download
     url = 'https://pastebin.com/raw/%s' % random_url
-    print(url)
+
+    # Create the directory for file, if it does not exist
+    dir = langs_and_archives[wanted_lang]
+    if not os.path.exists(dir):
+        os.makedirs(dir)
 
     # Send a GET request to the URL to get the code
     response = requests.get(url)
 
+    # Make name of file's relative directory
+    file_name = "%s/%s.%s" % (langs_and_archives[wanted_lang], random_url, langs_and_extensions[wanted_lang])
+
     # Save the code to a file
-    with open("%s.py" % random_url, "wb") as f:
+    with open(file_name, "wb") as f:
         f.write(response.content)
 
-    print(response.status_code)
+    return file_name
 
-get_random_code('python')
+print(get_random_code('c'))
