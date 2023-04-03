@@ -4,8 +4,8 @@ import string
 import os
 from bs4 import BeautifulSoup
 
-langs_and_extensions = {'python' : 'py', 'cpp' : 'cpp', 'c' : 'c', 'php' : 'php', 'c++' : 'cpp', 'py' : 'py'}
-langs_and_archives = {'python' : 'python', 'cpp' : 'cpp', 'c' : 'c', 'php' : 'php', 'c++' : 'cpp', 'py' : 'python'}
+langs_and_extensions = {'python' : 'py', 'cpp' : 'cpp', 'c' : 'c', 'php' : 'php', 'c++' : 'cpp', 'py' : 'py', 'java' : 'java'}
+langs_and_archives = {'python' : 'python', 'cpp' : 'cpp', 'c' : 'c', 'php' : 'php', 'c++' : 'cpp', 'py' : 'python', 'java' : 'java'}
 
 def get_list_of_paste_ids(wanted_lang: str):
     url = "https://pastebin.com/archive/%s" % langs_and_archives[wanted_lang]
@@ -37,12 +37,10 @@ def get_random_code(wanted_lang: str):
     response = requests.get(url)
 
     # Make name of file's relative directory
-    file_name = "%s/%s.%s" % (langs_and_archives[wanted_lang], random_url, langs_and_extensions[wanted_lang])
+    file_path = "code_base/%s/%s.%s" % (langs_and_archives[wanted_lang], random_url, langs_and_extensions[wanted_lang])
 
     # Save the code to a file
-    with open(file_name, "wb") as f:
+    with open(file_path, "wb") as f:
         f.write(response.content)
 
-    return file_name
-
-print(get_random_code('c'))
+    return file_path
