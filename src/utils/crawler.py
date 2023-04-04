@@ -29,7 +29,7 @@ def get_random_code(wanted_lang: str):
     url = 'https://pastebin.com/raw/%s' % random_url
 
     # Create the directory for file, if it does not exist
-    dir = langs_and_archives[wanted_lang]
+    dir = "code_base/%s" % langs_and_archives[wanted_lang]
     if not os.path.exists(dir):
         os.makedirs(dir)
 
