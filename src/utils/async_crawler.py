@@ -144,12 +144,10 @@ class Crawler:
             bs = BeautifulSoup(response.text, 'html.parser')
             contents = bs.find_all('div', attrs={'class': parser.source_name})
 
-            path = Path(f"./code_snippets/{url.split('/')[-1]}.txt")
-            print(path)
+            path = Path(f"./code_snippets/{url.split('/')[-1]}.{parser.source_name.split(' ')[-1]}.txt")
             path.parent.mkdir(parents=True, exist_ok=True)
 
             with path.open('w') as file:
-                file.write(parser.source_name + '\n')
                 for tag in contents:
                     file.write(tag.text.strip())
 
