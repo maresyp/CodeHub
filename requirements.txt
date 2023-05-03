@@ -1,2 +1,4 @@
 faker
+httpx
+beautifulsoup4
 python-dotenv
