@@ -1,0 +1,818 @@
+-- Updated April 19 2023
+-------------------------------------------------------------------------------------------------------------------
+-- Setup functions for this job.  Generally should not be modified.
+-------------------------------------------------------------------------------------------------------------------
+ 
+--[[
+    F9- gs c cycle OffenseMode -- Cycles offense mode
+    F10-gs c toggle LuzafRing -- Toggles use of Luzaf Ring on and off
+    F11- gs c cycle Idle Mode -- Cycles idle mode
+    F12- gs c update user -- Updates user if you need to swap back to proper gear
+--]]
+ 
+ 
+-- Initialization function for this job file.
+function get_sets()
+    mote_include_version = 2
+ 
+    -- Load and initialize the include file.
+    include('Mote-Include.lua')
+end
+ 
+-- Setup vars that are user-independent.  state.Buff vars initialized here will automatically be tracked.
+function job_setup()
+    -- Whether to use Luzaf's Ring
+    state.LuzafRing = M(false, "Luzaf's Ring")
+    -- Whether a warning has been given for low ammo
+    state.warned = M(false)
+ 
+    define_roll_values()
+end
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- User setup functions for this job.  Recommend that these be overridden in a sidecar file.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-- Setup vars that are user-dependent.  Can override this function in a sidecar file.
+function user_setup()
+    state.OffenseMode:options('Melee', 'Leaden', 'Savage', 'Aeolian')
+    state.IdleMode:options('Normal', 'Refresh')
+    
+    gear.RAbullet = "Chrono Bullet"
+    gear.WSbullet = "Chrono Bullet"
+    gear.MAbullet = "Living Bullet"
+    gear.QDbullet = "Animikii Bullet"
+    options.ammo_warning_limit = 15
+ 
+    -- Additional local binds
+    send_command('bind f9 gs c cycle OffenseMode')
+    send_command('bind f10 gs c toggle LuzafRing')
+    send_command('bind f12 gs c update user')
+    send_command('bind f11 gs c cycle IdleMode')
+ 
+end
+ 
+ 
+-- Called when this job file is unloaded (eg: job change)
+function user_unload()
+    send_command('unbind f9')
+    send_command('unbind f10')
+    send_command('unbind f11')
+    send_command('unbind f12')
+end
+ 
+-- Define sets and vars used by this job file.
+function init_gear_sets()
+    --------------------------------------
+    -- Start defining the sets
+    --------------------------------------
+    
+    -- Precast Sets
+ 
+    -- Precast sets to enhance JAs
+    
+    sets.precast.JA['Triple Shot'] = {body="Chasseur's Frac +2"}
+    sets.precast.JA['Snake Eye'] = {legs="Lanun Trews +3"}
+    sets.precast.JA['Wild Card'] = {feet="Lanun Bottes +3"}
+    sets.precast.JA['Random Deal'] = {body="Lanun Frac +3"}
+ 
+    
+    sets.precast.CorsairRoll = {
+        main="Rostam",
+        head="Lanun Tricorne +3",
+        body="Chasseur's Frac +2",
+        hands="Chasseur's Gants +3",
+        legs="Desultor Tassets",
+        feet="Nyame Sollerets",
+        neck="Regal Necklace",
+        waist="Flume Belt",
+        left_ring="Shneddick Ring +1",
+        right_ring="Defending Ring",
+        back={ name="Camulus's Mantle", augments={'"Snapshot"+10',}}
+    }
+    
+    sets.precast.CorsairRoll["Caster's Roll"] = set_combine(sets.precast.CorsairRoll, {legs="Chas. Culottes +3"})
+    sets.precast.CorsairRoll["Blitzer's Roll"] = set_combine(sets.precast.CorsairRoll, {head="Chass. Tricorne +2"})
+    sets.precast.CorsairRoll["Courser's Roll"] = set_combine(sets.precast.CorsairRoll, {feet="Chass. Bottes +2"})
+    sets.precast.LuzafRing = set_combine(sets.precast.CorsairRoll, {left_ring="Luzaf's Ring"})
+    
+    -- Waltz set (chr and vit)
+    sets.precast.Waltz = {}
+        
+    -- Don't need any special gear for Healing Waltz.
+    sets.precast.Waltz['Healing Waltz'] = {}
+ 
+    -- Fast cast sets for spells
+    
+    sets.precast.FC = {
+        head="Carmine Mask +1",
+        body="Adhemar Jacket",
+        hands="Leyline Gloves",
+        legs={ name="Herculean Trousers", augments={'VIT+2','Crit.hit rate+3','"Fast Cast"+8','Mag. Acc.+17 "Mag.Atk.Bns."+17',}},
+        feet="Carmine Greaves +1",
+        neck="Baetyl Pendant",
+        waist="Cornelia's Belt",
+        left_ear="Etiolation Earring",
+        right_ear="Loquac. Earring",
+        left_ring="Kishar Ring",
+        right_ring="Prolix Ring",
+        back={ name="Camulus's Mantle", augments={'"Fast Cast"+10','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {neck="Magoraga Beads",body="Passion Jacket"})
+ 
+    -- (10% Snapshot from JP Gifts) 74% Total
+    sets.precast.RA = {ammo=gear.RAbullet,
+        head={ name="Taeon Chapeau", augments={'"Snapshot"+5','"Snapshot"+5',}}, --10
+        neck="Comm. Charm +2", --4
+        body={ name="Taeon Tabard", augments={'"Snapshot"+5','"Snapshot"+5',}}, --10
+        hands="Carmine Fin. Ga. +1", --8
+        legs="Osh. Trousers +1", --12
+        feet="Meg. Jam. +2", --10
+        waist="Yemaya Belt", 
+        back={ name="Camulus's Mantle", augments={'"Snapshot"+10',}}, --10
+    }
+ 
+    sets.precast.RA.Flurry1 = set_combine(sets.precast.RA, {
+        body="Laksa. Frac +3", 
+    }) 
+ 
+    sets.precast.RA.Flurry2 = set_combine(sets.precast.RA.Flurry1, {
+        head="Chass. Tricorne +2", 
+        feet="Pursuer's Gaiters" 
+    }) 
+ 
+    sets.TripleShot = {ammo=gear.RAbullet,
+        head="Oshosi Mask +1", 
+        body="Chasseur's Frac +2", 
+        hands="Lanun Gants +3", 
+        legs="Osh. Trousers +1", 
+        feet="Osh. Leggings +1", 
+        neck="Iskur Gorget",
+        waist="K. Kachina Belt +1",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
+        left_ring="Dingir Ring",
+        right_ring="Crepuscular Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Acc.+10','"Store TP"+10','Phys. dmg. taken-10%',}}
+    } 
+    sets.buff.Doom = {
+        neck="Nicander's Necklace",
+        ring1="Purity Ring",
+        waist="Gishdubar Sash"}
+        
+    -- Weaponskill sets
+    -- Default set for any weaponskill that isn't any more specifically defined
+    sets.precast.WS = {
+        head={ name="Herculean Helm", augments={'Rng.Acc.+13','Weapon skill damage +5%','Accuracy+5','Attack+14',}},
+        body="Laksa. Frac +3",
+        hands="Chasseur's Gants +3",
+        legs={ name="Herculean Trousers", augments={'Accuracy+18','STR+2','Weapon skill damage +9%','Accuracy+19 Attack+19',}},
+        feet="Lanun Bottes +3",
+        neck="Rep. Plat. Medal",
+        waist="Sailfi Belt +1",
+        left_ear="Ishvara Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Regal Ring",
+        right_ring="Epaminondas's Ring",
+        back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
+    sets.precast.WS['Viper Bite'] = {
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Chas. Culottes +3",
+        feet="Malignance Boots",
+        neck="Fotia Gorget",
+        waist="Fotia Belt",
+        left_ear="Telos Earring",
+        right_ear="Digni. Earring",
+        left_ring={name="Chirich Ring +1",bag="wardrobe"},
+        right_ring={name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.precast.WS['Aeolian Edge'] = {
+        head={ name="Herculean Helm", augments={'Mag. Acc.+21','Weapon skill damage +5%','INT+8','"Mag.Atk.Bns."+5',}},
+        body="Lanun Frac +3",
+        hands="Chasseur's Gants +3",
+        legs="Nyame Flanchard",
+        feet="Lanun Bottes +3",
+        neck="Comm. Charm +2",
+        waist="Orpheus's Sash",
+        left_ear="Friomisi Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Dingir Ring",
+        right_ring="Epaminondas's Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Mag. Acc+20 /Mag. Dmg.+20','AGI+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.precast.WS['Savage Blade'] = {
+        head={ name="Herculean Helm", augments={'Rng.Acc.+13','Weapon skill damage +5%','Accuracy+5','Attack+14',}},
+        body="Laksa. Frac +3",
+        hands="Chasseur's Gants +3",
+        legs={ name="Herculean Trousers", augments={'Accuracy+18','STR+2','Weapon skill damage +9%','Accuracy+19 Attack+19',}},
+        feet="Lanun Bottes +3",
+        neck="Comm. Charm +2",
+        waist="Sailfi Belt +1",
+        left_ear="Ishvara Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Regal Ring",
+        right_ring="Epaminondas's Ring",
+        back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Requiescat'] = {
+        head="Chass. Tricorne +2",
+        body="Laksa. Frac +3",
+        hands="Chasseur's Gants +3",
+        legs={ name="Herculean Trousers", augments={'Accuracy+18','STR+2','Weapon skill damage +9%','Accuracy+19 Attack+19',}},
+        feet="Lanun Bottes +3",
+        neck="Comm. Charm +2",
+        waist="Sailfi Belt +1",
+        left_ear="Ishvara Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Rufescent Ring",
+        right_ring="Ilabrat Ring",
+        back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.precast.WS['Last Stand'] = {ammo=gear.WSbullet,
+        head="Lanun Tricorne +3",
+        body="Laksa. Frac +3",
+        hands="Chasseur's Gants +3",
+        legs="Lanun Trews +3",
+        feet="Lanun Bottes +3",
+        neck="Fotia Gorget",
+        waist="Fotia Belt",
+        left_ear="Moonshade Earring",
+        right_ear="Telos Earring",
+        left_ring="Regal Ring",
+        right_ring="Epaminondas's Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Acc.+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Wildfire'] = {ammo=gear.MAbullet,
+        head={ name="Herculean Helm", augments={'Mag. Acc.+21','Weapon skill damage +5%','INT+8','"Mag.Atk.Bns."+5',}},
+        body="Lanun Frac +3",
+        hands="Chasseur's Gants +3",
+        legs={ name="Herculean Trousers", augments={'"Mag.Atk.Bns."+23','MND+12','Accuracy+20 Attack+20','Mag. Acc.+18 "Mag.Atk.Bns."+18',}},
+        feet="Lanun Bottes +3",
+        neck="Comm. Charm +2",
+        waist="Eschan Stone",
+        left_ear="Friomisi Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Dingir Ring",
+        right_ring="Epaminondas's Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Mag. Acc+20 /Mag. Dmg.+20','AGI+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.precast.WS['Leaden Salute'] = {ammo=gear.MAbullet,
+        head="Pixie Hairpin +1",
+        body="Lanun Frac +3",
+        hands="Chasseur's Gants +3",
+        legs={ name="Herculean Trousers", augments={'"Mag.Atk.Bns."+23','MND+12','Accuracy+20 Attack+20','Mag. Acc.+18 "Mag.Atk.Bns."+18',}},
+        feet="Lanun Bottes +3",
+        neck="Comm. Charm +2",
+        waist="Eschan Stone",
+        left_ear="Friomisi Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Dingir Ring",
+        right_ring="Archon Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Mag. Acc+20 /Mag. Dmg.+20','AGI+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Leaden Salute'].FullTP = set_combine(sets.precast.WS['Leaden Salute'], {
+        right_ear="Novio Earring",
+        waist="Svelt. Gouriz +1"})
+        
+    -- Midcast Sets
+    sets.midcast.FastRecast = {
+        head="Carmine Mask +1",
+        body="Adhemar Jacket",
+        hands="Leyline Gloves",
+        legs={ name="Herculean Trousers", augments={'VIT+2','Crit.hit rate+3','"Fast Cast"+8','Mag. Acc.+17 "Mag.Atk.Bns."+17',}},
+        feet="Carmine Greaves +1",
+        neck="Baetyl Pendant",
+        waist="Cornelia's Belt",
+        left_ear="Etiolation Earring",
+        right_ear="Loquac. Earring",
+        left_ring="Kishar Ring",
+        right_ring="Prolix Ring",
+        back={ name="Camulus's Mantle", augments={'"Fast Cast"+10','Phys. dmg. taken-10%',}}
+    }
+        
+    -- Specific spells
+    sets.midcast.Utsusemi = set_combine(sets.midcast.FastRecast, {neck="Magoraga Beads",body="Passion Jacket"})
+ 
+    sets.midcast.CorsairShot = {ammo=gear.MAbullet,
+        head="Laksa. Tricorne +3",
+        body="Chasseur's Frac +2",
+        hands="Chasseur's Gants +3",
+        legs="Chas. Culottes +3",
+        feet="Chass. Bottes +2",
+        neck="Comm. Charm +2",
+        waist="Yemaya Belt",
+        left_ear="Telos Earring",
+        right_ear="Crep. Earring",
+        left_ring="Ilabrat Ring",
+        right_ring="Regal Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Acc.+10','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.midcast.CorsairShot['Light Shot'] = {ammo=gear.QDbullet,
+        head="Laksa. Tricorne +3",
+        body="Chasseur's Frac +2",
+        hands="Chasseur's Gants +3",
+        legs="Chas. Culottes +3",
+        feet="Chass. Bottes +2",
+        neck="Comm. Charm +2",
+        waist="K. Kachina Belt +1",
+        left_ear="Digni. Earring",
+        right_ear="Crep. Earring",
+        left_ring="Stikini Ring +1",
+        right_ring="Regal Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Mag. Acc+20 /Mag. Dmg.+20','AGI+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.midcast.CorsairShot['Dark Shot'] = sets.midcast.CorsairShot['Light Shot']
+ 
+ 
+    -- Ranged gear
+    sets.midcast.RA = {ammo=gear.RAbullet,
+        head="Lanun Tricorne +3",
+        body="Chasseur's Frac +2",
+        hands="Chasseur's Gants +3",
+        legs="Lanun Trews +3",
+        feet="Chass. Bottes +2",
+        neck="Iskur Gorget",
+        waist="K. Kachina Belt +1",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
+        left_ring="Ilabrat Ring",
+        right_ring="Crepuscular Ring",
+        back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Acc.+10','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+ 
+    -- Sets to return to when not performing an action.
+    -- Resting sets
+    sets.resting = {
+        sub="Crepuscular Knife",
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Chas. Culottes +3",
+        feet="Malignance Boots",
+        neck="Elite Royal Collar",
+        waist="Carrier's Sash",
+        left_ear="Genmei Earring",
+        right_ear="Eabani Earring",
+        left_ring="Shneddick Ring +1",
+        right_ring={name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Mag. Evasion+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}}
+    }
+    
+    -- Idle sets 53 PDT
+    sets.idle = {ammo=gear.RAbullet,
+        sub="Crepuscular Knife",
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Chas. Culottes +3",
+        feet="Malignance Boots",
+        neck="Elite Royal Collar",
+        waist="Carrier's Sash",
+        left_ear="Genmei Earring",
+        right_ear="Eabani Earring",
+        left_ring="Shneddick Ring +1",
+        right_ring={name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Mag. Evasion+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.idle.Refresh = set_combine(sets.idle, {
+        body="Mekosu. Harness"
+    })
+        
+    sets.idle.Town = {
+        sub="Crepuscular Knife",
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Chas. Culottes +3",
+        feet="Malignance Boots",
+        neck="Elite Royal Collar",
+        waist="Carrier's Sash",
+        left_ear="Genmei Earring",
+        right_ear="Eabani Earring",
+        left_ring="Shneddick Ring +1",
+        right_ring={name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Mag. Evasion+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}}
+    }
+    
+ 
+    sets.Kiting = {left_ring="Shneddick Ring +1"}
+    sets.Darkobi = {waist="Anrin Obi"}
+    sets.Fireobi = {waist="Karin Obi"}
+    -- Engaged sets
+ 
+    -- Variations for TP weapon and (optional) offense/defense modes.  Code will fall back on previous
+    -- sets if more refined versions aren't defined.
+    -- If you create a set with both offense and defense modes, the offense mode should be first.
+    -- EG: sets.engaged.Dagger.Accuracy.Evasion
+    
+    -- Normal melee group
+    sets.engaged.Melee = {ammo=gear.RAbullet,
+        head="Adhemar Bonnet +1",
+        body="Adhemar Jacket +1",
+        hands={ name="Adhemar Wrist. +1", augments={'STR+12','DEX+12','Attack+20',}},
+        legs="Samnuha Tights",
+        feet={ name="Herculean Boots", augments={'Accuracy+30','"Triple Atk."+4',}},
+        neck="Iskur Gorget",
+        waist="Sailfi Belt +1",
+        left_ear="Cessance Earring",
+        right_ear="Eabani Earring",
+        left_ring="Epona's Ring",
+        right_ring="Petrov Ring",
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+    -- 51 PDT
+    sets.engaged.Savage = {
+        main="Naegling",
+        sub="Crepuscular Knife",
+        range="Anarchy +2",
+        ammo=gear.RAbullet,
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
+        feet="Malignance Boots",
+        neck="Elite Royal Collar",
+        waist="Reiki Yotai",
+        left_ear="Telos Earring",
+        right_ear="Eabani Earring",
+        left_ring="Epona's Ring",
+        right_ring={name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Mag. Evasion+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}}
+    }
+    -- 53 PDT (41 gear and 12 from having 2 rolls on with Rostam equipped.)
+    sets.engaged.Leaden = {
+        main="Rostam",
+        sub="Crepuscular Knife",
+        range="Death Penalty",
+        ammo=gear.RAbullet,
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
+        feet="Malignance Boots",
+        neck="Iskur Gorget",
+        waist="Reiki Yotai",
+        left_ear="Telos Earring",
+        right_ear="Eabani Earring",
+        left_ring="Epona's Ring",
+        right_ring="Petrov Ring",
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Mag. Evasion+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.engaged.Aeolian = {
+        main="Rostam",
+        sub="Crepuscular Knife",
+        range="Anarchy +2",
+        ammo=gear.RAbullet,
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
+        feet="Malignance Boots",
+        neck="Iskur Gorget",
+        waist="Reiki Yotai",
+        left_ear="Telos Earring",
+        right_ear="Eabani Earring",
+        left_ring="Epona's Ring",
+        right_ring="Defending Ring",
+        back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Mag. Evasion+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.engaged.Melee.DW = sets.engaged.Melee
+    
+    sets.engaged.Savage.DW = sets.engaged.Savage
+ 
+    sets.engaged.Leaden.DW = sets.engaged.Leaden
+    
+    sets.engaged.Aeolian.DW = sets.engaged.Aeolian
+end
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- Job-specific hooks for standard casting events.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-- Set eventArgs.handled to true if we don't want any automatic gear equipping to be done.
+-- Set eventArgs.useMidcastGear to true if we want midcast gear equipped on precast.
+function job_precast(spell, action, spellMap, eventArgs)
+    -- Check that proper ammo is available if we're using ranged attacks or similar.
+    if spell.action_type == 'Ranged Attack' or spell.type == 'WeaponSkill' or spell.type == 'CorsairShot' then
+        do_bullet_checks(spell, spellMap, eventArgs)
+    end
+    -- Safety checks for weaponskills 
+    if spell.type:lower() == 'weaponskill' then
+        if player.tp < 1000 then
+            eventArgs.cancel = true
+            return
+        end
+        if spell.target.distance >5 and spell.skill ~= "Marksmanship" then
+            add_to_chat(122,"Outside WS Range! /Canceling")
+            eventArgs.cancel = true
+            return
+        elseif spell.target.distance >21 then
+            add_to_chat(122,"Outside WS Range! /Canceling")
+            eventArgs.cancel = true
+            return
+        end
+    end
+    -- gear sets
+    if (spell.type == 'CorsairRoll' or spell.english == "Double-Up") then
+        if state.LuzafRing.value then
+            equip(sets.precast.LuzafRing)
+        end
+    end
+    if spell.english == 'Fold' and buffactive['Bust'] == 2 then
+        if sets.precast.FoldDoubleBust then
+            equip(sets.precast.FoldDoubleBust)
+            eventArgs.handled = true
+        end
+    end
+end
+ 
+ 
+function job_post_midcast(spell, action, spellMap, eventArgs)
+    if spell.action_type == 'Ranged Attack' and buffactive['Triple Shot'] then
+        equip(sets.TripleShot)
+    end
+end
+ 
+-- Set eventArgs.handled to true if we don't want any automatic gear equipping to be done.
+function job_aftercast(spell, action, spellMap, eventArgs)
+    if spell.type == 'CorsairRoll' and not spell.interrupted then
+        display_roll_info(spell)
+    end
+end
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- User code that supplements standard library decisions.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-- Function to display the current relevant user state when doing an update.
+-- Return true if display was handled, and you don't want the default info shown.
+function display_current_job_state(eventArgs)
+    local cf_msg = ''
+    if state.CombatForm.has_value then
+        cf_msg = ' (' ..state.CombatForm.value.. ')'
+    end
+ 
+    local m_msg = state.OffenseMode.value
+ 
+    local i_msg = state.IdleMode.value
+ 
+    local msg = ''
+    
+    msg = msg .. ' Roll Size: ' .. ((state.LuzafRing.value and 'Large') or 'Small')
+    
+    add_to_chat(002, '| ' ..string.char(31,210).. 'Melee' ..cf_msg.. ': ' ..string.char(31,001)..m_msg.. string.char(31,002)..  ' |'
+        ..string.char(31,008).. ' Idle: ' ..string.char(31,001)..i_msg.. string.char(31,002)..  ' |'
+        ..string.char(31,002)..msg)
+ 
+    eventArgs.handled = true
+end
+-------------------------------------------------------------------------------------------------------------------
+-- Utility functions specific to this job.
+-------------------------------------------------------------------------------------------------------------------
+--Read incoming packet to differentiate between Haste/Flurry I and II
+windower.register_event('action', 
+    function(act)
+        --check if you are a target of spell
+        local actionTargets = act.targets
+        playerId = windower.ffxi.get_player().id
+        isTarget = false
+        for _, target in ipairs(actionTargets) do
+            if playerId == target.id then
+                isTarget = true
+            end
+        end
+        if isTarget == true then
+            if act.category == 4 then
+                local param = act.param
+                if param == 845 and flurry ~= 2 then
+                    add_to_chat(122, 'Flurry Status: Flurry I')
+                    flurry = 1
+                elseif param == 846 then
+                    add_to_chat(122, 'Flurry Status: Flurry II')
+                    flurry = 2              
+                elseif param == 57 and haste ~=2 then
+                    add_to_chat(122, 'Haste Status: Haste I (Haste)')
+                    haste = 1
+                elseif param == 511 then
+                    add_to_chat(122, 'Haste Status: Haste II (Haste II)')
+                    haste = 2
+                end
+            elseif act.category == 5 then
+                if act.param == 5389 then
+                    --add_to_chat(122, 'Haste Status: Haste II (Spy Drink)')
+                    haste = 2
+                end
+            elseif act.category == 13 then
+                local param = act.param
+                --595 haste 1 -602 hastega 2
+                if param == 595 and haste ~=2 then 
+                    --add_to_chat(122, 'Haste Status: Haste I (Hastega)')
+                    haste = 1
+                elseif param == 602 then
+                    --add_to_chat(122, 'Haste Status: Haste II (Hastega2)')
+                    haste = 2
+                end
+            end
+        end
+end)
+ 
+function define_roll_values()
+    rolls = {
+        ["Corsair's Roll"]   = {lucky=5, unlucky=9, bonus="Experience Points"},
+        ["Ninja Roll"]       = {lucky=4, unlucky=8, bonus="Evasion"},
+        ["Hunter's Roll"]    = {lucky=4, unlucky=8, bonus="Accuracy"},
+        ["Chaos Roll"]       = {lucky=4, unlucky=8, bonus="Attack"},
+        ["Magus's Roll"]     = {lucky=2, unlucky=6, bonus="Magic Defense"},
+        ["Healer's Roll"]    = {lucky=3, unlucky=7, bonus="Cure Potency Received"},
+        ["Puppet Roll"]      = {lucky=3, unlucky=7, bonus="Pet Magic Accuracy/Attack"},
+        ["Choral Roll"]      = {lucky=2, unlucky=6, bonus="Spell Interruption Rate"},
+        ["Monk's Roll"]      = {lucky=3, unlucky=7, bonus="Subtle Blow"},
+        ["Beast Roll"]       = {lucky=4, unlucky=8, bonus="Pet Attack"},
+        ["Samurai Roll"]     = {lucky=2, unlucky=6, bonus="Store TP"},
+        ["Evoker's Roll"]    = {lucky=5, unlucky=9, bonus="Refresh"},
+        ["Rogue's Roll"]     = {lucky=5, unlucky=9, bonus="Critical Hit Rate"},
+        ["Warlock's Roll"]   = {lucky=4, unlucky=8, bonus="Magic Accuracy"},
+        ["Fighter's Roll"]   = {lucky=5, unlucky=9, bonus="Double Attack Rate"},
+        ["Drachen Roll"]     = {lucky=4, unlucky=8, bonus="Pet Accuracy"},
+        ["Gallant's Roll"]   = {lucky=3, unlucky=7, bonus="Defense"},
+        ["Wizard's Roll"]    = {lucky=5, unlucky=9, bonus="Magic Attack"},
+        ["Dancer's Roll"]    = {lucky=3, unlucky=7, bonus="Regen"},
+        ["Scholar's Roll"]   = {lucky=2, unlucky=6, bonus="Conserve MP"},
+        ["Bolter's Roll"]    = {lucky=3, unlucky=9, bonus="Movement Speed"},
+        ["Caster's Roll"]    = {lucky=2, unlucky=7, bonus="Fast Cast"},
+        ["Courser's Roll"]   = {lucky=3, unlucky=9, bonus="Snapshot"},
+        ["Blitzer's Roll"]   = {lucky=4, unlucky=9, bonus="Attack Delay"},
+        ["Tactician's Roll"] = {lucky=5, unlucky=8, bonus="Regain"},
+        ["Allies' Roll"]    = {lucky=3, unlucky=10, bonus="Skillchain Damage"},
+        ["Miser's Roll"]     = {lucky=5, unlucky=7, bonus="Save TP"},
+        ["Companion's Roll"] = {lucky=2, unlucky=10, bonus="Pet Regain and Regen"},
+        ["Avenger's Roll"]   = {lucky=4, unlucky=8, bonus="Counter Rate"},
+        ["Runeist's Roll"]   = {lucky=4, unlucky=8, bonus="Magic Evasion"},
+        ["Naturalist's Roll"]= {lucky=3, unlucky=7, bonus="Enhancing Duration"},
+    }
+end
+ 
+function display_roll_info(spell)
+    rollinfo = rolls[spell.english]
+    local rollsize = (state.LuzafRing.value and 'Large') or 'Small'
+ 
+    if rollinfo then
+        add_to_chat(104, spell.english..' provides a bonus to '..rollinfo.bonus..'.  Roll size: '..rollsize)
+        add_to_chat(104, 'Lucky roll is '..tostring(rollinfo.lucky)..', Unlucky roll is '..tostring(rollinfo.unlucky)..'.')
+    end
+end
+ 
+ 
+-- Determine whether we have sufficient ammo for the action being attempted.
+function do_bullet_checks(spell, spellMap, eventArgs)
+    local bullet_name
+    local bullet_min_count = 1
+    
+    if spell.type == 'WeaponSkill' then
+        if spell.skill == "Marksmanship" then
+            if spell.element == 'None' then
+                -- physical weaponskills
+                bullet_name = gear.WSbullet
+            else
+                -- magical weaponskills
+                bullet_name = gear.MAbullet
+            end
+        else
+            -- Ignore non-ranged weaponskills
+            return
+        end
+    elseif spell.type == 'CorsairShot' then
+        bullet_name = gear.QDbullet
+    elseif spell.action_type == 'Ranged Attack' then
+        bullet_name = gear.RAbullet
+        if buffactive['Triple Shot'] then
+            bullet_min_count = 3
+        end
+    end
+    
+    local available_bullets = player.inventory[bullet_name] or player.wardrobe[bullet_name] or player.wardrobe2[bullet_name] or player.wardrobe3[bullet_name] or
+        player.wardrobe4[bullet_name] or player.wardrobe5[bullet_name] or player.wardrobe6[bullet_name] or player.wardrobe7[bullet_name] or
+        player.wardrobe8[bullet_name]
+        
+    -- If no ammo is available, give appropriate warning and end.
+    if not available_bullets then
+        if spell.type == 'CorsairShot' and player.equipment.ammo ~= 'empty' then
+            add_to_chat(104, 'No Quick Draw ammo left.  Using what\'s currently equipped ('..player.equipment.ammo..').')
+            return
+        elseif spell.type == 'WeaponSkill' and player.equipment.ammo == gear.RAbullet then
+            add_to_chat(104, 'No weaponskill ammo left.  Using what\'s currently equipped (standard ranged bullets: '..player.equipment.ammo..').')
+            return
+        else
+            add_to_chat(104, 'No ammo ('..tostring(bullet_name)..') available for that action.')
+            eventArgs.cancel = true
+            return
+        end
+    end
+    
+    -- Don't allow shooting or weaponskilling with ammo reserved for quick draw.
+    if spell.type ~= 'CorsairShot' and bullet_name == gear.QDbullet and available_bullets.count <= bullet_min_count then
+        add_to_chat(104, 'No ammo will be left for Quick Draw.  Cancelling.')
+        eventArgs.cancel = true
+        return
+    end
+    
+    -- Low ammo warning.
+    if spell.type ~= 'CorsairShot' and state.warned.value == false
+        and available_bullets.count > 1 and available_bullets.count <= options.ammo_warning_limit then
+        local msg = '*****  LOW AMMO WARNING: '..bullet_name..' *****'
+        --local border = string.repeat("*", #msg)
+        local border = ""
+        for i = 1, #msg do
+            border = border .. "*"
+        end
+        
+        add_to_chat(104, border)
+        add_to_chat(104, msg)
+        add_to_chat(104, border)
+ 
+        state.warned:set()
+    elseif available_bullets.count > options.ammo_warning_limit and state.warned then
+        state.warned:reset()
+    end
+end
+ 
+ 
+function job_post_precast(spell, action, spellMap, eventArgs)
+    if (spell.type == 'CorsairRoll' or spell.english == "Double-Up") and state.LuzafRing.value then  
+            equip(sets.precast.LuzafRing)
+    elseif spell.action_type == 'Ranged Attack' then
+        if flurry == 2 then
+            equip(sets.precast.RA.Flurry2)
+        elseif flurry == 1 then
+            equip(sets.precast.RA.Flurry1)
+        end
+    elseif spell.type == 'WeaponSkill' then
+        if spell.english == 'Leaden Salute' then
+            if player.tp > 2900 then
+                equip(sets.precast.WS['Leaden Salute'].FullTP)
+            elseif spell.target.distance < (5 + spell.target.model_size) then
+                equip({waist="Orpheus's Sash"})
+            end
+            if world.weather_element == 'Dark' or world.day_element == 'Dark' then
+                equip(sets.Darkobi) 
+            elseif spell.target.distance < (5 + spell.target.model_size) then
+                equip({waist="Orpheus's Sash"})
+            end
+        elseif spell.english == 'Wildfire' and (world.weather_element == 'Fire' or world.day_element == 'Fire') then
+            equip(sets.Fireobi)
+        end
+    end
+end
+-------------------------------------------------------------------------------------------------------------------
+-- Job-specific hooks for non-casting events.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-- Called when a player gains or loses a buff.
+-- buff == buff gained or lost
+-- gain == true if the buff was gained, false if it was lost.
+function job_buff_change(buff,gain)
+-- If we gain or lose any flurry buffs, adjust gear.
+    if S{'flurry'}:contains(buff:lower()) then
+        if not gain then
+            flurry = nil
+            add_to_chat(122, "Flurry status cleared.")
+        end
+        if not midaction() then
+            handle_equipping_gear(player.status)
+        end
+    end
+    if buff == "doom" then
+        if gain then
+            equip(sets.buff.Doom)
+            send_command('@input /t Moonja Doomed.')
+            disable('ring1','neck','waist')
+        else
+            enable('ring1','neck','waist')
+            handle_equipping_gear(player.status)
+        end
+    end
+end
+ 
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- User code that supplements standard library decisions.
+-------------------------------------------------------------------------------------------------------------------

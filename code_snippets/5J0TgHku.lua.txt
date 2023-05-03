@@ -1,0 +1,15 @@
+local Music = script.Parent.Music:GetChildren()
+local CurrentMusicObjectId = 0
+local LastSoundObject = nil
+script.Parent.MouseButton1Click:Connect(function()
+ 
+    if CurrentMusicObjectId == #Music then
+        CurrentMusicObjectId = 1 else CurrentMusicObjectId += 1 end 
+    game.SoundService:ClearAllChildren()
+    if LastSoundObject ~= nil then LastSoundObject:Destroy() end
+    local SoundObject = Music[CurrentMusicObjectId]:Clone()
+    SoundObject.Parent = game.Workspace
+    LastSoundObject = SoundObject
+    SoundObject.Playing = true
+ 
+end)

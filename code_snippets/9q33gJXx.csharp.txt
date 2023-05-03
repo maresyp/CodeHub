@@ -1,0 +1,38 @@
+using System;
+using System.Text.RegularExpressions;
+ 
+namespace MatchFullName
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string names = Console.ReadLine();
+ 
+            Regex pattern = new Regex(@"\b[A-Z][a-z]+ [A-Z][a-z]+ \b");
+ 
+            MatchCollection matchedNames = pattern.Matches(names);
+ 
+            foreach (Match name in matchedNames)
+            {
+                Console.Write(name + " ");
+            }
+        }
+    }
+}
+ 
+TARIKAT SOLUTION :)
+ 
+using System;
+using System.Text.RegularExpressions;
+ 
+namespace MatchFullName
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+          Console.Write(string.Join(" ", Regex.Matches(Console.ReadLine(), @"\b[A-Z][a-z]+ [A-Z][a-z]+\b")));
+        }
+    }
+}

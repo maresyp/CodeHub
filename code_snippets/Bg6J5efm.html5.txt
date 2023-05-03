@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">   
+    <title>Form upload</title>
+    <style>
+        .upload-container {
+            position: relative;
+        }
+        .upload-container input {
+            border: 1px solid #92b0b3;
+            background: #f1f1f1;
+            outline: 2px dashed #92b0b3;
+            outline-offset: -10px;
+            padding: 100px 0px 100px 250px;
+            text-align: center !important;
+            width: 500px;
+        }
+        .upload-container input:hover {
+            background: #ddd;
+        }   
+        .upload-container:before {
+            position: absolute;
+            bottom: 50px;
+            left: 245px;
+            content: " Clique ou arraste os arquivos para envio ";
+            color: #3f8188;
+            font-weight: 900;
+        }   
+        .upload-btn {
+            margin-left: 300px;
+            padding: 7px 20px;
+        }        
+    </style>
+</head>
+<body>
+    <form id='formUpload'>
+        <div id="selectTipoDocumento">
+            <label for="tipoDocumento">Tipo de documento <span>*</span></label>
+            <select style="cursor: default" id="tipoDocumento" name="tipoDocumento">
+                <option value="001">
+                    Limite de câmbio
+                </option>
+            </select>
+        </div>
+        <br>
+        <div class="upload-container">
+            <input type="file" id='fileInput' multiple />
+        </div>
+        <br>
+        <button type='submit'>
+          Salvar
+        </button>
+        <button type='reset' id="limpar">
+          Limpar
+        </button>
+    </form>
+    <br>
+    <div id="fileListTable">
+        <table>
+          <thead>
+              <tr>
+                <th>Data</th>
+                <th>Nome do arquivo</th>
+                <th>Ações</th>
+              </tr>
+          </thead>
+          <tbody id="fileListTableBody">
+          </tbody>
+        </table>
+    </div>
+    <script src="multipleFileUpload.js"></script>
+</body>
+</html>

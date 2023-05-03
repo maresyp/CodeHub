@@ -1,0 +1,89 @@
+/*
+#include <iostream>
+#include <cmath>
+ 
+using namespace std;
+ 
+double sourceMatrix[4][4] = {{0,    0,    -0.7, 1},
+                             {-1.5, 0,    0,    1},
+                             {0,    -0.2, 0,    1},
+                             {0.3,  0.4,  0.5,  1}};
+ 
+double findDet(double** a, int n) {
+    if (n == 1)
+        return a[0][0];
+    else if (n == 2)
+        return a[0][0] * a[1][1] - a[0][1] * a[1][0];
+    else {
+        double d = 0;
+        for (int k = 0; k < n; k++) {
+            double ** m = new double*[n-1];
+            for (int i = 0; i < n - 1; i++) {
+                m[i] = new double [n - 1];
+            }
+            for (int i = 1; i < n; i++) {
+                int t = 0;
+                for (int j = 0; j < n; j++) {
+                    if (j == k)
+                        continue;
+                    m[i-1][t] = a[i][j];
+                    t++;
+                }
+            }
+            d += pow(-1, k + 2) * a[0][k] * findDet(m, n - 1);
+        }
+        return d;
+    }
+}
+ 
+double** copyMatrix(double** source, double** destination) {
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            destination[i][j] = source[i][j];
+        }
+    }
+ 
+    return destination;
+}
+ 
+ 
+bool isPointInside(double* point, double** matrix) {
+    bool determinantSign = false;
+    double tempResult = 0;
+ 
+ 
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 3; j++) {
+            matrix[i][j] = point[i];
+            tempResult = findDet(matrix, 4);
+            if (tempResult > 0) {
+                determinantSign = true;
+            } else {
+                determinantSign = false;
+            }
+        }
+        matrix = copyMatrix(sourceMatrix, matrix);
+    }
+}
+ 
+ 
+int main() {
+    int n = 4;
+ 
+    double** matrix = new double *[n];
+    for (int i = 0; i < n; i++) {
+        matrix[i] = new double[n];
+    }
+ 
+ 
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = sourceMatrix[i][j];
+        }
+    }
+    cout << "Found determinant: " << findDet(matrix, n) << "\n";
+ 
+ 
+ 
+    return 0;
+}*/

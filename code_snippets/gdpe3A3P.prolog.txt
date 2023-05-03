@@ -1,0 +1,106 @@
+1)
+reversed([], []).
+reversed([Head|Tail], Backward) :- reversed(Tail, ReversedTail), 
+                                   append(ReversedTail, [Head], Backward).
+2)
+new_append([], A, A).
+new_append([A|B], C, [A|Ds]):- append(B, C, Ds).
+ 
+3)
+zero_or_one(D):- D = 0; D = 1.  % Complete
+zero_or_one_sequence([H|T]) :- zero_or_one(H), (T=[]; zero_or_one_sequence(T)).
+binary_number([0,b | Ds]) :- zero_or_one_sequence(Ds).
+ 
+4)
+pair(a, t).
+pair(c, g).
+dna([], []).
+dna([A|B], [C|D]):- pair(A, C), dna(B, D).
+dna([A|B], [C|D]):- pair(C, A), dna(B, D).
+ 
+5)
+max(A, B, A):- A>=B.
+max(A, B, B):- B>=A.
+max([Max], Max).
+max([A|B], Max):- B = [_|_], max(B, TailMax), max(A, TailMax, Max).
+ 
+6)
+ 
+eats(bob, Food):- hungry(bob), edible(Food).
+eats(alice, Food):- hungry(alice), \+fast_food(Food), edible(Food).
+ 
+7)
+ 
+postorder(leaf(A), [A]).
+postorder(tree(Root, Left, Right), Transversal):- postorder(Left, LeftTail), 
+                                                  postorder(Right, RightTail),
+                                                  append(LeftTail,RightTail, FirstT),
+                                                  append(FirstT, [Root], Transversal).
+ 
+ 
+8)
+ 
+unique([],[]).  % Complete the base case.
+% In the following we consider two cases: a) The head does not appear in the tail; b) it does.
+ 
+unique([H|T], [H|Set]) :-
+    \+ member(H, T),
+    unique(T, Set).
+ 
+unique([H|T], Set) :-
+    member(H, T), % Complete
+    unique(T, Set).   % Complete
+ 
+ 
+9)
+ 
+merge([], ListB, ListB).   % Complete one of the two base cases
+merge(ListA, [], ListA).    % Complete the other base case
+ 
+merge([X | ListA], [Y | ListB], [X | Merged]) :-
+    X < Y,
+    merge(ListA, [Y | ListB], Merged).
+ 
+merge([X| ListA], [Y | ListB], [Y | Merged]) :-   % Complete the other rule
+    X >= Y,
+    merge([X|ListA], ListB, Merged).
+ 
+ 
+10)
+ 
+split_odd_even([], [], []).
+split_odd_even([A], [A], []).
+split_odd_even([A, B], [A], [B]).
+split_odd_even([A, B|H], [A|Rest1], [B|Rest2]):- split_odd_even(H, Rest1, Rest2).
+merge([], ListB, ListB).   % Complete one of the two base cases
+merge(ListA, [], ListA).    % Complete the other base case
+ 
+merge([X | ListA], [Y | ListB], [X | Merged]) :-
+    X < Y,
+    merge(ListA, [Y | ListB], Merged).
+ 
+merge([X| ListA], [Y | ListB], [Y | Merged]) :-   % Complete the other rule
+    X >= Y,
+    merge([X|ListA], ListB, Merged).
+ 
+merge_sort([], []).
+merge_sort([A], [A]).
+merge_sort(ListIn, ListOut):- 
+    ListIn = [_,_|_],    % the list has two or more elements
+    split_odd_even(ListIn, A, B), 
+                              merge_sort(A, ARes),
+                              merge_sort(B, BRes),
+                              merge(ARes, BRes, ListOut).
+ 
+ 
+11)
+ 
+% The following helper predicate multiplies a single element by a list
+product(_, [], []).   % base case
+product(X, [H|T], [(X, H) | MorePairs]) :- product(X, T, MorePairs). % Complete
+ 
+cartesian_product([], _, []).
+cartesian_product([Head|Tail], ListB, AllPairs) :-
+    product(Head, ListB, HeadPairs),
+    cartesian_product(Tail, ListB, RemainingPairs),  % Complete
+    append(HeadPairs, RemainingPairs, AllPairs).  % Complete

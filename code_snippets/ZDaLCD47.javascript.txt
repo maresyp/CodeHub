@@ -1,0 +1,36 @@
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: 'purchase',            // name of the event. In this case, it always must be purchase
+  ecommerce: {
+    currency: '{CURRENCY}',
+    value: '{TOTAL}',                       // order total (price of total reservations
+    transaction_id: '{RESV}',           // transaction id
+    coupon: '{PROMOCODE}',          // if coupon was applied to the reservation, include it here          
+    items: [{                           // an array with all accommodation units
+      item_name: '{ROOMNAME}',           // insert an actual accommodation unit name
+      item_id: '{ROOMID}',              // insert an actual accommodation ID
+      price: '{MULTIROOM}',                 // insert an actual product price. Number or a string. Don't include currency code
+      item_category: '{HOTELNAME}',         // insert an actual accommodation unit's top-level category
+      item_category2: '{RATENAME}',        // insert rate category
+      quantity: '1',                    // product quantity, hardcoded value
+      arrival_date: '{CHECKIN}',        // insert check-in date
+      departure_date: '{CHECKOUT}',     // insert check-out date
+      booked_nights: '{NIGHTS}',        // insert total number of nights
+      number_of_adults: '{ADULTS}',     // insert total number of adults
+      number_of_children: '{CHD}',      // insert total number of children
+       
+    },{
+      item_name: '{ROOMNAME}',           // insert an actual accommodation unit name
+      item_id: '{ROOMID}',              // insert an actual accommodation ID
+      price: '{MULTIROOM}',                 // insert an actual product price. Number or a string. Don't include currency code
+      item_category: '{HOTELNAME}',         // insert an actual accommodation unit's top-level category
+      item_category2: '{RATENAME}',        // insert rate category
+      quantity: '1',                    // product quantity, hardcoded value
+      arrival_date: '{CHECKIN}',        // insert check-in date
+      departure_date: '{CHECKOUT}',     // insert check-out date
+      booked_nights: '{NIGHTS}',        // insert total number of nights
+      number_of_adults: '{ADULTS}',     // insert total number of adults
+      number_of_children: '{CHD}',      // insert total number of children
+    }]
+  }
+});

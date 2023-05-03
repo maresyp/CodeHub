@@ -1,0 +1,74 @@
+Future<void> loadFromXML() async {
+    try {
+      //emit(const ComponentsState.loading());
+      final File file = File('katalog.xml');
+      final String content = file.readAsStringSync();
+      final XmlDocument doc = XmlDocument.parse(content);
+      final laptopsNode = doc.findAllElements('laptop').toList();
+ 
+      List<TextEditingController> controllers = [];
+      List<String> lines = [];
+ 
+      for (var laptop in laptopsNode) {
+        String s = '';
+        s += laptop.findElements('manufacturer').first.text;
+        s += ';';
+        s += laptop.findAllElements('size').first.text;
+        s += ';';
+        s += laptop.findAllElements('resolution').first.text;
+        s += ';';
+        s += laptop.findAllElements('type').first.text;
+        s += ';';
+        s += laptop.findAllElements('screen').first.getAttribute('touch')!;
+        s += ';';
+        s += laptop.findAllElements('procesor').first.getElement('name')!.text;
+        s += ';';
+        s += laptop.findAllElements('physical_cores').first.text;
+        s += ';';
+        s += laptop.findAllElements('clock_speed').first.text;
+        s += ';';
+        s += laptop.findAllElements('ram').first.text;
+        s += ';';
+        s += laptop.findAllElements('storage').first.text;
+        s += ';';
+        s += laptop.findAllElements('disc').first.getAttribute('type')!;
+        s += ';';
+        s += laptop
+            .findAllElements('graphic_card')
+            .first
+            .getElement('name')!
+            .text;
+        s += ';';
+        s += laptop.findAllElements('memory').first.text;
+        s += ';';
+        s += laptop.findAllElements('os').first.text;
+        s += ';';
+        s += laptop.findAllElements('disc_reader').first.text;
+ 
+        lines.add(s);
+      }
+ 
+      for (var line in lines) {
+        if (!line.contains(';')) {
+          throw Exception();
+        }
+        var tab = line.split(';');
+ 
+        for (var c in tab) {
+          controllers.add(
+            TextEditingController(
+                text: c.trim().isNotEmpty ? c : 'brak danych'),
+          );
+        }
+      }
+ 
+      emit(ComponentsState.loaded(
+        componentsList: lines,
+        controllers: controllers,
+      ));
+    } catch (error) {
+      log('Error while loading data', error: error);
+      emit(const ComponentsState.initial());
+    }
+  }
+}

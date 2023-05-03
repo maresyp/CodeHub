@@ -1,0 +1,28 @@
+/*
+https://gocoding.org/es/ejercicios-de-pr%C3%A1ctica-de-golang/
+7. Cree un programa que calcule el factorial de un número ingresado por el usuario.
+*/
+ 
+package main
+ 
+import (
+    "fmt"
+)
+ 
+//Calcula el factorial de un mumero 
+func factorial(numero int) int {
+    tmp := numero
+    for numero > 1 { //while numero >1
+        numero--
+        tmp *= numero
+    }
+    return tmp
+}
+ 
+func main() {
+    var numero int
+    fmt.Scanln(&numero)
+ 
+    fmt.Printf("factorial de %v  = %v \n", numero, factorial(numero))
+ 
+}

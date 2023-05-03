@@ -1,0 +1,86 @@
+import platform
+import os
+import sys
+import re
+import subprocess
+from datetime import datetime, timedelta 
+ 
+log = open('log.txt', 'a')
+log.write('Python Script started' + '\n')
+ 
+#string = sys.argv[1]
+ 
+while (True):
+    
+    string = input()
+ 
+    log = open('log.txt', 'a')
+    now = datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M:%S')
+ 
+    #print('Received control string:', string)
+    #print('Running on', platform.system(), 'will behave accordingly')
+ 
+    match string:
+        case "shutdown":
+            log.write(now + " : Shutdown" + "\n")
+            #print("Will shutdown system")
+            if platform.system() == "Linux":
+                os.system('poweroff')
+            else:
+                os.system('shutdown /p')
+ 
+        case "reboot":
+            log.write(now + " : Reboot" + "\n")
+            #print("Will reboot system")
+            if platform.system() == "Linux":
+                os.system('reboot')
+            else:
+                os.system("shutdown /r /t 0")
+ 
+        case "mute":
+            log.write(now + " : Mute" + "\n")
+            #print("Will mute audio")
+            if platform.system() == "Linux":
+                os.system('lsmod | grep snd_usb && amixer -c1 -- sset PCM mute || amixer -c0 -- sset Master mute')
+            else:
+                os.system("net stop audiosrv")
+ 
+        case "unmute":
+            log.write(now + " : Unmute" + "\n")
+            #print("Will unmute audio")
+            if platform.system() == "Linux":
+                os.system('lsmod | grep snd_usb && amixer -c1 -- sset PCM unmute || amixer -c0 -- sset Master unmute ; amixer -c0 -- sset Speaker unmute ; amixer -c0 -- sset Headphone unmute ')
+            else:
+                os.system("net start audiosrv")
+ 
+        case "cleanshutdown":
+            log.write(now + " : Cleanshutdown" + "\n")
+            #print("Asking if last shutdown was clean...")
+            if platform.system() == "Linux":
+                os.system('journalctl -b-1 | grep -q "Journal stopped" && echo "True" || echo "False"')
+            else:
+                yesterday = datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%dT%H:%M:%S')
+                #print(yesterday)
+                string = subprocess.check_output('WEVTUtil qe System /c:1 /rd:true /f:text /q:"Event[System[(EventID=41)]] and Event[System[TimeCreated[@SystemTime>=\'%s\']]]"\x0D'%yesterday)
+                #print(string)
+                print("Event ID: 41" not in str(string))
+ 
+        case "cardmount_rw":
+            #print("Will mount data partition read-writeable")
+            if platform.system() == "Linux":
+                os.system('cardmount rw')
+            else:
+                print("Function not supported by operating system")
+ 
+        case "cardmount_update":
+            #print("Will mount boot partition read-writeable")
+            if platform.system() == "Linux":
+                os.system('cardmount update')
+            else:
+                print("Function not supported by operating system")
+ 
+        case _:
+            log.write(now + " : Unknown Command" + "\n")
+            print("Control string unknown, ignoring it!")
+ 
+    log.close()

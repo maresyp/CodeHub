@@ -1,0 +1,315 @@
+(archivo) playerfootstep_sounds.lua
+--en nombre poner el que quieras
+ 
+"nombremodel_nombre.footsteps"
+{
+    "channel"       "CHAN_BODY"
+    "volume"        ".1"
+    "pitch"         "80, 130"
+ 
+    "soundlevel"    "SNDLVL_NORM"
+    "rndwave"
+    {
+        "wave"  "nombrestep1.mp3"
+        "wave"  "nombrestep2.mp3"
+        "wave"  "nombrestep3.mp3"
+        "wave"  "nombrestep4.mp3"
+        "wave"  "nombrestep5.mp3"
+        "wave"  "nombrestep6.mp3"
+        "wave"  "nombrestep7.mp3"
+        "wave"  "nombrestep8.mp3"
+        "wave"  "nombrestep9.mp3"
+        "wave"  "nombrestep10.mp3"
+    }
+}
+ 
+(carpeta nombrada "player_name" cambiar por el nombre que quieras)
+ 
+(archivo) player_murder_sounds.lua
+ 
+"player_death_first_player.kill"
+{
+    "channel"       "CHAN_VOICE"
+    "volume"        "1"
+    "pitch"         "PITCH_NORM"
+    
+    "soundlevel"    "SNDLVL_TALKING"
+    "rndwave"
+    {
+        "wave"  "player/death/killtaunt1.mp3"
+        "wave"  "player/death/killtaunt2.mp3"
+        "wave"  "player/death/killtaunt3.mp3"
+        "wave"  "player/death/killtaunt4.mp3"
+        "wave"  "player/death/killtaunt5.mp3"
+        "wave"  "player/death/killtaunt6.mp3"
+        "wave"  "player/death/killtaunt7.mp3"
+        "wave"  "player/death/killtaunt8.mp3"
+        "wave"  "player/death/killtaunt9.mp3"
+        "wave"  "player/death/killtaunt10.mp3"
+    }
+}
+ 
+"player_death_first_player.npckill"
+{
+    "channel"       "CHAN_VOICE"
+    "volume"        "1"
+    "pitch"         "PITCH_NORM"
+    
+    "soundlevel"    "SNDLVL_TALKING"
+    "rndwave"
+    {
+        "wave"  "player/death/killtaunt1.mp3"
+        "wave"  "player/death/killtaunt2.mp3"
+        "wave"  "player/death/killtaunt3.mp3"
+        "wave"  "player/death/killtaunt4.mp3"
+        "wave"  "player/death/killtaunt5.mp3"
+        "wave"  "player/death/killtaunt6.mp3"
+        "wave"  "player/death/killtaunt7.mp3"
+        "wave"  "player/death/killtaunt8.mp3"
+        "wave"  "player/death/killtaunt9.mp3"
+        "wave"  "player/death/killtaunt10.mp3"
+    }
+}
+ 
+"player_death_second_player.kill"
+{
+    "channel"       "CHAN_VOICE"
+    "volume"        "1"
+    "pitch"         "PITCH_NORM"
+    
+    "soundlevel"    "SNDLVL_TALKING"
+    "rndwave"
+    {
+        "wave"  "player/death/killtaunt1.mp3"
+        "wave"  "player/death/killtaunt2.mp3"
+        "wave"  "player/death/killtaunt3.mp3"
+        "wave"  "player/death/killtaunt4.mp3"
+        "wave"  "player/death/killtaunt5.mp3"
+        "wave"  "player/death/killtaunt6.mp3"
+        "wave"  "player/death/killtaunt7.mp3"
+        "wave"  "player/death/killtaunt8.mp3"
+        "wave"  "player/death/killtaunt9.mp3"
+        "wave"  "player/death/killtaunt10.mp3"
+    }
+}
+ 
+"player_death_second_player.npckill"
+{
+    "channel"       "CHAN_VOICE"
+    "volume"        "1"
+    "pitch"         "PITCH_NORM"
+    
+    "soundlevel"    "SNDLVL_TALKING"
+    "rndwave"
+    {
+        "wave"  "player/death/killtaunt1.mp3"
+        "wave"  "player/death/killtaunt2.mp3"
+        "wave"  "player/death/killtaunt3.mp3"
+        "wave"  "player/death/killtaunt4.mp3"
+        "wave"  "player/death/killtaunt5.mp3"
+        "wave"  "player/death/killtaunt6.mp3"
+        "wave"  "player/death/killtaunt7.mp3"
+        "wave"  "player/death/killtaunt8.mp3"
+        "wave"  "player/death/killtaunt9.mp3"
+        "wave"  "player/death/killtaunt10.mp3"
+    }
+}
+ 
+"player_death_third_player.kill"
+{
+    "channel"       "CHAN_VOICE"
+    "volume"        "1"
+    "pitch"         "PITCH_NORM"
+    
+    "soundlevel"    "SNDLVL_TALKING"
+    "rndwave"
+    {
+        "wave"  "player/death/killtaunt1.mp3"
+        "wave"  "player/death/killtaunt2.mp3"
+        "wave"  "player/death/killtaunt3.mp3"
+        "wave"  "player/death/killtaunt4.mp3"
+        "wave"  "player/death/killtaunt5.mp3"
+        "wave"  "player/death/killtaunt6.mp3"
+        "wave"  "player/death/killtaunt7.mp3"
+        "wave"  "player/death/killtaunt8.mp3"
+        "wave"  "player/death/killtaunt9.mp3"
+        "wave"  "player/death/killtaunt10.mp3"
+    }
+}
+ 
+"player_death_third_player.npckill"
+{
+    "channel"       "CHAN_VOICE"
+    "volume"        "1"
+    "pitch"         "PITCH_NORM"
+    
+    "soundlevel"    "SNDLVL_TALKING"
+    "rndwave"
+    {
+        "wave"  "player/death/killtaunt1.mp3"
+        "wave"  "player/death/killtaunt2.mp3"
+        "wave"  "player/death/killtaunt3.mp3"
+        "wave"  "player/death/killtaunt4.mp3"
+        "wave"  "player/death/killtaunt5.mp3"
+        "wave"  "player/death/killtaunt6.mp3"
+        "wave"  "player/death/killtaunt7.mp3"
+        "wave"  "player/death/killtaunt8.mp3"
+        "wave"  "player/death/killtaunt9.mp3"
+        "wave"  "player/death/killtaunt10.mp3"
+        "wave"  "player/death/killtaunt15.mp3"
+    }
+}
+ 
+(archivo) player_sounds.lua
+ 
+CreateConVar( "sv_player_sounds", "1", { FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_NOTIFY } ) 
+ 
+--sonidos de muerte
+ 
+local function playerDeathSounds(ply)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    
+    if (ply:GetModel() == "models/player.mdl") then
+        ply:EmitSound("player/pain" .. math.random( 1, 14 ) .. ".mp3") end
+    end
+end
+hook.Add( "DoPlayerDeath", "playerDeathSounds", playerDeathSounds )
+ 
+--sonidos de daño
+ 
+local function playerHurtSounds(ply)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 and math.random(1,2)==2 then
+    if ply:Health() == 0 then return end
+ 
+    if (ply:GetModel() == "models/player.mdl") then
+    ply:EmitSound("player/pain" .. math.random( 1, 14 ) .. ".mp3")
+    end
+ 
+    end
+end
+ 
+--sonido al aparecer
+hook.Add( "PlayerHurt", "playerHurtSounds", playerHurtSounds )
+ 
+if (ply:GetModel() == "models/player.mdl") then
+ply:EmitSound("player/playerspawn" .. math.random( 1, 11 ) .. ".mp3")
+end
+ 
+end
+end)
+ 
+--sonidos al matar o ser asesinado
+ 
+sound.AddSoundOverrides( "lua/player_name/player_murder_sounds.lua" )
+ 
+hook.Add("SetupMove", "player_first", function(ply)
+    if(ply:GetModel() == "models/player.mdl") then
+        ply.player_first = true
+        else
+        ply.player_first = false
+    end
+end)
+ 
+hook.Add("OnNPCKilled", "player_first_NPCKillTaunt", function(victim, killer, weapon)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if (( killer:IsPlayer() and killer.player_first == true and math.random(1,3)==3 )) then
+        killer:EmitSound("player_first_player.kill")
+        timer.Simple(math.random(0.8,1), function()
+        end)
+    end
+    end
+end)
+ 
+hook.Add("PlayerDeath", "player_first_PlayerKillTaunt", function(victim, killer, weapon)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if (( killer:IsPlayer() and killer.player_first == true )) then
+    if killer:Health() == 0 then return end
+        killer:EmitSound("player_first_player.kill")
+        end
+    end
+end)
+ 
+hook.Add("OnNPCKilled", "player_second_NPCKillTaunt", function(victim, killer, weapon)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if (( killer:IsPlayer() and killer.player_second == true and math.random(1,3)==3 )) then
+        killer:EmitSound("player_second_player.kill")
+        timer.Simple(math.random(0.8,1), function()
+        end)
+    end
+    end
+end)
+ 
+hook.Add("PlayerDeath", "player_second_PlayerKillTaunt", function(victim, killer, weapon)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if (( killer:IsPlayer() and killer.player_second == true )) then
+    if killer:Health() == 0 then return end
+        killer:EmitSound("player_second_player.kill")
+        end
+    end
+end)
+ 
+hook.Add("OnNPCKilled", "player_third_NPCKillTaunt", function(victim, killer, weapon)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if (( killer:IsPlayer() and killer.player_third == true and math.random(1,3)==3 )) then
+        killer:EmitSound("player_third_player.kill")
+        timer.Simple(math.random(0.8,1), function()
+        end)
+    end
+    end
+end)
+ 
+hook.Add("PlayerDeath", "player_third_PlayerKillTaunt", function(victim, killer, weapon)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if (( killer:IsPlayer() and killer.player_third == true )) then
+    if killer:Health() == 0 then return end
+        killer:EmitSound("player_third_player.kill")
+        end
+    end
+end)
+ 
+--sonidos de salto
+ 
+hook.Add("KeyPress", "player_first_Jump", function(ply, key)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if ( SERVER and ply:Alive() and key==IN_JUMP and ply:IsOnGround() and !ply:InVehicle() and ply:GetMoveType() != MOVETYPE_NOCLIP) then
+        if CurTime()<(ply.spyro_Spawn_Last or -999)+0.2 then return end
+        if ply.player_first then
+            local sndtbl = ply.player_first
+            if sndtbl then
+                ply:EmitSound( "nombre_del_salto" .. math.random( 1, 3 ) .. ".mp3" )
+                return true
+            end
+        end
+    end
+    end
+end)
+ 
+hook.Add("KeyPress", "player_second_Jump", function(ply, key)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if ( SERVER and ply:Alive() and key==IN_JUMP and ply:IsOnGround() and !ply:InVehicle() and ply:GetMoveType() != MOVETYPE_NOCLIP) then
+        if CurTime()<(ply.spyro_Spawn_Last or -999)+0.2 then return end
+        if ply.player_second then
+            local sndtbl = ply.player_second
+            if sndtbl then
+                ply:EmitSound( "nombre_del_salto" .. math.random( 1, 3 ) .. ".mp3" )
+                return true
+            end
+        end
+    end
+    end
+end)
+ 
+hook.Add("KeyPress", "player_third_Jump", function(ply, key)
+    if GetConVarNumber( "sv_player_sounds" ) == 1 then
+    if ( SERVER and ply:Alive() and key==IN_JUMP and ply:IsOnGround() and !ply:InVehicle() and ply:GetMoveType() != MOVETYPE_NOCLIP) then
+        if CurTime()<(ply.spyro_Spawn_Last or -999)+0.2 then return end
+        if ply.player_third then
+            local sndtbl = ply.player_third
+            if sndtbl then
+                ply:EmitSound( "nombre_del_salto" .. math.random( 1, 3 ) .. ".mp3" )
+                return true
+            end
+        end
+    end
+    end
+end)

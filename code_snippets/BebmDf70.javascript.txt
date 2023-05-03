@@ -1,0 +1,52 @@
+// https://forum.gamer.com.tw/Co.php?bsn=60292&sn=17727
+ 
+// ==UserScript==
+// @name         Test
+// @version      0.1
+// @description  -
+// @author       You
+// @match        https://old.reddit.com/
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com
+// @grant        none
+// ==/UserScript==
+ 
+(function() {
+    function addStyle(css) {
+        const style = document.querySelector("#CustomAddStyle") || (function() {
+            const style = document.createElement('style');
+            style.type = 'text/css';
+            style.id = "CustomAddStyle";
+            document.head.appendChild(style);
+            return style;
+        })();
+ 
+        // 方法一
+        // https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
+        // 使用限制是必須一行一個規則
+        const sheet = style.sheet;
+        css.split("\n").filter(e => e.trim() != "").forEach(rule => {
+            sheet.insertRule(rule, (sheet.rules || sheet.cssRules || []).length);
+        });
+ 
+        // 方法二
+        // 更通用的寫法
+        // style.insertAdjacentHTML("beforeend", css);
+    }
+ 
+    const html = `
+    <div class="user_div_fixed" lang="ja" style="background-size: contain; background-repeat: no-repeat;">
+        <input placeholder="font-family: !important" type="text" class="user_input input_font_family">
+        <div class="div_br" lang="ja" style="background-size: contain; background-repeat: no-repeat;"></div>
+        <input placeholder="en" type="text" class="user_input" size="6">
+    </div>
+    `;
+    const css = `
+        input.user_input{max-width: 95%;border-radius: 0.5rem; font-size: 110%;}
+        .input_font_family{min-width: 90%;}
+        .user_div_fixed{position:fixed !important;top: 60%;right: 0px;display: flex;justify-content: flex-end;flex-wrap: wrap;min-width: 100%;z-index: 65535;}
+        div.div_br{width: 100%;}
+    `;
+ 
+    addStyle(css);
+    document.body.insertAdjacentHTML("beforeend", html);
+})();

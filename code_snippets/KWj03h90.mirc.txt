@@ -1,0 +1,105 @@
+on *:text:*:#: {
+  if (%youtuberepeat !isin $1-) && (*patapon* !iswm $address($nick,2)) && (etouale !isin $nick) && (su0myn0na !isin $nick) {
+    tokenize 32 $strip($1-,burci)
+    set %txxtPrint $+($chr(42),http,$chr(42),$chr(58),$chr(47),$chr(47),$chr(42))
+    set %TEXTprint $wildtok($1-,*http*://*,1,32)
+    ;$remove($gettok($1-,2,47),http://,https://)
+    if (*journaldequebec.com* iswm %TEXTprint) {
+      unset %JdQtit
+      unset %JdQstt
+      unset %JdQdsc
+      set %JdQnick $nick
+      set %JdQaddr $address($nick,2)
+      set %JQ_t $1-
+      if ($numtok(%JQ_t,46) > 2) {
+        set %JQ_x $gettok(%JQ_t,2-,38)
+        set %JQ_t $remove(%JQ_t,%JQ_x)
+      }
+      set %JQ_t $remove(%JQ_t,https://,www.,journaldequebec.com)
+      ;var %JQ_t $gettok(%JQ_t,2,47)
+      ;;echo 4 -a %JQ_t
+      set %JdQrepeat %JQ_t
+      set %JQ_c #
+      set %JdQchan %JQ_c
+      _JdQuebec %JQ_t
+    }
+  }
+}
+ 
+alias _JdQuebec {
+  sockclose $+(JQ,.,$1)
+  sockopen $+(JQ,.,$1) www.journaldequebec.com 443
+  timerJQSOCK 1 21 sockclose $+(JQ,.,$1)
+}
+on *:sockopen:*: {
+  if (JQ* iswm $sockname) {
+    if ($sockerr) { sockclose $sockname | halt }
+    sockwrite -nt $sockname GET $remove($sockname,JQ.) HTTP/1.1
+    sockwrite -nt $sockname Host: www.journaldequebec.com
+    sockwrite -nt $sockname Accept-Language: fr-CA
+    sockwrite -nt $sockname Content-Type: text/html
+    sockwrite -n $sockname $str($crlf,2)
+  }
+  else { echo -st Socket Error $nopath($script) | sockclose $sockname | return }
+}
+on *:sockread:*: {
+  if (JQ* iswm $sockname) {
+    if ($sockerr) { return }
+    var %read
+    sockread -f %read
+    tokenize 32 %read
+    ;;echo -s > $1-
+    ;;;;halt
+ 
+    if (*span itemprop="dateCreated" itemscope itemtype="*Date">*<time datetime="*"* iswm $1-) {
+      set %JdQmad $remove($gettok($1-,6,34),Z)
+      set %JdQmxd $mid(%JdQmad,12,2)
+      set %JdQmxd $calc(%JdQmxd - 04)
+      if ($len(%JdQmxd) == 1) { 
+        set %JdQmxd 0 $+ %JdQmxd
+        set %JdQmad $replace(%JdQmad,$mid(%JdQmad,12,2),%JdQmxd)
+      }
+      if ($len(%JdQmxd) == 2) { 
+        set %JdQmad $replace(%JdQmad,$mid(%JdQmad,12,2),%JdQmxd)
+      }
+    }   
+    if (*span itemprop="dateModified" itemscope itemtype="*Date">*<time datetime="*"* iswm $1-) {
+      set %JdQmod $remove($gettok($1-,6,34),Z)
+      set %JdQmxd $mid(%JdQmod,12,2)
+      set %JdQmxd $calc(%JdQmxd - 04)
+      if ($len(%JdQmxd) == 1) { 
+        set %JdQmxd 0 $+ %JdQmxd
+        set %JdQmod $replace(%JdQmod,$mid(%JdQmod,12,2),%JdQmxd)
+      }
+      if ($len(%JdQmxd) == 2) { 
+        set %JdQmod $replace(%JdQmod,$mid(%JdQmod,12,2),%JdQmxd)
+      }
+    }
+    if (*'section' $+ $chr(58) "*"* iswm $1-) {
+      set %JdQsct $gettok($1-,2,34)
+    }
+    if (*'rootChannel' $+ $chr(58) "*"* iswm $1-) {
+      set %JdQclr $gettok($1-,2,34)
+    }
+    if (*data-sectiontype="*"* iswm $1-) { 
+      set %JdQart $upper($gettok($1-,2,34))
+    }
+    if (*"articleAuthor" $chr(58) "*"* iswm $1-) {
+      set %JdQguy $gettok($1-,3,34)
+    }
+    if (*"articleName" $chr(58) "*"* iswm $1-) {
+      set %JdQtit $remove($gettok($1-,3,34),$chr(92))
+      if ($right(%JdQtit,1) != $chr(46)) { set %JdQtit $+(%JdQtit,$chr(46)) }
+    }
+    if (*meta name="description" content="*"* iswm $1-) {
+      set %JdQstt $remove($gettok($1-,4,34),$chr(92))
+    }
+    if (*meta name="cXenseParse $+ $chr(58) $+ description" content="*"* iswm $1-) {
+      set %JdQdsc $remove($gettok($1-,4,34),$chr(92))
+    }
+ 
+    if (%JdQstt !isin %JdQdsc) { timerJdQsay 1 1 msg %JdQchan 06,1 %JdQmod $+ 13,1 %JdQmad 09,1 $+ %JdQclr 03,1 $+ %JdQsct 10,1 $+ %JdQart 11,1 $+ %JdQguy 04,1 %JdQtit 07,1 %JdQstt 08,1 %JdQdsc }
+    if (%JdQstt isin %JdQdsc) { timerJdQsay 1 1 msg %JdQchan 06,1 %JdQmod $+ 13,1 %JdQmad 09,1 $+ %JdQclr 03,1 $+ %JdQsct 10,1 $+ %JdQart 11,1 $+ %JdQguy 04,1 %JdQtit 07,1 %JdQstt }
+  }
+ 
+}

@@ -1,0 +1,89 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+using namespace std;
+ 
+const int N = 2e5 + 5;
+int n, q, a[N];
+ 
+struct cell {
+    int mn, cnt;
+};
+ 
+cell t[4 * N]; ///t[i] -- is the value of the vertex i
+ 
+cell combine(cell a, cell b) {
+    cell res;
+    res.mn = min(a.mn, b.mn);
+    res.cnt = 0;
+    if (a.mn == res.mn)
+        res.cnt += a.cnt;
+    if (b.mn == res.mn)
+        res.cnt += b.cnt;
+    return res;
+}
+ 
+void build(int v, int vl, int vr) {
+    if (vl == vr) {
+        t[v].mn = a[vl];
+        t[v].cnt = 1;
+        return;
+    }
+ 
+    int vm = (vl + vr) / 2;
+    build(2 * v, vl, vm);
+    build(2 * v + 1, vm + 1, vr);
+    t[v] = combine(t[2 * v], t[2 * v + 1]);
+}
+ 
+cell get(int v, int vl, int vr, int l, int r) {
+    if (l == vl && r == vr) {
+        return t[v];
+    }
+    int vm = (vl + vr) / 2;
+    if (r <= vm)
+        return get(2 * v, vl, vm, l, r);
+    if (l > vm)
+        return get(2 * v + 1, vm + 1, vr, l, r);
+    return combine(get(2 * v, vl, vm, l, vm),
+           get(2 * v + 1, vm + 1, vr, vm + 1, r));
+}
+ 
+void update(int v, int vl, int vr, int pos, int val) {
+    if (vl == vr) {
+        a[vl] = val;
+        t[v].mn = a[vl];
+        t[v].cnt = 1;
+        return;
+    }
+    int vm = (vl + vr) / 2;
+    if (pos <= vm)
+        update(2 * v, vl, vm, pos, val);
+    else
+        update(2 * v + 1, vm + 1, vr, pos, val);
+    t[v] = combine(t[2 * v], t[2 * v + 1]);
+}
+ 
+signed main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++)
+        cin >> a[i];
+    build(1, 1, n);
+    for (int i = 1; i <= q; i++) {
+        int t;
+        cin >> t;
+        if (t == 1) {
+            int pos, val;
+            cin >> pos >> val;
+            update(1, 1, n, pos, val);
+        } else {
+            int l, r;
+            cin >> l >> r;
+            cell res = get(1, 1, n, l, r);
+            cout << res.mn << ' ' << res.cnt << "\n";
+        }
+    }
+}

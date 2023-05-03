@@ -1,0 +1,61 @@
+{
+    "$schema": "https://cert.arianee.org/version1/ArianeeBrandIdentity-i18n.json",
+    "name": "SYW platform",
+    "description": "<b>Your Digital Wardrobe for a Sustainable Fashion Future.",
+    "arianeeMembership": "associate_member",
+    "address": {
+        "street_address": "London, UK",
+        "zipcode": "E1 7AX",
+        "city": "London",
+        "country": "Great Britan"
+    },
+    "pictures": [
+        {
+            "type": "brandLogoHeader",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        },
+        {
+            "type": "brandLogoHeaderReversed",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        },
+        {
+            "type": "brandLogoSquare",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        },
+        {
+            "type": "brandHomePicture",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        },
+        {
+            "type": "brandItemBackgroundPicture",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        },
+        {
+            "type": "itemBackgroundPicture",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        },
+        {
+            "type": "brandBackgroundPicture",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        },
+        {
+            "type": "certificateBackgroundPicture",
+            "url": "https://www.entreprises-magazine.com/wp-content/uploads/2022/06/Save-your-wardrobe.jpg"
+        }
+    ],
+    "socialmedia": [
+        {
+            "type": "facebook",
+            "value": "saveyourwardrobe"
+        },
+        {
+            "type": "twitter",
+            "value": "saveyrwardrobe"
+        },
+        {
+            "type": "youtube",
+            "value": "saveyourwardrobe3515"
+        }
+    ],
+    "rpcEndpoint": "https://bdharianeetest.firebaseapp.com/rpc"
+}

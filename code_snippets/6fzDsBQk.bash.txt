@@ -1,0 +1,33 @@
+#! /bin/bash
+ 
+# Sign images with watermark
+# Script to add watermark signature to images in batch process
+# By Spellmell
+# Version 1.0
+# 4/8/2023
+ 
+MARCA='./marca_de_agua.png'
+EXPORT_FOLDER='firmadas'
+IMAGENES_FOLDER='imagenes'
+IMAGENES_NUM=$(ls $IMAGENES_FOLDER | wc -l)
+ 
+ 
+if [[ -d $IMAGENES_FOLDER &&  $IMAGENES_NUM > 0 ]]; then
+    if [ -d $EXPORT_FOLDER ]; then
+        echo 'Iniciando proceso de exportación...'
+    else
+        mkdir 'firmadas'
+    fi
+    declare -A IMAGENES=$(ls $IMAGENES_FOLDER)
+    for i in ${IMAGENES[@]}
+    do
+        NOMBRE="${i%.*}"
+        EXTENSION="${i##*.}"
+        # echo $NOMBRE.$EXTENSION
+        composite $MARCA $IMAGENES_FOLDER/$NOMBRE.$EXTENSION -quality 100 $EXPORT_FOLDER/$NOMBRE.png
+    done
+else
+    echo "No hay imágenes"
+fi
+ 
+exit 0

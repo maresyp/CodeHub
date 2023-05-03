@@ -1,0 +1,401 @@
+import maya.cmds as cmds
+import maya.mel as mel
+import os
+import json
+import math
+import sys
+import platform
+ 
+_GLOBAL_PATH=''
+ 
+if platform.system() =='Linux': # platform.uname()[0] ALTERNATIVA   # EXTRA os.path.basename(my_module_dir) return last dir name
+    my_module_dir = r'/media/Y/users/dule_d/UtilityModules'
+if platform.system() =='Windows':
+    my_module_dir = r'E:\Python_Modules\my_py_modules'
+ 
+sys.path.append(my_module_dir)
+import utility_3 as ut
+ 
+#----------------------------------------- = MODULES = ---------------------------------------
+def return_files():
+    list_files=[]
+    split_list_files=[]
+ 
+    getPathAttrList=[]
+ 
+    '''getPathAttr = mel.eval('getAttr  blindDataTemplate1.Path;')'''
+ 
+    return_txt = cmds.textField('tf1', q=True, text=True)
+    for filename in sorted(os.listdir(return_txt)):
+        f = os.path.join(return_txt, filename)
+        list_files.append(f)
+ 
+    for filename in sorted(os.listdir(_GLOBAL_PATH)):
+        f = os.path.join(return_txt, filename)
+        getPathAttrList.append(f)
+ 
+    split_list_path_files = [x.split(os.sep)[-1] for x in getPathAttrList]
+    split_list_files = [x.split(os.sep)[-1] for x in list_files]
+    current_file = cmds.intField('t_broj', q=True, v=True)
+    current_file -=1
+ 
+    if cmds.intField('t_broj', q=True, v=True) > len (list_files):
+        cmds.intField('t_broj', e=True, v=0)
+        cmds.intField('t_broj2', e=True, v=0)
+    if len (list_files)>0:
+        current_file = list_files[current_file]
+        split_c_f = current_file.split(os.sep)[-1] # os.sep = / for Linux or \ for Windows
+        cmds.textField('tf2', e=True, tx=split_c_f)
+        cmds.intField('t_broj2',e=True, v=len(list_files))
+        cmds.textScrollList('s_left',  e=True, ra=True) # 1.0
+        cmds.textScrollList('s_left',  e=True, append=sorted(split_list_path_files)) #2.0
+ 
+        return list_files, len(list_files), current_file, return_txt
+ 
+ 
+ 
+ 
+ 
+ 
+def back():
+ 
+    number = int(cmds.intField('t_broj', q=True, v=True))
+    if number>1:
+        number-=1
+    else:
+        number = cmds.intField('t_broj2',q=True, v=return_files()[1])
+    cmds.intField('t_broj', e=True, v=number)
+    cmds.textScrollList('s_right',  e=True, sii=number)
+ 
+    return_files()
+    B()
+ 
+def forward():
+ 
+    number = cmds.intField('t_broj', q=True, v=True)
+    if number < return_files()[1]:
+        number+=1
+    else:
+        number = 1
+    cmds.intField('t_broj', e=True, v=number)
+    cmds.textScrollList('s_right',  e=True, sii=number)
+    return_files()
+    B()
+ 
+def static():
+    number = cmds.intField('t_broj', q=True, v=True)
+    cmds.textScrollList('s_right',  e=True, sii=number)
+    return_files()
+    B()
+ 
+ 
+ 
+ 
+def explorer():
+    global _GLOBAL_PATH
+    return_explorer = cmds.fileDialog2(fm=3, ds=2 ,spe=False, cap='SET PATH WINDOW', okc='SET')
+    if return_explorer:
+        return_explorer = return_explorer[0]
+        '''try:
+            cmds.delete('blindDataTemplate1')
+        except:
+            pass
+        try:
+            temp_path_memory = cmds.blindDataType(id=5, dt='string', longDataName='Path', shortDataName='pat' )
+        except:
+            pass
+        mel.eval('setAttr -type "string" {0}.Path "{1}";'.format(temp_path_memory, return_explorer))'''
+        
+        _GLOBAL_PATH = return_explorer
+        
+        cmds.textScrollList('s_left',  e=True, ra=True )
+        cmds.textField('tf2',e=True, pht='File Output Name', tx='')
+        print(return_explorer)
+        cmds.textField('tf1', e=True, text=return_explorer)
+        cmds.textScrollList('s_right',  e=True, ra=True )
+        return_files()
+ 
+def leftScroll():
+    
+    cmds.intField('t_broj', e=True, v=0)
+    cmds.intField('t_broj2', e=True, v=0)
+ 
+    cmds.textScrollList('s_right',  e=True, ra=True)
+    cmds.textField('tf2', e=True, tx='')
+    list_files=[]
+    split_list_files=[]
+ 
+    '''getPathAttr = mel.eval('getAttr  blindDataTemplate1.Path;')'''
+    return_txt = cmds.textField('tf1', q=True, text=True)
+    getLeftItem = cmds.textScrollList('s_left',  q=True, selectItem=True )
+    if getLeftItem:
+        getLeftItem = getLeftItem[0]
+        new_path = _GLOBAL_PATH + os.sep + getLeftItem #_GLOBAL_PATH = getPathAttr-OLD
+    else:
+        new_path = cmds.textField('tf1', q=True, tx=True)
+        
+ 
+    cmds.textField('tf1', e=True, text=new_path)  ##???????????????????
+ 
+ 
+    for filename in sorted(os.listdir(new_path)):
+        f = os.path.join(new_path, filename)
+        list_files.append(f)
+ 
+    current_file = cmds.intField('t_broj', q=True, v=True)
+ 
+    if cmds.intField('t_broj', q=True, v=True) > len (list_files):
+ 
+        cmds.intField('t_broj', e=True, v=0)
+        cmds.intField('t_broj2', e=True, v=0)
+ 
+    if len (list_files)>0:
+        split_list_files = [x.split(os.sep)[-1] for x in list_files]
+        current_file = list_files[current_file]
+        split_c_f = current_file.split(os.sep)[-1] # os.sep = / for Linux or \ for Windows
+        #cmds.textField('tf2', e=True, tx=split_c_f)
+        cmds.intField('t_broj2',e=True, v=len(list_files))
+        cmds.textScrollList('s_right',  e=True, ra=True) # 1.0
+        cmds.textScrollList('s_right',  e=True, append=sorted(split_list_files)) #2.0
+ 
+ 
+ 
+        #return list_files, len(list_files), current_file, return_txt
+ 
+ 
+def rightScroll():
+    select_item = cmds.textScrollList('s_right',  q=True, selectItem=True)[0]
+    
+    cmds.textField('tf2', e=True, tx=select_item)
+    
+    select_index_item = cmds.textScrollList('s_right',  q=True, sii=True)[0]
+    cmds.intField('t_broj', e=True, v=select_index_item)
+    B()
+ 
+def createUI():
+ 
+    if cmds.window('myWindow', exists=True):
+        cmds.deleteUI('myWindow')
+    cmds.window('myWindow', title='Cycle Pose Tool', sizeable=True, rtf=True)
+    cmds.columnLayout(bgc=(0.5,0.5,0.5),nch=1)
+ 
+    cmds.frameLayout(l='Basic | Local', cll=True, bgc=(0.1,0,0.2), fn="fixedWidthFont", cc= 'cmds.window("myWindow", e=True, h=1,w=1)' )
+    cmds.gridLayout(nc=5,ch=30,cw=60)
+    cmds.button(l='A', bgc=(0.5,1,0.5))
+    cmds.button(l='SET')
+    cmds.button(l='B', bgc=(1,1,0.5))
+    cmds.button(l='-')
+    cmds.button(l='-')
+ 
+ 
+    cmds.setParent('..')
+    cmds.setParent('..')
+ 
+    cmds.gridLayout(nc=2,ch=30,cw=150)
+    cmds.iconTextButton(l='\ . . .',ann='Browse Folder', ebg=True,i='folder-closed.png', hi='openScript.png', bgc=(0.2,0.2,0.2), c='explorer()')   #,hi='loadPreset'
+    cmds.iconTextButton('b3', ann='Save Pose', i='save.png',hi='addCreateGeneric', bgc=(0.6,0.2,0.2), l='M',c='A()')  #hi='addClip.png',
+    cmds.setParent('..')
+  #--------------------------------------------,,,,....>>>>>
+    cmds.setParent('..')
+    cmds.gridLayout(nc=5,ch=30,cw=60)
+   
+    cmds.iconTextButton('b1',bgc=(0.9,0.9, 0.8), l='<', i='leftExpand.png', c='back()')
+    cmds.iconTextButton('b_middle', ann='Repeat',bgc=(0.8,0.8, 0.9), l='[]', i='/media/Y/users/dule_d/UtilityModules/screeen.jpg',  c='static()') #counterclockwise.png
+    cmds.iconTextButton('b2',bgc=(0.9,0.9, 0.8), l='>', i='rightExpand.png', c='forward()')
+    
+    cmds.intField('t_broj',ann='Current Pose', hlc=(1,0.3,0.2), v=0, cc='static()')
+    cmds.intField('t_broj2',ann='Total Poses',hlc=(0.2,0.2,0.2), v=0 )
+ 
+    cmds.setParent('..')
+    cmds.gridLayout(nc=1,ch=30,cw=300)
+    cmds.textField('tf2', hlc=(1,0.3,0.2), pht='File Output Name' ,fn="boldLabelFont")
+#=================================================================================================================================
+    cmds.setParent('..')
+    cmds.frameLayout(l='Expand',bgc=(0.1,0,0.2), fn="fixedWidthFont", cll=True, cc = 'cmds.window("myWindow", e=True, h=1,w=1)' )
+    cmds.gridLayout(nc=1,ch=30,cw=300)
+    cmds.textField('tf1', hlc=(1,0.3,0.2), pht='Enter File Path: C:\\Users\\...', fn="boldLabelFont", cc='')
+    cmds.setParent('..')
+    cmds.rowLayout(numberOfColumns=2,columnAttach=(2,"both",2), columnWidth2=(148,148) )
+    #         (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((||
+    cmds.textScrollList('s_left', hlc=(1,0.3,0.2), bgc=(0,0,0), nr = 100,ams=False,shi=True, height=300, fn="boldLabelFont", sc='leftScroll()')#  ||
+    cmds.textScrollList('s_right', hlc=(1,0.3,0.2), nr = 10,ams=False, height = 300 , sc='rightScroll()')
+ 
+ 
+    #cmds.setParent('..')
+ 
+    #cmds.text('tf_memory',io=True)
+    cmds.showWindow('myWindow')
+ 
+ 
+'''dirScroll = cmds.textScrollList( nr = 10,ams=False, height = 200,  append = list_dir, sc = 'getSelectedDir()')#  ||
+    animScroll = cmds.textScrollList( nr = 10, ams=False, height = 200,  sc = 'getSelectedAnim()')'''
+ 
+createUI()
+ 
+def B():
+ 
+    open_dir = return_files()[2]
+    with open(open_dir) as f:
+        txt = json.load(f)
+#===============================================================================================================
+    first_sel = cmds.ls(sl=True,type='transform')[0]
+    rotate_order = cmds.xform(first_sel,q=True, roo=True, ws=True )
+    OG_TransformLocator = cmds.spaceLocator(n='OG_TransformLocator')[0] # VAZNO, TREBA DA SE REUPOTREBI NA KRAJ
+ 
+    ConstrainTransform = cmds.parentConstraint( first_sel, OG_TransformLocator, mo=False )
+    OG_TransformLocator_xform  = cmds.xform(OG_TransformLocator, q=True, piv=True,ws=True )[:3]
+    cmds.delete(ConstrainTransform)
+    TransformLocatorDuplicate = cmds.duplicate(OG_TransformLocator,n='TransformLocatorDuplicate')[0]
+    cmds.xform(TransformLocatorDuplicate, r=True, os=True, wd=True, t=(2,0,0))
+    cmds.setAttr('{0}.translateY'.format(TransformLocatorDuplicate), OG_TransformLocator_xform[1])
+    myLocConstrain = mel.eval('aimConstraint -offset 0 0 0 -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "vector" -worldUpVector 0 1 0 {0} {1};'.format(TransformLocatorDuplicate, OG_TransformLocator))
+    cmds.delete(myLocConstrain, TransformLocatorDuplicate)
+#===============================================================================================================
+ 
+    myTime = cmds.currentTime(q=True)
+    trans_transform = []
+    
+    for key, list_value in json.loads(txt).items():
+        for value in list_value:
+            trans_transform.append(value[0])
+ 
+    if cmds.ls(first_sel,sns=True)[-1] == ':':
+        pass
+    else:
+        ref = cmds.ls(first_sel,sns=True)[-1]
+        ref+=':'
+        trans_transform = ut.add_namespace(trans_transform, ref) # *** MY FUNC ***
+        
+#====================================================================================================
+    ut.listAttr(json.loads(txt).items(), json.loads(txt).keys(), trans_transform) # add keys on attributes
+#====================================================================================================    
+    finalUpdate = cmds.currentTime(q=True)
+    cmds.currentTime(myTime)
+#================================================= + Create LOCATORS + ===============================
+    
+    myLoc_collection=[]
+  
+    for key, list_value in json.loads(txt).items():
+        for value in list_value:
+            myLoc = cmds.spaceLocator()[0]
+            #cmds.xform(myLoc, t=(value[1],value[2],value[3]), ro=(value[4],value[5],value[6]), roo=(value[-1]), ws=True )
+            myLoc_collection.append(myLoc)
+      
+        break
+#===========================================================================================================
+    max_count=[]
+    
+    for key, list_value in json.loads(txt).items():
+        tmp_count=0
+        for value in list_value:
+            cmds.xform(myLoc_collection[tmp_count], t=(value[1],value[2],value[3]), ro=(value[4],value[5],value[6]), roo=(value[-1]), ws=True )
+            tmp_count+=1
+        cmds.setKeyframe(myLoc_collection)
+        max_count.append(cmds.currentTime(q=True))
+        cmds.NextFrame()
+#===========================================================================================================
+    ut.custom_constrain(myLoc_collection, trans_transform)# my_func CONSTRAIN
+#===========================================================================================================
+    cmds.currentTime(myTime, update=True) # TUKA LEZIZAJAKOT
+    mainLoc = cmds.spaceLocator(n='mainLoc')[0]
+    cmds.parent(myLoc_collection, mainLoc )
+    con2_tmp = cmds.parentConstraint( OG_TransformLocator, mainLoc, mo=False )
+    cmds.delete(con2_tmp)
+ 
+    locOffset = cmds.spaceLocator(n='locOffset')[0]
+    ConstrainLocOffset = cmds.parentConstraint( first_sel, locOffset, mo=False )
+    cmds.delete(ConstrainLocOffset)
+ 
+    DuplicateLocator2 = cmds.duplicate(locOffset, n='DuplicateLocator2')[0]
+    locOffset_xform  = cmds.xform(locOffset, q=True, piv=True,ws=True )[:3]
+    cmds.xform(DuplicateLocator2, r=True, os=True, wd=True, t=(2,0,0))
+    cmds.setAttr('{0}.translateY'.format(DuplicateLocator2), locOffset_xform[1])
+    DuplicateLocator2AimConstrain = mel.eval('aimConstraint -offset 0 0 0 -weight 1 -aimVector 1 0 0 -upVector 0 1 0 -worldUpType "vector" -worldUpVector 0 1 0 {0} {1};'.format(DuplicateLocator2, locOffset))
+    cmds.delete(DuplicateLocator2AimConstrain, DuplicateLocator2)
+    cmds.parent(mainLoc, locOffset )
+    ConstrainLocOffset2 = cmds.parentConstraint(OG_TransformLocator, locOffset, mo=False )
+ 
+    myLoc_collection.append(mainLoc)
+    myLoc_collection.append(locOffset)
+    myLoc_collection.append(OG_TransformLocator)
+ 
+    cmds.select(trans_transform)
+    mel.eval('bakeResults -simulation true -t "{0}:{1}" -sampleBy 1 -oversamplingRate 1 -disableImplicitControl true -preserveOutsideKeys true -sparseAnimCurveBake false -removeBakedAttributeFromLayer false -removeBakedAnimFromLayer false -bakeOnOverrideLayer false -minimizeRotation true -controlPoints false -shape true'.format(myTime,max_count[-1] ))
+ 
+    cmds.delete(myLoc_collection)
+    cmds.currentTime(finalUpdate)
+    cmds.select(first_sel)
+ 
+    print('FILE OPEN: '+ open_dir)
+ 
+ 
+def A():
+    aTimeSlider = mel.eval('$tmpVar=$gPlayBackSlider')
+    start, end = cmds.timeControl(aTimeSlider, q=True, rangeArray=True)
+    list_sl = cmds.ls(sl=True,type='transform')
+    cmds.setKeyframe(list_sl)
+    comfirm_dialog = cmds.confirmDialog( title='Save Pose', message='Are you sure you want to save {0}?\nLocation: {1}'.format(cmds.textField('tf2',q=True, tx=True), cmds.textField('tf1',q=True, tx=True)), button=['Confirm','Cancel'], defaultButton='Yes', cancelButton='No', dismissString='No' )
+    if comfirm_dialog == 'Confirm':
+        dic = {}
+        count=0
+        for i in range(int(start), int(end)):
+            dic[i]=list()
+            if i>0:
+                count+=1
+        if cmds.ls(list_sl, sns=True)[-1] == ':':
+            list_sl_NEW = []
+            list_sl_NEW = list_sl[:]
+        else:
+            list_sl_NEW = ut.remove_namespace(list_sl)
+        channel_box_exclude = ['translateX', 'translateY', 'translateZ', 'rotateX', 'rotateY', 'rotateZ']
+#============================================================================================================================
+        cmds.currentTime(start)
+        for r in range(int(start), int(end)+1):
+            tmp=[]
+            for item, item_NEW in zip(list_sl, list_sl_NEW):
+                list_Attr = cmds.listAttr(item, k=True, o=True,l=False)
+                for c_box in channel_box_exclude:
+                    try:
+                        list_Attr.remove(c_box)
+                    except:
+                        pass
+                extra_attr=[]
+                if list_Attr:
+                    for extra in list_Attr:
+                        extra_attr.append(cmds.getAttr('{0}.{1}'.format(item, extra)))
+                in_tmp=[]
+                form_trans = cmds.xform(item,q=True, piv=True, ws=True )[:3]
+                form_rotate = cmds.xform(item,q=True, ro=True, ws=True )
+                rotate_order = cmds.xform(item,q=True, roo=True, ws=True )
+                suma = form_trans+form_rotate+extra_attr
+                suma.append(rotate_order)
+                in_tmp.append(item_NEW)
+                for sum in suma:
+                    in_tmp.append(sum)
+                tmp.append(in_tmp)
+                dic[r]=tmp
+            if count <= 1:
+                break
+            if count > 1:
+                cmds.NextFrame()
+    #====================================== JSON ==============================================================
+        export_for_un = json.dumps(dic)
+ 
+        write_dir = cmds.textField('tf1',q=True, text=True) + os.sep + cmds.textField('tf2', q=True, text=True) + '.json'
+ 
+        with open(write_dir, 'w') as f:
+            json.dump(export_for_un, f)
+    #====================================== READ JSON ==============================================================
+        for k,v in dic.items():
+            for i in v:
+                print(k,i)
+            print('      --------------------------------------------------')
+ 
+ 
+        leftScroll()
+ 
+ 
+        print('FILE WRITE TO: '+write_dir)
+ 
+    else:
+        cmds.warning('Save Pose Canceled!')

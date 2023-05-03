@@ -1,0 +1,22 @@
+function slamUpdate()
+    if(current_direction==1)
+    then
+        y_blocks = y_blocks + 1
+ 
+    elseif(current_direction==2)
+    then
+        x_blocks = x_blocks + 1
+ 
+    elseif(current_direction==3)
+    then
+        y_blocks = y_blocks - 1
+ 
+    elseif(current_direction==4)
+    then
+        x_blocks = x_blocks - 1
+    end
+end
+ 
+function getSlam()
+    print("X: " .. tostring(x_blocks) .. "  Y: " .. tostring(y_blocks) .. "  Current Direction: " .. tostring(current_direction))
+end

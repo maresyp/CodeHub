@@ -1,0 +1,212 @@
+# LEAK BY SYS | SYSS.EU.ORG
+import os
+import discord
+import keep_alive
+import random, string
+import asyncio
+import time
+ 
+from discord import Color
+from discord.ext import commands
+from random import randrange
+from time import sleep
+ 
+client = commands.Bot(command_prefix = "w?")
+client.help_command = commands.MinimalHelpCommand()
+ 
+ 
+#help command
+class HelpCommand(commands.MinimalHelpCommand):
+  async def send_pages(self):
+    destination = self.get_destination()
+    e = discord.Embed(description='')
+    for page in self.paginator.pages:
+      e.description += page
+    await destination.send(embed=e)
+ 
+client.help_command = HelpCommand()
+ 
+#dms a welcome message everytime a user joins a server the bot is in, uhh maybe?
+@client.event
+async def on_member_join(member):
+    await member.create_dm()
+    await member.dm_channel.send(f"👋Hello! {member.name}, Thanks for joining {client.guild}. Make sure to be active and check out our channels! ")
+ 
+async def on_message(ctx):
+  if (ctx.author.id == ""):
+    return None
+  await client.process_commands(ctx)
+ 
+ 
+@client.command()
+async def ttd(message):
+  await message.reply("Please type the message that you want to send to the devs [BETA cmd]")
+  ttdinpsys = (await client.wait_for('message'))
+  ttdinpcont = ttdinpsys.content
+  print(ttdinpcont + "\n")
+  print(f"User ID: {message.author.id}")
+  ttdreply = input()
+  await message.reply(f"Reply from devs: {ttdreply}")
+  print(f"📝 | {message.author.name} used speak and asked {ttdinpcont} and devs responded with {ttdreply}")
+    
+#watching [n] members thing
+@client.event
+async def on_ready():
+  members = 0
+  for guild in client.guilds:
+    members += guild.member_count - 1
+  await client.change_presence(activity=discord.Activity (type=discord.ActivityType.watching, name=f"{members} users in {len(client.guilds)} servers! | 🇺🇦"))
+  print(f"⚙️ | Bot is running")
+ 
+  
+@client.command()
+async def rps(message):
+  rpsmat=["rock", "paper", "scissors"]
+  ranmat=random.choice(rpsmat)
+  embed = discord.Embed(description='**Start the game by choosing one of the following**:\n\n:rock: `Type "rock"` to choose rock,\n:page_facing_up: `Type "paper"` to choose paper,\n:scissors:\nType `"scissors"` to choose scissors.\n\n:alarm_clock: **You have 5 seconds**')
+  await message.send(embed=embed)
+  
+  userchoI = (await client.wait_for('message'))
+  usercho = userchoI.content
+  time.sleep(10)
+  if usercho == "rock":
+    if ranmat == "rock":
+      await message.send("Its a tie since I also chose rock!")
+    elif ranmat == "paper":
+      await message.send("Sorry, you lost since i chose paper :(")
+    elif ranmat == "scissors":
+      await message.send("You won since i chose scissors")
+    else:
+      await message.send("Sorry, An error has occured, please run the command again.")   
+  
+  elif usercho == "paper":
+    if ranmat == "paper":
+      await message.send("Its a tie since I also chose paper!")
+    elif ranmat == "scissors":
+      await message.send("Sorry, you lost since i chose scissors :(")
+    elif ranmat == "rock":
+      await message.send("You won since i chose rock!")
+    else:
+      await message.send("Sorry, An error has occured, please run the command again.")
+ 
+  elif usercho == "scissors":
+    if ranmat == "scissor":
+      await message.send("Its a tie since I also chose scissors!")
+    elif ranmat == "rock":
+      await message.send("Sorry, you lost since i chose rock :(")
+    elif ranmat == "paper":
+      await message.send("You won since i chose paper!")
+    else:
+      await message.send("Sorry, An error has occured, please run the command again.")
+  else:
+    await message.send("Invalid Option.")
+  print(f"📝 | {message.author.name} Used rps and chose {usercho} and bot chose {ranmat}")
+  
+      
+    
+    
+@client.command()
+async def ping(ctx):
+  latency = client.latency
+  embed = discord.Embed(title=f'Pong🏓! Latency is **{latency}** second(s)')
+  await ctx.send(embed=embed)
+  print(f" 📝 | {ctx.author.name} used ping to see how fast da bot is going aaa")
+  
+@client.command()
+async def amongus(ctx):
+  mogusch = ["You are a crewmate!", "You are a crewmate, and won the game!", "You are da sus imposter, unfortunately, you got ejected :c", "You are da sus impostor, and you won the game!", "You are a crewmate, but you were next to a dead body and then got ejected :c", f"You are {ctx.author.name}!"]
+  mogus = random.choice(mogusch)
+  await ctx.send(mogus)
+  print(f"📝 | {ctx.author.name} felt sus enough that he used amongus and got {mogus}")
+ 
+@client.command()
+async def hello(ctx):
+  await ctx.send("hi")
+  print(f"📝 | {ctx.author.name} used hi")
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+#disgame cmd
+@client.command()
+async def disgame(ctx):
+  await ctx.reply("Note: This generator mostly contains invalid links. Why? Well the generator is randomized and we cant fix this at this time.\nLink: https://ptb.discord.com/store/skus/" + ''.join(random.choice(string.digits) for _ in range(18)))
+  print(f"📝 | {ctx.author.name} used disgame") 
+  
+ 
+ 
+  
+ 
+#diceroll cmd
+@client.command()
+async def diceroll(ctx):
+  embed = discord.Embed(title="The dice is rolling...", color=Color.blue())
+  await ctx.send(embed=embed) ; sleep(5.0)
+  dicenums=["1", "2", "3", "4", "5", "6"]
+  dicelanded=random.choice(dicenums)
+  embed = discord.Embed(title=f"The dice has landed on {dicelanded}!", color=Color.green())
+  await ctx.send(embed=embed) ; sleep(5.0)
+  print(f"📝 | {ctx.author.name} used diceroll")
+  
+ 
+ 
+ 
+#version cmd
+@client.command()
+async def version(ctx):
+  await ctx.reply("WottBot Version 1.1.9")
+  print(f"📝 | {ctx.author.name} used version")
+  
+  
+ 
+#coinflip cmd
+@client.command()
+async def coinflip(ctx):
+  cfchoices = ["Heads", "Tails"]
+  await ctx.send(random.choice(cfchoices))
+  print(f"📝 | {ctx.author.name} used coinflip")
+  
+ 
+ 
+#clear cmd
+@client.command()
+@commands.has_permissions(manage_messages=True)
+async def clear(ctx, amount : int):
+  authorperms = ctx.author.permissions_in(ctx.channel)
+  if authorperms.manage_messages:
+    await ctx.channel.purge(limit=amount+1)
+    embed = discord.Embed(title=f"{ctx.author.name} cleared: {ctx.channel.name}", description="lol")
+    print(f"{ctx.author.name} Cleared #{ctx.channel.name}, Server name:{ctx.guild.name}")
+    await ctx.send(embed=embed)
+  else:
+    await ctx.send("I'm sorry but you, yes you dont have permission to delete messages!")
+  print(f"📝 | {ctx.author.name} used clear")
+  
+ 
+#credit cmd
+@client.command()
+async def credit(ctx):
+  embed = discord.Embed(title="\n**Credits**\n> **wott#6277**\nMain developer of wottbot, Most of the commands are made by wott\n\n> **SLT World🇹🇼#3293**\nAnother Developer who is a bot developer and c# game developer who checks and fixes the bot if a problem occurs\n\n")
+  await ctx.reply(embed=embed)
+  print(f"📝 | {ctx.author.name} used credit")
+  
+ 
+#invalid command error
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+      await ctx.send("Invalid command")
+    
+  
+ 
+ 
+  
+  
+ 
+ 
+my_secret = os.environ['beanz']
+keep_alive.keep_alive()
+client.run(my_secret)

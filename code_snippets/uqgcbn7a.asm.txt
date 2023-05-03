@@ -1,0 +1,84 @@
+; Проверить являются ли элементы массива имеющие нечетный индекс
+; упорядоченными по возрастанию, а элементы массива имеющие четный индекс
+; упорядоченными по убыванию.
+; результат будет записан в A5 и A6
+; A5 - чётные
+; A6 - не чётные
+ 
+    .global  _c_int00
+;///////////////////////////////////////
+.data ;секция данных
+ 
+array: .uint 5, 8, 3, 4, 1 ; 1 0
+;array: .uint 5, 2, 3, 4, 1 ; 1 1
+;array: .uint 1, 2, 3, 4, 5 ; 0 1
+buf: .uint 0
+buf1: .uint 0
+buf2: .uint 4294967295
+size .set 5
+true .set 1
+false .set 0
+;///////////////////////////////////////
+_c_int00:
+.text ;секция кода
+ 
+    ;Инициализация:
+    MVKL .S1 array, A3 ;загружаем адрес массива1 в A3
+    MVKH .S1 array, A3
+    MVKL .S2 array, B3 ;загружаем адрес массива1 в B3 (для 2 ядра)
+    MVKH .S2 array, B3
+    MVK .S1 -2, A2
+    MVK .S2 -1, B2
+ 
+    MVK .S1 1, A3
+ 
+    MVK .S1 buf, A4
+    MVK .S2 buf, B4
+    LDW .D1 *A4, A4
+    || LDW .D2 *B4, B4
+    NOP 4
+ 
+ 
+    ; регистры куда запишется результат в виде 1 и 0 (true и false)
+    MVK .S1 true, A5
+    MVK .S1 true, A6
+ 
+    ; буферные регистры, для хранения предыдущих значений массива
+    MVK .S2 buf1, B7
+    MVK .S1 buf2, A7
+    LDW .D1 *A7, A7
+    || LDW .D2 *B7, B7
+    NOP 4
+ 
+LOOP:
+    ; чётсчики
+    ADD .L1 A2, 2, A2
+    || ADD .L2 B2, 2, B2
+ 
+    CMPGT .L1 size, A2, A0
+    || CMPGT .L2 size, B2, B0
+ 
+    AND .L1 A0, B0, A0
+    [!A0] B .S1 EXIT
+    NOP 5
+ 
+    ; достаём элементы массива
+    LDW .D1 *A3[A2], A4
+    || LDW .D2 *B3[B2], B4
+    NOP 4
+ 
+    CMPGTU .L1 A7, A4, A1
+    || CMPGTU .L2 B4, B7, B1
+    [!A1] SUB .L1 A3, 1, A5
+    [!B0] B .S1 SKIPB
+    NOP 5
+    [!B1] SUB .L1 A3, 1, A6
+ 
+SKIPB:
+    ADD .L1 A4, 0, A7
+    || ADD .L2 B4, 0, B7
+ 
+    B .S1 LOOP
+    NOP 5
+ 
+EXIT:

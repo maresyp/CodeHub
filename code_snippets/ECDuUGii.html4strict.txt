@@ -1,0 +1,466 @@
+<!--==========
+COLOR HEX CODES
+ 
+Background: #ffffff
+Accent: #363114
+==========-->
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<div class="col-xl-4 col-lg-6 mx-auto my-5">
+   
+   
+   
+   
+   
+   
+   
+ 
+<!--==========
+BOX 1
+==========-->
+<div class="p-3" style="font-family:ms gothic; color:#363114; background-color:#ffffff; border:1px solid #363114; border-radius:0px">
+<div class="row">
+   
+   
+   
+   
+   
+ 
+ 
+ 
+<!--==========
+COLUMN 1
+==========-->
+<div class="col-9 pl-4" style="text-transform:lowercase">
+ 
+ 
+ 
+ 
+ 
+ 
+   
+   
+    <p style="font-style:italic; text-transform:uppercase; font-size:1.1rem; width:130%">
+       
+<!--QUOTE------------>
+oho? a sample quote? surely you jest, sir!
+ 
+    </p>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<hr class="my-2" style="border-bottom:1px dotted #363114;">
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+BASICS
+==========-->
+ 
+ 
+ 
+ 
+        <div class="justify-content-between"><span>name</span><span>
+<!--NAME------------>
+CONTENT
+        </span></div>
+       
+       
+       
+       
+        <div class="justify-content-between"><span>age</span><span>
+<!--AGE------------>
+CONTENT
+        </span></div>
+       
+       
+       
+       
+        <div class="justify-content-between"><span>gender</span><span>
+<!--GENDER------------>
+CONTENT
+        </span></div>
+       
+       
+       
+       
+        <div class="justify-content-between"><span>pronouns</span><span>
+<!--PRONOUNS------------>
+CONTENT
+        </span></div>
+   
+   
+   
+   
+        <div class="justify-content-between"><span>species</span><span>
+<!--SPECIES------------>
+CONTENT
+        </span></div>
+       
+       
+       
+ 
+        <div class="justify-content-between"><span>height</span><span>
+<!--HEIGHT------------>
+CONTENT
+        </span></div>
+       
+       
+       
+       
+        <div class="justify-content-between"><span>occupation</span><span>
+<!--OCCUPATION------------>
+CONTENT
+        </span></div>
+       
+       
+       
+       
+       
+ 
+ 
+ 
+<hr class="my-2" style="border-bottom:1px dotted #363114">
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+TABS
+==========-->
+<div class="mt-3 mb-2" style="line-height:1.2; width:135%; height:100px; overflow-y:auto; overflow-x:hidden;"><div class="tab-content">
+ 
+ 
+ 
+ 
+<!--==========
+TAB 1
+==========-->
+<div class="tab-pane fade active show" id="one">
+   
+<!--PERSONALITY------------>
+Content
+   
+    <img src="https://cdn.discordapp.com/attachments/1030573933403062282/1090451776085430392/d6lwqe9-0430cb42-8c0a-42c3-92f9-25898b509a2a.gif">
+</div>
+ 
+ 
+ 
+ 
+<!--==========
+TAB 2
+==========-->
+<div class="tab-pane fade" id="two">
+    <div class="row no-gutters">
+    <div class="col-3" style="position:relative">
+       
+       
+<!--AESTHETIC IMAGE------------>
+<img src="_LINK_"
+       
+        style="border: #363114 1px solid; width:100px;"></div>
+   
+   
+    <div class="col-8 pl-1">
+    <span style="text-transform:uppercase">associated with...</span><br>
+   
+<!--SYMBOLISM------------>
+flower, animal, color, feeling
+ 
+        <div class="my-2" style="border-bottom:1px #ffffff;"></div>
+       
+       
+    <span style="text-transform:uppercase;">antithetical to...</span><br>
+ 
+<!--OPPOSITE SYMBOLISM------------>
+flower, animal, color, feeling
+       
+        </div></div>
+ 
+</div>
+ 
+ 
+ 
+ 
+<!--==========
+TAB 3
+==========-->
+<div class="tab-pane fade" id="three">
+   
+   
+   
+   
+<!--==========
+TRACK 1
+==========-->
+            <div class="text-left" style="font-size:1rem; position:relative">
+                    <div style="position:absolute; top:0px; right:0; z-index:1000;">
+               
+<!--REPLACE THE "EMBED_HERE" WITH THE EMBED CODE FOR THE DESIRED VIDEO-->
+<iframe src="https://www.youtube.com/embed/EMBED_HERE" frameborder="0" style=" opacity:0.00006969696969; height:20px; width:20px; border-radius:100%; "></iframe></div>
+ 
+            1.) <i class="fas fa-play mr-1 float-right" style="margin-top:6px"></i><span>
+ 
+<!--SONG------------>
+song - artist
+           
+            </span></div>
+   
+   
+   
+       
+    <hr class="my-2" style="border-bottom:1px dotted #363114;">
+   
+   
+   
+   
+<!--==========
+TRACK 2
+==========-->
+            <div class="text-left" style="font-size:1rem; position:relative">
+                    <div style="position:absolute; top:0px; right:0; z-index:1000;">
+               
+<!--REPLACE THE "EMBED_HERE" WITH THE EMBED CODE FOR THE DESIRED VIDEO-->
+<iframe src="https://www.youtube.com/embed/EMBED_HERE" frameborder="0" style=" opacity:0.00006969696969; height:20px; width:20px; border-radius:100%; "></iframe></div>
+ 
+            2.) <i class="fas fa-play mr-1 float-right" style="margin-top:6px"></i><span>
+ 
+<!--SONG------------>
+song - artist
+           
+            </span></div>
+       
+       
+       
+       
+    <hr class="my-2" style="border-bottom:1px dotted #363114;">
+   
+   
+   
+   
+<!--==========
+TRACK 3
+==========-->
+            <div class="text-left" style="font-size:1rem; position:relative">
+                    <div style="position:absolute; top:0px; right:0; z-index:1000;">
+               
+<!--REPLACE THE "EMBED_HERE" WITH THE EMBED CODE FOR THE DESIRED VIDEO-->
+<iframe src="https://www.youtube.com/embed/EMBED_HERE" frameborder="0" style=" opacity:0.00006969696969; height:20px; width:20px; border-radius:100%; "></iframe></div>
+ 
+            3.) <i class="fas fa-play mr-1 float-right" style="margin-top:6px"></i><span>
+ 
+<!--SONG------------>
+song - artist
+           
+            </span></div>
+           
+           
+           
+           
+</div>
+       
+</div></div>
+ 
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+BUTTONS
+==========-->
+<div class="col-3 pr-4 pt-3">
+    <ul class="nav nav-tabs row card-header-tabs text-center mt-4" style="line-height:1">
+    <li class="w-100"><a href="#one" class="p-1 btn btn-block rounded-0" style="border: #363114 solid 1px; color:#363114; font-size:2rem;" data-toggle="tab"><i class="fat fa-circle"></i></a></li><br>
+    <li class="w-100"><a href="#two" class="p-1 btn btn-block rounded-0" style="border: #363114 solid 1px; color:#363114; font-size:2rem;" data-toggle="tab"><i class="fat fa-triangle"></i></a></li><br>
+    <li class="w-100"><a href="#three" class="p-1 btn btn-block rounded-0" style="border: #363114 solid 1px; color:#363114; font-size:2rem;" data-toggle="tab"><i class="fat fa-square"></i></a></li><br>
+    </ul>
+</div></div>
+ 
+ 
+</div></div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+GALLERY
+==========-->
+<div class="col-xl-4 col-lg-6 mx-auto my-5">
+<div class="p-2" style="font-family:ms gothic; color:#363114; background-color:#ffffff; border:1px solid #363114; border-radius:0px">
+ 
+ 
+ 
+ 
+<!--GALLERY LINK------------>
+<a href="_LINK_"
+ 
+style="color:#363114" class="ml-1">gallery</a><div style="border-bottom:#363114 1px dotted; margin-top:-10px; margin-left:55px; margin-bottom:10px"></div>
+ 
+ 
+ 
+ 
+    <div class="flex-row">
+ 
+ 
+ 
+ 
+<!--==========
+IMAGE 1
+==========-->
+ 
+<!--IMAGE GALLERY LINK------------>
+<a href="_LINK_"
+ 
+style="width:110px; height:110px; border:1px #363114 solid; background-size:cover; background-position:center;
+
+<!--IMAGE URL------------>;
+background-image:url(_LINK_)" class="m-1"></a>
+ 
+ 
+ 
+ 
+<!--==========
+IMAGE 2
+==========-->
+<a href="_LINK_"
+ 
+style="width:110px; height:110px; border:1px #363114 solid; background-size:cover; background-position:center;
+
+<!--IMAGE URL------------>;
+background-image:url(_LINK_)" class="m-1"></a>
+ 
+ 
+ 
+ 
+<!--==========
+IMAGE 3
+==========-->
+<a href="_LINK_"
+ 
+style="width:110px; height:110px; border:1px #363114 solid; background-size:cover; background-position:center;
+
+<!--IMAGE URL------------>;
+background-image:url(_LINK_)" class="m-1"></a>
+ 
+ 
+ 
+ 
+<!--==========
+IMAGE 4
+==========-->
+<a href="_LINK_"
+ 
+style="width:110px; height:110px; border:1px #363114 solid; background-size:cover; background-position:center;
+
+<!--IMAGE URL------------>;
+background-image:url(_LINK_)" class="m-1"></a>
+ 
+ 
+ 
+ 
+</div></div></div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+STATS
+==========-->
+<div class="col-xl-4 col-lg-6 mx-auto my-5">
+<div class="p-2" style="font-family:ms gothic; color:#363114; background-color:#ffffff; border:1px solid #363114; border-radius:0px">
+<div style="color:#363114" class="ml-1">stats </div><div style="border-bottom:#363114 1px dotted; margin-top:-10px; margin-left:40px; margin-bottom:10px"></div>
+ 
+ 
+ 
+ 
+<div class="justify-content-between">
+        <span>date created</span><span>
+       
+<!--DATE CREATED------------>
+00/00/0000
+ 
+</span></div>
+       
+       
+       
+       
+<div class="justify-content-between">
+        <span>created by</span><span>
+       
+<!--CREATED BY------------>
+name
+ 
+</span></div>
+ 
+ 
+ 
+     
+<div class="justify-content-between">
+        <span>rank</span><span>
+       
+<!--RANK------------>
+favoritest
+ 
+</span></div>
+ 
+ 
+ 
+ 
+<div class="justify-content-between">
+        <span>code credit</span><span>
+       
+<!--CREDIT------------>
+<a href="ghoulipede" style="color:#000000">ghoulipede</a>
+ 
+</span></div>
+ 
+ 
+ 
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+</div></div>

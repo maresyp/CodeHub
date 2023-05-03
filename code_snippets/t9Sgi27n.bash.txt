@@ -1,0 +1,91 @@
+#!/bin/bash
+ 
+# Function to parse settings file and set variables
+parse_settings_file() {
+    if [[ -z "$settings_file" ]]; then
+        settings_file="settings.json"
+    fi
+    if [[ -f "$settings_file" ]]; then
+        color=$(jq -r '.settings.color' "$settings_file")
+        cooldown=$(jq -r '.settings.cooldown' "$settings_file")
+        runasroot=$(jq -r '.settings.runasroot' "$settings_file")
+        log=$(jq -r '.settings.log' "$settings_file")
+        logfile=$(jq -r '.settings.logfile' "$settings_file")
+    else
+        echo "Could not find settings file: $settings_file"
+        exit 1
+    fi
+}
+ 
+# Function to write changes to settings file
+write_settings_file() {
+    jq '.settings.color = "'"$color"'" |
+        .settings.cooldown = "'"$cooldown"'" |
+        .settings.runasroot = "'"$runasroot"'" |
+        .settings.log = "'"$log"'" |
+        .settings.logfile = "'"$logfile"'"' "$settings_file" > temp.json
+    mv temp.json "$settings_file"
+}
+ 
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -f|--file)
+            settings_file="$2"
+            shift 2;;
+        *)
+            echo "Usage: $0 [-f|--file <settings_file>]"
+            exit 1;;
+    esac
+done
+ 
+# Parse settings file and set variables
+parse_settings_file
+ 
+# Loop to change settings
+while true; do
+    # Print current settings
+    echo "Current settings:"
+    echo "color=$color"
+    echo "cooldown=$cooldown"
+    echo "runasroot=$runasroot"
+    echo "log=$log"
+    echo "logfile=$logfile"
+    
+    # Ask user if they want to change a setting or exit
+    read -p "Do you want to change a setting? (y/n): " change_setting
+    case "$change_setting" in
+        y|Y)
+            # Ask user which setting they want to change
+            read -p "Which setting do you want to change? (color/cooldown/runasroot/log/logfile): " setting_name
+            case "$setting_name" in
+                color)
+                    read -p "Enter new color value: " color
+                    ;;
+                cooldown)
+                    read -p "Enter new cooldown value: " cooldown
+                    ;;
+                runasroot)
+                    read -p "Enter new runasroot value (true/false): " runasroot
+                    ;;
+                log)
+                    read -p "Enter new log value (true/false): " log
+                    ;;
+                logfile)
+                    read -p "Enter new logfile value: " logfile
+                    ;;
+                *)
+                    echo "Invalid setting name: $setting_name"
+                    ;;
+            esac
+            # Write changes to settings file
+            write_settings_file
+            ;;
+        n|N)
+            exit 0
+            ;;
+        *)
+            echo "Invalid input"
+            ;;
+    esac
+done

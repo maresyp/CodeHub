@@ -1,0 +1,22 @@
+predicates
+    nondeterm grandparent(symbol, symbol).      
+    nondeterm parent(symbol, symbol).
+    nondeterm kid(symbol, symbol).
+    nondeterm sibling(symbol, symbol).
+clauses
+    /*Dad's branch*/
+    parent("Sergey","Evgenij").
+    parent("Tatyana","Evgenij").
+    parent("Evgenij","Kirill").
+    parent("Evgenij","Bonya").
+    /*Mom's branch*/
+    parent("Vladimir","Oksana").
+    parent("Nina","Oksana").
+    parent("Oksana","Kirill").
+    parent("Oksana","Bonya").
+    /**/
+    sibling(F,S):-parent(M,F) and parent(D,F) and parent(M,S) and parent(D,F).
+    kid(C,P):-parent(P,C).
+    grandparent(GP,C):-parent(GP,P) and parent(P,C).
+goal
+    grandparent("Vladimir", "Kirill").

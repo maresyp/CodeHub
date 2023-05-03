@@ -1,0 +1,16 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+ 
+entity pc_alu is
+    port (
+        current_instruction     : in  std_logic_vector(63 downto 0); -- Note: current instruction needs to be divided by 4 technically.
+        next_instruction  : out std_logic_vector(63 downto 0)
+    );
+end entity pc_alu;
+ 
+architecture dataflow of pc_alu is
+    constant next_instruction_offset : integer := 4;
+begin
+    next_instruction <= std_logic_vector(unsigned(current_instruction) + next_instruction_offset);
+end architecture dataflow;

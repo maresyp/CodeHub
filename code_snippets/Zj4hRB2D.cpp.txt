@@ -1,0 +1,20 @@
+string convert10to16(long long liczba)
+{
+    string wynik = "";
+    if(liczba < 0)
+        wynik = "-";
+    short reszta;
+    char znak;
+ 
+    while(liczba > 0)
+    {
+        reszta = liczba % 16;
+        if(reszta < 10)
+            znak = '0' + reszta;
+        else
+            znak = 'A' + reszta - 10;
+        wynik = znak + wynik;
+        liczba /= 16;
+    }
+    return wynik;
+}

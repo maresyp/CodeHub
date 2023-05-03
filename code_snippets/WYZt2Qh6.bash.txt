@@ -1,0 +1,69 @@
+#!/bin/bash
+PAGE=$1
+POSF=${0/.sh/.last}
+ 
+###############################################################################
+URL="http://modarchive.org/index.php?request=view_top_favourites&page="
+ 
+###############################################################################
+get_pos() {
+    local data=$(cat $POSF)
+    SONG=${data#*:}
+    PAGE=${data%:*}
+}
+ 
+###############################################################################
+get_mod_and_play() {
+    local urlloc=$1
+    local file=${urlloc#*\#}
+ 
+    wget -q -O $dir/$file "$urlloc"
+    echo -e "$urlloc\n"
+    (sleep 1; echo -n . > openmpt123_fifo)&
+    openmpt123 --no-meters --banner 0 --assume-terminal $dir/$file < openmpt123_fifo
+    rm $dir/$file
+}
+ 
+###############################################################################
+get_mod_list() {
+    local page=$1
+    LIST=( "" $(lynx -dump -listonly -nonumbers "${URL}${page}" | grep download | uniq) )
+    MAX=${#LIST[*]}
+}
+ 
+###############################################################################
+cleanup() {
+    cd /tmp
+    rm -rf $dir
+    rm openmpt123_fifo
+    rm openmpt123_list
+    reset
+    exit 0;
+}
+ 
+######################## Main code ############################################
+ 
+[ -z "$PAGE" ] && [ ! -f $POSF ] && echo "Page number not specified" && exit 1
+[ -z "$PAGE" ] && [   -f $POSF ] && get_pos
+ 
+cd /tmp/
+dir=$(mktemp -d)
+ 
+[ ! -p openmpt123_fifo ] && mkfifo openmpt123_fifo
+[ ! -f openmpt123_list ] && echo $POSF > openmpt123_list
+ 
+trap 'cleanup' SIGINT
+ 
+while [ 1 ]; do
+    get_mod_list $PAGE
+    while [ $SONG -lt $MAX ]; do
+        clear
+        echo -n "[$PAGE:$SONG] "
+        echo "$PAGE:$SONG" > $POSF
+        get_mod_and_play ${LIST[$SONG]}
+        get_pos
+        ((SONG+=1))
+    done
+    SONG=1
+    ((PAGE+=1))
+done

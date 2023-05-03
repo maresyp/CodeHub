@@ -1,0 +1,63 @@
+const unsigned long MSG_INTERVAL = 10000; // 10 secondi
+ 
+ 
+void SendMessage(unsigned long now)
+{
+    static unsigned long lastMsgSentTime = 0;
+    
+    if (( now - lastMsgSentTime ) >= MSG_INTERVAL )
+    {
+        if (bot.sendMessage (GROUP_CHAT_ID, MSG, "") )
+        {
+            Serial.println ("Messaggio inviato");
+            /* ... */
+            lastMsgSentTime = now;
+        }
+        else
+        {
+            Serial.println ("Messaggio NON inviato");
+        }
+ 
+    }
+}
+ 
+ 
+ 
+void loop()
+{
+    static unsigned long buttonPressTime = 0;
+    static bool wasButtonPressed = false;
+ 
+    bool isButtonPressed;
+    
+    /*
+     * Disaccoppia lo stato fisico del tasto allo stato logico della variabile.
+     * Lo stato del tasto e' letto una sola volta per ciclo, per evitare glitch.
+     */
+    isButtonPressed = (digitalRead (BTN) == HIGH) ? true : false;
+    
+    if ( isButtonPressed == true )
+    {
+        unsigned long now = millis();
+        
+        if( wasButtonPressed == true )
+        {
+            if ((now - buttonPressTime ) >= TEMPO_PREMUTO )
+            {
+                /* La funzione SendMessage si occupa di inviare il messaggio
+                   e aggiornare la variabile lastMsgSentTime se il messaggio
+                   e' inviato */
+                SendMessage(now);
+            }
+        }
+        else
+        {
+            buttonPressTime = now;
+            wasButtonPressed = true;
+        }
+    }
+    else
+    {
+        wasButtonPressed = false;
+    }
+}

@@ -1,0 +1,36 @@
+public class Main {
+    public static void main(String[] args) {
+        int[] number = new int[10];
+        number[0] = -113;
+        number[1] = -113;
+        number[2] = -113;
+        number[3] = -113;
+        number[4] = -113;
+        number[5] = -113;
+        number[6] = -113;
+        number[7] = -113;
+        number[8] = -113;
+        number[9] = -113;
+ 
+        System.out.println("slot 0 contains a " + number[0]);
+        System.out.println("slot 1 contains a " + number[1]);
+        System.out.println("slot 2 contains a " + number[2]);
+        System.out.println("slot 3 contains a " + number[3]);
+        System.out.println("slot 4 contains a " + number[4]);
+        System.out.println("slot 5 contains a " + number[5]);
+        System.out.println("slot 6 contains a " + number[6]);
+        System.out.println("slot 7 contains a " + number[7]);
+        System.out.println("slot 8 contains a " + number[8]);
+        System.out.println("slot 9 contains a " + number[9]);
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    }
+}

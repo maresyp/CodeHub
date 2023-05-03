@@ -1,0 +1,60 @@
+class HelloSpider(scrapy.Spider):
+    name = 'hello'
+    allowed_domains = ['jinzai.hellowork.mhlw.go.jp']
+    base_url = 'https://jinzai.hellowork.mhlw.go.jp'
+ 
+    def start_requests(self):
+        url == ''
+        yield scrapy.Request(url=url, callback=self.parse_search)
+ 
+ 
+    def parse_search(self, response):
+        prefecture_list = response.css('')
+        for prefecture in prefecture_list:
+            # url = ''
+            # prefecture_name = ''
+ 
+            url = 'https://hitomgr.jp/csaiyo/s9h5/pc_job/list/regular/hkdo/hokkaido'
+            meta = {
+                'prefecture': 'hokkaido',
+                'next_page': 1,
+                'max_page': None,
+            }
+            yield scrapy.Request(url=url, callback=self.parse_prefecture)
+ 
+    def parse_prefecture(self, response):
+        # print(response.url)
+        # print(response.headers)
+ 
+        meta = dict(response.meta)
+ 
+        ## Get 20 max. results
+ 
+ 
+        ## Pagination
+        if meta['max_page'] == None:
+            meta['max_page'] = math.ceil(total_results/20) 
+ 
+        if meta['next_page'] < meta['max_page']:
+            cookies = self.get_cookies(response.headers.getlist('Set-Cookie'))
+            headers = {
+                'Host': '',
+            }
+            meta = {
+                'next_page' : meta['next_page'] + 1,
+            }
+            url = 'https://hitomgr.jp/csaiyo/s9h5/read_more?next_page=2'
+            yield scrapy.Request(url=url, callback=self.parse_prefecture, meta=meta, headers=headers, cookies=cookies)
+ 
+    def get_cookies(self, t_cookie):
+        cookie_var = {}
+        if len(t_cookie) > 0:
+            cookie_list = []
+            for val in t_cookie:
+                value = val.decode('utf-8')
+                cookie_list.extend(list(i for i in value.split(';')))
+ 
+            for var in cookie_list:
+                if '_s_sess' in var:
+                    cookie_var['_s_sess'] = var.split('_s_sess=')[1]
+        return cookie_var

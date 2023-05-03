@@ -1,0 +1,43 @@
+add_action('wp_enqueue_scripts', function () {
+    ob_start();
+    ?>
+    <script>
+        jQuery('.reviews_area_dummy').find('button, input[type="text"]').click(function() {
+            if (!wcfm_params.is_user_logged_in) {
+                location.href = "<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>";
+            }
+        });
+    </script>
+    <?php
+    $script = ob_get_clean();
+ 
+    wp_add_inline_script('wcfmmp_store_js', $script, 'after');
+}, 21);
+ 
+// start global session for saving the referer url
+function start_session() {
+    if (!session_id()) {
+        session_start();
+    }
+}
+add_action('init', 'start_session', 1);
+ 
+// get  referer url and save it 
+function redirect_url() {
+    if (!is_user_logged_in()) {
+        $_SESSION['referer_url'] = wp_get_referer();
+    } else {
+        session_destroy();
+    }
+}
+add_action('template_redirect', 'redirect_url');
+ 
+//login redirect 
+function login_redirect() {
+    if (isset($_SESSION['referer_url'])) {
+        wp_redirect($_SESSION['referer_url']);
+    } else {
+        wp_redirect(home_url());
+    }
+}
+add_filter('woocommerce_login_redirect', 'login_redirect', 1100, 2);

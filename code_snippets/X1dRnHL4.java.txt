@@ -1,0 +1,18 @@
+import java.util.*;
+ 
+class test{
+    public static void main(String[] args){
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    list.add(50);
+    System.out.println(list);
+    System.out.println("Adding List in Sequence");
+    list.add(0,82);
+    System.out.println(list);
+    System.out.println("Sorting");
+    Collections.sort(list);
+    System.out.println(list);
+ 
+ 
+ 
+}
+}

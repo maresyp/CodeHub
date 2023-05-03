@@ -1,0 +1,78 @@
+index="*" src="10.9.165.*" or dst="10.9.165.8"
+ 
+index=* Account_Name="cop-sa-flu-fld-698-p" <hostname>
+ 
+ 
+Splunk Commands:
+ 
+-Are you aware of any splunk query/index that will provide the computers a user is logged into?
+index=wineventlog AND <UserName> AND "EventCode=4776"
+ 
+- look up hostname:
+index=* AND DAWA1
+ 
+index="research" host=empire sourcetype=bro_files extracted_source=smb | table rx_hosts, tx_hosts filename, fuid, md5, sha1
+ 
+index="research" host=empire sourcetype=bro_files action ="SMB::FILE_OPEN" | table dest_ip, dest_port, src_ip, src_port, fuid, action, name, path
+ 
+index="research" host=empire sourcetype=sysmon powershell.exe
+ 
+index="research" host=<HostName> sourcetype="powershell" EXTRA_FIELD_6="*ParentCommandLine: cmd.exe /Q /c*"
+ 
+ 
+@@@@@@@@@@@@@@@@@@
+ 
+| table EmailSource EmailDest EmailSubject
+| rex field=EmailSource "[^@]*@(?<DomainSource>.*)"
+| fillnull DomainSource value="((Domain not found))"
+| eventstats count as DomainCount by DomainSource
+| sort 0 -DomainCount DomainSource EmailSource
+| table DomainSource DomainCount EmailSource EmailDest EmailSubject
+ 
+ 
+index=YouShouldAlwaysSpecifyAnIndex sourcetype=YourFirewallSourcetypeHere [
+| inputlookup flash_mi-000085-mw
+| lookup dnsLookup clienthost AS host OUTPOUT clientip AS host | table host ]
+ 
+ 
+index=* | lookup dnslookup topology4.dyndns.atlas.ripe.net
+ 
+index=* topology4.dyndns.atlas.ripe.net
+ 
+index=* | lookup dnslookup clienthost as hostname
+ 
+index=* | lookup dnslookup clientip as ipaddress
+ 
+sourcetype="WinEventLog" EventCode=4688 | stats count by New_Process_Name, Process_Command_Line
+ 
+index="*" sourcetype="stream:http" topology4.dyndns.atlas.ripe.net
+ 
+State != Closed AND assignment_group Name contains TSG-NTT-L4 AND Risk group not in (P4, P5, P7) AND Location = PTC Data Center .or. Location = WTC Data Center .or.
+Location is empty AND Source = qualys
+ 
+ 
+#############
+index=* source="*" EventCode=4720 OR (EventCode=4732 Administrators)
+ 
+index=* source="*" (EventCode=5140 OR EventCode=560) (C$ OR ADMIN$)
+ 
+Detect Network Crawling:
+index=* source="*" EventCode=4769
+ 
+ 
+AD - sensitive group change:
+index=* sourcetype=* AND EventCode=4728 OR EventCode=4729 OR EventCode=4732 OR EventCode=4733 OR EventCode=4756 OR EventCode=4757
+ 
+Account lockouts:
+ 
+#########
+look for Windows updates with hostname:
+The following splunk query will return results on any Windows Updates (Patches) that have been applied by searching for the KB value associated with the EventID.
+ 
+sourcetype=WinEventLog:System EventCode=19 | eval Date=strftime(_time, "%Y/%m/%d")| rex "\WKB(?<KB>.\d+)\W" |stats count by Date, host, KB
+ 
+############
+search code 4625 for 'an account failed to log on'
+index=* (sprasobh or oporada or mgergel) and 4625 source="WinEventLog:ForwardedEvents"
+ 
+########

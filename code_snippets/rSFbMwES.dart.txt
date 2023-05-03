@@ -1,0 +1,33 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:image/image.dart' as imglib;
+ 
+// Load the image from file
+File imageFile = File('path/to/image.jpg');
+imglib.Image image = imglib.decodeJpg(imageFile.readAsBytesSync());
+ 
+// Resize the image to the input size of the TFLite model
+imglib.Image resizedImage = imglib.copyResize(image, width: 150, height: 150);
+ 
+// Convert the image pixel values to a normalized Uint8List
+Uint8List inputValues = Uint8List(150 * 150 * 3);
+for (int i = 0; i < 150; i++) {
+  for (int j = 0; j < 150; j++) {
+    int pixel = resizedImage.getPixel(j, i);
+    inputValues[i * 150 * 3 + j * 3 + 0] = ((pixel >> 16) & 0xFF);
+    inputValues[i * 150 * 3 + j * 3 + 1] = ((pixel >> 8) & 0xFF);
+    inputValues[i * 150 * 3 + j * 3 + 2] = (pixel & 0xFF);
+  }
+}
+inputValues = inputValues.buffer.asUint8List();
+ 
+// Alternatively, you can convert the image pixel values to a normalized Float32List
+Float32List inputValuesFloat = Float32List(150 * 150 * 3);
+for (int i = 0; i < 150; i++) {
+  for (int j = 0; j < 150; j++) {
+    int pixel = resizedImage.getPixel(j, i);
+    inputValuesFloat[i * 150 * 3 + j * 3 + 0] = ((pixel >> 16) & 0xFF) / 255.0;
+    inputValuesFloat[i * 150 * 3 + j * 3 + 1] = ((pixel >> 8) & 0xFF) / 255.0;
+    inputValuesFloat[i * 150 * 3 + j * 3 + 2] = (pixel & 0xFF) / 255.0;
+  }
+}

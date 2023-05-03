@@ -1,0 +1,7 @@
+SELECT Employees.FirstName, COUNT(*) AS TotalOrders
+FROM Employees
+JOIN Orders ON Employees.EmployeeID = Orders.EmployeeID
+WHERE Orders.OrderDate >= '1996-09-02' AND Orders.OrderDate <= '1996-12-31'
+GROUP BY Employees.FirstName
+ORDER BY TotalOrders DESC
+LIMIT 1;

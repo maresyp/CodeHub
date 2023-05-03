@@ -1,0 +1,123 @@
+2.Find all films whose title contains the word "love".
+ 
+SELECT 
+    *
+FROM
+    film
+WHERE
+    title LIKE '%love%';
+ 
+3. Find all actors whose first name is "John".
+ 
+SELECT 
+    *
+FROM
+    sakila.actor
+WHERE
+    first_name = 'John'; 
+ 
+ 
+4. Find all cities whose name starts with "S".
+SELECT 
+    *
+FROM
+    sakila.city
+WHERE
+    city LIKE 'S%';
+ 
+5. Find all countries whose name contains the word "land".
+SELECT 
+    *
+FROM
+    sakila.country
+WHERE
+    country LIKE '%land%';
+ 
+ 
+6. Find all stores whose address contains the word "Main".
+ 
+ 
+ 
+7. Find all payments that are greater than $10.
+SELECT 
+    *
+FROM
+    sakila.payment
+WHERE
+    amount > 10;
+ 
+ 
+8. Find all customers whose last name is "Smith" or "Johnson".
+SELECT 
+    *
+FROM
+    customer
+WHERE
+    last_name = 'Smith' OR 'Johnson';
+ 
+ 
+9. Find all employees whose first name is not "John".
+ 
+SELECT 
+    *
+FROM
+    staff
+WHERE
+    first_name != 'John';
+ 
+ 
+10. Find all films whose rental rate is between $3 and $4.
+SELECT 
+    *
+FROM
+    sakila.film
+WHERE
+    rental_rate BETWEEN 2.99 AND 3.99;
+ 
+11. Find all actors whose last name starts with "B" and is followed by exactly 5 symbols.
+SELECT 
+    *
+FROM
+    sakila.actor
+WHERE
+    last_name LIKE '%B_____';
+ 
+ 
+12. Find all films that are rated "PG-13".
+ 
+SELECT 
+    *
+FROM
+    sakila.film
+WHERE
+    rating = 'Pg-13';
+ 
+ 
+13. Find all actors whose last name ends with "son".
+ 
+SELECT 
+    *
+FROM
+    sakila.actor
+WHERE
+    last_name LIKE '%son';
+ 
+ 
+14. Find all films that have a length of more than 1.5 hours.
+ 
+SELECT 
+    *
+FROM
+    sakila.film
+WHERE
+    length > 1.5;
+ 
+ 
+15. Find all customers whose first name starts with "A".
+ 
+SELECT 
+    *
+FROM
+    sakila.customer
+WHERE
+    first_name LIKE 'A%';

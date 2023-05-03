@@ -1,0 +1,31 @@
+with open('24.txt') as f:
+    s = f.readline()
+    bad = ['X', 'Y', 'Z']
+    for k in bad:
+        s.replace(k, '*')
+    s.replace('**', '#')
+    a = s.split('#')
+    kmax = 1
+    
+    t = a[0]
+    k = len(t) + 1
+    if t[-1] == '*':
+        k -= 1
+    if s[0] == '#' and t[0] != '*':
+        k += 1
+    kmax = max(k, kmax)
+ 
+    t = a[-1]
+    k = len(t) + 1
+    if t[0] == '*':
+        k -= 1
+    kmax = max(k, kmax)
+ 
+    for t in a:
+        k = len(t) + 2
+        if t[0] == '*':
+            k -= 1
+        if t[-1] == '*':
+            k -= 1
+        kmax = max(k, kmax)
+print(kmax)

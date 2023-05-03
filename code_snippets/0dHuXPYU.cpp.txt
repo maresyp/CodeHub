@@ -1,0 +1,10 @@
+void Test() {
+        Student p("ivan"s, 37);
+        SatisfactionSupervisor sup{103, 107};
+        p.SetObserver(&sup);
+        ASSERT_EQUAL(p.GetDanceCount(), 0);
+        ASSERT_EQUAL(p.GetSatisfaction(), 100);
+        p.Dance();
+        ASSERT_EQUAL(p.GetDanceCount(), 1);
+        ASSERT_EQUAL(p.GetSatisfaction(), 101);
+    }

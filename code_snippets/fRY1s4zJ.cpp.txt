@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+#define int int64_t
+ 
+const int inf = 2e18;
+const int mod = 1e9 + 7;
+ 
+bool cmp(const pair<int, pair<int, int>>& a,
+         const pair<int, pair<int, int>>& b) {
+    if (a.first != b.first) {
+        return a.first > b.first;
+    }
+    return a.second.first < b.second.first;
+}
+ 
+bool is_loosely_dominated(int y, int z, set<pair<int, int>>& stairs) {
+    auto it = stairs.lower_bound(make_pair(y, -1));
+    return it != stairs.end() && it->second >= z;
+}
+ 
+int32_t main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    int n;
+    cin >> n;
+    vector<pair<int, pair<int, int>>> p(n);
+    for (int i = 0; i < n; i++) {
+        cin >> p[i].first;
+    }
+    for (int i = 0; i < n; i++) {
+        cin >> p[i].second.first;
+    }
+    for (int i = 0; i < n; i++) {
+        cin >> p[i].second.second;
+    }
+    sort(p.begin(), p.end(), cmp);
+    set<pair<int, int>> stairs;
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        int y = p[i].second.first, z = p[i].second.second;
+        if (is_loosely_dominated(y + 1, z + 1, stairs)) {
+            ans++;
+            continue;
+        }
+        if (is_loosely_dominated(y, z, stairs)) {
+            continue;
+        }
+        vector<pair<int, int>> to_del;
+        auto it = stairs.lower_bound({y + 1, -1});
+        while (it != stairs.begin()) {
+            it--;
+            if (it->second > z) {
+                break;
+            }
+            to_del.push_back(*it);
+        }
+        for (auto cur: to_del) {
+            stairs.erase(cur);
+        }
+        stairs.insert(make_pair(y, z));
+    }
+    cout << ans << '\n';
+}

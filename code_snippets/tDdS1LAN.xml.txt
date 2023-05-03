@@ -1,0 +1,52 @@
+<!--стиль плашки прикрепленного сообщения-->
+<item name="nchat_prechat_attachment_root_linear_layout_style">@style/ChatPrechatAttachment.MainView</item>
+android:layout_width – ширина плашки
+android:layout_height – высота плашки
+android: padding – отступ (можно задать общий для всего элемента или отдельно на каждую из сторон)
+android: background- цвет фона плашки
+ 
+<!--стиль иконки прикрепленного сообщения-->
+<item name="nchat_prechat_attachment_thumb_image_view_style">@style/ChatPrechatAttachment.AttachmentThumb</item>
+android:layout_width – ширина иконки
+android:layout_height – высота иконки
+android: background- цвет иконки до того как прогрузится превью
+ 
+<!--стиль загрузки вложения, отображается на превью-->
+<item name="nchat_prechat_attachment_circle_progress_style">@style/ChatPrechatAttachment.CircleProgress</item>
+android:layout_width – ширина иконки
+android:layout_height – высота иконки 
+android:layout_gravity – позиционирование внутри элемента
+circle_text_size – размер текста, для отображения процесса (процентов) загрузки
+circle_finished_color – цвет текста, по завершению загрузки
+circle_unfinished_color – цвет текста, в процессе загрузки
+ 
+<!--стиль имени прикрепленного вложения-->
+<item name="nchat_prechat_attachment_file_name_text_view_style">@style/ChatPrechatAttachment.AttachmentFileName</item>
+android:layout_gravity – позиционирование внутри плашки вложения
+android:padding – отступ (можно задать общий для всего элемента или отдельно на каждую из сторон)
+android:textSize – размер текста
+android:fontFamily – шрифт текста
+android:textColor – цвет текста
+ 
+ 
+<!--стиль кнопки вложения-->
+<item name="nchat_prechat_attribute_attach_style">@style/ChatPrechatAttachment.AttachButton</item>
+android:src – иконка для вложения 
+android:cib_color_filter – цвет в обычном состоянии
+android:cib_color_filter_pressed – цвет в состоянии нажатия
+android:theme – тема для эффекта в обводке, задается @style/ThemeName
+ 
+<style name="ThemeName">
+<item name="colorControlHighlight>цвет обводки</item>
+<item name="android:radius">радиус в dp</item>
+</style>
+ 
+ 
+<!--стиль иконки для удаления вложения-->
+<item name="nchat_prechat_attachment_remove_attach_colorable_image_button_style">@style/ChatPrechatAttachment.RemoveAttachButton</item>
+srcCompat – иконка для вложения
+android:layout_width – ширина иконки
+android:layout_height – высота иконки 
+android:cib_color_filter – цвет в обычном состоянии
+android:cib_color_filter_pressed – цвет в состоянии нажатия
+android:layout_gravity – позиционирование внутри плашки вложения

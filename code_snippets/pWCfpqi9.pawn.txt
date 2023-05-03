@@ -1,0 +1,328 @@
+new Text:Cekijevi_TDovi[35];
+ 
+Cekijevi_TDovi[0] = TextDrawCreate(235.400054, 424.297760, "LD_SPAC:white");
+TextDrawTextSize(Cekijevi_TDovi[0], 145.000000, 17.000000);
+TextDrawAlignment(Cekijevi_TDovi[0], 1);
+TextDrawColor(Cekijevi_TDovi[0], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[0], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[0], 255);
+TextDrawFont(Cekijevi_TDovi[0], 4);
+TextDrawSetProportional(Cekijevi_TDovi[0], 0);
+ 
+Cekijevi_TDovi[1] = TextDrawCreate(221.399948, 419.817871, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[1], 28.000000, 26.000000);
+TextDrawAlignment(Cekijevi_TDovi[1], 1);
+TextDrawColor(Cekijevi_TDovi[1], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[1], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[1], 255);
+TextDrawFont(Cekijevi_TDovi[1], 4);
+TextDrawSetProportional(Cekijevi_TDovi[1], 0);
+ 
+Cekijevi_TDovi[2] = TextDrawCreate(366.199920, 419.817871, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[2], 26.000000, 26.000000);
+TextDrawAlignment(Cekijevi_TDovi[2], 1);
+TextDrawColor(Cekijevi_TDovi[2], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[2], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[2], 255);
+TextDrawFont(Cekijevi_TDovi[2], 4);
+TextDrawSetProportional(Cekijevi_TDovi[2], 0);
+ 
+Cekijevi_TDovi[3] = TextDrawCreate(238.400024, 428.435546, ">");
+TextDrawLetterSize(Cekijevi_TDovi[3], 0.141598, 0.873242);
+TextDrawAlignment(Cekijevi_TDovi[3], 1);
+TextDrawColor(Cekijevi_TDovi[3], -16776961);
+TextDrawSetShadow(Cekijevi_TDovi[3], 0);
+TextDrawSetOutline(Cekijevi_TDovi[3], -1);
+TextDrawBackgroundColor(Cekijevi_TDovi[3], 255);
+TextDrawFont(Cekijevi_TDovi[3], 0);
+TextDrawSetProportional(Cekijevi_TDovi[3], 1);
+ 
+Cekijevi_TDovi[4] = TextDrawCreate(234.399963, 428.435546, ">");
+TextDrawLetterSize(Cekijevi_TDovi[4], 0.141598, 0.873242);
+TextDrawAlignment(Cekijevi_TDovi[4], 1);
+TextDrawColor(Cekijevi_TDovi[4], -1);
+TextDrawSetShadow(Cekijevi_TDovi[4], 0);
+TextDrawSetOutline(Cekijevi_TDovi[4], -1);
+TextDrawBackgroundColor(Cekijevi_TDovi[4], 255);
+TextDrawFont(Cekijevi_TDovi[4], 0);
+TextDrawSetProportional(Cekijevi_TDovi[4], 1);
+ 
+Cekijevi_TDovi[5] = TextDrawCreate(247.200042, 427.440002, "UKOLIKO_VAM_JE_POTREBNA_POMOC_/ASKQ");
+TextDrawLetterSize(Cekijevi_TDovi[5], 0.139200, 0.947910);
+TextDrawAlignment(Cekijevi_TDovi[5], 1);
+TextDrawColor(Cekijevi_TDovi[5], -1);
+TextDrawSetShadow(Cekijevi_TDovi[5], 0);
+TextDrawSetOutline(Cekijevi_TDovi[5], 1);
+TextDrawBackgroundColor(Cekijevi_TDovi[5], 255);
+TextDrawFont(Cekijevi_TDovi[5], 2);
+TextDrawSetProportional(Cekijevi_TDovi[5], 1);
+ 
+Cekijevi_TDovi[6] = TextDrawCreate(375.599884, 428.435516, "<");
+TextDrawLetterSize(Cekijevi_TDovi[6], 0.141598, 0.873242);
+TextDrawAlignment(Cekijevi_TDovi[6], 1);
+TextDrawColor(Cekijevi_TDovi[6], -16776961);
+TextDrawSetShadow(Cekijevi_TDovi[6], 0);
+TextDrawSetOutline(Cekijevi_TDovi[6], -1);
+TextDrawBackgroundColor(Cekijevi_TDovi[6], 255);
+TextDrawFont(Cekijevi_TDovi[6], 0);
+TextDrawSetProportional(Cekijevi_TDovi[6], 1);
+ 
+Cekijevi_TDovi[7] = TextDrawCreate(379.199890, 428.435516, "<");
+TextDrawLetterSize(Cekijevi_TDovi[7], 0.141598, 0.873242);
+TextDrawAlignment(Cekijevi_TDovi[7], 1);
+TextDrawColor(Cekijevi_TDovi[7], -1);
+TextDrawSetShadow(Cekijevi_TDovi[7], 0);
+TextDrawSetOutline(Cekijevi_TDovi[7], -1);
+TextDrawBackgroundColor(Cekijevi_TDovi[7], 255);
+TextDrawFont(Cekijevi_TDovi[7], 0);
+TextDrawSetProportional(Cekijevi_TDovi[7], 1);
+ 
+Cekijevi_TDovi[8] = TextDrawCreate(297.399963, 409.364471, "ld_tatt:5cross2");
+TextDrawTextSize(Cekijevi_TDovi[8], 17.000000, 17.000000);
+TextDrawAlignment(Cekijevi_TDovi[8], 1);
+TextDrawColor(Cekijevi_TDovi[8], -2147483393);
+TextDrawSetShadow(Cekijevi_TDovi[8], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[8], 255);
+TextDrawFont(Cekijevi_TDovi[8], 4);
+TextDrawSetProportional(Cekijevi_TDovi[8], 0);
+ 
+Cekijevi_TDovi[9] = TextDrawCreate(517.400146, 116.968894, "LD_SPAC:white");
+TextDrawTextSize(Cekijevi_TDovi[9], 74.000000, 42.000000);
+TextDrawAlignment(Cekijevi_TDovi[9], 1);
+TextDrawColor(Cekijevi_TDovi[9], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[9], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[9], 255);
+TextDrawFont(Cekijevi_TDovi[9], 4);
+TextDrawSetProportional(Cekijevi_TDovi[9], 0);
+ 
+Cekijevi_TDovi[10] = TextDrawCreate(512.199951, 114.680007, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[10], 12.000000, 12.000000);
+TextDrawAlignment(Cekijevi_TDovi[10], 1);
+TextDrawColor(Cekijevi_TDovi[10], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[10], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[10], 255);
+TextDrawFont(Cekijevi_TDovi[10], 4);
+TextDrawSetProportional(Cekijevi_TDovi[10], 0);
+ 
+Cekijevi_TDovi[11] = TextDrawCreate(514.200195, 121.648941, "LD_SPAC:white");
+TextDrawTextSize(Cekijevi_TDovi[11], 7.000000, 32.000000);
+TextDrawAlignment(Cekijevi_TDovi[11], 1);
+TextDrawColor(Cekijevi_TDovi[11], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[11], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[11], 255);
+TextDrawFont(Cekijevi_TDovi[11], 4);
+TextDrawSetProportional(Cekijevi_TDovi[11], 0);
+ 
+Cekijevi_TDovi[12] = TextDrawCreate(512.199951, 149.026657, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[12], 12.000000, 12.000000);
+TextDrawAlignment(Cekijevi_TDovi[12], 1);
+TextDrawColor(Cekijevi_TDovi[12], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[12], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[12], 255);
+TextDrawFont(Cekijevi_TDovi[12], 4);
+TextDrawSetProportional(Cekijevi_TDovi[12], 0);
+ 
+Cekijevi_TDovi[13] = TextDrawCreate(584.999877, 149.026641, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[13], 12.000000, 12.000000);
+TextDrawAlignment(Cekijevi_TDovi[13], 1);
+TextDrawColor(Cekijevi_TDovi[13], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[13], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[13], 255);
+TextDrawFont(Cekijevi_TDovi[13], 4);
+TextDrawSetProportional(Cekijevi_TDovi[13], 0);
+ 
+Cekijevi_TDovi[14] = TextDrawCreate(588.200195, 120.653373, "LD_SPAC:white");
+TextDrawTextSize(Cekijevi_TDovi[14], 7.000000, 34.000000);
+TextDrawAlignment(Cekijevi_TDovi[14], 1);
+TextDrawColor(Cekijevi_TDovi[14], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[14], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[14], 255);
+TextDrawFont(Cekijevi_TDovi[14], 4);
+TextDrawSetProportional(Cekijevi_TDovi[14], 0);
+ 
+Cekijevi_TDovi[15] = TextDrawCreate(584.999938, 114.680015, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[15], 12.000000, 12.000000);
+TextDrawAlignment(Cekijevi_TDovi[15], 1);
+TextDrawColor(Cekijevi_TDovi[15], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[15], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[15], 255);
+TextDrawFont(Cekijevi_TDovi[15], 4);
+TextDrawSetProportional(Cekijevi_TDovi[15], 0);
+ 
+Cekijevi_TDovi[16] = TextDrawCreate(484.199981, 111.195571, "");
+TextDrawTextSize(Cekijevi_TDovi[16], 57.000000, 52.000000);
+TextDrawAlignment(Cekijevi_TDovi[16], 1);
+TextDrawColor(Cekijevi_TDovi[16], -1);
+TextDrawSetShadow(Cekijevi_TDovi[16], 0);
+TextDrawFont(Cekijevi_TDovi[16], 5);
+TextDrawSetProportional(Cekijevi_TDovi[16], 0);
+TextDrawSetPreviewModel(Cekijevi_TDovi[16], 294);
+TextDrawSetPreviewRot(Cekijevi_TDovi[16], 0.000000, 0.000000, -23.000000, 1.000000);
+ 
+Cekijevi_TDovi[17] = TextDrawCreate(526.599975, 124.137809, "LD_SPAC:white");
+TextDrawTextSize(Cekijevi_TDovi[17], 53.000000, 1.000000);
+TextDrawAlignment(Cekijevi_TDovi[17], 1);
+TextDrawColor(Cekijevi_TDovi[17], -2147483393);
+TextDrawSetShadow(Cekijevi_TDovi[17], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[17], 255);
+TextDrawFont(Cekijevi_TDovi[17], 4);
+TextDrawSetProportional(Cekijevi_TDovi[17], 0);
+ 
+Cekijevi_TDovi[18] = TextDrawCreate(534.799987, 118.319999, "Ime_Prezime");
+TextDrawLetterSize(Cekijevi_TDovi[18], 0.130399, 0.684086);
+TextDrawAlignment(Cekijevi_TDovi[18], 1);
+TextDrawColor(Cekijevi_TDovi[18], -1);
+TextDrawSetShadow(Cekijevi_TDovi[18], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[18], 255);
+TextDrawFont(Cekijevi_TDovi[18], 2);
+TextDrawSetProportional(Cekijevi_TDovi[18], 1);
+ 
+Cekijevi_TDovi[19] = TextDrawCreate(522.600097, 126.626655, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[19], 12.000000, 11.000000);
+TextDrawAlignment(Cekijevi_TDovi[19], 1);
+TextDrawColor(Cekijevi_TDovi[19], -2147483393);
+TextDrawSetShadow(Cekijevi_TDovi[19], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[19], 255);
+TextDrawFont(Cekijevi_TDovi[19], 4);
+TextDrawSetProportional(Cekijevi_TDovi[19], 0);
+ 
+Cekijevi_TDovi[20] = TextDrawCreate(523.800109, 126.128883, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[20], 9.000000, 9.000000);
+TextDrawAlignment(Cekijevi_TDovi[20], 1);
+TextDrawColor(Cekijevi_TDovi[20], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[20], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[20], 255);
+TextDrawFont(Cekijevi_TDovi[20], 4);
+TextDrawSetProportional(Cekijevi_TDovi[20], 0);
+ 
+Cekijevi_TDovi[21] = TextDrawCreate(537.999938, 128.773376, "100.000$");
+TextDrawLetterSize(Cekijevi_TDovi[21], 0.134397, 0.614399);
+TextDrawAlignment(Cekijevi_TDovi[21], 1);
+TextDrawColor(Cekijevi_TDovi[21], -1);
+TextDrawSetShadow(Cekijevi_TDovi[21], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[21], 255);
+TextDrawFont(Cekijevi_TDovi[21], 2);
+TextDrawSetProportional(Cekijevi_TDovi[21], 1);
+ 
+Cekijevi_TDovi[22] = TextDrawCreate(522.600158, 137.577743, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[22], 12.000000, 11.000000);
+TextDrawAlignment(Cekijevi_TDovi[22], 1);
+TextDrawColor(Cekijevi_TDovi[22], -2147483393);
+TextDrawSetShadow(Cekijevi_TDovi[22], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[22], 255);
+TextDrawFont(Cekijevi_TDovi[22], 4);
+TextDrawSetProportional(Cekijevi_TDovi[22], 0);
+ 
+Cekijevi_TDovi[23] = TextDrawCreate(525.399841, 138.075485, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[23], 9.000000, 9.000000);
+TextDrawAlignment(Cekijevi_TDovi[23], 1);
+TextDrawColor(Cekijevi_TDovi[23], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[23], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[23], 255);
+TextDrawFont(Cekijevi_TDovi[23], 4);
+TextDrawSetProportional(Cekijevi_TDovi[23], 0);
+ 
+Cekijevi_TDovi[24] = TextDrawCreate(542.400024, 139.724487, "100G");
+TextDrawLetterSize(Cekijevi_TDovi[24], 0.131595, 0.694042);
+TextDrawAlignment(Cekijevi_TDovi[24], 1);
+TextDrawColor(Cekijevi_TDovi[24], -1);
+TextDrawSetShadow(Cekijevi_TDovi[24], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[24], 255);
+TextDrawFont(Cekijevi_TDovi[24], 2);
+TextDrawSetProportional(Cekijevi_TDovi[24], 1);
+ 
+Cekijevi_TDovi[25] = TextDrawCreate(522.200134, 148.528823, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[25], 12.000000, 11.000000);
+TextDrawAlignment(Cekijevi_TDovi[25], 1);
+TextDrawColor(Cekijevi_TDovi[25], -2147483393);
+TextDrawSetShadow(Cekijevi_TDovi[25], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[25], 255);
+TextDrawFont(Cekijevi_TDovi[25], 4);
+TextDrawSetProportional(Cekijevi_TDovi[25], 0);
+ 
+Cekijevi_TDovi[26] = TextDrawCreate(523.799865, 150.519912, "ld_beat:chit");
+TextDrawTextSize(Cekijevi_TDovi[26], 9.000000, 9.000000);
+TextDrawAlignment(Cekijevi_TDovi[26], 1);
+TextDrawColor(Cekijevi_TDovi[26], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[26], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[26], 255);
+TextDrawFont(Cekijevi_TDovi[26], 4);
+TextDrawSetProportional(Cekijevi_TDovi[26], 0);
+ 
+Cekijevi_TDovi[27] = TextDrawCreate(546.400085, 149.680038, "1");
+TextDrawLetterSize(Cekijevi_TDovi[27], 0.261999, 0.644266);
+TextDrawAlignment(Cekijevi_TDovi[27], 1);
+TextDrawColor(Cekijevi_TDovi[27], -1);
+TextDrawSetShadow(Cekijevi_TDovi[27], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[27], 255);
+TextDrawFont(Cekijevi_TDovi[27], 2);
+TextDrawSetProportional(Cekijevi_TDovi[27], 1);
+ 
+Cekijevi_TDovi[28] = TextDrawCreate(577.400085, 7.657780, "LD_SPAC:white");
+TextDrawTextSize(Cekijevi_TDovi[28], 21.000000, 20.000000);
+TextDrawAlignment(Cekijevi_TDovi[28], 1);
+TextDrawColor(Cekijevi_TDovi[28], 555819519);
+TextDrawSetShadow(Cekijevi_TDovi[28], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[28], 255);
+TextDrawFont(Cekijevi_TDovi[28], 4);
+TextDrawSetProportional(Cekijevi_TDovi[28], 0);
+ 
+Cekijevi_TDovi[29] = TextDrawCreate(579.799865, 8.653322, "ld_tatt:5cross2");
+TextDrawTextSize(Cekijevi_TDovi[29], 17.000000, 19.000000);
+TextDrawAlignment(Cekijevi_TDovi[29], 1);
+TextDrawColor(Cekijevi_TDovi[29], -2147483393);
+TextDrawSetShadow(Cekijevi_TDovi[29], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[29], 255);
+TextDrawFont(Cekijevi_TDovi[29], 4);
+TextDrawSetProportional(Cekijevi_TDovi[29], 0);
+ 
+Cekijevi_TDovi[30] = TextDrawCreate(597.800170, 18.608877, "LD_SPAC:white");
+TextDrawTextSize(Cekijevi_TDovi[30], 31.000000, 8.000000);
+TextDrawAlignment(Cekijevi_TDovi[30], 1);
+TextDrawColor(Cekijevi_TDovi[30], -2147483393);
+TextDrawSetShadow(Cekijevi_TDovi[30], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[30], 255);
+TextDrawFont(Cekijevi_TDovi[30], 4);
+TextDrawSetProportional(Cekijevi_TDovi[30], 0);
+ 
+Cekijevi_TDovi[31] = TextDrawCreate(598.399841, 8.311105, "R");
+TextDrawLetterSize(Cekijevi_TDovi[31], 0.282398, 1.072355);
+TextDrawAlignment(Cekijevi_TDovi[31], 1);
+TextDrawColor(Cekijevi_TDovi[31], -1);
+TextDrawSetShadow(Cekijevi_TDovi[31], 0);
+TextDrawSetOutline(Cekijevi_TDovi[31], 1);
+TextDrawBackgroundColor(Cekijevi_TDovi[31], 255);
+TextDrawFont(Cekijevi_TDovi[31], 2);
+TextDrawSetProportional(Cekijevi_TDovi[31], 1);
+ 
+Cekijevi_TDovi[32] = TextDrawCreate(606.799987, 8.311096, "2023");
+TextDrawLetterSize(Cekijevi_TDovi[32], 0.171998, 1.052443);
+TextDrawTextSize(Cekijevi_TDovi[32], -100.000000, 0.000000);
+TextDrawAlignment(Cekijevi_TDovi[32], 1);
+TextDrawColor(Cekijevi_TDovi[32], -1);
+TextDrawSetShadow(Cekijevi_TDovi[32], 0);
+TextDrawSetOutline(Cekijevi_TDovi[32], 1);
+TextDrawBackgroundColor(Cekijevi_TDovi[32], 255);
+TextDrawFont(Cekijevi_TDovi[32], 2);
+TextDrawSetProportional(Cekijevi_TDovi[32], 1);
+ 
+Cekijevi_TDovi[33] = TextDrawCreate(600.000061, 18.266641, "R_O_S_E");
+TextDrawLetterSize(Cekijevi_TDovi[33], 0.184799, 0.798578);
+TextDrawAlignment(Cekijevi_TDovi[33], 1);
+TextDrawColor(Cekijevi_TDovi[33], 255);
+TextDrawSetShadow(Cekijevi_TDovi[33], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[33], 255);
+TextDrawFont(Cekijevi_TDovi[33], 2);
+TextDrawSetProportional(Cekijevi_TDovi[33], 1);
+ 
+Cekijevi_TDovi[34] = TextDrawCreate(579.200256, 9.804425, "box");
+TextDrawLetterSize(Cekijevi_TDovi[34], 0.000000, 1.839999);
+TextDrawTextSize(Cekijevi_TDovi[34], 629.000000, 0.000000);
+TextDrawAlignment(Cekijevi_TDovi[34], 1);
+TextDrawColor(Cekijevi_TDovi[34], -1);
+TextDrawUseBox(Cekijevi_TDovi[34], 1);
+TextDrawBoxColor(Cekijevi_TDovi[34], 714);
+TextDrawSetShadow(Cekijevi_TDovi[34], 0);
+TextDrawBackgroundColor(Cekijevi_TDovi[34], 255);
+TextDrawFont(Cekijevi_TDovi[34], 1);
+TextDrawSetProportional(Cekijevi_TDovi[34], 1);

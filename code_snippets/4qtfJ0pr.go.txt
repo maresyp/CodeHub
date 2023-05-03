@@ -1,0 +1,164 @@
+package main
+ 
+import (
+    "crypto/md5"
+    "encoding/hex"
+    "fmt"
+    "io"
+    "log"
+    "net/http"
+    "os"
+    "path/filepath"
+    "strconv"
+    "strings"
+    "time"
+)
+ 
+const cacheFolder = "cache"
+const secretKey = "YOUR_SECRET_KEY"
+ 
+type cacheFile struct {
+    path       string
+    modifiedAt time.Time
+}
+ 
+var cache = make(map[string]*cacheFile)
+ 
+func main() {
+    http.HandleFunc("/play", playHandler)
+    http.ListenAndServe(":3857", nil)
+}
+ 
+func playHandler(w http.ResponseWriter, r *http.Request) {
+    uri := r.URL.Query().Get("uri")
+    unixTimeStr := r.URL.Query().Get("time")
+    sign := r.URL.Query().Get("sign")
+ 
+    if uri == "" || unixTimeStr == "" || sign == "" {
+        http.Error(w, "Bad request", http.StatusBadRequest)
+        return
+    }
+ 
+    unixTime, err := strconv.ParseInt(unixTimeStr, 10, 64)
+    if err != nil {
+        http.Error(w, "Bad request", http.StatusBadRequest)
+        return
+    }
+ 
+    fileName := getFileName(uri)
+    if fileName == "" {
+        http.Error(w, "Bad request", http.StatusBadRequest)
+        return
+    }
+ 
+    cacheFile, ok := cache[fileName]
+    if ok && time.Since(cacheFile.modifiedAt).Seconds() < 3600 {
+        // Found in cache, play existing file
+        go playFile(cacheFile.path)
+        w.WriteHeader(http.StatusCreated)
+        fmt.Fprint(w, `{"success":true}`)
+        return
+    }
+ 
+    // Download file from uri
+    err = downloadFile(uri, fileName)
+    if err != nil {
+        http.Error(w, "Audio download error", 523)
+        return
+    }
+ 
+    // Validate sign
+    filePath := filepath.Join(cacheFolder, fileName)
+    fileMD5, err := getMD5(filePath)
+    if err != nil {
+        os.Remove(filePath)
+        http.Error(w, "Bad signature", http.StatusUnauthorized)
+        return
+    }
+ 
+    expectedSign := getSign(unixTime, fileMD5)
+    if expectedSign != sign {
+        http.Error(w, "Bad signature", http.StatusUnauthorized)
+        return
+    }
+ 
+    cache[fileName] = &cacheFile{
+        path:       filePath,
+        modifiedAt: time.Now(),
+    }
+ 
+    go playFile(filePath)
+ 
+    w.WriteHeader(http.StatusCreated)
+    fmt.Fprint(w, `{"success":true}`)
+}
+ 
+func downloadFile(uri, fileName string) error {
+    res, err := http.Get(uri)
+    if err != nil {
+        return err
+    }
+    defer res.Body.Close()
+ 
+    if res.StatusCode != http.StatusOK {
+        return fmt.Errorf("HTTP status %d", res.StatusCode)
+    }
+ 
+    filePath := filepath.Join(cacheFolder, fileName)
+    file, err := os.Create(filePath)
+    if err != nil {
+        return err
+    }
+    defer file.Close()
+ 
+    _, err = io.Copy(file, res.Body)
+    if err != nil {
+        os.Remove(filePath)
+        return err
+    }
+ 
+    return nil
+}
+ 
+func playFile(filePath string) {
+    err := playsound.PlaySound(filePath, 1)
+    if err != nil {
+        log.Println("Failed to play file:", err)
+    }
+}
+ 
+func getFileName(uri string) string {
+    if !strings.HasSuffix(uri, ".mp3") {
+        return ""
+    }
+ 
+    parts := strings.Split(uri, "/")
+    if len(parts) == 0 {
+        return ""
+    }
+ 
+    hasher := md5.New()
+    io.WriteString(hasher, parts[len(parts)-1])
+    return hex.EncodeToString(hasher.Sum(nil)) + ".mp3"
+}
+ 
+func getMD5(filePath string) (string, error) {
+    file, err := os.Open(filePath)
+    if err != nil {
+        return "", err
+    }
+    defer file.Close()
+ 
+    hasher := md5.New()
+    if _, err := io.Copy(hasher, file); err != nil {
+        return "", err
+    }
+ 
+    return hex.EncodeToString(hasher.Sum(nil)), nil
+}
+ 
+func getSign(unixTime int64, fileMD5 string) string {
+    hasher := md5.New()
+    io.WriteString(hasher, strconv.FormatInt(unixTime, 10)+fileMD5+secretKey)
+    return hex.EncodeToString(hasher.Sum(nil))
+}

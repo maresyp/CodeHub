@@ -1,0 +1,38 @@
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8981]: incoming reply 407
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|start|recieved tcp request ACK sip:1002@ucp.yulsip.com;transport=tcp
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|source 94.229.237.5:64910
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|from sip:1001@ucp.yulsip.com
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|to sip:1002@ucp.yulsip.com
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|rU 1002
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: WARNING:rr:after_strict: no socket found to match RR [2][ucp.yulsip.com:5060]
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: ---- Sequential request handler ---- 
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: ACK | Call-ID: a62a48768398448ab6b91451dcaf1db1 | FT: 04fa402966e14651984122bb0fd5658a | TT: mDtDZ0jp07BXc
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|start|recieved tcp request INVITE sip:1002@ucp.yulsip.com;transport=tcp
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|source 94.229.237.5:64910
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|from sip:1001@ucp.yulsip.com
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|to sip:1002@ucp.yulsip.com
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|rU 1002
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: new branch at sip:1002@ucp.yulsip.com;transport=tcp
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8982]: incoming reply 100
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8976]: incoming reply 200
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|start|recieved udp request ACK sip:1002@188.225.10.95:5060;transport=udp
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|source 94.229.237.5:64910
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|from sip:1001@ucp.yulsip.com
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|to sip:1002@ucp.yulsip.com
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: a62a48768398448ab6b91451dcaf1db1|log|rU 1002
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: ---- Sequential request handler ---- 
+May 30 13:46:24 ru-ucp1 /usr/sbin/opensips[8993]: ACK | Call-ID: a62a48768398448ab6b91451dcaf1db1 | FT: 04fa402966e14651984122bb0fd5658a | TT: NpK60U3SXg2Fr
+May 30 13:46:26 ru-ucp1 /usr/sbin/opensips[8975]: a62a48768398448ab6b91451dcaf1db1|start|recieved TCP request BYE sip:1001@10.10.12.50:64910;transport=TCP;ob
+May 30 13:46:26 ru-ucp1 /usr/sbin/opensips[8975]: a62a48768398448ab6b91451dcaf1db1|log|source 188.225.10.95:5060
+May 30 13:46:26 ru-ucp1 /usr/sbin/opensips[8975]: a62a48768398448ab6b91451dcaf1db1|log|from sip:1002@ucp.yulsip.com
+May 30 13:46:26 ru-ucp1 /usr/sbin/opensips[8975]: a62a48768398448ab6b91451dcaf1db1|log|to sip:1001@ucp.yulsip.com
+May 30 13:46:26 ru-ucp1 /usr/sbin/opensips[8975]: a62a48768398448ab6b91451dcaf1db1|log|rU 1001
+May 30 13:46:26 ru-ucp1 /usr/sbin/opensips[8975]: ---- Sequential request handler ---- 
+May 30 13:46:26 ru-ucp1 /usr/sbin/opensips[8975]: BYE | Call-ID: a62a48768398448ab6b91451dcaf1db1 | FT: NpK60U3SXg2Fr | TT: 04fa402966e14651984122bb0fd5658a
+May 30 13:46:27 ru-ucp1 /usr/sbin/opensips[8982]: a62a48768398448ab6b91451dcaf1db1|start|recieved TCP request BYE sip:1001@10.10.12.50:64910;transport=TCP;ob
+May 30 13:46:27 ru-ucp1 /usr/sbin/opensips[8982]: a62a48768398448ab6b91451dcaf1db1|log|source 188.225.10.95:5060
+May 30 13:46:27 ru-ucp1 /usr/sbin/opensips[8982]: a62a48768398448ab6b91451dcaf1db1|log|from sip:1002@ucp.yulsip.com
+May 30 13:46:27 ru-ucp1 /usr/sbin/opensips[8982]: a62a48768398448ab6b91451dcaf1db1|log|to sip:1001@ucp.yulsip.com
+May 30 13:46:27 ru-ucp1 /usr/sbin/opensips[8982]: a62a48768398448ab6b91451dcaf1db1|log|rU 1001
+May 30 13:46:27 ru-ucp1 /usr/sbin/opensips[8982]: ---- Sequential request handler ---- 
+May 30 13:46:27 ru-ucp1 /usr/sbin/opensips[8982]: BYE | Call-ID: a62a48768398448ab6b91451dcaf1db1 | FT: NpK60U3SXg2Fr | TT: 04fa402966e14651984122bb0fd5658a

@@ -1,0 +1,43 @@
+local function waitUntil(eventOrCondition, timeout)
+    local timedOut = Instance.new("BindableEvent")
+    local result = nil
+    
+    local eventConn
+    local waiting = true
+    local function fireTimedOut(bool)
+        timedOut:Fire(bool)
+        timedOut:Destroy()
+        waiting = false
+    end
+    
+    if typeof(eventOrCondition) == "RBXScriptSignal" then
+        eventConn = eventOrCondition:Connect(function(...)
+            eventConn:Disconnect()
+            result = {...}
+            fireTimedOut(false)
+        end)
+    else
+        task.spawn(function()
+            while not eventOrCondition and waiting do
+                task.wait()
+            end
+        end)
+    end
+    
+    task.delay(timeout, function()
+        if eventConn.Connected then
+            eventConn:Disconnect()
+            fireTimedOut(true)
+        end
+        
+    end)
+    
+    return timedOut.Event:Wait(), unpack(result or {})
+end
+ 
+-- Usage:
+local condition = false
+task.delay(2, function() condition = true end)
+print("waiting...")
+waitUntil(condition, 5)
+print("done")

@@ -1,0 +1,57 @@
+#include <algorithm>
+#include <vector>
+ 
+class Kruskal {
+ public:
+  struct Edge {
+    int x, y;
+    int weight;
+    bool operator<(const Edge& other) const { return weight < other.weight; }
+  };
+ 
+  std::pair<std::vector<Edge>, int> Solve(std::vector<Edge> edges) {
+    int cost = 0;
+    std::vector<Edge> result;
+    parent_.resize(edges.size());
+    rank_.resize(edges.size());
+    for (int i = 0; i < edges.size(); ++i) {
+      MakeSet(i);
+    }
+    std::sort(edges.begin(), edges.end());
+    for (const auto& e : edges) {
+      if (FindSet(e.x) != FindSet(e.y)) {
+        cost += e.weight;
+        result.push_back(e);
+        UnionSets(e.x, e.y);
+      }
+    }
+    return {result, cost};
+  }
+ 
+  void MakeSet(int v) { parent_[v] = v; }
+ 
+  int FindSet(int v) {
+    if (v == parent_[v]) {
+      return v;
+    }
+    return parent_[v] = FindSet(parent_[v]);
+  }
+ 
+  void UnionSets(int a, int b) {
+    a = FindSet(a);
+    b = FindSet(b);
+    if (a != b) {
+      if (rank_[a] < rank_[b]) {
+        std::swap(a, b);
+      }
+      parent_[b] = a;
+      if (rank_[a] == rank_[b]) {
+        ++rank_[a];
+      }
+    }
+  }
+ 
+ private:
+  std::vector<int> parent_;
+  std::vector<int> rank_;
+};

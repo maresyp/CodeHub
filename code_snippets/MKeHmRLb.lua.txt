@@ -1,0 +1,3 @@
+reckoning:
+694 = Sex
+Secret vent next to security glass near gun (load it with C-4)

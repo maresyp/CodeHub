@@ -1,0 +1,18 @@
+add_action('wp_enqueue_scripts', function () {
+    ob_start();
+    ?>
+    <script>
+        (function($) {
+            $('#is_catalog').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#is_virtual').prop('checked', true).trigger('change');
+                    $('#disable_add_to_cart, #disable_price').prop('checked', true);
+                }
+            });
+        })(jQuery);
+    </script>
+    <?php
+    $script = ob_get_clean();
+ 
+    wp_add_inline_script('wcfm_products_manage_js', $script, 'after');
+}, 999);

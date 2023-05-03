@@ -1,0 +1,134 @@
+#include <a_samp>
+#include <streamer>
+#include <Pawn.CMD>
+ 
+ 
+enum e_MOVE_OBJECT_DATA
+{
+    MO_modelID,
+    MO_objectName,
+    MO_minuteToReturnPosition,
+ 
+    Float:MO_movingSpeedObject,
+    Float:MO_distanceToObject,
+ 
+    Float:MO_crdPosX_start,
+    Float:MO_crdPosY_start,
+    Float:MO_crdPosZ_start,
+ 
+    Float:MO_crdRotX_start,
+    Float:MO_crdRotY_start,
+    Float:MO_crdRotZ_start,
+ 
+    Float:MO_crdPosX_end,
+    Float:MO_crdPosY_end,
+    Float:MO_crdPosZ_end,
+ 
+    Float:MO_crdRotX_end,
+    Float:MO_crdRotY_end,
+    Float:MO_crdRotZ_end
+}
+ 
+enum
+{
+    MO_LSPD_BARRIER,
+    MO_SFPD_BARRIER_FRONT,
+    MO_SFPD_BARRIER_BACK
+}
+ 
+static const _moObject[][e_MOVE_OBJECT_DATA] =
+{
+ 
+    {968, MO_LSPD_BARRIER, 10, 0.12, 7.0,
+    1544.6879, -1630.79395, 13.00,  0.00, 88.0, 89.999,
+    1544.6879, -1630.79395, 13.00,  0.00, 359.995, 89.995
+    },
+    {968, MO_SFPD_BARRIER_FRONT, 10, 0.12, 7.0,
+    -1572.20398, 658.755, 6.861,    0.00, 90.0, 90.0,
+    -1572.20398, 658.755, 6.861,    0.00, 358.0, 90.0}
+    ,
+    {968, MO_SFPD_BARRIER_BACK, 10, 0.12, 7.0,
+    -1701.45801, 687.55798, 24.586, 0.00, 270.75, 90.0,
+    -1701.45801, 687.55798, 24.586, 0.00, 359.247, 89.995}
+ 
+};
+ 
+const
+    moOBJECT_COUNT = sizeof(_moObject);
+ 
+static
+    mObjectSID       [moOBJECT_COUNT],
+    mObjectStatus    [moOBJECT_COUNT],
+    mObjectTimer     [moOBJECT_COUNT];
+ 
+ 
+public OnFilterScriptInit()
+{ 
+    for(new mobjectid; mobjectid < moOBJECT_COUNT; mobjectid++)
+    {
+        mObjectSID[mobjectid] = CreateDynamicObject(
+        _moObject[mobjectid][MO_modelID],
+        _moObject[mobjectid][MO_crdPosX_start], _moObject[mobjectid][MO_crdPosY_start], _moObject[mobjectid][MO_crdPosZ_start],
+        _moObject[mobjectid][MO_crdRotX_start], _moObject[mobjectid][MO_crdRotY_start], _moObject[mobjectid][MO_crdRotZ_start],
+        -1, -1, -1, 300, 300);
+        mObjectStatus[mobjectid] = false;
+    }
+    return 1;
+}
+ 
+public OnFilterScriptExit()
+{
+    for(new mobjectid; mobjectid < moOBJECT_COUNT; mobjectid++)
+    {
+        KillTimer(mObjectTimer[mobjectid]);
+        DestroyDynamicObject(mObjectSID[mobjectid]);
+        mObjectSID      [mobjectid] = INVALID_OBJECT_ID;
+        mObjectStatus       [mobjectid] = -1;
+    }
+    return 1;
+}
+ 
+ 
+forward MO_gFuncObjectGo(mobjectid);
+public MO_gFuncObjectGo(mobjectid)
+{
+    MoveDynamicObject(mobjectid,
+        _moObject[mobjectid][MO_crdPosX_end], _moObject[mobjectid][MO_crdPosY_end], _moObject[mobjectid][MO_crdPosZ_end] + 0.004,
+        _moObject[mobjectid][MO_movingSpeedObject],
+        _moObject[mobjectid][MO_crdRotX_end], _moObject[mobjectid][MO_crdRotY_end], _moObject[mobjectid][MO_crdRotZ_end]), mObjectStatus[mobjectid] = true;
+ 
+    mObjectTimer[mobjectid] = SetTimerEx("MO_gFuncObjectBack", 1000 * _moObject[mobjectid][MO_minuteToReturnPosition], false, "d", mobjectid);
+}
+ 
+forward MO_gFuncObjectBack(mobjectid);
+public MO_gFuncObjectBack(mobjectid)
+{
+    MoveDynamicObject(mobjectid,
+        _moObject[mobjectid][MO_crdPosX_start], _moObject[mobjectid][MO_crdPosY_start], _moObject[mobjectid][MO_crdPosZ_start] - 0.004,
+        _moObject[mobjectid][MO_movingSpeedObject],
+        _moObject[mobjectid][MO_crdRotX_start], _moObject[mobjectid][MO_crdRotY_start], _moObject[mobjectid][MO_crdRotZ_start]), mObjectStatus[mobjectid] = false;
+     
+    KillTimer(mObjectTimer[mobjectid]);
+    return true;
+}
+ 
+ 
+cmd:move(playerid)
+{
+    for(new mobjectid; mobjectid < moOBJECT_COUNT; mobjectid++ )
+    {
+        if(IsPlayerInRangeOfPoint(playerid, _moObject[mobjectid][MO_distanceToObject], _moObject[mobjectid][MO_crdPosX_start], _moObject[mobjectid][MO_crdPosY_start], _moObject[mobjectid][MO_crdPosZ_start]))
+        { 
+            if(mObjectStatus[mobjectid]) return SendClientMessage(playerid, -1, "Объект уже передвигается или находится в конечной точке");
+         
+            /* Пример проверки
+            if(_moObject[mobjectid][MO_macros] == MO_LSPD_BARRIER && _pInfo[playerid][pMember] != MEMBER_LSPD)
+                return SendClientMessage(playerid, -1, "Вы не являетесь сотрудником полицнйского департамента города Лос-Сантос");
+            */
+         
+            MO_gFuncObjectGo(mObjectSID[mobjectid]);
+            return true;
+        }
+    }
+    return true;
+}

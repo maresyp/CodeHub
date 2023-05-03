@@ -1,0 +1,107 @@
+-- Function to check and refuel the turtle
+function checkFuel()
+    for i = 1, 16 do
+        if turtle.getItemCount(i) > 0 then
+            turtle.select(i)
+            if turtle.refuel(0) then
+                turtle.refuel()
+            end
+        end
+    end
+end
+ 
+-- Function to move forward and place block
+function placeBlock(blockType)
+    checkFuel()
+    turtle.forward()
+ 
+    if blockType ~= "0" then
+        turtle.select(tonumber(blockType))
+        turtle.placeDown()
+    end
+end
+ 
+-- Function to build a single layer
+function buildLayer(layer)
+    local last_row = #layer
+    for y, row in ipairs(layer) do
+        for x, blockType in ipairs(row) do
+            if x ~= 1 then
+                placeBlock(blockType)
+            end
+        end
+ 
+        if y ~= last_row then
+            if y % 2 == 1 then
+                turtle.turnRight()
+                placeBlock(layer[y+1][1])
+                turtle.turnRight()
+            else
+                turtle.turnLeft()
+                placeBlock(layer[y+1][1])
+                turtle.turnLeft()
+            end
+        end
+    end
+end
+ 
+-- Function to parse the input file
+function parseFile(filename)
+    local file = fs.open(filename, "r")
+    local layers = {}
+    local layer = {}
+ 
+    for line in file.readLine do
+        if line == "" then
+            table.insert(layers, layer)
+            layer = {}
+        else
+            local row = {}
+            for blockType in string.gmatch(line, "%d+") do
+                table.insert(row, blockType)
+            end
+            table.insert(layer, row)
+        end
+    end
+ 
+    if #layer > 0 then
+        table.insert(layers, layer)
+    end
+ 
+    file.close()
+ 
+    return layers
+end
+ 
+-- Main program
+local filename = "structure.txt"  -- Replace with the name of your file
+local layers = parseFile(filename)
+ 
+-- Move the turtle up before starting
+checkFuel()
+turtle.up()
+ 
+for _, layer in ipairs(layers) do
+    buildLayer(layer)
+ 
+    -- Move the turtle up for the next layer
+    checkFuel()
+    turtle.up()
+ 
+    -- Reset the turtle's position and orientation based on pattern size
+    local layerDepth = #layer[1]
+    local layerWidth = #layer[1][1]
+ 
+    for i = 1, layerDepth - 1 do
+        turtle.back()
+    end
+ 
+    for i = 1, layerWidth - 1 do
+        turtle.forward()
+    end
+ 
+    if layerDepth % 2 == 0 then
+        turtle.turnLeft()
+        turtle.turnLeft()
+    end
+end

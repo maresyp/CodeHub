@@ -1,0 +1,32 @@
+import socket
+import requests
+import os
+ 
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+ 
+key = 2461294712
+ 
+ip = socket.gethostbyname_ex(socket.gethostname())[-1][-1]
+port = 20876701747184/key
+ 
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((ip, int(port)))
+ 
+def send_messages():
+    while True:
+        text = input('Message to server: ').encode('utf-8')
+        if not text:
+            ans = input('\nDo you want to exit(y/n): ')
+            if ans.lower() == 'y':
+                client.send('EXITINGFROMCONNECTION'.encode('utf-8'))
+                break
+            else:
+                continue
+        client.send(text)
+    client.close()
+ 
+def main():
+    pass
+ 
+if __name__ == "__main__":
+    main()

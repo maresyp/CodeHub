@@ -1,0 +1,115 @@
+DiscoDude: ---BEGIN SESSION---
+DiscoDude: Session logging commenced
+GM: > APD Station, 9:25p.m.
+It's close to punch-out time at the station as the three of you enter the interrogation wing. One of your colleagues, a human member of the brass named Miranda, walks up to you.
+"This Haffner guy's ready to be processed, but I'm hearing you want to do an interrogation? He's going away for sure just for what he did tonight - dunno for how long, but he will - but you sure you got enough to connect him to your guy in the limo?"
+GM: (How does the <@&730993990769573898> respond?)
+Harry: "There's circumstantial evidence suggesting he's at least involved. The girl is the connection." He queues up a pic of Candy on his phone and shows it to her.
+Harry: "We also have reason to suspect motive."
+Andie: Andie scratches the back of her neck, hoping that Harry's convincing enough.
+GM: "Well... alright. This guy doesn't seem too bright, so maybe a plausible theory and this girl's word are enough. You'll probably need something more substantial against anyone else, for future reference. I'll be watching outside." She looks over all three of you. "Which one of y'all gonna be there with me? It's against the rules to sic more than two guys on one suspect in there - not without them getting a lawyer, anyway."
+Andie: "Nor's good cop and Harry's bad cop so," Andie says before happily taking Miranda's side.
+Harry: puts a hand on Nor's shoulder. "Your time to shine, kid."
+Norwick: Norwick looks around, "Yeah so, just get info out of him, seems simple enough."
+GM: (I assume <@!Harry> and <@!Norwick> both head in?)
+Norwick: (yup)
+Harry: "Shouldn't be too hard, me bein' the bad cop. You up to play good cop, I hope?"
+GM: The two of you head into the blue mood-lit interrogation room. The aquarium scene projecting on this side of the one-way mirror screen was holding Haffner's attention until he heard the door open. He snarls, but he's firmly cuffed to his chair.
+"Oh, gooooood, it's you fuckers again."
+Andie and Miranda see all of this play out on the other side of the "aquarium." (The funding for that little decoration could have totally been used for something more practical, of course - took everything to stop those resort architects from making even the holding cells into 5-star accommodations.)
+GM: - CONTEST START: HARRY & NORWICK vs. HAFFNER -
+A.P.D: [ ][ ][ ]
+HAFFNER: [ ][ ][ ]
+Harry: idly prods one of the virtual fish on the screen, then takes his seat across from Haffner. "Yep. Just can't get rid of us, it looks like."
+GM: "Well? What is it you fockers want? You can't keep me here, you know! You got nothin'! What're you even charging me with? Better be good, else I'm out! I'll even get a friend from the militia to pick me up - they know what's up around these parts."
+Harry: "Oh, we can absolutely keep you here," Harry says, elbows on the table, fingers steepled. "Your little show at the Hot Flamingo's gonna cost you. One way or another, the next place you're goin' is a cell. What kind of cell depends entirely on how this conversation goes."
+GM: "Ya got eh... what was it... jurisdiction or whatever? That's the militia's turf, ya posh! If they got issue, they take it up."
+GM: (If you're making a direct Overcome roll for this exchange, I suppose now's when you roll it.)
+Harry: "I don't need jurisdiction, punk. I can get you on assaulting an officer, first and foremost. Three counts."
+Harry: (think this counts for Clever?)
+GM: (The way you're flavoring sounds more FORCEFUL (and it doesn't take a genius to point that out to him).)
+Harry: (fair enough, let's do that)
+Harry: (it's +2 either way)
+Harry: !f 2
+DiscoDude: <@Harry> rolled 4dF+2 for 1 [4dF = [-][+][ ][-]]
+GM: !f 0 (POSTURING)
+DiscoDude: <@GM> rolled 4dF+0 for -2 [4dF = [ ][ ][-][-]]
+Harry: (PFFT)
+GM: (Oof. I'm going to invoke his point on the militia's jurisdiction by way of his character aspect, Minor Connections to the Militia, to keep it from a SWS.)
+Harry: (can i spend a FATE on my high concept to reinstate the SWS? :3)
+GM: (I mean, if you want this scene to be much shorter...)
+Harry: (why not XD)
+Harry: (this guy gave us enough trouble last session~)
+GM: (Note to self; don't throw physical fight scenes at my players right before the mental battle. XD)
+GM: (Well, I'm invoking a world aspect, No Respect for the In-Betweens, to make him not crack as much.)
+Harry: (all right~)
+GM: (For the record, though, here is where you can invoke clue aspects.)
+Harry: (ah heck, let's do that, I'll spend another FATE on [Threats Against Candy])
+GM: (Aha, so how does Harry present that evidence?)
+Harry: "What about the girl? Your militia buddies look kindly on you harassing an innocent waitress?" He says this in a tone implying Haffner has forgotten something obvious.
+GM: "What! So she- Fuck you! She- She better not pressed charges with you, she... Fuck, she wouldn't... She wouldn't... That'd be just..." You'd swear he was trying to break the cuffs holding him to his chair.
+GM: A.P.D: [!] [!] [ ]
+HAFFNER: [ ] [ ] [ ]
+GM: His gaze shoots toward you, <@!Norwick>, with a pleading expression. "You... You don't got anything though, do you? If she said anything... That's just her word, right?" He's starting to regain some of his swagger. "You don't actually got uh... evidence that I even did anything. Not even Candy knows if I actually did nothin'."
+Harry: says nothing, just sits back and lets Nor take center stage for this one.
+Norwick: Norwick looks at Haffner, "Well, she did tell me something, but why should I tell you. We're the ones interrogating you, not the other way around." He says, making a bluff to make him spill the beans.
+GM: "Wha- So I don't even get to know what you're asking me about?! What the fuck!"
+Harry: smirks a little, as much as he can get away with while Haffner's eyes are on Nor.
+GM: !f 2 (BARING TEETH)
+DiscoDude: <@GM> rolled 4dF+2 for 0 [4dF = [-][ ][-][ ]]
+Norwick: (Should I roll Flashy?)
+Norwick: (Since, well, that's what exactly what this is for)
+GM: (SNEAKY is easier to justify with how you flavored it here. FLASHY's more for seduction, outgoing friendliness, and other forms of rapport. You gotta keep the "how" of what you're doing in mind.)
+Norwick: (Gotcha)
+Norwick: !f 2
+DiscoDude: <@Norwick> rolled 4dF+2 for 5 [4dF = [ ][+][+][+]]
+Norwick: 👀
+Harry: (CRUSHED)
+Andie: (smooth)
+GM: (Well never mind, then - no way I'm coming back from that with my one remaining fate point.)
+GM: (Of course, it seems you didn't even need to present the murder weapon - the one he was in a position to swipe - to get him to spill the beans. XD)
+GM: Miranda isn't smiling, back in the room you're in, <@!Andie>. She reaches for a microphone, and all three of you hear in your earpieces:
+"I mean, he's not wrong; refusing to tell a suspect why he's being questioned, or even what the question is, is... Well, it violates some kinda rights, though I can't remember which. I'm kinda curious what this is specifically about, myself-"
+"Stop fucking with me!" Haffner starts thrashing against his restraints. "You already know, don't you?! You already found my spot under the coast, didn't you! Is this some kind of sick game, then?! Or do you not know who's paying me?! Well I'm not talking!"
+Harry: "Thank you for your time, Mr. Haffner," Harry says, a bit mockingly, standing up. "I'm sure your little spot on the coast will tell us everything we need to know about whose payroll you're on." He turns towards the door. "You dumbass," he adds.
+Andie: Andie's been smugly smiling herself the entire time before Miranda's announcement. Then she forces said smile away, definitely able to recall which rights she's referring to.
+GM: A.P.D:            [!] [!] [!]
+HAFFNER:    [ ] [ ] [ ]
+Norwick: Norwick walks off with Harry, "If we need more info we'll come in again, see ya around, Haffner."
+GM: Miranda's waiting for you both outside. She doesn't look happy.
+"That was low, you two. Do I gotta explain why?"
+Norwick: Norwick shrugs a bit, "Because we didn't do it by the books?"
+GM: "Didn't do it by-" Miranda's voice catches in disbelief. "See me in my office, both of you." She gestures to both of you and heads off.
+GM: (Translation; "not by the books" is uh... certainly putting it lightly. ^^;)
+Harry: "For the record, kid, I'm goin' along to support you, but." He sighs. "You know what a lawyer is, right? Shit like what you just pulled, it's ambrosia to them." He shudders, as if he's preparing himself to face a nest of lawyers right this instant.
+Norwick: Norwick blinks, "He had the right to remain silent, and the right to a lawyer. He could have just said he wanted a lawyer and not spoke. Not my fault." He shrugs.
+Harry: "Fair enough. Here's hoping that's how it shakes out."
+GM: Like everywhere else in the station, Miranda's office certainly looks swanky, though one has to wonder what that budget could have otherwise been invested in.
+"Alright... We're alone. No one else can hear us. That means I don't have to hold back on your asses about how that interrogation was fucked up. If even a public defender got ahold of Haffner as things stand now, your asses would be grass! Suspension would be the best-case scenario! You should count your blessings that there aren't any public defenders out here just yet! That had to have been, what, 90% coercion, 10% actual facts and questions?"
+Harry: "If you're gonna walk my road, kid," Harry says quietly to Nor, "you're gonna have to get used to these."
+Norwick: "Isn't interrogating just coercing info out from somebody? We got our info, what we didn't do was state his rights." He shrugs.
+Norwick: "Right to remain silent, right to a lawyer." He says.
+GM: "That, and apparently even telling him why you brought him into the interrogation room, or maybe what your question was. All this should be the most basic-ass thing literally no-one should screw up! Could you imagine how it would feel to be on the receiving end of that? Just having two pigs walk in, give you knowing looks and making vague threats without even telling you what they want out of you?"
+She sighs.
+"This... I told myself I was going to forgive the occasional renegade move. I really didn't see myself doing one of those classic "you're out of line" rants - I get it, the fact that we're even here means each of us are already in hot water, so I was planning to be lenient - but this..." She shakes her finger, trying to find the words. "This is more than renegade. That was corrupt shit you pulled in there."
+Norwick: "Hey, I mean, police used to deprive people of food and water, and beat them with rubber hoses, things just went psychological." He shrugs, "Not my fault he started going off and Harry didn't give the spiel beforehand." He rolls his eyes a bit, "This isn't even that bad."
+GM: "That... Was that supposed to convince me you were in the right?! They don't do that anymore, because people realized it was horrible and made rules against it! I'm tempted to suspend you right here and now until you're no longer a walking lawsuit target! You realize he can press charges against you, right?"
+Harry: "Give the kid a break," Harry mutters. "He's new."
+Harry: He agrees with Miranda more than he'd care to admit, but he's not about to simply throw Nor under the bus.
+GM: "New?! I'm surprised he graduated! He violated basic decency in there! At least you tried to tell Haffner, oh, anything of what the hell was going on!"
+Norwick: "What I violated was not giving him his Miranda Rights, what I did wasn't really a violation. I simply withheld information on what Candy said to me. I didn't withheld why he was being interrogated."
+Norwick: "He didn't ask why he was, he asked if Candy said anything to me. Was that a question on why he was being interrogated? Was it?" He says, giving a glare.
+GM: "He shouldn't have to ask for that sort of basic information! And you can't just write off forgetting to tell him his Miranda Rights like it was no big deal!"
+Norwick: "He asked about Candy! He didn't ask about why he was being interrogated! The Miranda Rights do fall on me and Harry, yes. But never did he ask why, to me." He snaps back.
+GM: "Yeah, he didn't, and you should have told him anyway. That's common decency!"
+Norwick: Norwick groans, "You're bagging me about Miranda Rights here! Harry was the first one to talk! Bag him!"
+Harry: "By all means, do," Harry says, shrugging. "You take a look at my record; an incident like this is barely going to make a mark."
+GM: "I'm not bagging anyone here! I'm giving you both your one warning. I'm not asking you to be absolute model cops here, but you're so, so lucky Haffner isn't smarter, or has a lawyer. I'm betting if something on this level happens again, you will face consequences. If you understand that, then you can leave; get out of my office and punch out. Do you understand?"
+Norwick: Norwick is heading for the door, "Yeah yeah, Miranda Rights first, then do the interrogation. Yeah." He waves, "Let's go Harry."
+Harry: Harry gives Miranda an uncharacteristically apologetic look, then leaves with Nor.
+GM: (I'm about mentally done for tonight. You guys want to have <@!Andie> confront you outside about how it went as one last brief exchange, or should we just end it here?)
+Harry: (sure, let's bring in <@!Andie>)
+Harry: (she has had...literally nothing to do this sesh ^^; )
+GM: (Sorry about that.)
+Andie: (It's all good)
+GM: !end

@@ -1,0 +1,9 @@
+#shell user
+adb shell -t 'export HOME="/data/local/tmp";busybox sh'
+ 
+#start as root
+adb shell -t 'su -c "export HOME=/data/local/tmp;busybox sh"'
+ 
+#aliases
+alias adbsu="adb shell -t 'su -c \"export HOME=/data/local/tmp;busybox sh\"'"        
+alias adbshell="adb shell -t 'export HOME=/data/local/tmp;busybox sh'"

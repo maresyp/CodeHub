@@ -1,0 +1,12 @@
+#!/bin/bash
+ 
+# Save the command-line arguments passed to the script
+args="$@"
+ 
+module load singularity
+ 
+# Specify location to python on the singularity container
+singularity_python_interpreter="/opt/ohpc/pub/libs/singularity/3.4.1/bin/singularity exec --nv /opt/itu/containers/tensorflow/latest python"
+ 
+# Execute python using a node with GPU
+srun --cpus-per-task=2 --time=10:00:00 --partition=brown --gres=gpu:1 $singularity_python_interpreter $args

@@ -1,0 +1,16 @@
+React
+Regular React components have two kinds of data: props and state.
+props are the inputs to the component and cannot be changed by the component (the callee) but can be changed by the caller which will then lead to a rerendering of the callee. In other words: A component (A) containing another component (B) can change B's arguments, B's props and this will lead to an automatic rerendering of B. props are the highest quality of data and all data that can go into props, should go into props. The reason for this is that props is the data that is easiest to reason about.
+Secondly, React has state. This state can be manipulated anywhere in the React code and a change to state will also lead to a rerendering of the component. 
+By using Redux, a library/wrapper that we use, React components gain a third kind of data: storage. The idea is that this storage is accessible to all components. It can be read from by  the use of the functions connect and mapStateToProps and it can be written to using the call dispatch. The Redux storage should be used when state manipulations become too advanced and span over too many components. The specific rule that we should follow is that prop drilling at levels higher than 1 (passing callback functions to manipulate state further down than to the child-components) must be avoided. And this is avoided by writing and reading from the global state instead.
+For React, we follow use tslint by Palantir, and we follow:
+https://react-styleguidist.js.org/
+Types in the Frontend
+For arbitrary precision and size numbers we use the decimal.js npm package. All balances and credit/debit amounts should be handled in Decimal.
+All other numbers can be number (which is a 64-bit float, AKA double) or Decimal. For now, we communicate these numbers to the frontend
+through strings but if a better way is found, this would be great.
+JSON Serialization
+Model binding in JavaScript is case sensitive meaning that the interfaces defined in TypeScript must match the data contract classes that are defined in C#.
+However, the standard behavior when ASP .NET Core serializes an object is to convert field names from Pascal case to camel case (NewTransactions become newTransactions).
+This means that the casing used in the frontend MUST match that in the backend but that the first letter of a field name in the frontend must be small.
+The JS runtime will not thrown an error if it cannot find a field value in the JSON string. It will instead set the field value to undefined.

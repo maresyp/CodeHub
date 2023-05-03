@@ -1,0 +1,8 @@
+local args = {[1] = "ClickMultiplier"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)
+local args = {[1] = "RebirthButtons"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)
+local args = {[1] = "WalkSpeed"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)
+local args = {[1] = "GemsMultiplier"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)
+local args = {[1] = "PetEquip"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)
+local args = {[1] = "PetStorage"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)
+local args = {[1] = "LuckMultiplier"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)
+local args = {[1] = "FasterFreeAutoClicker"} game:GetService("ReplicatedStorage").Functions.Upgrade:InvokeServer(unpack(args)) wait(0.1)

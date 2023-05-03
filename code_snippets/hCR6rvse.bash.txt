@@ -1,0 +1,64 @@
+#! /bin/bash
+# eascpe from censorship , mpv is required.
+ 
+playm3u="https://raw.githubusercontent.com/ChiSheng9/iptv/master"
+bloomberg="https://www.bloomberg.com/media-manifest/streams/asia.m3u8"
+menu(){
+        clear
+        cat <<EOT
+        1) 三立inews
+        2) 寰宇新聞台
+        3) 東森財經新聞HD
+        4) EF運通
+        5) DW News ENG
+        6) 中視新聞HD
+        7) ABC News
+        8) CNA
+        9) 民視新聞台HD
+        10) 新唐人亞太
+        11) France24 ENG
+        12) 中天新聞2
+        13) HTB News24 Japan
+        14) 鏡新聞
+        15) Bloomberg Asia
+        16) 華視CTS HD
+    17) 新唐人亞太台
+    18) 三立新聞HD
+    19) 台視新聞HD
+        q) 退出
+EOT
+ 
+printf "Which TV choice: "
+read 
+}
+#change your http proxy as below line 
+proxy="--stream-lavf-o-append=http_proxy=http://192.168.31.183:8118"
+buffer="--stream-buffer-size=100MiB"
+while : ; do
+        menu
+        case "$REPLY" in
+                1) eval mpv "$proxy" "$buffer" "$playm3u"/TV01.m3u8 ;;
+                2) eval mpv "$proxy" "$buffer" "$playm3u"/TV02.m3u8 ;;
+                3) eval mpv "$proxy" "$buffer" "$playm3u"/TV03.m3u8 ;;
+                4) eval mpv "$proxy" "$buffer" "$playm3u"/TV06.m3u8 ;;
+                5) eval mpv "$proxy" "$buffer" "$playm3u"/TV08.m3u8 ;;
+                6) eval mpv "$proxy" "$buffer" "$playm3u"/TV09.m3u8 ;;
+                7) eval mpv "$proxy" "$buffer" "$playm3u"/TV11.m3u8 ;;
+                8) eval mpv "$proxy" "$buffer" "$playm3u"/TV16.m3u8 ;;
+                9) eval mpv "$proxy" "$buffer" "$playm3u"/TV17.m3u8 ;;
+                10) eval mpv "$proxy" "$buffer" "$playm3u"/TV23.m3u8 ;;
+                11) eval mpv "$proxy" "$buffer" "$playm3u"/TV38.m3u8 ;;
+                12) eval mpv "$proxy" "$buffer" "$playm3u"/TV49.m3u8 ;;
+                13) eval mpv "$proxy" "$buffer" "$playm3u"/TV53.m3u8 ;;
+                14) eval mpv "$proxy" "$buffer" "$playm3u"/TV70.m3u8 ;;
+                15) eval mpv "$proxy" "$buffer" "$bloomberg" ;;
+                16) eval mpv "$proxy" "$buffer" "$playm3u/TV12.m3u8" ;;
+        17) eval mpv "$proxy" "$buffer" "$playm3u/TV23.m3u8" ;;
+        18) eval mpv "$proxy" "$buffer" "$playm3u/TV32.m3u8" ;;
+        19) eval mpv "$proxy" "$buffer" "$playm3u/TV25.m3u8" ;;
+                q) break ;;
+                *) echo "Unknown choice?" >&2 ; sleep 0.5 ;;
+        esac
+done
+ 
+exit 0

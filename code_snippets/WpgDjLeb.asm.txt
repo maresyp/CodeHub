@@ -1,0 +1,303 @@
+000 | 00007FF7861711C9 | E8 A2FEFFFF              | call <winlicense_test_protected.fletche | rax: 1-> 1 rbx: 18D5260CBC0-> 18D5260CBC0 rcx: 7F | 00000019E37BF7F8: 7FF7861711BF-> 7FF7861711CE     |
+001 | 00007FF786171070 | E9 92C63000              | jmp winlicense_test_protected.7FF78647D |                                                   |                                                   |
+002 | 00007FF78647D707 | E9 71650000              | jmp winlicense_test_protected.7FF786483 |                                                   |                                                   |
+003 | 00007FF786483C7D | E9 7FCC3800              | jmp winlicense_test_protected.7FF786810 |                                                   |                                                   |
+004 | 00007FF786810901 | 48:83EC 08               | sub rsp,8                               | rsp: 19E37BF7F8-> 19E37BF7F0                      |                                                   |
+005 | 00007FF786810905 | 48:893C24                | mov qword ptr ss:[rsp],rdi              |                                                   | 00000019E37BF7F0: 18D525FE370-> 18D525FE370       |
+006 | 00007FF786810909 | 57                       | push rdi                                | rsp: 19E37BF7F0-> 19E37BF7E8                      | 00000019E37BF7E8: 0-> 18D525FE370                 |
+007 | 00007FF78681090A | 41:51                    | push r9                                 | rsp: 19E37BF7E8-> 19E37BF7E0                      | 00000019E37BF7E0: 18D525FE370-> 7FF786178000      |
+008 | 00007FF78681090C | 49:B9 81813B6B00000000   | mov r9,6B3B8181                         | r9: 7FF786178000-> 6B3B8181                       |                                                   |
+009 | 00007FF786810916 | 4C:314C24 08             | xor qword ptr ss:[rsp+8],r9             |                                                   | 00000019E37BF7E8: 18D525FE370-> 18D396462F1       |
+00A | 00007FF78681091B | 41:59                    | pop r9                                  | rsp: 19E37BF7E0-> 19E37BF7E8 r9: 6B3B8181-> 7FF78 | 00000019E37BF7E0: 7FF786178000-> 7FF786178000     |
+00B | 00007FF78681091D | 5F                       | pop rdi                                 | rsp: 19E37BF7E8-> 19E37BF7F0 rdi: 18D525FE370-> 1 | 00000019E37BF7E8: 18D396462F1-> 18D396462F1       |
+00C | 00007FF78681091E | 48:81F7 81813B6B         | xor rdi,6B3B8181                        | rdi: 18D396462F1-> 18D525FE370                    |                                                   |
+00D | 00007FF786810925 | 48:C70424 00000000       | mov qword ptr ss:[rsp],0                |                                                   | 00000019E37BF7F0: 18D525FE370-> 0                 |
+00E | 00007FF78681092D | E9 1DBFFAFF              | jmp winlicense_test_protected.7FF7867BC |                                                   |                                                   |
+00F | 00007FF7867BC84F | 68 6DE2FF3E              | push 3EFFE26D                           | rsp: 19E37BF7F0-> 19E37BF7E8                      | 00000019E37BF7E8: 18D396462F1-> 3EFFE26D          |
+010 | 00007FF7867BC854 | 53                       | push rbx                                | rsp: 19E37BF7E8-> 19E37BF7E0                      | 00000019E37BF7E0: 7FF786178000-> 18D5260CBC0      |
+011 | 00007FF7867BC855 | 54                       | push rsp                                | rsp: 19E37BF7E0-> 19E37BF7D8                      | 00000019E37BF7D8: 18D525FE370-> 19E37BF7E0        |
+012 | 00007FF7867BC856 | 5B                       | pop rbx                                 | rbx: 18D5260CBC0-> 19E37BF7E0 rsp: 19E37BF7D8-> 1 | 00000019E37BF7D8: 19E37BF7E0-> 19E37BF7E0         |
+013 | 00007FF7867BC857 | 48:83C3 08               | add rbx,8                               | rbx: 19E37BF7E0-> 19E37BF7E8                      |                                                   |
+014 | 00007FF7867BC85B | 48:81EB 08000000         | sub rbx,8                               | rbx: 19E37BF7E8-> 19E37BF7E0                      |                                                   |
+015 | 00007FF7867BC862 | 48:871C24                | xchg qword ptr ss:[rsp],rbx             | rbx: 19E37BF7E0-> 18D5260CBC0                     | 00000019E37BF7E0: 18D5260CBC0-> 19E37BF7E0        |
+016 | 00007FF7867BC866 | 5C                       | pop rsp                                 |                                                   | 00000019E37BF7E0: 19E37BF7E0-> 19E37BF7E0         |
+017 | 00007FF7867BC867 | 48:892C24                | mov qword ptr ss:[rsp],rbp              |                                                   | 00000019E37BF7E0: 19E37BF7E0-> 7FF786178000       |
+018 | 00007FF7867BC86B | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7E0-> 19E37BF7E8                      | 00000019E37BF7E0: 7FF786178000-> 7FF786178000 000 |
+019 | 00007FF7867BC86E | E9 D3FCFFFF              | jmp winlicense_test_protected.7FF7867BC |                                                   |                                                   |
+01A | 00007FF7867BC546 | 68 BFCDFF71              | push 71FFCDBF                           | rsp: 19E37BF7E8-> 19E37BF7E0                      | 00000019E37BF7E0: 7FF786178000-> 71FFCDBF         |
+01B | 00007FF7867BC54B | 48:83EC 08               | sub rsp,8                               | rsp: 19E37BF7E0-> 19E37BF7D8                      |                                                   |
+01C | 00007FF7867BC54F | 68 815FDE7F              | push 7FDE5F81                           | rsp: 19E37BF7D8-> 19E37BF7D0                      | 00000019E37BF7D0: 0-> 7FDE5F81                    |
+01D | 00007FF7867BC554 | 48:893424                | mov qword ptr ss:[rsp],rsi              |                                                   | 00000019E37BF7D0: 7FDE5F81-> 0                    |
+01E | 00007FF7867BC558 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7D0-> 19E37BF7D8                      | 00000019E37BF7D0: 0-> 0 00000019E37BF7D0: 0-> 0   |
+01F | 00007FF7867BC55B | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7D8-> 19E37BF7E0                      | 00000019E37BF7D8: 0-> 0 00000019E37BF7D8: 0-> 0   |
+020 | 00007FF7867BC55E | E9 03490500              | jmp winlicense_test_protected.7FF786810 |                                                   |                                                   |
+021 | 00007FF786810E66 | 48:83EC 08               | sub rsp,8                               | rsp: 19E37BF7E0-> 19E37BF7D8                      |                                                   |
+022 | 00007FF786810E6A | 41:56                    | push r14                                | rsp: 19E37BF7D8-> 19E37BF7D0                      | 00000019E37BF7D0: 0-> 0                           |
+023 | 00007FF786810E6C | 49:89C6                  | mov r14,rax                             | r14: 0-> 1                                        |                                                   |
+024 | 00007FF786810E6F | 68 DDEDEA3D              | push 3DEAEDDD                           | rsp: 19E37BF7D0-> 19E37BF7C8                      | 00000019E37BF7C8: 7FFC7103407D-> 3DEAEDDD         |
+025 | 00007FF786810E74 | 4C:891424                | mov qword ptr ss:[rsp],r10              |                                                   | 00000019E37BF7C8: 3DEAEDDD-> 0                    |
+026 | 00007FF786810E78 | 4D:89F2                  | mov r10,r14                             | r10: 0-> 1                                        |                                                   |
+027 | 00007FF786810E7B | 4C:895424 10             | mov qword ptr ss:[rsp+10],r10           |                                                   | 00000019E37BF7D8: 0-> 1                           |
+028 | 00007FF786810E80 | 41:5A                    | pop r10                                 | rsp: 19E37BF7C8-> 19E37BF7D0 r10: 1-> 0           | 00000019E37BF7C8: 0-> 0                           |
+029 | 00007FF786810E82 | 4C:8B3424                | mov r14,qword ptr ss:[rsp]              | r14: 1-> 0                                        | 00000019E37BF7D0: 0-> 0                           |
+02A | 00007FF786810E86 | 48:83C4 08               | add rsp,8                               | rsp: 19E37BF7D0-> 19E37BF7D8                      |                                                   |
+02B | 00007FF786810E8A | E9 CA26FFFF              | jmp winlicense_test_protected.7FF786803 |                                                   |                                                   |
+02C | 00007FF786803559 | 68 6D7BCC77              | push 77CC7B6D                           | rsp: 19E37BF7D8-> 19E37BF7D0                      | 00000019E37BF7D0: 0-> 77CC7B6D                    |
+02D | 00007FF78680355E | 48:893424                | mov qword ptr ss:[rsp],rsi              |                                                   | 00000019E37BF7D0: 77CC7B6D-> 0                    |
+02E | 00007FF786803562 | 48:89E6                  | mov rsi,rsp                             | rsi: 0-> 19E37BF7D0                               |                                                   |
+02F | 00007FF786803565 | 48:83C6 08               | add rsi,8                               | rsi: 19E37BF7D0-> 19E37BF7D8                      |                                                   |
+030 | 00007FF786803569 | 48:81EE 08000000         | sub rsi,8                               | rsi: 19E37BF7D8-> 19E37BF7D0                      |                                                   |
+031 | 00007FF786803570 | 48:333424                | xor rsi,qword ptr ss:[rsp]              |                                                   | 00000019E37BF7D0: 0-> 0                           |
+032 | 00007FF786803574 | 48:313424                | xor qword ptr ss:[rsp],rsi              |                                                   | 00000019E37BF7D0: 0-> 19E37BF7D0                  |
+033 | 00007FF786803578 | 48:333424                | xor rsi,qword ptr ss:[rsp]              | rsi: 19E37BF7D0-> 0                               | 00000019E37BF7D0: 19E37BF7D0-> 19E37BF7D0         |
+034 | 00007FF78680357C | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              |                                                   | 00000019E37BF7D0: 19E37BF7D0-> 19E37BF7D0         |
+035 | 00007FF786803580 | 48:890C24                | mov qword ptr ss:[rsp],rcx              |                                                   | 00000019E37BF7D0: 19E37BF7D0-> 7FFC6F8318C4       |
+036 | 00007FF786803584 | E9 914D0100              | jmp winlicense_test_protected.7FF786818 |                                                   |                                                   |
+037 | 00007FF78681831A | 68 427AFE3A              | push 3AFE7A42                           | rsp: 19E37BF7D0-> 19E37BF7C8                      | 00000019E37BF7C8: 0-> 3AFE7A42                    |
+038 | 00007FF78681831F | 41:53                    | push r11                                | rsp: 19E37BF7C8-> 19E37BF7C0                      | 00000019E37BF7C0: 0-> 200246                      |
+039 | 00007FF786818321 | 49:89E3                  | mov r11,rsp                             | r11: 200246-> 19E37BF7C0                          |                                                   |
+03A | 00007FF786818324 | 49:83C3 08               | add r11,8                               | r11: 19E37BF7C0-> 19E37BF7C8                      |                                                   |
+03B | 00007FF786818328 | 49:81EB 08000000         | sub r11,8                               | r11: 19E37BF7C8-> 19E37BF7C0                      |                                                   |
+03C | 00007FF78681832F | 4C:871C24                | xchg qword ptr ss:[rsp],r11             | r11: 19E37BF7C0-> 200246                          | 00000019E37BF7C0: 200246-> 19E37BF7C0             |
+03D | 00007FF786818333 | 5C                       | pop rsp                                 |                                                   | 00000019E37BF7C0: 19E37BF7C0-> 19E37BF7C0         |
+03E | 00007FF786818334 | 52                       | push rdx                                | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 0-> 7                           |
+03F | 00007FF786818335 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7B8-> 19E37BF7C0                      | 00000019E37BF7B8: 7-> 7 00000019E37BF7B8: 7-> 7   |
+040 | 00007FF786818338 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7C0-> 19E37BF7C8                      | 00000019E37BF7C0: 7-> 7 00000019E37BF7C0: 7-> 7   |
+041 | 00007FF78681833B | E9 06E2FFFF              | jmp winlicense_test_protected.7FF786816 |                                                   |                                                   |
+042 | 00007FF786816546 | 48:83EC 08               | sub rsp,8                               | rsp: 19E37BF7C8-> 19E37BF7C0                      |                                                   |
+043 | 00007FF78681654A | 68 E7AFF51F              | push 1FF5AFE7                           | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 7-> 1FF5AFE7                    |
+044 | 00007FF78681654F | 68 CCEBFF77              | push 77FFEBCC                           | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 0-> 77FFEBCC                    |
+045 | 00007FF786816554 | 48:891C24                | mov qword ptr ss:[rsp],rbx              |                                                   | 00000019E37BF7B0: 77FFEBCC-> 18D5260CBC0          |
+046 | 00007FF786816558 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7B0-> 19E37BF7B8                      | 00000019E37BF7B0: 18D5260CBC0-> 18D5260CBC0 00000 |
+047 | 00007FF78681655B | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7B8-> 19E37BF7C0                      | 00000019E37BF7B8: 18D5260CBC0-> 18D5260CBC0 00000 |
+048 | 00007FF78681655E | E9 B145FDFF              | jmp winlicense_test_protected.7FF7867EA |                                                   |                                                   |
+049 | 00007FF7867EAB14 | E8 958D99FF              | call winlicense_test_protected.7FF78618 | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 18D5260CBC0-> 7FF7867EAB19      |
+04A | 00007FF7861838AE | E8 00000000              | call winlicense_test_protected.7FF78618 | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 18D5260CBC0-> 7FF7861838B3      | call $0
+04B | 00007FF7861838B3 | 5D                       | pop rbp                                 | rsp: 19E37BF7B0-> 19E37BF7B8 rbp: 7FF786178000->  | 00000019E37BF7B0: 7FF7861838B3-> 7FF7861838B3     |
+04C | 00007FF7861838B4 | 48:81ED B3B80000         | sub rbp,B8B3                            | rbp: 7FF7861838B3-> 7FF786178000                  |                                                   |
+04D | 00007FF7861838BB | C3                       | ret                                     | rsp: 19E37BF7B8-> 19E37BF7C0                      | 00000019E37BF7B8: 7FF7867EAB19-> 7FF7867EAB19     |
+04E | 00007FF7867EAB19 | E9 C6A10100              | jmp winlicense_test_protected.7FF786804 |                                                   |                                                   |
+04F | 00007FF786804CE4 | 56                       | push rsi                                | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 7FF7867EAB19-> 0                |
+050 | 00007FF786804CE5 | 48:BE AD9F8C7F00000000   | mov rsi,7F8C9FAD                        | rsi: 0-> 7F8C9FAD                                 |                                                   |
+051 | 00007FF786804CEF | 48:B9 C327E76500000000   | mov rcx,65E727C3                        | rcx: 7FFC6F8318C4-> 65E727C3                      |                                                   |
+052 | 00007FF786804CF9 | 48:F7D1                  | not rcx                                 | rcx: 65E727C3-> FFFFFFFF9A18D83C                  |                                                   |
+053 | 00007FF786804CFC | 48:F7D9                  | neg rcx                                 | rcx: FFFFFFFF9A18D83C-> 65E727C4                  |                                                   |
+054 | 00007FF786804CFF | 48:FFC1                  | inc rcx                                 | rcx: 65E727C4-> 65E727C5                          |                                                   |
+055 | 00007FF786804D02 | 48:F7D9                  | neg rcx                                 | rcx: 65E727C5-> FFFFFFFF9A18D83B                  |                                                   |
+056 | 00007FF786804D05 | 55                       | push rbp                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 7FF7861838B3-> 7FF786178000     |
+057 | 00007FF786804D06 | 48:BD 8E388CDAFDFFFFFF   | mov rbp,FFFFFFFDDA8C388E                | rbp: 7FF786178000-> FFFFFFFDDA8C388E              |                                                   |
+058 | 00007FF786804D10 | 48:29E9                  | sub rcx,rbp                             | rcx: FFFFFFFF9A18D83B-> 1BF8C9FAD                 |                                                   |
+059 | 00007FF786804D13 | 5D                       | pop rbp                                 | rsp: 19E37BF7B0-> 19E37BF7B8 rbp: FFFFFFFDDA8C388 | 00000019E37BF7B0: 7FF786178000-> 7FF786178000     |
+05A | 00007FF786804D14 | 48:81C1 7D4ECF0F         | add rcx,FCF4E7D                         | rcx: 1BF8C9FAD-> 1CF5BEE2A                        |                                                   |
+05B | 00007FF786804D1B | 48:29F1                  | sub rcx,rsi                             | rcx: 1CF5BEE2A-> 14FCF4E7D                        |                                                   |
+05C | 00007FF786804D1E | 48:81E9 7D4ECF0F         | sub rcx,FCF4E7D                         | rcx: 14FCF4E7D-> 140000000                        |                                                   |
+05D | 00007FF786804D25 | 48:8B3424                | mov rsi,qword ptr ss:[rsp]              | rsi: 7F8C9FAD-> 0                                 | 00000019E37BF7B8: 0-> 0                           |
+05E | 00007FF786804D29 | 48:81C4 08000000         | add rsp,8                               | rsp: 19E37BF7B8-> 19E37BF7C0                      |                                                   |
+05F | 00007FF786804D30 | E9 3F60FFFF              | jmp winlicense_test_protected.7FF7867FA |                                                   |                                                   |
+060 | 00007FF7867FAD74 | 41:53                    | push r11                                | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 0-> 200246                      |
+061 | 00007FF7867FAD76 | 68 D328773C              | push 3C7728D3                           | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 7FF786178000-> 3C7728D3         |
+062 | 00007FF7867FAD7B | 4C:8B1C24                | mov r11,qword ptr ss:[rsp]              | r11: 200246-> 3C7728D3                            | 00000019E37BF7B0: 3C7728D3-> 3C7728D3             |
+063 | 00007FF7867FAD7F | 48:83C4 08               | add rsp,8                               | rsp: 19E37BF7B0-> 19E37BF7B8                      |                                                   |
+064 | 00007FF7867FAD83 | 68 900DC95F              | push 5FC90D90                           | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 3C7728D3-> 5FC90D90             |
+065 | 00007FF7867FAD88 | 4C:891424                | mov qword ptr ss:[rsp],r10              |                                                   | 00000019E37BF7B0: 5FC90D90-> 0                    |
+066 | 00007FF7867FAD8C | 41:BA 80EBB97F           | mov r10d,7FB9EB80                       | r10: 0-> 7FB9EB80                                 |                                                   |
+067 | 00007FF7867FAD92 | 45:09D3                  | or r11d,r10d                            | r11: 3C7728D3-> 7FFFEBD3                          |                                                   |
+068 | 00007FF7867FAD95 | 41:5A                    | pop r10                                 | rsp: 19E37BF7B0-> 19E37BF7B8 r10: 7FB9EB80-> 0    | 00000019E37BF7B0: 0-> 0                           |
+069 | 00007FF7867FAD97 | 41:56                    | push r14                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 0-> 0                           |
+06A | 00007FF7867FAD99 | 41:BE 67BB7B7E           | mov r14d,7E7BBB67                       | r14: 0-> 7E7BBB67                                 |                                                   |
+06B | 00007FF7867FAD9F | 45:31F3                  | xor r11d,r14d                           | r11: 7FFFEBD3-> 18450B4                           |                                                   |
+06C | 00007FF7867FADA2 | 41:5E                    | pop r14                                 | rsp: 19E37BF7B0-> 19E37BF7B8 r14: 7E7BBB67-> 0    | 00000019E37BF7B0: 0-> 0                           |
+06D | 00007FF7867FADA4 | 41:81EB 0FFB5201         | sub r11d,152FB0F                        | r11: 18450B4-> 3155A5                             |                                                   |
+06E | 00007FF7867FADAB | 44:89DE                  | mov esi,r11d                            | rsi: 0-> 3155A5                                   |                                                   |
+06F | 00007FF7867FADAE | 41:5B                    | pop r11                                 | rsp: 19E37BF7B8-> 19E37BF7C0 r11: 3155A5-> 200246 | 00000019E37BF7B8: 200246-> 200246                 |
+070 | 00007FF7867FADB0 | E9 77760000              | jmp winlicense_test_protected.7FF786802 |                                                   |                                                   |
+071 | 00007FF78680242C | 41:52                    | push r10                                | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 200246-> 0                      |
+072 | 00007FF78680242E | 41:BA F65CFE5F           | mov r10d,5FFE5CF6                       | r10: 0-> 5FFE5CF6                                 |                                                   |
+073 | 00007FF786802434 | 41:81F2 B091ED7F         | xor r10d,7FED91B0                       | r10: 5FFE5CF6-> 2013CD46                          |                                                   |
+074 | 00007FF78680243B | 41:81F2 349DEE5F         | xor r10d,5FEE9D34                       | r10: 2013CD46-> 7FFD5072                          |                                                   |
+075 | 00007FF786802442 | 44:89D2                  | mov edx,r10d                            | rdx: 7-> 7FFD5072                                 |                                                   |
+076 | 00007FF786802445 | 41:5A                    | pop r10                                 | rsp: 19E37BF7B8-> 19E37BF7C0 r10: 7FFD5072-> 0    | 00000019E37BF7B8: 0-> 0                           |
+077 | 00007FF786802447 | 83EA 01                  | sub edx,1                               | rdx: 7FFD5072-> 7FFD5071                          |                                                   |
+078 | 00007FF78680244A | C1E2 06                  | shl edx,6                               | rdx: 7FFD5071-> FF541C40                          |                                                   |
+079 | 00007FF78680244D | F7D2                     | not edx                                 | rdx: FF541C40-> ABE3BF                            |                                                   |
+07A | 00007FF78680244F | 51                       | push rcx                                | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 0-> 140000000                   |
+07B | 00007FF786802450 | B9 2EB47E18              | mov ecx,187EB42E                        | rcx: 140000000-> 187EB42E                         |                                                   |
+07C | 00007FF786802455 | 81E9 1ED9BF58            | sub ecx,58BFD91E                        | rcx: 187EB42E-> BFBEDB10                          |                                                   |
+07D | 00007FF78680245B | 81C9 7D00FF5A            | or ecx,5AFF007D                         | rcx: BFBEDB10-> FFFFDB7D                          |                                                   |
+07E | 00007FF786802461 | 41:57                    | push r15                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 0-> 0                           |
+07F | 00007FF786802463 | 41:BF 4288AB00           | mov r15d,AB8842                         | r15: 0-> AB8842                                   |                                                   |
+080 | 00007FF786802469 | 44:01F9                  | add ecx,r15d                            | rcx: FFFFDB7D-> AB63BF                            |                                                   |
+081 | 00007FF78680246C | 41:5F                    | pop r15                                 | rsp: 19E37BF7B0-> 19E37BF7B8 r15: AB8842-> 0      | 00000019E37BF7B0: 0-> 0                           |
+082 | 00007FF78680246E | 29CA                     | sub edx,ecx                             | rdx: ABE3BF-> 8000                                |                                                   |
+083 | 00007FF786802470 | 59                       | pop rcx                                 | rcx: AB63BF-> 140000000 rsp: 19E37BF7B8-> 19E37BF | 00000019E37BF7B8: 140000000-> 140000000           |
+084 | 00007FF786802471 | E9 AF790100              | jmp winlicense_test_protected.7FF786819 |                                                   |                                                   |
+085 | 00007FF786819E25 | 48:83BD BEFD2F00 00      | cmp qword ptr ss:[rbp+2FFDBE],0         |                                                   | 00007FF786477DBE: 7FF786170000-> 7FF786170000     |
+086 | 00007FF786819E2D | E9 401E0000              | jmp winlicense_test_protected.7FF78681B |                                                   |                                                   |
+087 | 00007FF78681BC72 | 0F85 14D4A1FF            | jne winlicense_test_protected.7FF786239 |                                                   |                                                   |
+088 | 00007FF78623908C | E9 912A5B00              | jmp winlicense_test_protected.7FF7867EB |                                                   |                                                   |
+089 | 00007FF7867EBB22 | FFB5 BEFD2F00            | push qword ptr ss:[rbp+2FFDBE]          | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00007FF786477DBE: 7FF786170000-> 7FF786170000 000 |
+08A | 00007FF7867EBB28 | 41:56                    | push r14                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 0-> 0                           |
+08B | 00007FF7867EBB2A | 50                       | push rax                                | rsp: 19E37BF7B0-> 19E37BF7A8                      | 00000019E37BF7A8: 0-> 1                           |
+08C | 00007FF7867EBB2B | 48:B8 AAB7EF7F00000000   | mov rax,7FEFB7AA                        | rax: 1-> 7FEFB7AA                                 |                                                   |
+08D | 00007FF7867EBB35 | 49:BE 191F2FFF00000000   | mov r14,FF2F1F19                        | r14: 0-> FF2F1F19                                 |                                                   |
+08E | 00007FF7867EBB3F | 49:29C6                  | sub r14,rax                             | r14: FF2F1F19-> 7F3F676F                          |                                                   |
+08F | 00007FF7867EBB42 | 58                       | pop rax                                 | rax: 7FEFB7AA-> 1 rsp: 19E37BF7A8-> 19E37BF7B0    | 00000019E37BF7A8: 1-> 1                           |
+090 | 00007FF7867EBB43 | 4C:317424 08             | xor qword ptr ss:[rsp+8],r14            |                                                   | 00000019E37BF7B8: 7FF786170000-> 7FF7F928676F     |
+091 | 00007FF7867EBB48 | 41:5E                    | pop r14                                 | rsp: 19E37BF7B0-> 19E37BF7B8 r14: 7F3F676F-> 0    | 00000019E37BF7B0: 0-> 0                           |
+092 | 00007FF7867EBB4A | 48:8B0424                | mov rax,qword ptr ss:[rsp]              | rax: 1-> 7FF7F928676F                             | 00000019E37BF7B8: 7FF7F928676F-> 7FF7F928676F     |
+093 | 00007FF7867EBB4E | 48:83C4 08               | add rsp,8                               | rsp: 19E37BF7B8-> 19E37BF7C0                      |                                                   |
+094 | 00007FF7867EBB52 | 48:35 6F673F7F           | xor rax,7F3F676F                        | rax: 7FF7F928676F-> 7FF786170000                  |                                                   |
+095 | 00007FF7867EBB58 | E9 EF150100              | jmp winlicense_test_protected.7FF7867FD |                                                   |                                                   |
+096 | 00007FF7867FD14C | 48:81EE 2749FF7E         | sub rsi,7EFF4927                        | rsi: 3155A5-> FFFFFFFF81320C7E                    |                                                   |
+097 | 00007FF7867FD153 | 48:81EE CD8FFB17         | sub rsi,17FB8FCD                        | rsi: FFFFFFFF81320C7E-> FFFFFFFF69367CB1          |                                                   |
+098 | 00007FF7867FD15A | 48:81C6 B7F1FC7F         | add rsi,7FFCF1B7                        | rsi: FFFFFFFF69367CB1-> FFFFFFFFE9336E68          |                                                   |
+099 | 00007FF7867FD161 | 48:81C6 C1A7F67F         | add rsi,7FF6A7C1                        | rsi: FFFFFFFFE9336E68-> 692A1629                  |                                                   |
+09A | 00007FF7867FD168 | 48:81EE 41C1FF7B         | sub rsi,7BFFC141                        | rsi: 692A1629-> FFFFFFFFED2A54E8                  |                                                   |
+09B | 00007FF7867FD16F | 48:01C6                  | add rsi,rax                             | rsi: FFFFFFFFED2A54E8-> 7FF7734154E8              |                                                   |
+09C | 00007FF7867FD172 | 48:81C6 41C1FF7B         | add rsi,7BFFC141                        | rsi: 7FF7734154E8-> 7FF7EF411629                  |                                                   |
+09D | 00007FF7867FD179 | 48:81EE C1A7F67F         | sub rsi,7FF6A7C1                        | rsi: 7FF7EF411629-> 7FF76F4A6E68                  |                                                   |
+09E | 00007FF7867FD180 | 48:81EE B7F1FC7F         | sub rsi,7FFCF1B7                        | rsi: 7FF76F4A6E68-> 7FF6EF4D7CB1                  |                                                   |
+09F | 00007FF7867FD187 | 48:81C6 CD8FFB17         | add rsi,17FB8FCD                        | rsi: 7FF6EF4D7CB1-> 7FF707490C7E                  |                                                   |
+0A0 | 00007FF7867FD18E | 48:81C6 2749FF7E         | add rsi,7EFF4927                        | rsi: 7FF707490C7E-> 7FF7864855A5                  |                                                   |
+0A1 | 00007FF7867FD195 | E9 172CF6FF              | jmp winlicense_test_protected.7FF78675F |                                                   |                                                   |
+0A2 | 00007FF78675FDB1 | 68 63D7797F              | push 7F79D763                           | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 7FF7F928676F-> 7F79D763         |
+0A3 | 00007FF78675FDB6 | 68 7F44E57F              | push 7FE5447F                           | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 0-> 7FE5447F                    |
+0A4 | 00007FF78675FDBB | 51                       | push rcx                                | rsp: 19E37BF7B0-> 19E37BF7A8                      | 00000019E37BF7A8: 1-> 140000000                   |
+0A5 | 00007FF78675FDBC | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7A8-> 19E37BF7B0                      | 00000019E37BF7A8: 140000000-> 140000000 00000019E |
+0A6 | 00007FF78675FDBF | 48:89F1                  | mov rcx,rsi                             | rcx: 140000000-> 7FF7864855A5                     |                                                   |
+0A7 | 00007FF78675FDC2 | 51                       | push rcx                                | rsp: 19E37BF7B0-> 19E37BF7A8                      | 00000019E37BF7A8: 140000000-> 7FF7864855A5        |
+0A8 | 00007FF78675FDC3 | 8F4424 08                | pop qword ptr ss:[rsp+8]                | rsp: 19E37BF7A8-> 19E37BF7B0                      | 00000019E37BF7B0: 140000000-> 140000000 00000019E |
+0A9 | 00007FF78675FDC7 | 59                       | pop rcx                                 | rcx: 7FF7864855A5-> 140000000 rsp: 19E37BF7B0-> 1 | 00000019E37BF7B0: 140000000-> 140000000           |
+0AA | 00007FF78675FDC8 | E9 0D710A00              | jmp winlicense_test_protected.7FF786806 |                                                   |                                                   |
+0AB | 00007FF786806EDA | 833E 00                  | cmp dword ptr ds:[rsi],0                |                                                   | 00007FF7864855A5: 1C2260CA00000000-> 1C2260CA0000 |
+0AC | 00007FF786806EDD | E9 A4A60000              | jmp winlicense_test_protected.7FF786811 |                                                   |                                                   |
+0AD | 00007FF786811586 | 0F84 697CB5FF            | je winlicense_test_protected.7FF7863691 |                                                   |                                                   |
+0AE | 00007FF7863691F5 | E9 21CA4900              | jmp winlicense_test_protected.7FF786805 |                                                   |                                                   |
+0AF | 00007FF786805C1B | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B8: 7FF7864855A5-> 7FF7864855A5 000 |
+0B0 | 00007FF786805C1E | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7B0-> 19E37BF7A8                      | 00000019E37BF7B0: 7FF7864855A5-> 7FF7864855A5 000 |
+0B1 | 00007FF786805C21 | 5E                       | pop rsi                                 | rsp: 19E37BF7A8-> 19E37BF7B0                      | 00000019E37BF7A8: 7FF7864855A5-> 7FF7864855A5     |
+0B2 | 00007FF786805C22 | 48:83C4 08               | add rsp,8                               | rsp: 19E37BF7B0-> 19E37BF7B8                      |                                                   |
+0B3 | 00007FF786805C26 | 41:53                    | push r11                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 7FF7864855A5-> 200246           |
+0B4 | 00007FF786805C28 | 49:89E3                  | mov r11,rsp                             | r11: 200246-> 19E37BF7B0                          |                                                   |
+0B5 | 00007FF786805C2B | 49:83C3 08               | add r11,8                               | r11: 19E37BF7B0-> 19E37BF7B8                      |                                                   |
+0B6 | 00007FF786805C2F | 49:81C3 08000000         | add r11,8                               | r11: 19E37BF7B8-> 19E37BF7C0                      |                                                   |
+0B7 | 00007FF786805C36 | 4C:871C24                | xchg qword ptr ss:[rsp],r11             | r11: 19E37BF7C0-> 200246                          | 00000019E37BF7B0: 200246-> 19E37BF7C0             |
+0B8 | 00007FF786805C3A | 5C                       | pop rsp                                 | rsp: 19E37BF7B0-> 19E37BF7C0                      | 00000019E37BF7B0: 19E37BF7C0-> 19E37BF7C0         |
+0B9 | 00007FF786805C3B | E9 1CC1FEFF              | jmp winlicense_test_protected.7FF7867F1 |                                                   |                                                   |
+0BA | 00007FF7867F1D5C | 48:83EC 08               | sub rsp,8                               | rsp: 19E37BF7C0-> 19E37BF7B8                      |                                                   |
+0BB | 00007FF7867F1D60 | 48:892C24                | mov qword ptr ss:[rsp],rbp              |                                                   | 00000019E37BF7B8: 7FF7864855A5-> 7FF786178000     |
+0BC | 00007FF7867F1D64 | BD A8B77B56              | mov ebp,567BB7A8                        | rbp: 7FF786178000-> 567BB7A8                      |                                                   |
+0BD | 00007FF7867F1D69 | 68 DF18DE5F              | push 5FDE18DF                           | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 19E37BF7C0-> 5FDE18DF           |
+0BE | 00007FF7867F1D6E | 4C:890424                | mov qword ptr ss:[rsp],r8               |                                                   | 00000019E37BF7B0: 5FDE18DF-> 19E37BF7C8           |
+0BF | 00007FF7867F1D72 | 41:B8 FD726F25           | mov r8d,256F72FD                        | r8: 19E37BF7C8-> 256F72FD                         |                                                   |
+0C0 | 00007FF7867F1D78 | 44:01C5                  | add ebp,r8d                             | rbp: 567BB7A8-> 7BEB2AA5                          |                                                   |
+0C1 | 00007FF7867F1D7B | 41:58                    | pop r8                                  | rsp: 19E37BF7B0-> 19E37BF7B8 r8: 256F72FD-> 19E37 | 00000019E37BF7B0: 19E37BF7C8-> 19E37BF7C8         |
+0C2 | 00007FF7867F1D7D | C1E5 05                  | shl ebp,5                               | rbp: 7BEB2AA5-> 7D6554A0                          |                                                   |
+0C3 | 00007FF7867F1D80 | 52                       | push rdx                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 19E37BF7C8-> 8000               |
+0C4 | 00007FF7867F1D81 | BA 5B4CBF76              | mov edx,76BF4C5B                        | rdx: 8000-> 76BF4C5B                              |                                                   |
+0C5 | 00007FF7867F1D86 | 01D5                     | add ebp,edx                             | rbp: 7D6554A0-> F424A0FB                          |                                                   |
+0C6 | 00007FF7867F1D88 | 5A                       | pop rdx                                 | rdx: 76BF4C5B-> 8000 rsp: 19E37BF7B0-> 19E37BF7B8 | 00000019E37BF7B0: 8000-> 8000                     |
+0C7 | 00007FF7867F1D89 | FFC5                     | inc ebp                                 | rbp: F424A0FB-> F424A0FC                          |                                                   |
+0C8 | 00007FF7867F1D8B | FFC5                     | inc ebp                                 | rbp: F424A0FC-> F424A0FD                          |                                                   |
+0C9 | 00007FF7867F1D8D | 81C5 035FDB0B            | add ebp,BDB5F03                         | rbp: F424A0FD-> 0                                 |                                                   |
+0CA | 00007FF7867F1D93 | 892E                     | mov dword ptr ds:[rsi],ebp              |                                                   | 00007FF7864855A5: 1C2260CA00000000-> 1C2260CA0000 |
+0CB | 00007FF7867F1D95 | 5D                       | pop rbp                                 | rsp: 19E37BF7B8-> 19E37BF7C0 rbp: 0-> 7FF78617800 | 00000019E37BF7B8: 7FF786178000-> 7FF786178000     |
+0CC | 00007FF7867F1D96 | E9 741C0100              | jmp winlicense_test_protected.7FF786803 |                                                   |                                                   |
+0CD | 00007FF786803A0F | 68 4FADFF49              | push 49FFAD4F                           | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 7FF786178000-> 49FFAD4F         |
+0CE | 00007FF786803A14 | 4C:893424                | mov qword ptr ss:[rsp],r14              |                                                   | 00000019E37BF7B8: 49FFAD4F-> 0                    |
+0CF | 00007FF786803A18 | 41:54                    | push r12                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 8000-> 0                        |
+0D0 | 00007FF786803A1A | 4D:89E4                  | mov r12,r12                             |                                                   |                                                   |
+0D1 | 00007FF786803A1D | 48:C70424 A041BE3F       | mov qword ptr ss:[rsp],3FBE41A0         |                                                   | 00000019E37BF7B0: 0-> 3FBE41A0                    |
+0D2 | 00007FF786803A25 | 4C:8B3424                | mov r14,qword ptr ss:[rsp]              | r14: 0-> 3FBE41A0                                 | 00000019E37BF7B0: 3FBE41A0-> 3FBE41A0             |
+0D3 | 00007FF786803A29 | 48:83C4 08               | add rsp,8                               | rsp: 19E37BF7B0-> 19E37BF7B8                      |                                                   |
+0D4 | 00007FF786803A2D | 41:81F6 4B579B37         | xor r14d,379B574B                       | r14: 3FBE41A0-> 82516EB                           |                                                   |
+0D5 | 00007FF786803A34 | 41:81EE 86ECFF6F         | sub r14d,6FFFEC86                       | r14: 82516EB-> 98252A65                           |                                                   |
+0D6 | 00007FF786803A3B | 41:83C6 01               | add r14d,1                              | r14: 98252A65-> 98252A66                          |                                                   |
+0D7 | 00007FF786803A3F | 41:81F6 EE822698         | xor r14d,982682EE                       | r14: 98252A66-> 3A888                             |                                                   |
+0D8 | 00007FF786803A46 | 44:89F1                  | mov ecx,r14d                            | rcx: 140000000-> 3A888                            |                                                   |
+0D9 | 00007FF786803A49 | 41:5E                    | pop r14                                 | rsp: 19E37BF7B8-> 19E37BF7C0 r14: 3A888-> 0       | 00000019E37BF7B8: 0-> 0                           |
+0DA | 00007FF786803A4B | E9 BD9E0000              | jmp winlicense_test_protected.7FF78680D |                                                   |                                                   |
+0DB | 00007FF78680D90D | 48:81C1 6AFAFB7F         | add rcx,7FFBFA6A                        | rcx: 3A888-> 7FFFA2F2                             |                                                   |
+0DC | 00007FF78680D914 | 48:81C1 C01D9B1B         | add rcx,1B9B1DC0                        | rcx: 7FFFA2F2-> 9B9AC0B2                          |                                                   |
+0DD | 00007FF78680D91B | 48:81E9 528EEE6D         | sub rcx,6DEE8E52                        | rcx: 9B9AC0B2-> 2DAC3260                          |                                                   |
+0DE | 00007FF78680D922 | 48:81E9 3DCADD3F         | sub rcx,3FDDCA3D                        | rcx: 2DAC3260-> FFFFFFFFEDCE6823                  |                                                   |
+0DF | 00007FF78680D929 | 48:01C1                  | add rcx,rax                             | rcx: FFFFFFFFEDCE6823-> 7FF773E56823              |                                                   |
+0E0 | 00007FF78680D92C | 48:81C1 3DCADD3F         | add rcx,3FDDCA3D                        | rcx: 7FF773E56823-> 7FF7B3C33260                  |                                                   |
+0E1 | 00007FF78680D933 | 48:81C1 528EEE6D         | add rcx,6DEE8E52                        | rcx: 7FF7B3C33260-> 7FF821B1C0B2                  |                                                   |
+0E2 | 00007FF78680D93A | 48:81E9 C01D9B1B         | sub rcx,1B9B1DC0                        | rcx: 7FF821B1C0B2-> 7FF80616A2F2                  |                                                   |
+0E3 | 00007FF78680D941 | 48:81E9 6AFAFB7F         | sub rcx,7FFBFA6A                        | rcx: 7FF80616A2F2-> 7FF7861AA888                  |                                                   |
+0E4 | 00007FF78680D948 | E9 65F6FEFF              | jmp winlicense_test_protected.7FF7867FC |                                                   |                                                   |
+0E5 | 00007FF7867FCFB2 | 48:83EC 08               | sub rsp,8                               | rsp: 19E37BF7C0-> 19E37BF7B8                      |                                                   |
+0E6 | 00007FF7867FCFB6 | 68 6602D94B              | push 4BD90266                           | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 3FBE41A0-> 4BD90266             |
+0E7 | 00007FF7867FCFBB | 48:890C24                | mov qword ptr ss:[rsp],rcx              |                                                   | 00000019E37BF7B0: 4BD90266-> 7FF7861AA888         |
+0E8 | 00007FF7867FCFBF | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7B0-> 19E37BF7B8                      | 00000019E37BF7B0: 7FF7861AA888-> 7FF7861AA888 000 |
+0E9 | 00007FF7867FCFC2 | 8F4424 30                | pop qword ptr ss:[rsp+30]               | rsp: 19E37BF7B8-> 19E37BF7C0                      | 00000019E37BF7E8: 7FF786178000-> 7FF786178000 000 |
+0EA | 00007FF7867FCFC6 | E9 75B30100              | jmp winlicense_test_protected.7FF786818 |                                                   |                                                   |
+0EB | 00007FF786818340 | 48:8B1C24                | mov rbx,qword ptr ss:[rsp]              |                                                   | 00000019E37BF7C0: 18D5260CBC0-> 18D5260CBC0       |
+0EC | 00007FF786818344 | 55                       | push rbp                                | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 7FF7861AA888-> 7FF786178000     |
+0ED | 00007FF786818345 | 54                       | push rsp                                | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7B0: 7FF7861AA888-> 19E37BF7B8       |
+0EE | 00007FF786818346 | 48:8B2C24                | mov rbp,qword ptr ss:[rsp]              | rbp: 7FF786178000-> 19E37BF7B8                    | 00000019E37BF7B0: 19E37BF7B8-> 19E37BF7B8         |
+0EF | 00007FF78681834A | 48:81C4 08000000         | add rsp,8                               | rsp: 19E37BF7B0-> 19E37BF7B8                      |                                                   |
+0F0 | 00007FF786818351 | 48:83C5 08               | add rbp,8                               | rbp: 19E37BF7B8-> 19E37BF7C0                      |                                                   |
+0F1 | 00007FF786818355 | 48:81C5 08000000         | add rbp,8                               | rbp: 19E37BF7C0-> 19E37BF7C8                      |                                                   |
+0F2 | 00007FF78681835C | 48:872C24                | xchg qword ptr ss:[rsp],rbp             | rbp: 19E37BF7C8-> 7FF786178000                    | 00000019E37BF7B8: 7FF786178000-> 19E37BF7C8       |
+0F3 | 00007FF786818360 | 5C                       | pop rsp                                 | rsp: 19E37BF7B8-> 19E37BF7C8                      | 00000019E37BF7B8: 19E37BF7C8-> 19E37BF7C8         |
+0F4 | 00007FF786818361 | E9 DAD8FEFF              | jmp winlicense_test_protected.7FF786805 |                                                   |                                                   |
+0F5 | 00007FF786805C40 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7C8-> 19E37BF7C0                      | 00000019E37BF7C8: 7-> 7 00000019E37BF7C0: 18D5260 |
+0F6 | 00007FF786805C43 | 5A                       | pop rdx                                 | rdx: 8000-> 7 rsp: 19E37BF7C0-> 19E37BF7C8        | 00000019E37BF7C0: 7-> 7                           |
+0F7 | 00007FF786805C44 | 52                       | push rdx                                | rsp: 19E37BF7C8-> 19E37BF7C0                      | 00000019E37BF7C0: 7-> 7                           |
+0F8 | 00007FF786805C45 | 48:89E2                  | mov rdx,rsp                             | rdx: 7-> 19E37BF7C0                               |                                                   |
+0F9 | 00007FF786805C48 | 48:83C2 08               | add rdx,8                               | rdx: 19E37BF7C0-> 19E37BF7C8                      |                                                   |
+0FA | 00007FF786805C4C | 48:81C2 08000000         | add rdx,8                               | rdx: 19E37BF7C8-> 19E37BF7D0                      |                                                   |
+0FB | 00007FF786805C53 | 52                       | push rdx                                | rsp: 19E37BF7C0-> 19E37BF7B8                      | 00000019E37BF7B8: 19E37BF7C8-> 19E37BF7D0         |
+0FC | 00007FF786805C54 | FF7424 08                | push qword ptr ss:[rsp+8]               | rsp: 19E37BF7B8-> 19E37BF7B0                      | 00000019E37BF7C0: 7-> 7 00000019E37BF7B0: 19E37BF |
+0FD | 00007FF786805C58 | 5A                       | pop rdx                                 | rdx: 19E37BF7D0-> 7 rsp: 19E37BF7B0-> 19E37BF7B8  | 00000019E37BF7B0: 7-> 7                           |
+0FE | 00007FF786805C59 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 19E37BF7B8-> 19E37BF7C0                      | 00000019E37BF7B8: 19E37BF7D0-> 19E37BF7D0 0000001 |
+0FF | 00007FF786805C5C | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              | rsp: 19E37BF7C0-> 19E37BF7D0                      | 00000019E37BF7C0: 19E37BF7D0-> 19E37BF7D0         |
+100 | 00007FF786805C60 | E9 3C170100              | jmp winlicense_test_protected.7FF786817 |                                                   |                                                   |
+101 | 00007FF7868173A1 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7D0-> 19E37BF7C8                      | 00000019E37BF7D0: 7FFC6F8318C4-> 7FFC6F8318C4 000 |
+102 | 00007FF7868173A4 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7C8-> 19E37BF7C0                      | 00000019E37BF7C8: 7FFC6F8318C4-> 7FFC6F8318C4 000 |
+103 | 00007FF7868173A7 | 59                       | pop rcx                                 | rcx: 7FF7861AA888-> 7FFC6F8318C4 rsp: 19E37BF7C0- | 00000019E37BF7C0: 7FFC6F8318C4-> 7FFC6F8318C4     |
+104 | 00007FF7868173A8 | 41:53                    | push r11                                | rsp: 19E37BF7C8-> 19E37BF7C0                      | 00000019E37BF7C0: 7FFC6F8318C4-> 200246           |
+105 | 00007FF7868173AA | 49:89E3                  | mov r11,rsp                             | r11: 200246-> 19E37BF7C0                          |                                                   |
+106 | 00007FF7868173AD | 49:83C3 08               | add r11,8                               | r11: 19E37BF7C0-> 19E37BF7C8                      |                                                   |
+107 | 00007FF7868173B1 | 49:81C3 08000000         | add r11,8                               | r11: 19E37BF7C8-> 19E37BF7D0                      |                                                   |
+108 | 00007FF7868173B8 | 4C:871C24                | xchg qword ptr ss:[rsp],r11             | r11: 19E37BF7D0-> 200246                          | 00000019E37BF7C0: 200246-> 19E37BF7D0             |
+109 | 00007FF7868173BC | 5C                       | pop rsp                                 | rsp: 19E37BF7C0-> 19E37BF7D0                      | 00000019E37BF7C0: 19E37BF7D0-> 19E37BF7D0         |
+10A | 00007FF7868173BD | 48:83C4 08               | add rsp,8                               | rsp: 19E37BF7D0-> 19E37BF7D8                      |                                                   |
+10B | 00007FF7868173C1 | E9 9CAFFEFF              | jmp winlicense_test_protected.7FF786802 |                                                   |                                                   |
+10C | 00007FF786802362 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7D8-> 19E37BF7D0                      | 00000019E37BF7D8: 1-> 1 00000019E37BF7D0: 7FFC6F8 |
+10D | 00007FF786802365 | 48:8B0424                | mov rax,qword ptr ss:[rsp]              | rax: 7FF786170000-> 1                             | 00000019E37BF7D0: 1-> 1                           |
+10E | 00007FF786802369 | 48:81EC 08000000         | sub rsp,8                               | rsp: 19E37BF7D0-> 19E37BF7C8                      |                                                   |
+10F | 00007FF786802370 | 48:892C24                | mov qword ptr ss:[rsp],rbp              |                                                   | 00000019E37BF7C8: 7FFC6F8318C4-> 7FF786178000     |
+110 | 00007FF786802374 | 48:89E5                  | mov rbp,rsp                             | rbp: 7FF786178000-> 19E37BF7C8                    |                                                   |
+111 | 00007FF786802377 | 48:83C5 08               | add rbp,8                               | rbp: 19E37BF7C8-> 19E37BF7D0                      |                                                   |
+112 | 00007FF78680237B | 48:81C5 08000000         | add rbp,8                               | rbp: 19E37BF7D0-> 19E37BF7D8                      |                                                   |
+113 | 00007FF786802382 | 48:872C24                | xchg qword ptr ss:[rsp],rbp             | rbp: 19E37BF7D8-> 7FF786178000                    | 00000019E37BF7C8: 7FF786178000-> 19E37BF7D8       |
+114 | 00007FF786802386 | 5C                       | pop rsp                                 | rsp: 19E37BF7C8-> 19E37BF7D8                      | 00000019E37BF7C8: 19E37BF7D8-> 19E37BF7D8         |
+115 | 00007FF786802387 | 48:83C4 08               | add rsp,8                               | rsp: 19E37BF7D8-> 19E37BF7E0                      |                                                   |
+116 | 00007FF78680238B | E9 3115FCFF              | jmp winlicense_test_protected.7FF7867C3 |                                                   |                                                   |
+117 | 00007FF7867C38C1 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7E0-> 19E37BF7D8                      | 00000019E37BF7E0: 0-> 0 00000019E37BF7D8: 1-> 0   |
+118 | 00007FF7867C38C4 | 48:8B3424                | mov rsi,qword ptr ss:[rsp]              | rsi: 7FF7864855A5-> 0                             | 00000019E37BF7D8: 0-> 0                           |
+119 | 00007FF7867C38C8 | 48:81C4 08000000         | add rsp,8                               | rsp: 19E37BF7D8-> 19E37BF7E0                      |                                                   |
+11A | 00007FF7867C38CF | 56                       | push rsi                                | rsp: 19E37BF7E0-> 19E37BF7D8                      | 00000019E37BF7D8: 0-> 0                           |
+11B | 00007FF7867C38D0 | 48:89E6                  | mov rsi,rsp                             | rsi: 0-> 19E37BF7D8                               |                                                   |
+11C | 00007FF7867C38D3 | 48:83C6 08               | add rsi,8                               | rsi: 19E37BF7D8-> 19E37BF7E0                      |                                                   |
+11D | 00007FF7867C38D7 | 48:81C6 08000000         | add rsi,8                               | rsi: 19E37BF7E0-> 19E37BF7E8                      |                                                   |
+11E | 00007FF7867C38DE | 48:333424                | xor rsi,qword ptr ss:[rsp]              |                                                   | 00000019E37BF7D8: 0-> 0                           |
+11F | 00007FF7867C38E2 | 48:313424                | xor qword ptr ss:[rsp],rsi              |                                                   | 00000019E37BF7D8: 0-> 19E37BF7E8                  |
+120 | 00007FF7867C38E6 | 48:333424                | xor rsi,qword ptr ss:[rsp]              | rsi: 19E37BF7E8-> 0                               | 00000019E37BF7D8: 19E37BF7E8-> 19E37BF7E8         |
+121 | 00007FF7867C38EA | 5C                       | pop rsp                                 | rsp: 19E37BF7D8-> 19E37BF7E8                      | 00000019E37BF7D8: 19E37BF7E8-> 19E37BF7E8         |
+122 | 00007FF7867C38EB | E9 2DEF0300              | jmp winlicense_test_protected.7FF786802 |                                                   |                                                   |
+123 | 00007FF78680281D | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 19E37BF7E8-> 19E37BF7E0                      | 00000019E37BF7E8: 7FF786178000-> 7FF786178000 000 |
+124 | 00007FF786802820 | 48:8B2C24                | mov rbp,qword ptr ss:[rsp]              |                                                   | 00000019E37BF7E0: 7FF786178000-> 7FF786178000     |
+125 | 00007FF786802824 | 48:81C4 08000000         | add rsp,8                               | rsp: 19E37BF7E0-> 19E37BF7E8                      |                                                   |
+126 | 00007FF78680282B | 41:55                    | push r13                                | rsp: 19E37BF7E8-> 19E37BF7E0                      | 00000019E37BF7E0: 7FF786178000-> 0                |
+127 | 00007FF78680282D | 49:89E5                  | mov r13,rsp                             | r13: 0-> 19E37BF7E0                               |                                                   |
+128 | 00007FF786802830 | 49:83C5 08               | add r13,8                               | r13: 19E37BF7E0-> 19E37BF7E8                      |                                                   |
+129 | 00007FF786802834 | 49:81C5 08000000         | add r13,8                               | r13: 19E37BF7E8-> 19E37BF7F0                      |                                                   |
+12A | 00007FF78680283B | 4C:872C24                | xchg qword ptr ss:[rsp],r13             | r13: 19E37BF7F0-> 0                               | 00000019E37BF7E0: 0-> 19E37BF7F0                  |
+12B | 00007FF78680283F | 5C                       | pop rsp                                 | rsp: 19E37BF7E0-> 19E37BF7F0                      | 00000019E37BF7E0: 19E37BF7F0-> 19E37BF7F0         |
+12C | 00007FF786802840 | E9 F2BCFEFF              | jmp winlicense_test_protected.7FF7867EE |                                                   |                                                   |
+12D | 00007FF7867EE537 | C3                       | ret                                     | rsp: 19E37BF7F0-> 19E37BF7F8                      | 00000019E37BF7F0: 7FF7861AA888-> 7FF7861AA888     |
+12E | 00007FF7861AA888 | 48:83EC 08               | sub rsp,8                               |                                                   |                                                   |

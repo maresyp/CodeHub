@@ -1,0 +1,83 @@
+// The MIT License (MIT)
+ 
+// Copyright (c) 2019 Ltd Cadwise-N
+ 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+ 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+ 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+using System;
+using Guard;
+using JetBrains.Annotations;
+ 
+namespace Cadwise.Collections
+{
+    public sealed class FixedSizeList<T>
+    {
+        private readonly T[] _backend;
+        
+        private int _firstFreeSlot;
+ 
+        public FixedSizeList(int capacity)
+        {
+            ThrowIf.Argument.NegativeOrZero(capacity, nameof(capacity));
+ 
+            _backend = new T[capacity];
+        }
+ 
+        public void Add(T item)
+        {
+            ThrowIf.Precondition.Failed(false == Full(), "list is full");
+ 
+            _backend[_firstFreeSlot] = item;
+            ++_firstFreeSlot;
+        }
+ 
+        public void Clear()
+        {
+            for (int i = 0; i < _firstFreeSlot; ++i)
+            {
+                _backend[i] = default(T);
+            }
+ 
+            _firstFreeSlot = 0;
+        }
+ 
+        [Pure]
+        public bool Full()
+        {
+            return _firstFreeSlot == _backend.Length;
+        }
+ 
+        [Pure]
+        public int GetCapacity()
+        {
+            return _backend.Length;
+        }
+ 
+        [Pure]
+        public int GetLength()
+        {
+            return _firstFreeSlot;
+        }
+ 
+        [Pure]
+        public ReadOnlySpan<T> Access()
+        {
+            return _backend.AsSpan(0, _firstFreeSlot);
+        }
+    }
+}

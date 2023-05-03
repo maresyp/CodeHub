@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+ 
+"""
+# Script que pide saludar a una persona
+ 
+ 
+ 
+nombre = "Oscar"
+edad = 33
+ 
+# primera forma de impresión
+print("Hola " + nombre + ", tenes " + str(edad) + " años de edad")
+ 
+# segunda forma de impresión
+print("Hola", nombre, ", tenes", edad, "años de edad")
+ 
+# tercera forma de impresion
+print(f"Hola {nombre}, tenes {edad} años de edad")
+ 
+""" 
+# Script que pide un nombre y una edad y saluda en tono de broma
+# respondiendo con el doble de edad
+# >> Ingresa tu nombre: Juan
+# >> Ahora dime tu edad: 25
+# >> Bueno Juan, dices que tienes 25 años pero pareces de 50
+ 
+nombre = input("Ingresa tu nombre: ")
+edad = int(input("Ahora dime tu edad: "))
+print(f"Bueno {nombre}, dices que tienes {edad} años pero pareces de {edad*2}")

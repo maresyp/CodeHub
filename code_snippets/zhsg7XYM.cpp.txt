@@ -1,0 +1,63 @@
+#include "Arduino.h"
+#include <L298NX2.h>
+ 
+#define IN_1 8 
+#define IN_2 7
+#define IN_3 4 
+#define IN_4 2
+ 
+L298NX2 motor(IN_1, IN_2, IN_3, IN_4);
+ 
+void setup() {
+  Serial.begin(9600);
+  motor.stop();       // Initial state of the motors, stop.
+}
+ 
+void loop() {
+  // #2-4
+  motor.forwardA();   // Initially run motor A for 5 seconds in the forward direction.
+  delay(5000);
+ 
+  motor.stop();       // Stop motor A from running for 3 seconds.
+  delay(3000);
+ 
+  motor.backwardA();  // Run motor A in reverse direction for 5 seconds.
+  delay(5000);
+ 
+ 
+  // #5
+  motor.forwardB();   // Initially run motor B for 5 seconds in the forward direction.
+  delay(5000);
+ 
+  motor.stop();       // Stop motor B from running for 3 seconds.
+  delay(3000);
+ 
+  motor.backwardB();  // Run motor B in reverse direction for 5 seconds.
+  delay(5000);
+ 
+ 
+ 
+ 
+  // #6.A
+  motor.forward();    // Motor A and Motor B both in forward direction for 10 seconds
+  delay(10000);
+ 
+ 
+ 
+  // #6.B
+  motor.backward();   // Motor A and Motor B both run in reverse direction for 10 seconds.
+  delay(10000);
+ 
+  
+  // #6.C
+  motor.forwardA();   // Motor A is running in forward direction while motor B is running in reverse.
+  motor.backwardB();
+  delay(10000);
+  
+  
+  // #6.D
+  motor.forwardB();   // Motor A is running in reverse direction while motor B is running in forward direction.
+  motor.backwardA();
+  delay(10000);
+ 
+}

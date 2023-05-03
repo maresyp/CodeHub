@@ -1,0 +1,66 @@
+local args = {
+            [1] = "Clicks",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "Gems",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "Speed",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "Jump",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "Buttons",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "Inventory",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "PetEquip",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "Luck",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "XP",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "InstantGolden",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(0.1)
+        local args = {
+            [1] = "MaxLevel",
+            [2] = true
+        }
+        game:GetService("ReplicatedStorage").Upgrade:FireServer(unpack(args))
+        wait(1)

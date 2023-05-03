@@ -1,0 +1,35 @@
+<?php
+// Configuration de la base de données
+$servername = "localhost"; // Nom du serveur MySQL
+$username = "username"; // Nom d'utilisateur MySQL
+$password = "password"; // Mot de passe MySQL
+$dbname = "nom_de_la_base_de_donnees"; // Nom de la base de données
+ 
+// Connexion à la base de données
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Échec de la connexion à la base de données : " . $conn->connect_error);
+}
+ 
+// Requête pour obtenir la liste des tables
+$sql = "SHOW TABLES";
+$result = $conn->query($sql);
+ 
+// Vérification des erreurs de requête
+if ($result === false) {
+    die("Erreur de requête : " . $conn->error);
+}
+ 
+// Affichage du résultat
+if ($result->num_rows > 0) {
+    echo "Tables dans la base de données :<br>";
+    while ($row = $result->fetch_assoc()) {
+        echo $row["Tables_in_" . $dbname] . "<br>";
+    }
+} else {
+    echo "Aucune table trouvée dans la base de données.";
+}
+ 
+// Fermeture de la connexion à la base de données
+$conn->close();
+?>Tro bi un !!

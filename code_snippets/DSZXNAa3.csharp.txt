@@ -1,0 +1,39 @@
+int minNumber = 0;
+int maxNumber = 2;
+Random random = new Random();
+ 
+int arrayLength = 30;
+int[] numbers = new int[arrayLength];
+int repetitionNumber = 0;
+int repetitionCount = 0;
+int currentRepetitionCount = 1;
+ 
+for (int i = 0; i < numbers.Length; i++)
+    numbers[i] = random.Next(minNumber, maxNumber + 1);
+ 
+for (int i = 0; i <= numbers.Length - 2; i++)
+{
+    if (numbers[i] == numbers[i + 1])
+    {
+        currentRepetitionCount++;
+ 
+        if (repetitionCount <= currentRepetitionCount)
+        {
+            repetitionCount = currentRepetitionCount;
+ 
+            repetitionNumber = numbers[i];
+        }
+    }
+    else
+    {
+        currentRepetitionCount = 1;
+    }
+}
+ 
+Console.Write("массив: ");
+ 
+foreach (var number in numbers)
+    Console.Write($"{number} ");
+ 
+Console.Write($" - число {repetitionNumber} повторяется {repetitionCount} раза подряд.");
+Console.ReadKey();

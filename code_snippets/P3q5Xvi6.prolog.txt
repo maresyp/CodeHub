@@ -1,0 +1,42 @@
+implement main
+    open core, console
+ 
+class predicates
+    isExists : (integer*, integer, boolean [out]).
+    isSubset : (integer*, integer*, boolean [out]).
+ 
+clauses
+    isExists([], Element, false) :-
+        !.
+    isExists([X | Xs], Element, S) :-
+        isExists(Xs, Element, S2),
+        if X = Element then
+            S = true
+        else
+            S = S2
+        end if.
+ 
+    isSubset([], Set, true) :-
+        !.
+    isSubset([X | Xs], Set, S) :-
+        isSubset(Xs, Set, S2),
+        isExists(Set, X, A),
+        if A = true and S2 = true then
+            S = true
+        else
+            S = false
+        end if.
+        %write(X, " ", A).
+ 
+    run() :-
+        init(),
+        L = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+        L1 = [3, 4, 5, 6, 7, 8, 9, 10],
+        isSubset(L, L1, A),
+        write(A, "Конец. Нажмите любую клавишу "),
+        _ = readchar().
+ 
+end implement main
+ 
+goal
+    mainExe::run(main::run).

@@ -1,0 +1,121 @@
+#bcn_prot on
+#bcn_prot end
+ 
+alias -l channel { return #test } ; Place channels (use comma to add more)
+alias -l kb_reason { return [Banned]: You are NOT allowed to join here! } ; Ban reason
+alias -l kb_bantime { return 3600 } ; Ban seconds
+alias -l kb_bantype { return 2 } ; Ban type (/help $mask)
+ 
+ON !*:JOIN:$($channel): {
+  if ($group(#bcn_prot).status !== on) { return }
+ 
+  bad_common_nick_check $nick
+}
+ 
+ON !*:NICK: {
+  if ($group(#bcn_prot).status !== on) { return }
+ 
+  var %t = $comchan($newnick,0)
+ 
+  if (!%t) { return }
+ 
+  var %i = 1
+  while (%i <= %t) {
+    var %c = $comchan($newnick,%i)
+ 
+    if (%c) && ($istok($channel,%c,44)) { bad_common_nick_check $newnick }
+ 
+    inc %i
+  }
+ 
+}
+ 
+alias bcn_prot {
+  if (!$1) { echo 4 -at [BCN]: Error, Use an option ON or OFF and try again! | return }
+  if (!$istok(on off,$1,32)) { echo 4 -at [BCN]: Error, use ON or OFF options! | return }
+ 
+  var %s = $group(#bcn_prot).status
+ 
+  if ($1 == ON) { 
+    if (%s == on) { echo 4 -at [BCN]: Error, Already enabled! }
+    else { .enable #bcn_prot | echo -at [BCN]: Bad Common Nicknames protection enabled! - Channels: $channel }
+  }
+ 
+  if ($1 == OFF) {
+    if (%s == off) { echo 4 -at [BCN]: Error, Already disabled! }
+    else { .disable #bcn_prot | echo -at [BCN]: Bad Common Nicknames protection disabled! }
+  }
+ 
+}
+ 
+alias -l bad_common_nick_check {
+  ; /bad_common_nick_check <nick>
+ 
+  if (!$1) { return }
+ 
+  var %h = GOODNICK
+  var %t = $hget(%h,0).item
+ 
+  if (!%t) { return }
+ 
+  var %i = 1
+  while (%i <= %t) {
+    var %e = $hget(%h,%i).item
+    var %d = $hget(%h,%e)
+ 
+    if (%e) && (%d) && (%d !== $1) { 
+      var %n = $bad_common_nick_check_match(%d,$1)
+ 
+      if (%n) { bad_common_nick_kb $1 %d | break }
+    }
+ 
+    inc %i
+  }
+ 
+}
+ 
+alias -l bad_common_nick_kb {
+  ; /bad_common_nick_kb <nick> <match-nick>
+ 
+  if (!$1) && (!$2) { return }
+ 
+  var %t = $comchan($1,0)
+ 
+  if (!%t) { return }
+ 
+  var %i = 1
+  while (%i <= %t) {
+    var %c = $comchan($1,%i)
+ 
+    if (%c) && ($istok($channel,%c,44)) && ($me isop %c) && ($1 ison %c) && ($1 isreg %c) {
+      var %h = $ial($1).host
+ 
+      echo -t %c [BCN]: $1 matches $2 in the list.
+ 
+      if (*.irccloud.com iswm %h) || (*.mibbit.com iswm %h) || (*.kiwiirc.com iswm %h) { ban $+(-u,$kb_bantime) %c *! $+ $ial($1).user $+ @* | kick %c $1 $kb_reason }
+      elseif (*.IP iswm %h) { ban $+(-u,$kb_bantime) %c *!*@*. $+ $gettok(%h,3-,46) | kick %c $1 $kb_reason }
+      else { ban $+(-ku,$kb_bantime) %c $1 $kb_bantype $kb_reason }
+    }
+ 
+    inc %i
+  }
+ 
+}
+ 
+alias -l bad_common_nick_check_match { 
+  ; $bad_common_nick_check_match(main-nick,check-nick)
+ 
+  if (!$1) && (!$2) { return }
+ 
+  var %s = [-_`|{}^\[\]\d]*
+  var %p = /^(?! $+ \Q $+ $replacecs($1,\E,\E\\E\Q) $+ \E$) $+ .*? $+ $bad_common_nick_check_match_temp($1,%s) $+ .*$ $+ /iu
+  var %r = $regex($2,%p) 
+ 
+  return $iif(%r,1,0)
+}
+ 
+alias -l bad_common_nick_check_match_temp {
+  var %name = $2
+ 
+  return $regsubex($replace($1,o,[0o],e,[e3],i,[i1|],a,[a4]),/(\[[^\]]+\]|.)/g,$iif(\1 !isalnum && $len(\1) == 1,\) $+ \1+ $+ $iif(\n != \0,%name))
+}

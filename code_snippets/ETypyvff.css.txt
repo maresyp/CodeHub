@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+    
+:root {
+    --name_bg_color_primary: rgb(45, 35, 61);
+    --name_bg_color_secondary: rgb(51, 34, 92);
+    --name_txt_color: rgb(250, 250, 250);
+    --name_border_color: rgb(250, 250, 250);
+    --msg_bg_color_primary:  rgb(250, 250, 250);
+    --msg_bg_color_secondary: rgb(250, 250, 250) ;
+    --msg_txt_color: rgb(45, 35, 61);
+    --msg_border_color: rgb(250,250,250);
+    --name_font_size: 24px;
+    --msg_font_size: 26px;
+}
+ 
+* {
+    box-sizing: border-box;
+}
+ 
+html, body {
+    height: 100%;
+    overflow: visible;
+}
+ 
+body {
+    background: rgba(0,0,0,0.5);
+    font-family: 'Comfortaa';
+    font-weight: 700;
+    line-height: 1.5em;
+}
+ 
+#log {
+    display: table;
+    table-layout: fixed;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0 0 1em 1em;
+    width: 100%;
+}
+ 
+#log > div {
+    display: table-row;
+}
+ 
+#log .emote img {
+    display: inline-block;
+    height: 1em;
+    opacity: 0;
+}
+ 
+#log .message, #log .name, #log .meta {
+    vertical-align: middle;
+    display: flex;
+}
+ 
+#log .animate_meta, #log .animate_msg {
+    display: flex;
+    opacity: 0;
+}
+ 
+.animate_meta {
+    justify-content: flex-end;
+}
+ 
+.animate_msg {
+    justify-content: flex-end;
+}
+ 
+#log .meta {
+    font-size: var(--name_font_size);
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 999em;
+    transform: translateY(-1.15em) translateX(-1em);
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+ 
+#log .message {
+    font-size: var(--msg_font_size);
+    color: var(--msg_txt_color);
+    border: 0.05em solid var(--msg_border_color);
+    border-radius: 1.2em;
+    background: linear-gradient(175deg, var(--msg_bg_color_primary) 0%, var(--msg_bg_color_secondary) 100%);
+    padding: 1em 1.1em 1.6em 1.1em;
+    min-width: 9em;
+    max-width: 80vw;
+    font-weight: 700;
+    line-height: 1.6;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2), inset 0 0 10px rgba(0,0,0,0.2);
+}
+ 
+#log .name {
+    background: linear-gradient(175deg, var(--name_bg_color_primary) 0%, var(--name_bg_color_secondary) 100%);
+    color: var(--name_txt_color);
+    border-radius: 999em;
+    border: 0;
+    border: 0.05em solid var(--name_border_color);
+    padding: 0.6em 0.8em 0.5em 0.8em;
+    font-weight: 700;
+}
+ 
+#log .badges::after {
+    content: "✦";
+    margin: 0 0.2em 0 0;
+}
+ 
+#log>div.deleted {
+    visibility: hidden;
+}
+ 
+#log .emote {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    padding: 0.4em 0.6em;
+    position: relative;
+}
+ 
+#log .emote img {
+    display: inline-block;
+    height: 1em;
+    opacity: 0;
+}
+ 
+.badge {
+    display: inline-flex;
+    position: relative;
+    height: 0.9em;
+    margin-right: 0.3em;
+    vertical-align: middle;
+    transform: translateY(-0.05em);
+}
+ 
+.message_container:nth-child(odd) .message::before {
+    content: "✦";
+    color: var( --msg_bg_color_primary);
+    text-shadow: 0 0 10px rgb(0,0,0);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+ 
+.message_container:nth-child(even) .message::before {
+    content: "✦";
+    color: var( --msg_bg_color_primary);
+    text-shadow: 0 0 10px rgb(0,0,0);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+ 
+.message_container:nth-child(odd) .message::before {
+    animation: breatheLoopOdd 4s ease-in-out infinite;
+}
+ 
+.message_container:nth-child(even) .message::before {
+    animation: breatheLoopEven 4s ease-in-out infinite;
+}
+ 
+#log .animate_meta {
+    animation: metaAnimateIn 0.4s cubic-bezier(0,0,0,1) 0.2s forwards;
+}
+ 
+#log .animate_msg {
+    animation: msgAnimateIn 0.6s cubic-bezier(0,0,0,1) 0s forwards;
+}
+ 
+.message_container:nth-child(even) .animate_meta {
+    justify-content: flex-start;
+    margin-left: 3.5em;
+}
+ 
+.message_container:nth-child(even) .animate_msg {
+    justify-content: flex-start;
+}
+ 
+ 
+@keyframes metaAnimateIn {
+    from { transform: translateY(2em); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+ 
+@keyframes msgAnimateIn {
+    from { transform: translateY(4em); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+ 
+@keyframes breatheLoopOdd {
+    0% { transform: translate(-2em, -0.73em) scale(100%); }
+    50% { transform: translate(-2em, -0.73em)scale(140%); }
+    100% { transform: translate(-2em, -0.73em)scale(100%); }
+}
+ 
+@keyframes breatheLoopEven {
+    0% { transform: translate(2em, -0.73em) scale(100%); }
+    50% { transform: translate(2em, -0.73em)scale(140%); }
+    100% { transform: translate(2em, -0.73em)scale(100%); }
+}

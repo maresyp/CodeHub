@@ -1,0 +1,44 @@
+;############## Picture Sharing (by Carolyn52) ##############
+;#
+;# To start the script 'playin' random URLs, you will first need a flat text file list, one 
+;# URL per line, saved in the main mIRC directory (such as 'list.txt')
+;#
+;# To start the script, type (in the channel you want it running in):
+;#
+;#  /pp [list file] [interval]
+;#
+;#      Where:
+;#
+;#        [list file] is the name of the file with the list of URLs, without the extension 
+;#          (list.txt would just be 'list' by itself, in the command)
+;#
+;#        [interval] is the time, in seconds, desired between postings
+;#
+;# To stop the 'playing' of random URL's simply type (in the same channel where it's playing):
+;#
+;#  /ps
+;#
+;#
+;# NOTE: there is no configuration needed in this script, simply type the command as described above.
+;#
+ 
+;############## Begin Script ##############
+ 
+pp {
+  set %picchan #
+  set %picinterval $$2
+  set %picfile $$1 $+ .txt
+ 
+  .play -r %picchan %picfile
+  .timer $+ %picchan $+ _pics 0 %picinterval playpic
+}
+ 
+playpic {
+  .play -r %picchan %picfile
+}
+ 
+ps {
+  .timer $+ %picchan $+ _pics off  
+}
+ 
+;############## end Script ##############

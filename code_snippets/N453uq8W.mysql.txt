@@ -1,0 +1,36 @@
+SELECT 
+    Customers.CustomerName, 
+    Categories.CategoryID, 
+    Orders.OrderDate, 
+    COUNT(OrderDetails.OrderID)
+FROM 
+    Customers 
+    JOIN Orders USING(CustomerID)
+    JOIN OrderDetails USING(OrderID)
+    JOIN Products USING(ProductID)
+    JOIN Categories USING(CategoryID)
+WHERE 
+    Customers.CustomerID IN (
+        SELECT 
+            CustomerID 
+        FROM (
+            SELECT 
+                CustomerID, 
+                OrderDate, 
+                CategoryID
+            FROM 
+                Orders 
+                JOIN OrderDetails USING(OrderID)
+                JOIN Products USING(ProductID)
+            GROUP BY 
+                CustomerID, OrderDate, CategoryID
+            HAVING 
+                COUNT(OrderDetails.OrderID) > 1
+        ) AS CustomerOrders
+    )
+GROUP BY 
+    Customers.CustomerName, 
+    Categories.CategoryID, 
+    Orders.OrderDate
+ORDER BY 
+    COUNT(OrderDetails.OrderID) DESC;

@@ -1,0 +1,102 @@
+Statistical_Properties_of_Stock_Returns
+reading csv file
+setwd(“C:/Users/CompLab21/Downloads”) 
+amara = read.csv(“AMARAJABAT.NS.csv”)
+Checking class of data
+class(amara$Date)
+as.Date(data$col, format=%d-%m-%y)
+daily_log_return = diff(log(amara$Adj.Close))
+hist(daily_log_return, col = blues9)
+shapiro.test(daily_log_return)
+qqnorm(daily_log_return, pch = 1, frame = FALSE)
+qqline(daily_log_return, col = “steelblue”, lwd = 2)
+acf(daily_log_return)
+ 
+ 
+2. financial time series
+read file and as date
+hist(amara$Adj.Close/bse$Adj.close, col = blues9)
+library for time series
+install.packages(“aTSA”) 
+library(aTSA)
+adf.test(amara$adj.close/bse$adj.close)
+Diff of Adj.close
+Diff = diff(amara$Adj.Close) 
+plot(Diff)
+hist(Diff)
+adf.test(Diff)
+ 
+ 
+3.ARIMA_Model
+install.packages("forecast")
+install.packages("tseries")
+setwd("C:/Users/Sharma/Desktop/Econometrics")
+amara = read.csv("AMARAJABAT.NS.csv")
+attach(amara)
+library(ggplot2)
+plot(Adj.Close, col="red")
+library(forecast)
+library(tseries)
+auto.arima(Adj.Close)
+Arima_Model = arima(Adj.Close, order = c(1,1,0))  >>#dosent make any diffrence back to previous
+Arima_Model = arima(Adj.Close, order = c(0,1,0))
+Box.test(residuals(Arima_Model), lag = 10)
+#Time series Diagnosis 
+tsdiag(Arima_Model)
+ 
+4.Portfolio_Analysis
+setwd("C:/Users/Sharma/Desktop/Econometrics")
+ujjivan = read.csv("UJJIVANSFB.NS.csv")  rest all files
+#making daily log return var
+DLR_ujjivan = diff(log(ujjivan$Adj.Close))
+summary(DLR_ujjivan)
+annualised_dlr_return = 0.000441*270
+dailySDA_uj = sd(DLR_ujjivan)
+annual_sd_uj = dailySDA_uj*sqrt(270)
+#Making portfolio by taking DLR of all the companies
+our_portfolio =data.frame(DLR_ujjivan, DLR_prince, DLR_chemcon)
+colnames(our_portfolio) = c("UJJIVAN", "PRINCE_Pipe", "CHEMCON")
+pairs(our_portfolio, labels = colnames(our_portfolio), col = rainbow(3))
+#taking co varience matrix of the portfolio we created 
+covar_mat = as.matrix(cov(our_portfolio), ncol= 3)
+#Taking portfolio var so we can calculate its risk
+Portfolio_var =(t(Portfolio_weight)%*%covar_mat%*%Portfolio_weight)
+Portfolio_Risk = sqrt(Portfolio_var)
+Annual_Portfolio_risk = Portfolio_Risk*sqrt(269)
+stock_return = as.matrix(c(0.000441,-0.0004156, 2.245e-05 ), ncol = 1)
+Portfolio_Return = (t(Portfolio_weight)%*%stock_return)
+Annual_Portfolio_Return = Portfolio_Return*269
+table of > mean dlr, annual dlr(annualised_dlr_return), dailr risk(dailySDA_uj = sd(DLR_ujjivan)), annual risk(dailySDA_uj*sqrt(270))
+ 
+ 
+5. CAPM
+'''The CAPM is expressed as:
+Ri = Rf + β(Rm − Rf)
+Where, Ri is the expected return of security i, Rf is the risk-free rate of return; β is the variability of stock returns with the market portfolio, Rm is return on the market portfolio, and (Rm − Rf) is the equity market risk premium.'''
+ 
+daily log return
+summary(petron_dlr)
+dlr_p = -0.0002971
+annualied_mean = -0.0002971*268
+petron_sd = sd(petron_dlr)
+annual_sd_petron = petron_sd *sqrt(268)
+#regression summary for companys
+#company petron
+petron_reg = lm(petron_dlr~bse_dlr)
+summary(petron_reg)
+petron_beta = coefficients(summary(petron_reg))[2,1]
+plot(bse_dlr, petron_dlr, pch = 20)
+abline(lm(petron_dlr~bse_dlr), col= "green")
+#Expected rETURN
+RF = 0.07362
+RM = annual_mena_bse
+E_petron = RF+(petron_beta*(RM-RF))
+petron_sharp = (annualied_mean-RF)/annual_sd_petron
+#treynor_ratio
+petron_tr =(annualied_mean-RF)/petron_beta
+#jensens_alpha
+aplha_pet = annualied_mean-E_petron
+#making data frame i.e table
+petron = c(dlr_p, annualied_mean, petron_sd, annual_sd_petron, petron_beta, E_petron,petron_sharp,petron_tr, aplha_pet)
+# OUTPUT TABLE FOR ALL THE DATA
+output_table = data.frame(petron,ofss, ved, zeel, bse, row.names = c("Daily Log Retrun", "Annualized Log Return", "standard deviation","Annual Standard Deviation", "Beta Value", "Expected Return", "Sharpe Ratio", "Trenyor Ratio", "Jensisns Alpha "))

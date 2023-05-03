@@ -1,0 +1,11 @@
+xchessboard(1..8). 
+ychessboard(1..8).
+posA1(1,1).
+step(1..8*8-1).
+posXY(X,Y) :- xchessboard(X), ychessboard(Y), not posA1(X,Y).
+moveTo(X1,Y1,X2,Y2) :- posXY(X1,Y1), posXY(X2,Y2), |X1-X2| = 1, |Y1-Y2| = 2.
+moveTo(X1,Y1,X2,Y2) :- posXY(X1,Y1), posXY(X2,Y2), |X1-X2| = 2, |Y1-Y2| = 1.
+1 { position(I,X,Y) : posXY(X,Y) } 1 :- step(I).
+:- step(I), step(I+1), posXY(X1,Y1), posXY(X2,Y2), position(I,X1,Y1), position(I+1,X2,Y2), not  moveFromTo(X1,Y1,X2,Y2).
+:- step(I1-1), step(I2), I1 < I2, posXY(X,Y), position(I1,X,Y), position(I2,X,Y).
+position(1,2,1).

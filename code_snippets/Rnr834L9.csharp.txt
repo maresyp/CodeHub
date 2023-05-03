@@ -1,0 +1,24 @@
+using System;
+using System.Reflection;
+ 
+namespace MyNamespace
+{
+    class MyClass
+    {
+        static void Main(string[] args)
+        {
+            // Load the external DLL
+            Assembly assembly = Assembly.LoadFile("path/to/mydll.dll");
+ 
+            // Get the type of the class you want to invoke
+            Type type = assembly.GetType("MyNamespace.MyClass");
+ 
+            // Create an instance of the class
+            object instance = Activator.CreateInstance(type);
+ 
+            // Invoke a method on the class
+            MethodInfo method = type.GetMethod("MyMethod");
+            method.Invoke(instance, null);
+        }
+    }
+}

@@ -1,0 +1,49 @@
+// Use const instead of let for variables that don't change
+const input = [
+    `31`,
+    '115'
+];
+ 
+// Use descriptive names for variables and functions
+const printOutput = this.print || console.log;
+const getInput = this.gets || ((arr, index) => () => arr[index++])(input, 0);
+ 
+// Use camelCase for variable names
+let messages = Number(getInput());
+let minutes = Number(getInput());
+let additional = 0;
+let taxes;
+ 
+// Use constants for fixed values
+const FREE_MESSAGES = 20;
+const FREE_MINUTES = 60;
+const MESSAGE_FEE = 0.06;
+const MINUTE_FEE = 0.10;
+const TAX_RATE = 0.2;
+const BASE_FEE = 12;
+ 
+// Use a function to calculate the additional fee and print the message
+function calculateAdditionalFee(used, free, fee, unit) {
+    let extra = used - free;
+    if (extra > 0) {
+        let charge = extra * fee;
+        additional += charge;
+        printOutput(`${extra} additional ${unit} for ${charge.toFixed(2)} levas`);
+    } else {
+        printOutput(`0 additional ${unit} for 0.00 levas`);
+    }
+}
+ 
+// Call the function for messages and minutes
+calculateAdditionalFee(messages, FREE_MESSAGES, MESSAGE_FEE, 'messages');
+calculateAdditionalFee(minutes, FREE_MINUTES, MINUTE_FEE, 'minutes');
+ 
+// Calculate and print the taxes and final bill
+if (additional > 0) {
+    taxes = additional * TAX_RATE;
+    printOutput(`${taxes.toFixed(2)} additional taxes`);
+} else {
+    printOutput('0.00 additional taxes');
+}
+let final = BASE_FEE + additional + taxes;
+printOutput(`${final.toFixed(2)} total bill`);

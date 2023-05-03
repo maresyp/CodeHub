@@ -1,0 +1,43 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+int wyszukiwanie_wzorca(string wzorzec, string tekst)
+{
+    int wzorzec_size = wzorzec.size();
+    int tekst_size = tekst.size();
+    if(wzorzec_size > tekst_size)
+        return 0;       // dłuższy tekst nie może zawierać się w krótszym
+ 
+    int licznik = 0;
+ 
+    for(int i = 0; i <= tekst_size - wzorzec_size; ++i)     // i - numer znaku, na którym wzorzec potencjalnie może się zaczynać
+    {
+        if(tekst[i] == wzorzec[0])       // czy pierwszy znak wzorca pokrywa się z danym znakiem w tekście
+        {
+            bool zgodne = true;
+            for(int j = 1; j < wzorzec_size; ++j)
+            {
+                if(tekst[i + j] != wzorzec[j])      // czy znaki nie są zgodne
+                {
+                    zgodne = false;
+                    break;
+                }
+            }
+            if(zgodne)  // cały wzorzec jest zawarty w tekście
+                ++licznik;
+        }
+    }
+    return licznik;
+}
+ 
+int main()
+{
+    string wzorzec, tekst;
+    cout << "Podaj tekst: ";
+    getline(cin, tekst);
+    cout << "Podaj wzorzec: ";
+    getline(cin, wzorzec);
+    cout << wyszukiwanie_wzorca(wzorzec, tekst) << endl;
+    return 0;
+}

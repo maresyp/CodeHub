@@ -1,0 +1,117 @@
+//CRIADO POR FELIPE ESTRELA DE ALBUQUERQUE
+using System;
+ 
+class Colecao
+{
+    protected object[] dados;
+    protected int indice = -1;
+ 
+    public Colecao(int tamanho)
+    {
+        dados = new object[tamanho];
+    }
+ 
+    public virtual void InserirItem(object item)
+    {
+        if (indice == dados.Length - 1)
+            throw new Exception("A coleção está cheia.");
+        dados[++indice] = item;
+    }
+ 
+    public virtual object RemoverItem()
+    {
+        if (indice == -1)
+            throw new Exception("A coleção está vazia.");
+        return dados[indice--];
+    }
+}
+ 
+class Pilha : Colecao
+{
+    public Pilha(int tamanho) : base(tamanho)
+    {
+    }
+ 
+    public override void InserirItem(object item)
+    {
+        if (indice == dados.Length - 1)
+            throw new Exception("A pilha está cheia.");
+        dados[++indice] = item;
+    }
+ 
+    public override object RemoverItem()
+    {
+        if (indice == -1)
+            throw new Exception("A pilha está vazia.");
+        return dados[indice--];
+    }
+}
+ 
+class Fila : Colecao
+{
+    private int inicio = 0;
+ 
+    public Fila(int tamanho) : base(tamanho)
+    {
+    }
+ 
+    public override void InserirItem(object item)
+    {
+        if (indice == dados.Length - 1)
+            throw new Exception("A fila está cheia.");
+        dados[++indice] = item;
+    }
+ 
+    public override object RemoverItem()
+    {
+        if (indice == -1)
+            throw new Exception("A fila está vazia.");
+        object item = dados[inicio];
+        for (int i = inicio; i < indice; i++)
+            dados[i] = dados[i + 1];
+        indice--;
+        return item;
+    }
+}
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        Colecao colecao = new Colecao(5);
+        TestarColecao(colecao);
+ 
+        Pilha pilha = new Pilha(5);
+        TestarColecao(pilha);
+ 
+        Fila fila = new Fila(5);
+        TestarColecao(fila);
+ 
+        Console.ReadLine();
+    }
+ 
+    static void TestarColecao(Colecao colecao)
+    {
+        try
+        {
+            colecao.InserirItem("Item 1");
+            colecao.InserirItem("Item 2");
+            colecao.InserirItem("Item 3");
+            colecao.InserirItem("Item 4");
+            colecao.InserirItem("Item 5");
+ 
+            Console.WriteLine("Itens da coleção:");
+            Console.WriteLine(colecao.RemoverItem());
+            Console.WriteLine(colecao.RemoverItem());
+            Console.WriteLine(colecao.RemoverItem());
+            Console.WriteLine(colecao.RemoverItem());
+            Console.WriteLine(colecao.RemoverItem());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+ 
+        Console.WriteLine();
+    }
+}

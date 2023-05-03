@@ -1,0 +1,31 @@
+alias -l txt { return C:\Users\location\location\mibbitnames\badnick.txt }
+alias -l mychan { return #mastercontrol }
+ 
+ON *:TEXT:!add *:$($mychan): {
+  write $qt($txt) $2-
+  msg $chan 4ADD Watched nick - $2-
+}
+ 
+ON *:TEXT:!del *:$($mychan): {
+  /write $+(-ds,$2-) C:\Users\location\location\mibbitnames\badnick.txt
+  msg $chan 3DELETED Watched nick - $2-
+}
+ 
+ON *:TEXT:!viewlist:$($mychan): {
+  var %t = $lines(C:\Users\location\location\mibbitnames\badnick.txt)
+ 
+  if (!$file(C:\Users\location\location\mibbitnames\badnick.txt)) { msg $chan The file is empty! | return }
+ 
+  msg $chan 6LIST Incoming PM
+  msg $nick Start of file.. - (Lines: %t Size: $bytes($file($txt).size).suf $+ )
+ 
+  play $nick C:\Users\location\location\mibbitnames\badnick.txt 500
+  var %i = 1
+  while (%i <= %t) { 
+    var %r = $read(C:\Users\location\location\mibbitnames\badnick.txt,n,%i)
+    if (%r) { .timerdelaymsg 1 20 msg $nick %r }
+    inc %i
+  }
+ 
+}
+The problem here is the last line on the txt file repeats twice no matter what i try!

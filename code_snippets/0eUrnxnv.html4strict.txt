@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Members Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#numMembers").change(function(){
+                var numMembers = $(this).val();
+                var inputsHTML = "";
+                for (var i=1; i<=numMembers; i++) {
+                    inputsHTML += "<label for='memberName" + i + "'>Member " + i + ":</label>";
+                    inputsHTML += "<input type='text' id='memberName" + i + "' name='memberName" + i + "'><br><br>";
+                }
+                $("#memberInputs").html(inputsHTML);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Group Members Form</h1>
+    
+    <form action="/submit" method="POST">
+        <label for="numMembers">Number of Members:</label>
+        <select id="numMembers" name="numMembers">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select><br><br>
+        
+        <div id="memberInputs">
+            <!-- Member name inputs will be generated dynamically here -->
+        </div>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

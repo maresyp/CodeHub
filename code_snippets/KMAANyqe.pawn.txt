@@ -1,0 +1,326 @@
+/*
+ 
+Esse projeto foi criado dia 22/10/2022, iniciado as 14h e finalizado as 18h.
+ 
+Foi criado por Carlos Victor(Carlos Victor#6045), dada iniciativa para iniciantes na linguagem aprenderem ou estudarem a linguagem SQL, e...
+principalmente SQLite, algo que está esquecido no SA:MP e funciona muito bem!
+ 
+Você pode usar esse código para o que quiser, seja iniciar um servidor, modificar, alterar, enfim faça o que quiser.
+ 
+Programas para acessar arquivos .db: DB Browser (SQLite)  -- (Eu acredito que seja apenas para computador.)
+ 
+Informações que são salvadas:
+ 
+ID          - ID fixo, de acordo com a função AUTOINCREMENT
+Name        - Nome do jogador, variável usada para evitar o consumo de memória em funções que sempre criam variáveis.
+Password    - Senha do jogador.
+IP          - Atual IP do jogador.
+ 
+Skin        - A roupa(skin) do jogador.
+Money       - O dinheiro do jogador. 
+Score       - O level do jogador
+ 
+Pos[1], [2], [3], [4] - As posições x, y, z, a(angle) do jogador.
+ 
+Caso você queira adicionar novas colunas de salvamento, siga o padrão já criado
+ 
+Boa sorte.
+*/
+ 
+#include <a_samp>
+ 
+#define MAX_LENGHT_PASS     (32)
+#define MAX_LENGHT_IP       (16)
+ 
+enum {
+    dialog_unknown,
+    dialog_login,
+    dialog_register,
+    dialog_skin
+};
+ 
+enum e_InfoPlayer {
+    e_ID,
+    e_Name[MAX_PLAYER_NAME + 1],
+    e_Password[MAX_LENGHT_PASS + 1],
+    e_IP[MAX_LENGHT_IP + 1],
+ 
+    e_Skin,
+    e_Money,
+    e_Score,
+ 
+    Float:e_Pos[4],
+ 
+    e_Wrong,
+    bool:e_Logged
+};
+new e_Info[MAX_PLAYERS][e_InfoPlayer];
+new DB:db;
+ 
+#define SERVER_NAME     "hostname       Server Login/Register in SQLite."
+#define SERVER_MODE     "gamemodetext   Freeroam, v0.1 BETA"
+#define SERVER_LANGUAGE "language       Português Brasil"
+ 
+main(){}
+ 
+public OnGameModeInit() {
+    SendRconCommand(SERVER_NAME);
+    SendRconCommand(SERVER_MODE);
+    SendRconCommand(SERVER_LANGUAGE);
+ 
+    if((db = db_open("database.db")) == DB:0) {
+        print("[ERRO] Falha ao tentar abrir a database.");
+        SendRconCommand("exit");
+    }
+    else {
+        print("[SERVER] Sucesso ao tentar abrir a database.");
+ 
+        /*
+            
+            Essa função cria a tabela 'contas' caso ela não esteja criada e insere as colunas id, name, password... 
+    
+        */
+        db_free_result(db_query(db, "CREATE TABLE IF NOT EXISTS `contas`(\
+            `id` INTEGER PRIMARY KEY AUTOINCREMENT,\
+            `name` TEXT NOT NULL,\
+            `password` TEXT NOT NULL,\
+            `ip` TEXT DEFAULT '127.0.0.1',\
+            `skin` INTEGER NOT NULL,\
+            `money` INTEGER DEFAULT 600,\
+            `score` INTEGER DEFAULT 0,\
+            `posX` REAL DEFAULT 1223.8545,\
+            `posY` REAL DEFAULT -1814.2209,\
+            `posZ` REAL DEFAULT 16.5961,\
+            `posA` REAL DEFAULT 180.5629);"));
+    }
+    return 1;
+}
+ 
+public OnGameModeExit() {
+    db_close(db);
+    return 1;
+}
+ 
+public OnPlayerConnect(playerid) {
+    GetPlayerName(playerid, e_Info[playerid][e_Name], MAX_PLAYER_NAME + 1);
+    GetPlayerIp(playerid, e_Info[playerid][e_IP], MAX_LENGHT_IP + 1);
+ 
+    TogglePlayerSpectating(playerid, true);
+    SetTimerEx("OnShowLogin", 1000 * 2, false, "i", playerid);
+    return 1;
+}
+ 
+forward OnShowLogin(playerid);
+public OnShowLogin(playerid) {
+    static
+        DBResult:result,
+        query[64];
+ 
+    format(query, sizeof(query), "SELECT * FROM `contas` WHERE `name`='%q';", e_Info[playerid][e_Name]);
+    result = db_query(db, query);
+ 
+    if(db_num_rows(result)) {
+        db_get_field_assoc(result, "password", e_Info[playerid][e_Password], MAX_LENGHT_PASS + 1);
+        e_Info[playerid][e_ID] = db_get_field_assoc_int(result, "id");
+ 
+        ShowPlayerDialog(playerid, dialog_login, DIALOG_STYLE_PASSWORD, "Conectando-se...", "Insira sua senha para logar:", "Confirmar", "X");
+    }
+    else {
+        ShowPlayerDialog(playerid, dialog_register, DIALOG_STYLE_INPUT, "Conectando-se...", "Insira uma senha para logar:", "Confirmar", "X");
+    }
+ 
+    clearChat(playerid);
+    SendClientMessage(playerid, -1, "* Seja bem-vindo(a) ao servidor, faça o login ou registro para conectar-se.");
+    return 1;
+}
+ 
+public OnPlayerDisconnect(playerid, reason) {
+    Save_Player(playerid);
+    Reset_Player(playerid);
+    return 1;
+}
+ 
+public OnPlayerSpawn(playerid) {
+    SetPlayerSkin(playerid, e_Info[playerid][e_Skin]);
+    return 1;
+}
+ 
+public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
+    switch(dialogid) {
+        case dialog_login: {
+            if(!response) {
+                Kick(playerid);
+            }
+            if(response) {
+                if(!strlen(inputtext))
+                    return ShowPlayerDialog(playerid, dialog_login, DIALOG_STYLE_PASSWORD, "Conectando-se...", "ERRO: Insira algo na box.\nInsira sua senha para logar:", "Confirmar", "X");
+ 
+                if(!strcmp(e_Info[playerid][e_Password], inputtext, true)) {
+                    TogglePlayerSpectating(playerid, false);
+                    clearChat(playerid);
+ 
+                    Load_Player(playerid);
+                }
+                else {
+                    ShowPlayerDialog(playerid, dialog_login, DIALOG_STYLE_PASSWORD, "Conectando-se...", "ERRO: Senha incorreta.\nInsira sua senha para logar:", "Confirmar", "X");
+ 
+                    e_Info[playerid][e_Wrong]++;
+ 
+                    if(e_Info[playerid][e_Wrong] >= 3)
+                        return Kick(playerid);
+                }
+            }
+        }
+        case dialog_register: {
+            if(!response) {
+                Kick(playerid);
+            }
+            if(response) {
+                if(!strlen(inputtext))
+                    return ShowPlayerDialog(playerid, dialog_register, DIALOG_STYLE_INPUT, "Conectando-se...", "ERRO: Insira algo na box.\nInsira uma senha para logar:", "Confirmar", "X");
+ 
+                if(strlen(inputtext) < 6 || strlen(inputtext) > MAX_LENGHT_PASS)
+                    return ShowPlayerDialog(playerid, dialog_register, DIALOG_STYLE_INPUT, "Conectando-se...", "ERRO: Senha muito grande ou muito pequena!\nInsira uma senha para logar:", "Confirmar", "X");
+ 
+                format(e_Info[playerid][e_Password], MAX_LENGHT_PASS + 1, inputtext);
+ 
+                ShowPlayerDialog(playerid, dialog_skin, DIALOG_STYLE_INPUT, "Conectando-se...", "Insira o ID de uma skin:", "Confirmar", "X");
+            }
+        }
+        case dialog_skin: {
+            if(response) {
+                if(!strval(inputtext))
+                    return ShowPlayerDialog(playerid, dialog_skin, DIALOG_STYLE_INPUT, "Conectando-se...", "ERRO: Insira algo na box.\nInsira o ID de uma skin:", "Confirmar", "X");
+ 
+                if(strval(inputtext) < 1 || strval(inputtext) > 311)
+                    return ShowPlayerDialog(playerid, dialog_skin, DIALOG_STYLE_INPUT, "Conectando-se...", "ERRO: O ID da skin deve ser entre 1-311.\nInsira o ID de uma skin:", "Confirmar", "X");
+ 
+                e_Info[playerid][e_Skin] = strval(inputtext);
+ 
+                Create_Player(playerid, e_Info[playerid][e_Name], e_Info[playerid][e_Password], e_Info[playerid][e_Skin]);
+            }
+        }
+    }
+    return 1;
+}
+ 
+Create_Player(playerid, const name[], const password[], skin) {
+    static
+        query[128];
+ 
+    format(query, sizeof(query), "INSERT INTO `contas`(name, password, skin) VALUES('%q', '%q', '%d');", name, password, skin);
+    db_free_result(db_query(db, query));
+ 
+    SetTimerEx("OnShowLogin", 1000, false, "i", playerid);
+    return (printf("[SERVER] Os dados do jogador %s(ID: %d) foi inserido na tabela com sucesso.", GetName(playerid), playerid));
+}
+ 
+Load_Player(playerid) {
+    static 
+        DBResult:result,
+        query[64];
+ 
+    format(query, sizeof(query), "SELECT * FROM `contas` WHERE `id`='%d'", e_Info[playerid][e_ID]);
+    result = db_query(db, query);
+ 
+    if(db_num_rows(result)) {       
+        e_Info[playerid][e_Logged]      = true;
+        e_Info[playerid][e_Wrong]       = 0;
+ 
+        e_Info[playerid][e_Skin]        = db_get_field_assoc_int(result, "skin");
+        e_Info[playerid][e_Money]       = db_get_field_assoc_int(result, "money");
+        e_Info[playerid][e_Score]       = db_get_field_assoc_int(result, "score");
+ 
+        e_Info[playerid][e_Pos][0]      = db_get_field_assoc_float(result, "posX");
+        e_Info[playerid][e_Pos][1]      = db_get_field_assoc_float(result, "posY");
+        e_Info[playerid][e_Pos][2]      = db_get_field_assoc_float(result, "posZ");
+        e_Info[playerid][e_Pos][3]      = db_get_field_assoc_float(result, "posA");
+ 
+        GivePlayerMoney(playerid, e_Info[playerid][e_Money]);
+        SetPlayerScore(playerid, e_Info[playerid][e_Score]);
+ 
+        SetSpawnInfo(playerid, NO_TEAM, e_Info[playerid][e_Skin], e_Info[playerid][e_Pos][0], e_Info[playerid][e_Pos][1], e_Info[playerid][e_Pos][2], e_Info[playerid][e_Pos][3], 0, 0, 0, 0, 0, 0);
+        SpawnPlayer(playerid);
+    }
+ 
+    db_free_result(result);
+    return (printf("[SERVER] Os dados do jogador %s(ID: %d) foi carregado com sucesso.", GetName(playerid), playerid));
+}
+ 
+Save_Player(playerid) { 
+    static
+        query[256];
+ 
+    GetPlayerPos(playerid, e_Info[playerid][e_Pos][0], e_Info[playerid][e_Pos][1], e_Info[playerid][e_Pos][2]);
+    GetPlayerFacingAngle(playerid, e_Info[playerid][e_Pos][3]);
+ 
+    format(query, sizeof(query), "UPDATE `contas` SET \
+        `ip`='%q',\
+        `skin`='%d',\
+        `money`='%d',\
+        `score`='%d',\
+        `posX`='%f',\
+        `posY`='%f',\
+        `posZ`='%f',\
+        `posA`='%f' WHERE `id`='%d'",
+                                    e_Info[playerid][e_IP],
+                                    e_Info[playerid][e_Skin],
+                                    e_Info[playerid][e_Money],
+                                    e_Info[playerid][e_Score],
+                                    e_Info[playerid][e_Pos][0],
+                                    e_Info[playerid][e_Pos][1],
+                                    e_Info[playerid][e_Pos][2],
+                                    e_Info[playerid][e_Pos][3],
+                                    e_Info[playerid][e_ID]);
+ 
+    db_free_result(db_query(db, query));
+    return (printf("[SERVER] Os dados do jogador %s(ID: %d) foi salvo com sucesso.", GetName(playerid), playerid));
+}
+ 
+Reset_Player(playerid) {
+    e_Info[playerid][e_ID]              = 0;
+    e_Info[playerid][e_Name]            = EOS;
+    e_Info[playerid][e_Password]        = EOS;
+    e_Info[playerid][e_IP]              = EOS;
+ 
+    e_Info[playerid][e_Skin]            = 0;
+    e_Info[playerid][e_Money]           = 0;
+    e_Info[playerid][e_Score]           = 0;
+ 
+    e_Info[playerid][e_Pos][0]          = 0.0;
+    e_Info[playerid][e_Pos][1]          = 0.0;
+    e_Info[playerid][e_Pos][2]          = 0.0;
+    e_Info[playerid][e_Pos][3]          = 0.0;
+ 
+    e_Info[playerid][e_Wrong]           = 0;
+    e_Info[playerid][e_Logged]          = false;
+ 
+    return (printf("[SERVER] Os dados do jogador %s(ID: %d) foram resetados com sucesso.", GetName(playerid), playerid));
+}
+ 
+clearChat(playerid) {
+    for(new i = 0; i < 60; i++)
+        SendClientMessage(playerid, -1, " ");
+ 
+    return 1;
+}
+ 
+GetName(playerid, underline = 1) {
+    static 
+        sub[MAX_PLAYER_NAME + 1];
+ 
+    format(sub, sizeof(sub), e_Info[playerid][e_Name]);
+ 
+    if(!underline)
+        strreplace(sub, '_', ' ');
+ 
+    return (sub);
+}
+ 
+stock strreplace(string[], find, replace) {
+    for(new i = 0; string[i]; i++) {
+        if(string[i] == find) {
+            string[i] = replace;
+        }
+    }
+}

@@ -1,0 +1,24 @@
+alias -l channel { return #freeirc,#Official,#diaspora,#irccloud,#IRCChan,#userbot }
+ 
+ON *:UNBAN:$($channel): {
+  if ($nick == X) || ($nick == *.undernet.org) { return }
+ 
+  var %host = $ial($nick).host
+ 
+  if (*.users.undernet.org iswm %host) && ($nick == $opnick) { return }
+ 
+  var %t = $numtok($banmask,32)
+ 
+  if (!%t) { return }
+ 
+  var %i = 1
+  while (%i <= %t) {
+    var %b = $gettok($banmask,%i,32)
+ 
+    if (%b) && (!$istok(%tot,%b,32)) { var %tot = $addtok(%tot,%b,32) }
+ 
+    inc %i
+  }
+ 
+  if (%tot) { onotice $chan - $+ @ $+ $chan $+ - $nick removed $numtok(%tot,32) $iif(%tot !== 1,bans,ban) that matched: %tot }
+}

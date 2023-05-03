@@ -1,0 +1,125 @@
+import std.stdio : writeln;
+ 
+private class Ware
+{
+    void say()
+    {
+        writeln("hello!");
+    }
+}
+ 
+private final class Builder(string[] MethodsToCall)
+{
+    private enum Optional;
+    private enum Ignore;
+ 
+    private static string[] listRequiredToCallMethods(T...)()
+    {
+        import std.traits;
+        import std.meta;
+ 
+        alias BuilderType = Builder!([""]);
+ 
+        string[] requiredToCallFunctions = [];
+        foreach(member; __traits(allMembers, BuilderType))
+        {
+            alias is_method = AliasSeq!(MemberFunctionsTuple!(BuilderType, member));
+            alias is_system = AliasSeq!(MemberFunctionsTuple!(Object, member));
+ 
+            static if ("prepare" != member && is_method.length > 0 && is_system.length == 0)
+            {
+                bool skip = false;
+ 
+                alias attributes = AliasSeq!(__traits(getAttributes, mixin("BuilderType." ~ member)));
+ 
+                foreach(attribute; attributes)
+                {
+                    static if (__traits(isSame, attribute, BuilderType.Optional) 
+                        || __traits(isSame, attribute, BuilderType.Ignore))
+                    {
+                        skip = true;
+                    }
+                }
+ 
+                if (false == skip)
+                {
+                    requiredToCallFunctions ~= member;
+                }
+            }
+        }
+ 
+        return requiredToCallFunctions;
+    }
+ 
+    public static auto prepare()
+    {
+        return new Builder!(listRequiredToCallMethods());
+    }
+ 
+    import std.algorithm : remove;
+ 
+    public auto stepOne()
+    {
+        writeln("step 1 (optional)");
+        return new Builder!(remove!(s => s == "stepOne")(MethodsToCall));
+    }
+ 
+    public auto stepTwo()
+    {
+        writeln("step 2 (optional)");
+        return new Builder!(remove!(s => s == "stepTwo")(MethodsToCall));
+    }
+ 
+    @Ignore
+    public void someWiredStuff()
+    {
+    }
+ 
+    @Optional
+    public auto stepThreeOptional()
+    {
+        writeln("step 3 (optional)");
+        return new Builder!(MethodsToCall);
+    }
+ 
+    private mixin template MakeWare()
+    {
+        public Ware build()
+        {
+            return new Ware();
+        }
+    }
+ 
+    mixin(0 == MethodsToCall.length ? "mixin MakeWare;" : "");
+ 
+    private int someStrangeField = 0;
+}
+ 
+class Test(string[] parameters)
+{
+    void doTheStuff()
+    {
+        foreach (i; parameters)
+        {
+            writeln(i);
+        }
+    }
+}
+ 
+int main(string[] argv)
+{
+    writeln("Hello D-World!");
+ 
+    auto variable = new Test!(["one", "two"]);
+    
+    variable.doTheStuff();
+ 
+    auto builder = Builder!([]).prepare();
+ 
+    auto ware = builder
+        .stepTwo()
+        .stepOne()
+        .build();
+ 
+    return 0;
+}

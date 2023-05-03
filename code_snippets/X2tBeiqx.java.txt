@@ -1,0 +1,20 @@
+abstract class GraphicEditor {
+    int m_type;
+    public abstract void drawShape();
+}
+ 
+class Rectangle extends GraphicEditor {
+    int m_type = 1;
+    
+    public void drawShape() {
+        System.out.println("Method for drawing Rectangle");
+    }
+}
+ 
+class Circle extends GraphicEditor {
+    int m_type = 2;
+    
+    public void drawShape() {
+        System.out.println("Method for drawing Circle");
+    }
+}

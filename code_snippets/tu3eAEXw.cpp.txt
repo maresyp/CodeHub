@@ -1,0 +1,95 @@
+class MorphingParameter final
+{
+public:
+ 
+    MorphingParameter(const MorphingParameter&) = default;
+    MorphingParameter& operator=(const MorphingParameter&) = delete;
+    MorphingParameter() = delete;
+ 
+    static MorphingParameter from_float(float value);
+    static MorphingParameter from_int32(std::int32_t value);
+ 
+    float get_float_value() const;
+    std::int32_t get_int32_value() const;
+ 
+private:
+ 
+    enum class ParameterType
+    {
+        Float,
+        Int32,
+    };
+ 
+    union Storage final
+    {
+        Storage& operator=(const Storage&) = delete;
+ 
+        explicit Storage(float value);
+        explicit Storage(std::int32_t value);
+ 
+        const float float_value;
+        const std::int32_t int32_value;
+    };
+ 
+    explicit MorphingParameter(float value);
+    explicit MorphingParameter(std::int32_t value);
+ 
+    const ParameterType type_;
+    const Storage value_;
+};
+ 
+MorphingParameter MorphingParameter::from_float(const float value)
+{
+    return MorphingParameter { value };
+}
+ 
+MorphingParameter MorphingParameter::from_int32(const std::int32_t value)
+{
+    return MorphingParameter { value };
+}
+ 
+MorphingParameter::MorphingParameter(const float value)
+    : type_(ParameterType::Float)
+    , value_(value)
+ 
+{
+}
+ 
+MorphingParameter::MorphingParameter(const std::int32_t value)
+    : type_(ParameterType::Float)
+    , value_(value)
+ 
+{
+}
+ 
+MorphingParameter::Storage::Storage(const float value)
+    : float_value(value)
+ 
+{
+}
+ 
+MorphingParameter::Storage::Storage(const std::int32_t value)
+    : int32_value(value)
+ 
+{
+}
+ 
+float MorphingParameter::get_float_value() const
+{
+    assert(type_ == ParameterType::Float);
+    return value_.float_value;
+}
+ 
+std::int32_t MorphingParameter::get_int32_value() const
+{
+    assert(type_ == ParameterType::Int32);
+    return value_.int32_value;
+}
+ 
+int _tmain(int, _TCHAR*)
+{   
+    std::vector<MorphingParameter> parameters;
+    parameters.push_back(MorphingParameter::from_float(1.0f));
+ 
+    return 0;
+}

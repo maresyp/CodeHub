@@ -1,0 +1,25 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/*
+Pętla do while - składnia:
+ 
+do
+    komenda_do_wykonania;
+while(warunek_kontynuacji);
+ 
+*/
+ 
+int main()
+{
+    // program wypisujący na ekran liczby od 1 do 10 za pomocą pętli do while
+    int i = 1;
+    do
+    {
+        cout << i << endl;
+        ++i;
+    } while(i <= 10);
+ 
+    return 0;
+}

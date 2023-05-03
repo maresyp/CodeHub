@@ -1,0 +1,26 @@
+#!/bin/bash
+ 
+read filepath
+read str1
+read str2
+ 
+if [ -z "$filepath" ] || [ -z "$str1" ] || [ -z "$str2" ] || [ "$str1" == "$str2" ]; 
+then
+    echo "Строки не корректны"
+else 
+    if [ -f files.log ] && [ -f $filepath ]
+    then
+        if grep -q "$str1" $filepath;
+        then
+            sed -i "" -e "s/$str1/$str2/g" $filepath
+            
+            filesize=$(stat -f %z $filepath);
+            date=$(date +"%Y-%m-%d %H:%M")
+            sha=$(echo $filepasth | shasum -a 256 );
+            
+            
+            echo $filepath" - "$filesize" - "$date" - "$sha" sha256" >> files.log
+        fi
+    fi 
+    echo "files.log или "$filepath" не найден"
+fi

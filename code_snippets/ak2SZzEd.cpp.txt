@@ -1,0 +1,106 @@
+#include <LiquidCrystal.h>
+#include <OneWire.h>            // Biblioteka do OneWire
+#include <DallasTemperature.h>  // Biblioteka do DS18b20
+ 
+#define RSpin 2
+#define Epin 3
+#define D4pin 4
+#define D5pin 5
+#define D6pin 6
+#define D7pin 7
+#define SWPlus 8
+#define SWMinus 9
+#define SWNapowietrzacz 10
+ 
+float temp_zadana = 45.0;
+float temp_histerezy = 0.50;
+float histereza = 0.00;
+ 
+ 
+LiquidCrystal lcd(RSpin, Epin, D4pin, D5pin, D6pin, D7pin);  // Ustawienie pinów LCD
+ 
+OneWire oneWire(A0);                  //Podłączenie DS18b20 do A0
+DallasTemperature sensors(&oneWire);  //Przekazania informacji do biblioteki
+ 
+unsigned long aktualnyCzas = 0;
+unsigned long zapamietanyCzas1 = 0;
+unsigned long zapamietanyCzas2 = 0;
+ 
+byte ikona_stC[8] = {
+  B01000,
+  B10100,
+  B01000,
+  B00110,
+  B01001,
+  B01000,
+  B01001,
+  B00110
+};
+byte ikona_termometr[8] = {
+  B00100,
+  B01010,
+  B01010,
+  B01010,
+  B01110,
+  B11111,
+  B11111,
+  B01110
+};
+ 
+void setup() {
+  lcd.begin(16, 2);  // Inicjalizacja LCD
+ 
+  sensors.begin();  // Inicjalizacja DS18b20
+ 
+  pinMode(SWPlus, INPUT_PULLUP);
+  pinMode(SWMinus, INPUT_PULLUP);
+  pinMode(SWNapowietrzacz, INPUT_PULLUP);
+ 
+  lcd.createChar(0, ikona_stC);
+  lcd.createChar(1, ikona_termometr);
+}
+ 
+void loop() {
+  // Pobierz aktualny czas
+  aktualnyCzas = millis();
+ 
+  // Wykonaj odczyt co ustalony interwał czasowy
+  if (aktualnyCzas - zapamietanyCzas1 >= 1000UL) {
+    zapamietanyCzas1 = aktualnyCzas;
+ 
+    // Wykonaj odczyt temperatury
+    sensors.requestTemperatures();
+    lcd.setCursor(0, 0);                    // Ustaw kursor na pozycję 0, 0 (1 wiersz, 1 kolumna)
+    lcd.write(byte(1));                     // Wyświetl znak TERMOMETRU
+    lcd.print(sensors.getTempCByIndex(0));  // Wyświetl aktualną temperaturę
+    lcd.write(byte(0));                     // Wyświetl znak stC
+ 
+    lcd.setCursor(9, 0);     // Ustaw kursor na pozycję 0, 0 (1 wiersz, 1 kolumna)
+    lcd.write(byte(1));      // Wyświetl znak TERMOMETRU
+    lcd.print(temp_zadana);  // Wyświetl aktualną temperaturę
+    lcd.write(byte(0));      // Wyświetl znak stC
+  }
+ 
+  if (aktualnyCzas - zapamietanyCzas2 >= 250UL) {
+    zapamietanyCzas2 = aktualnyCzas;
+ 
+    lcd.setCursor(0, 1);   // Ustaw kursor na pozycję 0, 0 (1 wiersz, 1 kolumna)
+    lcd.write(byte(1));    // Wyświetl znak TERMOMETRU
+    lcd.print(histereza);  // Wyświetl aktualną temperaturę
+    lcd.write(byte(0));    // Wyświetl znak stC
+ 
+    if (digitalRead(SWPlus) == LOW) {
+      histereza = histereza + temp_histerezy;
+      //delay(250);
+    }
+ 
+    if (digitalRead(SWMinus) == LOW) {
+      histereza = histereza - temp_histerezy;
+      //delay(250);
+ 
+      if (histereza <= 0) {
+        histereza = 0;
+      }
+    }
+  }
+}

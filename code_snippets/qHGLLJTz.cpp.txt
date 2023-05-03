@@ -1,0 +1,18 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+int main()
+{
+    int liczba, suma = 0;
+ 
+    do
+    {
+        cin >> liczba;
+        suma += liczba;
+    } while(liczba != 0);
+ 
+    cout << suma << endl;
+ 
+    return 0;
+}

@@ -1,0 +1,10 @@
+parent(bob, amy).
+parent(bob, christine).
+parent(bob, david).
+parent(emily, frank).
+parent(emily, heidi).
+parent(emily, gilbert).
+sibling(X, Y) :-
+      parent(Z, X),
+      parent(Z, Y),
+      X \= Y.

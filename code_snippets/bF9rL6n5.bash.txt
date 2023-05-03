@@ -1,0 +1,183 @@
+$ docker run --rm -it alpine sh
+/ # apk update
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.17/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.17/community/x86_64/APKINDEX.tar.gz
+apkv3.17.3-76-gf3ceb4e729e [https://dl-cdn.alpinelinux.org/alpine/v3.17/main]
+v3.17.3-77-g716c151a724 [https://dl-cdn.alpinelinux.org/alpine/v3.17/community]
+OK: 17818 distinct packages available
+/ # apk add strace fakeroot
+(1/6) Installing fakeroot (1.29-r0)
+(2/6) Installing libbz2 (1.0.8-r4)
+(3/6) Installing musl-fts (1.2.7-r3)
+(4/6) Installing xz-libs (5.2.9-r0)
+(5/6) Installing libelf (0.187-r2)
+(6/6) Installing strace (6.0-r0)
+Executing busybox-1.35.0-r29.trigger
+OK: 10 MiB in 21 packages
+/ # strace 'fakeroot sh -c whoami'
+strace: Can't stat 'fakeroot sh -c whoami': No such file or directory
+/ # strace fakeroot sh -c whoami
+execve("/usr/bin/fakeroot", ["fakeroot", "sh", "-c", "whoami"], 0x7ffe0cefdf28 /* 6 vars */) = 0
+arch_prctl(ARCH_SET_FS, 0x7f7a77a0fb48) = 0
+set_tid_address(0x7f7a77a0ffb0)         = 17
+brk(NULL)                               = 0x55c79135b000
+brk(0x55c79135d000)                     = 0x55c79135d000
+mmap(0x55c79135b000, 4096, PROT_NONE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x55c79135b000
+mprotect(0x7f7a77a0c000, 4096, PROT_READ) = 0
+mprotect(0x55c79125c000, 16384, PROT_READ) = 0
+getuid()                                = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77975000
+getpid()                                = 17
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77973000
+rt_sigprocmask(SIG_UNBLOCK, [RT_1 RT_2], NULL, 8) = 0
+rt_sigaction(SIGCHLD, {sa_handler=0x55c7911dac82, sa_mask=~[RTMIN RT_1 RT_2], sa_flags=SA_RESTORER, sa_restorer=0x7f7a779bfacd}, NULL, 8) = 0
+getppid()                               = 14
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77972000
+stat("/", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+stat(".", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/bin/fakeroot", O_RDONLY|O_LARGEFILE|O_CLOEXEC) = 3
+fcntl(3, F_SETFD, FD_CLOEXEC)           = 0
+fcntl(3, F_DUPFD_CLOEXEC, 10)           = 10
+fcntl(10, F_SETFD, FD_CLOEXEC)          = 0
+close(3)                                = 0
+rt_sigaction(SIGINT, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGINT, {sa_handler=0x55c7911dac82, sa_mask=~[RTMIN RT_1 RT_2], sa_flags=SA_RESTORER, sa_restorer=0x7f7a779bfacd}, NULL, 8) = 0
+rt_sigaction(SIGQUIT, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_IGN, sa_mask=~[RTMIN RT_1 RT_2], sa_flags=SA_RESTORER, sa_restorer=0x7f7a779bfacd}, NULL, 8) = 0
+rt_sigaction(SIGTERM, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+read(10, "#!/bin/sh\n\n# This script first s"..., 2047) = 2047
+pipe([3, 4])                            = 0
+rt_sigprocmask(SIG_BLOCK, ~[RTMIN RT_1 RT_2], [], 8) = 0
+rt_sigprocmask(SIG_BLOCK, ~[], ~[KILL STOP RTMIN RT_1 RT_2], 8) = 0
+fork()                                  = 18
+rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1 RT_2], NULL, 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+close(4)                                = 0
+read(3, "", 128)                        = 0
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=18, si_uid=0, si_status=4, si_utime=0, si_stime=0} ---
+rt_sigreturn({mask=[]})                 = 0
+close(3)                                = 0
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 4}], 0, NULL) = 18
+wait4(-1, 0x7fff257198ec, WNOHANG, NULL) = -1 ECHILD (No child process)
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+pipe([3, 4])                            = 0
+rt_sigprocmask(SIG_BLOCK, ~[RTMIN RT_1 RT_2], [], 8) = 0
+rt_sigprocmask(SIG_BLOCK, ~[], ~[KILL STOP RTMIN RT_1 RT_2], 8) = 0
+fork()                                  = 19
+rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1 RT_2], NULL, 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+close(4)                                = 0
+read(3, " -- 'sh' '-c' 'whoami'\n", 128) = 23
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=19, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+rt_sigreturn({mask=[]})                 = 140163969126400
+read(3, "", 128)                        = 0
+close(3)                                = 0
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 19
+wait4(-1, 0x7fff257197bc, WNOHANG, NULL) = -1 ECHILD (No child process)
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77970000
+munmap(0x7f7a77970000, 4096)            = 0
+munmap(0x7f7a77971000, 4096)            = 0
+read(10, "e preload is available\nABSLIB=\"\""..., 2047) = 1909
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+pipe([3, 4])                            = 0
+rt_sigprocmask(SIG_BLOCK, ~[RTMIN RT_1 RT_2], [], 8) = 0
+rt_sigprocmask(SIG_BLOCK, ~[], ~[KILL STOP RTMIN RT_1 RT_2], 8) = 0
+fork()                                  = 20
+rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1 RT_2], NULL, 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+close(4)                                = 0
+read(3, "/usr/lib /usr/lib64/libfakeroot "..., 128) = 55
+read(3, "", 128)                        = 0
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=20, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+rt_sigreturn({mask=[]})                 = 0
+close(3)                                = 0
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 20
+wait4(-1, 0x7fff2571984c, WNOHANG, NULL) = -1 ECHILD (No child process)
+stat("/usr/lib/libfakeroot.so", {st_mode=S_IFREG|0755, st_size=52360, ...}) = 0
+geteuid()                               = 0
+stat("/usr/lib64/libfakeroot/libfakeroot.so", 0x7fff257194d0) = -1 ENOENT (No such file or directory)
+stat("/usr/lib32/libfakeroot/libfakeroot.so", 0x7fff257194d0) = -1 ENOENT (No such file or directory)
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+munmap(0x7f7a77971000, 4096)            = 0
+pipe([3, 4])                            = 0
+rt_sigprocmask(SIG_BLOCK, ~[RTMIN RT_1 RT_2], [], 8) = 0
+rt_sigprocmask(SIG_BLOCK, ~[], ~[KILL STOP RTMIN RT_1 RT_2], 8) = 0
+fork()                                  = 23
+rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1 RT_2], NULL, 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+close(4)                                = 0
+read(3, "1072032857:25\n", 128)         = 14
+read(3, "", 128)                        = 0
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=23, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+rt_sigreturn({mask=[]})                 = 0
+close(3)                                = 0
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 23
+wait4(-1, 0x7fff257198ec, WNOHANG, NULL) = -1 ECHILD (No child process)
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f7a77971000
+pipe([3, 4])                            = 0
+rt_sigprocmask(SIG_BLOCK, ~[RTMIN RT_1 RT_2], [], 8) = 0
+rt_sigprocmask(SIG_BLOCK, ~[], ~[KILL STOP RTMIN RT_1 RT_2], 8) = 0
+fork()                                  = 26
+rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1 RT_2], NULL, 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+close(4)                                = 0
+read(3, "1072032857\n", 128)            = 11
+read(3, "", 128)                        = 0
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=26, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+rt_sigreturn({mask=[]})                 = 0
+close(3)                                = 0
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 26
+wait4(-1, 0x7fff257198ec, WNOHANG, NULL) = -1 ECHILD (No child process)
+pipe([3, 4])                            = 0
+rt_sigprocmask(SIG_BLOCK, ~[RTMIN RT_1 RT_2], [], 8) = 0
+rt_sigprocmask(SIG_BLOCK, ~[], ~[KILL STOP RTMIN RT_1 RT_2], 8) = 0
+fork()                                  = 29
+rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1 RT_2], NULL, 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+close(4)                                = 0
+read(3, "25\n", 128)                    = 3
+read(3, "", 128)                        = 0
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=29, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+rt_sigreturn({mask=[]})                 = 0
+close(3)                                = 0
+wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 29
+wait4(-1, 0x7fff257198ec, WNOHANG, NULL) = -1 ECHILD (No child process)
+stat("/usr/local/sbin/sh", 0x7fff257197a0) = -1 ENOENT (No such file or directory)
+stat("/usr/local/bin/sh", 0x7fff257197a0) = -1 ENOENT (No such file or directory)
+stat("/usr/sbin/sh", 0x7fff257197a0)    = -1 ENOENT (No such file or directory)
+stat("/usr/bin/sh", 0x7fff257197a0)     = -1 ENOENT (No such file or directory)
+stat("/sbin/sh", 0x7fff257197a0)        = -1 ENOENT (No such file or directory)
+stat("/bin/sh", {st_mode=S_IFREG|0755, st_size=841392, ...}) = 0
+rt_sigprocmask(SIG_BLOCK, ~[RTMIN RT_1 RT_2], [], 8) = 0
+rt_sigprocmask(SIG_BLOCK, ~[], ~[KILL STOP RTMIN RT_1 RT_2], 8) = 0
+fork()                                  = 32
+rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1 RT_2], NULL, 8) = 0
+rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+wait4(-1,
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! IT GETS STUCK HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+root
+[{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 32
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=32, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+rt_sigreturn({mask=[]})                 = 32
+wait4(-1, 0x7fff2571984c, WNOHANG, NULL) = -1 ECHILD (No child process)
+getpid()                                = 17
+kill(25, SIGTERM)                       = 0
+exit_group(0)                           = ?
++++ exited with 0 +++

@@ -1,0 +1,44 @@
+// main.cpp
+#include "tabUtils.h"
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+ 
+using namespace std;
+ 
+void wypelnienie_tablicy(int* tab, int rozmiar)
+{
+    srand(time(nullptr));
+    for(int i = 0; i < rozmiar; ++i)
+        tab[i] = rand();
+}
+ 
+int main()
+{
+    int liczby[10];
+    wypelnienie_tablicy(liczby, 10);
+    printTab(liczby, 10);
+    return 0;
+}
+ 
+// tabUtils.h
+#ifndef TABUTILS_H_INCLUDED
+#define TABUTILS_H_INCLUDED
+ 
+void printTab(const int* const tab, unsigned int size);
+void reverseTab(int* const tab, unsigned int size);
+ 
+#endif // TABUTILS_H_INCLUDED
+ 
+// tabUtils.cpp
+#include "tabUtils.h"
+#include <iostream>
+ 
+using namespace std;
+ 
+void printTab(const int* const tab, unsigned int size)
+{
+    for(int i = 0; i < size; ++i)
+        cout << tab[i] << '\t';
+    cout << endl;
+}

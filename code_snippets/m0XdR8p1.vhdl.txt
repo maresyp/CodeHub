@@ -1,0 +1,121 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 20.09.2021 01:21:07
+-- Design Name: 
+-- Module Name: shift_reg - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+ 
+ 
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+ 
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+ 
+entity shift_reg is
+    Port ( not_g : in std_logic;
+           not_srclr : in std_logic;
+           not_srcken : in std_logic;
+           srck : in std_logic;
+           not_srload : in std_logic;
+           ds : in std_logic;
+           ser0 : in std_logic;
+           ser1 : in std_logic;
+           rck : in std_logic;
+           a_qa : inout std_logic;
+           b_qb : inout std_logic;
+           c_qc : inout std_logic;
+           d_qd : inout std_logic;
+           e_qe : inout std_logic;
+           f_qf : inout std_logic;
+           g_qg : inout std_logic;
+           h_qh : inout std_logic;
+           qh_last : out std_logic);
+end shift_reg;
+ 
+architecture Behavioral of shift_reg is
+component jk is 
+    Port ( 
+       not_r : in std_logic;
+       not_s : in std_logic;
+       j : in std_logic;
+       k : in std_logic;
+       clk : in std_logic;
+       q : out std_logic;
+       not_q : out std_logic
+       );
+end component;
+ 
+signal jk1_q: std_logic;
+signal jk1_notq: std_logic;
+ 
+signal jk2_q: std_logic;
+signal jk2_notq: std_logic;
+ 
+signal jk3_q: std_logic;
+signal jk3_notq: std_logic;
+ 
+signal jk4_q: std_logic;
+signal jk4_notq: std_logic;
+ 
+signal jk5_q: std_logic;
+signal jk5_notq: std_logic;
+ 
+signal jk6_q: std_logic;
+signal jk6_notq: std_logic;
+ 
+signal jk7_q: std_logic;
+signal jk7_notq: std_logic;
+ 
+ 
+signal jk8_q: std_logic;
+signal jk8_notq: std_logic;
+ 
+signal jk9_q: std_logic;
+signal jk9_notq: std_logic;
+ 
+signal jk10_q: std_logic;
+signal jk10_notq: std_logic;
+ 
+signal jk11_q: std_logic;
+signal jk11_notq: std_logic;
+ 
+signal jk12_q: std_logic;
+signal jk12_notq: std_logic;
+ 
+signal jk13_q: std_logic;
+signal jk13_notq: std_logic;
+ 
+ 
+signal jk14_q: std_logic;
+signal jk14_notq: std_logic;
+ 
+signal jk15_q: std_logic;
+signal jk15_notq: std_logic;
+ 
+signal jk16_q: std_logic;
+signal jk16_notq: std_logic;
+ 
+begin
+ 
+ 
+end Behavioral;

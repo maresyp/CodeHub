@@ -1,0 +1,20 @@
+import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+def canny_edge_detection(image, threshold1, threshold2):
+    gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    edges = cv.Canny(gray, threshold1, threshold2)
+    return edges
+def main():
+    image = cv.imread("Q_3.jpg")
+    edges1 = canny_edge_detection(image, 100, 200)
+    edges2 = canny_edge_detection(image, 50, 100)
+    plt.subplot(131),plt.imshow(image,cmap = 'gray')
+    plt.title('Original Image'), plt.xticks([]), plt.yticks([])
+    plt.subplot(132),plt.imshow(edges1,cmap = 'gray')
+    plt.title('Edges with threshold 1:100, threshold 2:200'), plt.xticks([]), plt.yticks([])
+    plt.subplot(133),plt.imshow(edges2,cmap = 'gray')
+    plt.title('Edges with threshold 1:50, threshold 2:100'), plt.xticks([]), plt.yticks([])
+    plt.show()
+if __name__ == '__main__':
+    main()

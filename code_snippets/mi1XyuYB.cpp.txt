@@ -1,0 +1,26 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+int main()
+{
+    int liczba;
+    cout << "Podaj liczbe naturalna: ";
+    cin >> liczba;
+ 
+    cout << 1 << ", ";
+ 
+    int i;
+ 
+    for(i = 2; i * i < liczba; ++i)
+    {
+        if(liczba % i == 0)
+        {
+            cout << i << ", " << liczba / i << ", ";
+        }
+    }
+    if(i * i == liczba)
+        cout << i << ", ";
+    cout << liczba << endl;
+    return 0;
+}

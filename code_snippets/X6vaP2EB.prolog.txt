@@ -1,0 +1,54 @@
+s --> [select],x, [from],x,w,gr_by.
+x --> a,y.
+y-->[","],a,y.
+y-->[].
+a-->[id],["."],[id].
+a-->[id].
+a-->[num].
+a-->["("],s,[")"].
+cmp_op-->[">"].
+cmp_op-->["<"].
+cmp_op-->["="].
+cmp_op-->["<>"].
+cmp_op-->["NOT"], cmp_op.
+%sub_op-->["IN"].
+%sub_op-->["NOT"], sub_op.
+cmp-->a, cmp_op, a.
+cmp-->cmp, ["AND"], cmp.
+cmp-->cmp, ["OR"], cmp.
+w-->[where], cmp.
+w-->[].
+gr_by-->[].
+gr_by-->[group_by], [id], list_gr_by.
+list_gr_by-->[","],[id], list_gr_by.
+list_gr_by -->[].
+ 
+ 
+c-->[create_table], [id], list.
+list-->[].
+list-->["("], field ,[")"].
+field-->[id], type, attrib, list1.
+list1-->[].
+list1-->[","],field.
+type-->[int].
+type-->[float].
+type-->[char], ["("], [num], [")"].
+attrib-->[auto_increment],attrib.
+attrib-->[primary_key],attrib.
+attrib-->[foreight_key],attrib.
+attrib-->[not_null],attrib.
+attrib-->[null],attrib.
+attrib-->[].
+ 
+ 
+ 
+ 
+/** <examples>
+?- (s([select,id,".",id, from, id,",",id], [])).
+?- cmp([id,".",id, ">", id,".",id], []).
+?- (s([select,id,".",id, from, id,",",id, where, id, "=", num, "AND", id,".",id, "=", "(", select,id,".",id, from, id,",",id, where, id,".",id, "<", id,".",id, ")"], [])).
+?- (s([select,id,".",id, from, id,",",id, where, id, "=", num, "AND", id,".",id,"NOT" ,"=", "(", select,id,".",id, from, id,",",id, where, id,".",id, "<", id,".",id, ")"], [])).
+?- c([create_table, id, "(",id, int,")"],[])
+?- c([create_table, id, "(",id, int,",",id, int, auto_increment,")"],[])
+?- (s([select,id,".",id, from, id,",",id, where, id, "=", num, "AND", id,".",id,"NOT" ,"=", "(", select,id,".",id, from, id,",",id, where, id,".",id, "<", id,".",id, ")", group_by, id,",", id], [])).
+*/

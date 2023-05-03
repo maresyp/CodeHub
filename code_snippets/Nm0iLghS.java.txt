@@ -1,0 +1,133 @@
+* l2jwins Project - www.l2jwins.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+package l2jwins.game.skills.effects;
+ 
+import l2jwins.game.model.L2Character;
+import l2jwins.game.model.L2Effect;
+import l2jwins.game.model.actor.instance.L2PcInstance;
+import l2jwins.game.skills.Env;
+ 
+final class EffectBuff extends L2Effect
+{
+    
+    private static final int BUFF_SKILL_ID = 2635; // Cambia el ID del buff que quieres monitorear
+    
+    private static final int HUMAN_SKIN_TRANSFO = 1; // Cambia el ID del ítem de apariencia que quieres establecer
+    
+    private static final int ELF_SKIN_TRANSFO = 1; // Cambia el ID del ítem de apariencia que quieres establecer
+    
+    private static final int DARK_ELF_SKIN_TRANSFO = 3; // Cambia el ID del ítem de apariencia que quieres establecer
+    
+    private static final int ORC_SKIN_TRANSFO = 1; // Cambia el ID del ítem de apariencia que quieres establecer
+    
+    private static final int DWARF_SKIN_TRANSFO = 1; // Cambia el ID del ítem de apariencia que quieres establecer
+    
+    private static final int CRUSADER_SKILL_ID = 2636; // Cambia el ID del buff que quieres monitorear
+    
+    private static final int CRUSADER_TRANSFORMATION = 7; // Cambia el ID del ítem de apariencia que quieres establecer
+    
+    public EffectBuff(final Env envbuff, final EffectTemplate template)
+    {
+        super(envbuff, template);
+    }
+    
+    @Override
+    public EffectType getEffectType()
+    {
+        return EffectType.BUFF;
+    }
+    
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        if (getEffected() instanceof L2PcInstance)
+        {
+            L2PcInstance player = (L2PcInstance) getEffected();
+            if (_skill.getId() == BUFF_SKILL_ID)
+            {
+                int armorSkinOption = 0; // Default armor skin option
+                
+                // Set armor skin option based on player's race
+                switch (player.getRace())
+                {
+                    case human:
+                        armorSkinOption = HUMAN_SKIN_TRANSFO;
+                        player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+                        break;
+                    case elf:
+                        armorSkinOption = ELF_SKIN_TRANSFO;
+                        player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+                        break;
+                    case darkelf:
+                        armorSkinOption = DARK_ELF_SKIN_TRANSFO;
+                        player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+                        break;
+                    case orc:
+                        armorSkinOption = ORC_SKIN_TRANSFO;
+                        player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+                        break;
+                    case dwarf:
+                        armorSkinOption = DWARF_SKIN_TRANSFO;
+                        player.startAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+                        break;
+                    // Add more cases for other races if needed
+                    
+                }
+                
+                player.setArmorSkinOption(armorSkinOption); // Set armor skin option
+                player.broadcastUserInfo();
+            }
+            else if (_skill.getId() == CRUSADER_SKILL_ID)
+            {
+                player.setArmorSkinOption(CRUSADER_TRANSFORMATION);
+                player.broadcastUserInfo();
+            }
+            
+        }
+    }
+    
+    @Override
+    public void onExit()
+    {
+        super.onExit();
+        if (getEffected() instanceof L2PcInstance)
+        {
+            L2PcInstance player = (L2PcInstance) getEffected();
+            if (_skill.getId() == BUFF_SKILL_ID)
+            {
+                player.setArmorSkinOption(0); // Restore original armor skin option when buff is removed
+                player.stopAbnormalEffect(L2Character.ABNORMAL_EFFECT_SLEEP);
+                player.broadcastUserInfo();
+            }
+            else if (_skill.getId() == CRUSADER_SKILL_ID)
+            {
+                player.setArmorSkinOption(0);
+                player.broadcastUserInfo();
+            }
+        }
+    }
+    
+    @Override
+    public boolean onActionTime()
+    {
+        return false;
+    }
+}

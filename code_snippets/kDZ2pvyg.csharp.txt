@@ -1,0 +1,10 @@
+string text = "Cлова каждое на новой строке.";
+string[] words;
+char splitter = ' ';
+ 
+words = text.Split(splitter);
+ 
+foreach (var word in words)
+    Console.WriteLine($"{word}");
+ 
+Console.ReadKey();

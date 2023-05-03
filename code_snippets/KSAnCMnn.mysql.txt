@@ -1,0 +1,14 @@
+SELECT
+    sf.*,
+    COALESCE(AVG(if(sfs.`rating` > 0, sfs.`rating`, NULL)), 0) avg_rating,
+    COUNT(sfs.newsid) AS views,
+    COALESCE((SELECT `rating` FROM `server_forum_stats` WHERE `newsid` = sf.`id` AND `userid` = 5), -1) AS user_rating
+    FROM `server_forum` sf
+    LEFT JOIN `server_forum_stats` sfs ON sf.`id` = sfs.`newsid`
+    GROUP BY sf.`id`
+    ORDER BY sf.`id` DESC LIMIT 25 OFFSET 0;
+    
+ 
+# Если запись не прочитана никем avg_rating = null
+# Если запись прочитана, но рейтинг не проставлен, avg_rating = null
+# Если запись прочитана и есть рейтинг, avg_rating = avg

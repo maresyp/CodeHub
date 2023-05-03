@@ -1,0 +1,17 @@
+# Language Table
+ 
+CREATE TABLE `tbl_languages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `language` varchar(10) NOT NULL,
+  `code` varchar(2) NOT NULL COMMENT 'ISO 639-1 codes',
+  `status` enum('active','inactive') NOT NULL DEFAULT 'inactive',
+  `created_by` int(11) NOT NULL DEFAULT 0,
+  `updated_by` int(11) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+INSERT INTO `tbl_languages` (`id`, `language`, `code`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(NULL, 'english', 'en', 'active', 0, 0, '2023-04-03 10:20:56', NULL),
+(NULL, 'hindi', 'hi', 'inactive', 0, 0, '2023-04-03 10:21:50', NULL),
+(NULL, 'gujarati', 'gu', 'inactive', 0, 0, '2023-04-03 10:22:05', NULL);

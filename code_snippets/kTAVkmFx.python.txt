@@ -1,0 +1,15 @@
+x, y = input().split('')
+y = 7 - (int(y) - 1)
+x = ord(x - 97)
+ 
+# x - столбец, y - строкой
+ 
+for i in range(8):
+    for j in range(8):
+        if i == y and j == x:
+            print('Q', end=' ')
+        elif i == y or j == x or i == j:  # y > x
+            print('*', end=' ')
+        else:
+            print('.', end=' ')
+    print()

@@ -1,0 +1,7 @@
+const formatear = Intl.NumberFormat('en', {
+    notation: 'compact'
+});
+ 
+const numero = 13567;
+ 
+console.log(formatear.format(numero));

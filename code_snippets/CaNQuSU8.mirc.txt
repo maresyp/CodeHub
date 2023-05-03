@@ -1,0 +1,41 @@
+on *^:join:#:{
+  ;multi join[tüm adresler]
+  inc $+(-u,$ccrc(mjhafıza)) %mjj. [ $+ [ $chan ] ] $ccrc(mjaveraj)
+  if (%mj- [ $+ [ $chan ] ] >= $ccrc(mjlimit)) {
+    mode $chan +l $calc($nick(#,0) - %mjj. [ $+ [ $chan ] ])
+    .unset %mjj. [ $+ [ $nick ] ]
+  }
+  ;Clone join tek adres..
+  var %ad = $wildsite
+  inc $+(-u,$ccrc(cjhafıza)) %mj. [ $+ [ %ad ] ] $ccrc(cjaveraj)
+  if (%mj. [ $+ [ %ad ] ] >= $ccrc(cjlimit)) {
+    echo -t $chan %ad $color(info) adresinden massjoin: $+(%mj. [ $+ [ %ad ] ] )
+    mode $chan +b %ad
+    unset %mj. [ $+ [ %ad ] ]
+  }
+}
+alias ccrc {
+  goto $1
+  ;### Multi join conf
+  :mjhafıza {
+    RETURN 2
+  }
+  :mjaveraj {
+    ;bu rakamı degiştirmeyin..
+    RETURN 1
+  }
+  :mjlimit {
+    RETURN 6
+  }
+  ;### Clone join conf
+  :cjhafıza {
+    RETURN 3
+  }
+  :cjaveraj {
+    ;bu rakamı değiştirmeyin..
+    RETURN 3
+  }
+  :cjlimit {
+    RETURN 3
+  }
+}

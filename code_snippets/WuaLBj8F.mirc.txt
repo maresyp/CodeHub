@@ -1,0 +1,14 @@
+on *:RAWMODE:#:{
+  if (+q isin $1) && ($me isin $2) && (%autothanks == On) { /inc %owners | msg $chan 1,15Thanks for the 4+~1 $nick #00 $+ 04 $+ %owners  }
+  if (+a isin $1) && ($me isin $2) && (%autothanks == On) { /inc %procts | msg $chan 1,15Thanks for the 4+&1 $nick #00 $+ 04 $+ %procts  }
+  if (+o isin $1) && ($me isin $2) && (%autothanks == On) { /inc %ops | msg $chan 1,15Thanks for the 4+@1 $nick #00 $+ 04 $+ %ops  }
+  if (+h isin $1) && ($me isin $2) && (%autothanks == On) { /inc %halfs | msg $chan 1,15Thanks for the 4+%1 $nick #00 $+ 04 $+ %halfs  }
+  if (+v isin $1) && ($me isin $2) && (%autothanks == On) { /inc %voice | msg $chan 1,15Thanks for the 4+v1 $nick #00 $+ 04 $+ %voice  }
+}
+menu status,menubar,channel {
+  Ayar
+  .$iif(%autothanks,$style(1)) Op Tesekkür ( $+ $iif(%autothanks,On,Off) $+ ) {
+    if (%autothanks) { unset %autothanks | .disable #autothanks | echo -a $timestamp 15,15 0,2 § â ñ ¢ â K 1,15 v5 2,2 1,15Op Tesekkür 4KAPALI }
+    else { set %autothanks on | .enable #autothanks | echo -a $timestamp 15,15 0,2 § â ñ ¢ â K 1,15 v5 2,2 1,15Op Tesekkür 3AÇIK }
+  }
+}

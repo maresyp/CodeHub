@@ -1,0 +1,61 @@
+<!--------------------- PLEASE SEE HERE FOR MY CODE RULES: https://toyhou.se/12931952.bonus-content/17036656.-06-code-rules ---------------------
+ 
+Version: 2.0
+ 
+Default Colours
+-Exterior-Fill / Text Colour: #69B00B
+-Interior-Fill : #2A3D0F
+-Text White: #FFFFFF
+-Border Black: #000000
+ 
+Thank you for reading!
+Crispin
+ 
+-->
+  
+<!------------------------------- START ACTUAL CODE -------------------------------->
+<div class="col-8 mx-auto" style="color:#FFFFFF; font-size:1rem; font-family:'comic sans ms'; border:none;">
+  
+  <!------------------------------- START HEADING -------------------------------->
+  <div class="col-12 p-0" style="border:#000000 8px solid; border-bottom:none;">
+    <div class="card rounded-0" style="background:url(https://media1.giphy.com/media/GnZWKVxPyPtIjUMS3Z/giphy.gif?cid=ecf05e478i0vhcmnerltiwmyt57x21cti56fk8a7kukowqi0&rid=giphy.gif&ct=g); background-position:center; background-size:cover; border:none;"><p class="justify-content-center display-4 m-1 p-3" style="color:#FFFFFF; background:rgba(0,0,0,0.7);">Little-To-No Info Card</p></div>
+  </div>
+  <!------------------------------- END HEADING -------------------------------->
+  
+  <!------------------------------- START MIDDLE SECTION -------------------------------->
+  <div class="mx-auto p-0 row" style="border:#000000 4px solid;">
+    
+    <div class="col-12 p-0" style="background-color:#2A3D0F; border:none;">
+      
+      <div class="tab-content" style="height:500px; border:#000000 4px solid;"><!-- Sets up Tabs -->
+        
+        <!------------------------------- START SECTION -------------------------------->
+        <div class="card-body p-3 table-responsive text-center" style="max-height:500px;"><!-- Sets Up Section -->
+          
+          <!------ START TEXT ------>
+          <span style="font-size:1.4rem; color:#69B00B"> Character Created: (HH:MM) DD.MM.YY</span>
+          <p>-</p>
+          <span style="font-size:1.4rem; color:#69B00B"> History</span>
+          <p>[HISTORY]</p>
+          <!------ END TEXT ------>
+          
+        </div><!--End Section Set-Up-->
+        <!------------------------------- END SECTION -------------------------------->
+        
+      </div>
+      
+    </div>
+    <!------------------------------- END MIDDLE SECTION -------------------------------->
+    
+    <!------------------------------- START CREDITS -------------------------------->
+    <div class="col-12 py-3 text-center" style="background-color:#69B00B; border:#000000 4px solid;">
+      <a href="https://toyhou.se/16006417.overlay" data-toggle="tooltip" title="Header Code Frankensteined From: CuckooHoopoe" data-original-title="Header Code Frankensteined From: CuckooHoopoe" style="color:#FFFFFF; font-size:1.4rem;"><i class="fas fa-galaxy"></i></a>
+      <a href="https://toyhou.se/18652345.vortex" data-toggle="tooltip" title="Code by: TomcatCodes / CrispinAsheYA" data-original-title="Code by: TomcatCodes / CrispinAsheYA" style="color:#FFFFFF; font-size:1.4rem;"><i class="fas fa-star"></i></a>
+      <a href="https://giphy.com/gifs/green-abstract-anxiety-relief-GnZWKVxPyPtIjUMS3Z" data-toggle="tooltip" title="Header Background Image" data-original-title="Header Background Image" style="color:#FFFFFF; font-size:1.4rem;"><i class="fas fa-galaxy fa-flip-horizontal"></i></a>
+    </div>
+    <!------------------------------- END CREDITS -------------------------------->
+    
+  </div>
+  
+</div>
+<!------------------------------- END ACTUAL CODE -------------------------------->

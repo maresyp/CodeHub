@@ -1,0 +1,97 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <cstring>
+#include <queue>
+//#include <bits/stdc++.h>
+using namespace std;
+int n;
+vector<int>graph[350005];
+vector<int>v;
+bool visited[350005];
+void dfs(int node){
+    visited[node]=true;
+    for(int i=0; i<graph[node].size(); i++){
+        int sosed=graph[node][i];
+        if(!visited[sosed]){
+            dfs(sosed);
+        }
+    }
+    v.push_back(node);
+}
+const int maxn=350005;
+int segment_tree[3*maxn];
+ 
+void build(int l, int r, int pos){
+if(l==r){
+    segment_tree[pos]=0;
+}
+else{
+    int mid=(l+r)/2;
+    build(l, mid, 2*pos);
+    build(mid+1, r, 2*pos+1);
+    segment_tree[pos]+=segment_tree[2*pos]+segment_tree[2*pos+1];
+}
+}
+ 
+//L R  i L R j  L R
+int query(int l, int r, int pos, int i, int j){
+if(i<=l and r<=j){
+    return segment_tree[pos];
+}
+if(r<i or j<l){
+    return 0;
+}
+int mid=(l+r)/2;
+return query(l, mid, 2*pos, i, j) + query(mid+1, r, 2*pos+1, i, j);
+}
+ 
+void update(int l, int r, int pos, int new_val, int idx){
+if(l==r){
+    segment_tree[pos]=1;
+    return;
+}
+int mid=(l+r)/2;
+if(idx<=mid){
+    update(l, mid, 2*pos, new_val, idx);
+}
+else{
+    update(mid+1, r, 2*pos+1, new_val, idx);
+}
+segment_tree[pos]=segment_tree[2*pos]+segment_tree[2*pos+1];
+}
+ 
+int main()
+{
+    ios_base::sync_with_stdio(false);
+ 
+    cin>>n;
+    for(int i=0; i<n; i++){
+        char k; cin>>k;
+        if(k=='K'){
+            graph[i + 1].push_back(i+1);
+        }
+        if(k=='P'){
+            int c; cin>>c;
+            graph[c].push_back(i+1);
+        }
+    }
+    memset(visited, false, sizeof visited);
+    for(int i=1; i<=n; i++){
+        if(!visited[i]){
+            dfs(i);
+        }
+    }
+    
+    build(0, n + 1, 1);
+    vector<int>result(n+1);
+    for(int i=0; i<n; i++){
+        update(0, n + 1, 1, 1, v[i]);
+        result[v[i]]=query(0, n + 1, 1, 0, v[i]);
+    }
+    for(int i=1; i<=n; i++){
+        cout<<result[i]<<"\n";
+    }
+    return 0;
+}

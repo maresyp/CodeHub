@@ -1,0 +1,167 @@
+import java.util.NoSuchElementException;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Calendar;
+ 
+public class TwitterFeed implements ListADT<Tweet>, Iterable<Tweet> {
+  private TweetNode head;
+  private TimelineMode mode;
+  private static double ratio;
+  private int size;
+  private TweetNode tail;
+ 
+  public TwitterFeed() {
+    this.head = null;
+    this.tail = null;
+    this.size = 0;
+    this.mode = TimelineMode.CHRONOLOGICAL;
+    ratio = .5;
+  }
+  public int size() {
+    return size;
+  }
+  public boolean isEmpty() {
+    if (this.size == 0 || this.head.getTweet() == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public boolean contains(Tweet findObject) {
+    if (contains(findObject)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+ 
+  public int indexOf(Tweet findObject) {
+    TweetNode currNode = head;
+    for (int i = 0; i < this.size; i++){
+      if (currNode.equals(findObject)){
+        return i;
+      }
+    }
+    return -1;
+  }
+ 
+  public Tweet get(int index) {
+    TweetNode temp = this.head;
+    for (int i = 0; i < index; i++){
+      temp = temp.getNext();
+    }
+    return temp.getTweet();
+  }
+ 
+  public Tweet getHead() throws NoSuchElementException {
+    if (this.size == 0) {
+      throw new NoSuchElementException();
+    }
+    return this.head.getTweet();
+  }
+ 
+  public Tweet getTail() throws NoSuchElementException {
+    if (this.size == 0) {
+      throw new NoSuchElementException();
+    }
+    return this.tail.getTweet();
+  }
+ 
+  public void addLast(Tweet newObject) {
+    TweetNode newTail = new TweetNode(newObject,null);
+    if (this.size == 0){
+      this.tail = newTail;
+      this.head = newTail;
+    } else {
+      this.tail.setNext(newTail);
+      this.tail = newTail;
+    }
+    this.size++;
+  }
+ 
+  public void addFirst(Tweet newObject) {
+    TweetNode newHead = new TweetNode(newObject,this.head);
+    this.head = newHead;
+    if (this.size == 0){
+      this.tail = newHead;
+    }
+    this.size++;
+  }
+ 
+  public void add(int index, Tweet newObject) throws IndexOutOfBoundsException {
+    if (index < 0 || index > size) {
+      throw new IndexOutOfBoundsException();
+    }
+    if (index == 0){
+      addFirst(newObject);
+    } else  if (index == this.size) {
+      addLast(newObject);
+    }
+    else {
+      TweetNode currNode = this.head;
+      for (int i = 0; i < index-1; i++){
+        currNode = currNode.getNext();
+      }
+      TweetNode addNode = new TweetNode(newObject);
+      addNode.setNext(currNode.getNext());
+      currNode.setNext(addNode);
+      this.size++;
+    }
+  }
+ 
+  public Tweet delete(int index) throws IndexOutOfBoundsException {
+    if (index < 0 || index > size) {
+      throw new IndexOutOfBoundsException();
+    }
+    Tweet temp;
+    if (size == 0 || index == size){
+      return null;
+    }
+    if (size == 1){
+      temp = this.head.getTweet();
+      this.head = null;
+      this.tail = null;
+      this.size--;
+      return temp;
+    }
+    TweetNode currNode = this.head;
+    if (index == 0){
+      temp = this.head.getTweet();
+      this.head = this.head.getNext();
+      this.size--;
+      return temp;
+    } else if (index == size-1){
+      for (int i = 0; i < index-1; i++){
+        currNode = currNode.getNext();
+      }
+      temp = currNode.getNext().getTweet();
+      this.tail = currNode;
+      this.tail.setNext(null);
+      this.size--;
+      return temp;
+    } else {
+      for (int i = 0; i < index-1; i++){
+        currNode = currNode.getNext();
+      }
+      temp = currNode.getNext().getTweet();
+      currNode.setNext(currNode.getNext().getNext());
+      this.size--;
+      return temp;
+    }
+  }
+  public void setMode(TimelineMode m) {
+    this.mode = m;
+  }
+ 
+  @Override
+  public Iterator<Tweet> iterator() {
+    if (mode == TimelineMode.CHRONOLOGICAL) {
+      return new ChronoTwiterator(this.head);
+    } else if (mode == TimelineMode.LIKE_RATIO){
+      return new RatioTwiterator(this.head, 1.2);
+    } else if (mode == TimelineMode.VERIFIED_ONLY){
+      return new VerifiedTwiterator(this.head);
+    }
+    return null;
+  }
+}

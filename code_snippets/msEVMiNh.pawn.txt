@@ -1,0 +1,1106 @@
+/*****************************************
+---------------- Credits -----------------
+------- Niko - The win system of map -----
+------- Shelby - Added rtv and nom -------
+*****************************************/
+ 
+/*********** Includes **************/
+#include < amxmodx >
+#include < amxmisc >
+#include < unixtime >
+ 
+/*********** Files **************/
+#define VotemapFolder       "addons/amxmodx/configs/votemap"
+#define PlayedFile      "addons/amxmodx/configs/votemap/PlayedMaps.ini"
+#define RecentFile      "addons/amxmodx/configs/votemap/RecentMaps.ini"
+ 
+/*********** Defines **************/
+#define Prefix          "AMXX"      // The prefix of the server
+#define ADMIN_ACCESS        ADMIN_MAP   // The access for use the admin commands
+#define MapsInMenu      4       // The amount of maps to appear in the menu ( dont count the extend )
+ 
+/*********** Timers **************/
+#define DefaultTime     600     // The time has set when the vote has stopped
+#define ExtendTime      600     // The time has set when extended the map
+#define VoteCountdown       4       // The time has left to countdown for the vote menu to appear
+#define MenuCountdown       16      // The time has left to the menu to countdown to 0
+#define NextmapTimeleft     60      // The time has left to the next map to change
+#define Countdownrtv        0       // The time has set as countdown for rtv
+ 
+new Timeleft = DefaultTime
+new Countdown = VoteCountdown
+new MenuTimer = MenuCountdown
+new Timeleftnextmap = NextmapTimeleft
+new Mapcountdown = Countdownrtv
+new Maptime
+ 
+/*********** Vote stuff **************/
+enum VoteStatus
+{
+    Vote_NotRunning,
+    Vote_Starting,
+    Vote_Running,
+    Vote_Nextmap
+}
+ 
+new VoteStatus: VoteMsg = Vote_NotRunning
+ 
+new ShowHud                 // Change the text between admin or default starting of the vote ( 0 is the server / 1 is the admin )
+new Allvotes                    // Count every vote
+new Nextmap[ 35 ]               // Save the winner map
+new DontShowMenu[ 33 ]              // Dont show the menu ( Button )
+new Revote[ 33 ], StopRevote[ 33 ]      // Revote system
+new MapVote[ 33 ]               // Show maps votes
+new bool: MyVote[ 33 ]              // Show my vote status
+ 
+new MyChoose[ 33 ][ 33 ], MyMap[ 33 ]
+ 
+/*********** Rtv stuff **************/
+new iRtv[ 33 ], Rtv
+ 
+/*********** Nominate stuff **************/
+new iNom[ 33 ], MyNom[ 33 ][ 33 ]//, bool: search[ 33 ], sortby[ 33 ]
+ 
+/*********** Played maps *****************/
+new Played[ 200 ][ 32 ]
+ 
+/*********** Recent maps *****************/
+new RecentMaps[ 16 ][ 32 ], RecentMap
+ 
+/*********** Load maps **************/
+new Array:g_aMaps, Array:g_nMaps, Array:g_sMaps, size
+ 
+/*********** News *****************/
+new currentmap[ 35 ], mapname[ 35 ]
+ 
+/*********** Plugin init **************/
+public plugin_init()
+{
+    register_plugin( "VoteMap", "v1.0", "RanAway" )
+    
+    /*********** Commands **************/
+    register_clcmd( "say", "CmdSay" )
+    
+    /*********** Timer **************/
+    set_task( 1.0, "Timetovote", 0, _, _, "b" )
+    set_task( 1.0, "MapTime", 111, _, _, "b" )
+    
+    /*********** Current map **********/
+    get_mapname( currentmap, charsmax( currentmap ) )
+    
+    /*********** Load maps **************/
+    g_aMaps = ArrayCreate( 100 )
+    g_nMaps = ArrayCreate( 100 )
+    g_sMaps = ArrayCreate( 100 )
+    
+    LoadMaps()
+    
+    /*********** Create the votemap folder **************/
+    if( !dir_exists( VotemapFolder ) )
+        mkdir( VotemapFolder )
+    
+    /*********** Load played maps **************/
+    LoadPlayed()
+    LoadPlayedMaps()
+    
+    /*********** Load recent maps **************/
+    LoadRecentMaps()
+    WriteRecentList()
+}
+ 
+/*********** Plugin end **************/
+public plugin_end( )
+{
+    /****** The whole maps ********/
+    ArrayDestroy( g_aMaps )
+    
+    /****** Maps nominated ********/
+    ArrayDestroy( g_nMaps )
+    
+    /****** Maps has not nominated ******/
+    ArrayDestroy( g_sMaps )
+}
+ 
+/*********** Disconnecting **************/
+public client_disconnect( id )
+{
+    if( iNom[ id ] ) iNom[ id ] = false
+    
+    if( VoteMsg == Vote_NotRunning && iRtv[ id ] )
+    {
+        Rtv--
+        iRtv[ id ] = false
+        ColorChat( 0, "^3%s ^1has diconnected, ^3%i ^1players have left.", GetName( id ), ( get_playersnum()/2 ) - Rtv + 1 )
+    }
+}
+ 
+/*********** Map time **************/
+public MapTime() Maptime++
+ 
+/*********** Time to vote **************/
+public Timetovote()
+{
+    Timeleft--
+    if( Timeleft == 0 )
+    {
+        ShowHud = 0
+        ColorChat( 0, "The ^3votemap^1 has started." )
+        
+        remove_task( 0 )
+        StartVote()
+    }
+    
+    return 1
+}
+ 
+/*********** Time to change **************/
+public Timetochange()
+{
+    Timeleftnextmap--
+    if( Timeleftnextmap == 0 )
+    {
+        remove_task( 400 )
+        server_cmd( "changelevel %s", Nextmap )
+        
+        return 1
+    }
+    
+    if( Timeleftnextmap == 1 ) ColorChat( 0, "The ^3map^1 will be change to ^3%s^1.", Nextmap )
+    if( Timeleftnextmap <= 10 )
+    {
+        new Spk[ 10 ]
+        num_to_word( Timeleftnextmap, Spk, charsmax( Spk ) )
+        client_cmd( 0, "spk vox/%s", Spk )
+        
+        set_hudmessage( 255, 0, 0, -1.0, 0.10, 0, 6.0, 1.0 )
+        show_hudmessage( 0, " Changing map to %s^n------------------^nThe map will be change in %d second%s", Nextmap, Timeleftnextmap, Timeleftnextmap == 1 ? "" : "s" )
+    }
+    
+    return 1
+}
+ 
+/*********** CmdSay **************/
+public CmdSay( id )
+{
+    new szMsg[ 192 ], szArgs[ 3 ][ 33 ], randommap[ 35 ]
+    
+    read_argv( 1, szMsg, charsmax( szMsg ) )
+    
+    parse( szMsg, szArgs[ 0 ], 32, szArgs[ 1 ], 32 , szArgs[ 2 ], 32 )
+    
+    /********* Un / Rock the vote *********/
+    if( equal( szMsg, "/rtv" ) || equali( szMsg, "/rockthevote" ) || equali( szMsg, "rtv" ) || equali( szMsg, "rockthevote" ) ) return RockTheVote( id )
+    if( equali( szMsg, "/unrtv" ) || equali( szMsg, "/unrockthevote" ) || equali( szMsg, "unrtv" ) || equali( szMsg, "unrockthevote" ) ) return UnRockTheVote( id )
+    
+    /********* Played maps *********/
+    if( equali( szMsg, "/playedmaps" ) || equali( szMsg, "playedmaps" ) || equali( szMsg, "/pm" ) ) return PlayedMaps( id, 0 )
+    
+    /********* Show the current map *********/
+    if( equali( szMsg, "/currentmap" ) || equali( szMsg, "/cm" ) || equali( szMsg, "currentmap" ) || equali( szMsg, "cm" )
+    || equali( szMsg, "/maptime" ) || equali( szMsg, "/mt" ) || equali( szMsg, "maptime" ) || equali( szMsg, "mt" ) )
+        return ColorChat( id, "Current map: ^3%s^1. Map time: ^3%s%i^1:^3%s%i^1.", currentmap, Maptime/60 < 10 ? "0" : "", Maptime/60, Maptime%60 < 10 ? "0" : "", Maptime%60 )
+    
+    /********* Show the time *********/
+    if( equali( szMsg, "/thetime" ) || equali( szMsg, "/tt" ) || equali( szMsg, "thetime" ) || equali( szMsg, "tt" ) )
+    {
+        new Year, Month, Day, Hour, Minute, Second
+        UnixToTime( get_systime(), Year, Month, Day, Hour, Minute, Second, UT_TIMEZONE_SERVER )
+        
+        /****************** This is because the timezone in my server is broke... *****************
+        Hour += 3
+        if( Hour == 24 )
+        {
+            Hour = 0
+            Day += 1
+        }
+        if( Hour == 25 ) Hour = 1
+        if( Hour == 26 ) Hour = 2
+        *****************************************************************************************/
+        
+        return ColorChat( id, "Time: ^3%02d^1:^3%02d^1:^3%02d^1 | Date: ^3%02d^1.^3%02d^1.^3%d^1", Hour, Minute, Second, Day, Month, Year )
+    }
+    
+    /********* Show when the votemap will start *********/
+    if( equali( szMsg, "/timeleft" ) || equali( szMsg, "/tl" ) || equali( szMsg, "/nextmap" ) || equali( szMsg, "/nm" )
+    || equali( szMsg, "timeleft" ) || equali( szMsg, "tl" ) || equali( szMsg, "nextmap" ) || equali( szMsg, "nm" ) )
+    {
+        if( VoteMsg == Vote_Running ) return ColorChat( id, "The vote is already ^3running." )
+        if( VoteMsg == Vote_Starting ) return ColorChat( id, "The vote is ^3starting^1 now." )
+        if( VoteMsg == Vote_Nextmap ) return ColorChat( id, "The ^3map^1 will be change to ^3%s^1 in ^3%02d:%02d^1 minute%s.",
+        Nextmap, Timeleftnextmap/60, Timeleftnextmap%60, Timeleftnextmap/60 > 1 ? "s" : "" )
+        
+        return ColorChat( id, "The ^3votemap^1 will be start in ^3%02d:%02d^1 minute%s.", Timeleft/60, Timeleft%60, Timeleft/60 > 1 ? "s" : "" )
+    }
+    
+    /********** Show noms ***********/
+    if( equali( szMsg, "/noms" ) || equali( szMsg, "/nominations" ) || equali( szMsg, "nominations" ) || equali( szMsg, "/nominate" ) )
+    {
+        if( ArraySize( g_nMaps ) == 0 ) return ColorChat( id, "There is no ^3nominations^1 yet" )
+        
+        new msg[ 500 ], noms
+        for( new i; i < ArraySize( g_nMaps ); i++ )
+        {
+            ArrayGetString( g_nMaps, i, mapname, charsmax( mapname ) )
+            noms += formatex( msg[ noms ], charsmax( msg ) -noms, ", %s", mapname )
+        }
+        
+        return ColorChat( id, "^4%i^1 Maps nominated: ^3%s.", ArraySize( g_nMaps ), msg[ 2 ] )
+    }
+    
+    /********** Recent maps ***********/
+    if( equali( szMsg, "/recentmaps" ) || equali( szMsg, "/rm" ) )
+    {
+        if( RecentMap <= 1 ) return ColorChat( id, "There is no ^3recentmaps^1 yet" )
+        
+        new msg[ 500 ], recents = 0
+        for( new i; i < RecentMap; i++ )
+        {
+            if( equali( RecentMaps[ i ], currentmap ) || equali( RecentMaps[ i ], RecentMaps[ i + 1 ] ) )
+                continue
+            
+            recents += formatex( msg[ recents ], charsmax( msg ) -recents, "^1, ^3%s", RecentMaps[ i ] )
+        }
+        
+        return ColorChat( id, "Recent Maps:^3%s^1.", msg[ 2 ] )
+    }
+    
+    /********** List maps ***********/
+    if( equali( szArgs[ 0 ], "/maps" ) )
+    {
+        /*if( equali( szArgs[ 1 ], "" ) )
+            search[ id ] = false
+        else
+        {
+            search[ id ] = true
+            formatex( sortby[ id ], 32, szArgs[ 1 ] )
+            ColorChat( id, "searching by maps that start with ^3[^1 %s ^3]", sortby[ id ] )
+        }*/
+        
+        return MapsMenu( id )
+    }
+    
+    /********** Start votemap ***********/
+    if( ( equali( szMsg, "!startvote" ) || equali( szMsg, "/startvote" ) ) && get_user_flags( id ) & ADMIN_ACCESS )
+    {
+        if( VoteMsg == Vote_Running ) return ColorChat( id, "The vote is already ^3running." )
+        if( VoteMsg == Vote_Starting ) return ColorChat( id, "The vote is ^3starting^1 now." )
+        if( VoteMsg == Vote_Nextmap ) return ColorChat( id, "The vote is already over." )
+        
+        ShowHud = 1
+        StartVote()
+        remove_task( 0 )
+        
+        return ColorChat( 0, "Admin: ^3%s^1 has started the votemap.", GetName( id ) )
+    }
+    
+    /********** Stop votemap ***********/
+    if( ( equali( szMsg, "!stopvote" ) || equali( szMsg, "/stopvote" ) ) && get_user_flags( id ) & ADMIN_ACCESS )
+    {
+        if( VoteMsg == Vote_NotRunning ) return ColorChat( id, "There is no vote ^3running." )
+        //if( VoteMsg == Vote_Nextmap ) return ColorChat( id, "The vote is already ^3over^1." )
+        
+        Timeleft = DefaultTime
+        VoteMsg = Vote_NotRunning
+        
+        for( new i; i < get_maxplayers(); i++ ) iNom[ i ] = false
+        
+        Orders()
+        
+        show_menu( 0, 0, "^n", 1 )
+        remove_task( 50 )
+        remove_task( 100 )
+        remove_task( 400 )
+        set_task( 1.0, "Timetovote", 0, _, _, "b" )
+        
+        return ColorChat( 0, "Admin: ^3%s^1 has stopped the votemap.", GetName( id ) )
+    }
+    
+    /********** Random map ***********/
+    if( ( equali( szMsg, "!rm" ) || equali( szMsg, "!randommap" ) ) && get_user_flags( id ) & ADMIN_ACCESS )
+    {
+        ArrayGetString( g_aMaps, random( ArraySize( g_aMaps ) ), randommap, charsmax( randommap ) )
+        
+        set_task( 1.0, "RandomMap", 0, randommap, sizeof randommap )
+        
+        return ColorChat( 0, "^3%s^1 has random map ^3[^1 %s ^3]", GetName( id ), randommap )
+    }
+    
+    /********** Extend the map ***********/
+    if( ( equali( szArgs[ 0 ], "!extend" ) || equali( szArgs[ 0 ], "/extend" ) ) && get_user_flags( id ) & ADMIN_ACCESS )
+    {
+        if( VoteMsg == Vote_Running ) return ColorChat( id, "The vote is already ^3running." )
+        if( VoteMsg == Vote_Starting ) return ColorChat( id, "The vote is ^3starting^1 now." )
+        
+        new Amount = str_to_num( szArgs[ 1 ] )
+        
+        /******** If the nextmap is active ***********/
+        if( VoteMsg == Vote_Nextmap )
+        {
+            /********* If only + wrote in the time it will add the ExtedTime **********/
+            if( equali( szArgs[ 1 ], "+" ) )
+            {
+                Timeleftnextmap += ExtendTime
+                return ColorChat( 0, "Admin: ^3%s^1 has extended the map to ^3%i ^1minutes", GetName( id ), ExtendTime/60 )
+            }
+            
+            /********* If nothing wrote in the time it will add automatic ExtendTime **********/
+            if( equali( szArgs[ 1 ], "" ) )
+            {
+                Timeleftnextmap = ExtendTime
+                return ColorChat( 0, "Admin: ^3%s^1 has extended the map to ^3%i ^1minutes", GetName( id ), ExtendTime/60 )
+            }
+            
+            /********* If the number is not valid **********/
+            if( Amount <= 0 )
+                return ColorChat( id, "You must type a number." )
+            
+            /********* If the number start with + then it will add time **********/
+            if( containi( szArgs[ 1 ], "+" ) != -1 )
+            {
+                Timeleftnextmap += Amount
+                return ColorChat( 0, "Admin: ^3%s^1 has extended the map by ^3%i ^1minute%s ^3%i ^1second%s.", GetName( id ), Amount/60, Amount/60 > 1 ? "s" : "", Amount%60, Amount%60 > 1 ? "s" : "" )
+            }
+            
+            /********* The amount of time you wrote **********/
+            Timeleftnextmap = Amount
+            return ColorChat( 0, "Admin: ^3%s^1 has extended the map to ^3%i ^1minute%s ^3%i ^1second%s.", GetName( id ), Amount/60, Amount/60 > 1 ? "s" : "", Amount%60, Amount%60 > 1 ? "s" : "" )
+        }
+        
+        /********* If only + wrote in the time it will add the ExtedTime **********/
+        if( equali( szArgs[ 1 ], "+" ) )
+        {
+            Timeleft += ExtendTime
+            return ColorChat( 0, "Admin: ^3%s^1 has extended the map by ^3%i ^1minutes", GetName( id ), ExtendTime/60 )
+        }
+        
+        /********* If nothing wrote in the time it will add automatic ExtendTime **********/
+        if( equali( szArgs[ 1 ], "" ) )
+        {
+            Timeleft = ExtendTime
+            return ColorChat( 0, "Admin: ^3%s^1 has extended the map to ^3%i ^1minutes", GetName( id ), ExtendTime/60 )
+        }
+        
+        /********* If the number is not valid **********/
+        if( Amount <= 0 )
+            return ColorChat( id, "You must type a number." )
+        
+        /********* If the number start with + then it will add time **********/
+        if( containi( szArgs[ 1 ], "+" ) != -1 )
+        {
+            Timeleft += Amount
+            return ColorChat( 0, "Admin: ^3%s^1 has extended the map by ^3%i ^1minute%s ^3%i ^1second%s.", GetName( id ), Amount/60, Amount/60 > 1 ? "s" : "", Amount%60, Amount%60 > 1 ? "s" : "" )
+        }
+        
+        /********* The amount of time you wrote **********/
+        Timeleft = Amount
+        return ColorChat( 0, "Admin: ^3%s^1 has extended the map to ^3%i ^1minute%s ^3%i ^1second%s.", GetName( id ), Amount/60, Amount/60 > 1 ? "s" : "", Amount%60, Amount%60 > 1 ? "s" : "" )
+    }
+    
+    return 0
+}
+ 
+/*********** Rock the vote **************/
+public RockTheVote( id )
+{
+    if( VoteMsg == Vote_Running ) return ColorChat( id, "The vote is already ^3running." )
+    if( VoteMsg == Vote_Starting ) return ColorChat( id, "The vote is ^3starting^1 now." )
+    if( VoteMsg == Vote_Nextmap ) return ColorChat( id, "The ^3map^1 will be change to ^3%s^1 in ^3%02d:%02d^1 minute%s.",
+    Nextmap, Timeleftnextmap/60, Timeleftnextmap%60, Timeleftnextmap/60 > 1 ? "s" : "" )
+    
+    if( Maptime < Mapcountdown ) return ColorChat( id, "You have to wait ^3%i ^1seconds for rock the vote.", Mapcountdown-Maptime )
+    
+    if( iRtv[ id ] ) return ColorChat( id, "You have already rocked the vote. ^3[^1 %i ^3]^1 players left",  ( get_playersnum()/2 ) - Rtv + 1 )
+    
+    if( get_playersnum()/2 <= Rtv )
+    {
+        ShowHud = 0
+        StartVote()
+        return ColorChat( 0, "^3%s ^1has rocked the vote, votemap has started.", GetName( id ) )
+    }
+    
+    Rtv++
+    iRtv[ id ] = true
+    return ColorChat( 0, "^3%s ^1has rocked the vote, ^3%i ^1players have left.", GetName( id ),  ( get_playersnum()/2 ) - Rtv + 1 )
+}
+ 
+public UnRockTheVote( id )
+{
+    if( VoteMsg == Vote_Running ) return ColorChat( id, "The vote is already ^3running." )
+    if( VoteMsg == Vote_Starting ) return ColorChat( id, "The vote is ^3starting^1 now." )
+    if( VoteMsg == Vote_Nextmap ) return ColorChat( id, "The ^3map^1 will be change to ^3%s^1 in ^3%02d:%02d^1 minute%s.",
+    Nextmap, Timeleftnextmap/60, Timeleftnextmap%60, Timeleftnextmap/60 > 1 ? "s" : "")
+    
+    if( !iRtv[ id ] ) return ColorChat( id, "You have not rocked the vote." )
+    
+    Rtv--
+    iRtv[ id ] = false
+    return ColorChat( 0, "^3%s ^1has unrocked the vote, ^3%i ^1players have left.", GetName( id ), ( get_playersnum()/2 ) - Rtv + 1 )
+}
+ 
+/*********** Random map **************/
+public RandomMap( map[] ) server_cmd( "changelevel %s", map )
+ 
+/*********** Start vote **************/
+public StartVote()
+{
+    Countdown = VoteCountdown
+    VoteMsg = Vote_Starting
+    Allvotes = 0
+    Rtv = 0
+    set_task( 1.0, "Countdowntovote", 50, _, _, "b" )
+    
+    return 1
+}
+ 
+/*********** Countdown for vote **************/
+public Countdowntovote()
+{
+    Countdown--
+    if( Countdown == 0 )
+    {
+        ArrayClear( g_sMaps )
+        
+        if( ArraySize( g_nMaps ) )
+        {
+            for( new i; i < ArraySize( g_nMaps ); i++ )
+            {
+                ArrayGetString( g_nMaps, i, mapname, charsmax( mapname ) )
+                ArrayPushString( g_sMaps, mapname )
+            }
+        }
+        
+        MenuTimer = MenuCountdown
+        VoteMsg = Vote_Running
+        
+        ArraySort( g_aMaps, "SortMaps" )
+        
+        if( ArraySize( g_aMaps ) )
+        {
+            for( new i; i < ArraySize( g_aMaps ); i++ )
+            {
+                ArrayGetString( g_aMaps, i, mapname, charsmax( mapname ) )
+                ArrayPushString( g_sMaps, mapname )
+            }
+        }
+        
+        Orders()
+        set_task( 0.1, "MenuTime" )
+        set_task( 1.0, "MenuTime", 100, _, _, "b" )
+        remove_task( 50 )
+        
+        return 1
+    }
+    
+    new Spk[ 10 ]
+    num_to_word( Countdown, Spk, charsmax( Spk ) )
+    client_cmd( 0, "spk vox/%s", Spk )
+    
+    set_hudmessage( random( 255 ), random( 255 ), random( 255 ), -1.0, 0.10, 0, 6.0, 1.0 )
+    show_hudmessage( 0, "%sVote will be start in %d second%s", ShowHud ? "Admin vote^n-------------------^n" : "", Countdown, Countdown == 1 ? "" : "s" )
+    
+    return 1
+}
+ 
+/*********** Menu timer **************/
+public MenuTime()
+{
+    MenuTimer--
+    if( MenuTimer == 0 )
+    {
+        remove_task( 100 )
+        show_menu( 0, 0, "^n", 1 )
+        
+        return CheckResults()
+    }
+    
+    for( new i; i < get_maxplayers(); i++ )
+        if( is_user_connected( i ) && !DontShowMenu[ i ] )
+            ShowVote( i )
+    
+    return 1
+}
+ 
+/*********** Show vote **************/
+public ShowVote( id )
+{
+    new szMenu[ 1000 ], Precent[ 32 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Choose the map you would like to play \d[ All votes \r%d\w/\r%d \d]^n\d|\y!\d| \w%sYou can only revote once",
+    Prefix, Allvotes, get_playersnum(), StopRevote[ id ] ? "\r" : "\w" )
+    
+    new menu = menu_create( szMenu, "sub_vote" )
+    
+    size = min( MapsInMenu, ArraySize( g_sMaps ) )
+    
+    for( new i; i < size; i++ )
+    {
+        ArrayGetString( g_sMaps, i, mapname, charsmax( mapname ) )
+        
+        if( MapVote[ i ] > 0 )
+            Precent[ i ] = ( ( MapVote[ i ] * 100 ) / ( Allvotes ) )
+        
+        if( !MyVote[ id ] )
+        {
+            formatex( szMenu, charsmax( szMenu ), "%s \d[\w votes: \y%d \d][\y %d%% \d]%s", mapname, MapVote[ i ], Precent[ i ], i == size - 1 ? "^n" : "" )
+            menu_additem( menu, szMenu )
+        }
+        else if( i == MyMap[ id ] && !StopRevote[ id ] )
+        {
+            formatex( szMenu, charsmax( szMenu ), "\y%s \d[\w votes: \y%d \d][\y %d%% \d]%s", mapname, MapVote[ i ], Precent[ i ], i == size - 1 ? "^n" : "" )
+            menu_additem( menu, szMenu )
+        }
+        else
+        {
+            formatex( szMenu, charsmax( szMenu ), "\d%s \d[\w votes: \y%d \d][\y %d%% \d]%s", mapname, MapVote[ i ], Precent[ i ], i == size - 1 ? "^n" : "" )
+            menu_additem( menu, szMenu, .callback = menu_makecallback( "blockpress" ) )
+        }
+    }
+    
+    if( MapVote[ size ] > 0 )
+        Precent[ size ] = ( ( MapVote[ size ] * 100 ) / ( Allvotes ) )
+    
+    if( !MyVote[ id ] )
+    {
+        formatex( szMenu, charsmax( szMenu ), "%s \r( Current map ) \d[\w votes: \y%d \d][\y %d%% \d]^n", currentmap, MapVote[ size ], Precent[ size ] )
+        menu_additem( menu, szMenu )
+    }
+    else if( size == MyMap[ id ] && !StopRevote[ id ] )
+    {
+        formatex( szMenu, charsmax( szMenu ), "\y%s \r( Current map ) \d[\w votes: \y%d \d][\y %d%% \d]^n", currentmap, MapVote[ size ], Precent[ size ] )
+        menu_additem( menu, szMenu )
+    }
+    else
+    {
+        formatex( szMenu, charsmax( szMenu ), "%s \r( Current map ) \d[\w votes: \y%d \d][\y %d%% \d]^n", currentmap, MapVote[ size ], Precent[ size ] )
+        menu_additem( menu, szMenu, .callback = menu_makecallback( "blockpress" ) )
+    }
+    
+    menu_additem( menu, "Dont show me the menu^n" )
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w \d%d\w second%s left \r]", MenuTimer, MenuTimer == 1 ? "" : "s" )
+    menu_addtext( menu, szMenu )
+    
+    menu_setprop( menu, MPROP_EXIT, MEXIT_NEVER )
+    menu_display( id, menu )
+    
+    return 1
+}
+ 
+public blockpress( id, menu, item )
+{
+    if( MyVote[ id ] || StopRevote[ id ] )
+        return ITEM_DISABLED
+    
+    return 1
+}
+ 
+public sub_vote( id, menu, item )
+{
+    if( item == MENU_EXIT || MenuTimer <= 0 || VoteMsg == Vote_NotRunning ) return 1
+    if( item == MapsInMenu + 1 ) return DontShowMenu[ id ] = true
+    
+    if( MyVote[ id ] )
+    {
+        Allvotes--
+        MapVote[ MyMap[ id ] ]--
+        MyVote[ id ] = false
+        Revote[ id ] = true
+        ColorChat( 0, "^3%s ^1has unvoted for ^3%s^1.", GetName( id ), MyChoose[ id ] )
+        return ShowVote( id )
+    }
+    
+    if( item == size )
+    {
+        formatex( MyChoose[ id ], charsmax( MyChoose ), currentmap )
+        ColorChat( 0, "^3%s^1 has voted to stay in the current map. ^3[^1 %s ^3]", GetName( id ), currentmap )
+    }
+    else
+    {
+        ArrayGetString( g_sMaps, item, mapname, charsmax( mapname ) )
+        formatex( MyChoose[ id ], charsmax( MyChoose ), mapname )
+        ColorChat( 0, "^3%s ^1has voted for ^3%s^1.", GetName( id ), mapname )
+    }
+    
+    client_cmd( id, "spk sound/buttons/lightswitch2.wav" )
+    Allvotes++
+    MapVote[ item ]++
+    MyVote[ id ] = true
+    MyMap[ id ] = item
+    
+    if( Revote[ id ] )
+        StopRevote[ id ] = true
+    
+    return ShowVote( id )
+}
+ 
+/*********** Results **************/
+CheckResults()
+{
+    new winner, winnercount, tienum
+    new tie[ 10 ]
+    
+    for( new i; i < size + 1; i++ )
+    {
+        if( MapVote[ i ] == winnercount )
+            tie[ tienum++ ] = i
+        
+        else if( MapVote[ i ] > winnercount )
+        {
+            winner = i
+            winnercount = MapVote[ i ]
+            
+            arrayset( tie, 0, sizeof tie )
+            tienum = 0
+        }
+    }
+    
+    if( winner == size )
+    {
+        ColorChat( 0, "The current map ^3[^1 %s ^3]^1 will be extended for ^3%d^1 minutes.", currentmap, ExtendTime/60 )
+        Timeleft = ExtendTime
+        VoteMsg = Vote_NotRunning
+        set_task( 1.0, "Timetovote", 0, _, _, "b" )
+        
+        Orders()
+    }
+    else
+    {
+        if( !winnercount )
+        {
+            winner = random( size )
+            ArrayGetString( g_sMaps, winner, mapname, charsmax( mapname ) ) 
+            ColorChat( 0, "No one has voted. ^3%s^1 was ^3randomly^1 chosen.", mapname )
+        }
+        else
+        {
+            if( tienum && MapVote[ tie[ 0 ] ] == winnercount && winnercount )
+            {
+                winner = tie[ random( tienum ) ]
+                ColorChat( 0, "^3%d^1 or more maps has the same number of votes. ^3random one^1 will be chosen.", 2 )
+                
+                if( winner == size )
+                {
+                    Timeleft = ExtendTime
+                    VoteMsg = Vote_NotRunning
+                    set_task( 1.0, "Timetovote", 0, _, _, "b" )
+                    
+                    Orders()
+                    
+                    return ColorChat( 0, "The chosen map is the current map ^3[^1 %s ^3]^1 will be extended for ^3%d^1 minutes.", currentmap, ExtendTime/60 )
+                }
+            }
+            
+            ArrayGetString( g_sMaps, winner, mapname, charsmax( mapname ) )
+            
+            ColorChat( 0, "The chosen map is ^3%s^1 with ^3%d^1 vote%s. [^3 %.f precent ^1]. %s",
+            mapname, MapVote[ winner ], MapVote[ winner ] == 1 ? "" : "s", ( MapVote[ winner ] * 100.0 / Allvotes ), get_playersnum() <= 1 ? "the map will be change in^3 10 ^1seconds" : "the map will be change in^3 1 ^1minute" )
+        }
+        
+        copy( Nextmap, charsmax( Nextmap ), mapname )
+        VoteMsg = Vote_Nextmap
+        Timeleftnextmap = NextmapTimeleft
+        
+        if( get_playersnum() <= 1 )
+            Timeleftnextmap = 11
+        
+        set_task( 1.0, "Timetochange", 400, _,_, "b" )
+        
+        return 1
+    }
+    
+    return LoadMaps()
+}
+ 
+/*********** Sort maps **************/
+public SortMaps()
+{
+    switch( random( 3 ) )
+    {
+        case 0: return 0
+        case 1: return 1
+        default: return -1
+    }
+    
+    return 0
+}
+ 
+/*********** Nominate **************/
+public MapsMenu( id )
+{
+    if( VoteMsg == Vote_Running ) return ColorChat( id, "The vote is already ^3running." )
+    if( VoteMsg == Vote_Starting ) return ColorChat( id, "The vote is ^3starting^1 now." )
+    if( VoteMsg == Vote_Nextmap ) return ColorChat( id, "You can't nom now. the ^3map^1 will be change to ^3%s^1 in ^3%02d:%02d^1 minute%s.",
+    Nextmap, Timeleftnextmap/60, Timeleftnextmap%60, Timeleftnextmap/60 > 1 ? "s" : "")
+    
+    new szMenu[ 250 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w maps \r[\w %d/%d \r] [\w Your nominate: \y%s\r ]\w\R",
+    Prefix, ArraySize( g_aMaps ), ArraySize( g_aMaps ) + ArraySize( g_nMaps ), !iNom[id] ? "Not chosen yet" : (MyNom[ id ]) )
+    
+    new menu = menu_create( szMenu, "sub_maps" )
+    
+    for( new i; i < ArraySize( g_nMaps ); i++ )
+    {
+        ArrayGetString( g_nMaps, i, mapname, charsmax( mapname ) )
+        /*SortCustom2D( mapname, g_nMaps, "sort_stringsi" )
+        ArraySort( g_nMaps, "SortMaps" )
+        
+        if( search[ id ] )
+            if( containi( mapname, sortby[ id ] ) ) continue
+            if( containi( mapname, sortby[ id ] ) > -1 )
+                formatex( szMenu, charsmax( szMenu ), "\w%s", mapname )
+            else
+                formatex( szMenu, charsmax( szMenu ), "\w%s", mapname )
+        */
+        formatex( szMenu, charsmax( szMenu ), "\d%s %s", mapname, equali( MyNom[ id ], mapname ) ? "\y~\w Your nominated \y~" : "" )
+        menu_additem( menu, szMenu, .callback = menu_makecallback( "blockitem" ) )
+    }
+    for( new i; i < ArraySize( g_aMaps ); i++ )
+    {
+        ArrayGetString( g_aMaps, i, mapname, charsmax( mapname ) )
+        /*SortCustom2D( mapname, g_aMaps, "sort_stringsi" )
+        ArraySort( g_aMaps, "SortMaps" )
+        
+        if( search[ id ] )
+            if( containi( mapname, sortby[ id ] ) ) continue
+            if( containi( mapname, sortby[ id ] ) > -1 )
+                formatex( szMenu, charsmax( szMenu ), "\w%s", mapname )
+            else
+                formatex( szMenu, charsmax( szMenu ), "\w%s", mapname )
+        */
+        formatex( szMenu, charsmax( szMenu ), "\w%s", mapname )
+        menu_additem( menu, szMenu )
+    }
+    
+    menu_setprop( menu, MPROP_BACKNAME, "Previous Page" )
+    menu_setprop( menu, MPROP_NEXTNAME, "Next Page" )
+    menu_display( id, menu )
+    return 1
+}
+ 
+/*public sort_stringsi( const elem1[], const elem2[], const array[], data[], data_size )
+    //return strcmp( elem1, elem2, 1 )
+ 
+public SortMapsNom( Array:array, elem1, elem2, data[], data_size )
+{
+    new map1[ 200 ]
+    new map2[ 200 ]
+    
+    ArrayGetString( array, elem1, map1, charsmax( map1 ) );
+    ArrayGetString( array, elem2, map2, charsmax( map2 ) );
+    
+    return strcmp( map1, map2, true );
+}*/
+ 
+public blockitem( id, menu, item )
+{
+    ArrayGetString( g_nMaps, item, mapname, charsmax( mapname ) )
+    
+    if( !equali( MyNom[ id ], mapname ) )
+        return ITEM_DISABLED
+    
+    return 0
+}
+ 
+public sub_maps( id, menu, item )
+{
+    if( item == MENU_EXIT ) return menu_destroy( menu )
+    
+    if( VoteMsg == Vote_Running ) return ColorChat( id, "The vote is already ^3running." )
+    if( VoteMsg == Vote_Starting ) return ColorChat( id, "The vote is ^3starting^1 now." )
+    if( VoteMsg == Vote_Nextmap ) return ColorChat( id, "You can't nom now. the ^3map^1 will be change to ^3%s^1 in ^3%02d:%02d^1 minute%s.",
+    Nextmap, Timeleftnextmap/60, Timeleftnextmap%60, Timeleftnextmap/60 > 1 ? "s" : "")
+    
+    if( item < ArraySize( g_nMaps ) )
+    {
+        ArrayGetString( g_nMaps, item, mapname, charsmax( mapname ) )
+        
+        if( equali( MyNom[ id ], mapname ) )
+        {
+            if( !iNom[ id ] ) return MapsMenu( id )
+            
+            //ColorChat( 0, "^3%s^1 has denominated^3 %s^1.", GetName( id ), mapname )
+            ColorChat( id, "You denominated^3 %s^1.", mapname )
+            
+            ArrayPushString( g_aMaps, mapname )
+            ArrayDeleteItem( g_nMaps, item )
+            
+            iNom[ id ] = false
+        }
+        return MapsMenu( id )
+    }
+    
+    if( iNom[ id ] )
+    {
+        MapsMenu( id )
+        return ColorChat( id, "You have already nominated. ^3(^1 %s ^3)^1", MyNom[ id ] )
+    }
+    
+    if( ArraySize( g_nMaps ) ) item -= ArraySize( g_nMaps )
+    
+    ArrayGetString( g_aMaps, item, mapname, charsmax( mapname ) )
+    ArrayPushString( g_nMaps, mapname )
+    ArrayDeleteItem( g_aMaps, item )
+    
+    formatex( MyNom[ id ], charsmax( MyNom ), mapname )
+    
+    ColorChat( 0, "^3%s^1 has nominated^3 %s^1.", GetName( id ), mapname )
+    
+    iNom[ id ] = true
+    
+    return MapsMenu( id )
+}
+ 
+/*********** Played maps **************/
+public PlayedMaps( id, page )
+{
+    new szMenu[ 520 ], MapInfo[ 2 ][ 32 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Played maps \r[\w maps: \y%d \r]\w\R", Prefix, file_size( PlayedFile, 1 ) - 1 )
+    new menu = menu_create( szMenu, "sub_playedmaps" )
+    
+    for( new i; i < file_size( PlayedFile, 1 ) - 1; i++ )
+    {
+        parse( Played[ i ], MapInfo[ 0 ], 31, MapInfo[ 1 ], 31 )
+        formatex( szMenu, charsmax( szMenu ), "\wMap: \d%s\y| \wplayed: \d%s", MapInfo[ 0 ], MapInfo[ 1 ] )
+        menu_additem( menu, szMenu )
+    }
+    
+    menu_setprop( menu, MPROP_BACKNAME, "Previous Page" )
+    menu_setprop( menu, MPROP_NEXTNAME, "Next Page" )
+    menu_display( id, menu, page )
+    
+    return 1
+}
+ 
+public sub_playedmaps( id, menu, item )
+{
+    if( item == MENU_EXIT ) return menu_destroy( menu )
+    
+    new MapDatas[ 2 ][ 32 ], page
+    player_menu_info( id, menu, menu, page )
+    parse( Played[ item ], MapDatas[ 0 ], 31, MapDatas[ 1 ], 31 )
+    
+    ColorChat( id, "Map: ^3%s^1| played: ^3%s", MapDatas[ 0 ], MapDatas[ 1 ] )
+    return PlayedMaps( id, page )
+}
+ 
+/*********** Orders **************/
+public Orders()
+{
+    arrayset( iRtv, 0, sizeof iRtv )
+    arrayset( MyMap, 0, sizeof MyMap )
+    arrayset( MyVote, 0, sizeof MyVote )
+    arrayset( Revote, 0, sizeof Revote )
+    arrayset( MapVote, 0, sizeof MapVote )
+    arrayset( StopRevote, 0, sizeof StopRevote )
+    arrayset( DontShowMenu, 0, sizeof DontShowMenu )
+}
+ 
+/*********** Load maps **************/
+LoadMaps()
+{
+    ArrayClear( g_aMaps )
+    ArrayClear( g_nMaps )
+    
+    new file[ 128 ]
+    get_configsdir( file, charsmax( file ) )
+    
+    add( file, charsmax( file ), "/maps.ini" )
+    
+    if( !file_exists( file ) )
+        log_amx( "File %s wasn't found!", file )
+    else
+    {
+        new f = fopen( file, "rt" )
+        
+        if( !f )
+            return PLUGIN_HANDLED
+        
+        new data[ 512 ]
+        get_mapname( mapname, charsmax( mapname ) )
+        
+        while( fgets( f, data, charsmax( data ) ) )
+        {
+            trim( data )
+            
+            if( data[ 0 ] == EOS || data[ 0 ] == '/' || data[ 0 ] == ';' || equali( data, mapname ) || !isValidMap( data ) )
+                continue
+            
+            ArrayPushString( g_aMaps, data )
+        }
+        fclose( f )
+    }
+    
+    if( !ArraySize( g_aMaps ) )
+    {
+        new fail[ 64 ]
+        formatex( fail, charsmax( fail ), "No maps found. (%s)", file )
+        
+        set_fail_state( fail )
+    }
+    
+    return 1
+}
+ 
+/*********** Load played maps **************/
+LoadPlayed()
+{
+    new Line[ 64 ], MapDatas[ 2 ][ 32 ],  LineNum, bool:Found
+    
+    new File = fopen( PlayedFile, "rt" )
+    
+    get_mapname( mapname, charsmax( mapname ) )
+    
+    while( !feof( File ) )
+    {
+        fgets( File, Line, charsmax( Line ) )
+        
+        if( Line[ 0 ] == ';' || strlen( Line ) < 2 )
+            continue
+        
+        parse( Line, MapDatas[ 0 ], 31, MapDatas[ 1 ], 31 )
+        
+        if( equali( MapDatas[ 0 ], mapname ) )
+        {
+            format( Line, sizeof Line - 1, "^"%s^" ^"%d^"", mapname, str_to_num( MapDatas[ 1 ] ) + 1 )
+            write_file( PlayedFile, Line, LineNum )
+            Found = true
+        }
+        
+        LineNum++
+    }
+    
+    fclose( File )
+    
+    if( !Found ) AddMaps()
+}
+ 
+public AddMaps()
+{
+    new Line[ 32 ]
+    new File = fopen( PlayedFile, "at+" )
+    
+    formatex( Line, sizeof Line - 1, "^"%s^" ^"%d^"^n", currentmap, 1 )
+    fprintf( File, Line )
+    fclose( File )
+}
+ 
+LoadPlayedMaps()
+{
+    new Line[ 64 ], Len
+    new File = fopen( PlayedFile, "rt" )
+    if( File )
+    {
+        for( new i; i < file_size( PlayedFile, 1 ) - 1; i++ )
+        {
+            read_file( PlayedFile, i, Line, charsmax( Line ), Len )
+            
+            if( Line[ 0 ] == ';' || strlen( Line ) < 2 )
+                continue
+            
+            remove_quotes( Line )
+            
+            copy( Played[ i ], sizeof Line - 1, Line )
+        }
+    }
+    
+    fclose( File )
+}
+ 
+/*********** Load recent maps **************/
+public LoadRecentMaps()
+{
+    new Line[ 64 ]
+    new File = fopen( RecentFile, "rt" )
+    if( File )
+    {
+        while( !feof( File ))
+        {
+            fgets( File, Line, charsmax( Line ) )
+            trim( Line )
+            
+            if( Line[ 0 ] == ';' || strlen( Line ) < 2 )
+                continue
+            
+            copy( RecentMaps[ RecentMap++ ], charsmax( Line ), Line )
+        }
+    }
+    
+    fclose( File )
+}
+ 
+public WriteRecentList()
+{
+    new File = fopen( RecentFile, "wt" )
+    if( File )
+    {
+        fprintf( File, "%s", currentmap )
+        
+        for( new i; i < 3; i++ )
+        {
+            if( equali( RecentMaps[ i ], RecentMaps[ i + 1 ] ) || equali( RecentMaps[ i ], currentmap ) )
+                continue
+            
+            fprintf( File, "^n%s", RecentMaps[ i ] )
+        }
+    }
+    
+    fclose( File )
+}
+ 
+/*********** Is valid map **************/
+stock bool:isValidMap( Map[] )
+{
+    if( is_map_valid( Map ) )
+        return true
+    
+    new Len = strlen( Map ) - 4
+    
+    if( 0 > Len )
+        return false
+    
+    if( equali( Map[ Len ], ".bsp" ) )
+    {
+        Map[ Len ] = '^0'
+        
+        if( is_map_valid( Map ) )
+            return true
+    }
+    
+    return false
+}
+ 
+/*********** Stocks **************/
+stock GetName( id )
+{
+    new szName[ 32 ]
+    get_user_name( id, szName, charsmax( szName ) )
+    return szName
+}
+ 
+/*********** ColorChat **************/
+stock ColorChat( const client, const string[ ], { Float, Sql, Resul, _ } :... )
+{
+    new msg[ 191 ], players[ 32 ], count = 1
+    
+    static len; len = formatex( msg, charsmax( msg ), "^3[^1 %s ^3]^1 ", Prefix )
+    vformat( msg[ len ], charsmax( msg ) - len, string, 3 )
+    
+    if( client )
+        players[ 0 ] = client
+    else
+        get_players( players, count, "ch" )
+    
+    for( new i; i < count; i++ )
+    {
+        if( is_user_connected( players[ i ] ) )
+        {
+            message_begin( MSG_ONE_UNRELIABLE, get_user_msgid( "SayText" ),_, players[ i ] )
+            write_byte( players[ i ] )
+            write_string( msg )
+            message_end()
+        }
+    }
+    return 1
+}

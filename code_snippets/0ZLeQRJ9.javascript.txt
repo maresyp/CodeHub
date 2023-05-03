@@ -1,0 +1,25 @@
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: "add_to_cart",
+  ecommerce: {
+    currency: "GBP",
+    value: 69.61,
+    items: [
+    {
+      item_id: "168432",
+      item_name: "Duni Elegance® Napkin Lily 40 x 40 cm White, 240 pcs/box (6 x 40 pcs)",
+      affiliation: "affiliation",
+      coupon: "coupon",
+      discount: 2.22,
+      index: 1,
+      item_brand: "Duni",
+      item_category: "Napkins",
+      item_category2: "Dinner Size Napkins Unicolour",
+      item_category3: "Duni Elegance Lily",
+      item_list_name: "Category Results",
+      item_variant: "White",
+      price: 69.61,
+      quantity: 1
+    }]
+  }
+});

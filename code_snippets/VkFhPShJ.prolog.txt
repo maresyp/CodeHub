@@ -1,0 +1,19 @@
+son and parents
+PREDICATES
+husband(STRING,STRING)
+father(STRING,STRING)
+mother(STRING,STRING)
+son(STRING,STRING)
+CLAUSES
+mother("Kushalya","Ram").
+mother("Kaikai","Bharat").
+mother("Sumitra","Laxman").
+mother("Sumitra","Satrughan").
+husband("Dasrath","Kaushalya").
+husband("Dasrath","Kaikai").
+husband("Dasrath","Sumitra").
+son(A,C):- mother(C,A).
+son(A,C):-husband(C,B), mother(B,A).
+father(A,B):- husband(A,C), mother(C,B).
+GOAL
+son(X, "Kaikai").

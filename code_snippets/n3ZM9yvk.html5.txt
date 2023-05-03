@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* Add some CSS styles for the container element */
+.container {
+  /* Make it a flexbox container */
+  display: flex;
+  /* Allow the items to wrap into multiple rows */
+  flex-wrap: wrap;
+}
+ 
+/* Add some CSS styles for the item elements */
+.item {
+  /* Make them grow and shrink equally */
+  flex: 1;
+  /* Make them take up at least one third of the container width */
+  min-width: 33.33%;
+}
+</style>
+</head>
+<body>
+  <!-- Add a class attribute to the container element -->
+  <div class="container">
+    <!-- Add some content to the item elements -->
+    <div class="item">Item A</div>
+    <div class="item">Item B</div>
+    <div class="item">Item C</div>
+    <div class="item">Item D</div>
+    <div class="item">Item E</div>
+    <div class="item">Item F</div>
+    <div class="item">Item G</div>
+    <div class="item">Item H</div>
+    <div class="item">Item I</div>
+  </div>
+</body>
+</html>

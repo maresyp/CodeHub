@@ -1,0 +1,19 @@
+local OverheadGui = game.ServerStorage:WaitForChild("OverheadGui")
+ 
+local NormalPlayerText = "Visitor"
+local DeveloperText = "Admin"
+local Developer = {"pluem1273"}
+ 
+game.Players.PlayerAdded:Connect(function(plr)
+    plr.CharacterAdded:Connect(function(char)
+        if table.find(Developer, plr.Name) then
+            local gui1 = OverheadGui:Clone()
+            gui1.Parent = char:FindFirstChild("Head")
+            gui1.Gui.Text = DeveloperText
+        else
+            local gui2 = OverheadGui:Clone()
+            gui2.Parent = char:FindFirstChild("Head")
+            gui2.Gui.Text = NormalPlayerText
+        end
+    end)
+end)

@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+ 
+class CustomTextFieldAutoComplete extends StatelessWidget {
+  final List<String>? listSuggestions;
+  final TextEditingController? textEditingController;
+  final Text? label;
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
+ 
+  const CustomTextFieldAutoComplete({
+    Key? key,
+    required this.listSuggestions,
+    required this.textEditingController,
+    this.label,
+    this.onChanged,
+    this.validator,
+  }) : super(key: key);
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      alignment: Alignment.center,
+      child: Autocomplete<String>(
+        optionsBuilder: (TextEditingValue textEditingValue) {
+          if (textEditingValue.text.isEmpty) {
+            return const Iterable<String>.empty();
+          }
+          return listSuggestions!
+              .where((suggestion) => suggestion
+                  .toLowerCase()
+                  .contains(textEditingValue.text.toLowerCase()))
+              .toList();
+        },
+        onSelected: onChanged,
+        fieldViewBuilder: (context, textEditingController, FocusNode focusNode,
+            VoidCallback onFieldSubmitted) {
+          return TextFormField(
+            controller: textEditingController,
+            focusNode: focusNode,
+            decoration: InputDecoration(
+              label: label,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(color: Theme.of(context).primaryColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Theme.of(context).primaryColor,
+                  style: BorderStyle.solid,
+                ),
+              ),
+            ),
+            onChanged: onChanged,
+            validator: validator,
+          );
+        },
+        displayStringForOption: (String option) => option,
+        optionsViewBuilder: (BuildContext context,
+            AutocompleteOnSelected<String> onSelected,
+            Iterable<String> options) {
+          return Material(
+            elevation: 4.0,
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: options.length,
+              itemBuilder: (BuildContext context, int index) {
+                final option = options.elementAt(index);
+                return ListTile(
+                  title: Text(option),
+                  onTap: () {
+                    onSelected(option);
+                  },
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

@@ -1,0 +1,244 @@
+<!------------
+  FFXIV WIKI (CUSTOM) by dvdexe/watergems
+  Made for a very nice person on Twitter who wanted a template
+  based off the FFXIV wiki with collapsible sections.
+  Vriska free of charge.
+  
+  Do not remove this credit comment or claim code as yours.
+  Feel free to edit/franken/use as a base as much as you'd like,
+  just remember to credit when necessary.
+ 
+  This code uses anchors/id attributes. For information on how
+  they work, or if you're having trouble editing the code on
+  your own, try consulting W3Schools:
+  > https://www.w3schools.com/html/html_id.asp
+  
+  Color (Bootstrap): primary
+  Character links: @@characterID
+  ------------>
+ 
+<!----- INFOBOX START ----->
+<div class="float-md-right ml-md-2 mb-2" style="min-width:20rem;max-width:23rem">
+<div class="card card-outline-primary bg-faded">
+<!-- CHARACTER NAMES -->
+<h2 class="card-primary card-header card-inverse text-center text-white">Character Name</h2>
+<p class="text-muted p-2">Alternate names: Handsome Stranger, Name 2, Name 3</p>
+ 
+<!-- IMAGE TABS - only default/first image should have "active" class-->
+<ul class="nav flex-wrap d-flex justify-content-center px-1 mx-auto pt-1">
+<li class="nav-item pr-1"><a class="nav-link btn btn-primary active" data-toggle="tab" 
+  href="#default">Default</a></li> <!-- IMAGE 1 (DEFAULT) -->
+<li class="nav-item pl-1"><a class="nav-link btn btn-primary" data-toggle="tab" 
+  href="#eyepatch">Eyepatch</a></li> <!-- IMAGE 2 -->
+</ul>
+<!-- IMAGE TAB CONTENT - only default/first image should have "active show" classes -->
+<div class="tab-content text-center p-2"><div class="tab-pane width-auto active show" id="default"> <!-- change id to whatever you like but remember to change them in the image tabs section (lines 11/13) -->
+  <img src="https://static.wikia.nocookie.net/mspaintadventures/images/8/81/Vriska_Serket.png" /> <!-- IMAGE 1 (DEFAULT) -->
+</div><div class="tab-pane width-auto" id="eyepatch">
+  <img src="https://static.wikia.nocookie.net/mspaintadventures/images/1/15/Vriska_eyepatch.png" /> <!-- IMAGE 2 -->
+</div></div>
+ 
+<!----- BIOGRAPHICAL INFORMATION ----->
+<h5 class="bg-primary text-white text-center py-2 mb-0 pl-4">Biographical Information <a href="#bio" data-toggle="collapse"><i class="fa-lg mt-2 pr-2 fas fa-angle-down float-right text-white" /></a></h5>
+<div class="collapse show mt-2" id="bio"> <div class="row mb-2">
+  <div class="col-5 pl-4 font-weight-bold">Age</div>
+  <div class="col-7 pr-4">69</div>
+  <div class="col-5 pl-4 font-weight-bold">Affiliation</div>
+  <div class="col-7 pr-4">
+  <ul class="px-3 mb-0">
+    <li>Affiliation 1</li>
+    <li>Affiliation 2</li>
+    <!-- add extra <li> lines before this </ul> tag -->
+    <!-- if you only have 1 affiliation you can remove the whole <ul> section, just keep the <div> (line 28) -->
+  </ul>
+  </div>
+  <div class="col-5 pl-4 font-weight-bold">Occupation</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+  <div class="col-5 pl-4 font-weight-bold">Home</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+  <div class="col-5 pl-4 font-weight-bold">Education</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+</div></div>
+<!----- PHYSICAL DESCRIPTION ----->
+<h5 class="bg-primary text-white text-center py-2 mb-0 pl-4">Physical Description <a href="#phy" data-toggle="collapse"><i class="fa-lg mt-2 pr-2 fas fa-angle-down float-right text-white" /></a></h5>
+<div class="collapse show mt-2" id="phy"> <div class="row mb-2">
+  <div class="col-5 pl-4 font-weight-bold">Race</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+  <div class="col-5 pl-4 font-weight-bold">Gender</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+  <div class="col-5 pl-4 font-weight-bold">Laterality</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+</div></div>
+<!----- GAMEPLAY DETAILS ----->
+<h5 class="bg-primary text-white text-center py-2 mb-0 pl-4">Gameplay Details <a href="#gpl" data-toggle="collapse"><i class="fa-lg mt-2 pr-2 fas fa-angle-down float-right text-white" /></a></h5>
+<div class="collapse show mt-2" id="gpl"> <div class="row mb-2">
+  <div class="col-5 pl-4 font-weight-bold">Type</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+  <div class="col-5 pl-4 font-weight-bold">Job Class</div>
+  <div class="col-7 pr-4">
+    <img src="https://static.wikia.nocookie.net/finalfantasy/images/f/f7/Gladiator_party_icon_from_Final_Fantasy_XIV.png" style="width:15px;height:auto" /> Gladiator
+  </div>
+  <!-- separate multiple jobs with <br />, just copy paste the whole <img> tag with the job name afterwards -->
+  <div class="col-5 pl-4 font-weight-bold">Weapon</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+  <div class="col-5 pl-4 font-weight-bold">Armor</div>
+  <div class="col-7 pr-4">Lorem ipsum</div>
+</div></div>
+</div></div>
+<!------ END INFOBOX ------>
+ 
+<!------ QUOTE ------>
+<div style="min-width:20rem;max-width:30rem">
+<div class="card p-2 mb-2 bg-faded card-outline-default"><span class="text-center mb-2">
+<i class="fa-lg fas fa-quote-left float-left text-primary mt-1" />
+<i class="fa-lg fas fa-quote-right float-right text-primary mt-1" />
+  A self-professed bard and chaser of dreams, often seen wandering the wilds of Thanalan. Ever the charmer, Thancred never misses an opportunity to woo a lovely lady with verses of adulation. This foppish facade, however, conceals many secrets, not the least of which is his puissant skill with a dagger.
+</span><div class="text-right text-muted">
+  ― Source
+</div></div></div>
+ 
+<!------ INTRODUCTION ------>
+<p><b>Thancred Waters</b> is a male Midlander Hyur Gladiator and later Rogue and Gunbreaker. He played an important role in the Ul'dah storyline of the original <i>Final Fantasy XIV</i>, and is a major NPC in <i>Final Fantasy XIV: A Realm Reborn</i> and its expansions.</p>
+ 
+<!------ TABLE OF CONTENTS // Credit to @Pinky for toggle base code ------>
+<div class="card bg-faded card-outline-default p-2 mt-2 mb-5" style="width:15rem"><a id="toc"></a>
+<h6 class="p-2 mb-0 d-flex justify-content-between"><span><i class="fa-solid fa-list pr-2" />Contents</span>
+<small>[<a class="px-1" data-toggle="collapse" href="#tocshow2">toggle</a>]</small></h6>
+<ol class="collapse p-2 pt-0 pl-4 rounded-bottom mb-0" id="tocshow2">
+<!-- TOC LINKS -->
+  <li><a href="#history">History</a></li>
+  <ol class="pl-3">
+    <li><a href="#subsect1">Subsection 1</a></li> <!-- copy+paste this <li> line before the </ol> tag to add more links -->
+    <li><a href="#subsect2">Subsection 2</a></li> <!-- remember to change the #subsect2 etc. to correctly link the sections -->
+  </ol>
+  <li><a href="#characteristics">Characteristics</a></li>
+  <ol class="pl-3">
+    <li><a href="#appearance">Appearance</a></li>
+    <li><a href="#personality">Personality</a></li>
+  </ol>
+  <li><a href="#gameplay">Gameplay</a></li>
+  <ol class="pl-3">
+    <li><a href="#battle">Battle</a></li>
+    <li><a href="#triple-triad">Triple Triad</a></li>
+  </ol>
+  <li><a href="#relationships">Relationships</a></li>
+  <ol class="pl-3">
+    <li><a href="#name1">Name 1</a></li>
+    <li><a href="#name2">Name 2</a></li>
+  </ol>
+  <li><a href="#trivia">Trivia</a></li>
+  <li><a href="#other-appearances">Other Appearances</a></li>
+</ol></div>
+ 
+<!----- HISTORY ----->
+<div class="profile-fields-title mt-2"><a id="history" /><h2>History <a data-toggle=
+"collapse" href="#history1" ><i class="fas fa-angle-down text-primary" /></a></h2>
+</div><div class="card border-top-0 border-right-0 border-left-0 rounded-0 mb-1" style="height:1px"> </div>
+<div class="collapse" id="history1">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- START SUBSECTION, change "a id") ----->
+<a id="subsect1" /><h4 class="mb-1">Subsection 1</h4>
+<p>Subsection Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- START SUBSECTION, change "a id") ----->
+<a id="subsect2" /><h4 class="mb-1">Subsection 2</h4>
+<p>Subsection Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+</div>
+ 
+<!----- CHARACTERISTICS ----->
+<div class="profile-fields-title mt-2"><a id="characteristics" /><h2>Characteristics <a data-toggle=
+"collapse" href="#characteristics1" ><i class="fas fa-angle-down text-primary" /></a></h2>
+</div><div class="card border-top-0 border-right-0 border-left-0 rounded-0 mb-1" style="height:1px"> </div>
+<div class="collapse" id="characteristics1">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- APPEARANCE ----->
+<a id="appearance" /><h4 class="mb-1">Appearance</h4>
+<p>Subsection Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- PERSONALITY ----->
+<a id="personality" /><h4 class="mb-1">Personality</h4>
+<p>Subsection Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+</div>
+ 
+<!----- GAMEPLAY ----->
+<div class="profile-fields-title mt-2"><a id="gameplay" /><h2>Gameplay <a data-toggle=
+"collapse" href="#gameplay1" ><i class="fas fa-angle-down text-primary" /></a></h2>
+</div><div class="card border-top-0 border-right-0 border-left-0 rounded-0 mb-1" style="height:1px"> </div>
+<div class="collapse" id="gameplay1">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- BATTLE ----->
+<a id="battle" /><h4 class="mb-1">Battle</h4>
+<p>Subsection Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- TRIPLE TRIAD ----->
+<a id="triple-triad" /><h4 class="mb-1">Triple Triad</h4>
+<!-- TABLE START (copy+paste as needed) -->
+<table class="table table-striped" style="min-width:20rem;max-width:40rem;"><thead><tr>
+  <th colspan="3">Thancred Card</th> <!-- CARD NAME -->
+</tr></thead><tbody><tr>
+<td class="text-center align-middle" style="width:30%" rowspan="5"><img src="
+  https://static.wikia.nocookie.net/finalfantasy/images/6/62/FFXIV_TT_Thancred.png
+" style="width:104px;height:auto;" /></td> <!-- replace above link with direct img link for card -->
+  <th style="width:10%">Card No.</th>
+  <td style="width:60%">46</td>
+</tr><tr>
+  <th>Total stats</th>
+  <td>20</td>
+</tr><tr>
+  <th>Type</th>
+  <td>Scion</td>
+</tr><tr>
+  <th>Description</th>
+  <td>“I've been something of a liability of late, I know. 'Tis high time I set about making amends.”</td>
+</tr><tr>
+  <th>Obtain</th>
+  <td>Won from Fufulupa, Western Thanalan (22, 17) or Hab, Southern Thanalan (24, 40)</td>
+</tr></tbody></table>
+<!-- END TABLE -->
+</div>
+ 
+<!----- RELATIONSHIPS ----->
+<div class="profile-fields-title mt-2"><a id="relationships" /><h2>Relationships <a data-toggle=
+"collapse" href="#relationships1" ><i class="fas fa-angle-down text-primary" /></a></h2>
+</div><div class="card border-top-0 border-right-0 border-left-0 rounded-0 mb-2" style="height:1px"> </div>
+<div class="collapse" id="relationships1">
+<!----- NAME 1 (copy+paste until end, change "a id") ----->
+<a id="name1" /><h4 class="mb-1">Name 1 (or @@characterID)</h4>
+<!------ QUOTE ------>
+<div style="min-width:20rem;max-width:30rem">
+<div class="card p-2 mb-2 bg-faded card-outline-default"><span class="text-center mb-2">
+<i class="fa-lg fas fa-quote-left float-left text-primary mt-1" />
+<i class="fa-lg fas fa-quote-right float-right text-primary mt-1" />
+  Lorem ipsum dolor sit amet
+</span></div></div>
+<p>Subsection Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- END NAME 1 SECTION ----->
+<!----- NAME 2 (copy+paste until end, change "a id") ----->
+<a id="name2" /><h4 class="mb-1">Name 2 (or @@characterID)</h4>
+<!------ QUOTE ------>
+<div style="min-width:20rem;max-width:30rem">
+<div class="card p-2 mb-2 bg-faded card-outline-default"><span class="text-center mb-2">
+<i class="fa-lg fas fa-quote-left float-left text-primary mt-1" />
+<i class="fa-lg fas fa-quote-right float-right text-primary mt-1" />
+  Lorem ipsum dolor sit amet
+</span></div></div>
+<p>Subsection Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis ac augue nec pretium. Aenean porta porttitor sem, at consequat dolor pretium sit amet. Nulla iaculis turpis et pulvinar vestibulum. Phasellus vitae risus non enim volutpat convallis et non elit. Aenean consequat eu mauris in vulputate. Proin congue lacus mauris, eget molestie ante sollicitudin vitae. Ut vestibulum, urna suscipit iaculis semper, felis purus rhoncus tellus, efficitur ultricies neque turpis vel lectus. Morbi non urna vitae lorem bibendum sodales.</p>
+<!----- END NAME 2 SECTION ----->
+</div>
+ 
+<!----- TRIVIA ----->
+<div class="profile-fields-title mt-2"><a id="trivia" /><h2>Trivia <a data-toggle=
+"collapse" href="#trivia1" ><i class="fas fa-angle-down text-primary" /></a></h2>
+</div><div class="card border-top-0 border-right-0 border-left-0 rounded-0 mb-1" style="height:1px"> </div>
+<ul class="pl-4 collapse" id="trivia1">
+  <li>List item 1</li>
+  <li>List item 2</li>
+  <li>List item 3</li>
+</ul>
+ 
+<!----- OTHER APPEARANCES ----->
+<div class="profile-fields-title mt-2"><a id="other-appearances" /><h2>Other Appearances <a data-toggle=
+"collapse" href="#other1" ><i class="fas fa-angle-down text-primary" /></a></h2>
+</div><div class="card border-top-0 border-right-0 border-left-0 rounded-0 mb-1" style="height:1px"> </div>
+<ul class="pl-4 collapse" id="other1">
+  <li>List item 1</li>
+  <li>List item 2</li>
+  <li>List item 3</li>
+</ul>

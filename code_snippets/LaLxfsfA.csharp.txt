@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+ 
+namespace Switch_case {
+    internal class Program {
+        static void Main(string[] args) {
+            int a, b;
+            int decyzja;
+            double d;
+            NoweLiczby:
+            Console.Write("Podaj a: ");
+            a = int.Parse(Console.ReadLine());
+            Console.Write("Podaj b: ");
+            b = int.Parse(Console.ReadLine());
+            
+            Start:
+            Console.Clear();
+            Console.WriteLine("0 - wyjście z programu");
+            Console.WriteLine("1 - dodawanie");
+            Console.WriteLine("2 - odejmowanie");
+            Console.WriteLine("3 - mnożenie");
+            Console.WriteLine("4 - dzielenie");
+            Console.WriteLine("5 - podaj nowe liczby");
+            Console.Write("Twoja decyzja: ");
+            decyzja = int.Parse(Console.ReadLine());
+ 
+            switch (decyzja) {
+                case 0:
+                    Console.Clear();
+                    Console.WriteLine("\n\n\n\n\t\t\t\tDziękuję za skorzystanie z programu!");
+                    goto Koniec;
+                    break;
+                case 1:
+                    d = a + b;
+                    Console.WriteLine($"{a} + {b} = {d}");
+                    break;
+                case 2:
+                    d = a - b;
+                    Console.WriteLine($"{a} - {b} = {d}");
+                    break;
+                case 3:
+                    d = a * b;
+                    Console.WriteLine($"{a} * {b} = {d}");
+                    break;
+                case 4:
+                    if (b == 0) {
+                        Console.WriteLine("Nie dziel przez 0!");
+                    }
+                    else {
+                        d = (double)a / b;
+                        Console.WriteLine($"{a} / {b} = {d}");
+                    }
+                    break;
+                case 5:
+                    Console.Clear() ;
+                    goto NoweLiczby;
+                    break;
+                default:
+                    Console.WriteLine("Podałeś wartość spoza zakresu!");
+                    break;
+            }
+            Console.ReadKey();
+            goto Start;
+        Koniec:
+            System.Threading.Thread.Sleep(1500);
+ 
+        }
+    }
+}

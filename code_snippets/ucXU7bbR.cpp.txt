@@ -1,0 +1,26 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/*
+instrukcja warunkowa IF - składnia:
+ 
+if(warunek)
+    komenda do wykonania jeśli warunek jest prawdziwy
+ 
+instrukcja warunkowa IF ELSE - składnia:
+ 
+if(warunek)
+    komenda do wykonania jeśli warunek jest prawdziwy
+else
+    komenda do wykonania jeśli warunek nie jest prawdziwy
+*/
+ 
+int main()
+{
+    if(5 == 3)
+        cout << "tak\n";
+    else
+        cout << "nie\n";
+    return 0;
+}

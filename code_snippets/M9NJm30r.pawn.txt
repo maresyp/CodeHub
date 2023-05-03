@@ -1,0 +1,34 @@
+stock InitialBoxPosition(playerid)
+{
+    new
+        Float:x,
+        Float:y,
+        Float:z,
+        Float:r;
+ 
+    
+    new currentBuild = currentBuildId[playerid]
+ 
+    GetPlayerFacingAngle(playerid, r);
+    GetPlayerPos(playerid, x,y,z);
+ 
+    builds[currentBuild][buildPosx] = x + (0.7 * floatsin(-r, degrees));
+    builds[currentBuild][buildPosy] = y + (0.7 * floatcos(-r, degrees));
+    builds[currentBuild][buildPosz] = z-0.64;
+    for(new i=0;i<MAX_BUILDS;i++)
+    {
+        if(builds[i][buildtype] == BUILD_TYPE_BOX && i != currentBuild)
+        {
+            if(floatsqroot(floatpower(builds[i][buildPosx] - builds[currentBuild][buildPosx], 2) + floatpower(builds[i][buildPosy] -            builds[currentBuild][buildPosy], 2) + floatpower(builds[i][buildPosz] - builds[currentBuild][buildPosz]-0.64, 2)) < 0.81)
+            {
+                builds[currentBuild][buildPosz] = z+0.03;
+                break;
+            }
+        }
+    }
+    SetDynamicObjectPos(builds[currentBuild][buildings], builds[currentBuild][buildPosx], builds[currentBuild][buildPosy], builds[currentBuild][buildPosz]);
+    UpdateBuildsState(currentBuild);
+    SaveQuery(builds[currentBuild][buildPosx],builds[currentBuild][buildPosy],builds[currentBuild][buildPosz],builds[currentBuild][buildID])
+    Streamer_Update(playerid);
+    return 1;
+}

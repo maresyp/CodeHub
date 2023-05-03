@@ -1,0 +1,814 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:palette_generator/palette_generator.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:theme_provider/theme_provider.dart';
+import 'package:tunepass/services/logger.dart';
+import '/services/stem_api.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+ 
+class MusicCard extends StatefulWidget {
+  const MusicCard({
+    Key? key,
+    required this.artURL,
+    required this.songTitle,
+    required this.artistName,
+    required this.songURL,
+    required this.songID,
+  }) : super(key: key);
+ 
+  final String artURL;
+  final String songTitle;
+  final Future<dynamic> artistName;
+  final String songURL;
+  final String songID;
+ 
+  @override
+  State<MusicCard> createState() => _MusicCardState();
+}
+ 
+class _MusicCardState extends State<MusicCard> {
+  late bool toggle = false;
+  late bool toggle2 = false;
+  late double songPos = 0.0;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+ 
+  final cacheManager = DefaultCacheManager();
+ 
+  final vocalStem = AudioPlayer(playerId: 'vocalStem');
+  final bassStem = AudioPlayer(playerId: 'bassStem');
+  final drumsStem = AudioPlayer(playerId: 'drumsStem');
+  final otherStem = AudioPlayer(playerId: 'otherStem');
+ 
+  Future songImage() async {
+    final DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore
+        .instance
+        .collection('songs')
+        .doc(widget.songID)
+        .get();
+ 
+    if (doc.exists) {
+      return doc['image'];
+    } else {
+      return null;
+    }
+  }
+ 
+  Future<PaletteGenerator> _updatePaletteGenerator() async {
+    return PaletteGenerator.fromImageProvider(ResizeImage(
+      CachedNetworkImageProvider(widget.artURL, scale: 0.01),
+      width: 60,
+      height: 60,
+    ));
+  }
+ 
+  Future isLiked() async {
+    final DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('likes')
+        .doc(widget.songID)
+        .get();
+ 
+    if (doc.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+ 
+  late Future<PaletteGenerator> _paletteGen;
+  late Future stemFiles;
+  late Future songDuration = vocalStem.getDuration();
+ 
+  @override
+  void didChangeDependencies() {
+    _paletteGen = _updatePaletteGenerator();
+    isLiked().then((value) {
+      setState(() {
+        toggle = value;
+      });
+    });
+    super.didChangeDependencies();
+  }
+ 
+  @override
+  void initState() {
+    super.initState();
+    isLiked().then((value) => setState(() {
+          toggle = value;
+        }));
+ 
+    songDuration = vocalStem.getCurrentPosition();
+ 
+    _paletteGen = _updatePaletteGenerator();
+  }
+ 
+  @override
+  void dispose() {
+    vocalStem.dispose();
+    bassStem.dispose();
+    drumsStem.dispose();
+    otherStem.dispose();
+    super.dispose();
+    songPos = 0.0;
+  }
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      key: UniqueKey(),
+      child: FutureBuilder(
+          future: StemAPI().getStems(widget.songID, widget.songURL),
+          builder: (context, AsyncSnapshot stems) {
+            if (stems.hasData) {
+              return FutureBuilder<PaletteGenerator>(
+                future: _updatePaletteGenerator(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  late final bool isVariantColor =
+                      snapshot.data!.vibrantColor != null;
+ 
+                  final ColorScheme colorScheme = snapshot.hasData &&
+                          snapshot.data!.dominantColor != null
+                      ? Theme.of(context)
+                          .copyWith(
+                            colorScheme: ColorScheme.fromSeed(
+                                brightness: ThemeProvider.themeOf(context)
+                                    .data
+                                    .brightness,
+                                secondary: isVariantColor
+                                    ? MaterialColor(
+                                        snapshot
+                                            .data!.vibrantColor!.color.value,
+                                        {
+                                            50: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.1),
+                                            100: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.2),
+                                            200: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.3),
+                                            300: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.4),
+                                            400: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.5),
+                                            500: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.6),
+                                            600: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.7),
+                                            700: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.8),
+                                            800: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(0.9),
+                                            900: snapshot
+                                                .data!.vibrantColor!.color
+                                                .withOpacity(1.0),
+                                          })
+                                    : MaterialColor(
+                                        snapshot
+                                            .data!.dominantColor!.color.value,
+                                        {
+                                            50: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.1),
+                                            100: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.2),
+                                            200: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.3),
+                                            300: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.4),
+                                            400: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.5),
+                                            500: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.6),
+                                            600: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.7),
+                                            700: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.8),
+                                            800: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(0.9),
+                                            900: snapshot
+                                                .data!.dominantColor!.color
+                                                .withOpacity(1.0),
+                                          }),
+                                seedColor: MaterialColor(
+                                    snapshot.data!.dominantColor!.color.value, {
+                                  50: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.1),
+                                  100: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.2),
+                                  200: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.3),
+                                  300: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.4),
+                                  400: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.5),
+                                  500: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.6),
+                                  600: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.7),
+                                  700: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.8),
+                                  800: snapshot.data!.dominantColor!.color
+                                      .withOpacity(0.9),
+                                  900: snapshot.data!.dominantColor!.color
+                                      .withOpacity(1.0),
+                                })),
+                          )
+                          .colorScheme
+                      : Theme.of(context)
+                          .copyWith(
+                            colorScheme: ColorScheme.fromSwatch(
+                              primarySwatch: Colors.blue,
+                            ),
+                          )
+                          .colorScheme;
+ 
+                  return StatefulBuilder(
+                    builder: (context, state) => Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.hardEdge,
+                      color: colorScheme.primary,
+                      child: Column(
+                        children: [
+                          SizedBox.square(
+                            dimension: MediaQuery.of(context).size.width * 0.9,
+                            child: CachedNetworkImage(
+                              memCacheHeight: 500,
+                              memCacheWidth: 500,
+                              width: 800,
+                              height: 800,
+                              imageUrl: widget.artURL,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    8.0, 0.0, 8.0, 0.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      8.0, 8.0, 8.0, 0.0),
+                                              child: Text(
+                                                widget.songTitle,
+                                                style: TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: colorScheme.onPrimary,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: FutureBuilder(
+                                                future: widget.artistName,
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                      snapshot.data.toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 14.0,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: colorScheme
+                                                            .onPrimary,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return const Text(
+                                                      'Loading...',
+                                                      style: TextStyle(
+                                                        fontSize: 14.0,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color: Colors.white,
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        FutureBuilder(
+                                          future: firestore
+                                              .collection('users')
+                                              .doc(FirebaseAuth
+                                                  .instance.currentUser!.uid)
+                                              .collection('likes')
+                                              .where('songID',
+                                                  isEqualTo: widget.songID)
+                                              .get()
+                                              .then((value) {
+                                            return value.docs.isNotEmpty;
+                                          }),
+                                          builder: (context,
+                                              AsyncSnapshot snapshot) {
+                                            if (snapshot.hasData) {
+                                              var data = snapshot.data;
+                                              if (data) {
+                                                toggle = true;
+                                              } else {
+                                                toggle = false;
+                                              }
+                                              LoggerFunc().logInfo(
+                                                  // ignore: avoid_print
+                                                  'snapshot data: ${snapshot.data}');
+ 
+                                              return IconButton(
+                                                icon: Icon(
+                                                  toggle
+                                                      ? Icons.favorite
+                                                      : Icons.favorite_outline,
+                                                  color: colorScheme.onPrimary,
+                                                ),
+                                                onPressed: () {
+                                                  state(() {
+                                                    toggle = !toggle;
+ 
+                                                    if (toggle) {
+                                                      firestore
+                                                          .collection('users')
+                                                          .doc(FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .uid)
+                                                          .collection('likes')
+                                                          .doc(widget.songID)
+                                                          .set({
+                                                        'songID': widget.songID,
+                                                      });
+                                                      firestore
+                                                          .collection('songs')
+                                                          .doc(widget.songID)
+                                                          .update({
+                                                        'likes': FieldValue
+                                                            .increment(1)
+                                                      });
+                                                    } else {
+                                                      firestore
+                                                          .collection('users')
+                                                          .doc(FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .uid)
+                                                          .collection('likes')
+                                                          .doc(widget.songID)
+                                                          .delete();
+                                                      firestore
+                                                          .collection('songs')
+                                                          .doc(widget.songID)
+                                                          .update({
+                                                        'likes': FieldValue
+                                                            .increment(-1)
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                              );
+                                            } else if (snapshot.hasData ==
+                                                false) {
+                                              return IconButton(
+                                                icon: Icon(
+                                                  toggle
+                                                      ? Icons.favorite
+                                                      : Icons.favorite_outline,
+                                                  color: colorScheme.onPrimary,
+                                                ),
+                                                onPressed: () {
+                                                  state(() {
+                                                    toggle = true;
+ 
+                                                    if (toggle) {
+                                                      firestore
+                                                          .collection('users')
+                                                          .doc(FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .uid)
+                                                          .collection('likes')
+                                                          .doc(widget.songID)
+                                                          .set({
+                                                        'songID': widget.songID,
+                                                      });
+                                                      firestore
+                                                          .collection('songs')
+                                                          .doc(widget.songID)
+                                                          .update({
+                                                        'likes': FieldValue
+                                                            .increment(1)
+                                                      });
+                                                    } else {
+                                                      toggle = false;
+                                                      firestore
+                                                          .collection('users')
+                                                          .doc(FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .uid)
+                                                          .collection('likes')
+                                                          .doc(widget.songID)
+                                                          .delete();
+                                                      firestore
+                                                          .collection('songs')
+                                                          .doc(widget.songID)
+                                                          .update({
+                                                        'likes': FieldValue
+                                                            .increment(-1)
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                              );
+                                            } else {
+                                              return const Text(
+                                                'Loading...',
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(
+                                            toggle2
+                                                ? Icons.pause_circle_outline
+                                                : Icons.play_circle_outline,
+                                            color: colorScheme.onPrimary,
+                                          ),
+                                          onPressed: () {
+                                            toggle2 = !toggle2;
+                                            state(() {
+                                              if (toggle2) {
+                                                vocalStem.play(
+                                                    UrlSource(
+                                                      stems.data['vocals'],
+                                                    ),
+                                                    position: Duration(
+                                                        microseconds:
+                                                            songPos.toInt()));
+                                                bassStem.play(
+                                                  UrlSource(
+                                                    stems.data['bass'],
+                                                  ),
+                                                  position: Duration(
+                                                      microseconds:
+                                                          songPos.toInt()),
+                                                );
+                                                drumsStem.play(
+                                                    UrlSource(
+                                                      stems.data['drums'],
+                                                    ),
+                                                    position: Duration(
+                                                        microseconds:
+                                                            songPos.toInt()));
+                                                otherStem.play(
+                                                    UrlSource(
+                                                      stems.data['other'],
+                                                    ),
+                                                    position: Duration(
+                                                        microseconds:
+                                                            songPos.toInt()));
+                                                vocalStem.seek(Duration(
+                                                    microseconds:
+                                                        songPos.toInt()));
+                                                bassStem.seek(Duration(
+                                                    microseconds:
+                                                        songPos.toInt()));
+                                                drumsStem.seek(Duration(
+                                                    microseconds:
+                                                        songPos.toInt()));
+                                                otherStem.seek(Duration(
+                                                    microseconds:
+                                                        songPos.toInt()));
+                                              } else {
+                                                vocalStem.pause();
+                                                bassStem.pause();
+                                                drumsStem.pause();
+                                                otherStem.pause();
+                                              }
+                                            });
+                                          },
+                                        ),
+                                        Expanded(
+                                          child: StreamBuilder(
+                                            stream: vocalStem.onPositionChanged,
+                                            builder: (context,
+                                                AsyncSnapshot snapshot) {
+                                              if (snapshot.hasData) {
+                                                songPos = snapshot
+                                                    .data.inMicroseconds
+                                                    .toDouble();
+                                                return FutureBuilder(
+                                                  builder: ((context,
+                                                      AsyncSnapshot dur) {
+                                                    if (dur.hasData) {
+                                                      if (toggle2) {
+                                                        if (songPos >=
+                                                            dur.data
+                                                                .inMicroseconds
+                                                                .toDouble()) {
+                                                          vocalStem.pause();
+                                                          bassStem.pause();
+                                                          drumsStem.pause();
+                                                          otherStem.pause();
+                                                          toggle2 = false;
+                                                        } else {
+                                                          vocalStem.play(
+                                                              UrlSource(
+                                                                stems.data[
+                                                                    'vocals'],
+                                                              ),
+                                                              position: Duration(
+                                                                  microseconds:
+                                                                      songPos
+                                                                          .toInt()));
+                                                          bassStem.play(
+                                                            UrlSource(
+                                                              stems
+                                                                  .data['bass'],
+                                                            ),
+                                                            position: Duration(
+                                                                microseconds:
+                                                                    songPos
+                                                                        .toInt()),
+                                                          );
+                                                          drumsStem.play(
+                                                              UrlSource(
+                                                                stems.data[
+                                                                    'drums'],
+                                                              ),
+                                                              position: Duration(
+                                                                  microseconds:
+                                                                      songPos
+                                                                          .toInt()));
+                                                          otherStem.play(
+                                                              UrlSource(
+                                                                stems.data[
+                                                                    'other'],
+                                                              ),
+                                                              position: Duration(
+                                                                  microseconds:
+                                                                      songPos
+                                                                          .toInt()));
+                                                        }
+                                                      }
+                                                      return Slider(
+                                                        value: songPos,
+                                                        min: 0.0,
+                                                        max: dur
+                                                            .data.inMicroseconds
+                                                            .toDouble(),
+                                                        activeColor: colorScheme
+                                                            .onPrimary,
+                                                        inactiveColor:
+                                                            colorScheme
+                                                                .onPrimary,
+                                                        onChanged: (value) {
+                                                          state(() {
+                                                            songPos = value;
+                                                            vocalStem.seek(Duration(
+                                                                microseconds:
+                                                                    songPos
+                                                                        .toInt()));
+                                                            bassStem.seek(Duration(
+                                                                microseconds:
+                                                                    songPos
+                                                                        .toInt()));
+                                                            drumsStem.seek(Duration(
+                                                                microseconds:
+                                                                    songPos
+                                                                        .toInt()));
+                                                            otherStem.seek(Duration(
+                                                                microseconds:
+                                                                    songPos
+                                                                        .toInt()));
+                                                          });
+                                                        },
+                                                      );
+                                                    } else {
+                                                      return const Text(
+                                                        'Loading...',
+                                                        style: TextStyle(
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color: Colors.white,
+                                                        ),
+                                                      );
+                                                    }
+                                                  }),
+                                                  future:
+                                                      vocalStem.getDuration(),
+                                                );
+                                              } else {
+                                                return const Text(
+                                                  'Loading...',
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.white,
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            color: colorScheme.primaryContainer,
+                            thickness: 1.0,
+                          ),
+                          Expanded(
+                              child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              StemsContainerFinal(
+                                key: UniqueKey(),
+                                audioPlayer: vocalStem,
+                                titleOf: 'Vocals',
+                                theme: Theme.of(context).copyWith(
+                                  colorScheme: colorScheme,
+                                ),
+                              ),
+                              StemsContainerFinal(
+                                key: UniqueKey(),
+                                audioPlayer: otherStem,
+                                titleOf: 'Melody',
+                                theme: Theme.of(context).copyWith(
+                                  colorScheme: colorScheme,
+                                ),
+                              ),
+                              StemsContainerFinal(
+                                key: UniqueKey(),
+                                audioPlayer: drumsStem,
+                                titleOf: 'Drums',
+                                theme: Theme.of(context).copyWith(
+                                  colorScheme: colorScheme,
+                                ),
+                              ),
+                              StemsContainerFinal(
+                                key: UniqueKey(),
+                                audioPlayer: bassStem,
+                                titleOf: 'Bass',
+                                theme: Theme.of(context).copyWith(
+                                  colorScheme: colorScheme,
+                                ),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Text(
+                'Loading...',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white,
+                ),
+              );
+            }
+          }),
+    );
+  }
+}
+ 
+class StemsContainerFinal extends StatefulWidget {
+  const StemsContainerFinal(
+      {Key? key,
+      required this.titleOf,
+      required this.theme,
+      required this.audioPlayer})
+      : super(key: key);
+  final String titleOf;
+  final ThemeData theme;
+  final AudioPlayer audioPlayer;
+  @override
+  State<StemsContainerFinal> createState() => _StemsContainerFinalState();
+}
+ 
+class _StemsContainerFinalState extends State<StemsContainerFinal> {
+  double _value = 100.0;
+ 
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = widget.theme;
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 1,
+      width: MediaQuery.of(context).size.width * 0.2,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return SfSlider.vertical(
+                    showDividers: true,
+                    stepSize: 10,
+                    activeColor: theme.colorScheme.secondary,
+                    inactiveColor: theme.colorScheme.secondaryContainer,
+                    min: 0.0,
+                    max: 100.0,
+                    value: _value,
+                    interval: 20,
+                    onChanged: (dynamic value) {
+                      if ((value - _value.abs()) <= 10) {
+                        setState(() {
+                          _value = value;
+                          widget.audioPlayer.setVolume(_value / 100);
+                        });
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+            Text(
+              widget.titleOf,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w200,
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

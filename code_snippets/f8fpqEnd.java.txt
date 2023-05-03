@@ -1,0 +1,1748 @@
+### Eclipse Workspace Patch 1.0
+#P OrionTest
+diff --git cfiles/game/config/main/L2jOrion.ini cfiles/game/config/main/L2jOrion.ini
+index eddb8e7..d7dcb40 100644
+--- cfiles/game/config/main/L2jOrion.ini
++++ cfiles/game/config/main/L2jOrion.ini
+@@ -335,5 +335,25 @@
+ # It shows Castle's Lord clan crest in town nearby npc name
+ ShowNpcCrest = False
+ 
++
++# Protect Target Gm
++# True = Enable False = Disable     
++ProtectTargetAdmEnable = True
++
++
++#=============================================================
++#   Hide Name - Premium Tag Name
++#=============================================================
++
++#ADMIN AccessLevel == 1 Name For Chats
++GmNameProtect = ADMINISTRATOR
++
++#SUPPORT AccessLevel > 1 Name For Chats
++GmSupportNameProtect = SUPPORT-GM
++
++#Funcion Para Agregar al nombre si es premium
++PremiumAddName = {Premium}-
++
++
+ TextureSkinPackageName = MAYKE_MENDES_SKIN
+ TextureSkinSuffixName = _f
+\ No newline at end of file
+diff --git src/l2jorion/Config.java src/l2jorion/Config.java
+index a713d3e..f39b61a 100644
+--- src/l2jorion/Config.java
++++ src/l2jorion/Config.java
+@@ -2358,6 +2358,12 @@
+    public static String PM_TEXT2;
+    public static boolean NEW_PLAYER_EFFECT;
+    
++   public static String GM_NAME_PROTECT;
++   public static String GM_SUPPORT_NAME_PROTECT;
++   public static String PREMIUM_NAME_ADD;
++   
++   public static boolean PROTECT_TARGET_ADM_ENABLE;
++   
+    public static String TEXTURE_SKIN_PACKAGE;
+    
+    public static String ACQUIRED_SKIN_SUFFIX;
+@@ -2389,6 +2395,13 @@
+            ACQUIRED_SKIN_SUFFIX = L2jOrionSettings.getProperty("TextureSkinSuffixName", "_f");
+            
+            FREE_TELEPORT_UNTIL = Integer.parseInt(L2jOrionSettings.getProperty("FreeTeleportUntil", "1"));
++           
++           GM_NAME_PROTECT = L2jOrionSettings.getProperty("GmNameProtect", "ADMINISTRATOR");
++           GM_SUPPORT_NAME_PROTECT = L2jOrionSettings.getProperty("GmSupportNameProtect", "SUPPORT-STAFF");
++           PREMIUM_NAME_ADD = L2jOrionSettings.getProperty("PremiumAddName", "{VIP}-");
++           
++           PROTECT_TARGET_ADM_ENABLE = Boolean.valueOf(L2jOrionSettings.getProperty("ProtectTargetAdmEnable", "False"));
++           
+            REMOVAL_AUGMENTATION_FREE = Boolean.parseBoolean(L2jOrionSettings.getProperty("RemovalAugmentationFree", "False"));
+            ALLOW_FREIGHT_AUGMENTED = Boolean.parseBoolean(L2jOrionSettings.getProperty("AllowFreightAugmentedItem", "False"));
+            ANNOUNCE_BOSS_UNDER_ATTACK = Boolean.parseBoolean(L2jOrionSettings.getProperty("AnnounceBossUnderAttack", "False"));
+diff --git src/l2jorion/game/handler/AdminCommandHandler.java src/l2jorion/game/handler/AdminCommandHandler.java
+index 340c4e5..c83c797 100644
+--- src/l2jorion/game/handler/AdminCommandHandler.java
++++ src/l2jorion/game/handler/AdminCommandHandler.java
+@@ -54,6 +54,7 @@
+ import l2jorion.game.handler.admin.AdminGmChat;
+ import l2jorion.game.handler.admin.AdminHeal;
+ import l2jorion.game.handler.admin.AdminHelpPage;
++import l2jorion.game.handler.admin.AdminHideName;
+ import l2jorion.game.handler.admin.AdminInvul;
+ import l2jorion.game.handler.admin.AdminKick;
+ import l2jorion.game.handler.admin.AdminKill;
+@@ -182,6 +183,7 @@
+        registerAdminCommandHandler(new AdminTownWar());
+        registerAdminCommandHandler(new AdminTvTEngine());
+        registerAdminCommandHandler(new AdminDonator());
++       registerAdminCommandHandler(new AdminHideName());
+        registerAdminCommandHandler(new AdminNoble());
+        registerAdminCommandHandler(new AdminBuffs());
+        registerAdminCommandHandler(new AdminCharSupervision());
+diff --git src/l2jorion/game/handler/admin/AdminHideName.java src/l2jorion/game/handler/admin/AdminHideName.java
+new file mode 100644
+index 0000000..3f47453
+--- /dev/null
++++ src/l2jorion/game/handler/admin/AdminHideName.java
+@@ -0,0 +1,83 @@
++package l2jorion.game.handler.admin;
++
++import l2jorion.game.handler.IAdminCommandHandler;
++import l2jorion.game.model.L2World;
++import l2jorion.game.model.actor.instance.L2PcInstance;
++
++public class AdminHideName implements IAdminCommandHandler
++{
++   
++   private static final String[] ADMIN_COMMANDS =
++   {
++       "admin_hidename",
++       "admin_invisname",
++       "admin_visiblename",
++       "admin_invisiblename",
++       "admin_visname"
++   
++   };
++   
++   @Override
++   public boolean useAdminCommand(String command, L2PcInstance activeChar)
++   {
++       
++       if (command.equals("admin_hidename"))
++       {
++           
++           activeChar.setHideNameEnabled(true);
++           activeChar.decayMe();
++           
++           L2World.getInstance().addPlayerToWorld(activeChar);
++           activeChar.broadcastUserInfo();
++           activeChar.spawnMe();
++           
++       }
++       else if (command.equals("admin_invisname"))
++       {
++           
++           activeChar.setHideNameEnabled(true);
++           activeChar.decayMe();
++           
++           L2World.getInstance().addPlayerToWorld(activeChar);
++           activeChar.broadcastUserInfo();
++           activeChar.spawnMe();
++           
++       }
++       else if (command.equals("admin_invisiblename"))
++       {
++           
++           activeChar.setHideNameEnabled(true);
++           activeChar.decayMe();
++           
++           L2World.getInstance().addPlayerToWorld(activeChar);
++           activeChar.broadcastUserInfo();
++           activeChar.spawnMe();
++           
++       }
++       else if (command.equals("admin_visname"))
++       {
++           
++           activeChar.setHideNameEnabled(false);
++           L2World.getInstance().addPlayerToWorld(activeChar);
++           activeChar.broadcastUserInfo();
++           
++       }
++       else if (command.equals("admin_visiblename"))
++       {
++           
++           activeChar.setHideNameEnabled(false);
++           L2World.getInstance().addPlayerToWorld(activeChar);
++           activeChar.broadcastUserInfo();
++           
++       }
++       
++       return true;
++       
++   }
++   
++   @Override
++   public String[] getAdminCommandList()
++   {
++       return ADMIN_COMMANDS;
++   }
++}
+\ No newline at end of file
+diff --git src/l2jorion/game/model/actor/instance/L2PcInstance.java src/l2jorion/game/model/actor/instance/L2PcInstance.java
+index eb7f14f..a52b38a 100644
+--- src/l2jorion/game/model/actor/instance/L2PcInstance.java
++++ src/l2jorion/game/model/actor/instance/L2PcInstance.java
+@@ -5531,6 +5531,16 @@
+    @Override
+    public void onAction(L2PcInstance player)
+    {
++       
++       if (Config.PROTECT_TARGET_ADM_ENABLE)
++       {
++           if (isGM() && player.isGM() == false)
++           {
++               player.sendPacket(ActionFailed.STATIC_PACKET);
++               return;
++           }
++       }
++       
+        if (((TvT.is_started() || TvT.is_teleport()) && !Config.TVT_ALLOW_INTERFERENCE) || ((CTF.is_started() || CTF.is_teleport()) && !Config.CTF_ALLOW_INTERFERENCE) || ((DM.is_started() || DM.is_teleport()) && !Config.DM_ALLOW_INTERFERENCE))
+        {
+            if ((_inEventTvT && !player._inEventTvT) || (!_inEventTvT && player._inEventTvT))
+@@ -5691,6 +5701,15 @@
+    {
+        L2Weapon currentWeapon = player.getActiveWeaponItem();
+        
++       if (Config.PROTECT_TARGET_ADM_ENABLE)
++       {
++           if (isGM() && player.isGM() == false)
++           {
++               player.sendPacket(ActionFailed.STATIC_PACKET);
++               return;
++           }
++       }
++       
+        if (player.isGM())
+        {
+            if (this != player.getTarget())
+@@ -21322,6 +21341,18 @@
+        return _fakeArmorItemId;
+    }
+    
++   private boolean _hidename = false;
++   
++   public boolean isHideNameEnabled()
++   {
++       return _hidename;
++   }
++   
++   public void setHideNameEnabled(boolean val)
++   {
++       _hidename = val;
++   }
++   
+    private boolean inArenaEvent = false;
+    
+    public void setInArenaEvent(boolean val)
+diff --git src/l2jorion/game/network/clientpackets/Say2.java src/l2jorion/game/network/clientpackets/Say2.java
+index e45a1b4..d3cdabb 100644
+--- src/l2jorion/game/network/clientpackets/Say2.java
++++ src/l2jorion/game/network/clientpackets/Say2.java
+@@ -48,6 +48,7 @@
+ 
+ public final class Say2 extends L2GameClientPacket
+ {
++   
+    protected static final Logger LOG = Logger.getLogger(Say2.class.getName());
+    private static Logger _logChat = Logger.getLogger("chat");
+    
+@@ -137,6 +138,7 @@
+    @Override
+    protected void runImpl()
+    {
++       
+        if (Config.DEBUG)
+        {
+            LOG.info("Say2: Msg Type = '" + _type + "' Text = '" + _text + "'.");
+@@ -259,8 +261,6 @@
+            return;
+        }
+        
+-       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
+-       
+        switch (_type)
+        {
+            case TELL:
+@@ -305,9 +305,33 @@
+                        activeChar.sendPacket(new SystemMessage(SystemMessageId.THE_PERSON_IS_IN_MESSAGE_REFUSAL_MODE));
+                        return;
+                    }
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       receiver.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, Config.GM_SUPPORT_NAME_PROTECT, (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       activeChar.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, "->" + receiver.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       
++                   }
+                    
+-                   receiver.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, activeChar.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
+-                   activeChar.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, "->" + receiver.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
++                   {
++                       receiver.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, Config.GM_NAME_PROTECT, (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       activeChar.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, "->" + receiver.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       receiver.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, activeChar.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       activeChar.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, "->" + receiver.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       
++                   }
++                   
++                   if (!activeChar.isGM())
++                   {
++                       receiver.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, activeChar.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       activeChar.sendPacket(new CreatureSay(activeChar.getObjectId(), _type, "->" + receiver.getName(), (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + _text));
++                       
++                   }
+                    
+                }
+                else if (BlockList.isBlocked(receiver, activeChar))
+@@ -327,138 +351,718 @@
+                
+                if (Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("on"))
+                {
+-                   int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
+-                   for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                    {
+-                       if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
+                        {
+-                           if (!BlockList.isBlocked(player, activeChar))
++                           if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
+                            {
+-                               player.sendPacket(cs);
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
+                            }
++                           
+                        }
+                    }
+-               }
+-               else if (Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("GLOBAL"))
+-               {
+-                   // Flood protect Say
+-                   if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
+-                   {
+-                       activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_GLOBAL_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
+-                       return;
+-                   }
+                    
+-                   if (Config.GLOBAL_CHAT_WITH_PVP)
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
+                    {
+-                       if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
+                        {
+-                           activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
++                           if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                           
++                       }
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       {
++                           if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                           
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       {
++                           if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                           
++                       }
++                   }
++                   
++               }
++               
++               else if (Config.DEFAULT_GLOBAL_CHAT.equalsIgnoreCase("GLOBAL"))
++               {
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       // Flood protect Say
++                       if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
++                       {
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_GLOBAL_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
+                            return;
+                        }
+-                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       
++                       if (Config.GLOBAL_CHAT_WITH_PVP)
+                        {
+-                           if (!BlockList.isBlocked(player, activeChar))
++                           if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
+                            {
+-                               player.sendPacket(cs);
++                               activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
+                            }
+                        }
+                    }
+-                   else
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
+                    {
+-                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       // Flood protect Say
++                       if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
+                        {
+-                           if (!BlockList.isBlocked(player, activeChar))
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_GLOBAL_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (Config.GLOBAL_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
+                            {
+-                               player.sendPacket(cs);
++                               activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
+                            }
+                        }
+                    }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       // Flood protect Say
++                       if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
++                       {
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_GLOBAL_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (Config.GLOBAL_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       // Flood protect Say
++                       if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
++                       {
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_GLOBAL_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (Config.GLOBAL_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                   }
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       // Flood protect Say
++                       if (!getClient().getFloodProtectors().getGlobalChat().tryPerformAction("global chat"))
++                       {
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_GLOBAL_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (Config.GLOBAL_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() < Config.GLOBAL_PVP_AMOUNT) && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("You must have at least " + Config.GLOBAL_PVP_AMOUNT + " pvp kills in order to speak in global chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                   }
++                   
+                }
+                break;
+            case TRADE:
++               
+                if (Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("ON"))
+                {
+-                   if (!getClient().getFloodProtectors().getTradeChat().tryPerformAction("trade chat"))
+-                   {
+-                       activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_TRADE_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
+-                       return;
+-                   }
+                    
+-                   if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                    {
+-                       activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
+-                       return;
+-                   }
+-                   
+-                   if (Config.TRADE_CHAT_WITH_PVP)
+-                   {
+-                       if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       if (!getClient().getFloodProtectors().getTradeChat().tryPerformAction("trade chat"))
+                        {
+-                           activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_TRADE_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
+                            return;
+                        }
+-                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
+                        {
+-                           if (!BlockList.isBlocked(player, activeChar))
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
+                            {
+-                               player.sendPacket(cs);
++                               activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
+                            }
+                        }
+                    }
+-                   else
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
+                    {
+-                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       if (!getClient().getFloodProtectors().getTradeChat().tryPerformAction("trade chat"))
+                        {
+-                           if (!BlockList.isBlocked(player, activeChar))
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_TRADE_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                       {
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
+                            {
+-                               player.sendPacket(cs);
++                               activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
+                            }
+                        }
+                    }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (!getClient().getFloodProtectors().getTradeChat().tryPerformAction("trade chat"))
++                       {
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_TRADE_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                       {
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       if (!getClient().getFloodProtectors().getTradeChat().tryPerformAction("trade chat"))
++                       {
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_TRADE_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                       {
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (!getClient().getFloodProtectors().getTradeChat().tryPerformAction("trade chat"))
++                       {
++                           activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_TRADE_CHAT.FLOOD_PROTECTION_INTERVAL / 10 + " sec");
++                           return;
++                       }
++                       
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                       {
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_WITH_PVP)
++                       {
++                           if ((activeChar.getPvpKills() <= Config.TRADE_PVP_AMOUNT) && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("You must have at least " + Config.TRADE_PVP_AMOUNT + "  pvp kills in order to speak in trade chat");
++                               return;
++                           }
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                       else
++                       {
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (!BlockList.isBlocked(player, activeChar))
++                               {
++                                   player.sendPacket(cs);
++                               }
++                           }
++                       }
++                   }
++                   
+                }
+                else if (Config.DEFAULT_TRADE_CHAT.equalsIgnoreCase("limited"))
+                {
+-                   if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
+-                   {
+-                       activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
+-                       return;
+-                   }
+                    
+-                   if (Config.TRADE_CHAT_IS_NOBLE)
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                    {
+-                       if (!activeChar.isNoble() && !activeChar.isGM())
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
+                        {
+-                           activeChar.sendMessage("Only nobles players can use this chat");
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
+                            return;
+                        }
+                        
+-                       int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
+-                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       if (Config.TRADE_CHAT_IS_NOBLE)
+                        {
+-                           if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                           if (!activeChar.isNoble() && !activeChar.isGM())
+                            {
+-                               if (!BlockList.isBlocked(player, activeChar))
++                               activeChar.sendMessage("Only nobles players can use this chat");
++                               return;
++                           }
++                           
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
+                                {
+-                                   player.sendPacket(cs);
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
+                                }
+                            }
++                           
+                        }
+-                       
++                       else
++                       {
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
+                    }
+-                   else
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
+                    {
+-                       int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
+-                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
+                        {
+-                           if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
+-                           {
+-                               if (!BlockList.isBlocked(player, activeChar))
+-                               {
+-                                   player.sendPacket(cs);
+-                               }
+-                           }
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
+                        }
+                        
++                       if (Config.TRADE_CHAT_IS_NOBLE)
++                       {
++                           if (!activeChar.isNoble() && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("Only nobles players can use this chat");
++                               return;
++                           }
++                           
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
++                       else
++                       {
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                       {
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_IS_NOBLE)
++                       {
++                           if (!activeChar.isNoble() && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("Only nobles players can use this chat");
++                               return;
++                           }
++                           
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
++                       else
++                       {
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                       {
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_IS_NOBLE)
++                       {
++                           if (!activeChar.isNoble() && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("Only nobles players can use this chat");
++                               return;
++                           }
++                           
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
++                       else
++                       {
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (activeChar.getLevel() <= (Config.MIN_LEVEL_FOR_CHAT - 1))
++                       {
++                           activeChar.sendMessage("Your level is too low for TRADE chat. Min.: " + Config.MIN_LEVEL_FOR_CHAT);
++                           return;
++                       }
++                       
++                       if (Config.TRADE_CHAT_IS_NOBLE)
++                       {
++                           if (!activeChar.isNoble() && !activeChar.isGM())
++                           {
++                               activeChar.sendMessage("Only nobles players can use this chat");
++                               return;
++                           }
++                           
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
++                       else
++                       {
++                           int region = MapRegionTable.getInstance().getMapRegionLocId(activeChar.getX(), activeChar.getY());
++                           for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                           {
++                               if (region == MapRegionTable.getInstance().getMapRegionLocId(player.getX(), player.getY()))
++                               {
++                                   if (!BlockList.isBlocked(player, activeChar))
++                                   {
++                                       player.sendPacket(cs);
++                                   }
++                               }
++                           }
++                           
++                       }
+                    }
+                    
+                }
+@@ -469,16 +1073,75 @@
+                    String text = _text;
+                    String reformatedText = (text).substring(1);
+                    
+-                   CreatureSay pcs = new CreatureSay(activeChar.getObjectId(), SHOUT, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), reformatedText);
+-                   
+-                   for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                    {
+-                       if (!BlockList.isBlocked(player, activeChar))
++                       CreatureSay pcs = new CreatureSay(activeChar.getObjectId(), SHOUT, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, reformatedText);
++                       
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
+                        {
+-                           player.sendPacket(pcs);
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(pcs);
++                           }
+                        }
++                       break;
+                    }
+-                   break;
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay pcs = new CreatureSay(activeChar.getObjectId(), SHOUT, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, reformatedText);
++                       
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(pcs);
++                           }
++                       }
++                       break;
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay pcs = new CreatureSay(activeChar.getObjectId(), SHOUT, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), reformatedText);
++                       
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(pcs);
++                           }
++                       }
++                       break;
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay pcs = new CreatureSay(activeChar.getObjectId(), SHOUT, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), reformatedText);
++                       
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(pcs);
++                           }
++                       }
++                       break;
++                   }
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay pcs = new CreatureSay(activeChar.getObjectId(), SHOUT, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), reformatedText);
++                       
++                       for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(pcs);
++                           }
++                       }
++                       break;
++                   }
++                   
+                }
+                
+                if (_text.startsWith("."))
+@@ -507,35 +1170,188 @@
+                    }
+                }
+                
+-               for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
++               if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                {
+-                   if (player != null && activeChar.isInsideRadius(player, 1250, false, true))
++                   CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                   for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
+                    {
+-                       if (!BlockList.isBlocked(player, activeChar))
++                       if (player != null && activeChar.isInsideRadius(player, 1250, false, true))
+                        {
+-                           player.sendPacket(cs);
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(cs);
++                           }
+                        }
+                    }
++                   activeChar.sendPacket(cs);
+                }
+-               activeChar.sendPacket(cs);
++               if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++               {
++                   CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                   for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
++                   {
++                       if (player != null && activeChar.isInsideRadius(player, 1250, false, true))
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(cs);
++                           }
++                       }
++                   }
++                   activeChar.sendPacket(cs);
++               }
++               
++               if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++               {
++                   CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                   for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
++                   {
++                       if (player != null && activeChar.isInsideRadius(player, 1250, false, true))
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(cs);
++                           }
++                       }
++                   }
++                   activeChar.sendPacket(cs);
++               }
++               
++               if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++               {
++                   CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                   for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
++                   {
++                       if (player != null && activeChar.isInsideRadius(player, 1250, false, true))
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(cs);
++                           }
++                       }
++                   }
++                   activeChar.sendPacket(cs);
++               }
++               
++               if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++               {
++                   CreatureSay cs = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                   for (L2PcInstance player : activeChar.getKnownList().getKnownPlayers().values())
++                   {
++                       if (player != null && activeChar.isInsideRadius(player, 1250, false, true))
++                       {
++                           if (!BlockList.isBlocked(player, activeChar))
++                           {
++                               player.sendPacket(cs);
++                           }
++                       }
++                   }
++                   activeChar.sendPacket(cs);
++               }
+                
+                break;
+            case CLAN:
+                if (activeChar.getClan() != null)
+                {
+-                   activeChar.getClan().broadcastToOnlineMembers(cs);
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay clan = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       activeChar.getClan().broadcastToOnlineMembers(clan);
++                   }
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay clan = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       activeChar.getClan().broadcastToOnlineMembers(clan);
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay clan = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       activeChar.getClan().broadcastToOnlineMembers(clan);
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay clan = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       activeChar.getClan().broadcastToOnlineMembers(clan);
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay clan = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       activeChar.getClan().broadcastToOnlineMembers(clan);
++                   }
++                   
+                }
+                break;
+            case ALLIANCE:
+                if (activeChar.getClan() != null)
+                {
+-                   activeChar.getClan().broadcastToOnlineAllyMembers(cs);
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay ally = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       activeChar.getClan().broadcastToOnlineAllyMembers(ally);
++                   }
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay ally = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       activeChar.getClan().broadcastToOnlineAllyMembers(ally);
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay ally = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       activeChar.getClan().broadcastToOnlineAllyMembers(ally);
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay ally = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       activeChar.getClan().broadcastToOnlineAllyMembers(ally);
++                   }
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay ally = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       activeChar.getClan().broadcastToOnlineAllyMembers(ally);
++                   }
++                   
+                }
+                break;
+            case PARTY:
+                if (activeChar.isInParty())
+                {
+-                   activeChar.getParty().broadcastToPartyMembers(cs);
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay party = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       activeChar.getParty().broadcastToPartyMembers(party);
++                   }
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay party = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       activeChar.getParty().broadcastToPartyMembers(party);
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay party = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       activeChar.getParty().broadcastToPartyMembers(party);
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay party = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       activeChar.getParty().broadcastToPartyMembers(party);
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay party = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       activeChar.getParty().broadcastToPartyMembers(party);
++                   }
++                   
+                }
+                break;
+            case PETITION_PLAYER:
+@@ -551,49 +1367,181 @@
+            case PARTYMATCH_ROOM: // 14
+                if (activeChar.isInPartyMatchRoom())
+                {
+-                   PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(activeChar);
+-                   if (_room != null)
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                    {
+-                       for (L2PcInstance _member : _room.getPartyMembers())
++                       CreatureSay partyroom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(activeChar);
++                       if (_room != null)
+                        {
+-                           _member.sendPacket(cs);
++                           for (L2PcInstance _member : _room.getPartyMembers())
++                           {
++                               _member.sendPacket(partyroom);
++                           }
+                        }
+                    }
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay partyroom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(activeChar);
++                       if (_room != null)
++                       {
++                           for (L2PcInstance _member : _room.getPartyMembers())
++                           {
++                               _member.sendPacket(partyroom);
++                           }
++                       }
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay partyroom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(activeChar);
++                       if (_room != null)
++                       {
++                           for (L2PcInstance _member : _room.getPartyMembers())
++                           {
++                               _member.sendPacket(partyroom);
++                           }
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay partyroom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(activeChar);
++                       if (_room != null)
++                       {
++                           for (L2PcInstance _member : _room.getPartyMembers())
++                           {
++                               _member.sendPacket(partyroom);
++                           }
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay partyroom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       PartyMatchRoom _room = PartyMatchRoomList.getInstance().getPlayerRoom(activeChar);
++                       if (_room != null)
++                       {
++                           for (L2PcInstance _member : _room.getPartyMembers())
++                           {
++                               _member.sendPacket(partyroom);
++                           }
++                       }
++                   }
++                   
+                }
+                break;
+            case PARTYROOM_COMMANDER: // 15
+                if (activeChar.isInParty())
+                {
+-                   if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                    {
+-                       activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
++                       CreatureSay partyroomcom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomcom, activeChar);
++                       }
+                    }
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay partyroomcom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomcom, activeChar);
++                       }
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay partyroomcom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomcom, activeChar);
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay partyroomcom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomcom, activeChar);
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay partyroomcom = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().getCommandChannel().getChannelLeader().equals(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomcom, activeChar);
++                       }
++                   }
++                   
+                }
+                break;
+            case PARTYROOM_ALL: // 16
+                if (activeChar.isInParty())
+                {
+-                   if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
+                    {
+-                       activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(cs, activeChar);
++                       CreatureSay partyroomall = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomall, activeChar);
++                       }
+                    }
++                   
++                   if (activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay partyroomall = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomall, activeChar);
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 1)
++                   {
++                       CreatureSay partyroomall = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomall, activeChar);
++                       }
++                   }
++                   
++                   if (!activeChar.isGM() && activeChar.getPremiumService() == 0)
++                   {
++                       CreatureSay partyroomall = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomall, activeChar);
++                       }
++                   }
++                   
++                   if (activeChar.isGM() && !activeChar.isHideNameEnabled())
++                   {
++                       CreatureSay partyroomall = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                       if (activeChar.getParty().isInCommandChannel() && activeChar.getParty().isLeader(activeChar))
++                       {
++                           activeChar.getParty().getCommandChannel().broadcastCSToChannelMembers(partyroomall, activeChar);
++                       }
++                   }
++                   
+                }
+                break;
+            case HERO_VOICE:
+-               if (activeChar.isGM())
++               
++               if (activeChar.isHero() && !activeChar.isGM() && activeChar.getPremiumService() == 1)
+                {
+-                   for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
+-                   {
+-                       if (player == null)
+-                       {
+-                           continue;
+-                       }
+-                       
+-                       player.sendPacket(cs);
+-                   }
+-               }
+-               else if (activeChar.isHero())
+-               {
++                   CreatureSay Hero = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.PREMIUM_NAME_ADD + activeChar.getName(), _text);
+                    if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
+                    {
+                        activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_HERO_VOICE.FLOOD_PROTECTION_INTERVAL / 10 + " sec.");
+@@ -609,10 +1557,103 @@
+                        
+                        if (!BlockList.isBlocked(player, activeChar))
+                        {
+-                           player.sendPacket(cs);
++                           player.sendPacket(Hero);
+                        }
+                    }
+                }
++               
++               else if (activeChar.isHero() && !activeChar.isGM() && activeChar.getPremiumService() == 0)
++               {
++                   CreatureSay Hero = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                   if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
++                   {
++                       activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_HERO_VOICE.FLOOD_PROTECTION_INTERVAL / 10 + " sec.");
++                       return;
++                   }
++                   
++                   for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                   {
++                       if (player == null)
++                       {
++                           continue;
++                       }
++                       
++                       if (!BlockList.isBlocked(player, activeChar))
++                       {
++                           player.sendPacket(Hero);
++                       }
++                   }
++               }
++               
++               else if (activeChar.isHero() && activeChar.isGM() && !activeChar.isHideNameEnabled())
++               {
++                   CreatureSay Hero = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + activeChar.getName(), _text);
++                   if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
++                   {
++                       activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_HERO_VOICE.FLOOD_PROTECTION_INTERVAL / 10 + " sec.");
++                       return;
++                   }
++                   
++                   for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                   {
++                       if (player == null)
++                       {
++                           continue;
++                       }
++                       
++                       if (!BlockList.isBlocked(player, activeChar))
++                       {
++                           player.sendPacket(Hero);
++                       }
++                   }
++               }
++               
++               else if (activeChar.isHero() && activeChar.isGM() && activeChar.getAccessLevel().getLevel() == 1 && activeChar.isHideNameEnabled())
++               {
++                   CreatureSay Hero = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_NAME_PROTECT, _text);
++                   if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
++                   {
++                       activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_HERO_VOICE.FLOOD_PROTECTION_INTERVAL / 10 + " sec.");
++                       return;
++                   }
++                   
++                   for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                   {
++                       if (player == null)
++                       {
++                           continue;
++                       }
++                       
++                       if (!BlockList.isBlocked(player, activeChar))
++                       {
++                           player.sendPacket(Hero);
++                       }
++                   }
++               }
++               
++               else if (activeChar.isHero() && activeChar.isGM() && activeChar.getAccessLevel().getLevel() > 1 && activeChar.isHideNameEnabled())
++               {
++                   CreatureSay Hero = new CreatureSay(activeChar.getObjectId(), _type, "" + (Config.SHOW_TIME_IN_CHAT ? "[" + fmt.format(new Date(System.currentTimeMillis())) + "]" : "") + " " + Config.GM_SUPPORT_NAME_PROTECT, _text);
++                   if (!getClient().getFloodProtectors().getHeroVoice().tryPerformAction("hero voice"))
++                   {
++                       activeChar.sendMessage("You can send message every " + Config.FLOOD_PROTECTOR_HERO_VOICE.FLOOD_PROTECTION_INTERVAL / 10 + " sec.");
++                       return;
++                   }
++                   
++                   for (L2PcInstance player : L2World.getInstance().getAllPlayers().values())
++                   {
++                       if (player == null)
++                       {
++                           continue;
++                       }
++                       
++                       if (!BlockList.isBlocked(player, activeChar))
++                       {
++                           player.sendPacket(Hero);
++                       }
++                   }
++               }
++               
+                break;
+        }
+    }
+@@ -671,6 +1712,7 @@
+    
+    private void checkText(L2PcInstance activeChar)
+    {
++       
+        if (Config.USE_SAY_FILTER)
+        {
+            String filteredText = _text.toLowerCase();
+@@ -699,6 +1741,7 @@
+                
+                activeChar.sendMessage("The word: " + _text + " is not allowed here.");
+                _text = filteredText;
++               
+            }
+        }
+    }
+@@ -708,4 +1751,5 @@
+    {
+        return "[C] 38 Say2";
+    }
++   
+ }
+\ No newline at end of file
+diff --git src/l2jorion/game/network/serverpackets/CharInfo.java src/l2jorion/game/network/serverpackets/CharInfo.java
+index c7eda05..1112fa0 100644
+--- src/l2jorion/game/network/serverpackets/CharInfo.java
++++ src/l2jorion/game/network/serverpackets/CharInfo.java
+@@ -124,7 +124,14 @@
+                writeC(_activeChar.isInCombat() ? 1 : 0);
+                writeC(_activeChar.isAlikeDead() ? 1 : 0);
+                writeC(0); // if the charinfo is written means receiver can see the char
+-               writeS(_activeChar.getName());
++               if (_activeChar.isHideNameEnabled() == true && _activeChar.isGM())
++               {
++                   writeS("");
++               }
++               else
++               {
++                   writeS(_activeChar.getName());
++               }
+                
+                if (_activeChar.getAppearance().getInvisible())
+                {
+@@ -170,7 +177,14 @@
+            writeD(0); // it's _vehicleId, but we don't have it yet
+            
+            writeD(_objId);
+-           writeS(_activeChar.getName());
++           if (_activeChar.isHideNameEnabled() == true && _activeChar.isGM())
++           {
++               writeS("");
++           }
++           else
++           {
++               writeS(_activeChar.getName());
++           }
+            writeD(_activeChar.getRace().ordinal());
+            writeD(_activeChar.getAppearance().getSex() ? 1 : 0);
+            
+diff --git src/l2jorion/game/network/serverpackets/UserInfo.java src/l2jorion/game/network/serverpackets/UserInfo.java
+index a04983d..e0285d3 100644
+--- src/l2jorion/game/network/serverpackets/UserInfo.java
++++ src/l2jorion/game/network/serverpackets/UserInfo.java
+@@ -85,7 +85,14 @@
+        writeD(_activeChar.getHeading());
+        
+        writeD(_activeChar.getObjectId());
+-       writeS(_activeChar.getName());
++       if (_activeChar.isHideNameEnabled() == true && _activeChar.isGM())
++       {
++           writeS("");
++       }
++       else
++       {
++           writeS(_activeChar.getName());
++       }
+        writeD(_activeChar.getRace().ordinal());
+        writeD(_activeChar.getAppearance().getSex() ? 1 : 0);

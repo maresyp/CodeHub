@@ -1,0 +1,84 @@
+% Семейные отношения
+% gender enum: male / female
+ 
+person(4, "Maggy", female).
+person(3, "Matt", male).
+ 
+person(1, "Tom", male).
+person(2, "Pam", female).
+ 
+person(5, "Julia", female).
+person(6, "Daemon", male).
+person(7, "Tony", male).
+ 
+/* Семантика и последовательность атрибутов определяется программистом */
+ 
+/* parent(Child, Parent) */
+parent(4, 1).
+ 
+parent(3, 1).
+parent(3, 2).
+ 
+parent(4, 2).
+ 
+parent(1, 5).
+parent(1, 6).
+ 
+parent(2, 7).
+ 
+/* строки: father("Matt", "Tom")  */
+father(Child, Father) :-
+    person(ChildId, Child, _),
+    person(FatherId, Father, male),
+    parent(ChildId, FatherId).
+ 
+/* Последующие предикаты необходимо реализовать самостоятельно */
+% mother(Child, Mother)
+mother(Child, Mother) :-
+    person(ChildId, Child, _),
+    person(MotherId, Mother, female),
+    parent(ChildId, MotherId).
+ 
+% grandfather(Person, Grandfather) /* дедушка */
+grandfather(Person, Grandfather) :-
+    person(PersonId, Person, _),
+    person(ParentId, _, _),
+    parent(PersonId, ParentId),
+    person(GrandfatherId, Grandfather, male),
+    parent(ParentId, GrandfatherId).
+ 
+% grandmother(Person, Grandmother) /* бабушка */
+grandmother(Person, Grandmother) :-
+    person(PersonId, Person, _),
+    person(ParentId, _, _),
+    parent(PersonId, ParentId),
+    person(GrandmotherId, Grandmother, female),
+    parent(ParentId, GrandmotherId).
+ 
+% sister(Person, Sister) / brother(Person, Brother)   /* может потребоваться not() */
+sister(Person, Sister) :-
+    person(PersonId, Person, _),
+    person(SisterId, Sister, female),
+    person(ParentId, _, _),
+    parent(PersonId, ParentId),
+    parent(SisterId, ParentId).
+ 
+brother(Person, Brother) :-
+    person(PersonId, Person, _),
+    person(BrotherId, Brother, male),
+    person(ParentId, _, _),
+    parent(PersonId, ParentId),
+    parent(BrotherId, ParentId).
+ 
+/* супер сложно. через рекурсию. Предок - любой человек, который находится "выше" Person в генеалогическом древе */
+% ancestor(Person, Ancestor)
+ancestor(Person, Ancestor) :-
+    person(PersonId, Person, _),
+    person(AncestorId, Ancestor, _),
+    parent(PersonId, AncestorId).
+ancestor(Person, Ancestor) :-
+    person(PersonId, Person, _),
+    person(_, Ancestor, _),
+    person(RelativeId, Relative, _),
+    parent(PersonId, RelativeId),
+    ancestor(Relative, Ancestor).

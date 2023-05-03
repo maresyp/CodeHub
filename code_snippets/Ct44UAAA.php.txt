@@ -1,0 +1,29 @@
+add_action( 'wp_ajax_wcfmvm_membership_cancel', function() {
+    global $WCFM, $WCFMvm, $_POST, $wpdb;
+ 
+    remove_action( 'wp_ajax_wcfmvm_membership_cancel', array( $WCFMvm->ajax, 'wcfmvm_membership_cancel' ) );
+ 
+    if (!check_ajax_referer('wcfm_ajax_nonce', 'wcfm_ajax_nonce', false)) {
+        wp_send_json_error(esc_html__('Invalid nonce! Refresh your page and try again.', 'wc-frontend-manager'));
+        wp_die();
+    }
+ 
+    if (!current_user_can('manage_woocommerce') && !current_user_can('wcfm_vendor') && !current_user_can('seller') && !current_user_can('vendor') && !current_user_can('shop_staff')) {
+        wp_send_json_error(esc_html__('You don&#8217;t have permission to do this.', 'woocommerce'));
+        wp_die();
+    }
+ 
+    if (isset($_POST['memberid']) && isset($_POST['membershipid'])) {
+        $member_id          = absint($_POST['memberid']);
+        $wcfm_membership_id = absint($_POST['membershipid']);
+        $paymode            = get_user_meta($member_id, 'wcfm_membership_paymode', true);
+ 
+        $WCFMvm->wcfmvm_vendor_membership_cancel($member_id, $wcfm_membership_id);
+        $WCFMvm->store_subscription_data($member_id, $paymode, '', 'subscr_cancel', 'Cancelled', __('Manual Cancellation', 'wc-multivendor-membership'));
+ 
+        echo '{"status": true, "message": "' . esc_html(__('Your membership successfully cancelled. Redirecting ...', 'wc-multivendor-membership')) . '", "redirect": "' . esc_url(apply_filters( 'wcfm_change_membership_url', get_wcfm_membership_url() )) . '"}';
+        die;
+    }
+    echo '{"status": false, "message": "' . esc_html(__('Your membership can not be cancelled right now, please contact your store admin.', 'wc-multivendor-membership')) . '"}';
+    die;
+}, 9 );

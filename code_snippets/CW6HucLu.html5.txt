@@ -1,0 +1,44 @@
+<table style="border-collapse: collapse; width: 100%; height: 309px;" border="1">
+<tbody>
+<tr style="height: auto;">
+<td style="width: auto; height: auto;">
+<div class="detailsinner"><strong>REGISTER OFFICE:</strong> 101, REEYAN APARTMENT, 769, NEW HALL ROAD, CHRISTIAN VILLAGE, KURLA (WEST), MUMBAI - 400 070.<br /><strong>GST NO.</strong>: 27AAHCK6466E1ZB<br /><strong>BRANCH OFFICE 1</strong>: C/O.TREE HOUSE HIGH SCHOOL-GSEB<br />AFTER KALALI CROSSING, ATLADARA MAIN ROAD, OPP. PRAMUKH SWAMI HOTEL, NEAR PETROL PUMP, ATLADARA, VADODARA - 390012, GUJARAT, INDIA<br /><strong>GST NO.</strong>: 24AAHCK6466E1ZH<br /><strong>BRANCH OFFICE 2</strong>: C/O.TREE HOUSE HIGH SCHOOL-CBSE<br />BEHIND SWAMI NARAYAN TEMPLE, NEAR VUDA COLONY, ATLADARA, VADODARA-390012, GUJARAT, INDIA<br /><strong>GST NO.</strong>: 24AAHCK6466E1ZH<br /><strong>E-MAIL ID</strong>: kshirsagarfoodspvtltd@gmail.com</div>
+</td>
+<td style="width: auto;">
+<div class="detailsinner"><img src="https://wp.eschoolapp.in/foodplace-2/wp-content/uploads/sites/284/2022/04/cropped-Untitled-design-34.png" width="auto" height="auto" /></div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="bitoo">
+<div class="bbb">
+<p>Receipt No.: __________________________</p>
+<p>Date: ____________________________________</p>
+<p>Received with Thanks from Mr./Mrs.________________________________________________________</p>
+<br />
+<p>For (child) Master/Miss. ______________________________________ Contact No. __________________ <br />A sum of Rupees (in words)____________________________________________________________ towards__________________________________________ Class _____________________ Date From _____________________________ to ____________________________________ Bank Details ________________________________________________ <br />by Cash/Cheque/NEFT/IMPS/Credit/Debit Card___________________ Dated _________________ <br />Drawn on_________________ Application from No. ______________ Bank ____________________ <br />Branch ____________________ Dated ______________</p>
+<p>For Kshirsagar Foods Private Limited</p>
+<p>Note:</p>
+<p>* Subject to the Realisation of the Cheque</p>
+<p>** Please Note all fees are non-refundable.</p>
+<div class="righta">Authorised Signatory.</div>
+</div>
+</div>
+ 
+<style>
+    .bitoo {
+        border: 1px black solid;
+    }
+    
+    .detailsinner,
+    .bbb {
+        margin: 1em;
+    }
+    /* Inline #2 | http://127.0.0.1:3000/index.html */
+    
+    .righta {
+        text-align: right;
+    }
+</style>
+ 
+</html>

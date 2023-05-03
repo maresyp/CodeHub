@@ -1,0 +1,5 @@
+SELECT DISTINCT Customers.CustomerName, Employees.FirstName
+FROM Customers 
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID 
+JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID 
+WHERE Employees.FirstName = 'Andrew';

@@ -1,0 +1,323 @@
+root@gitlab:/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log# make
+make  all-recursive
+make[1]: Entering directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log'
+Making all in logic/guile-log/src/
+make[2]: Entering directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log/logic/guile-log/src'
+guile-snarf -I. -Wall  -I/usr/local/include/guile/3.0 -lguile-3.0 -L/usr/local/lib/ unify.c > unify.x \
+|| { rm unify.x; false; }
+make  all-am
+make[3]: Entering directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log/logic/guile-log/src'
+  CC       libguile_log_la-unify.lo
+In file included from vlist/vlist-wrap.c:3,
+                 from unify.c:368:
+vlist/vlist.c: In function ‘vblock_diff’:
+vlist/vlist.c:1832:9: warning: unused variable ‘count’ [-Wunused-variable]
+ 1832 |   ulong count   = REFCOUNT(freeref);
+      |         ^~~~~
+unify.c: In function ‘gp_custom_fkn’:
+unify.c:3829:3: warning: ‘scm_t_uint32’ is deprecated [-Wdeprecated-declarations]
+ 3829 |   (GP_GETREF(fkn))[1] = (SCM) PROGRAM_CODE(custom_vm_fkn);
+      |   ^
+In file included from unify.c:3847:
+matcher.c: In function ‘gp_matcher’:
+matcher.c:165:7: warning: ‘vars’ may be used uninitialized [-Wmaybe-uninitialized]
+  165 |   s = gp_gp_unify(vars[BB64], e, s);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+matcher.c:127:7: note: ‘vars’ declared here
+  127 |   SCM vars[100],ee[100],next_fr[100],next_s[100];
+      |       ^~~~
+matcher.c:181:7: warning: ‘vars’ may be used uninitialized [-Wmaybe-uninitialized]
+  181 |   s = gp_m_unify(vars[BB64], e, s);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+matcher.c:127:7: note: ‘vars’ declared here
+  127 |   SCM vars[100],ee[100],next_fr[100],next_s[100];
+      |       ^~~~
+  CCLD     libguile-log.la
+make[3]: Leaving directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log/logic/guile-log/src'
+make[2]: Leaving directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log/logic/guile-log/src'
+make[2]: Entering directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log'
+  GEN      language/python/guilemod.go
+wrote `language/python/guilemod.go'
+  GEN      logic/guile-log/slask.go
+wrote `logic/guile-log/slask.go'
+  GEN      logic/guile-log/code-load.go
+wrote `logic/guile-log/code-load.go'
+  GEN      logic/guile-log/procedure-properties.go
+wrote `logic/guile-log/procedure-properties.go'
+  GEN      ice-9/match-phd-lookup.go
+wrote `ice-9/match-phd-lookup.go'
+  GEN      ice-9/match-phd.go
+wrote `ice-9/match-phd.go'
+  GEN      ice-9/set/vhashx.go
+wrote `ice-9/set/vhashx.go'
+  GEN      ice-9/set/weak-vhashx.go
+wrote `ice-9/set/weak-vhashx.go'
+  GEN      ice-9/set/set.go
+wrote `ice-9/set/set.go'
+  GEN      ice-9/set/complement.go
+wrote `ice-9/set/complement.go'
+  GEN      ice-9/vset.go
+ice-9/vset.scm:585:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:585:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:470:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:470:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:343:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:343:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:296:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:296:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:246:2: warning: possibly wrong number of arguments to `make-complementable-set'
+ice-9/vset.scm:246:2: warning: possibly wrong number of arguments to `make-complementable-set'
+wrote `ice-9/vset.go'
+  GEN      logic/guile-log/scmspace.go
+wrote `logic/guile-log/scmspace.go'
+  GEN      logic/guile-log/fstream.go
+wrote `logic/guile-log/fstream.go'
+  GEN      logic/guile-log/persistance-guile-log.go
+wrote `logic/guile-log/persistance-guile-log.go'
+  GEN      logic/guile-log/guile-log-pre.go
+wrote `logic/guile-log/guile-log-pre.go'
+  GEN      logic/guile-log/ck.go
+wrote `logic/guile-log/ck.go'
+  GEN      logic/guile-log/vlist.go
+wrote `logic/guile-log/vlist.go'
+  GEN      logic/guile-log/indexer.go
+wrote `logic/guile-log/indexer.go'
+  GEN      logic/guile-log/attributed.go
+logic/guile-log/attributed.scm:39:24: warning: non-idempotent binding for `gp-put-attr'.  When first loaded, value for `gp-put-attr` comes from imported binding, but later module-local definition overrides it; any module reload would capture module-local binding rather than import.
+logic/guile-log/attributed.scm:48:39: warning: possibly unbound variable `*current-stack*'
+wrote `logic/guile-log/attributed.go'
+  GEN      logic/guile-log/umatch.go
+wrote `logic/guile-log/umatch.go'
+  GEN      logic/guile-log/macros.go
+wrote `logic/guile-log/macros.go'
+  GEN      logic/guile-log/vset.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/vset.go'
+  GEN      logic/guile-log/dynlist.go
+wrote `logic/guile-log/dynlist.go'
+  GEN      logic/guile-log/inheritance.go
+wrote `logic/guile-log/inheritance.go'
+  GEN      logic/guile-log/type.go
+wrote `logic/guile-log/type.go'
+  GEN      logic/guile-log/match.go
+wrote `logic/guile-log/match.go'
+  GEN      logic/guile-log/undovar.go
+wrote `logic/guile-log/undovar.go'
+  GEN      logic/guile-log/interleave.go
+wrote `logic/guile-log/interleave.go'
+  GEN      logic/guile-log/soft-cut.go
+wrote `logic/guile-log/soft-cut.go'
+  GEN      logic/guile-log/guile-prolog/copy-term.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/guile-prolog/copy-term.go'
+  GEN      logic/guile-log/run.go
+wrote `logic/guile-log/run.go'
+  GEN      logic/guile-log/tools.go
+wrote `logic/guile-log/tools.go'
+  GEN      logic/guile-log/prompts.go
+wrote `logic/guile-log/prompts.go'
+  GEN      logic/guile-log.go
+wrote `logic/guile-log.go'
+  GEN      logic/guile-log/paralell.go
+wrote `logic/guile-log/paralell.go'
+  GEN      logic/guile-log/vlist-macros.go
+wrote `logic/guile-log/vlist-macros.go'
+  GEN      logic/guile-log/collects.go
+wrote `logic/guile-log/collects.go'
+  GEN      logic/guile-log/canonacalize.go
+wrote `logic/guile-log/canonacalize.go'
+  GEN      logic/guile-log/kanren.go
+wrote `logic/guile-log/kanren.go'
+  GEN      logic/guile-log/hash.go
+wrote `logic/guile-log/hash.go'
+  GEN      logic/guile-log/parsing/scanner.go
+wrote `logic/guile-log/parsing/scanner.go'
+  GEN      logic/guile-log/parser.go
+wrote `logic/guile-log/parser.go'
+  GEN      logic/guile-log/parsing/operator-parser.go
+wrote `logic/guile-log/parsing/operator-parser.go'
+  GEN      logic/guile-log/parsing/scheme.go
+wrote `logic/guile-log/parsing/scheme.go'
+  GEN      logic/guile-log/parsing/sch-match.go
+wrote `logic/guile-log/parsing/sch-match.go'
+  GEN      logic/guile-log/grep.go
+wrote `logic/guile-log/grep.go'
+  GEN      logic/guile-log/postpone.go
+wrote `logic/guile-log/postpone.go'
+  GEN      logic/guile-log/util.go
+wrote `logic/guile-log/util.go'
+  GEN      logic/guile-log/functional-database.go
+wrote `logic/guile-log/functional-database.go'
+  GEN      logic/guile-log/hash-dynamic.go
+wrote `logic/guile-log/hash-dynamic.go'
+  GEN      logic/guile-log/dynamic-features.go
+wrote `logic/guile-log/dynamic-features.go'
+  GEN      logic/guile-log/iinterleave.go
+logic/guile-log/iinterleave.scm:35:16: warning: non-idempotent binding for `gp-restore-wind'.  When first loaded, value for `gp-restore-wind` comes from imported binding, but later module-local definition overrides it; any module reload would capture module-local binding rather than import.
+wrote `logic/guile-log/iinterleave.go'
+  GEN      logic/guile-log/fiber.go
+WARNING: (logic guile-log fiber): imported module (fibers) overrides core binding `sleep'
+logic/guile-log/fiber.scm:59:20: warning: possibly wrong number of arguments to `make-channel'
+logic/guile-log/fiber.scm:25:15: warning: possibly unbound variable `serialize-scheduler'
+logic/guile-log/fiber.scm:29:12: warning: possibly unbound variable `try-update-scheduler'
+logic/guile-log/fiber.scm:42:10: warning: possibly unbound variable `serialize-fiber'
+logic/guile-log/fiber.scm:45:10: warning: possibly unbound variable `update-fiber'
+wrote `logic/guile-log/fiber.go'
+  GEN      logic/guile-log/weak-vhash.go
+wrote `logic/guile-log/weak-vhash.go'
+  GEN      logic/guile-log/prolog/varstat.go
+wrote `logic/guile-log/prolog/varstat.go'
+  GEN      logic/guile-log/prolog/pre.go
+wrote `logic/guile-log/prolog/pre.go'
+  GEN      logic/guile-log/prolog/operators.go
+wrote `logic/guile-log/prolog/operators.go'
+  GEN      logic/guile-log/prolog/error.go
+wrote `logic/guile-log/prolog/error.go'
+  GEN      logic/guile-log/prolog/symbols.go
+wrote `logic/guile-log/prolog/symbols.go'
+  GEN      logic/guile-log/prolog/names.go
+wrote `logic/guile-log/prolog/names.go'
+  GEN      logic/guile-log/prolog/closed.go
+wrote `logic/guile-log/prolog/closed.go'
+  GEN      logic/guile-log/prolog/namespace.go
+wrote `logic/guile-log/prolog/namespace.go'
+  GEN      logic/guile-log/guile-prolog/closure.go
+wrote `logic/guile-log/guile-prolog/closure.go'
+  GEN      logic/guile-log/prolog/persist.go
+wrote `logic/guile-log/prolog/persist.go'
+  GEN      logic/guile-log/prolog/parser.go
+wrote `logic/guile-log/prolog/parser.go'
+  GEN      logic/guile-log/prolog/run.go
+wrote `logic/guile-log/prolog/run.go'
+  GEN      logic/guile-log/prolog/goal-functors.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/goal-functors.go'
+  GEN      logic/guile-log/prolog/modules.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/modules.go'
+  GEN      logic/guile-log/prolog/load.go
+wrote `logic/guile-log/prolog/load.go'
+  GEN      logic/guile-log/prolog/goal.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/goal.go'
+  GEN      logic/guile-log/prolog/var.go
+wrote `logic/guile-log/prolog/var.go'
+  GEN      logic/guile-log/prolog/compile.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/compile.go'
+  GEN      logic/guile-log/prolog/compile2.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/compile2.go'
+  GEN      logic/guile-log/prolog/analyze.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/analyze.go'
+  GEN      logic/guile-log/prolog/order.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/order.go'
+  GEN      logic/guile-log/guile-prolog/attribute.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/guile-prolog/attribute.go'
+  GEN      logic/guile-log/minikanren.go
+wrote `logic/guile-log/minikanren.go'
+  GEN      logic/guile-log/prolog/util.go
+wrote `logic/guile-log/prolog/util.go'
+  GEN      logic/guile-log/prolog/directives.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/directives.go'
+  GEN      logic/guile-log/prolog/dynamic.go
+WARNING: (logic guile-log prolog dynamic): `compile-prolog' imported from both (logic guile-log prolog compile) and (logic guile-log)
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/dynamic.go'
+  GEN      logic/guile-log/prolog/base.go
+wrote `logic/guile-log/prolog/base.go'
+  GEN      logic/guile-log/prolog/variant.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/variant.go'
+  GEN      logic/guile-log/prolog/char-conversion.go
+wrote `logic/guile-log/prolog/char-conversion.go'
+  GEN      logic/guile-log/prolog/char.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/char.go'
+  GEN      logic/guile-log/prolog/functions.go
+wrote `logic/guile-log/prolog/functions.go'
+  GEN      logic/guile-log/prolog/goal-transformers.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/goal-transformers.go'
+  GEN      logic/guile-log/prolog/io.go
+logic/guile-log/prolog/io.scm:976:11: warning: non-literal format string
+logic/guile-log/prolog/io.scm:905:19: warning: non-literal format string
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/io.go'
+  GEN      logic/guile-log/prolog/conversion.go
+wrote `logic/guile-log/prolog/conversion.go'
+  GEN      logic/guile-log/prolog/pprint.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/pprint.go'
+  GEN      logic/guile-log/prolog/swi.go
+WARNING: (logic guile-log prolog swi): `numbervars' imported from both (logic guile-log prolog pprint) and (logic guile-log prolog names)
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+logic/guile-log/prolog/swi.scm:94:6: warning: possibly unbound variable `findall-fkn'
+wrote `logic/guile-log/prolog/swi.go'
+  GEN      logic/guile-log/prolog/global.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/global.go'
+  GEN      logic/guile-log/prolog/fold.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/fold.go'
+  GEN      logic/guile-log/guile-prolog/reset.go
+wrote `logic/guile-log/guile-prolog/reset.go'
+  GEN      logic/guile-log/memoize.go
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/memoize.go'
+  GEN      logic/guile-log/iso-prolog.go
+WARNING: (logic guile-log prolog swi): `numbervars' imported from both (logic guile-log prolog pprint) and (logic guile-log prolog names)
+wrote `logic/guile-log/iso-prolog.go'
+  GEN      logic/guile-log/prolog/goal-expand.go
+WARNING: (logic guile-log prolog swi): `numbervars' imported from both (logic guile-log prolog pprint) and (logic guile-log prolog names)
+ice-9/match-phd-lookup.scm:451:45: warning: possibly unbound variable `gp-var!'
+wrote `logic/guile-log/prolog/goal-expand.go'
+  GEN      logic/guile-log/guile-prolog/set.go
+WARNING: (logic guile-log prolog swi): `numbervars' imported from both (logic guile-log prolog pprint) and (logic guile-log prolog names)
+WARNING: (logic guile-log guile-prolog set): imported module (logic guile-log iso-prolog) overrides core binding `error'
+Backtrace:
+In system/base/target.scm:
+     65:6 19 (with-target _ _)
+In system/base/compile.scm:
+    187:6 18 (compile-file _ #:output-file _ #:from _ #:to _ #:env _ …)
+     53:4 17 (call-with-output-file/atomic _ _ _)
+In ice-9/boot-9.scm:
+  1752:10 16 (with-exception-handler _ _ #:unwind? _ # _)
+In system/base/compile.scm:
+    69:11 15 (_)
+   190:11 14 (_ #<closed: file 7f944cb16930>)
+   331:39 13 (read-and-compile #<input: logic/guile-log/guile-prolo…> …)
+   261:27 12 (_ _ _)
+In ice-9/boot-9.scm:
+   2835:4 11 (save-module-excursion _)
+In language/scheme/compile-tree-il.scm:
+    31:15 10 (_)
+In ice-9/psyntax.scm:
+  1230:36  9 (expand-top-sequence _ _ _ #f _ _ _)
+  1122:20  8 (parse _ (("placeholder" placeholder)) ((top) #(# # …)) …)
+  1343:32  7 (syntax-type _ (("placeholder" placeholder)) _ #("l…" …) …)
+  1557:32  6 (expand-macro _ _ _ _ _ _ _)
+In logic/guile-log/prolog/base.scm:
+   968:19  5 (_ _ _)
+In logic/guile-log/prolog/parser.scm:
+   1484:5  4 (prolog-parse _ . _)
+In logic/guile-log/parser.scm:
+    902:0  3 (parse*-4266a13d494cbe0 _ _)
+    902:0  2 (_ #<(#<(<#gp 999990>|166664)>|(() ((() . <gp-stack>))…> …)
+In unknown file:
+           1 (gp-newframe-choice #<(#<(<#gp 999990>|166664)>|(() (((…>)
+In ice-9/boot-9.scm:
+  1685:16  0 (raise-exception _ #:continuable? _)
+ 
+ice-9/boot-9.scm:1685:16: In procedure raise-exception:
+Value out of range: 1000000
+make[2]: *** [Makefile:1434: logic/guile-log/guile-prolog/set.go] Error 1
+make[2]: Leaving directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log'
+make[1]: *** [Makefile:900: all-recursive] Error 1
+make[1]: Leaving directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log'
+make: *** [Makefile:636: all] Error 2
+root@gitlab:/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/guile-log#

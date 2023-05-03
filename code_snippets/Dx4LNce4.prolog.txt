@@ -1,0 +1,44 @@
+print_odd:-writeln('print A and B(segment)'),read(A),read(B),odd(A,B).
+odd(A,B):-A=<B,H2 is B mod 2,H2==1,format('~w ',[B]),B1 is B-2,odd(A,B1);
+          A=<B,H2 is B mod 2,H2==0,B1 is B-1,odd(A,B1).
+          
+fib:-repeat,read(Num),my_check(Num),Num<0,!.
+my_check(N):-ConstMinus1 is -1,N\==ConstMinus1,f(N,Res),Res\==0,format('fibonaci ~w is ~w',[N,Res]),nl;
+             N<0,!.
+f(N,Res):- N==0,Res is 1;
+           N==1,Res is 1;
+           N>1,Num_pred is N-1,Num_pred2 is N-2,f(Num_pred,Res_pred),f(Num_pred2,Res_pred2), Res is Res_pred+Res_pred2;
+           N<0,Res is 0.
+           
+split_list:-write('input list: '),read(L),write('input left num: '),read(Left),write('input right num'),read(Right),L1=[],L2=[],L3=[],cur_elem(L,Left,Right,L1,L2,L3).
+cur_elem([Head|Tail],Left,Right,L1,L2,L3):-Tail\==[],X=Head,X<Left,append(L1,[X],LL1),cur_elem(Tail,Left,Right,LL1,L2,L3);
+                                           Tail\==[],X=Head,X>=Left,X=<Right,append(L2,[X],LL2),cur_elem(Tail,Left,Right,L1,LL2,L3);
+                                           Tail\==[],X=Head,X>Right,append(L3,[X],LL3),cur_elem(Tail,Left,Right,L1,L2,LL3);
+                                           Tail==[],format('~w ~w ~w',[L1,L2,L3]),!.
+                                           
+ 
+ 
+ 
+most_frequent:-write('input list: '),read(L),in_sort(L,Sorted_L),calc_first(Sorted_L,Pred),Len is 0,
+               Cur_Maxx is 0,max_seq(Sorted_L,Cur_Maxx,Pred,Len,Maxx),build_rez(Sorted_L,Maxx,Cur_Maxx,Pred,[],Rez_list),format('~w',[Rez_list]).
+ 
+calc_first([X|Tail],Pred):-Pred is X.
+ 
+in_sort([],[]).
+in_sort([X|Tail],Sort_list):-in_sort(Tail,Sort_Tail),add(X,Sort_Tail,Sort_list).
+add(X,[Y|Sort_list],[Y|Sort_list1]):-X@>Y,!,add(X,Sort_list,Sort_list1).
+add(X,Sort_list,[X|Sort_list]).
+ 
+max_seq([X|Tail_Sorted_L],Cur_Maxx,Pred,Len,Maxx):-Tail_Sorted_L==[],X==Pred,New_Len is Len+1,New_Len>Cur_Maxx,Maxx is Len+1;
+                                          Tail_Sorted_L==[],Maxx is Cur_Maxx;
+                                          X==Pred,New_len is Len+1,max_seq(Tail_Sorted_L,Cur_Maxx,X,New_len,Maxx);
+                                          X\==Pred,Len>Cur_Maxx,New_Maxx is Len,New_len is 1,max_seq(Tail_Sorted_L,New_Maxx,X,New_len,Maxx);
+                                          X\==Pred,Len=<Cur_Maxx,New_len is 1,max_seq(Tail_Sorted_L,Cur_Maxx,X,New_len,Maxx).
+ 
+build_rez([X|Tail_Sorted_L],Maxx,Cur_Len,Pred,Cur_list,Rez_list):-Tail_Sorted_L==[],X==Pred,New_Len is Cur_Len+1,New_Len==Maxx,append(Cur_list,[Pred],New_list),
+                                                       Rez_list=New_list;
+                                          Tail_Sorted_L==[],Rez_list=Cur_list;
+                                          X==Pred,New_len is Cur_Len+1,build_rez(Tail_Sorted_L,Maxx,New_len,X,Cur_list,Rez_list);
+                                          X\==Pred,Cur_Len==Maxx,append(Cur_list,[Pred],New_list),New_len is 1,
+                                                       build_rez(Tail_Sorted_L,Maxx,New_len,X,New_list,Rez_list);
+                                          X\==Pred,Cur_Len\==Maxx,New_len is 1,build_rez(Tail_Sorted_L,Maxx,New_len,X,Cur_list,Rez_list).

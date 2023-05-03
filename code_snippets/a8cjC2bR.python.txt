@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+ 
+"""
+Turing (matematico ingles), estudiaba las funciones computables
+ 
+Una funcion computable es toda aquella que pueda ser resuelta por un
+artefacto mecánico  => computadora
+ 
+¿Cuales son las funciones computables? Respuesta: toda funcion computable
+se puede descomponer como la combinación de 3 estructuras logicas
+ un condicional (if)
+ un bucle definido (for)
+ un bucle indefinido (while)
+ 
+Todos los lenguajes de programacion que lo cumplan se denominan Turing
+completos
+ 
+No son turing completos: html, Css, bitcoin
+ 
+Python es turing completo y solo usa las 3 estructuras de Turing:
+if, while, for
+ 
+ 
+# Script que pide una edad y responde si la persona es mayor de edad
+ 
+edad = int(input("Ingrese su edad: "))
+ 
+if edad >= 18:
+    print("Ya eres mayor de edad")
+    print("Que suerte tienes....")
+else:
+    print("Aun eres menor de edad")
+    print("Mala suerte....")
+if numero > 0:
+    print(f"El numero {numero} es positivo")
+elif numero < 0:
+    print(f"El numero {numero} es negativo")
+else:
+    print("Ha ingresado cero")
+ 
+# Script que pide un nro entero y dice si es positivo, cero o negativo    
+numero = int(input("Ingrese un número: "))
+ 
+if numero > 0:
+    print(f"El numero {numero} es positivo")
+elif numero < 0:
+    print(f"El numero {numero} es negativo")
+else:
+    print("Ha ingresado cero")
+"""        
+ 
+# Script que pide un nro de mes y responde con su cuatrimestre
+ 
+numero = int(input("Ingrese un número de mes (del 1 al 12): "))
+ 
+if  0 < numero <= 4:
+    print("Primer cuatrimestre")
+ 
+elif 4 < numero <= 8:
+    print("Segundo cuatrimestre")
+    
+elif 8 < numero <= 12:
+    print("Tercer cuatrimestre")
+   
+else:
+    print("Error en el ingreso del mes")

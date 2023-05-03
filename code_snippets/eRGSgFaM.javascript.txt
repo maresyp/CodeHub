@@ -1,0 +1,8 @@
+<script runat=server>
+    Platform.Load("core", "1");
+    var i = 1;
+    while (i < 10) {
+        Write('The number is ' + i;)
+        i++;
+    }
+</script>

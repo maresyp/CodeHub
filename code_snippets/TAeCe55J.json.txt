@@ -1,0 +1,107 @@
+{
+  "isActual": false,
+  "requestId": "AND-230418144531-1023D935D1F5",
+  "payment": [],
+  "voucherUserId": "",
+  "rewardLines": [
+    {
+      "cdPrice": 0,
+      "description": "Enjoyed as a cold creamy complement to cakes or used for making various desserts in combination with jam, fruits, berries, chocolate chips and other additional ingredients.",
+      "isCustomized": false,
+      "isMenuSet": false,
+      "menuGroupCode": "G21",
+      "menuItemCode": "10508",
+      "name": "",
+      "price": 0,
+      "quantity": 1,
+      "setItems": [],
+      "subTotal": 0
+    }
+  ],
+  "destinationStore": {
+    "outletCode": "0208"
+  },
+  "user": {
+    "deviceId": "androidID-8686e969857af1dc",
+    "deviceModel": "CPH1801",
+    "deviceRoot": "false",
+    "id": "BySIfEvYAmhCgkDSSytr3zXG6xA2",
+    "merchantId": "",
+    "name": "Jecsan",
+    "orderLat": "-6.231178",
+    "orderLon": "106.845116",
+    "osVersion": "7.1.1",
+    "phoneNo": "+6281211287377"
+  },
+  "envInfo": {
+    "appVersion": "1.2.0",
+    "clientIp": "182.3.45.7",
+    "clientKey": "e5806b64-598d-414f-b7f7-83f9576eb6fb",
+    "extendInfo": "{}",
+    "merchantAppVersion": "1.0",
+    "orderOsType": "ANDROID",
+    "orderTerminalType": "APP",
+    "osType": "ANDROID",
+    "sdkVersion": "",
+    "sessionId": "",
+    "sourcePlatform": "IPG",
+    "tokenId": "",
+    "websiteLanguage": "en_US"
+  },
+  "deliveryType": "",
+  "orderLines": [
+    {
+      "cdPrice": 0,
+      "description": "5 Combo SB 1 ( 5pc chicken + 5 Ri",
+      "isCustomized": false,
+      "isMenuSet": true,
+      "menuGroupCode": "G42",
+      "menuItemCode": "10737",
+      "name": "Working Lunch Dinner 1",
+      "price": 143182,
+      "quantity": 1,
+      "setItems": [
+        {
+          "menuItemCode": "X1027",
+          "modifierGroupCode": "M8E",
+          "originalItemCode": "",
+          "quantity": 5
+        },
+        {
+          "menuItemCode": "X1244",
+          "modifierGroupCode": "ME6",
+          "originalItemCode": "",
+          "quantity": 1
+        },
+        {
+          "menuItemCode": "X43",
+          "modifierGroupCode": "M8J",
+          "originalItemCode": "",
+          "quantity": 5
+        }
+      ],
+      "subTotal": 143182
+    }
+  ],
+  "voucherLines": [],
+  "timezone": "UTC+7",
+  "deliveryAddress": {
+    "address": "",
+    "areaName": "AREA COACH JAKARTA 2 - 13",
+    "cityName": "JAKARTA",
+    "countryName": "Indonesia",
+    "geolocation": {
+      "latitude": -6.210179,
+      "longitude": 106.849806
+    },
+    "name": "",
+    "notes": "TAKE_AWAY",
+    "plateNumber": "",
+    "stateName": "JAKARTA",
+    "zipCode": "12820"
+  },
+  "schemaId": 544,
+  "actualPrice": 0,
+  "orderType": "PNP",
+  "orderSource": "ANDROID"
+}

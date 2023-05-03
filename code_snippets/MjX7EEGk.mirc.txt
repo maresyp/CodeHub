@@ -1,0 +1,27 @@
+menu query,status,channel,nicklist {
+  Set ice-breaker-en:/ice-breaker-en
+}
+menu nicklist {
+Engage $$1 (icebreaker): /msg # $$1 - $read(ice-breaker-en.txt)
+}
+menu channel {
+  Say an english ice-breaker:/msg # $read(ice-breaker-en.txt)
+}
+ 
+dialog ice-breaker-en {
+  title "ice-breaker-en"
+  size -1 -1 500 500
+  edit "", 1, 5 5 490 450, autovs multi return
+  button "Valider", 2, 5 470 90 20, ok
+  button "Annuler", 3, 120 470 90 20, cancel
+}
+on *:dialog:ice-breaker-en:*:*:{
+  if ($devent == init) {
+    loadbuf -o $dname 1 ice-breaker-en.txt
+  }
+  if ($devent == sclick) {
+    if ($did == 2) {
+      savebuf -o $dname 1 ice-breaker-en.txt
+    }
+  }
+}

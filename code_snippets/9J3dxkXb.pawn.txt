@@ -1,0 +1,36 @@
+new EcarCount[MAX_PLAYERS] = 0;
+new Ecar[MAX_PLAYERS][MAX_VEHICLES];
+ 
+CMD:ecar(playerid, params[])
+{
+    new vehid;
+    if(sscanf(params, "i", vehid)) SendClientMessage(playerid, -1, "NAUDOJIMAS: /ecar <carid>");
+    else if(vehid < 400 || vehid > 611) SendClientMessage(playerid, -1, "[ERROR]Neteisingas mainos id, jis negali buti didesnis u? 611 ir ma?esnis u? 400.");
+    else
+    {
+        new Float:x, Float:y, Float:z;
+        GetPlayerPos(playerid, x, y, z);
+        
+        EcarCount[playerid] ++;
+ 
+        Ecar[playerid][EcarCount[playerid]] = CreateVehicle(vehid, x + 3, y, z, 0, 0,10, -1);
+        SetVehicleNumberPlate(Ecar[playerid][EcarCount[playerid]], "ADMIN");
+        SendClientMessage(playerid, -1, "Pasiemete admin maina");
+    }
+    return 1;
+}
+ 
+CMD:ecdel(playerid, params[])
+{
+    if(EcarCount[playerid])
+    {
+        for(new i = 0; i < EcarCount[playerid]+1; i ++)
+        {
+            DestroyVehicle(Ecar[playerid][i]);
+        }
+        EcarCount[playerid] = 0;
+        SendClientMessage(playerid, -1, "Visos admin mašinos pašalintos");
+    }
+    else SendClientMessage(playerid, -1, "Nepasiemete admin mašinos");
+    return 1;
+}

@@ -1,0 +1,99 @@
+--Computercraft Smart Branch Miner
+local function build_set(table) --we don't want to scale linearly
+    local new = {}
+    for k, v in pairs(table) do
+        new[v] = true
+    end
+    return new
+end
+ 
+local excludelist = build_set({
+    "minecraft:stone",
+    "minecraft:cobblestone",
+    "minecraft:dirt",
+    "minecraft:grass",
+    "minecraft:gravel",
+    "minecraft:sand",
+    "minecraft:lava",
+    "minecraft:flowing_lava",
+    "minecraft:water",
+    "minecraft:flowing_water",
+    "chisel:basalt2",
+    "minecraft:bedrock"
+})
+ 
+local function split(s, delimiter)
+    result = {};
+    for match in (s .. delimiter):gmatch("(.-)" .. delimiter) do
+        table.insert(result, match);
+    end
+    return result;
+end
+ 
+local function pos2str(position)
+    return ("%d,%d,%d"):format(position.x, position.y, position.z)
+end
+ 
+local function str2pos(position)
+    local a = split(position, ",")
+    return { x = tonumber(a[1]), y = tonumber(a[2]), z = tonumber(a[3]) }
+end
+ 
+local function distance(position1, position2) --Turtle only goes straight lines so this is actually accurate
+    return math.sqrt((position1.x - position2.x) ^ 2 + (position1.y - position2.y) ^ 2 + (position1.z - position2.z) ^ 2)
+end
+ 
+local function closest(table, reck)
+    local closest = math.huge
+    local closest_index = nil
+    local d = 0
+ 
+    for k, v in pairs(table) do
+        d = distance(v, reck.pos)
+        if d < closest then
+            closest = d
+            closest_index = k
+        end
+    end
+ 
+    return closest_index
+end
+ 
+local function drill(reck)
+    --local exploreset = {}
+    local openset = {}
+ 
+    local toppos = reck.pos
+ 
+    --local oldworld = reck.world
+    --local drillworld = World.new()
+ 
+    reck:scan()
+    --table.insert(exploreset, { x = reck.pos.x, y = y, z = reck.pos.z })
+ 
+    repeat
+        reck:hasFuel()
+ 
+        while #openset > 0 do
+            local new = table.remove(openset, closest(openset, reck))
+ 
+            reck:simpleMoveto(new)
+        end
+ 
+        for k, v in pairs(reck.world.points) do
+            if v ~= "empty" and excludelist[v] == nil then
+                table.insert(openset, str2pos(k))
+            end
+        end
+ 
+        print(#openset)
+ 
+    until (#openset == 0)
+ 
+    for _ in reck:moveto(toppos) do end
+    reck.world = oldworld
+ 
+end
+ 
+local reck = require("wr2").new()
+drill(reck)

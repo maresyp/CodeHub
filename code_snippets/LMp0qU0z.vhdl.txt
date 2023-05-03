@@ -1,0 +1,58 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+USE work.logic_array_type.ALL;
+PACKAGE logic_array_type IS
+    CONSTANT number_of_PE : INTEGER := 16;
+    CONSTANT data_width : INTEGER := 8;
+    TYPE vector_array IS ARRAY (NATURAL RANGE <>) OF STD_LOGIC_VECTOR(data_width - 1 DOWNTO 0);--to allow use of signal as numberin(i) to connect to the ith generated instanciation of entity/component.
+    TYPE vector_array2 IS ARRAY (NATURAL RANGE <>) OF STD_LOGIC_VECTOR(data_width DOWNTO 0);
+ 
+END PACKAGE logic_array_type;
+ 
+ENTITY MEengine IS
+    GENERIC (
+        number_of_PE : INTEGER := 16;
+        data_width : INTEGER := 8;
+        y : INTEGER := 80;
+ 
+        w : INTEGER := 8);
+ 
+    PORT (
+        eni, reset, clk : IN STD_LOGIC;
+        mv : OUT STD_LOGIC_VECTOR (y - 1 DOWNTO 0)
+    );
+END MEengine;
+ 
+ARCHITECTURE Behavioral OF MEengine IS
+    COMPONENT pe IS
+        GENERIC (w : INTEGER := 8);
+        PORT (
+            numberin : IN STD_LOGIC_VECTOR (w - 1 DOWNTO 0);
+            numberout, number : IN STD_LOGIC_VECTOR (w - 1 DOWNTO 0);
+            clk, eni, reset : IN STD_LOGIC;
+            Dlat : OUT STD_LOGIC_VECTOR (w - 1 DOWNTO 0));
+    END COMPONENT pe;
+ 
+    --COMPONENT specification--
+ 
+    FOR ALL : pe USE ENTITY work.pe(behavioral);
+ 
+    --internal signals-------
+ 
+    SIGNAL numberin : vector_array(data_width - 1 DOWNTO 0);
+    SIGNAL numberout : vector_array (data_width - 1 DOWNTO 0);
+    SIGNAL number : vector_array (data_width - 1 DOWNTO 0);
+ 
+BEGIN
+    -----------create the processing elements---------
+    gen_pro_ele : FOR i IN 0 TO number_of_PE - 1 GENERATE
+        Processing_Element : pe PORT MAP(
+            numberin => numberin(i),
+            numberout => numberout(i),
+            number => number(i),
+            clk => clk,
+            reset => reset,
+            eni => eni);
+    END GENERATE gen_pro_ele;
+END behavioral;

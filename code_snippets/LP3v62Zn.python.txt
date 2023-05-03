@@ -1,0 +1,21 @@
+a=0
+flg1 =True
+flg2=False
+flg3=False
+_list = [
+    {'name': 'JOE', 'details' : {'age':19, 'brgy': 'Fairview'}, 'subject': {'DATASTRUC' : [1.0, 40]}},
+    {'name': 'CHA', 'details' : {'age':20, 'brgy': 'Maigaya'}, 'subject': {'DATASTRUC' : [2.0, 40]}},
+    {'name': 'AI', 'details' : {'age':21, 'brgy': 'Lagro'}, 'subject': {'DATASTRUC' : [3.0, 3.0]}}
+    ]
+    
+   
+print("Hello my name is", _list[0]['name'], end = " ")
+ 
+for d in _list:
+    MAMAMO = d['details']['age']
+    MUKHAMO = d['details']['brgy']
+    if flg1 == True:
+            if MAMAMO == 19:
+                print("with an age of", d['details']['age'], end = " ")
+                if MUKHAMO == "Fairview": 
+                    print("and living at Barangay", d['details']['brgy'])

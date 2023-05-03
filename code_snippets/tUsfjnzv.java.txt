@@ -1,0 +1,86 @@
+// Import necessary libraries
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.Range;
+ 
+// Define the OpMode name and type
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "MechanumWheelTeleop", group = "TeleOp")
+public class MechanumWheelTeleop extends LinearOpMode {
+ 
+    // Define the motors
+    private DcMotor motorFL;
+    private DcMotor motorFR;
+    private DcMotor motorBL;
+    private DcMotor motorBR;
+ 
+    // Define variables for joystick control
+    private double leftStickX;
+    private double leftStickY;
+    private double rightStickX;
+    private double rightStickY;
+ 
+    // Define variables for motor power
+    private double powerFL;
+    private double powerFR;
+    private double powerBL;
+    private double powerBR;
+ 
+    // Define variables for power scaling
+    private double powerScale = 1.0;
+ 
+    @Override
+    public void runOpMode() {
+ 
+        // Initialize the motors
+        motorFL = hardwareMap.get(DcMotor.class, "motorFL");
+        motorFR = hardwareMap.get(DcMotor.class, "motorFR");
+        motorBL = hardwareMap.get(DcMotor.class, "motorBL");
+        motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+ 
+        // Set the motor directions
+        motorFL.setDirection(DcMotor.Direction.REVERSE);
+        motorBL.setDirection(DcMotor.Direction.REVERSE);
+ 
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
+ 
+        // Run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+ 
+            // Get joystick values
+            leftStickX = gamepad1.left_stick_x;
+            leftStickY = -gamepad1.left_stick_y;
+            rightStickX = gamepad1.right_stick_x;
+            rightStickY = -gamepad1.right_stick_y;
+ 
+            // Calculate motor power
+            powerFL = Range.clip(leftStickY - leftStickX - rightStickX, -1.0, 1.0);
+            powerFR = Range.clip(leftStickY + leftStickX + rightStickX, -1.0, 1.0);
+            powerBL = Range.clip(leftStickY + leftStickX - rightStickX, -1.0, 1.0);
+            powerBR = Range.clip(leftStickY - leftStickX + rightStickX, -1.0, 1.0);
+ 
+            // Scale motor power
+            powerFL *= powerScale;
+            powerFR *= powerScale;
+            powerBL *= powerScale;
+            powerBR *= powerScale;
+ 
+            // Set motor power
+            motorFL.setPower(powerFL);
+            motorFR.setPower(powerFR);
+            motorBL.setPower(powerBL);
+            motorBR.setPower(powerBR);
+ 
+            // Update telemetry
+            telemetry.addData("Motor Power FL", powerFL);
+            telemetry.addData("Motor Power FR", powerFR);
+            telemetry.addData("Motor Power BL", powerBL);
+            telemetry.addData("Motor Power BR", powerBR);
+            telemetry.update();
+ 
+            // Pause for a moment
+            sleep(20);
+        }
+    }
+}

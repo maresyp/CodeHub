@@ -1,0 +1,260 @@
+FIGHT COMMAND (BDFD EN FRANÇAIS)
+ 
+⚠️ TOUT EST EN BD-SCRIPT
+ 
+Variable:
+ 
+p1: 0
+p2: 0
+h1: 100
+h2: 100
+ 
+Première commande
+ 
+Trigger: (prefix)fight
+ 
+Code:
+ 
+$nomention
+$onlyIf[$guildID!=;]
+$suppressErrors
+$deletecommand
+$onlyIf[$mentioned[1]!=;mention someone]
+$onlyIf[$mentioned[1]!=$authorID;Can't you fight with yourself, don't you like yourself?] 
+$setServerVar[p1;$authorID]
+$setServerVar[p2;$mentioned[1]]
+$setServerVar[h2;100]
+$setServerVar[h1;100]
+<@$mentioned[1]>, You have been asked to fight, if you don't accept the fight you can press the End button, if you do accept it you can fight !
+$addButton[no;punch1;Punch;danger;no;👊]
+$addButton[no;kick1;Kick;danger;no;]
+$addButton[no;defend1;Defend;success;no;🎯]
+$addButton[no;azure1;End;success;no;❓]
+$addButton[yes;punch2;Punch;danger;yes;👊]
+$addButton[no;kick2;Kick;danger;yes;]
+$addButton[no;defend2;Defend;success;yes;🎯]
+$addButton[no;azure2;End;danger;yes;❓]
+ 
+Deuxième commande
+ 
+Trigger: $onInteraction[punch1]
+ 
+Code:
+ 
+$onlyIf[$guildID!=;]
+$onlyIf[$authorID==$getServerVar[p1];]
+$suppressErrors
+$nomention
+$if[$sub[$getServerVar[h2];$random[1;30]]<=0]
+<@$getServerVar[p1]> Won The Battle.
+$removeButtons
+$else
+$setServerVar[h2;$sub[$getServerVar[h2];$random[1;30]]]
+Your opponent got a damamge of $random[1;30] HP and now is left with $sub[$getServerVar[h2];$random[1;30]] health.
+<@$getServerVar[p2]>'s turn
+$editButton[punch1;Punch;danger;yes;👊]
+$editButton[kick1;Kick;danger;yes;]
+$editButton[defend1;Defend;success;yes;🎯]
+$editButton[punch2;Punch;danger;no;👊]
+$editButton[kick2;Kick;danger;no;]
+$editButton[defend2;Defend;success;no;🎯]
+$editButton[azure1;End;danger;yes;❓]
+$editButton[azure2;End;danger;no;❓]
+$endif
+ 
+Troisième commande
+ 
+Trigger: $onInteraction[kick1]
+ 
+Code: 
+ 
+$onlyIf[$guildID!=;]
+$onlyIf[$authorID==$getServerVar[p1];]
+$nomention
+$if[$sub[$getServerVar[h2];$random[1;30]]<=0]
+<@$getServerVar[p1]> Won The Battle.
+$removeButtons
+$else
+$setServerVar[h2;$sub[$getServerVar[h2];$random[1;30]]]
+Your opponent got a damamge of $random[1;30] HP and is left with $sub[$getServerVar[h2];$random[1;30]] health.
+<@$getServerVar[p2]>'s turn
+$editButton[punch1;Punch;danger;yes;👊]
+$editButton[kick1;Kick;danger;yes;]
+$editButton[defend1;Defend;success;yes;🎯]
+$editButton[punch2;Punch;danger;no;👊]
+$editButton[kick2;Kick;danger;no;]
+$editButton[defend2;Defend;success;no;🎯]
+$editButton[azure1;End;danger;yes;❓]
+$editButton[azure2;End;danger;no;❓]
+$endif
+ 
+Quatrième commande
+ 
+Trigger:  $onInteraction[defend1]
+ 
+Code: 
+ 
+$nomention
+$onlyIf[$guildID!=;]
+$suppressErrors
+$if[$sub[$getServerVar[h2];$random[10;20]]<=0]
+<@$getServerVar[p1]> Won The Battle.
+$removeButtons
+$else
+$setServerVar[h2;$sub[$getServerVar[h2];$random[10;20]]]
+Your opponent tried to defend but still got a damamge of $random[10;20] HP and is left with $sub[$getServerVar[h2];$random[10;20]] health.
+<@$getServerVar[p2]>'s turn
+$editButton[punch1;Punch;danger;yes;👊]
+$editButton[kick1;Kick;danger;yes;]
+$editButton[defend1;Defend;success;yes;🎯]
+$editButton[punch2;Punch;danger;no;👊]
+$editButton[kick2;Kick;danger;no;]
+$editButton[defend2;Defend;success;no;🎯]
+$editButton[azure1;End;danger;yes;❓]
+$editButton[azure2;End;danger;no;❓]
+$endif
+ 
+Cinquième commande
+ 
+Trigger: $onInteraction[azure1]
+ 
+Code:
+ 
+ $onlyIf[$guildID!=;]
+ 
+ $nomention
+ 
+$suppressErrors
+ 
+$removeButtons
+ 
+$onlyIf[$authorID==$getServerVar[p1];]
+ 
+$editButton[hit1;Hit;primary;yes;]
+$editButton[hit2;Hit;primary;yes;]
+$editButton[kick1;Kick;primary;yes;]
+$editButton[kick2;Kick;primary;yes;]
+$editButton[defend1;Defend;primary;yes;]
+$editButton[defend2;Defend;primary;yes;]
+ 
+ 
+$setServerVar[p1;0]
+$setServerVar[p2;0]
+$setServerVar[h1;100]
+$setServerVar[h2;100]
+ 
+<@$authorID> forfeitted their match against <@$getServerVar[p2]>.So 
+ 
+Sixième commande
+ 
+Trigger: $onInteraction[punch2]
+ 
+Code:
+ 
+$onlyIf[$guildID!=;]
+$onlyIf[$authorID==$getServerVar[p2];]
+$suppressErrors
+$nomention
+$if[$sub[$getServerVar[h1];$random[1;30]]<=0]
+<@$getServerVar[p2]> Won The Battle.
+$removeButtons
+$else
+$setServerVar[h1;$sub[$getServerVar[h1];$random[1;30]]]
+Your opponent got a damamge of $random[1;30] HP and is left with $sub[$getServerVar[h1];$random[1;30]] health.
+<@$getServerVar[p1]>'s turn
+$editButton[punch2;Punch;danger;yes;👊]
+$editButton[kick2;Kick;danger;yes;]
+$editButton[defend2;Defend;success;yes;🎯]
+$editButton[punch1;Punch;danger;no;👊]
+$editButton[kick1;Kick;danger;no;]
+$editButton[defend1;Defend;success;no;🎯]
+$editButton[azure2;End;danger;yes;❓]
+$editButton[azure1;End;danger;no;❓]
+$endif
+ 
+Septième commande
+ 
+Trigger: $onInteraction[kick2]
+ 
+Code: 
+ 
+ 
+$onlyIf[$guildID!=;]
+$suppressErrors
+$onlyIf[$authorID==$getServerVar[p2];]
+$nomention
+$if[$sub[$getServerVar[h1];$random[1;30]]<=0]
+<@$getServerVar[p2]> Won The Battle.
+$removeButtons
+$else
+$setServerVar[h1;$sub[$getServerVar[h1];$random[1;30]]]
+Your opponent got a damamge of $random[1;30] HP and is left with $sub[$getServerVar[h1];$random[1;30]] health.
+<@$getServerVar[p1]>'s turn
+$editButton[punch2;Punch;danger;yes;👊]
+$editButton[kick2;Kick;danger;yes;]
+$editButton[defend2;Defend;success;yes;🎯]
+$editButton[punch1;Punch;danger;no;👊]
+$editButton[kick1;Kick;danger;no;]
+$editButton[defend1;Defend;success;no;🎯]
+$editButton[azure2;End;danger;yes;❓]
+$editButton[azure1;End;danger;no;❓]
+$endif
+ 
+Huitième commande
+ 
+Trigger: $onInteraction[defend2]
+ 
+Code:
+ 
+$nomention
+$onlyIf[$guildID!=;]
+$suppressErrors
+$if[$sub[$getServerVar[h1];$random[10;20]]<=0]
+<@$getServerVar[p2]> Won The Battle.
+$removeButtons
+$else
+$setServerVar[h1;$sub[$getServerVar[h1];$random[10;20]]]
+Your opponent tried to defend but still got a damamge of $random[10;20] HP and is left with $sub[$getServerVar[h1];$random[10;20]] health.
+<@$getServerVar[p1]>'s turn
+$editButton[punch2;Punch;danger;yes;👊]
+$editButton[kick2;Kick;danger;yes;]
+$editButton[defend2;Defend;success;yes;🎯]
+$editButton[punch1;Punch;danger;no;👊]
+$editButton[kick1;Kick;danger;no;]
+$editButton[defend1;Defend;success;no;🎯]
+$editButton[azure2;End;danger;yes;❓]
+$editButton[azure1;End;danger;no;❓]
+$endif
+ 
+Neuvième commande
+ 
+Trigger: $onInteraction[azure2]
+ 
+Code:
+ 
+$onlyIf[$guildID!=;]
+ 
+$nomention
+ 
+$suppressErrors
+ 
+$removeButtons
+ 
+$onlyIf[$authorID==$getServerVar[p2];]
+ 
+$editButton[hit1;Hit;primary;yes;]
+$editButton[hit2;Hit;primary;yes;]
+$editButton[kick1;Kick;primary;yes;]
+$editButton[kick2;Kick;primary;yes;]
+$editButton[defend1;Defend;primary;yes;]
+$editButton[defend2;Defend;primary;yes;]
+ 
+ 
+ 
+ 
+$setServerVar[p1;0]
+$setServerVar[p2;0]
+$setServerVar[h1;100]
+$setServerVar[h2;100]
+ 
+<@$authorID> forfeitted their match against <@$getServerVar[p1]>.So $username[$getServerVar[p1]] won!

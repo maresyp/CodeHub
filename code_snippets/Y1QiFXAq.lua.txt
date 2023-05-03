@@ -1,0 +1,5 @@
+local world = require("world").new()
+local starty = 65
+local reck = require("wr2").new(world, {x=0,z=0,y=starty}, {x=1,z=0})
+local drill = require("drill")
+drill(reck, {x=1,z=0,y=starty}, {x=1,z=0}, {x=-1, z=0, y=starty}, {x=-1, z=0})

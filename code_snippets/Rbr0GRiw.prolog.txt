@@ -1,0 +1,86 @@
+revlistaux([], L2, L2).
+revlistaux([H | T], L2, L3) :- revlistaux(T, L2, [H | L3]).
+ 
+revlist(L1, L2) :- revlistaux(L1, L2, []).
+ 
+palindrome(L1) :-
+    revlist(L1, C),
+    C = L1.
+ 
+%remove consecutive duplicates
+ 
+compress([], []).
+compress([X], [X]).
+compress([H, H | T], L2) :- compress([H | T], L2).
+compress([H, X | T], [H | L2]) :- H \= X, compress([X | T], L2).
+ 
+constructlista([], []).
+constructlista([X], [X]).
+constructlista([H | T], [H | L2]) :- constructlista(T, L2).
+ 
+%duplicate elements of a list
+ 
+duplicate_elem([], []).
+duplicate_elem([X], [X, X]).
+duplicate_elem([H | T], [H, H | L2]) :- duplicate_elem(T, L2).
+ 
+%duplicate elements of a list n times
+dupli_worker([], _, _, []).
+dupli_worker([_| T], N, 0, L2) :- dupli_worker(T, N, N, L2).
+dupli_worker([H | T], N, K, [H | L2]) :-
+    K > 0,
+    K1 is K - 1,
+    dupli_worker([H | T], N, K1, L2).
+ 
+duplicate_n(L1, N, L2) :- dupli_worker(L1, N, N, L2).
+ 
+%drop every nth element from a list
+ 
+drop_worker([], _, _, []).
+drop_worker([_ | T], N, 1, L2) :- drop_worker(T, N, N, L2).
+drop_worker([H | T], N, K, [H | L2]) :-
+    K > 1,
+    K1 is K - 1,
+    drop_worker(T, N, K1, L2).
+ 
+drop(L1, N, L2) :- drop_worker(L1, N, N, L2).
+ 
+% P17 (*) Split a list into two parts; the length of the first part is given.
+split([], _, [], []).
+split([H | T], N, [H | L1], L2) :-
+    N > 0,
+    N1 is N - 1,
+    split(T, N1, L1, L2).
+split([H | T], 0, L1, [H | L2]) :-
+    split(T, 0, L1, L2).
+ 
+%P18 (**) Extract a slice from a list.
+slice([], _, _, []).
+slice(_, _, 1, []).
+slice([_ | T], S, E, L2) :-
+    S > 1,
+    S1 is S - 1,
+    slice(T, S1, E, L2).
+slice([H | T], 1, E, [H | L2]) :-
+    E > 1,
+    E1 is E - 1,
+    slice(T, 1, E1, L2).
+ 
+% P20 (*) Remove the K'th element from a list.
+%Example:
+%?- remove_at(X,[a,b,c,d],2,R).
+%X = b
+%R = [a,c,d]
+ 
+remove_worker(_, [], _, _ ,[]).
+remove_worker(X, [H | T], K, N, [H | L2]) :-
+    K \= N, 
+    K1 is K + 1,
+    remove_worker(X, T, K1, N, L2).
+remove_worker(X, [H | T], K, N, L2) :-
+    K =:= N,
+    K1 is K + 1,
+    X is H,
+    remove_worker(X, T, K1, N, L2).
+ 
+remove_at(X, L1, K, L2) :- remove_worker(X, L1, 1, K, L2).

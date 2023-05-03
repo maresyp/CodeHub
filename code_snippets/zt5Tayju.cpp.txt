@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+#define int int64_t
+ 
+const int inf = 2e18;
+const int mod = 1e9 + 7;
+ 
+int32_t main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    vector<int> b = a;
+    set<int> pos;
+    for (int i = 0; i < n; i++) {
+        pos.insert(i);
+    }
+    int m;
+    cin >> m;
+    while (m--) {
+        int t;
+        cin >> t;
+        if (t == 2) {
+            int i;
+            cin >> i;
+            i--;
+            cout << a[i] - b[i] << '\n';
+            continue;
+        }
+        int i, x;
+        cin >> i >> x;
+        i--;
+        while (x > 0) {
+            auto it = pos.lower_bound(i);
+            if (it == pos.end()) {
+                break;
+            }
+            i = *it;
+            int cur = min(b[i], x);
+            b[i] -= cur;
+            x -= cur;
+            if (b[i] == 0) {
+                pos.erase(i);
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+private void exportHtml() {
+        //if(ResourceManager.getInstance().validate(ResourceManager.getInstance().getImpianto().eResource())){
+            
+            channel.esportaPerEditorPS(ResourceManager.getInstance().getPStdc(), ResourceManager.getInstance().getPShtml());
+            // Apro l'editor delle tdc
+ 
+//          Platform.runLater(new Runnable() {
+//              @Override
+//              public void run() {
+//
+//                  WebViewController t = new WebViewController();
+//                  t.setWebView(ResourceManager.getInstance().getPShtml());
+//                  
+//              }
+//          });
+            
+            
+//          TemplateJson j = new TemplateJson();
+//          j.createPage("/Users/matteoricci/Desktop/test.pdf", PageSize.A4.rotate(), ResourceManager.getInstance().getImpianto());
+            
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    GetData d= new GetData();
+                    PrintUtils p = new PrintUtils();
+                    PdfExporter e = new PdfExporter();
+                    try {
+                        e.chooseFile( ResourceManager.getInstance().getImpianto(), d, p);
+                    } catch (MalformedURLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                            
+                    
+                }
+            });
+        //}
+    }

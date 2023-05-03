@@ -1,0 +1,5 @@
+{
+  "url": "coloca sua url aqui",
+  "version": "1.0",
+  "novidades": "coloca as novidades do app aqui"
+}

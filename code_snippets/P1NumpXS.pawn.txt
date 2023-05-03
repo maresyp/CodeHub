@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+int main() {
+    int size1, size2;
+    
+    size1 = 7;
+    size2 = 10;
+    
+    printf("Address of size1: %d\n", &size1);
+    printf("Address of size2: %d\n", &size2);
+    
+    printf("\n\n");
+    
+    int *ptr;
+    ptr = &size1;
+    printf("ptr = %d\n", ptr);
+    
+    printf("\n\n");
+    
+    printf("Value of size1: %d\n", size1);
+    printf("Value of size2: %d\n", size2);
+    printf("Value of *ptr: %d\n", *ptr);
+    
+    printf("\n\n");
+    
+    // MALLOC
+    
+    /* 
+        malloc(size);
+    */
+    
+    printf("sizeof(int): %d\n", sizeof(int));
+    
+    int *mal;
+    mal = malloc(sizeof(int) * 3); // mal is now 12 bytes
+    
+    printf("\n\n");
+    
+    int i;
+    for(i = 0; i < 3; i++) {
+        scanf("%d", mal+i);
+        
+        /*
+            i = 0;
+            mal+i = mal+0 = mal
+            
+            i = 1;
+            mal+i = mal+1
+        */
+    }
+ 
+    printf("mal: %d\n", *mal);
+    printf("mal+1: %d\n", *(mal+1));
+    printf("mal+2: %d\n", *(mal+2));
+    
+    printf("\n\n");
+    
+    printf("mal address: %d\n", mal);
+    printf("mal+1 address: %d\n", mal+1);
+    printf("mal+2 address: %d\n", mal+2);
+    
+    
+    return 0;
+}

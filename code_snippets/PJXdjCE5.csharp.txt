@@ -1,0 +1,36 @@
+public sealed class BarrierSlim
+{
+    private readonly int _threshold;
+    private int _arrived;
+ 
+    private readonly SemaphoreSlim _gate;
+    private readonly SemaphoreSlim _mutex;
+ 
+    public BarrierSlim(int count)
+    {
+        _threshold = count;
+        _gate = new SemaphoreSlim(initialCount: 0, maxCount: count);
+        _mutex = new SemaphoreSlim(initialCount: 1, maxCount: 1);
+    }
+ 
+    public async Task ArriveAsync()
+    {
+        await _mutex.WaitAsync();
+ 
+        _arrived++;
+ 
+        if (_threshold == _arrived)
+        {
+            for (int i = 0; i < _threshold; i++)
+            {
+                _gate.Release();
+            }
+            _mutex.Release();
+        }
+        else
+        {
+            _mutex.Release();
+            await _gate.WaitAsync();
+        }
+    }
+}

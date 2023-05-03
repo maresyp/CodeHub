@@ -1,0 +1,9 @@
+add_filter( 'streamtube/core/post/edit/post_password', function( $boolean, $post ){
+ 
+    if( Streamtube_Core_Permission::moderate_posts() ){
+        return true;
+    }
+ 
+    return false;
+ 
+}, 10, 2 );

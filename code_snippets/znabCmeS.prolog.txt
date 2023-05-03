@@ -1,0 +1,37 @@
+DOMAINS
+person = symbol
+PREDICATES
+father(person) % This person is a father
+father(person, person) % One person is the father of the other person
+CLAUSES
+father(Man):-
+father(Man,_).
+father(adam,seth).
+father(abraham,isaac).
+Goal
+%father(adam,_).
+%father(seth,_).
+%father(Man,_).
+father(Who,X).
+ 
+ 
+ 
+use of conjuction and disjunction
+ 
+PREDICATES
+car(symbol,long,integer,symbol,long)
+truck(symbol,long,integer,symbol,long)
+nondeterm vehicle(symbol,long,integer,symbol,long)
+CLAUSES
+car(chrysler,130000,3,red,12000).
+car(ford,90000,4,gray,25000).
+car(datsun,8000,1,red,30000).
+truck(ford,80000,6,blue,8000).
+truck(datsun,50000,5,orange,20000).
+truck(toyota,25000,2,black,25000).
+vehicle(Make,Odometer,Age,Color,Price):-
+car(Make,Odometer,Age,Color,Price);
+truck(Make,Odometer,Age,Color,Price).
+ 
+GOAL
+car(Make, Odometer, Years_on_road, Body, 25000).

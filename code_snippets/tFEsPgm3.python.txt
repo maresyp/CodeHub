@@ -1,0 +1,25 @@
+# zmienna mówiąca czy gra jest uruchomiona
+ 
+# pętla działająca tak długo jak gra włączona
+ 
+    # pętla przechodząca po wszystkich eventach z pygame.event.get()
+ 
+        # typ eventu równy pygame.KEYDOWN
+ 
+            # sprawdzenie klawisz Escape (klawisz równy pygame.K_ESCAPE)
+ 
+                # ustawienie zmiennej z uruchomioną grą na False
+        
+        # typ eventu równy pygame.QUIT 
+ 
+            # ustawienie zmiennej z uruchomioną grą na False
+ 
+    # rysowanie tla background na ekranie screen w punkcie (0,0)
+ 
+    # wyczyszczenie ekranu (double buffering)
+ 
+    # ustawienie zegana na 30FPS
+ 
+# opóźnienie 3 sek
+ 
+# zakmnięcie aplikacji pygame

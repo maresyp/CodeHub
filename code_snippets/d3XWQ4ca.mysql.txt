@@ -1,0 +1,5 @@
+SELECT Customers.CustomerName, Employees.FirstName
+FROM Customers 
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID 
+JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID
+WHERE Customers.CustomerName = 'Hanari Carnes'

@@ -1,0 +1,29 @@
+{
+    "alt": "Story 05a",
+    "version": "v0.0.5a",
+    "link": "",
+    "preview_mode": "image",
+    "preview_image": "./files/{{ a_alt }}/images/screenshot.png",
+    "preview_movie": "",
+    "preview_mime": "video/mp4",
+    "caption": "{{ a_alt }} ({{ a_version }})",
+    "task": "",
+    "authors": [
+        "Tim Keal"
+    ],
+    "description": [
+        "a FOSS storybook engine written in FreeBASIC"
+    ],
+    "inspiration": [
+        "Choose Your Own Adventure Books",
+        "Forgotten Realms' `Eye of the Beholder`"
+    ],
+    "includes": [
+        "Keal's Puzzlum Storybook Engine ({{ a_version }})",
+        "Keal's DevKit ({{ a_version }})"
+    ],
+    "docs": "/files/{{ a_alt }}/docs/",
+    "html_image": "<div class=\"parent black\"><div class=\"child\"><span>{{ a_alt }}</span><br><img class=\"toeimage\" style=\"width: 30vw; height: auto;\" src=\"{{ a_preview_image }}\" alt=\"{{ a_alt }}\"><br><span>{{ a_version }}</span></div></div>",
+    "html_movie": "<div class=\"parent black\"><div class=\"child\"><span>{{ a_alt }}</span><br><video class=\"toeimage\" style=\"color: rgba( 0, 0, 0, 0.35); width: 30vw; height: auto;\" controls loop poster=\"{{ a_preview_image }}\"><source src=\"{{ a_preview_movie }}\" type=\"{{ a_preview_mime }}\">Your browser does not support the video tag.</video><br><span>{{ a_version }}</span></div></div>",
+    "preview": "{{ a_html_{{ a_preview_mode }} }}"
+}

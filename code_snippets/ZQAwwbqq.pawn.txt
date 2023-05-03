@@ -1,0 +1,151 @@
+#include "a_samp"
+#include "zcmd"
+#include "sscanf2"
+ 
+ 
+ 
+new PlayerText:ANIMATED_NOTIF_XD[MAX_PLAYERS];
+// Start pos animated txt 320.0 330.0 || End pos Y 310.0
+#define POS_XNOTIFC_ANIMATED 320.0
+#define POS_YNOTIFC_ANIMATED 330.0
+#define POS_END_NOTIFC_ANIMATED 310.0
+#define TIMER_FOR_ANIMATED 25 // = 0.025
+#define VALOR_REDUCE_FOR_LETTER_X 0.0010039  //Obtener este resultado? > POS_LETTER_ALT_X
+#define VALOR_REDUCE_FOR_LETTER_Y 0.0040043
+ 
+#define POS_LETTER_ALT_X 0.2811
+#define POS_LETTER_ALT_Y 1.12121
+/*
+Si tienes un valor de 0.2811 y quieres que se reduzca a 0 en 7 segundos, con un temporizador que se ejecuta cada 25 ms (0.025 segundos), 
+entonces necesitarás restar una cantidad fija en cada ejecución del temporizador para lograrlo primero, debes calcular cuántas veces se 
+ejecutará el temporizador en 7 segundos como el temporizador se ejecuta cada 0.025 segundos se ejecutará 7 / 0.025 = 280 veces en 7 segundos.
+Luego, debes calcular cuánto debes restar en cada ejecución del temporizador para reducir el valor de 0.2811 a 0 en 280 ejecuciones. 
+Para hacer esto, puedes dividir el valor inicial (0.2811) entre el número de ejecuciones (280): 0.2811 / 280 = 0.0010039285714285714.
+Por lo tanto, si restas aproximadamente 0.0010039 en cada ejecución del temporizador,
+el valor de 0.2811 se reducirá a 0 en aproximadamente 7 segundos y habrá un total de 280 ejecuciones del temporizador.
+*/
+ 
+ 
+ 
+enum asdasdasd
+{
+    TTIMER, 
+    bool:SHOW_NOTIFC_ANIMATED,
+    Float:COUNT_NOTIFC_ANIMATED_POS,
+    Float:COUNT_TEXTSIZE_NOTIFC_X,
+    Float:COUNT_TEXTSIZE_NOTIFC_Y,
+    CREATE_AND_DESTROY, 
+    COUNT_COLOR_OPACITY,
+    TEXT_FOR_NOTIFC_ANIMATED[ 128 ],
+    COLOR_FOR_NOTIFC_ANIMATED_IDX,
+    FINAL_COLOR_FROM_TXT,
+    FINAL_COLOR_FROM_BACKGROUND
+}
+new PLAYER_NOTIFC[ MAX_PLAYERS ][ asdasdasd ];
+CMD:prueba1(playerid, params[])
+{
+    new string[123 + 1];
+    if(sscanf(params, "s[123]", string)) return 1;
+    ShowAnimated_Notification(playerid, 0xFFFF00FF,string);
+    
+    return 1;
+}
+ShowAnimated_Notification(playerid, color, text[])
+{
+    if(PLAYER_NOTIFC[ playerid ][ SHOW_NOTIFC_ANIMATED ]) return 1;
+    PLAYER_NOTIFC[ playerid ][ SHOW_NOTIFC_ANIMATED ] = true;
+    PLAYER_NOTIFC[ playerid ][ CREATE_AND_DESTROY ] = 0;
+    PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ] = POS_YNOTIFC_ANIMATED;
+    PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_X ] = POS_LETTER_ALT_X;
+    PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_Y ] = POS_LETTER_ALT_Y;
+ 
+    PLAYER_NOTIFC[ playerid ][ COUNT_COLOR_OPACITY ] = 99;
+    PLAYER_NOTIFC[ playerid ][ COLOR_FOR_NOTIFC_ANIMATED_IDX ] = color;
+    format(PLAYER_NOTIFC[ playerid ][ TEXT_FOR_NOTIFC_ANIMATED ], 128,"%s",text);
+    KillTimer(PLAYER_NOTIFC[ playerid ][ TTIMER ]);
+    PLAYER_NOTIFC[ playerid ][ TTIMER ] = SetTimerEx("Verificar_Posxd", TIMER_FOR_ANIMATED, true, "d", playerid);
+    return 1;
+}
+//0.2800 || 1.000
+forward Verificar_Posxd(playerid);
+public Verificar_Posxd(playerid)
+{
+    if(PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ] != POS_END_NOTIFC_ANIMATED || PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ] > POS_END_NOTIFC_ANIMATED) PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ] -= 0.2;
+    if(PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ] == POS_END_NOTIFC_ANIMATED || PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ] <= POS_END_NOTIFC_ANIMATED) return TURN_OFF_NOTIFC(playerid);
+    if(PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_X ] != 0 ) PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_X ] -= VALOR_REDUCE_FOR_LETTER_X;
+    if(PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_Y ] != 0 ) PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_Y ] -= VALOR_REDUCE_FOR_LETTER_Y;
+    new savecolor[15 + 1];
+    PLAYER_NOTIFC[ playerid ][ COUNT_COLOR_OPACITY ] -= 1;
+    format(savecolor, sizeof savecolor,"%s%02d",IntToHexColor(PLAYER_NOTIFC[ playerid ][ COLOR_FOR_NOTIFC_ANIMATED_IDX ]),PLAYER_NOTIFC[ playerid ][ COUNT_COLOR_OPACITY ]);
+    PLAYER_NOTIFC[ playerid ][ FINAL_COLOR_FROM_TXT ] = HexToInt(savecolor);
+    format(savecolor, sizeof savecolor,"000000%02d",PLAYER_NOTIFC[ playerid ][ COUNT_COLOR_OPACITY ]);
+    PLAYER_NOTIFC[ playerid ][ FINAL_COLOR_FROM_BACKGROUND ] = HexToInt(savecolor);
+ 
+    //
+    switch(PLAYER_NOTIFC[ playerid ][ CREATE_AND_DESTROY ])
+    {
+        case 0:
+        {
+            PlayerTextDrawDestroy(playerid, ANIMATED_NOTIF_XD[playerid]);
+            PlayerTextDrawHide(playerid, ANIMATED_NOTIF_XD[playerid]);
+            PLAYER_NOTIFC[ playerid ][ CREATE_AND_DESTROY ] = 1;
+            ANIMATED_NOTIF_XD[playerid] = CreatePlayerTextDraw(playerid, POS_XNOTIFC_ANIMATED, PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ], PLAYER_NOTIFC[ playerid ][ TEXT_FOR_NOTIFC_ANIMATED ]);
+            PlayerTextDrawLetterSize(playerid, ANIMATED_NOTIF_XD[playerid], PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_X ], PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_Y ]);
+            PlayerTextDrawAlignment(playerid, ANIMATED_NOTIF_XD[playerid], 2);
+            PlayerTextDrawColor(playerid, ANIMATED_NOTIF_XD[playerid], PLAYER_NOTIFC[ playerid ][ FINAL_COLOR_FROM_TXT ]);//PLAYER_NOTIFC[ playerid ][ COLOR_FOR_NOTIFC_ANIMATED_IDX ]);
+            PlayerTextDrawSetShadow(playerid, ANIMATED_NOTIF_XD[playerid], 0);
+            PlayerTextDrawSetOutline(playerid, ANIMATED_NOTIF_XD[playerid], 1);
+            PlayerTextDrawBackgroundColor(playerid, ANIMATED_NOTIF_XD[playerid], PLAYER_NOTIFC[ playerid ][ FINAL_COLOR_FROM_BACKGROUND ]);
+            PlayerTextDrawFont(playerid, ANIMATED_NOTIF_XD[playerid], 1);
+            PlayerTextDrawSetProportional(playerid, ANIMATED_NOTIF_XD[playerid], 1);
+            PlayerTextDrawSetShadow(playerid, ANIMATED_NOTIF_XD[playerid], 0);
+            PlayerTextDrawShow(playerid, ANIMATED_NOTIF_XD[playerid]);
+        }
+        case 1:
+        {
+            PlayerTextDrawDestroy(playerid, ANIMATED_NOTIF_XD[playerid]);
+            PlayerTextDrawHide(playerid, ANIMATED_NOTIF_XD[playerid]);
+            PLAYER_NOTIFC[ playerid ][ CREATE_AND_DESTROY ] = 0;
+            ANIMATED_NOTIF_XD[playerid] = CreatePlayerTextDraw(playerid, POS_XNOTIFC_ANIMATED, PLAYER_NOTIFC[ playerid ][ COUNT_NOTIFC_ANIMATED_POS ], PLAYER_NOTIFC[ playerid ][ TEXT_FOR_NOTIFC_ANIMATED ]);
+            PlayerTextDrawLetterSize(playerid, ANIMATED_NOTIF_XD[playerid], PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_X ], PLAYER_NOTIFC[ playerid ][ COUNT_TEXTSIZE_NOTIFC_Y ]);
+            PlayerTextDrawAlignment(playerid, ANIMATED_NOTIF_XD[playerid], 2);
+            PlayerTextDrawColor(playerid, ANIMATED_NOTIF_XD[playerid], PLAYER_NOTIFC[ playerid ][ FINAL_COLOR_FROM_TXT ]);//PLAYER_NOTIFC[ playerid ][ COLOR_FOR_NOTIFC_ANIMATED_IDX ]);
+            PlayerTextDrawSetShadow(playerid, ANIMATED_NOTIF_XD[playerid], 0);
+            PlayerTextDrawSetOutline(playerid, ANIMATED_NOTIF_XD[playerid], 1);
+            PlayerTextDrawBackgroundColor(playerid, ANIMATED_NOTIF_XD[playerid], PLAYER_NOTIFC[ playerid ][ FINAL_COLOR_FROM_BACKGROUND ]);
+            PlayerTextDrawFont(playerid, ANIMATED_NOTIF_XD[playerid], 1);
+            PlayerTextDrawSetProportional(playerid, ANIMATED_NOTIF_XD[playerid], 1);
+            PlayerTextDrawSetShadow(playerid, ANIMATED_NOTIF_XD[playerid], 0);
+            PlayerTextDrawShow(playerid, ANIMATED_NOTIF_XD[playerid]);
+        }
+    }
+ 
+    return 1;
+}
+ 
+TURN_OFF_NOTIFC(playerid) //Falta mejorar
+{
+    PLAYER_NOTIFC[ playerid ][ SHOW_NOTIFC_ANIMATED ] = false;
+    KillTimer(PLAYER_NOTIFC[ playerid ][ TTIMER ]);
+    PlayerTextDrawDestroy(playerid, ANIMATED_NOTIF_XD[playerid]);
+    return 1;
+}
+ 
+stock HexToInt(string[]) 
+{
+    if (string[0]==0) return 0;
+    new i;
+    new cur=1;
+    new res=0;
+    for (i=strlen(string);i>0;i--) 
+    {
+        if (string[i-1]<58) res=res+cur*(string[i-1]-48); else res=res+cur*(string[i-1]-65+10);
+        cur=cur*16;
+    }
+    return res;
+}
+stock IntToHexColor(color) {
+    new hexColor[7];
+    format(hexColor, sizeof(hexColor), "%06x", color);
+    return hexColor;
+}

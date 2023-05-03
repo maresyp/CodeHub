@@ -1,0 +1,79 @@
+//��� ������������� ������ n*m. ��������� ��� �� 90 �������� �� ������� �������, ������� ��������� � ����� ������ �������� m*n
+ 
+ 
+#define __CRTDBG_MAP_ALLOC 
+#include <crtdbg.h>
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__) 
+#define new DEBUG_NEW
+#include <iostream>
+using namespace std;
+ 
+void print_Matrix(double** a, int n, int m) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << a[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+ 
+void rotate_Matrix(double**& a, int& n, int& m) {
+    double** b = new double* [m];
+    for (int i = 0; i < m; i++) {
+        b[i] = new double[n];
+    }
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            b[j][i] = a[i][j]; // Поменяли i и j
+        }
+    }
+ 
+    
+    for (int i = 0; i < n; i++) {
+        delete[] a[i];
+    }
+    delete[] a;
+ 
+    swap(n, m);
+    a = b;
+}
+ 
+ 
+int main() {
+    int n = 3; // ������
+    int m = 4; // �������
+    double** a = new double* [n];
+    for (int i = 0; i < n; i++) {
+        a[i] = new double[m];
+    }
+ 
+    a[0][0] = 11;
+    a[0][1] = 12;
+    a[0][2] = 13;
+    a[0][3] = 14;
+    a[1][0] = 21;
+    a[1][1] = 22;
+    a[1][2] = 23;
+    a[1][3] = 24;
+    a[2][0] = 31;
+    a[2][1] = 32;
+    a[2][2] = 33;
+    a[2][3] = 34;
+ 
+    print_Matrix(a, n, m);
+ 
+    cout << endl;
+ 
+    rotate_Matrix(a, n, m);
+ 
+    print_Matrix(a, n, m);
+ 
+    for (int i = 0; i < n; i++) {
+        delete[] a[i];
+    }
+ 
+    delete[] a;
+    _CrtDumpMemoryLeaks();
+    return 0;
+}

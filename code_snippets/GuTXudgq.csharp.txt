@@ -1,0 +1,118 @@
+using System.Linq;
+var old_Lines = File.ReadAllLines("C:/Users/ilu8ha/Desktop/OLD_DefaultQuests.json");
+var new_Lines = File.ReadAllLines("C:/Users/ilu8ha/Desktop/NEW_DefaultQuests.json");
+List<BQ_data> dataList = new();
+BQ_data? data;
+int pos,id;
+ 
+for (int i = 0; i < old_Lines.Length; i++)
+{
+    if (old_Lines[i].Contains("questID:3"))
+    {
+        data = new(Type.quest);
+        pos = old_Lines[i].IndexOf(":3") + 5;
+        data.id = Convert.ToInt16(old_Lines[i].Substring(pos, old_Lines[i].Length-pos));
+ 
+        for (int j = i-1; true; j--)
+        {
+            if (old_Lines[j].Contains("desc:8"))
+            {
+                data.desc = old_Lines[j];
+                data.name = old_Lines[j - 1];
+                break;
+            }
+        }
+ 
+        dataList.Add(data);
+ 
+    }
+    else if (old_Lines[i].Contains("lineID:3"))
+    {
+        data = new(Type.page);
+        pos = old_Lines[i].IndexOf(":3") + 5;
+        data.id = Convert.ToInt16(old_Lines[i].Substring(pos, old_Lines[i].Length - pos - 1));
+ 
+        for (int j = i - 1; true; j--)
+        {
+            if (old_Lines[j].Contains("desc:8"))
+            {
+                data.desc = old_Lines[j];
+            }
+            else if (old_Lines[j].Contains("name:8"))
+            {
+                data.name = old_Lines[j];
+                break;
+            }
+        }
+        dataList.Add(data);
+    }
+}
+ 
+for (int i = 0; i < new_Lines.Length; i++)
+{
+    if (new_Lines[i].Contains("questID:3"))
+    {
+        pos = new_Lines[i].IndexOf(":3") + 5;
+        id = Convert.ToInt16(new_Lines[i].Substring(pos, new_Lines[i].Length-pos-1));
+        if (dataList.Where(i => i.type == Type.quest).Where(i => i.id == id).Count()==1)
+        {
+            data = dataList.Where(i => i.type == Type.quest).Where(i => i.id == id).First();
+            for (int j = i + 1; j >= 0; j++)
+            {
+                if (new_Lines[j].Contains("name:8"))
+                {
+                    if (!new_Lines[j + 1].Contains("id:10"))
+                    {
+                        new_Lines[j] = data.name;
+                        new_Lines[j + 1] = data.desc;
+                        break;
+                    }
+                    
+                }
+            }
+        }
+    }
+    else if (new_Lines[i].Contains("lineID:3"))
+    {
+        pos = new_Lines[i].IndexOf(":3") + 5;
+        id = Convert.ToInt16(new_Lines[i].Substring(pos, new_Lines[i].Length - pos - 1));
+        if (dataList.Where(i => i.type == Type.page).Where(i => i.id == id).Count()==1)
+        {
+            data = dataList.Where(i => i.type == Type.page).Where(i => i.id == id).First();
+            for (int j = i + 1; j >= 0; j++)
+            {
+                if (new_Lines[j].Contains("name:8"))
+                {
+                    new_Lines[j] = data.name;
+                }
+                else if (new_Lines[j].Contains("desc:8"))
+                {
+                    new_Lines[j] = data.desc;
+                    break;
+                }
+            }
+        }
+    }
+}
+File.WriteAllLines("ModifiedNew_DefaultQuests.json",new_Lines);
+ 
+Console.ReadLine();
+ 
+public enum Type
+{
+    quest,
+    page
+}
+ 
+public class BQ_data
+{
+    public Type type;
+    public int? id;
+    public string? name;
+    public string? desc;
+ 
+    public BQ_data(Type _type)
+    {
+        type = _type;
+    }
+}

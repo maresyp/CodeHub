@@ -1,0 +1,106 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+ 
+entity my_pass_setter is
+    generic (
+        g_max_attempt       :   integer                 := 16;
+        g_password_width    :   positive range 4 to 16  := 16;
+        g_sys_freq          :   integer                 := 100000000
+    );
+    port (
+        clk : in std_logic;
+        reset : in std_logic;
+        
+        btn_down    :   in  std_logic;
+        sw          :   in  std_logic_vector(15 downto 0);
+ 
+        pass        :   out std_logic_vector(15 downto 0);
+        new_pass    :   out std_logic;
+        leds        :   out std_logic_vector(15 downto 0)
+    );
+end my_pass_setter;
+ 
+architecture behavioral of my_pass_setter is
+ 
+    constant    c_one_second_count      :   integer                         := g_sys_freq;
+    constant    c_three_second_count    :   integer                         := 3* c_one_second_count;
+    constant    c_default_psw           :   std_logic_vector(pass'range)    := std_logic_vector(to_unsigned(1,pass'length));
+    
+    constant    c_debug_ns_count        :   integer                         := 300 ;
+    constant    c_debug_count_ccycles   :   integer                         := (c_debug_ns_count/10**2)*(g_sys_freq/(10**7));
+ 
+    type state_type is (IDLE,
+                        CHECK_BTN,
+                        READ_SW_SET_PASS,
+                        LED_ON_1_SEC
+                        );
+    
+    
+    signal state : state_type   := IDLE;
+    --signal    r_switch    :   std_logic_vector(sw'RANGE)  := (others => '0') ;
+    signal  r_counter       :   integer                     := 0;
+    signal  r_new_pass      :   std_logic_vector(pass'range):= c_default_psw;
+    signal  r_leds          :   std_logic_vector(leds'range):= c_default_psw; 
+    signal  r_new_psw_flag  :   std_logic                   := '0';
+ 
+    begin 
+ 
+    pass        <= r_new_pass;
+    leds        <= r_leds;
+    new_pass    <= r_new_psw_flag;
+ 
+    FSM_PROC : process(clk)
+    begin
+        if rising_edge(clk) then
+            if reset = '1' then
+                state       <= IDLE;
+                r_new_pass  <= c_default_psw;
+                r_leds      <= c_default_psw;
+            else
+                case state is
+    
+                    when IDLE =>
+                                    state   <= CHECK_BTN;
+                    when CHECK_BTN  =>
+ 
+                                    if btn_down = '1' then
+                                        r_counter <= r_counter + 1;
+                                        if r_counter = c_debug_count_ccycles-1 then
+                                            state       <= READ_SW_SET_PASS;
+                                            r_new_pass  <= (others => '0'); -- devo settarle entrambe a 0 altrimenti ho
+                                            r_leds      <= (others => '0');  -- la parte della vecchia password in mezzo alle palle
+                                            r_counter   <= 0;
+                                        end if;
+                                    else
+                                        r_counter <= 0;
+                                    end if;
+ 
+                    when READ_SW_SET_PASS   =>
+ 
+                                    r_new_pass      <=  r_new_pass(r_new_pass'high downto r_new_pass'low + g_password_width  )  & sw(g_password_width-1 downto 0);
+                                    r_leds          <=  r_leds(r_new_pass'high downto r_new_pass'low + g_password_width )           & sw(g_password_width-1 downto 0);
+                                    r_new_psw_flag  <= '1';
+                                    state           <= LED_ON_1_SEC;
+                                    
+                    when LED_ON_1_SEC   =>
+ 
+                                    r_new_psw_flag  <= '0'; 
+                                    
+                                    if r_counter = c_one_second_count-1 then
+                                        r_counter   <=  0;
+                                        r_leds      <=  (others => '0'); 
+                                        state       <=  CHECK_BTN;
+                                    else
+                                        r_counter   <= r_counter + 1;
+                                    end if;
+ 
+                end case;
+    
+            end if;
+        end if;
+    end process;
+ 
+ 
+    
+end architecture;

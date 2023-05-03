@@ -1,0 +1,550 @@
+<!--COLORS
+ 
+white #fffdf3
+light card #e3d7c1
+dark card #dac9ab
+dark text #3a344d
+dark blue #768598
+light blue #91a1a8
+ 
+-->
+ 
+ 
+ 
+ 
+ 
+<!--==========
+    
+NAME BOX
+    
+==========-->
+<div style="position:relative; font-size:1rem; color:#3a344d; background:#dac9ab; max-width:1000px; margin:auto; padding:10px 0px; margin-top:25px">
+    <div class="p-1 mx-n2" style="font-size:1.25em; background:#e3d7c1">
+            <i>LOADING FILE ON <b>
+<!--NAME------------>
+FIRSTNAME MIDDLENAME LASTNAME
+           </b> . . .</i></div>
+</div>
+ 
+ 
+ 
+ 
+ 
+<!--==========
+    
+BASICS BOX
+    
+==========-->
+<div style="position:relative; font-size:1rem; color:#3a344d; background:#dac9ab; max-width:1000px; margin:10px auto; padding:10px 0px">
+    
+    <!--DECALS-->
+    <div style="position:absolute; right:-15px; font-size:40px; color:#768598; z-index:100"><i class="fas fa-bars"></i></div>
+    <div style="position:absolute; right:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <div style="position:absolute; left:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <!--END DECALS-->
+    
+    <div class="row no-gutters px-2">
+        
+        
+        
+        <!--==========
+        IMAGE
+        ==========-->
+        <div class="col-lg-3 p-2 mb-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                        <div class="card" style="height:100%; border:1px solid #dac9ab; background-size:cover; background-position:center;
+<!--ICON------------>;
+background-image: url(IMAGE_URL)"></div>
+                        <div style="font-size:1.5rem; margin-top:-20px; margin-left:5px; z-index:100; position:relative; color:#768598"><i class="fas fa-paperclip"></i></div></div>
+ 
+    
+    
+        <!--==========
+        TEXT
+        ==========-->
+        <div class="col-lg-9">
+ 
+ 
+                    <!--BASICS 1------------><div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-5 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;">
+                                    GOES BY<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--GOES BY------------>
+Content    </div></div>
+                        
+                            <div class="col-lg-2 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    STATUS<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--STATUS------------>
+Content  </div></div>
+                            
+                            <div class="col-lg-5 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    OCCUPATION<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--OCCUPATION------------>
+Content  </div></div>
+                                    
+                            </div>
+ 
+ 
+ 
+                    <!--BASICS 2------------><div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-4 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    GENDER<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--GENDER------------>
+Content  </div></div>
+                        
+                            <div class="col-lg-4 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    PRONOUNS<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--PRONOUNS------------>
+Content    </div></div>
+                            
+                            <div class="col-lg-4 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    SEX<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--SEX------------>
+Content  </div></div>
+ 
+                            </div>
+ 
+ 
+ 
+                    <!--BASICS 3------------><div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-5 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    ETHNICITY<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--ETHNICITY------------>
+Content    </div></div>
+                        
+                            <div class="col-lg-2 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    AGE<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--AGE------------>
+Content  </div></div>
+                            
+                            <div class="col-lg-5 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    NATIONALITY<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--NATIONALITY------------>
+Content  </div></div>
+                                    
+                            </div>
+ 
+ 
+ 
+                    <!--BASICS 4------------><div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-4 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    ORIENTATION<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--ORIENTATION------------>
+Content  </div></div>
+                        
+                            <div class="col-lg-4 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    HEIGHT<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--HEIGHT------------>
+Content    </div></div>
+                            
+                            <div class="col-lg-4 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    WEIGHT<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--WEIGHT------------>
+Content  </div></div>
+ 
+                            </div>
+        
+        
+        
+        
+    </div>
+    
+</div>
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+    
+PERSONALITY BOX
+    
+==========-->
+<div style="position:relative; font-size:1rem; color:#3a344d; background:#dac9ab; max-width:1000px; margin:10px auto; padding:10px 0px">
+    
+    <!--DECALS-->
+    <div style="position:absolute; right:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <div style="position:absolute; left:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <!--END DECALS-->
+    
+    <div class="row no-gutters px-2">
+        
+        
+ 
+    <!--==========
+    TEXT
+    ==========-->
+    <div class="col-lg-10">
+ 
+ 
+                    <!--PERSONALITY------------><div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-6 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    PERSONALITY<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:100px; overflow-y:auto">
+<!--PERSONALITY------------>
+Content </div></div>
+                        
+                            <div class="col-lg-3 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    GOALS<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:100px; overflow-y:auto">
+<!--GOALS------------>
+Content  </div></div>
+ 
+                            <div class="col-lg-3 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    FEARS<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:100px; overflow-y:auto">
+<!--FEARS------------>
+Content  </div></div>
+                                    
+                            </div>
+ 
+ 
+ 
+                    <!--TASTE------------><div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-4 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    LIKES<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:50px; overflow-y:auto">
+<!--LIKES------------>
+content, content, content</div></div>
+                        
+                            <div class="col-lg-4 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    DISLIKES<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:50px; overflow-y:auto">
+<!--DISLIKES------------>
+content, content, content</div></div>
+                            
+                            <div class="col-lg-4 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    STYLE<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:50px; overflow-y:auto">
+<!--STYLE------------>
+content, content, content</div></div>
+ 
+                            </div>
+ 
+        
+        
+        
+        
+    </div>
+    
+    
+    
+    <!--==========
+    IMAGES
+    ==========-->
+    <div class="col-lg-2 p-2 mb-2">
+        
+                        <div class="card" style="height:50%; width:80%; border:1px solid #dac9ab; background-size:cover; background-position:center; transform:rotate(-5deg);
+<!--AESTHETIC 1------------>;
+background-image: url(IMAGE_URL)"></div>
+ 
+                        
+                        <div class="card ml-5" style="height:50%; width:80%; border:1px solid #dac9ab; background-size:cover; background-position:center; transform:rotate(10deg);
+<!--AESTHETIC 2------------>;
+background-image: url(IMAGE_URL)"></div>
+                        
+    </div>
+    
+    
+    
+    
+</div>
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+    
+POWER BOX
+    
+==========-->
+<div style="position:relative; font-size:1rem; color:#3a344d; background:#dac9ab; max-width:1000px; margin:10px auto; padding:10px 0px">
+    
+    <!--DECALS-->
+    <div style="position:absolute; right:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <div style="position:absolute; left:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <!--END DECALS-->
+    
+    <div class="row no-gutters px-2">
+        
+        
+        
+    
+    <!--==========
+    QUOTE
+    ==========-->
+    <div class="col-lg-3 p-3 mb-2 align-items-center justify-content-center text-center" style="background:#e3d7c1; border:3px double #dac9ab">
+        <div style="position:absolute; top:0; left:5px; color:#768598"><i class="fad fa-quote-left" style="font-size:24px"></i></div>
+        <div style="position:absolute; bottom:0; right:5px; color:#768598"><i class="fad fa-quote-right" style="font-size:24px"></i></div><i>
+<!--QUOTE------------>
+Quote
+    </i></div>
+    
+    
+    
+    
+    
+    <!--==========
+    SUPERPOWERS
+    ==========-->
+    <div class="col-lg-9">
+ 
+ 
+                    <!--POWERS------------><div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-6 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    SUPERPOWER<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--SUPERPOWER------------>
+Content    </div></div>
+                        
+                            <div class="col-lg-3 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    ALIAS<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--ALIAS------------>
+Content  </div></div>
+ 
+                            <div class="col-lg-3 p-2 mx-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    POWER SOURCE<hr class="mt-n2"></div>
+                                        <div class="mt-n2">
+<!--POWER SOURCE------------>
+Content  </div></div>
+                                    
+                            </div>
+ 
+ 
+ 
+                    <div class="d-flex m-0 mx-lg-2 mb-2 pr-lg-2">
+                        
+                            <div class="col-lg-12 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    ABILITIES<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:50px; overflow-y:auto">
+<!--ABILITIES------------>
+Content  </div></div>
+                        
+ 
+                            </div>
+ 
+        
+        
+        
+        
+    </div>
+    
+    
+    
+ 
+</div>
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+    
+META
+    
+==========-->
+<div style="position:relative; font-size:1rem; color:#3a344d; background:#dac9ab; max-width:1000px; margin:10px auto; padding:10px 0px">
+    
+    <!--DECALS-->
+    <div style="position:absolute; right:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <div style="position:absolute; left:-5px; font-size:40px; background:#91a1a8; height:90%; width:50px"></div>
+    <div style="position:absolute; top:0; right:48px; color:#768598"><i class="fad fa-bookmark" style="font-size:34px"></i></div>
+    <!--END DECALS-->
+    
+    <div class="d-flex no-gutters px-2">
+        
+    
+    
+    
+ 
+                    
+                        
+                            <div class="col-lg-4 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    TRIVIA<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:110px; overflow-y:auto"><ul class="pl-4">
+<!--TRIVIA------------>
+<li>Content</li>
+<li>Content</li>
+<li>Content</li>
+    </ul></div>
+                                <div style="font-size:.7rem;"> 
+                                    DESIGN NOTES<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:110px; overflow-y:auto"><ul class="pl-4">
+<!--DESIGN NOTES------------>
+<li>Content</li>
+<li>Content</li>
+<li>Content</li>
+    </ul></div></div>
+    
+    
+    
+                                <div class="col-lg-4 mx-2">
+                                <div class="mb-2 pt-2" style="font-size:.7rem; background:#e3d7c1; border:3px double #dac9ab"> 
+                                    PLAYLIST<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:244px; overflow-y:auto">
+<!--PLAYLIST------------>
+ 
+    <!--TRACK 1--><div class="text-left mb-1 p-1" style="font-size:1rem; position:relative; background:#e3d7c1; border:3px double #dac9ab">
+            <div style="position:absolute; top:5px; right:0; z-index:1000;">
+<!--YOUTUBE EMBED CODE-->
+<iframe src="https://www.youtube.com/embed/EMBED_CODE_HERE"
+            frameborder="0" style=" opacity:0.00006969696969; height:30px; width:30px; border-radius:100%;"></iframe></div>
+            <i class="fas fa-play mr-1 float-right" style="margin-top:10px; font-size:20px"></i>
+<!--TITLE--><div>
+Content</div>
+<!--ARTIST--><div style="font-size:.8rem; margin-to">
+Content</div>
+        </div>
+    
+    
+    
+    <!--TRACK 2--><div class="text-left mb-1 p-1" style="font-size:1rem; position:relative; background:#e3d7c1; border:3px double #dac9ab">
+            <div style="position:absolute; top:5px; right:0; z-index:1000;">
+<!--YOUTUBE EMBED CODE-->
+<iframe src="https://www.youtube.com/embed/EMBED_CODE_HERE"
+            frameborder="0" style=" opacity:0.00006969696969; height:30px; width:30px; border-radius:100%;"></iframe></div>
+            <i class="fas fa-play mr-1 float-right" style="margin-top:10px; font-size:20px"></i>
+<!--TITLE--><div>
+Content</div>
+<!--ARTIST--><div style="font-size:.8rem; margin-to">
+Content</div>
+        </div>
+    
+    
+ 
+    <!--TRACK 3--><div class="text-left mb-1 p-1" style="font-size:1rem; position:relative; background:#e3d7c1; border:3px double #dac9ab">
+            <div style="position:absolute; top:5px; right:0; z-index:1000;">
+<!--YOUTUBE EMBED CODE-->
+<iframe src="https://www.youtube.com/embed/EMBED_CODE_HERE"
+            frameborder="0" style=" opacity:0.00006969696969; height:30px; width:30px; border-radius:100%;"></iframe></div>
+            <i class="fas fa-play mr-1 float-right" style="margin-top:10px; font-size:20px"></i>
+<!--TITLE--><div>
+Content</div>
+<!--ARTIST--><div style="font-size:.8rem; margin-to">
+Content</div>
+        </div>
+ 
+ 
+ 
+    <!--TRACK 4--><div class="text-left mb-1 p-1" style="font-size:1rem; position:relative; background:#e3d7c1; border:3px double #dac9ab">
+            <div style="position:absolute; top:5px; right:0; z-index:1000;">
+<!--YOUTUBE EMBED CODE-->
+<iframe src="https://www.youtube.com/embed/EMBED_CODE_HERE"
+            frameborder="0" style=" opacity:0.00006969696969; height:30px; width:30px; border-radius:100%;"></iframe></div>
+            <i class="fas fa-play mr-1 float-right" style="margin-top:10px; font-size:20px"></i>
+<!--TITLE--><div>
+Content</div>
+<!--ARTIST--><div style="font-size:.8rem; margin-to">
+Content</div>
+        </div>
+    
+    </div></div>
+    
+    
+    
+    
+    
+ 
+                            <div class="col-lg-3 p-2" style="background:#e3d7c1; border:3px double #dac9ab">
+                                <div style="font-size:.7rem;"> 
+                                    INDEX<hr class="mt-n2"></div>
+                                        <div class="mt-n2" style="height:240px; overflow-y:auto">
+                                            
+                                            
+<!--INDEX------------>
+<a href="LINK" class="btn w-100 mb-1" style="background:#3a344d; color:#fffdf3">
+GALLERY</a>
+ 
+<a href="LINK" class="btn w-100 mb-1" style="background:#3a344d; color:#fffdf3">
+REFERENCE</a>
+ 
+<a href="LINK" class="btn w-100 mb-1" style="background:#3a344d; color:#fffdf3">
+CLOSET</a>
+ 
+<a href="LINK" class="btn w-100 mb-1" style="background:#3a344d; color:#fffdf3">
+LINK</a>
+ 
+<a href="LINK" class="btn w-100 mb-1" style="background:#3a344d; color:#fffdf3">
+LINK</a>
+ 
+<a href="LINK" class="btn w-100 mb-1" style="background:#3a344d; color:#fffdf3">
+LINK</a>
+ 
+    </div></div>
+                                    
+                        
+ 
+ 
+        
+        
+        
+        
+    </div>
+    
+    
+    
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+    
+CREDIT
+    
+==========-->
+<div style="position:relative; font-size:1rem; color:#3a344d; background:#dac9ab; max-width:1000px; margin:auto; margin-bottom:25px; padding:10px 0px">
+    <div class="p-1 mx-n2 text-right" style="font-size:1.25em; background:#e3d7c1">
+    <a href="ghoulipede" style="color:#3a344d"><i class="fad fa-code tooltipster" title="code by ghoulipede"></i></a></div>
+</div>

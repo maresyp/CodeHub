@@ -1,0 +1,685 @@
+//Nameless Organization Menu Commands by Knyazev aka SexyArturo
+CMD:ncmds(playerid, params[])
+{
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+        new string[1900];
+        strcat(string, "\n{FFA800}>>> Nameless Vehicles Commands: Rank 1/5 <<<", 1900 );
+        strcat(string, "\n{7F8575}/ncar(1/2) - /nboat - /nhydra", 1900 );
+        strcat(string, "\n/nbike - /nrhino - /nhunter", 1900 );
+        strcat(string, "\n{FFA800}>>> Nameless General Commands: Rank 1/5 <<<", 1900 );
+        strcat(string, "\n{7F8575}/nc - /ninf - /nameless - /nafk - /nback", 1900 );
+        strcat(string, "\n/nskin(1/3) - /nh - /nay - /nweaps - /nplace - /nlc(1/3)", 1900 );
+        strcat(string, "\n{FFA800}>>> Nameless Specials Commands: Rank 1/5 <<<", 1900 );
+        strcat(string, "\n{7F8575}/nlon - /nloff - /nhl - /nde - /nso - /nspr - /nm4", 1900 );
+        strcat(string, "\n{FFA800}>>> Nameless Management Commands: Rank 3/5 <<<", 1900 );
+        strcat(string, "\n{7F8575}/no - /nann - /settempn - /setn - /osetn", 1900 );
+        strcat(string, "\n\n{FFA800}Commands Scripted By Knyazev aka SexyArturo", 1900 );
+        ShowPlayerDialog(playerid,1235, DIALOG_STYLE_MSGBOX, "{FFFFFF}Nameless Organization Commands", string, "OK","Cancel");
+    } else return SendClientMessage(playerid,COLOR_RED, "ERROR: You need to be Nameless Member to use this command");
+    return 1;}
+CMD:nann(playerid,params[]) {
+    if(isnull(params)) return SendClientMessage(playerid, red, "USAGE: /nann [text]");
+    if(PlayerInfo[playerid][N] >= 5) {
+    for(new i = 0; i < MAX_PLAYERS; i++) {
+    if(IsPlayerConnected(i)) {
+    if(PlayerInfo[i][N] >= 1){
+    if(PlayerInfo[i][LoggedIn] == 1) {
+    PlayerPlaySound(i,1057,0.0,0.0,0.0); GameTextForPlayer(i,params, 4000, 3); GameTextForPlayer(playerid,params, 4000, 3);}}}}
+    new string[128]; format(string,sizeof(string),"{FF0000}Nameless INFO: {7F8575}\"%s\" has announced to {FFA800}Nameless Members.", pName(playerid) );
+    MessageToN(0x00FFFFAA, string);
+    CMDMessageToN(playerid,"/nann");
+    } else return ShowPlayerDialog(playerid,1,DIALOG_STYLE_MSGBOX,"ERROR","You need to be Nameless Member Level 5+ to use this command", "OK", "");
+    return 1;
+}
+ 
+static NDutyPlaying[MAX_PLAYERS];
+CMD:nameless(playerid,params[])
+{
+    #pragma unused params
+    new count = 0;
+    new string[128];
+    new ChangeColor;
+    new NR[128];
+    new NDUTY[128];
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+    SendClientMessage(playerid, 0xFFA800AA, " ");
+    SendClientMessage(playerid, 0x7F8575AA, "__________ |- Online {FFA800}Nameless {7F8575}Members -| __________");
+    SendClientMessage(playerid, 0xFFA800AA, " ");
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(!IsPlayerConnected(i)) continue;
+        if(PlayerInfo[i][LoggedIn] == 0) continue;
+        if(PlayerInfo[i][N] == 0) continue;
+ 
+        if(PlayerInfo[i][N] == 1) { NR = "Tenant"; ChangeColor = 0xD8BFD8FF; }
+        if(PlayerInfo[i][N] == 2) { NR = "Partner"; ChangeColor = 0x66CDAAFF; }
+        if(PlayerInfo[i][N] == 3) { NR = "Senior Partner"; ChangeColor = 0x00FA9AFF; }
+        if(PlayerInfo[i][N] == 4) { NR = "Associate"; ChangeColor = 0x2A0058FF; }
+        if(PlayerInfo[i][N] == 5) { NR = "Honored Staff"; ChangeColor = 0xDFDFDFFF; }
+        if(PlayerInfo[i][N] == 6) { NR = "BOSS"; ChangeColor = 0xFFE100FF; }
+        if(PlayerInfo[i][N] == 7) { NR = "Director"; ChangeColor = 0xF5DEB3FF; }
+        if(NDutyPlaying[i] == 0) NDUTY = "{2BE70A}Playing!";
+        if(NDutyPlaying[i] == 1) NDUTY = "{FF0000}AFK!";
+ 
+        format(string, 128, "Rank: %d - {%06x} %s (id:%i) - {%06x}| %s | - %s",PlayerInfo[i][N], ChangeColor >>> 8, PlayerName2(i), i, ChangeColor >>> 8, NR, NDUTY);
+        SendClientMessage(playerid, ChangeColor, string);
+        count++;
+    }
+    if (count == 0) SendClientMessage(playerid,0x7F8575AA,"No Online {FFA800}Nameless {7F8575}Members.");
+    SendClientMessage(playerid, 0x7F8575AA, "______________________________________________");
+    return 1;
+}
+CMD:nplace(playerid,params[]) {
+    if(PlayerInfo[playerid][N] >= 1) {
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,COLOR_BRIGHTRED,"You cannot escape your punishment!");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 6;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,COLOR_LIGHTBLUE, tstring);
+    vCount[playerid] = 1;
+    Tx[playerid] = 368.935;
+    Ty[playerid] = 173.757;
+    Tz[playerid] = 1007.956;
+    Ti[playerid] = 3;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~[] ~r~Nameless Place ~b~[]");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "{FF0000}Nameless TELE: {7F8575} %s has just teleported to {FFA800}Nameless Organization Place!!!", dsname);
+    SendClientMessageToAll(COLOR_ORANGE, string);
+    } else return SendClientMessage(playerid,red,"ERROR: You need to be a Nameless Member to use this command.");
+    CMDMessageToN(playerid, "/nplace");
+    return 1;
+}
+CMD:ninf(playerid, params[])
+{
+    if(PlayerInfo[playerid][N] >= 1) {
+    new string[1900];
+    strcat(string, "\n\n{FFA800}>>> Hola, Bienvenido a Nameless Organizacion <<<", 1900 );
+    strcat(string, "\n\n {7F8575}- Organizacion fundada y desarrollada en la fecha 15/05/2022 en la comunidad BTTDM.", 1900 );
+    strcat(string, "\n - Comandos desarrollados por Knyazev_N alias SexyArturo.", 1900 );
+    strcat(string, "\n - Gerentes de la Organizacion: Shelby, Jhonlert, snow, Knyazev", 1900 );
+    strcat(string, "\n\n{FFA800}>>> Hello, Welcome to Nameless Organization <<<", 1900 );
+    strcat(string, "\n\n {7F8575}- Organization founded and developed on the date 05/15/2022 in BTTDM Community.", 1900 );
+    strcat(string, "\n - Commands developed by Knyazev_N aka SexyArturo.", 1900 );
+    strcat(string, "\n - Organization Managers: Shelby, Jhonlert, Snow, Knyazev.", 1900 );
+    ShowPlayerDialog(playerid,1235, DIALOG_STYLE_MSGBOX, "Nameless Script & Information", string, "OK","Cancel");
+    CMDMessageToN(playerid,"/ninf");
+    } else return SendClientMessage(playerid,COLOR_RED, "ERROR: You need to be Nameless Member to use this command");
+    return 1;}
+forward nhighlight(playerid);
+public nhighlight(playerid)
+{
+    if(PlayerInfo[playerid][blipS] == 0)
+    {
+        SetPlayerColor(playerid, 0xFA8072FF); PlayerInfo[playerid][blipS] = 1;
+    }
+    else
+    {
+        SetPlayerColor(playerid, 0xE6E6FAFF); PlayerInfo[playerid][blipS] = 0;
+    }
+    return 0;
+}
+CMD:nhl(player1,params[])
+{
+    CMDMessageToN(player1,"/nhl");
+    if(PlayerInfo[player1][blip] == 0)
+    {
+                PlayerInfo[player1][pColour] = GetPlayerColor(player1);
+                PlayerInfo[player1][blip] = 1;
+                BlipTimer[player1] = SetTimerEx("nhighlight", 1000, 1, "i", player1);
+                SendClientMessage(player1,blue,"{FF0000}[Nameless Highlight ON]: {7F8575}Name Highlighted.");
+    }
+    else
+    {
+                KillTimer( BlipTimer[player1] );
+                PlayerInfo[player1][blip] = 0;
+                SetPlayerColor(player1, PlayerInfo[player1][pColour] );
+                SendClientMessage(player1,blue,"{FF0000}[Nameless Highlight OFF]: {7F8575}Name Un-Highlighted.");
+    }
+    return 1;
+}
+CMD:nlc1(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+    SetPlayerColor(playerid,0xFFD700FF);
+    SendClientMessage(playerid,0xFFD700AA,"Official Nameless Colour 1");
+    CMDMessageToN(playerid,"/nlc1");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a Nameless Member to use this command.", "OK", "");
+    return 1;
+}
+CMD:nlc2(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+    SetPlayerColor(playerid,0x008080FF);
+    SendClientMessage(playerid,0x008080AA,"Official Nameless Colour 2");
+    CMDMessageToN(playerid,"/nlc2");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a Nameless Member to use this command.", "OK", "");
+    return 1;
+}
+CMD:nlc3(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+    SetPlayerColor(playerid,0xFFE4E1FF);
+    SendClientMessage(playerid,0xFFE4E1AA,"Official Nameless Colour 3");
+    CMDMessageToN(playerid,"/nlc3");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a Nameless Member to use this command.", "OK", "");
+    return 1;
+}
+CMD:nlon(playerid,params[])
+{
+    if(PlayerInfo[playerid][N] < 1) return SendClientMessage(playerid, 0xFF0000AA, "You need to be Nameless level 1+ to use this command!");
+    SetPVarInt(playerid, "laser", 1);
+    SetPVarInt(playerid, "color", GetPVarInt(playerid, "color"));
+    SetPlayerAttachedObject( playerid,9, 18643, 6, 0.158249, 0.010233, 0.128052, 6.868255, 351.962524, 356.884216 );
+    CMDMessageToN(playerid,"/nlon");
+    return 1;
+}
+CMD:nloff(playerid)
+{
+        if(PlayerInfo[playerid][N] < 1) return SendClientMessage(playerid, 0xFF0000AA, "You need to be Nameless level 1+ to use this command!");
+        for(new i=0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++)
+        {
+            if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+        }
+        CMDMessageToN(playerid,"/nloff");
+        return 1;
+}
+CMD:ntune(playerid, params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid, red, "ERROR : You need to be Logged in to use this command");
+    if(PlayerInfo[playerid][N] >= 1) {
+        RepairVehicle(GetPlayerVehicleID(playerid));
+        SetVehicleHealth(GetPlayerVehicleID(playerid),1000.0);
+        new vehicleid = GetPlayerVehicleID(playerid);
+        NTune(vehicleid);
+        CMDMessageToN(playerid, "/ntune");
+        return PlayerPlaySound(playerid,1133,0.0,0.0,0.0);
+    } else return SendClientMessage(playerid , red, "ERROR : You need to be Nameless Member to use this command!");
+}
+NTune(vehicleid)
+{
+    ChangeVehicleColor(vehicleid,7,7);
+    AddVehicleComponent(vehicleid, 1010);
+    AddVehicleComponent(vehicleid,1080);
+    return 1;
+}
+CMD:nafk(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+        SendClientMessage(playerid,0xFFA800AA,"Hello nameless member type /nback when you back.");
+        GameTextForPlayer(playerid,"~r~ You're now AFK Nameless Member", 5000, 1);
+        TogglePlayerControllable(playerid, 0);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{FF0000}Nameless AFK: {7F8575}%s - %s: {FF0000} has gone away from keyboard ",GetNRank(playerid), ename);
+        SendClientMessageToAll(0x00B934AA, string);
+        CMDMessageToN(playerid, "/nafk");
+        NDutyPlaying[playerid] = 1;
+    } else return SendClientMessage(playerid,COLOR_RED,"ERROR: You need to be Nameless Member to use this command.");
+    return 1;
+}
+ 
+CMD:nback(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+        GameTextForPlayer(playerid,"~g~ Welcome Back Nameless Member", 5000, 1);
+        TogglePlayerControllable(playerid, 1);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{00FA9A}Nameless BACK: {7F8575}%s - %s: {00FA9A}is now back",GetNRank(playerid), ename);
+        SendClientMessageToAll(0x00B934AA, string);
+        CMDMessageToN(playerid, "/nback");
+        NDutyPlaying[playerid] = 0;
+    } else return SendClientMessage(playerid,COLOR_RED,"ERROR: You need to be Nameless Member to use this command.");
+    return 1;
+}
+ 
+ 
+CMD:nweaps(playerid,params[]) {
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You have to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        GivePlayerWeapon(playerid,31,9000); GivePlayerWeapon(playerid,18,9000); GivePlayerWeapon(playerid,17,9000);
+        GivePlayerWeapon(playerid,24,9000); GivePlayerWeapon(playerid,26,9000); GivePlayerWeapon(playerid,42,9000);
+        GivePlayerWeapon(playerid,46,9000); GivePlayerWeapon(playerid,14,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{FFA800}Nameless BOT: {7F8575}%s has used the command: {FFA800}Official Nameless Weapons",ename,playerid);
+        SendClientMessageToAll(0x00B934AA, string);
+        CMDMessageToN(playerid,"/nweaps");
+        return SendClientMessage(playerid,0x00B934AA,"Enjoy your Nameless Weapons :)");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless member to use this command", "OK", "Cancel");
+}
+CMD:nde(playerid,params[]) {
+        ResetPlayerWeapons(playerid);
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        GivePlayerWeapon(playerid,24,1000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{FFA800}Nameless BOT:{7F8575} %s has used the command: {FFA800}Official Nameless Desert-Eagle", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[Knyazev BOT] %s (%d) has used the command: /nde",ename,playerid);
+        CMDMessageToN(playerid,"/nde");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy your Nameless Desert-Eagle ");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be higher Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nso(playerid,params[]) {
+        ResetPlayerWeapons(playerid);
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        GivePlayerWeapon(playerid,26,1000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{FFA800}Nameless BOT:{7F8575} %s has used the command: {FFA800}Official Nameless Sawn Off", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[Knyazev BOT] %s (%d) has used the command: /nso",ename,playerid);
+        CMDMessageToN(playerid,"/nso");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy your Nameless Sawn Off ");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be higher Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nspr(playerid,params[]) {
+        ResetPlayerWeapons(playerid);
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        GivePlayerWeapon(playerid,34,1000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{FFA800}Nameless BOT:{7F8575} %s has used the command: {FFA800}Official Nameless Sniper Rifle", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[Knyazev BOT] %s (%d) has used the command: /nspr",ename,playerid);
+        CMDMessageToN(playerid,"/nspr");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy your Nameless Sniper Rifle ");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be higher Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nm4(playerid,params[]) {
+        ResetPlayerWeapons(playerid);
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        GivePlayerWeapon(playerid,31,1000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{FFA800}Nameless BOT:{7F8575} %s has used the command: {FFA800}Official Nameless M4 Rifle", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[Knyazev BOT] %s (%d) has used the command: /nm4",ename,playerid);
+        CMDMessageToN(playerid,"/nm4");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy your Nameless M4 ");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be higher Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nh(playerid,params[]) {
+    if(PlayerInfo[playerid][N] >= 1)
+    {
+        CMDMessageToN(playerid, "/nh");
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{FF0000}Nameless BOT: {7F8575}%s - {FF0000}Requests help!",ename,playerid);
+        SendClientMessageToAll(COLOR_BRIGHTRED,string);
+    } else return SendClientMessage(playerid,red,"ERROR: You need to be a Nameless Member to use this command");
+    return 1;
+}
+CMD:nay(playerid,params[]) {
+    #pragma unused params
+        if(isnull(params)) return SendClientMessage(playerid,COLOR_RED, "USAGE: /nay [text]");
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        if(PlayerInfo[playerid][N] >= 1) {
+        format(string, sizeof(string), "{FF0000}Nameless INFO: {7F8575}%s - %s says:{FAE5D3} %s",GetNRank(playerid), ename, params[0]);
+        SendClientMessageToAll(COLOR_BRIGHTRED,string);
+ 
+        } else return SendClientMessage(playerid,COLOR_RED,"ERROR: You need to be Nameless Member to use this command.");
+        return 1;
+}
+//Nameless Organization private chat
+CMD:nc(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+        if(PlayerInfo[playerid][N] >= 1) {
+            new string[128];
+            format(string, sizeof(string), "{FF0000}| Nameless Chat |: {D8BFD8}Tenant - %s: {00FFFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][N] >= 2)
+            format(string, sizeof(string), "{FF0000}| Nameless Chat |: {66CDAA}Partner - %s: {00FFFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][N] >= 3)
+            format(string, sizeof(string), "{FF0000}| Nameless Chat |: {00FA9A}Senior Partner - %s: {00FFFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][N] >= 4)
+                format(string, sizeof(string), "{FF0000}| Nameless Chat |: {2A0058}Associate - %s: {00FFFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][N] >= 5)
+                format(string, sizeof(string), "{FF0000}| Nameless Chat |: {DFDFDF}Honored Staff - %s: {00FFFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][N] >= 6)
+                format(string, sizeof(string), "{FF0000}| Nameless Chat |: {FFE100}BOSS - %s: {00FFFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][N] >= 7)
+                format(string, sizeof(string), "{FF0000}| Nameless Chat |: {F5DEB3}Director - %s: {00FFFF}%s", PlayerName2(playerid), params[0] );
+            MessageToN(0x037683FF,string);
+            } else return SendClientMessage(playerid,red,"ERROR: You need to be Nameless Member to use this command");
+    } else return SendClientMessage(playerid,red,"ERROR: You need to be Logged in to use this command");
+    return 1;
+}
+CMD:nskin1(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+    SetPlayerSkin(playerid,184);
+    CMDMessageToN(playerid,"/nskin1");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Member to use this command", "OK", "Cancel");
+    return 1;
+}
+CMD:nskin2(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+    SetPlayerSkin(playerid,230);
+    CMDMessageToN(playerid,"/nskin2");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Member to use this command", "OK", "Cancel");
+    return 1;
+}
+CMD:nskin3(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][N] >= 1) {
+    SetPlayerSkin(playerid,195);
+    CMDMessageToN(playerid,"/nskin3");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Member to use this command", "OK", "Cancel");
+    return 1;
+}
+CMD:ncar1(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,494);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToN(playerid,"/ncar1");
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned Nameless Hotring Racer!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [N] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nboat(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,430);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToN(playerid,"/nboat");
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned Nameless Predator!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:ncar2(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,411);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToN(playerid,"/ncar2");
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned Nameless Infernus!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nrhino(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,432);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToN(playerid,"/nrhino");
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned Nameless Rhino!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nhydra(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,520);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToN(playerid,"/nhydra");
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned Nameless Hydra!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nhunter(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,425);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToN(playerid,"/nhunter");
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned Nameless Hunter!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:nbike(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][N] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,522);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToN(playerid,"/nbike");
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned Nameless Bike!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:osetn(playerid,params[])
+{
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+    if(PlayerInfo[playerid][N] >= 5)
+    {
+            new file[256],string[120];
+            new tmp[128], tmp2[128], Index, level;             tmp = strtok(params,Index), tmp2 = strtok(params,Index), level = strval(tmp2);
+            if(level > 7) return SendClientMessage(playerid, red, "ERROR:Max Nameless Level Is 7!");
+            if(isnull(params)) return SendClientMessage(playerid, red, "USAGE: /osetN [name] [level]");
+            if(isnull(tmp2)) return SendClientMessage(playerid, red, "ERROR: You must input a level");
+            format(file,sizeof(file),"/ladmin/users/%s.sav",udb_encode(tmp));
+            if(!fexist(file)) return SendClientMessage(playerid, red, "ERROR: that account don't even exist!");
+            dini_Set(file,"N",tmp2);
+            new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+            format(string,sizeof(string),"You have set %s's Nameless level to %s on %d/%d/%d at %d:%d:%d",tmp,tmp2 ,day, month, year, hour, minute, second );
+            SendClientMessage(playerid,yellow,string);
+            PlayerPlaySound(playerid,1057,0.0,0.0,0.0);
+    }
+    return 1;
+}
+ 
+CMD:no(playerid, params[])
+{
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid, red, "ERROR: You need to be logged in to use this command!");
+    if(PlayerInfo[playerid][N] >= 5)
+    {
+        new opermessage[256];
+        format(opermessage, sizeof opermessage, "{FF0000}| Nameless OPER 5+ |: {7F8575}%s - %s: {F0E68C}%s", PlayerName2(playerid), GetNRank(playerid), params);
+        for(new i = 0; i < MAX_PLAYERS; i++)
+        {
+            if(PlayerInfo[i][N] >= 5 && PlayerInfo[i][LoggedIn] == 1) SendClientMessage(i, -1, opermessage);
+        }
+ 
+    } else return ShowPlayerDialog(playerid, 3245, DIALOG_STYLE_MSGBOX, "ERROR", "{FF0000}You need to be Nameless rank 5+ to use this command!", "Ok", "");
+    return 1;
+}
+CMD:settempn(playerid,params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+            if(PlayerInfo[playerid][N] < 5) return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be Nameless level 5+ to use this command", "OK", "Cancel");
+            new tmp[128], tmp2[128], Index;     tmp = strtok(params,Index), tmp2 = strtok(params,Index);
+            if(isnull(params)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /settempn [playerid] [level]");
+            new player1, level, playername[MAX_PLAYER_NAME], adminname[MAX_PLAYER_NAME], string[128];
+            player1 = strval(tmp);
+            if(isnull(tmp2)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /settempN [playerid] [level]");
+            level = strval(tmp2);
+ 
+            if(IsPlayerConnected(player1) && player1 != INVALID_PLAYER_ID) {
+                if(PlayerInfo[player1][LoggedIn] == 1) {
+                    if(level > 4 ) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Max Nameless Temp Level Is 4");
+                    if(level == PlayerInfo[player1][N]) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player is already this [N] level");
+                    CMDMessageToN(playerid,"SetTempN");
+                    GetPlayerName(player1, playername, sizeof(playername)); GetPlayerName(playerid, adminname, sizeof(adminname));
+                    new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+ 
+                    if(level > 0) format(string,sizeof(string)," %s has set you're Nameless Status to level %d",adminname, level);
+                    else format(string,sizeof(string)," %s has set your Nameless Status to level %d",adminname, level);
+                    SendClientMessage(player1,0x00FFFFAA,string);
+ 
+                    if(level > PlayerInfo[player1][N]) GameTextForPlayer(player1,"~g~Nameless Promotion", 2000, 3);
+                    else GameTextForPlayer(player1,"~r~Nameless Demotion", 2000, 3);
+ 
+                    format(string,sizeof(string),"You have made %s Nameless Temp Level %d on %d/%d/%d at %d:%d:%d", playername, level, day, month, year, hour, minute, second); SendClientMessage(playerid,0x00FFFFAA,string);
+                    format(string,sizeof(string),"%s has made %s Nameless Temp Level %d on %d/%d/%d at %d:%d:%d",adminname, playername, level, day, month, year, hour, minute, second);
+                    PlayerInfo[player1][N] = level;
+                    return PlayerPlaySound(player1,1057,0.0,0.0,0.0);
+                } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player must be registered and logged in to be setted as Nameless Member");
+            } else return SendClientMessage(playerid, 0xFF0000AA, "Player is not connected");
+    } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: You must be logged in to use this commands");
+}
+CMD:setn(playerid,params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+            if(!IsPlayerAdmin(playerid) && PlayerInfo[playerid][N] < 5) return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You must be a level 5+ Nameless Member to use this command", "OK", "Cancel");
+            new tmp[128], tmp2[128], Index;     tmp = strtok(params,Index), tmp2 = strtok(params,Index);
+            if(isnull(params)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /setN [playerid] [level]")
+            &&
+            SendClientMessage(playerid, orange, "Function: Will set the Level of Nameless of the Specific Player");
+            new player1, level, playername[MAX_PLAYER_NAME], adminname[MAX_PLAYER_NAME], string[128];
+            player1 = strval(tmp);
+            if(isnull(tmp2)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /setN [playerid] [level]")
+            &&
+            SendClientMessage(playerid, orange, "Function: Will set the Level of Nameless of the Specific Player");
+            level = strval(tmp2);
+ 
+            if(IsPlayerConnected(player1) && player1 != INVALID_PLAYER_ID) {
+                if(PlayerInfo[player1][LoggedIn] == 1) {
+                    if(level > 7 ) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Max Nameless Level is 7");
+                    if(level == PlayerInfo[player1][N]) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player is already this Nameless Level");
+                    CMDMessageToAdmins(playerid,"SetN");
+                    CMDMessageToN(playerid,"SetN");
+                    GetPlayerName(player1, playername, sizeof(playername)); GetPlayerName(playerid, adminname, sizeof(adminname));
+                    new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+ 
+                    if(level > 0) format(string,sizeof(string)," %s has set youre Nameless Status to level %d",adminname, level);
+                    else format(string,sizeof(string)," %s has set your Nameless Status to level %d",adminname, level);
+                    SendClientMessage(player1,0x00FFFFAA,string);
+ 
+                    if(level > PlayerInfo[player1][N]) GameTextForPlayer(player1,"~g~NAMELESS LEVEL UP", 2000, 3);
+                    else GameTextForPlayer(player1,"~r~NAMELESS LEVEL DOWN", 2000, 3);
+ 
+                    format(string,sizeof(string),"You have made %s Nameless Level %d on %d/%d/%d at %d:%d:%d", playername, level, day, month, year, hour, minute, second); SendClientMessage(playerid,0x00FFFFAA,string);
+                    format(string,sizeof(string),"%s has made %s Nameless Level %d on %d/%d/%d at %d:%d:%d",adminname, playername, level, day, month, year, hour, minute, second);
+                    SaveToFile("Nmembers",string);
+                    dUserSetINT(PlayerName2(player1)).("N",(level));
+                    PlayerInfo[player1][N] = level;
+                    return PlayerPlaySound(player1,1057,0.0,0.0,0.0);
+                } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player must be registered and logged in to be set as a Nameless Member");
+            } else return SendClientMessage(playerid, 0xFF0000AA, "Player is not connected");
+    } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: You must be logged in to use this commands");
+}
+GetNRank(playerid)
+{
+    new handle[500], string[128];
+    switch(PlayerInfo[playerid][N])
+    {
+        case 1: {
+            format(string, sizeof string, "Tenant");
+            strcat(handle, string);
+        }
+        case 2: {
+            format(string, sizeof string, "Partner");
+            strcat(handle, string);
+        }
+        case 3: {
+            format(string, sizeof string, "Senior Partner");
+            strcat(handle, string);
+        }
+        case 4: {
+            format(string, sizeof string, "Associate");
+            strcat(handle, string);
+        }
+        case 5: {
+            format(string, sizeof string, "Honored Staff");
+            strcat(handle, string);
+        }
+        case 6: {
+            format(string, sizeof string, "BOSS");
+            strcat(handle, string);
+        }
+        case 7: {
+            format(string, sizeof string, "Director");
+            strcat(handle, string);
+        }
+    }
+    return handle;
+}
+CMDMessageToN(playerid,command[])
+{
+    new string[128];
+    GetPlayerName(playerid,string,sizeof(string));
+    format(string,sizeof(string),"{FFA800}Nameless BOT: {7F8575}%s | Rank: (%d) | Command: {FFA800}%s",string,PlayerInfo[playerid][N],command);
+    MessageToN(0x81DEE9FF,string);
+    return 1;
+}
+MessageToN(color,const string[])
+{
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(IsPlayerConnected(i) == 1 && PlayerInfo[i][N] >= 1 && PlayerInfo[i][LoggedIn] == 1)
+        {
+            SendClientMessage(i, color, string);
+        }
+    }
+    return 1;
+}
+IRCCMD:nameless(botid, channel[], user[], host[], params[])
+{
+    if (IRC_IsVoice(botid, channel, user))
+    {
+    new count = 0,string[128],NRank[128];
+    IRC_GroupSay(gGroupID, channel,"____ |- Nameless Members -| ____");
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (IsPlayerConnected(i))
+        {
+            if(PlayerInfo[i][N] >= 1 && PlayerInfo[i][LoggedIn] == 1)
+            {
+ 
+                {
+                    switch(PlayerInfo[i][N])
+                    {
+                        case 1: {
+                            NRank = "Tenant";
+                        }
+                        case 2: {
+                            NRank = "Partner";
+                        }
+                        case 3: {
+                            NRank = "Senior Partner";
+                        }
+                        case 4: {
+                            NRank = "Associate";
+                        }
+                        case 5: {
+                            NRank = "Honored Staff";
+                        }
+                        case 6: {
+                            NRank = "BOSS";
+                        }
+                        case 7: {
+                            NRank = "Director";
+                        }
+                    }
+                }
+                format(string, 128, "Rank: %d - %s (Id:%i) | %s |",PlayerInfo[i][N], PlayerName2(i),i,NRank);
+                IRC_GroupSay(gGroupID, channel, string);
+                count++;
+            }
+        }
+    }
+    if (count == 0) IRC_GroupSay(gGroupID, channel,"04No Nameless Members Online");
+    } else return IRC_GroupSay(gGroupID, channel, "4ERROR: You are must be Voice to use this command");
+    return 1;
+}

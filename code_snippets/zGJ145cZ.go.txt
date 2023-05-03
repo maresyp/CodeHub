@@ -1,0 +1,50 @@
+/*
+https://gocoding.org/es/ejercicios-de-pr%C3%A1ctica-de-golang/
+10. Escriba un programa que tome una lista de nombres como entrada y los ordene alfabéticamente.
+*/
+ 
+package main
+ 
+import (
+    "fmt"
+    "strings"
+)
+ 
+// Compara la primera letra de dos nombres
+func isLower(a string, b string) bool {
+ 
+    //Evita una comparacion mayusculas minusculas
+    a = strings.ToLower(a)
+    b = strings.ToLower(b)
+ 
+    if a < b { //Si a es menor que b true
+        return true
+    }
+    return false
+}
+ 
+// Cambia dos nombres por sus indices
+func swap(nombres *[]string, a int, b int) {
+    tmp := (*nombres)[a]
+    (*nombres)[a] = (*nombres)[b]
+    (*nombres)[b] = tmp
+}
+ 
+// Lo mas ligero flota lo pesado va al fonodo
+func burbuja(nombres []string) []string {
+ 
+    for ia, a := range nombres {
+        for ib, b := range nombres {
+ 
+            if isLower(a, b) { //Si a<b los intercambia
+                swap(&nombres, ia, ib)
+            }
+        }
+    }
+    return nombres
+}
+ 
+func main() {
+    nombres := []string{"icaro ", "tony", "juan", "luis", "Nathalie", "Renato", "Yolanda", "Trini"}
+    fmt.Println(burbuja(nombres))
+}

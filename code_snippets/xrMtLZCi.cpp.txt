@@ -1,0 +1,55 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+ 
+using namespace std;
+ 
+// zadanie 8.
+ 
+const int N = 10;
+ 
+void wypelnij_tablice(int* tablica)
+{
+    srand(time(nullptr));   // ustawienie parametru losowania
+    for(int i = 0; i < N; ++i)
+        tablica[i] = rand();        // przypisanie do tablica[i] liczby losowej z zakresu od 1 do 32767
+}
+ 
+void wypisz_tablice(int* tablica)
+{
+    for(int i = 0; i < N; ++i)
+        cout << tablica[i] << '\t';     // wypisanie wartości tablica[i] na ekran
+    cout << endl;
+}
+ 
+void sortuj(int* tablica)       // sortowanie przez wybieranie
+{
+    int pozycja_min;
+    int pozycja_max;        // utworzenie zmiennej przechowującą indeks elementu o największej wartości
+    for(int i = 0; i < N - 1; ++i)
+    {
+        pozycja_min = i;
+        pozycja_max = N - i - 1;
+ 
+        // wyszukanie elementu o największej i najmniejszej wartości w podzbiorze nieposortowanym
+        for(int j = i + 1; j < N - i; ++j)
+        {
+            if(tablica[j] < tablica[pozycja_min])
+                pozycja_min = j;
+            else if(tablica[j] > tablica[pozycja_max])
+                pozycja_max = j;
+        }
+        swap(tablica[i], tablica[pozycja_min]);
+        swap(tablica[N - i - 1], tablica[pozycja_max]);
+    }
+}
+ 
+int main()
+{
+    int tablica[N];     // tworzę tablicę 10-elementową
+    wypelnij_tablice(tablica);
+    wypisz_tablice(tablica);
+    sortuj(tablica);
+    wypisz_tablice(tablica);
+    return 0;
+}

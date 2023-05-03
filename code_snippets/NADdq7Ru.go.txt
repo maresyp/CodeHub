@@ -1,0 +1,108 @@
+//rename compiled executable to include Pico's ip in filename
+package main
+ 
+import (
+    "fmt"
+    "net"
+    "net/http"
+    "os"
+    "os/exec"
+    "sync"
+    "time"
+    "path/filepath"
+    "regexp"
+)
+ 
+const (
+    concurrency = 100
+)
+ 
+var (
+    foundCastPort int
+    mutex         sync.Mutex
+    ip            string
+)
+ 
+func main() {
+    exePath, err := os.Executable()
+    if err != nil {
+        panic(err)
+    }
+    filename := filepath.Base(exePath)
+    r := regexp.MustCompile(`\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}`)
+    find_ip := r.FindString(filename)
+    ip = find_ip
+ 
+    if ip == "" {
+        panic("No IP address found in filename")
+    }else{
+        fmt.Printf("Scanning: %s\n",ip)
+    }
+ 
+    startTime := time.Now()
+    defer func() {
+        fmt.Printf("\nTime elapsed: %v\n", time.Since(startTime))
+    }()
+ 
+    ports := make(chan int)
+ 
+    // Start worker goroutines
+    for i := 0; i < concurrency; i++ {
+        go scanPorts(ports)
+    }
+ 
+    // Send ports to be scanned
+    for port := 1025; port <= 65535; port++ {
+        mutex.Lock()
+        if foundCastPort != 0 {
+            // A successful port has already been found, stop scanning
+            mutex.Unlock()
+            break
+        }
+        fmt.Printf("Scaning port %d\r", port)
+        mutex.Unlock()
+ 
+        ports <- port
+    }
+ 
+    close(ports)
+ 
+    // Open web browser if successful port found
+    if foundCastPort != 0 {
+        url := fmt.Sprintf("http://%s:%d/cast", ip, foundCastPort)
+        fmt.Printf("Found cast device at %s\n", url)
+        cmd := exec.Command("cmd", "/c", "start", "", url)
+        if err := cmd.Start(); err != nil {
+            panic(err)
+        }
+    } else {
+        fmt.Println("No cast device found")
+    }
+}
+ 
+func scanPorts(ports <-chan int) {
+    for port := range ports {
+        mutex.Lock()
+        if foundCastPort != 0 {
+            // A successful port has already been found, stop scanning
+            mutex.Unlock()
+            break
+        }
+        mutex.Unlock()
+ 
+        address := fmt.Sprintf("%s:%d", ip, port)
+        conn, err := net.DialTimeout("tcp", address, 20*time.Millisecond)
+        if err == nil {
+            conn.Close()
+ 
+            resp, err := http.Get(fmt.Sprintf("http://%s/cast", address))
+            if err == nil && resp.StatusCode == http.StatusOK {
+                mutex.Lock()
+                if foundCastPort == 0 {
+                    foundCastPort = port
+                }
+                mutex.Unlock()
+            }
+        }
+    }
+}

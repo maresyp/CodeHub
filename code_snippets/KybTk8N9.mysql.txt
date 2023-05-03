@@ -1,0 +1,4 @@
+SELECT DISTINCT c1.CustomerName, c1.City
+FROM Customers c1
+JOIN Customers c2 ON c1.City = c2.City AND c1.CustomerID != c2.CustomerID
+ORDER BY c1.City;

@@ -1,0 +1,8 @@
+--NEW DUPE SCRIPT THATS WORKS IN THE NEW PET SIM X MINE UPDATE-- UPDATED 4/16/2023
+ 
+--IT CAN ALSO DUPE TITANICS AND HUGES FROM YOUR BANK AND INVENTORY--
+ 
+--EXECUTE THE SCRIPT AND JUST FOLLOW THE INSTRUCTIONS-- HAVE FUN!
+ 
+ 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/zeroooxt/pet-sim-x-/main/script"))()does it work on fluxus?it should work on fluxus

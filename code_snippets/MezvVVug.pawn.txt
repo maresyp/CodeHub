@@ -1,0 +1,2679 @@
+#define FILTERSCRIPT
+#define SCRIPT_VERSION      "1.0"
+ 
+#include <a_samp>
+#include <dini2>
+#include <file>
+#include <ocmd>
+#include <sscanf2>
+ 
+/* FARBEN */
+#define C_HINT      0xFFB400FF
+#define C_ERROR     0xFF0000FF
+#define C_INFO      0xFFFF00FF
+ 
+/* MAKROS */
+#if !defined SetPos
+    #define SetPos(%0,%1,%2,%3,%4) SetPlayerPos(%0,%1,%2,%3),SetPlayerFacingAngle(%0,%4)
+#endif
+ 
+#if !defined SCM
+    #define SCM SendClientMessage
+#endif
+ 
+#if !defined SCMA
+    #define SCMA SendClientMessageToAll
+#endif
+ 
+#if !defined KickEx
+    #define KickEx(%0) SetTimerEx("KickPlayer", 100, false, "i", %0)
+#endif
+ 
+#if !defined SPD
+    #define SPD ShowPlayerDialog
+#endif
+ 
+#if !defined isnull
+    #define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
+#endif
+ 
+/* VORGEFERTIGTE TEXTE */
+#define NotAllowed_EN SCM(playerid, 0xFF0000FF, "You have no rights for this action!")
+#define NotAllowed_DE SCM(playerid, 0xFF0000FF, "Du besitzt nicht die nötigen Rechte für diese Aktion!")
+#define NOT_ONLINE_DE SCM(playerid, C_ERROR, "Dieser Spieler ist nicht online!")
+#define NOT_ONLINE_EN SCM(playerid, C_ERROR, "This player is not connected!")
+#define PLAYER_NPC_DE SCM(playerid, C_ERROR, "Diese ID ist ein NPC!")
+#define PLAYER_NPC_EN SCM(playerid, C_ERROR, "This ID is an NPC!")
+#define PLAYER_NOT_IN_VEHICLE_DE SCM(playerid, C_ERROR, "Dieser Spieler ist in keinem Fahrzeug!")
+#define PLAYER_NOT_IN_VEHICLE_EN SCM(playerid, C_ERROR, "This player is not in a vehicle!")
+ 
+/* FORWARDS */
+forward KickPlayer(playerid);
+forward ResetVehicles();
+forward RestartServer();
+forward LooseWarnings(playerid);
+ 
+/* ADMINSETTINGS */
+new isAdmin[MAX_PLAYERS], playerSupVeh[MAX_PLAYERS], bool:isSpectating[MAX_PLAYERS];
+new Float:p_oldX[MAX_PLAYERS], Float:p_oldY[MAX_PLAYERS], Float:p_oldZ[MAX_PLAYERS], Float:p_oldA[MAX_PLAYERS];
+new p_oldVW[MAX_PLAYERS], p_oldINT[MAX_PLAYERS], pSpectateID[MAX_PLAYERS];
+new permissionChange[MAX_PLAYERS], gSettingsStep[MAX_PLAYERS];
+new playerWarnings[MAX_PLAYERS], playerCurrentWarnings[MAX_PLAYERS];
+new playerWarningTimer[MAX_PLAYERS], bool:playerFreezed[MAX_PLAYERS];
+new inAdminChat[MAX_PLAYERS], adminChatID[MAX_PLAYERS], supportTicket[MAX_PLAYERS];
+ 
+/* SONSTIGES */
+new LANGUAGE = 1; /* Type here 1 for German or 2 for English*/
+new MAX_ADMINLEVEL = 0;
+new MAX_WARNINGS = 0;
+new STACK_WARNINGS = 0;
+new LOOS_WARNINGS_TIMER = 0;
+new resetStage = 0, resetVehTimer;
+new restartStage = 0, restartTimer;
+ 
+#define SCRIPTFILES_PATH            "/adminsystem"
+ 
+/*  DIALOGE */
+#define DIALOG_SHOW_SETTINGS_MENU           1500
+#define DIALOG_EDIT_RANKS                   1501
+#define DIALOG_EDIT_LEVEL                   1502
+#define DIALOG_EDIT_RANKS_INPUT             1503
+#define DIALOG_SET_PERMISSIONS              1504
+#define DIALOG_CHANGE_PERMISSION            1505
+#define DIALOG_CHANGE_G_SETTINGS            1506
+#define DIALOG_EDIT_G_SETTINGS              1507
+#define DIALOG_SHOW_ADMINS                  1508
+ 
+public OnFilterScriptInit()
+{
+    if (LANGUAGE == 1){
+        print("====================================================");
+        print(" TG - Systems");
+        printf(" basic_admincommands v %s", SCRIPT_VERSION);
+        print(" Benutze /rcon login um Einstellungen tätigen zu können");
+        print("====================================================\n");
+    }
+    if (LANGUAGE == 2){
+        print("====================================================");
+        print(" TG - Systems");
+        printf(" basic_admincommands v %s", SCRIPT_VERSION);
+        print(" Use /rcon login to Controll your Adminstates");
+        print("====================================================\n");
+    }
+    CheckFileStatus();
+    for(new i = 0; i<MAX_PLAYERS; i++){
+        playerSupVeh[i] = -1;
+        playerWarningTimer[i] = -1;
+        inAdminChat[i] = -1;
+        supportTicket[i] = -1;
+        adminChatID[i] = -1;
+        isAdmin[i] = 0;
+    }
+    return 1;
+}
+ 
+public OnFilterScriptExit()
+{
+    return 1;
+}
+ 
+public OnPlayerRequestClass(playerid, classid)
+{
+    return 1;
+}
+ 
+public OnPlayerConnect(playerid)
+{
+    if(CheckUserBanned(playerid)){
+        if(LANGUAGE == 1){
+            SCM(playerid, C_ERROR, "Du bist permanent gebannt!");
+            return KickEx(playerid);
+        }
+        if(LANGUAGE == 2){
+            SCM(playerid, C_ERROR, "You are peramently banned!");
+            return KickEx(playerid);
+        }
+    }
+    if(CheckUserTimeBanned(playerid)){
+        new path[64];
+        format(path,sizeof(path), "%s/bans/%s_t.ini",SCRIPTFILES_PATH, GetName(playerid));
+        if(fexist(path)){
+            if(LANGUAGE == 1){
+                new timeStamp = dini_Int(path, "TIMESTAMP");
+                new currentTimeStamp = GetTimestamp();
+                if(timeStamp > currentTimeStamp){//User is currently banned
+                    new rechnung = timeStamp - currentTimeStamp;
+                    rechnung = rechnung/60;
+                    new string[250];
+                    format(string,sizeof(string), "Du bist noch für %d Minuten gebannt!", rechnung);
+                    SCM(playerid, C_ERROR, string);
+                    return KickEx(playerid);
+                }else{
+                    fremove(path);
+                }
+            }
+            if(LANGUAGE == 2){
+                new timeStamp = dini_Int(path, "TIMESTAMP");
+                new currentTimeStamp = GetTimestamp();
+                if(timeStamp > currentTimeStamp){//User is currently banned
+                    new rechnung = timeStamp - currentTimeStamp;
+                    rechnung = rechnung/60;
+                    new string[250];
+                    format(string,sizeof(string), "You are banned for %d minutes", rechnung);
+                    SCM(playerid, C_ERROR, string);
+                    return KickEx(playerid);
+                }else{
+                    fremove(path);
+                }
+            }
+        }
+        return 1;
+    }
+    isAdmin[playerid] = 0;
+    playerSupVeh[playerid] = -1;
+    isSpectating[playerid] = false;
+    playerFreezed[playerid] = false;
+    pSpectateID[playerid] = -1;
+    permissionChange[playerid] = -1;
+    gSettingsStep[playerid] = -1;
+    inAdminChat[playerid] = -1;
+    adminChatID[playerid] = -1;
+    supportTicket[playerid] = -1;
+    LoadPlayerWarnings(playerid);
+    LoadPlayerAdmin(playerid);
+    return 1;
+}
+ 
+public OnPlayerDisconnect(playerid, reason)
+{
+    if(playerSupVeh[playerid] != -1){
+        DestroyVehicle(playerSupVeh[playerid]);
+    }
+    if(supportTicket[playerid] != -1){//Wenn noch kein Chat bekommen wurde
+        if(LANGUAGE == 1){
+            new string[250];
+            format(string,sizeof(string), "[TICKET ID %d] Das Ticket von %s wurde aufgrund eines Disconnects geschlossen!", supportTicket[playerid], GetName(playerid));
+            SendAdminMessage(string);
+            WriteTicketLock(string);
+            supportTicket[playerid] = -1;
+        }
+        if(LANGUAGE == 2){
+            new string[250];
+            supportTicket[playerid] = -1;
+            format(string,sizeof(string), "[TICKET ID %d] The ticket from %s has been closed because this player disconnected!", supportTicket[playerid], GetName(playerid));
+            SendAdminMessage(string);
+            supportTicket[playerid] = -1;
+        }
+    }
+    return 1;
+}
+ 
+public OnPlayerSpawn(playerid)
+{
+    if(isSpectating[playerid]){
+        SetPos(playerid, p_oldX[playerid], p_oldY[playerid], p_oldZ[playerid], p_oldA[playerid]);
+        SetPlayerInterior(playerid, p_oldINT[playerid]);
+        SetPlayerVirtualWorld(playerid, p_oldVW[playerid]);
+        isSpectating[playerid] = false;
+    }
+    return 1;
+}
+ 
+public OnPlayerDeath(playerid, killerid, reason)
+{
+    return 1;
+}
+ 
+public OnVehicleSpawn(vehicleid)
+{
+    return 1;
+}
+ 
+public OnVehicleDeath(vehicleid, killerid)
+{
+    return 1;
+}
+ 
+public OnPlayerText(playerid, text[])
+{
+    if(inAdminChat[playerid] == 1){
+        if(LANGUAGE == 1){
+            new string[250];
+            format(string,sizeof(string), "%s sagt: %s", GetName(playerid), text);
+            SCM(adminChatID[playerid], C_INFO, string);
+            format(string,sizeof(string), "[TICKET ID: %d] %s sagt zu %s: %s", supportTicket[playerid], GetName(playerid), GetName(adminChatID[playerid]), text);
+            WriteTicketLock(string);
+        }
+        if(LANGUAGE == 2){
+            new string[250];
+            format(string,sizeof(string), "%s say: %s", GetName(playerid), text);
+            SCM(adminChatID[playerid], C_INFO, string);
+            format(string,sizeof(string), "[TICKET ID: %d] %s say to %s: %s", supportTicket[playerid], GetName(playerid), GetName(adminChatID[playerid]), text);
+            WriteTicketLock(string);
+        }
+        return 1;
+    }
+    return 1;
+}
+ 
+public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
+{
+    return 1;
+}
+ 
+public OnPlayerExitVehicle(playerid, vehicleid)
+{
+    return 1;
+}
+ 
+public OnPlayerStateChange(playerid, newstate, oldstate)
+{
+    return 1;
+}
+ 
+public OnPlayerEnterCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerLeaveCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerEnterRaceCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerLeaveRaceCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnRconCommand(cmd[])
+{
+    return 1;
+}
+ 
+public OnPlayerRequestSpawn(playerid)
+{
+    return 1;
+}
+ 
+public OnObjectMoved(objectid)
+{
+    return 1;
+}
+ 
+public OnPlayerObjectMoved(playerid, objectid)
+{
+    return 1;
+}
+ 
+public OnPlayerPickUpPickup(playerid, pickupid)
+{
+    return 1;
+}
+ 
+public OnVehicleMod(playerid, vehicleid, componentid)
+{
+    return 1;
+}
+ 
+public OnVehiclePaintjob(playerid, vehicleid, paintjobid)
+{
+    return 1;
+}
+ 
+public OnVehicleRespray(playerid, vehicleid, color1, color2)
+{
+    return 1;
+}
+ 
+public OnPlayerSelectedMenuRow(playerid, row)
+{
+    return 1;
+}
+ 
+public OnPlayerExitedMenu(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
+{
+    return 1;
+}
+ 
+public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+    return 1;
+}
+ 
+public OnRconLoginAttempt(ip[], password[], success)
+{
+    return 1;
+}
+ 
+public OnPlayerUpdate(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerStreamIn(playerid, forplayerid)
+{
+    return 1;
+}
+ 
+public OnPlayerStreamOut(playerid, forplayerid)
+{
+    return 1;
+}
+ 
+public OnVehicleStreamIn(vehicleid, forplayerid)
+{
+    return 1;
+}
+ 
+public OnVehicleStreamOut(vehicleid, forplayerid)
+{
+    return 1;
+}
+ 
+public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+{
+    switch(dialogid){
+        case DIALOG_SHOW_SETTINGS_MENU:{
+            if(!response)return 1;
+            switch(listitem){
+                case 0:{//Admin werden
+                    isAdmin[playerid] = MAX_ADMINLEVEL;
+                    new path[64];
+                    format(path, sizeof(path), "%s/playerAdmin.ini", SCRIPTFILES_PATH);
+                    dini_IntSet(path, GetName(playerid), MAX_ADMINLEVEL);
+                    if(LANGUAGE == 1)return SCM(playerid, C_INFO, "Du hast das maximale Adminlevel erhalten!");
+                    if(LANGUAGE == 2)return SCM(playerid, C_INFO, "You´ve got the maximal adminlevel!");
+                }
+                case 1:{//Adminränge bearbeiten
+                    new string[256], path[64], key[10];
+                    format(path,sizeof(path), "%s/rangNames.ini",SCRIPTFILES_PATH);
+                    for(new i = 0; i<MAX_ADMINLEVEL; i++){
+                        format(key,sizeof(key), "RANG_%d", i+1);
+                        if(i == 0){
+                            format(string,sizeof(string), "%d. %s\n",i+1, dini_Get(path,key));
+                        }else format(string,sizeof(string), "%s\n%d. %s\n",string,i+1, dini_Get(path,key));
+                    }
+                    if(LANGUAGE == 1)return SPD(playerid, DIALOG_EDIT_RANKS, DIALOG_STYLE_LIST, "Adminränge editieren", string, "Editieren", "Zurück");
+                    if(LANGUAGE == 2)return SPD(playerid, DIALOG_EDIT_RANKS, DIALOG_STYLE_LIST, "Edit admin ranks", string, "Edit", "Back");
+                }
+                case 2:{//Anzahl Adminränge bearbeiten
+                    new path[64], string[256];
+                    format(path,sizeof(path), "%s/settings.ini",SCRIPTFILES_PATH);
+                    if(LANGUAGE == 1){
+                        format(string,sizeof(string), "Aktuelle Ränge: %d\nGebe nun eine neue Zahl ein!",dini_Int(path, "MAX_ADMINLEVEL"));
+                        return SPD(playerid, DIALOG_EDIT_LEVEL, DIALOG_STYLE_INPUT, "Adminlevel bearbeiten", string, "Speichern", "Zurück");
+                    }
+                    if(LANGUAGE == 2){
+                        format(string,sizeof(string), "Current max Level: %d\nInsert a new number!",dini_Int(path, "MAX_ADMINLEVEL"));
+                        return SPD(playerid, DIALOG_EDIT_LEVEL, DIALOG_STYLE_INPUT, "Edit admin level", string, "Save", "Back");
+                    }
+                }
+                case 3:{//Zugriffslevel bearbeiten
+                    return ShowPermissionDialog(playerid);
+                }
+                case 4:{//Allgemeine Einstellungen
+                    return ShowGeneralSettings(playerid);
+                }
+            }
+        }
+        case DIALOG_SET_PERMISSIONS:{
+            if(!response){
+                return ShowSettingsMenu(playerid);
+            }
+            switch(listitem){
+                case 0:{//Kick Player
+                    permissionChange[playerid] = 1;
+                    return ShowCurrentAccessLevelDialog(playerid,"KICKPLAYER_USABLE");
+                }
+                case 1:{//Ban Player
+                    permissionChange[playerid] = 2;
+                    return ShowCurrentAccessLevelDialog(playerid,"BANPLAYER_USABLE");
+                }
+                case 2:{//Timeban Player
+                    permissionChange[playerid] = 3;
+                    return ShowCurrentAccessLevelDialog(playerid,"TIMEBANPLAYER_USABLE");
+                }
+                case 3:{//Unban Player
+                    permissionChange[playerid] = 4;
+                    return ShowCurrentAccessLevelDialog(playerid,"UNBANPLAYER_USABLE");
+                }
+                case 4:{//Teleport Player
+                    permissionChange[playerid] = 5;
+                    return ShowCurrentAccessLevelDialog(playerid,"TELEPORTPLAYER_USABLE");
+                }
+                case 5:{//Setint Player
+                    permissionChange[playerid] = 6;
+                    return ShowCurrentAccessLevelDialog(playerid,"SETINT_USABLE");
+                }
+                case 6:{//Setvw Player
+                    permissionChange[playerid] = 7;
+                    return ShowCurrentAccessLevelDialog(playerid,"SETVW_USABLE");
+                }
+                case 7:{//Supveh Player
+                    permissionChange[playerid] = 8;
+                    return ShowCurrentAccessLevelDialog(playerid,"SUPVEH_USABLE");
+                }
+                case 8:{//Spectate Player
+                    permissionChange[playerid] = 9;
+                    return ShowCurrentAccessLevelDialog(playerid,"SPECTATE_USABLE");
+                }
+                case 9:{//Sethealth Player
+                    permissionChange[playerid] = 10;
+                    return ShowCurrentAccessLevelDialog(playerid,"SETHEALTH_USABLE");
+                }
+                case 10:{//Setarmour Player
+                    permissionChange[playerid] = 11;
+                    return ShowCurrentAccessLevelDialog(playerid,"SETARMOUR_USABLE");
+                }
+                case 11:{//Repveh Player
+                    permissionChange[playerid] = 12;
+                    return ShowCurrentAccessLevelDialog(playerid,"REPVEH_USABLE");
+                }
+                case 12:{//Setweather Player
+                    permissionChange[playerid] = 13;
+                    return ShowCurrentAccessLevelDialog(playerid,"SETWEATHER_USABLE");
+                }
+                case 13:{//Killall Player
+                    permissionChange[playerid] = 14;
+                    return ShowCurrentAccessLevelDialog(playerid,"KILLALL_USABLE");
+                }
+                case 14:{//Resetveh Player
+                    permissionChange[playerid] = 15;
+                    return ShowCurrentAccessLevelDialog(playerid,"RESETVEH_USABLE");
+                }
+                case 15:{//Delveh Player
+                    permissionChange[playerid] = 16;
+                    return ShowCurrentAccessLevelDialog(playerid,"DELVEH_USABLE");
+                }
+                case 16:{//Respawnveh Player
+                    permissionChange[playerid] = 17;
+                    return ShowCurrentAccessLevelDialog(playerid,"SPAWNVEH_USABLE");
+                }
+                case 17:{//Spawnveh Player
+                    permissionChange[playerid] = 18;
+                    return ShowCurrentAccessLevelDialog(playerid,"GETVID_USABLE");
+                }
+                case 18:{//Warn Player
+                    permissionChange[playerid] = 19;
+                    return ShowCurrentAccessLevelDialog(playerid,"WARNPLAYER_USABLE");
+                }
+                case 19:{//Eject Player
+                    permissionChange[playerid] = 20;
+                    return ShowCurrentAccessLevelDialog(playerid,"EJECTPLAYER_USABLE");
+                }
+                case 20:{//Eject Player
+                    permissionChange[playerid] = 21;
+                    return ShowCurrentAccessLevelDialog(playerid,"FREEZEPLAYER_USABLE");
+                }
+                case 21:{//Slap Player
+                    permissionChange[playerid] = 22;
+                    return ShowCurrentAccessLevelDialog(playerid,"SLAPPLAYER_USABLE");
+                }
+                case 22:{//clear chat
+                    permissionChange[playerid] = 23;
+                    return ShowCurrentAccessLevelDialog(playerid,"CLEARCHAT_USABLE");
+                }
+                case 23:{//Makeadmin
+                    permissionChange[playerid] = 24;
+                    return ShowCurrentAccessLevelDialog(playerid,"MAKEADMIN_USABLE");
+                }
+                case 24:{//getticket
+                    permissionChange[playerid] = 25;
+                    return ShowCurrentAccessLevelDialog(playerid,"GETTICKET_USABLE");
+                }
+                case 25:{//Adminchat
+                    permissionChange[playerid] = 26;
+                    return ShowCurrentAccessLevelDialog(playerid,"ADMINCHAT_USABLE");
+                }
+                case 26:{//Spawnveh
+                    permissionChange[playerid] = 27;
+                    return ShowCurrentAccessLevelDialog(playerid,"SPAWNNEWVEH_USABLE");
+                }
+                case 27:{//Restartserver
+                    permissionChange[playerid] = 28;
+                    return ShowCurrentAccessLevelDialog(playerid,"RESTARTSERVER_USABLE");
+                }
+            }
+        }
+        case DIALOG_CHANGE_PERMISSION:{
+            if(!response){
+                return ShowPermissionDialog(playerid);
+            }
+            switch(permissionChange[playerid]){
+                case 1:{// Kick Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "KICKPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("KICKPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 2:{// Ban Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "BANPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("BANPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 3:{// Timeban Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "TIMEBANPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("TIMEBANPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 4:{//Unban Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "UNBANPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("UNBANPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 5:{//Teleport Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "TELEPORTPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("TELEPORTPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 6:{//Setint Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SETINT_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SETINT_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 7:{//Setvw Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SETVW_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SETVW_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 8:{//Supveh Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SUPVEH_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SUPVEH_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 9:{//Spectate Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SPECTATE_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SPECTATE_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 10:{//Sethealth Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SETHEALTH_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SETHEALTH_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 11:{//Setarmour Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SETARMOUR_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SETARMOUR_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 12:{//Repveh Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "REPVEH_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("REPVEH_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 13:{//Setweather Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SETWEATHER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SETWEATHER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 14:{//Killall Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "KILLALL_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("KILLALL_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 15:{//Resetveh Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "RESETVEH_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("RESETVEH_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 16:{//Delveh Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "DELVEH_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("DELVEH_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 17:{//Spawnveh Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SPAWNVEH_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SPAWNVEH_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 18:{//Getvid Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "GETVID_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("GETVID_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 19:{//Warn Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "WARNPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("WARNPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 20:{//Eject Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "EJECTPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("EJECTPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 21:{//Freeze Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "FREEZEPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("FREEZEPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 22:{//Slap Player
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SLAPPLAYER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SLAPPLAYER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 23:{//Clear Chat
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "CLEARCHAT_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("CLEARCHAT_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 24:{//Makeadmin
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "MAKEADMIN_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("MAKEADMIN_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 25:{//getticket
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "GETTICKET_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("GETTICKET_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 26:{//Adminchat
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "ADMINCHAT_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("ADMINCHAT_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 27:{//Spawn veh
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "SPAWNNEWVEH_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("SPAWNNEWVEH_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+                case 28:{//Restart server
+                    if(strval(inputtext) <= 0 || strval(inputtext) > MAX_ADMINLEVEL){
+                        return ShowCurrentAccesLevelDialogE(playerid, "RESTARTSERVER_USABLE");
+                    }
+                    permissionChange[playerid] = -1;
+                    UpdateAccessLevel("RESTARTSERVER_USABLE", strval(inputtext));
+                    return ShowPermissionDialog(playerid);
+                }
+            }
+        }
+        case DIALOG_CHANGE_G_SETTINGS:{
+            if(!response){
+                return ShowSettingsMenu(playerid);
+            }
+            switch(listitem){
+                case 0:{//MAX_WARNINGS
+                    new path[64], string[256];
+                    format(path, sizeof(path), "%s/settings.ini",SCRIPTFILES_PATH);
+                    if(LANGUAGE == 1){
+                        format(string,sizeof(string), "Anzahl von maximalen Warnings %d\nGib einen neuen Wert ein.", dini_Int(path, "MAX_WARNINGS"));
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                    }
+                    if(LANGUAGE == 2){
+                        format(string,sizeof(string), "Number of maximum warnings %d\nInsert a new value.", dini_Int(path, "MAX_WARNINGS"));
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                    }
+                    gSettingsStep[playerid] = 0;
+                }
+                case 1:{//STACK_WARNINGS
+                    new path[64], string[256];
+                    format(path, sizeof(path), "%s/settings.ini",SCRIPTFILES_PATH);
+                    if(LANGUAGE == 1){
+                        format(string,sizeof(string), "Sollen Verwarnungen Stacken? %s\nGib JA zum aktivieren oder NEIN zum deaktivieren ein", StackWarningsWord());
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                    }
+                    if(LANGUAGE == 2){
+                        format(string,sizeof(string), "Should warnings stack? %s\nType YES to activate or NO to deactivate.", StackWarningsWord());
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                    }
+                    gSettingsStep[playerid] = 1;
+                }
+                case 2:{//LOOS_WARNINGS_TIMER
+                    new path[64], string[256];
+                    format(path, sizeof(path), "%s/settings.ini", SCRIPTFILES_PATH);
+                    if(LANGUAGE == 1){
+                        format(string,sizeof(string), "Aktueller Timer zum abbauen von Verwarnungen %d Minuten\nGib eine neue Zeit in Minuten ein", LOOS_WARNINGS_TIMER/60000);
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                    }
+                    if(LANGUAGE == 2){
+                        format(string,sizeof(string), "Current timer to reduce warnings %d minutes\nPlease insert a new time in minutes.", LOOS_WARNINGS_TIMER/60000);
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                    }
+                    gSettingsStep[playerid] = 2;
+                }
+                case 3:{//LANGUAGE
+                    new path[64], string[256];
+                    format(path, sizeof(path), "%s/settings.ini", SCRIPTFILES_PATH);
+                    if(LANGUAGE == 1){
+                        format(string,sizeof(string), "Aktuelle Sprache %s\nGibt DE für Deutsch oder EN für Englisch ein!", LanguageWord());
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                    }
+                    if(LANGUAGE == 2){
+                        format(string,sizeof(string), "Current language %s\nPlease insert DE for German or EN for English", LanguageWord());
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                    }
+                    gSettingsStep[playerid] = 3;
+                }
+                case 4:{//SUPVEH_VEHICLEMODEL
+                    new path[64], string[256];
+                    format(path,sizeof(path), "%s/settings.ini", SCRIPTFILES_PATH);
+                    if(LANGUAGE == 1){
+                        format(string,sizeof(string), "Aktuelles Model %d\nGib ein neues Modell ein!", dini_Int(path,"SUPVEH_VEHICLEMODEL"));
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                    }
+                    if(LANGUAGE == 2){
+                        format(string,sizeof(string), "Current model %d\nPlease insert a new model", dini_Int(path,"SUPVEH_VEHICLEMODEL"));
+                        SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                    }
+                    gSettingsStep[playerid] = 4;
+                }
+            }
+        }
+        case DIALOG_EDIT_G_SETTINGS:{
+            if(!response){
+                return ShowGeneralSettings(playerid);
+            }
+            new path[64], string[256];
+            format(path,sizeof(path), "%s/settings.ini", SCRIPTFILES_PATH);
+            switch(gSettingsStep[playerid]){
+                case 0:{//MAX_WARNINGS
+                    if(strval(inputtext) < 0 || isnull(inputtext)){
+                        if(LANGUAGE == 1){
+                            SCM(playerid, C_ERROR, "Du kannst keinen Wert unter 0 eingeben!");
+                            format(string,sizeof(string), "Anzahl von maximalen Warnings %d\nGib einen neuen Wert ein.", dini_Int(path, "MAX_WARNINGS"));
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                            gSettingsStep[playerid] = 0;
+                        }
+                        if(LANGUAGE == 2){
+                            SCM(playerid, C_ERROR, "You can't insert a value under 0!");
+                            format(string,sizeof(string), "Number of maximum warnings %d\nInsert a new value.", dini_Int(path, "MAX_WARNINGS"));
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                            gSettingsStep[playerid] = 0;
+                        }
+                    }
+                    dini_IntSet(path, "MAX_WARNINGS", strval(inputtext));
+                    if(LANGUAGE == 1){
+                        SCM(playerid, C_INFO, "Maximale Anzahl geändert!");
+                    }
+                    if(LANGUAGE == 2){
+                        SCM(playerid, C_INFO, "Maxmimum warnings changed!");
+                    }
+                    gSettingsStep[playerid] = -1;
+                    MAX_WARNINGS = strval(inputtext);
+                    return ShowGeneralSettings(playerid);
+                }
+                case 1:{//STACK_WARNINGS
+                    if(LANGUAGE == 1){
+                        if(!strcmp(inputtext, "JA")){
+                            dini_IntSet(path, "STACK_WARNINGS", 1);
+                            SCM(playerid,C_INFO,"Verwarnungen werden nun gestackt!");
+                            gSettingsStep[playerid] = -1;
+                            STACK_WARNINGS = 1;
+                            return ShowGeneralSettings(playerid);
+                        }else if(!strcmp(inputtext, "NEIN")){
+                            dini_IntSet(path, "STACK_WARNINGS", 0);
+                            SCM(playerid,C_INFO,"Verwarnungen werden nicht mehr gestackt!");
+                            gSettingsStep[playerid] = -1;
+                            STACK_WARNINGS = 0;
+                            return ShowGeneralSettings(playerid);
+                        }else{
+                            SCM(playerid, C_ERROR, "Bitte gib JA oder NEIN ein!");
+                            format(string,sizeof(string), "Sollen Verwarnungen Stacken? %s\nGib JA zum aktivieren oder NEIN zum deaktivieren ein", StackWarningsWord());
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                        }
+                    }
+                    if(LANGUAGE == 2){
+                        if(!strcmp(inputtext, "YES")){
+                            dini_IntSet(path, "STACK_WARNINGS", 1);
+                            SCM(playerid,C_INFO,"Warnings are now stacked!");
+                            gSettingsStep[playerid] = -1;
+                            STACK_WARNINGS = 1;
+                            return ShowGeneralSettings(playerid);
+                        }else if(!strcmp(inputtext, "NO")){
+                            dini_IntSet(path, "STACK_WARNINGS", 0);
+                            SCM(playerid,C_INFO,"Warnings are no longer stacked!");
+                            gSettingsStep[playerid] = -1;
+                            STACK_WARNINGS = 0;
+                            return ShowGeneralSettings(playerid);
+                        }else{
+                            SCM(playerid, C_ERROR, "Please insert YES or NO!");
+                            format(string,sizeof(string), "Should warnings stack? %s\nType YES to activate or NO to deactivate.", StackWarningsWord());
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                        }
+                    }
+                }
+                case 2:{//LOOS_WARNINGS_TIMER
+                    if(strval(inputtext) < 1 || isnull(inputtext)){
+                        if(LANGUAGE == 1){
+                            SCM(playerid, C_ERROR, "ERROR: Du hast nichts eingegeben oder einen Wert unter einer Minute!");
+                            format(string,sizeof(string), "Aktueller Timer zum abbauen von Verwarnungen %d Minuten\nGib eine neue Zeit in Minuten ein", LOOS_WARNINGS_TIMER/60000);
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                        }
+                        if(LANGUAGE == 2){
+                            SCM(playerid, C_ERROR, "ERROR: You type nothing in or a value under one minute!");
+                            format(string,sizeof(string), "Current timer to reduce warnings %d minutes\nPlease insert a new time in minutes.", LOOS_WARNINGS_TIMER/60000);
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                        }
+                        return 1;
+                    }
+                    if(LANGUAGE == 1){
+                        SCM(playerid, C_INFO, "Zeit wurde neu eingestellt!");
+                    }
+                    if(LANGUAGE == 2){
+                        SCM(playerid, C_INFO, "Time hase been changed!");
+                    }
+                    dini_IntSet(path,"LOOS_WARNINGS_TIMER",strval(inputtext)*60000);
+                    LOOS_WARNINGS_TIMER = strval(inputtext)*60000;
+                    gSettingsStep[playerid] = -1;
+                    return ShowGeneralSettings(playerid);
+                }
+                case 3:{//LANGUAGE
+                    if(LANGUAGE == 1){
+                        if(!strcmp(inputtext, "DE")){
+                            dini_IntSet(path,"LANGUAGE",1);
+                            SCM(playerid,C_INFO,"Du hast die Sprache auf Deutsch eingestellt!");
+                        }else if(!strcmp(inputtext, "EN")){
+                            dini_IntSet(path,"LANGUAGE",2);
+                            SCM(playerid,C_INFO,"Du hast die Sprache auf Englisch eingestellt!");
+                        }else{
+                            SCM(playerid, C_ERROR, "Bitte gib DE oder EN ein!");
+                            format(string,sizeof(string), "Aktuelle Sprache %s\nGibt DE für Deutsch oder EN für Englisch ein!", LanguageWord());
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                        }
+                    }
+                    if(LANGUAGE == 2){
+                        if(!strcmp(inputtext, "DE")){
+                            dini_IntSet(path,"LANGUAGE",1);
+                            SCM(playerid,C_INFO,"You changed the language to German!");
+                        }else if(!strcmp(inputtext, "EN")){
+                            dini_IntSet(path,"LANGUAGE",2);
+                            SCM(playerid,C_INFO,">ou changed the Language to English!");
+                        }else{
+                            SCM(playerid, C_ERROR, "Please insert DE or EN");
+                            format(string,sizeof(string), "Aktuelle Sprache %s\nGibt DE für Deutsch oder EN für Englisch ein!", LanguageWord());
+                            SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                        }
+                    }
+                    LANGUAGE = dini_Int(path,"LANGUAGE");
+                    gSettingsStep[playerid] = -1;
+                    return ShowGeneralSettings(playerid);
+                }
+                case 4:{//SUPVEH_VEHICLEMODEL 400 - 611
+                    if(LANGUAGE == 1){
+                        if(strval(inputtext) < 400 || strval(inputtext) > 611){
+                            SCM(playerid, C_ERROR, "Gib ein Model zwischen 400 und 611 ein!");
+                            format(string,sizeof(string), "Aktuelles Model %d\nGib ein neues Modell ein!", dini_Int(path,"SUPVEH_VEHICLEMODEL"));
+                            return SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "Allgemeine Einstellungen", string, "Speichern", "Zurück");
+                        }
+                        dini_IntSet(path, "SUPVEH_VEHICLEMODEL", strval(inputtext));
+                        SCM(playerid, C_INFO, "Du hast das Model geändert!");
+                        gSettingsStep[playerid] = -1;
+                        return ShowGeneralSettings(playerid);
+                    }
+                    if(LANGUAGE == 2){
+                        if(strval(inputtext) < 400 || strval(inputtext) > 611){
+                            SCM(playerid, C_ERROR, "Invalid model! Insert a model between 400 an 611");
+                            format(string,sizeof(string), "Current model %d\nPlease insert a new model", dini_Int(path,"SUPVEH_VEHICLEMODEL"));
+                            return SPD(playerid, DIALOG_EDIT_G_SETTINGS, DIALOG_STYLE_INPUT, "General Settings", string, "Save", "Back");
+                        }
+                        dini_IntSet(path, "SUPVEH_VEHICLEMODEL", strval(inputtext));
+                        SCM(playerid, C_INFO, "You changed the Model!");
+                        gSettingsStep[playerid] = -1;
+                        return ShowGeneralSettings(playerid);
+                    }
+                }
+            }
+        }
+        case DIALOG_EDIT_RANKS:{
+            if(!response){
+                return ShowSettingsMenu(playerid);
+            }
+            if(listitem != -1){
+                new path[64], string[256];
+                format(path, sizeof(path), "%s/rangNames.ini",SCRIPTFILES_PATH);
+                if(LANGUAGE == 1){
+                    format(string,sizeof(string), "RANG_%d", listitem+1);
+                    format(string,sizeof(string), "Aktueller Rangname: %s\nGebe nun einen neuen Namen ein.", dini_Get(path, string));
+                    SPD(playerid, DIALOG_EDIT_RANKS_INPUT, DIALOG_STYLE_INPUT, "Adminränge editieren", string, "Speichern", "Zurück");
+                    SetPVarInt(playerid, "RANK_EDIT_NUMBER", listitem+1);
+                }
+                if(LANGUAGE == 2){
+                    format(string,sizeof(string), "RANG_%d", listitem+1);
+                    format(string,sizeof(string), "Current rank name: %s\nPlease insert a new name.", dini_Get(path, string));
+                    SPD(playerid, DIALOG_EDIT_RANKS_INPUT, DIALOG_STYLE_INPUT, "Edit admin ranks", string, "Save", "Back");
+                    SetPVarInt(playerid, "RANK_EDIT_NUMBER", listitem+1);
+                }
+            }
+        }
+        case DIALOG_EDIT_RANKS_INPUT:{
+            if(!response){
+                new string[256], path[64], key[10];
+                format(path,sizeof(path), "%s/rangNames.ini",SCRIPTFILES_PATH);
+                for(new i = 0; i<MAX_ADMINLEVEL; i++){
+                    format(key,sizeof(key), "RANG_%d", i+1);
+                    if(i == 0){
+                        format(string,sizeof(string), "%d. %s\n",i+1, dini_Get(path,key));
+                    }else format(string,sizeof(string), "%s\n%d. %s\n",string,i+1, dini_Get(path,key));
+                }
+                if(LANGUAGE == 1)return SPD(playerid, DIALOG_EDIT_RANKS, DIALOG_STYLE_LIST, "Adminränge editieren", string, "Editieren", "Zurück");
+                if(LANGUAGE == 2)return SPD(playerid, DIALOG_EDIT_RANKS, DIALOG_STYLE_LIST, "Edit admin ranks", string, "Edit", "Back");
+            }
+            new key[10], path[64];
+            format(key,sizeof(key), "RANG_%d", GetPVarInt(playerid, "RANK_EDIT_NUMBER"));
+            format(path, sizeof(path), "%s/rangNames.ini",SCRIPTFILES_PATH);
+            dini_Set(path, key, inputtext);
+            SCM(playerid, C_INFO, "Rangname geändert.");
+            new string[256];
+            format(path,sizeof(path), "%s/rangNames.ini",SCRIPTFILES_PATH);
+            for(new i = 0; i<MAX_ADMINLEVEL; i++){
+                format(key,sizeof(key), "RANG_%d", i+1);
+                if(i == 0){
+                    format(string,sizeof(string), "%d. %s\n",i+1, dini_Get(path,key));
+                }else format(string,sizeof(string), "%s\n%d. %s\n",string,i+1, dini_Get(path,key));
+            }
+            if(LANGUAGE == 1)return SPD(playerid, DIALOG_EDIT_RANKS, DIALOG_STYLE_LIST, "Adminränge editieren", string, "Editieren", "Zurück");
+            if(LANGUAGE == 2)return SPD(playerid, DIALOG_EDIT_RANKS, DIALOG_STYLE_LIST, "Edit admin ranks", string, "Edit", "Back");
+        }
+        case DIALOG_EDIT_LEVEL:{
+            if(!response){
+                return ShowSettingsMenu(playerid);
+            }
+            new path[64], key[24], rName[25];
+            format(path, sizeof(path), "%s/settings.ini",SCRIPTFILES_PATH);
+            dini_IntSet(path, "MAX_ADMINLEVEL", strval(inputtext));
+            MAX_ADMINLEVEL = strval(inputtext);
+            format(path, sizeof(path), "%s/rangNames.ini", SCRIPTFILES_PATH);
+            for(new i = 0; i<MAX_ADMINLEVEL; i++){
+                format(key, sizeof(key), "RANG_%d", i+1);
+                format(rName, sizeof(rName), "%s", dini_Get(path, key));
+                if(!isnull(rName))continue;
+                if(LANGUAGE == 1){
+                    dini_Set(path, key, "BITTE NAMEN EINGEBEN!");
+                    continue;
+                }
+                if(LANGUAGE == 2){
+                    dini_Set(path, key, "PLEASE INSERT NAME!");
+                    continue;
+                }
+            }
+            isAdmin[playerid] = MAX_ADMINLEVEL;
+            format(path, sizeof(path), "%s/playerAdmin.ini", SCRIPTFILES_PATH);
+            format(key, sizeof(key), "%s", GetName(playerid));
+            dini_IntSet(path, key, MAX_ADMINLEVEL);
+            if(LANGUAGE == 1){
+                SCM(playerid, C_INFO, "Maximales Adminlevel angepasst.");
+            }
+            else if(LANGUAGE == 2){
+                SCM(playerid, C_INFO, "Max adminlevel edited.");
+            }
+            return ShowSettingsMenu(playerid);
+        }
+    }
+    return 1;
+}
+ 
+public OnPlayerClickPlayer(playerid, clickedplayerid, source)
+{
+    return 1;
+}
+ 
+public LooseWarnings(playerid){
+    if(playerWarnings[playerid] != 0){
+        playerWarnings[playerid]-=1;
+        SCM(playerid, C_INFO, "Du hast eine Verwarnung abgebaut!");
+    }
+    if(playerCurrentWarnings[playerid] != 0){
+        playerCurrentWarnings[playerid]-=1;
+        SCM(playerid, C_INFO, "Du hast eine Verwarnung abgebaut!");
+    }
+    return 1;
+}
+ 
+public KickPlayer(playerid){
+    Kick(playerid);
+    return 1;
+}
+ 
+public RestartServer(){
+    switch(restartStage){
+        case 0:{
+            restartTimer = SetTimer("RestartServer", 1000, true);
+            if(LANGUAGE == 1){
+                GameTextForAll("~y~Server wird in 3 Sekunden neugestartet", 1000, 6);
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~y~Server will be restartet in 3 seconds", 1000, 6);
+            }
+            restartStage = 1;
+        }
+        case 1:{
+            if(LANGUAGE == 1){
+                GameTextForAll("~y~Server wird in 2 Sekunden neugestartet", 1000, 6);
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~y~Server will be restartet in 2 seconds", 1000, 6);
+            }
+            restartStage = 2;
+        }
+        case 2:{
+            if(LANGUAGE == 1){
+                GameTextForAll("~y~Server wird in 1 Sekunden neugestartet", 1000, 6);
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~y~Server will be restartet in 1 seconds", 1000, 6);
+            }
+            restartStage = 3;
+        }
+        case 3:{
+            restartStage = 0;
+            KillTimer(restartTimer);
+            if(LANGUAGE == 1){
+                GameTextForAll("~y~Server wird neugestartet", 5000, 6);
+                SendRconCommand("gmx");
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~y~Server restart!", 5000, 6);
+                SendRconCommand("gmx");
+            }
+        }
+    }
+    return 1;
+}
+ 
+public ResetVehicles(){
+    switch(resetStage){
+        case 0:{
+            resetVehTimer = SetTimer("ResetVehicles", 1000, true);
+            if(LANGUAGE == 1){
+                GameTextForAll("~r~Fahrzeuge werden resettet in 3", 1000, 6);
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~r~Vehicles will be reset in 3", 1000, 6);
+            }
+            resetStage = 1;
+        }
+        case 1:{
+            if(LANGUAGE == 1){
+                GameTextForAll("~r~Fahrzeuge werden resettet in 2", 1000, 6);
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~r~Vehicles will be reset in 2", 1000, 6);
+            }
+            resetStage = 2;
+        }
+        case 2:{
+            if(LANGUAGE == 1){
+                GameTextForAll("~r~Fahrzeuge werden resettet in 1", 1000, 6);
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~r~Vehicles will be reset in 1", 1000, 6);
+            }
+            resetStage = 3;
+        }
+        case 3:{
+            if(LANGUAGE == 1){
+                GameTextForAll("~r~Fahrzeuge werden resettet", 10000, 6);
+            }
+            if(LANGUAGE == 2){
+                GameTextForAll("~r~Vehicles are reset", 10000, 6);
+            }
+            for(new i = 0; i<GetVehiclePoolSize(); i++){
+                if(IsBodyInVehicle(i))continue;
+                SetVehicleToRespawn(i);
+            }
+            resetStage = 0;
+            KillTimer(resetVehTimer);
+        }
+    }
+    return 1;
+}
+ 
+stock IsBodyInVehicle(vehicleid){
+    for(new i; i<MAX_PLAYERS; i++){
+        if(IsPlayerInVehicle(i,vehicleid)){
+            return true;
+        }
+    }
+    return false;
+}
+ 
+stock ShowCurrentAccesLevelDialogE(playerid, const accessName[]){
+    if(LANGUAGE == 1){
+        new string[250];
+        format(string,sizeof(string), "Das Zugriffslevel darf nicht 0 oder über %d sein!", MAX_ADMINLEVEL);
+        SCM(playerid, C_ERROR, string);
+        format(string,sizeof(string), "Aktuelles Zugriffslevel: %d\nGebe nun ein neues Zugriffslevel ein.",CheckUsableStatus(accessName));
+        SPD(playerid, DIALOG_CHANGE_PERMISSION, DIALOG_STYLE_INPUT, "Zugriffslevel bearbeiten", string, "Speichern", "Zurück");
+    }
+    if(LANGUAGE == 2){
+        new string[250];
+        format(string,sizeof(string), "The access level cannot be 0 or above %d!", MAX_ADMINLEVEL);
+        SCM(playerid, C_ERROR, string);
+        format(string,sizeof(string), "Current access level: %d\nPlease insert a new access level.",CheckUsableStatus(accessName));
+        SPD(playerid, DIALOG_CHANGE_PERMISSION, DIALOG_STYLE_INPUT, "Edit access level", string, "Save", "Back");
+    }
+    return 1;
+}
+ 
+stock ShowCurrentAccessLevelDialog(playerid, const accessName[]){
+    if(LANGUAGE == 1){
+        new string[128];
+        format(string,sizeof(string), "Aktuelles Zugriffslevel: %d\nGebe nun ein neues Zugriffslevel ein.",CheckUsableStatus(accessName));
+        return SPD(playerid, DIALOG_CHANGE_PERMISSION, DIALOG_STYLE_INPUT, "Zugriffslevel bearbeiten", string, "Speichern", "Zurück");
+    }
+    if(LANGUAGE == 2){
+        new string[128];
+        format(string,sizeof(string), "Current access level: %d\nPlease insert a new access level.",CheckUsableStatus(accessName));
+        return SPD(playerid, DIALOG_CHANGE_PERMISSION, DIALOG_STYLE_INPUT, "Edit access level", string, "Save", "Back");
+    }
+    return 1;
+}
+ 
+stock ShowPermissionDialog(playerid){
+    if(LANGUAGE == 1){
+        new string[1024];
+        format(string,sizeof(string),"Bezeichnung\tZugriffslevel\nKICKPLAYER\t%d\nBANPLAYER\t%d\nTIMEBAN\t%d\nUNBAN\t%d\nTELEPORTPLAYER\t%d\nSETINT\t%d\n\
+        SETVW\t%d\nSUPVEH\t%d\nSPECTATE\t%d\nSETHEALTH\t%d\nSETARMOUR\t%d\nREPVEH\t%d\nSETWEATHER\t%d\nKILLALL\t%d\nRESETVEH\t%d\nDELVEH\t%d\nRESPAWNVEH\t%d\n\
+        WARNPLAYER\t%d\nGETVID\t%d\nEJECTPLAYER\t%d\nFREEZEPLAYER\t%d\nSLAPPLAYER\t%d\nCLEARCHAT\t%d\nMAKEADMIN\t%d\nGETTICKET\t%d\nADMINCHAT\t%d\nSPAWNNEWVEH\t%d\n\
+        RESTARTSERVER\t%d",
+        CheckUsableStatus("KICKPLAYER_USABLE"),CheckUsableStatus("BANPLAYER_USABLE"),CheckUsableStatus("TIMEBANPLAYER_USABLE"),CheckUsableStatus("UNBANPLAYER_USABLE"),
+        CheckUsableStatus("TELEPORTPLAYER_USABLE"),CheckUsableStatus("SETINT_USABLE"),CheckUsableStatus("SETVW_USABLE"),CheckUsableStatus("SUPVEH_USABLE"),
+        CheckUsableStatus("SPECTATE_USABLE"),CheckUsableStatus("SETHEALTH_USABLE"),CheckUsableStatus("SETARMOUR_USABLE"),CheckUsableStatus("REPVEH_USABLE"),
+        CheckUsableStatus("SETWEATHER_USABLE"),CheckUsableStatus("KILLALL_USABLE"),CheckUsableStatus("RESETVEH_USABLE"),CheckUsableStatus("DELVEH_USABLE"),
+        CheckUsableStatus("SPAWNVEH_USABLE"),CheckUsableStatus("GETVID_USABLE"),CheckUsableStatus("WARNPLAYER_USABLE"),CheckUsableStatus("EJECTPLAYER_USABLE"),
+        CheckUsableStatus("FREEZEPLAYER_USABLE"), CheckUsableStatus("SLAPPLAYER_USABLE"), CheckUsableStatus("CLEARCHAT_USABLE"),CheckUsableStatus("MAKEADMIN_USABLE"),CheckUsableStatus("GETTICKET_USABLE"),
+        CheckUsableStatus("ADMINCHAT_USABLE"),CheckUsableStatus("SPAWNNEWVEH_USABLE"), CheckUsableStatus("RESTARTSERVER_USABLE"));
+        return SPD(playerid, DIALOG_SET_PERMISSIONS, DIALOG_STYLE_TABLIST_HEADERS, "Zugriffsrechte",string,"Ändern", "Zurück");
+    }
+    if(LANGUAGE == 2){
+        new string[1024];
+        format(string,sizeof(string),"Designation\taccess level\nKICKPLAYER\t%d\nBANPLAYER\t%d\nTIMEBAN\t%d\nUNBAN\t%d\nTELEPORTPLAYER\t%d\nSETINT\t%d\n\
+        SETVW\t%d\nSUPVEH\t%d\nSPECTATE\t%d\nSETHEALTH\t%d\nSETARMOUR\t%d\nREPVEH\t%d\nSETWEATHER\t%d\nKILLALL\t%d\nRESETVEH\t%d\nDELVEH\t%d\nRESPAWNVEH\t%d\n\
+        WARNPLAYER\t%d\nGETVID\t%d\nEJECTPLAYER\t%d\nFREEZEPLAYER\t%d\nSLAPPLAYER\t%d\nCLEARCHAT\t%d\nMAKEADMIN\t%d\nGETTICKET\t%d\nADMINCHAT\t%d\nSPAWNNEWVEH\t%d\n\
+        RESTARTSERVER\t%d",
+        CheckUsableStatus("KICKPLAYER_USABLE"),CheckUsableStatus("BANPLAYER_USABLE"),CheckUsableStatus("TIMEBANPLAYER_USABLE"),CheckUsableStatus("UNBANPLAYER_USABLE"),
+        CheckUsableStatus("TELEPORTPLAYER_USABLE"),CheckUsableStatus("SETINT_USABLE"),CheckUsableStatus("SETVW_USABLE"),CheckUsableStatus("SUPVEH_USABLE"),
+        CheckUsableStatus("SPECTATE_USABLE"),CheckUsableStatus("SETHEALTH_USABLE"),CheckUsableStatus("SETARMOUR_USABLE"),CheckUsableStatus("REPVEH_USABLE"),
+        CheckUsableStatus("SETWEATHER_USABLE"),CheckUsableStatus("KILLALL_USABLE"),CheckUsableStatus("RESETVEH_USABLE"),CheckUsableStatus("DELVEH_USABLE"),
+        CheckUsableStatus("SPAWNVEH_USABLE"),CheckUsableStatus("GETVID_USABLE"),CheckUsableStatus("WARNPLAYER_USABLE"),CheckUsableStatus("EJECTPLAYER_USABLE"),
+        CheckUsableStatus("FREEZEPLAYER_USABLE"), CheckUsableStatus("SLAPPLAYER_USABLE"), CheckUsableStatus("CLEARCHAT_USABLE"),CheckUsableStatus("MAKEADMIN_USABLE"),CheckUsableStatus("GETTICKET_USABLE"),
+        CheckUsableStatus("ADMINCHAT_USABLE"),CheckUsableStatus("SPAWNNEWVEH_USABLE"), CheckUsableStatus("RESTARTSERVER_USABLE"));
+        return SPD(playerid, DIALOG_SET_PERMISSIONS, DIALOG_STYLE_TABLIST_HEADERS, "Access level",string,"Change", "Back");
+    }
+    return 1;
+}
+ 
+stock ShowGeneralSettings(playerid){
+    if(LANGUAGE == 1){
+        new string[1024];
+        format(string,sizeof(string), "Bezeichnung\tWert\nMAX WARNINGS\t%d\nSTACK WARNINGS\t%s\nLOOS WARNING TIMER\t%d Minuten\nLANGUAGE\t%s\nSUPVEH MODEL\t%d",
+        CheckUsableStatus("MAX_WARNINGS"),StackWarningsWord(),CheckUsableStatus("LOOS_WARNINGS_TIMER")/60000,LanguageWord(),CheckUsableStatus("SUPVEH_VEHICLEMODEL"));
+        return SPD(playerid, DIALOG_CHANGE_G_SETTINGS, DIALOG_STYLE_TABLIST_HEADERS, "Allgemeine Einstellungen", string, "Ändern", "Zurück");
+    }
+    if(LANGUAGE == 2){
+        new string[1024];
+        format(string,sizeof(string), "Description\tValue\nMAX WARNINGS\t%d\nSTACK WARNINGS\t%s\nLOOS WARNING TIMER\t%d minutes\nLANGUAGE\t%s\nSUPVEH MODEL\t%d",
+        CheckUsableStatus("MAX_WARNINGS"),StackWarningsWord(),CheckUsableStatus("LOOS_WARNINGS_TIMER")/60000,LanguageWord(),CheckUsableStatus("SUPVEH_VEHICLEMODEL"));
+        return SPD(playerid, DIALOG_CHANGE_G_SETTINGS, DIALOG_STYLE_TABLIST_HEADERS, "General Settings", string, "Change", "Back");
+    }
+    return 1;
+}
+ 
+stock StackWarningsWord(){
+    new string[5];
+    if(STACK_WARNINGS == 1){
+        if(LANGUAGE == 1){
+            format(string,sizeof(string),"JA");
+        }
+        if(LANGUAGE == 2){
+            format(string,sizeof(string),"YES");
+        }
+    }
+    if(STACK_WARNINGS == 0){
+        if(LANGUAGE == 1){
+            format(string,sizeof(string),"NEIN");
+        }
+        if(LANGUAGE == 2){
+            format(string,sizeof(string),"NO");
+        }
+    }
+    return string;
+}
+ 
+stock LanguageWord(){
+    new string[3];
+    if(LANGUAGE == 1){format(string,sizeof(string),"DE");}
+    if(LANGUAGE == 2){format(string,sizeof(string),"EN");}
+    return string;
+}
+ 
+stock ShowSettingsMenu(playerid){
+    if(LANGUAGE == 1){
+        SPD(playerid, DIALOG_SHOW_SETTINGS_MENU, DIALOG_STYLE_LIST, "Einstellungen", "1. Admin werden\n2. Adminränge editieren\n3. Anzahl Adminränge bearbeiten\n4. Zugriffslevel bearbeiten\n5. Allgemeine Einstellungen", "Wählen", "Abbrechen");
+    }
+    if(LANGUAGE == 2){
+        SPD(playerid, DIALOG_SHOW_SETTINGS_MENU, DIALOG_STYLE_LIST, "Settings", "1. Become an admin\n2.Edit admin ranks\n3. Edit max. admin ranks\n4. Edit access level\n5. Genereal Settings", "Choose", "Abort");
+    }
+    return 1;
+}
+ 
+stock GetRangName(playerid){
+    new path[64], string[64];
+    if(isAdmin[playerid] == 0){
+        format(string, sizeof(string), "KEIN ADMIN");
+        return string;
+    }
+    format(path, sizeof(path), "%s/rangNames.ini",SCRIPTFILES_PATH);
+    if(!fexist(path)){
+        format(string, sizeof(string), "ERROR");
+        return string;
+    }
+    format(string, sizeof(string), "RANG_%d",isAdmin[playerid]);
+    format(string,sizeof(string), "%s", dini_Get(path, string));
+    return string;
+}
+ 
+stock GetFTime(){
+    new string[16], hour, minute, second;
+    gettime(hour,minute,second);
+    format(string,sizeof(string), "%02d:%02d:%02d",hour,minute,second);
+    return string;
+}
+ 
+stock GetFDate(){
+    new string[16], day, month, year;
+    getdate(year,month,day);
+    if(LANGUAGE == 1){
+        format(string,sizeof(string), "%02d.%02d.%d", day, month, year);
+    }else if(LANGUAGE == 2){
+        format(string,sizeof(string), "%02d/%02d/%d", year, month, day);
+    }
+    return string;
+}
+ 
+stock GetTimestamp(){
+    new hour, minute, second;
+    return gettime(hour,minute,second);
+}
+ 
+stock WriteTicketLock(const logString[]){
+    new path[64];
+    format(path, sizeof(path), "%s/support/ticketlog_%s.txt",SCRIPTFILES_PATH, GetFDate());
+    new File:aLog = fopen(path, io_append);
+    new formatString[256];
+    format(formatString, sizeof(formatString), "[%s - %s] %s\r\n", GetFDate(), GetFTime(), logString);
+    fwrite(aLog, formatString);
+    fclose(aLog);
+    return 1;
+}
+ 
+stock WriteLog(const logString[]){
+    new path[64];
+    format(path, sizeof(path), "%s/logs/adminLog_%s.txt",SCRIPTFILES_PATH, GetFDate());
+    new File:aLog = fopen(path, io_append);
+    new formatString[256];
+    format(formatString, sizeof(formatString), "[%s - %s] %s\r\n", GetFDate(), GetFTime(), logString);
+    fwrite(aLog, formatString);
+    fclose(aLog);
+    return 1;
+}
+ 
+stock GetName(playerid){
+    new PlayerName[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, PlayerName, sizeof(PlayerName));
+    return PlayerName;
+}
+ 
+stock UpdateAccessLevel(const accessName[], level){
+    new path[64];
+    format(path, sizeof(path), "%s/settings.ini", SCRIPTFILES_PATH);
+    dini_IntSet(path, accessName, level);
+    return 1;
+}
+ 
+stock CheckFileStatus(){
+    new path[64];
+    format(path, sizeof(path), "%s/settings.ini",SCRIPTFILES_PATH);
+    if(!fexist(path)){
+        dini_Create(path);
+        dini_IntSet(path, "MAX_ADMINLEVEL", 3);
+        dini_IntSet(path, "MAX_WARNINGS", 3);
+        dini_IntSet(path, "STACK_WARNINGS", 1);
+        dini_IntSet(path, "LOOS_WARNINGS_TIMER", 10*60000);
+        dini_IntSet(path, "LANGUAGE", 1);
+        dini_IntSet(path, "KICKPLAYER_USABLE", 1);
+        dini_IntSet(path, "BANPLAYER_USABLE", 1);
+        dini_IntSet(path, "TIMEBANPLAYER_USABLE", 1);
+        dini_IntSet(path, "UNBANPLAYER_USABLE", 1);
+        dini_IntSet(path, "TELEPORTPLAYER_USABLE", 1);
+        dini_IntSet(path, "SETINT_USABLE", 1);
+        dini_IntSet(path, "SETVW_USABLE", 1);
+        dini_IntSet(path, "SUPVEH_USABLE", 1);
+        dini_IntSet(path, "SUPVEH_VEHICLEMODEL", 411);
+        dini_IntSet(path, "SPECTATE_USABLE", 1);
+        dini_IntSet(path, "SETHEALTH_USABLE", 1);
+        dini_IntSet(path, "SETARMOUR_USABLE", 1);
+        dini_IntSet(path, "REPVEH_USABLE", 1);
+        dini_IntSet(path, "SETWEATHER_USABLE", 1);
+        dini_IntSet(path, "KILLALL_USABLE", 1);
+        dini_IntSet(path, "RESETVEH_USABLE", 1);
+        dini_IntSet(path, "DELVEH_USABLE", 1);
+        dini_IntSet(path, "SPAWNVEH_USABLE", 1);
+        dini_IntSet(path, "GETVID_USABLE", 1);
+        dini_IntSet(path, "WARNPLAYER_USABLE", 1);
+        dini_IntSet(path, "EJECTPLAYER_USABLE", 1);
+        dini_IntSet(path, "FREEZEPLAYER_USABLE", 1);
+        dini_IntSet(path, "SLAPPLAYER_USABLE", 1);
+        dini_IntSet(path, "CLEARCHAT_USABLE", 1);
+        dini_IntSet(path, "MAKEADMIN_USABLE", 1);
+        dini_IntSet(path, "GETTICKET_USABLE", 1);
+        dini_IntSet(path, "ADMINCHAT_USABLE", 1);
+        dini_IntSet(path, "SPAWNNEWVEH_USABLE", 1);
+        dini_IntSet(path, "RESTARTSERVER_USABLE", 1);
+        MAX_ADMINLEVEL = 3;
+        MAX_WARNINGS = 3;
+        LANGUAGE = 1;
+        LOOS_WARNINGS_TIMER = 10*60000;
+        if(LANGUAGE == 1)print("settings.ini war nicht vorhanden und wurde daher neu erstellt");
+        else if(LANGUAGE == 2)print("settings.ini not found. File was createt");
+    }else{
+        MAX_ADMINLEVEL = dini_Int(path, "MAX_ADMINLEVEL");
+        MAX_WARNINGS = dini_Int(path, "MAX_WARNINGS");
+        LANGUAGE = dini_Int(path, "LANGUAGE");
+        LOOS_WARNINGS_TIMER = dini_Int(path, "LOOS_WARNINGS_TIMER");
+        STACK_WARNINGS = 1;
+        if(LANGUAGE == 1)printf("Sprache DE geladen!\nMaximales Adminlevel (%d) wurde geladen!\nMaximale Verwarnungen (%d) geladen!\nVerwarnungs Timer (%d Minuten) geladen!\nVerwarnungen Stacken (%d) geladen!", MAX_ADMINLEVEL, MAX_WARNINGS, LOOS_WARNINGS_TIMER/60000, STACK_WARNINGS);
+        else if(LANGUAGE == 2)printf("Language EN loaded\nMax. adminlevel (%d) loaded!\nMax warnings (%d) loaded!\nVerwarnungs Timer (%d Minuten) geladen!\nVerwarnungen Stacken (%d) geladen!", MAX_ADMINLEVEL, MAX_WARNINGS, LOOS_WARNINGS_TIMER/60000, STACK_WARNINGS);
+    }
+    format(path, sizeof(path), "%s/rangNames.ini",SCRIPTFILES_PATH);
+    if(!fexist(path)){
+        dini_Create(path);
+        dini_Set(path, "RANG_1", "Supporter");
+        dini_Set(path, "RANG_2", "Moderator");
+        dini_Set(path, "RANG_3", "Administrator");
+        if(LANGUAGE == 1)print("rangNames.ini war nicht vorhanden und wurde daher neu erstellt");
+        else if(LANGUAGE == 2)print("rangNames.ini not found. File was createt");
+    }
+    format(path, sizeof(path), "%s/playerAdmin.ini",SCRIPTFILES_PATH);
+    if(!fexist(path)){
+        dini_Create(path);
+        if(LANGUAGE == 1)print("playerAdmin.ini war nicht vorhanden und wurde daher neu erstellt");
+        else if(LANGUAGE == 2)print("playerAdmin.ini not found. File was createt");
+    }
+    format(path, sizeof(path), "%s/warnings.ini", SCRIPTFILES_PATH);
+    if(!fexist(path)){
+        dini_Create(path);
+        if(LANGUAGE == 1)print("warnings.ini war nicht vorhanden und wurde daher neu erstellt");
+        else if(LANGUAGE == 2)print("warnings.ini not found. File was createt");
+    }
+    return 1;
+}
+ 
+stock CheckUsableStatus(const search[]){
+    new path[64];
+    format(path,sizeof(path), "%s/settings.ini",SCRIPTFILES_PATH);
+    new status = dini_Int(path, search);
+    return status;
+}
+ 
+stock CheckUserBanned(playerid){
+    new path[64];
+    format(path,sizeof(path), "%s/bans/%s_p.ini",SCRIPTFILES_PATH, GetName(playerid));
+    if(dini_Exists(path))return 1;
+    return 0;
+}
+ 
+stock CheckUserTimeBanned(playerid){
+    new path[64];
+    format(path,sizeof(path), "%s/bans/%s_t.ini",SCRIPTFILES_PATH, GetName(playerid));
+    if(dini_Exists(path))return 1;
+    return 0;
+}
+ 
+stock LoadPlayerAdmin(playerid){
+    new path[64], user[24];
+    format(path,sizeof(path), "%s/playerAdmin.ini",SCRIPTFILES_PATH);
+    format(user,sizeof(user), "%s", GetName(playerid));
+    isAdmin[playerid] = dini_Int(path, user);
+    return 1;
+}
+ 
+stock LoadPlayerWarnings(playerid){
+    playerWarnings[playerid] = 0;
+    playerCurrentWarnings[playerid] = 0;
+    new path[64], key[24];
+    format(path,sizeof(path), "%s/warnings.ini",SCRIPTFILES_PATH);
+    format(key,sizeof(key), "%s", GetName(playerid));
+    if(!fexist(path))return 1;
+    playerWarnings[playerid] = dini_Int(path,key);
+    playerWarningTimer[playerid] = SetTimerEx("LooseWarnings", LOOS_WARNINGS_TIMER, true, "i", playerid);
+    return 1;
+}
+ 
+stock GetSupVehModel(){
+    new path[64], vModel;
+    format(path,sizeof(path), "%s/settings.ini", SCRIPTFILES_PATH);
+    vModel = dini_Int(path, "SUPVEH_VEHICLEMODEL");
+    return vModel;
+}
+ 
+stock IsAnyAdminOnline(){
+    for(new i = 0; i<MAX_PLAYERS; i++){
+        if(isAdmin[i])return 1;
+    }
+    return 0;
+}
+ 
+stock SendAdminMessage(const text[]){
+    for(new i = 0; i<MAX_PLAYERS; i++){
+        if(isAdmin[i] == 0)continue;
+        SCM(i, C_INFO, text);
+    }
+    return 1;
+}
+ 
+stock HasUserOpenTicket(playerid){
+    if(supportTicket[playerid] == 1)return 1;
+    return 0;
+}
+ 
+//BEFEHLE USER
+ocmd:admins(playerid, params[]){
+    new string[250], count = 0;
+    if(LANGUAGE == 1){format(string,sizeof(string), "Zurzeit Online:\n");}
+    if(LANGUAGE == 2){format(string,sizeof(string), "Currently online:\n");}
+    for(new i = 0; i<MAX_PLAYERS; i++){
+        if(isAdmin[i] >= 1){
+            count = 1;
+            format(string,sizeof(string), "%s%s - %s\n", string, GetName(i), GetRangName(i));
+        }else continue;
+    }
+    if(LANGUAGE == 1){
+        if(count != 1){
+            format(string,sizeof(string), "%sZurzeit ist kein Teammitglied online!",string);
+        }
+        return ShowPlayerDialog(playerid, DIALOG_SHOW_ADMINS, DIALOG_STYLE_MSGBOX, "Adminübersicht", string, "Beenden","");
+    }
+    if(LANGUAGE == 2){
+        if(count != 1){
+            format(string,sizeof(string), "%sCurrently is no team member online!",string);
+        }
+        return ShowPlayerDialog(playerid, DIALOG_SHOW_ADMINS, DIALOG_STYLE_MSGBOX, "Adminoverview", string, "Quit","");
+    }
+    return 1;
+}
+ 
+ocmd:supchat(playerid, params[]){
+    if(LANGUAGE == 1){
+        if(supportTicket[playerid] != -1)return SCM(playerid, C_ERROR, "Du hast bereits in Supportticket offen! Benutzte /endchat um das Ticket zu schließen!");
+        if(!IsAnyAdminOnline())return SCM(playerid, C_ERROR, "Es kann aktuell kein Ticket angelegt werden, da kein Teammitglied online ist!");
+        new ticketText[256];
+        if(sscanf(params, "s[256]", ticketText))return SCM(playerid, C_HINT, "Benutze: /supchat [text]");
+        if(isnull(ticketText))return SCM(playerid, C_ERROR, "Es wurde nichts eingegeben!");
+        supportTicket[playerid] = 1;
+        format(ticketText,sizeof(ticketText), "%s hat ein Ticket gestellt! Text: %s", GetName(playerid), ticketText);
+        SendAdminMessage(ticketText);
+        format(ticketText,sizeof(ticketText), "Benutzte /getticket [%d] um das Ticket anzunehmen!", playerid);
+        SendAdminMessage(ticketText);
+        SCM(playerid, C_INFO, "Dein Ticket wurde angelegt und es wird sich in kürze ein Teammitglied bei dir melden!");
+        SCM(playerid, C_INFO, "Es kann unter umständen dazu kommen, dass die Beantwortung etwas länger dauert.");
+        SCM(playerid, C_INFO, "Bitte habe etwas geduld und vielen Dank das du bei uns spielst!");
+        format(ticketText,sizeof(ticketText), "%s hat ein Support Ticket eröffnet. Ticket ID [%d]", GetName(playerid), playerid);
+        WriteTicketLock(ticketText);
+    }
+    if(LANGUAGE == 2){
+        if(supportTicket[playerid] != -1)return SCM(playerid, C_ERROR, "You have allready a support ticket. Use /endchat to close the Ticket!");
+        if(!IsAnyAdminOnline())return SCM(playerid, C_ERROR, "There is currently no teammember aviable. The ticket cannot be created!");
+        new ticketText[256];
+        if(sscanf(params, "s[256]", ticketText))return SCM(playerid, C_HINT, "Use: /supchat [text]");
+        if(isnull(ticketText))return SCM(playerid, C_ERROR, "There was no input!");
+        supportTicket[playerid] = 1;
+        format(ticketText,sizeof(ticketText), "%s createt a Ticket! Text: %s", GetName(playerid), ticketText);
+        SendAdminMessage(ticketText);
+        format(ticketText,sizeof(ticketText), "Use /getticket [%d] to accept the Ticket!", playerid);
+        SendAdminMessage(ticketText);
+        SCM(playerid, C_INFO, "Your Ticket has been created and a team member will answer it!");
+        SCM(playerid, C_INFO, "It may happen that the answer takes a little longer.");
+        SCM(playerid, C_INFO, "Please be patient and thank you for playing with us!");
+        format(ticketText,sizeof(ticketText), "%s createt a support ticket. Ticket ID [%d]", GetName(playerid), playerid);
+        WriteTicketLock(ticketText);
+    }
+    return 1;
+}
+ 
+ocmd:endchat(playerid){
+    if(inAdminChat[playerid] != -1){//Wenn bereits im Adminchat
+        if(LANGUAGE == 1){
+            new string[250];
+            format(string, sizeof(string), "[TICKET ID: %d] %s hat das Ticket geschlossen.", supportTicket[playerid], GetName(playerid));
+            WriteTicketLock(string);
+            SCM(adminChatID[playerid], C_INFO, string);
+            SCM(playerid, C_INFO, "Du hast das Ticket geschlossen.");
+            adminChatID[adminChatID[playerid]] = -1;
+            adminChatID[playerid] = -1;
+            inAdminChat[playerid] = -1;
+            inAdminChat[adminChatID[playerid]] = -1;
+            supportTicket[adminChatID[playerid]] = -1;
+            supportTicket[playerid] = -1;
+        }
+        if(LANGUAGE == 2){
+            new string[250];
+            format(string, sizeof(string), "[TICKET ID: %d] %s closed the ticket.", supportTicket[playerid], GetName(playerid));
+            WriteTicketLock(string);
+            SCM(adminChatID[playerid], C_INFO, string);
+            SCM(playerid, C_INFO, "You closed the ticket.");
+            adminChatID[adminChatID[playerid]] = -1;
+            adminChatID[playerid] = -1;
+            inAdminChat[playerid] = -1;
+            inAdminChat[adminChatID[playerid]] = -1;
+            supportTicket[adminChatID[playerid]] = -1;
+            supportTicket[playerid] = -1;
+        }
+    }
+    else if(inAdminChat[playerid] == -1 && supportTicket[playerid] != -1){//Wenn noch kein Chat bekommen wurde
+        if(LANGUAGE == 1){
+            new string[250];
+            SCM(playerid, C_INFO, "Du hast dein Ticket geschlossen!");
+            format(string,sizeof(string), "[TICKET ID: %d] %s hat sein Ticket wieder geschlossen!", supportTicket[playerid], GetName(playerid));
+            SendAdminMessage(string);
+            WriteTicketLock(string);
+            supportTicket[playerid] = -1;
+        }
+        if(LANGUAGE == 2){
+            new string[250];
+            SCM(playerid, C_INFO, "You closes your Ticket!");
+            format(string,sizeof(string), "[TICKET ID: %d] %s closed his ticket!", supportTicket[playerid], GetName(playerid));
+            SendAdminMessage(string);
+            WriteTicketLock(string);
+            supportTicket[playerid] = -1;
+        }
+    }
+    return 1;
+}
+ 
+//BEFEHLE ADMIN
+ocmd:restartserver(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("RESTARTSERVER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new time;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "d", time))return SCM(playerid, C_HINT, "Benutze: /restartserver [zeit in sekunden]");
+        if(time <= 0)return SCM(playerid, C_ERROR, "Gib eine Zeit über 0 ein!");
+        restartTimer = SetTimer("RestartServer", time * 1000, false);
+        new string[128];
+        format(string,sizeof(string), "~y~Der Server wird in %d Sekunden neugestartet!", time);
+        GameTextForAll(string, 5000, 6);
+    }
+    return 1;
+}
+ocmd:spawnveh(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SPAWNNEWVEH_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new modelID;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "d", modelID))return SCM(playerid, C_HINT, "Benutze: /spawnveh [modelid]");
+        if(modelID < 400 || modelID > 611)return SCM(playerid, C_ERROR, "Ungültige ModelID!");
+        if(IsPlayerInAnyVehicle(playerid))return SCM(playerid, C_ERROR, "Du befindest dich aktuell in einem Fahrzeug!");
+        new Float:X, Float:Y, Float:Z, Float:A;
+        GetPlayerPos(playerid, X, Y, Z);
+        GetPlayerFacingAngle(playerid, A);
+        new vID = CreateVehicle(modelID, X, Y, Z, A, 0, 0, -1, 0);
+        PutPlayerInVehicle(playerid, vID, 0);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat sich ein Fahrzeug gespawnt!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+        SCM(playerid, C_INFO, "Du hast dir ein Fahrzeug gespawnt!");
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "d", modelID))return SCM(playerid, C_HINT, "Use: /spawnveh [modelid]");
+        if(modelID < 400 || modelID > 611)return SCM(playerid, C_ERROR, "Invalid ModelID!");
+        if(IsPlayerInAnyVehicle(playerid))return SCM(playerid, C_ERROR, "You are in a vehicle!");
+        new Float:X, Float:Y, Float:Z, Float:A;
+        GetPlayerPos(playerid, X, Y, Z);
+        GetPlayerFacingAngle(playerid, A);
+        new vID = CreateVehicle(modelID, X, Y, Z, A, 0, 0, -1, 0);
+        PutPlayerInVehicle(playerid, vID, 0);
+        new string[250];
+        format(string,sizeof(string), "%s %s spawned a vehicle!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+        SCM(playerid, C_INFO, "You spawned a vehicle!");
+    }
+    return 1;
+}
+ 
+ocmd:a(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("ADMINCHAT_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new text[125];
+    if(LANGUAGE == 1){
+        if(sscanf(params, "s[125]", text))return SCM(playerid, C_HINT, "Benutze: /a [text]");
+        format(text,sizeof(text), "*ACHAT %s %s sagt: %s", GetRangName(playerid), GetName(playerid), text);
+        SendAdminMessage(text);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "s[125]", text))return SCM(playerid, C_HINT, "Use: /a [text]");
+        format(text,sizeof(text), "*ACHAT %s %s say: %s", GetRangName(playerid), GetName(playerid), text);
+        SendAdminMessage(text);
+    }
+    return 1;
+}
+ocmd:getticket(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("GETTICKET_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    if(inAdminChat[playerid] != -1){
+        if(LANGUAGE == 1)return SCM(playerid, C_ERROR, "Du hast bereits ein Ticket angenommen! Beende dieses erst mit /endchat!");
+        if(LANGUAGE == 2)return SCM(playerid, C_ERROR, "You got allready a ticket! Close this first with /endchat!");
+    }
+    new pID;
+    if(LANGUAGE == 1){
+        if(sscanf(params,"d", pID))return SCM(playerid, C_HINT, "Benutze: /getticket [id]");
+        if(supportTicket[pID] != 1)return SCM(playerid, C_ERROR, "Dieses Ticket gibt es nicht!");
+        new string[250];
+        format(string,sizeof(string), "%s %s hat dein Ticket angenommen. Du kannst nun im normalen Chat mit %s kommunizieren!", GetRangName(playerid), GetName(playerid), GetName(playerid));
+        SCM(pID, C_INFO, string);
+        SCM(pID, C_INFO, "Benutzte /endchat um das Ticket zu schließen!");
+        format(string,sizeof(string), "Du hast das Ticket von %s angenommen. Du kannst nun im normalen Chat mit %s kommunizieren!", GetName(pID), GetName(pID));
+        SCM(playerid, C_INFO, string);
+        SCM(playerid, C_INFO, "Benutze /endchat um das Ticket zu schließen!");
+        inAdminChat[pID] = 1;
+        adminChatID[pID] = playerid;
+        supportTicket[pID] = pID;
+        supportTicket[playerid] = pID;
+        inAdminChat[playerid] = 1;
+        adminChatID[playerid] = pID;
+        format(string,sizeof(string), "%s %s hat das Ticket von %s angenommen!", GetRangName(playerid), GetName(playerid), GetName(pID));
+        WriteTicketLock(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"d", pID))return SCM(playerid, C_HINT, "Use: /getticket [id]");
+        if(supportTicket[pID] != 1)return SCM(playerid, C_ERROR, "This ticket doesn't exist!");
+        new string[250];
+        format(string,sizeof(string), "%s %s accept your ticket. Now you can communicaite with %s in the normal chat!", GetRangName(playerid), GetName(playerid), GetName(playerid));
+        SCM(pID, C_INFO, string);
+        SCM(pID, C_INFO, "Use /endchat to close the Ticket!");
+        format(string,sizeof(string), "You accepted the ticket from %s. Now you can communicate with %s in the normal chat!", GetName(pID), GetName(pID));
+        SCM(playerid, C_INFO, string);
+        SCM(playerid, C_INFO, "Use /endchat to close the Ticket!");
+        inAdminChat[pID] = 1;
+        adminChatID[pID] = playerid;
+        supportTicket[pID] = pID;
+        supportTicket[playerid] = pID;
+        inAdminChat[playerid] = 1;
+        adminChatID[playerid] = pID;
+        format(string,sizeof(string), "%s %s accepted the ticket from %s!", GetRangName(playerid), GetName(playerid), GetName(pID));
+        WriteTicketLock(string);
+    }
+    return 1;
+}
+ocmd:makeadmin(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("MAKEADMIN_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, aLevel, string[250];
+    if(LANGUAGE == 1){
+        if(sscanf(params,"dd",pID,aLevel))return SCM(playerid, C_HINT, "Benutze: /makeadmin [playerid][level]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(aLevel < 0)return SCM(playerid, C_ERROR, "Das Adminlevel kann nicht unter 0 liegen!");
+        if(aLevel > MAX_ADMINLEVEL){
+            format(string,sizeof(string), "Das Adminlevel darf nicht über dem maximalen (%d) Level liegen", MAX_ADMINLEVEL);
+            return SCM(playerid, C_ERROR, string);
+        }
+        if(aLevel == 0){
+            isAdmin[pID] = 0;
+            format(string,sizeof(string), "%s %s hat dich aus dem Team entlassen!", GetRangName(playerid), GetName(playerid));
+            SCM(pID, C_INFO, string);
+            format(string,sizeof(string), "Du hast %s aus dem Team entlassen!", GetName(pID));
+            SCM(playerid, C_INFO, string);
+            format(string,sizeof(string), "%s %s hat %s aus dem Team entlassen!", GetRangName(playerid), GetName(playerid), GetName(pID));
+            WriteLog(string);
+        }else{
+            isAdmin[pID] = aLevel;
+            format(string,sizeof(string), "%s %s hat dich zum %s ernannt!", GetRangName(playerid), GetName(playerid), GetRangName(pID));
+            SCM(pID, C_INFO, string);
+            format(string,sizeof(string), "Du hast %s zum %s ernannt!", GetName(pID), GetRangName(pID));
+            SCM(playerid, C_INFO, string);
+            format(string,sizeof(string), "%s %s hat %s zum %s ernannt!", GetRangName(playerid), GetName(playerid), GetName(pID), GetRangName(pID));
+            WriteLog(string);
+        }
+        new path[64];
+        format(path, sizeof(path), "%s/playerAdmin.ini", SCRIPTFILES_PATH);
+        dini_IntSet(path, GetName(pID), aLevel);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"dd",pID,aLevel))return SCM(playerid, C_HINT, "Use: /makeadmin [playerid][level]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(aLevel < 0)return SCM(playerid, C_ERROR, "The adminlevel cannot be under zero!");
+        if(aLevel > MAX_ADMINLEVEL){
+            format(string,sizeof(string), "The adminlevel cannot be over the max (%d) level", MAX_ADMINLEVEL);
+            return SCM(playerid, C_ERROR, string);
+        }
+        if(isAdmin[pID] != 0){
+            if(aLevel == 0){
+                isAdmin[pID] = 0;
+                format(string,sizeof(string), "%s %s fired you from the team!", GetRangName(playerid), GetName(playerid));
+                SCM(pID, C_INFO, string);
+                format(string,sizeof(string), "%s %s fired %s from the team!", GetRangName(playerid), GetName(playerid), GetName(pID));
+                WriteLog(string);
+            }else{
+                isAdmin[pID] = aLevel;
+                format(string,sizeof(string), "%s %s made you %s!", GetRangName(playerid), GetName(playerid), GetRangName(pID));
+                SCM(pID, C_INFO, string);
+                format(string,sizeof(string), "%s %s made %s to %s!", GetRangName(playerid), GetName(playerid), GetName(pID), GetRangName(pID));
+                WriteLog(string);
+            }
+        }
+    }
+    return 1;
+}
+ 
+ocmd:cc(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("CLEARCHAT_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    for(new i = 0; i<150; i++){
+        SCMA(-1, "");
+    }
+    new string[128];
+    if(LANGUAGE == 1){
+        format(string,sizeof(string), "%s %s hat den Chat gesäubert!", GetRangName(playerid), GetName(playerid));
+    }
+    if(LANGUAGE == 2){
+        format(string,sizeof(string), "%s %s cleard the chat!", GetRangName(playerid), GetName(playerid));
+    }
+    SCMA(C_INFO, string);
+    WriteLog(string);
+    return 1;
+}
+ 
+ocmd:slap(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SLAPPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "d", pID))return SCM(playerid, C_HINT, "Benutze: /slap [playerid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(isSpectating[pID])return SCM(playerid, C_ERROR, "Dieser Spieler beobachtet gerade jemand anderen!");
+        new Float:X, Float:Y, Float:Z, string[250];
+        GetPlayerPos(pID, X, Y, Z);
+        SetPlayerPos(pID, X, Y, Z + 8.0);
+        format(string,sizeof(string), "%s %s hat %s in die Höhe geschleudert!", GetRangName(playerid), GetName(playerid), GetName(pID));
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "d", pID))return SCM(playerid, C_HINT, "Use: /slap [playerid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(isSpectating[pID])return SCM(playerid, C_ERROR, "This player spectate currently another player!");
+        new Float:X, Float:Y, Float:Z, string[250];
+        GetPlayerPos(pID, X, Y, Z);
+        SetPlayerPos(pID, X, Y, Z + 8.0);
+        format(string,sizeof(string), "%s %s slaped %s!", GetRangName(playerid), GetName(playerid), GetName(pID));
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:freeze(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("FREEZEPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "d", pID))return SCM(playerid, C_HINT, "Benutzte: /freeze [playerid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        new string[250];
+        if(!playerFreezed[playerid]){
+            playerFreezed[playerid] = true;
+            TogglePlayerControllable(pID, 0);
+            format(string,sizeof(string), "%s %s hat dich gefreezet!", GetRangName(playerid), GetName(playerid));
+            SCM(pID, C_INFO, string);
+            format(string,sizeof(string), "Du hast %s gefreezet!", GetName(pID));
+            SCM(playerid, C_INFO, string);
+            format(string,sizeof(string), "%s %s hat %s gefreezet!", GetRangName(playerid), GetName(playerid), GetName(pID));
+            WriteLog(string);
+        }else{
+            playerFreezed[playerid] = false;
+            TogglePlayerControllable(pID, 1);
+            format(string,sizeof(string), "%s %s hat dich entfreezet!", GetRangName(playerid), GetName(playerid));
+            SCM(pID, C_INFO, string);
+            format(string,sizeof(string), "Du hast %s entfreezet!", GetName(pID));
+            SCM(playerid, C_INFO, string);
+            format(string,sizeof(string), "%s %s hat %s entfreezet!", GetRangName(playerid), GetName(playerid), GetName(pID));
+            WriteLog(string);
+        }
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "d", pID))return SCM(playerid, C_HINT, "Use: /freeze [playerid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        new string[250];
+        if(!playerFreezed[playerid]){
+            playerFreezed[playerid] = true;
+            TogglePlayerControllable(pID, 0);
+            format(string,sizeof(string), "%s %s freezed you!", GetRangName(playerid), GetName(playerid));
+            SCM(pID, C_INFO, string);
+            format(string,sizeof(string), "You freezed %s", GetName(pID));
+            SCM(playerid, C_INFO, string);
+            format(string,sizeof(string), "%s %s freezed %s!", GetRangName(playerid), GetName(playerid), GetName(pID));
+            WriteLog(string);
+        }else{
+            playerFreezed[playerid] = false;
+            TogglePlayerControllable(pID, 1);
+            format(string,sizeof(string), "%s %s unfreezed you!", GetRangName(playerid), GetName(playerid));
+            SCM(pID, C_INFO, string);
+            format(string,sizeof(string), "You unfreezed %s!", GetName(pID));
+            SCM(playerid, C_INFO, string);
+            format(string,sizeof(string), "%s %s unfreezed %s!", GetRangName(playerid), GetName(playerid), GetName(pID));
+            WriteLog(string);
+        }
+    }
+    return 1;
+}
+ 
+ocmd:eject(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("EJECTPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID;
+    if(LANGUAGE == 1){
+        if(sscanf(params,"d",pID))return SCM(playerid, C_HINT, "Benutze: /eject [playerid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(!IsPlayerInAnyVehicle(pID))return PLAYER_NOT_IN_VEHICLE_DE;
+        RemovePlayerFromVehicle(pID);
+        new string[250];
+        format(string,sizeof(string), "Du wurdest von %s %s aus dem Fahrzeug entfernt!", GetRangName(playerid), GetName(playerid));
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "Du hast %s aus dem Fahrzeug entfernt!", GetName(pID));
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s hat %s aus dem Fahrzeug entfernt!", GetRangName(playerid), GetName(playerid), GetName(pID));
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"d",pID))return SCM(playerid, C_HINT, "Use: /eject [playerid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_EN;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_EN;
+        if(!IsPlayerInAnyVehicle(pID))return PLAYER_NOT_IN_VEHICLE_EN;
+        RemovePlayerFromVehicle(pID);
+        new string[250];
+        format(string,sizeof(string), "%s %s removed you from the vehicle!", GetRangName(playerid), GetName(playerid));
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "You removed %s from the vehicle!", GetName(pID));
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s removed %s from the vehicle!", GetRangName(playerid), GetName(playerid), GetName(pID));
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:warn(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("WARNPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, grund[32];
+    if(LANGUAGE == 1){
+        if(sscanf(params,"ds[32]", pID, grund))return SCM(playerid, C_HINT, "Benutze: /warn [playerid][grund]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        new string[256], key[24], path[64];
+        format(path,sizeof(path), "%s/warnings.ini", SCRIPTFILES_PATH);
+        format(key,sizeof(key), "%s", GetName(pID));
+        format(string,sizeof(string), "Du wurdest von %s %s verwarnt. Grund: %s", GetRangName(playerid), GetName(playerid), grund);
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "%s %s hat %s eine Verwarnung gegeben. Grund: %s", GetRangName(playerid), GetName(playerid), GetName(pID), grund);
+        WriteLog(string);
+        if(STACK_WARNINGS == 1){
+            playerWarnings[pID] += 1;
+            playerCurrentWarnings[pID] += 1;
+            dini_IntSet(path, key, playerWarnings[pID]);
+            if(playerCurrentWarnings[pID] >= MAX_WARNINGS){
+                format(string,sizeof(string), "Du hast mehr als %d oder genau %d Verwarnungen! Du wirst nun vom Server gekickt!", MAX_WARNINGS, MAX_WARNINGS);
+                SCM(pID, C_ERROR, string);
+                format(string,sizeof(string), "%s wurde vom Server gekickt! Grund: Zu viele Verwarnungen!", GetName(pID));
+                SCMA(C_INFO,string);
+                KickEx(pID);
+            }
+        }else{
+            playerWarnings[pID] += 1;
+            playerCurrentWarnings[pID] += 1;
+            dini_IntSet(path, key, playerWarnings[pID]);
+            if(playerWarnings[pID] >= MAX_WARNINGS){
+                format(string,sizeof(string), "Du hast mehr als %d oder genau %d Verwarnungen! Du wirst nun vom Server gekickt!", MAX_WARNINGS, MAX_WARNINGS);
+                SCM(pID, C_ERROR, string);
+                format(string,sizeof(string), "%s wurde vom Server gekickt! Grund: Zu viele Verwarnungen!", GetName(pID));
+                SCMA(C_INFO,string);
+                KickEx(pID);
+            }
+        }
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"ds[32]", pID, grund))return SCM(playerid, C_HINT, "Use: /warn [playerid][reason]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        new string[256], key[24], path[64];
+        format(path,sizeof(path), "%s/warnings.ini", SCRIPTFILES_PATH);
+        format(key,sizeof(key), "%s", GetName(pID));
+        format(string,sizeof(string), "You got a warn from %s %s. Reason: %s", GetRangName(playerid), GetName(playerid), grund);
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "%s %s gave %s a warning. Reason: %s", GetRangName(playerid), GetName(playerid), GetName(pID), grund);
+        WriteLog(string);
+        if(STACK_WARNINGS == 1){
+            playerWarnings[pID] += 1;
+            playerCurrentWarnings[pID] += 1;
+            dini_IntSet(path, key, playerWarnings[pID]);
+            if(playerCurrentWarnings[pID] >= MAX_WARNINGS){
+                format(string,sizeof(string), "You've got more than or equal %d warnings! You get kicked now!", MAX_WARNINGS);
+                SCM(pID, C_ERROR, string);
+                format(string,sizeof(string), "%s got kicked! Reason: Too many wanrs!", GetName(pID));
+                SCMA(C_INFO,string);
+                KickEx(pID);
+            }
+        }else{
+            playerWarnings[pID] += 1;
+            playerCurrentWarnings[pID] += 1;
+            dini_IntSet(path, key, playerWarnings[pID]);
+            if(playerWarnings[pID] >= MAX_WARNINGS){
+                format(string,sizeof(string), "You've got more than or equal %d warnings! You get kicked now!", MAX_WARNINGS);
+                SCM(pID, C_ERROR, string);
+                format(string,sizeof(string), "%s got kicked! Reason: Too many wanrs!", GetName(pID));
+                SCMA(C_INFO,string);
+                KickEx(pID);
+            }
+        }
+    }
+    return 1;
+}
+ 
+ocmd:getvid(playerid){
+    if(isAdmin[playerid] < CheckUsableStatus("GETVID_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    if(LANGUAGE == 1){
+        if(!IsPlayerInAnyVehicle(playerid))return SCM(playerid, C_ERROR, "Du bist in keinem Fahrzeug!");
+        new string[250];
+        format(string,sizeof(string), "Die VehicleID: %d", GetPlayerVehicleID(playerid));
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s hat sich die VehicleID %d von einem Fahrzeug ausgeben lassen!", GetRangName(playerid), GetName(playerid), GetPlayerVehicleID(playerid));
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(!IsPlayerInAnyVehicle(playerid))return SCM(playerid, C_ERROR, "You're not in a vehicle!");
+        new string[250];
+        format(string,sizeof(string), "VehicleID : %d", GetPlayerVehicleID(playerid));
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s got a vehicleid from a vehicle. VehicleID: %d!", GetRangName(playerid), GetName(playerid), GetPlayerVehicleID(playerid));
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:respawnveh(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SPAWNVEH_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new vID;
+    if(LANGUAGE == 1){
+        if(sscanf(params,"d",vID))return SCM(playerid, C_HINT, "Benutze: /spawnveh [vehicleid]");
+        if(!IsValidVehicle(vID))return SCM(playerid, C_ERROR, "Dieses Fahrzeug gibt es nicht!");
+        if(IsBodyInVehicle(vID))return SCM(playerid, C_ERROR, "In diesem Fahrzeug sitzt nocht jemand!");
+        SetVehicleToRespawn(vID);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat ein Fahrzeug respawnt!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+        format(string,sizeof(string), "Du hast das Fahrzeug mit der ID %d respawnt!", vID);
+        SCM(playerid, C_INFO, string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"d",vID))return SCM(playerid, C_HINT, "Use: /spawnveh [vehicleid]");
+        if(!IsValidVehicle(vID))return SCM(playerid, C_ERROR, "This vehicle doesn't exist!");
+        if(IsBodyInVehicle(vID))return SCM(playerid, C_ERROR, "There is somebody in this vehicle!");
+        SetVehicleToRespawn(vID);
+        new string[250];
+        format(string,sizeof(string), "%s %s have respawned a vehicle!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+        format(string,sizeof(string), "You have respawn the vehicle with the id %d!", vID);
+        SCM(playerid, C_INFO, string);
+    }
+    return 1;
+}
+ 
+ocmd:delveh(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("DELVEH_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new vID;
+    if(LANGUAGE == 1){
+        if(sscanf(params,"d",vID))return SCM(playerid, C_HINT, "Benutze: /delveh [vehicleid]");
+        if(!IsValidVehicle(vID))return SCM(playerid, C_ERROR, "Dieses Fahrzeug gibt es nicht!");
+        if(IsBodyInVehicle(vID))return SCM(playerid, C_ERROR, "In diesem Fahrzeug sitzt noch jemand!");
+        DestroyVehicle(vID);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat ein Fahrzeug gelöscht!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"d",vID))return SCM(playerid, C_HINT, "Use: /delveh [vehicleid]");
+        if(!IsValidVehicle(vID))return SCM(playerid, C_ERROR, "This vehicle doesn't exist!");
+        if(IsBodyInVehicle(vID))return SCM(playerid, C_ERROR, "There is somebody in this vehicle!");
+        DestroyVehicle(vID);
+        new string[250];
+        format(string,sizeof(string), "%s %s destroyed a vehicle!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:resetveh(playerid){
+    if(isAdmin[playerid] < CheckUsableStatus("RESETVEH_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new string[250];
+    if(LANGUAGE == 1){
+        GameTextForAll("~r~Unbesetzte Fahrzeuge werden in 30 Sekunden resettet", 7000, 6);
+        format(string,sizeof(string), "%s %s hat einen Respawn von allen leeren Fahrzeugen angestoßen!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        GameTextForAll("~r~Unoccupied vehicles will be reset in 30 seconds", 7000, 6);
+        format(string,sizeof(string), "%s %s has triggered a respawn from all empty vehicles!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+    }
+    SetTimer("ResetVehicles", 27000,false);
+    return 1;
+}
+ 
+ocmd:killall(playerid){
+    if(isAdmin[playerid] < CheckUsableStatus("KILLALL_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    for(new i = 0; i<MAX_PLAYERS; i++){
+        if(IsPlayerNPC(i))continue;
+        SetPlayerHealth(i, 0);
+    }
+    new string[250];
+    if(LANGUAGE == 1){
+        format(string, sizeof(string), "%s %s hat alle Spieler auf dem Server getötet!", GetRangName(playerid), GetName(playerid));
+        return WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        format(string, sizeof(string), "%s %s killed all players on the server!", GetRangName(playerid), GetName(playerid));
+        return WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:setweather(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SETWEATHER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new wID;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "d", wID))return SCM(playerid, C_HINT, "Benutze: /setweather [weatherid]");
+        if(wID < 0 || wID > 20)return SCM(playerid, C_ERROR, "Ungültige Wetter ID!");
+        SetWeather(wID);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat das Wetter auf %d geändert!", GetRangName(playerid), GetName(playerid), wID);
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "d", wID))return SCM(playerid, C_HINT, "Use: /setweather [weatherid]");
+        if(wID < 0 || wID > 20)return SCM(playerid, C_ERROR, "Invalid weather id!");
+        SetWeather(wID);
+        new string[250];
+        format(string,sizeof(string), "%s %s changed the weather to %d!", GetRangName(playerid), GetName(playerid), wID);
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:repveh(playerid){
+    if(isAdmin[playerid] < CheckUsableStatus("REPVEH_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    if(LANGUAGE == 1){
+        if(!IsPlayerInAnyVehicle(playerid))return SCM(playerid, C_ERROR, "Du bist in keinem Fahrzeug!");
+        SetVehicleHealth(GetPlayerVehicleID(playerid), 1000);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat sein Fahrzeug repariert!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+        SCM(playerid, C_INFO, "Du hast dein Fahrzeug repariert!");
+    }
+    if(LANGUAGE == 2){
+        if(!IsPlayerInAnyVehicle(playerid))return SCM(playerid, C_ERROR, "You're not in a vehicle!");
+        SetVehicleHealth(GetPlayerVehicleID(playerid), 1000);
+        new string[250];
+        format(string,sizeof(string), "%s %s repaired his vehicle!", GetRangName(playerid), GetName(playerid));
+        WriteLog(string);
+        SCM(playerid, C_INFO, "You repaired your vehicle!");
+    }
+    return 1;
+}
+ 
+ocmd:setarmour(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SETARMOUR_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, Float:Armour;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "df", pID, Armour))return SCM(playerid, C_HINT, "Benutze: /setarmour [playerid][ammount]");
+        if(Armour > 100)return SCM(playerid, C_ERROR, "Du kannst die Rüstung nicht über 100 setzten!");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        SetPlayerArmour(pID, Armour);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat deine Rüstung auf %02f gesetzt!", GetRangName(playerid), GetName(playerid), Armour);
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "Du hast die Rüstung von %s auf %02f gesetzt!", GetName(pID), Armour);
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s hat die Rüstung von %s auf %02f gesetzt!", GetRangName(playerid), GetName(playerid), GetName(pID), Armour);
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "df", pID, Armour))return SCM(playerid, C_HINT, "Use: /setarmour [playerid][ammount]");
+        if(Armour > 100)return SCM(playerid, C_ERROR, "You can't put armour above 100!");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        SetPlayerArmour(pID, Armour);
+        new string[250];
+        format(string,sizeof(string), "%s %s set your armour to %02f!", GetRangName(playerid), GetName(playerid), Armour);
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "You set the armour from %s to %02f!", GetName(pID), Armour);
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s set the armour from %s to %02f!", GetRangName(playerid), GetName(playerid), GetName(pID), Armour);
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:sethealth(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SETHEALTH_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, Float:Health;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "df", pID, Health))return SCM(playerid, C_HINT, "Benutze: /sethealth [playerid][ammount]");
+        if(Health > 100)return SCM(playerid, C_ERROR, "Du kannst das Leben nicht über 100 setzen!");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        SetPlayerHealth(pID, Health);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat dein Leben auf %02f gesetzt!", GetRangName(playerid), GetName(playerid), Health);
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "Du hast das Leben von %s auf %02f gesetzt!", GetName(pID), Health);
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s hat das Leben von %s auf %02f gesetzt!", GetRangName(playerid), GetName(playerid), GetName(pID), Health);
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "df", pID, Health))return SCM(playerid, C_HINT, "Use: /sethealth [playerid][ammount]");
+        if(Health > 100)return SCM(playerid, C_ERROR, "You can't put life above 100!");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_EN;
+        SetPlayerHealth(pID, Health);
+        new string[250];
+        format(string,sizeof(string), "%s %s set your health to %02f!", GetRangName(playerid), GetName(playerid), Health);
+        SCM(pID, C_INFO, string);
+        format(string,sizeof(string), "You set the healt from %s to %02f!", GetName(pID), Health);
+        SCM(playerid, C_INFO, string);
+        format(string,sizeof(string), "%s %s set the health from %s to %02f!", GetRangName(playerid), GetName(playerid), GetName(pID), Health);
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:spectate(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SPECTATE_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    if(LANGUAGE == 1){
+        if(!isSpectating[playerid]){
+            new pID;
+            if(sscanf(params, "d", pID))return SCM(playerid, C_HINT, "Benutze: /spectate [playerid]");
+            if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+            if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+            GetPlayerPos(playerid, p_oldX[playerid], p_oldY[playerid], p_oldZ[playerid]);
+            GetPlayerFacingAngle(playerid, p_oldA[playerid]);
+            p_oldINT[playerid] = GetPlayerInterior(playerid);
+            p_oldVW[playerid] = GetPlayerVirtualWorld(playerid);
+            pSpectateID[playerid] = pID;
+            if(!IsPlayerInAnyVehicle(pID)){//Wenn Spieler in keinem Fahrzeug ist
+                TogglePlayerSpectating(playerid, 1);
+                PlayerSpectatePlayer(playerid, pID, SPECTATE_MODE_NORMAL);
+            }else{
+                new pIDVEH = GetPlayerVehicleID(pID);
+                TogglePlayerSpectating(playerid, 1);
+                PlayerSpectateVehicle(playerid, pIDVEH, SPECTATE_MODE_NORMAL);
+            }
+            isSpectating[playerid] = true;
+            SCM(playerid, C_INFO, "Gebe erneut /spectate ein um den Modus zu verlassen.");
+            new string[250];
+            format(string,sizeof(string), "%s %s schaut jetzt %s zu!", GetRangName(playerid), GetName(playerid), GetName(pID));
+            WriteLog(string);
+        }else{
+            new string[250];
+            format(string,sizeof(string), "%s %s hat aufgehört %s zuzuschauen!", GetRangName(playerid), GetName(playerid), GetName(pSpectateID[playerid]));
+            WriteLog(string);
+            TogglePlayerSpectating(playerid, 0);
+        }
+    }
+    if(LANGUAGE == 2){
+        if(!isSpectating[playerid]){
+            new pID;
+            if(sscanf(params, "d", pID))return SCM(playerid, C_HINT, "Use: /spectate [playerid]");
+            if(!IsPlayerConnected(pID))return NOT_ONLINE_EN;
+            if(IsPlayerNPC(pID))return PLAYER_NPC_EN;
+            GetPlayerPos(playerid, p_oldX[playerid], p_oldY[playerid], p_oldZ[playerid]);
+            GetPlayerFacingAngle(playerid, p_oldA[playerid]);
+            p_oldINT[playerid] = GetPlayerInterior(playerid);
+            p_oldVW[playerid] = GetPlayerVirtualWorld(playerid);
+            pSpectateID[playerid] = pID;
+            isSpectating[playerid] = true;
+            if(!IsPlayerInAnyVehicle(pID)){//Wenn Spieler in keinem Fahrzeug ist
+                TogglePlayerSpectating(playerid, 1);
+                PlayerSpectatePlayer(playerid, pID, SPECTATE_MODE_NORMAL);
+            }else{
+                new pIDVEH = GetPlayerVehicleID(pID);
+                TogglePlayerSpectating(playerid, 1);
+                PlayerSpectateVehicle(playerid, pIDVEH, SPECTATE_MODE_NORMAL);
+            }
+            SCM(playerid, C_INFO, "Type /spectate to end this mode.");
+            new string[250];
+            format(string,sizeof(string), "%s %s is now watching %s!", GetRangName(playerid), GetName(playerid), GetName(pID));
+            WriteLog(string);
+        }else{
+            new string[250];
+            format(string,sizeof(string), "%s %s no longer wachtes %s!", GetRangName(playerid), GetName(playerid), GetName(pSpectateID[playerid]));
+            WriteLog(string);
+            TogglePlayerSpectating(playerid, 0);
+        }
+    }
+    return 1;
+}
+ 
+ocmd:supveh(playerid){
+    if(isAdmin[playerid] < CheckUsableStatus("SUPVEH_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    if(playerSupVeh[playerid] == -1){
+        new Float:X, Float:Y, Float:Z, Float:A, string[250];
+        GetPlayerPos(playerid, X, Y, Z);
+        GetPlayerFacingAngle(playerid, A);
+        playerSupVeh[playerid] = CreateVehicle(GetSupVehModel(),X,Y,Z,A,65,65,-1,1);
+        PutPlayerInVehicle(playerid, playerSupVeh[playerid], 0);
+        SetVehicleNumberPlate(playerSupVeh[playerid],"SUPPORT");
+        if(LANGUAGE == 1){
+            format(string,sizeof(string), "%s %s hat sich ein Supportfahrzeug gespawnt!", GetRangName(playerid), GetName(playerid));
+            WriteLog(string);
+        }
+        if(LANGUAGE == 2){
+            format(string,sizeof(string), "%s %s spawend a supportvehicle!", GetRangName(playerid), GetName(playerid));
+            WriteLog(string);
+        }
+    }else{
+        DestroyVehicle(playerSupVeh[playerid]);
+        playerSupVeh[playerid] = -1;
+    }
+    return 1;
+}
+ 
+ocmd:setvw(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SETVW_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, vwID;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "dd", pID, vwID))return SCM(playerid, C_HINT, "Benutze /setvw [playerid][virtualworld]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(vwID < 0 || vwID > 2147483647)return SCM(playerid, C_ERROR, "Ungültige virtuelle Welt!");
+        SetPlayerVirtualWorld(pID, vwID);
+        new string[250];
+        format(string,sizeof(string), "%s %s hat die VW von %s auf %d geändert!", GetRangName(playerid), GetName(playerid), GetName(pID), vwID);
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "dd", pID, vwID))return SCM(playerid, C_HINT, "Use /setvw [playerid][virtualworld]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(vwID < 0 || vwID > 2147483647)return SCM(playerid, C_ERROR, "Invalid VW!");
+        SetPlayerVirtualWorld(pID, vwID);
+        new string[250];
+        format(string,sizeof(string), "%s %s changed the VW from %s to %d!", GetRangName(playerid), GetName(playerid), GetName(pID), vwID);
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:setint(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("SETINT_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, intID;
+    if(LANGUAGE == 1){
+        if(sscanf(params, "dd", pID, intID))return SCM(playerid, C_HINT, "Benutze /setint [playerid][interiorid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(intID < 0 || intID > 18)return SCM(playerid, C_ERROR, "Ungültige InteriorID!");
+        SetPlayerInterior(pID, intID);
+        new string[250];
+        format(string, sizeof(string), "%s %s hat das Interior von %s auf %d geändert!", GetRangName(playerid), GetName(playerid), GetName(pID), intID);
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params, "dd", pID, intID))return SCM(playerid, C_HINT, "Use /setint [playerid][interiorid]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_EN;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_EN;
+        if(intID < 0 || intID > 18)return SCM(playerid, C_ERROR, "Invalid InteriorID!");
+        SetPlayerInterior(pID, intID);
+        new string[250];
+        format(string, sizeof(string), "%s %s changed the interior from %s to %d!", GetRangName(playerid), GetName(playerid), GetName(pID), intID);
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:tp(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("TELEPORTPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID1, pID2;
+    if(LANGUAGE == 1){
+        if(sscanf(params,"dd",pID1,pID2))return SCM(playerid, C_HINT, "Benutze: /tp [playerid][ziel playerid]");
+        if(!IsPlayerConnected(pID1) || !IsPlayerConnected(pID2))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID1) || IsPlayerNPC(pID2))return PLAYER_NPC_DE;
+        new Float:X, Float:Y, Float:Z, Float:A, string[250];
+        GetPlayerPos(pID2, X, Y, Z);
+        GetPlayerFacingAngle(pID2, A);
+        SetPos(pID1, X, Y+2, Z, A);
+        format(string, sizeof(string), "%s %s hat %s zu %s teleportiert!", GetRangName(playerid), GetName(playerid), GetName(pID1), GetName(pID2));
+        WriteLog(string);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"dd",pID1,pID2))return SCM(playerid, C_HINT, "Use: /tp [playerid][target playerid]");
+        if(!IsPlayerConnected(pID1) || !IsPlayerConnected(pID2))return NOT_ONLINE_EN;
+        if(IsPlayerNPC(pID1) || IsPlayerNPC(pID2))return PLAYER_NPC_EN;
+        new Float:X, Float:Y, Float:Z, Float:A, string[250];
+        GetPlayerPos(pID2, X, Y, Z);
+        GetPlayerFacingAngle(pID2, A);
+        SetPos(pID1, X, Y+2, Z, A);
+        format(string, sizeof(string), "%s %s teleportet %s to %s!", GetRangName(playerid), GetName(playerid), GetName(pID1), GetName(pID2));
+        WriteLog(string);
+    }
+    return 1;
+}
+ 
+ocmd:unban(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("UNBANPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new player[24];
+    if(LANGUAGE == 1){
+        if(sscanf(params,"s[24]",player))return SCM(playerid, C_HINT, "Benutze: /unban [spielername]");
+        new path[64], string[250];
+        format(path,sizeof(path), "%s/bans/%s_p.ini",SCRIPTFILES_PATH,player);
+        if(fexist(path)){
+            fremove(path);
+            format(string, sizeof(string), "Spieler %s wurde von %s %s entbannt!", player, GetRangName(playerid), GetName(playerid));
+            WriteLog(string);
+            return SCM(playerid, C_INFO, "Spieler entbannt!");
+        }
+        format(path,sizeof(path), "%s/bans/%s_t.ini",SCRIPTFILES_PATH,player);
+        if(fexist(path)){
+            fremove(path);
+            format(string, sizeof(string), "Spieler %s wurde von %s %s entbannt!", player, GetRangName(playerid), GetName(playerid));
+            WriteLog(string);
+            return SCM(playerid, C_INFO, "Spieler entbannt!");
+        }
+        SCM(playerid, C_ERROR, "Dieser Spieler ist nicht gebannt!");
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"s[24]",player))return SCM(playerid, C_HINT, "Use: /unban [playername]");
+        new path[64], string[250];
+        format(path,sizeof(path), "%s/bans/%s_p.ini",SCRIPTFILES_PATH,player);
+        if(fexist(path)){
+            fremove(path);
+            format(string, sizeof(string), "Player %s has been unbanned by %s %s", player, GetRangName(playerid), GetName(playerid));
+            WriteLog(string);
+            return SCM(playerid, C_INFO, "Player unbanned!");
+        }
+        format(path,sizeof(path), "%s/bans/%s_t.ini",SCRIPTFILES_PATH,player);
+        if(fexist(path)){
+            fremove(path);
+            format(string, sizeof(string), "Player %s has been unbanned by %s %s", player, GetRangName(playerid), GetName(playerid));
+            WriteLog(string);
+            return SCM(playerid, C_INFO, "Player unbanned!");
+        }
+        SCM(playerid, C_ERROR, "This player is not banned!");
+    }
+    return 1;
+}
+ 
+ocmd:timeban(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("TIMEBANPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, time, reason[64];
+    if(LANGUAGE == 1){
+        if(sscanf(params,"dds[64]",pID,time,reason))return SCM(playerid, C_HINT, "Benutze /timeban [playerid][zeit in minuten][grund]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(time < 1)return SCM(playerid, C_ERROR, "Gebe eine Zeit über 0 Minuten ein!");
+        new string[250];
+        format(string,sizeof(string), "%s hat %s für %d Minuten gebannt. Grund: %s", GetName(playerid), GetName(pID), time, reason);
+        SCMA(C_INFO,string);
+        new rechnung = GetTimestamp()+(time*60);
+        format(reason,sizeof(reason), "%s/bans/%s_t.ini",SCRIPTFILES_PATH,GetName(pID));
+        dini_Create(reason);
+        dini_IntSet(reason, "TIMESTAMP", rechnung);
+        WriteLog(string);
+        KickEx(pID);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"dds[64]",pID,time,reason))return SCM(playerid, C_HINT, "Use /timeban [playerid][time in minutes][reason]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        if(time < 1)return SCM(playerid, C_ERROR, "Take a time over 0 minutes!");
+        new string[250];
+        format(string,sizeof(string), "%s banned %s for %d minutes. Reason: %s", GetName(playerid), GetName(pID), time, reason);
+        SCMA(C_INFO,string);
+        new rechnung = GetTimestamp()+(time*60);
+        format(reason,sizeof(reason), "%s/bans/%s_t.ini",SCRIPTFILES_PATH,GetName(pID));
+        dini_Create(reason);
+        dini_IntSet(reason, "TIMESTAMP", rechnung);
+        WriteLog(string);
+        KickEx(pID);
+    }
+    return 1;
+}
+ 
+ocmd:ban(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("BANPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_DE;
+    }
+    new pID, reason[64];
+    if(LANGUAGE == 1){
+        if(sscanf(params,"ds[64]",pID, reason))return SCM(playerid, C_HINT, "Benutze /ban [playerid][grund]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_DE;
+        new string[250];
+        format(string,sizeof(string), "%s hat %s vom Server gebannt. Grund: %s", GetName(playerid), GetName(pID), reason);
+        SCMA(C_INFO,string);
+        WriteLog(string);
+        format(reason,sizeof(reason), "%s/bans/%s_p.ini",SCRIPTFILES_PATH,GetName(pID));
+        if(!fexist(reason)){
+            dini_Create(reason);
+            dini_IntSet(reason,"BANNED",1);
+        }else{
+            SCM(playerid, C_ERROR, "FEHLER: SPIELER BEREITS GEBANNT!");
+        }
+        KickEx(pID);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"ds[64]",pID, reason))return SCM(playerid, C_HINT, "Use /ban [playerid][grund]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_EN;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_EN;
+        new string[250];
+        format(string,sizeof(string), "%s banned %s from the Server. Reason: %s", GetName(playerid), GetName(pID), reason);
+        SCMA(C_INFO,string);
+        WriteLog(string);
+        format(reason,sizeof(reason), "%s/bans/%s_p.ini",SCRIPTFILES_PATH,GetName(pID));
+        if(!fexist(reason)){
+            dini_Create(reason);
+            dini_IntSet(reason,"BANNED",1);
+        }else{
+            SCM(playerid, C_ERROR, "FEHLER: SPIELER BEREITS GEBANNT!");
+        }
+        KickEx(pID);
+    }
+    return 1;
+}
+ 
+ocmd:kick(playerid, params[]){
+    if(isAdmin[playerid] < CheckUsableStatus("KICKPLAYER_USABLE")){
+        if(LANGUAGE == 1)return NotAllowed_DE;
+        if(LANGUAGE == 2)return NotAllowed_EN;
+    }
+    new pID, reason[64];
+    if(LANGUAGE == 1){
+        if(sscanf(params,"ds[64]",pID, reason))return SCM(playerid, C_HINT, "Benutze /kick [playerid][grund]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_DE;
+        if(IsPlayerNPC(pID))return SCM(playerid, C_ERROR, "Diese ID ist ein NPC!");
+        new string[250];
+        format(string,sizeof(string), "%s hat %s vom Server gekickt. Grund: %s",GetName(playerid), GetName(pID), reason);
+        SCMA(C_INFO, string);
+        WriteLog(string);
+        KickEx(pID);
+    }
+    if(LANGUAGE == 2){
+        if(sscanf(params,"ds[64]",pID, reason))return SCM(playerid, C_HINT, "Use /kick [playerid][grund]");
+        if(!IsPlayerConnected(pID))return NOT_ONLINE_EN;
+        if(IsPlayerNPC(pID))return PLAYER_NPC_EN;
+        new string[250];
+        format(string,sizeof(string), "%s kicked %s from the Server. Reason: %s",GetName(playerid), GetName(pID), reason);
+        SCMA(C_INFO, string);
+        WriteLog(string);
+        KickEx(pID);
+    }
+    return 1;
+}
+ 
+ocmd:settings(playerid){
+    if(!IsPlayerAdmin(playerid)){
+        if(LANGUAGE == 1) return NotAllowed_DE;
+        if(LANGUAGE == 2) return NotAllowed_EN;
+    }
+    ShowSettingsMenu(playerid);
+    return 1;
+}

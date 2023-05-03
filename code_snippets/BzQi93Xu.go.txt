@@ -1,0 +1,38 @@
+package main
+ 
+import (
+    "crypto/rand"
+    "hash/crc32"
+    "log"
+    "os"
+    "sync"
+ 
+    "github.com/yerden/go-dpdk/eal"
+)
+ 
+var crc uint32
+ 
+func main() {
+    if _, err := eal.Init(os.Args); err != nil {
+        log.Fatalln("EAL init failed:", err)
+    }
+    defer eal.Cleanup()
+    defer eal.StopLcores()
+ 
+    var wg sync.WaitGroup
+    for _, id := range eal.LcoresWorker() {
+        wg.Add(1)
+        go eal.ExecOnLcore(id, func(*eal.LcoreCtx) {
+            defer wg.Done()
+            b := make([]byte, 1024)
+            rand.Read(b)
+            tab := crc32.MakeTable(crc32.Castagnoli)
+ 
+            for {
+                crc = crc32.Update(crc, tab, b)
+            }
+        })
+    }
+ 
+    wg.Wait()
+}

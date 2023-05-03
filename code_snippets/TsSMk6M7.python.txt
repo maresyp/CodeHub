@@ -1,0 +1,22 @@
+class sample(object):
+    def __init__(self, X, n_subspace):
+        self.idx_subspace = self.random_subspace(X, n_subspace)
+ 
+    def __call__(self, X, y):
+        idx_obj = self.bootstrap_sample(X)
+        X_sampled, y_sampled = self.get_subsample(X, y, self.idx_subspace, idx_obj)
+        return X_sampled, y_sampled
+ 
+    @staticmethod
+    def bootstrap_sample(X, random_state=42):
+        return np.unique(np.random.choice(X.shape[0], X.shape[0]))
+ 
+    @staticmethod
+    def random_subspace(X, n_subspace, random_state=42):
+        return np.random.choice(X.shape[1], n_subspace, replace=False)
+ 
+    @staticmethod
+    def get_subsample(X, y, idx_subspace, idx_obj):
+        X_sampled = X[idx_obj, :][:, idx_subspace]
+        y_sampled = y[idx_obj]
+        return X_sampled, y_sampled

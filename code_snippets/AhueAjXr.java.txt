@@ -1,0 +1,7 @@
+Scanner scan = new Scanner(System.in);
+        System.out.println("Inserisci una stringa");
+        String strLetta = scan.nextLine();
+        System.out.println("Inserisci un numero");
+        int pos = scan.nextInt();
+        char tmp = strLetta.charAt(pos);
+        System.out.println("Il carattere alla posizione " + pos + " è " + tmp);

@@ -1,0 +1,87 @@
+#pragma once
+ 
+#ifndef AD22XXMEASUREEXTSTART_H
+#   define AD22XXMEASUREEXTSTART_H
+ 
+#   include "ad22xxadchannelsettings.h"
+#   include "teststep.h"
+ 
+#   include <vector>
+ 
+/*!
+ * \brief Произвести измерение тока прибором AD2205
+ *        по внешнему программному триггеру (external software trig).
+ */
+class AD22XXMeasureExtStart : public TestStepBasic
+{
+public:
+    /*!
+     * \brief Конструктор с параметрами первичной инициализации измерения
+     *        устройством и дефолтными значениями Максимального интервала
+     *        измерений и Выборочного интервала измерений.
+     * \param devNum - номер устройства на схеме
+     * \param ch - векстор с информацией о настраиваемых каналах
+     * \param scanCount - общее количество сканирований произведенных
+     *                    устройством
+     * \param anaTrigCtrl - определение состояния аналогового триггера
+     *                      (настройка триггера)
+     * \param lowTrigVolts - нижний предел срабатывания АЦП
+     * \param highTrigVolts - верхний предел срабатывания АЦП
+     */
+    AD22XXMeasureExtStart(const QString &devNum,
+                          const std::vector<AD22XXADCChannelSettings> &ch,
+                          unsigned int scanCount,
+                          unsigned short anaTrigCtrl,
+                          unsigned short lowTrigVolts,
+                          unsigned short highTrigVolts);
+ 
+    /*!
+     * \brief Конструктор с параметрами первичной инициализации измерения
+     *        и возможность задать Максимального интервал измерений и
+     *        Выборочный интервала измерений.
+     * \param devNum - номер устройства на схеме
+     * \param ch - векстор с информацией о настраиваемых каналах
+     * \param scanCount - общее количество сканирований произведенных
+     *                    устройством
+     * \param scanInt - максимального интервал измерений
+     * \param sampInt - выборочный интервала измерений
+     * \param anaTrigCtrl - определение состояния аналогового триггера
+     *                      (настройка триггера)
+     * \param lowTrigVolts - нижний предел срабатывания АЦП
+     * \param highTrigVolts - верхний предел срабатывания АЦП
+     */
+    AD22XXMeasureExtStart(const QString &devNum,
+                          const std::vector<AD22XXADCChannelSettings> &ch,
+                          unsigned int scanCount,
+                          unsigned int scanInt,
+                          unsigned int sampInt,
+                          unsigned short anaTrigCtrl,
+                          unsigned short lowTrigVolts,
+                          unsigned short highTrigVolts);
+ 
+    /*!
+     * \brief Основная функция исполнения этого класса команды.
+     *        Конфигурирует и запускает измерения на АЦП
+     * \return true - если нет ошибок
+     */
+    bool execute();
+ 
+    /*!
+     * \brief Отмена всех выполненых действий в функции execute().
+     *        Останавливает измерение на АЦП
+     * \return  true - если нет ошибок
+     */
+    bool reset();
+ 
+private:
+    QString m_devNum;
+    std::vector<AD22XXADCChannelSettings> m_ch;
+    unsigned int m_scanCount;
+    unsigned int m_scanInterval;
+    unsigned int m_sampInterval;
+    unsigned short m_anaTrigCtrl;
+    unsigned short m_lowTrigVolts;
+    unsigned short m_highTrigVolts;
+};
+ 
+#endif // AD22XXMEASUREEXTSTART_H

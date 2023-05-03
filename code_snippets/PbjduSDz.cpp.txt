@@ -1,0 +1,40 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+int wyszukiwanie_wzorca(string wzorzec, string tekst)
+{
+    int wzorzec_size = wzorzec.size();
+    int tekst_size = tekst.size();
+    if(wzorzec_size > tekst_size)
+        return 0;
+    int licznik = 0;
+ 
+    for(int i = 0; i <= tekst_size - wzorzec_size; ++i)
+    {
+        if(tekst[i] == wzorzec[0])
+        {
+            bool zgodne = true;
+            for(int j = 1; j < wzorzec_size; ++j)
+            {
+                if(tekst[i + j] != wzorzec[j])
+                {
+                    zgodne = false;
+                    break;
+                }
+            }
+            if(zgodne)
+                ++licznik;
+        }
+    }
+    return licznik;
+}
+ 
+int main()
+{
+    string wzorzec, tekst;
+    getline(cin, wzorzec);
+    getline(cin, tekst);
+    cout << wyszukiwanie_wzorca(wzorzec, tekst) << endl;
+    return 0;
+}

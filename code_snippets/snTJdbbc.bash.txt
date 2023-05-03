@@ -1,0 +1,200 @@
+vladislav@vladislav:~/projects/whisperfish$ ~/AuroraOS/bin/sfdk config --push target AuroraOS-4.1.0.27-base-i486
+vladislav@vladislav:~/projects/whisperfish$ ~/AuroraOS/bin/sfdk build
+NOTICE: Using the 'AuroraOS-4.1.0.27-base-i486.default' snapshot of the build target
+Setting version: 0.6.0.beta.16+master.20230411084652.0ffe39e8
+sh: release: command not found
+Loading repository data...
+Reading installed packages...
+'cargo = 1.52.1+git3-1' is already installed.
+No update candidate for 'cargo-1.52.1+git3-1.i486'. The highest available version is already installed.
+'rust = 1.52.1+git3-1' is already installed.
+No update candidate for 'rust-1.52.1+git3-1.i486'. The highest available version is already installed.
+'rust-std-static = 1.52.1+git3-1' not found in package names. Trying capabilities.
+'rust-std-static-i686-unknown-linux-gnu' providing 'rust-std-static = 1.52.1+git3-1' is already installed.
+'coreutils' not found in package names. Trying capabilities.
+'gnu-coreutils' providing 'coreutils' is already installed.
+'git' is already installed.
+No update candidate for 'git-2.26.2+git1-1.1.4.omp.i486'. The highest available version is already installed.
+'zlib-devel' is already installed.
+No update candidate for 'zlib-devel-1.2.12-1.1.3.omp.i486'. The highest available version is already installed.
+'automake' is already installed.
+No update candidate for 'automake-1.16.1+git1-1.1.3.omp.noarch'. The highest available version is already installed.
+'gcc-c++' is already installed.
+No update candidate for 'gcc-c++-8.3.0-1.2.1.omp.i486'. The highest available version is already installed.
+'openssl-devel' not found in package names. Trying capabilities.
+'libopenssl-devel' providing 'openssl-devel' is already installed.
+'tcl' is already installed.
+No update candidate for 'tcl-8.5.8-1.1.2.omp.i486'. The highest available version is already installed.
+'qtmozembed-qt5-devel' is already installed.
+No update candidate for 'qtmozembed-qt5-devel-1.53.22+git8-1.2.10.omp.i486'. The highest available version is already installed.
+'dbus-devel' is already installed.
+No update candidate for 'dbus-devel-1.13.12+git6-1.1.4.omp.i486'. The highest available version is already installed.
+'meego-rpm-config' is already installed.
+No update candidate for 'meego-rpm-config-0.19.2-1.1.3.omp.noarch'. The highest available version is already installed.
+'nemo-qml-plugin-notifications-qt5-devel' is already installed.
+No update candidate for 'nemo-qml-plugin-notifications-qt5-devel-1.2.16-1.1.2.omp.i486'. The highest available version is already installed.
+'protobuf-compiler' is already installed.
+No update candidate for 'protobuf-compiler-3.18.0+git1-1.2.2.omp.i486'. The highest available version is already installed.
+'qt5-qtwebsockets-devel' is already installed.
+No update candidate for 'qt5-qtwebsockets-devel-5.5.1-1.1.2.omp.i486'. The highest available version is already installed.
+Resolving package dependencies...
+ 
+Nothing to do.
+sh: release: command not found
+Building target platforms: i486-meego-linux
+Building for target i486-meego-linux
+sh: release: command not found
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.3YC9X7
++ umask 022
++ cd /home/vladislav/projects/whisperfish
++ LANG=C
++ export LANG
++ unset DISPLAY
++ CFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -m32 -msse -msse2 -march=i686 -mfpmath=sse -mtune=generic -fno-omit-frame-pointer -fasynchronous-unwind-tables'
++ export CFLAGS
++ CXXFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -m32 -msse -msse2 -march=i686 -mfpmath=sse -mtune=generic -fno-omit-frame-pointer -fasynchronous-unwind-tables'
++ export CXXFLAGS
++ FFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -m32 -msse -msse2 -march=i686 -mfpmath=sse -mtune=generic -fno-omit-frame-pointer -fasynchronous-unwind-tables -I/usr/lib/gfortran/modules'
++ export FFLAGS
++ LD_AS_NEEDED=1
++ export LD_AS_NEEDED
++ rustc --version
+rustc 1.52.1-dev
++ cargo --version
+cargo 1.52.0-dev
++ export SB2_RUST_TARGET_TRIPLE=i686-unknown-linux-gnu
++ SB2_RUST_TARGET_TRIPLE=i686-unknown-linux-gnu
++ export 'CFLAGS_i686_unknown_linux_gnu=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -m32 -msse -msse2 -march=i686 -mfpmath=sse -mtune=generic -fno-omit-frame-pointer -fasynchronous-unwind-tables'
++ CFLAGS_i686_unknown_linux_gnu='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -m32 -msse -msse2 -march=i686 -mfpmath=sse -mtune=generic -fno-omit-frame-pointer -fasynchronous-unwind-tables'
++ export 'CXXFLAGS_i686_unknown_linux_gnu=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -m32 -msse -msse2 -march=i686 -mfpmath=sse -mtune=generic -fno-omit-frame-pointer -fasynchronous-unwind-tables'
++ CXXFLAGS_i686_unknown_linux_gnu='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -m32 -msse -msse2 -march=i686 -mfpmath=sse -mtune=generic -fno-omit-frame-pointer -fasynchronous-unwind-tables'
++ export 'CFLAGS=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ CFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ export 'CXXFLAGS=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ CXXFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ export PATH=/opt/cross/bin/:/home/mersdk/.mb2/wrappers/projects/whisperfish:/home/mersdk/.mb2/user-wrappers/projects/whisperfish:/usr/local/bin:/bin:/usr/bin
++ PATH=/opt/cross/bin/:/home/mersdk/.mb2/wrappers/projects/whisperfish:/home/mersdk/.mb2/user-wrappers/projects/whisperfish:/usr/local/bin:/bin:/usr/bin
++ export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=armv7hl-meego-linux-gnueabi-gcc
++ CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=armv7hl-meego-linux-gnueabi-gcc
++ export CC_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-gcc
++ CC_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-gcc
++ export CXX_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-g++
++ CXX_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-g++
++ export AR_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-ar
++ AR_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-ar
++ export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-meego-linux-gnu-gcc
++ CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-meego-linux-gnu-gcc
++ export CC_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-gcc
++ CC_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-gcc
++ export CXX_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-g++
++ CXX_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-g++
++ export AR_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-ar
++ AR_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-ar
++ export PKG_CONFIG_ALLOW_CROSS_i686_unknown_linux_gnu=1
++ PKG_CONFIG_ALLOW_CROSS_i686_unknown_linux_gnu=1
++ export PKG_CONFIG_ALLOW_CROSS_armv7_unknown_linux_gnueabihf=1
++ PKG_CONFIG_ALLOW_CROSS_armv7_unknown_linux_gnueabihf=1
++ export PKG_CONFIG_ALLOW_CROSS_aarch64_unknown_linux_gnu=1
++ PKG_CONFIG_ALLOW_CROSS_aarch64_unknown_linux_gnu=1
++ FEATURES=sailfish
++ export RUSTFLAGS=
++ RUSTFLAGS=
+++ git describe --exclude release,tag --dirty=-dirty
++ export GIT_VERSION=v0.6.0-beta.16-72-gaed4e196-dirty
++ GIT_VERSION=v0.6.0-beta.16-72-gaed4e196-dirty
++ cat /home/vladislav/projects/whisperfish/rpm/../Cargo.toml
+[workspace]
+members = [
+    "create-store",
+    "fetch-signal-attachment",
+    "harbour-whisperfish",
+    "whisperfish",
+    "whisperfish-migration-dry-run"
+]
+ 
+[patch."https://github.com/signalapp/libsignal"]
+libsignal-protocol = { git = "https://gitlab.com/whisperfish/libsignal-client", branch = "whisperfork" }
+zkgroup = { git = "https://gitlab.com/whisperfish/libsignal-client", branch = "whisperfork" }
+ 
+# [patch.crates-io]
+# qmetaobject = { path="../qmetaobject-rs/qmetaobject" }
+ 
+[patch.crates-io]
+curve25519-dalek = { git = 'https://github.com/signalapp/curve25519-dalek', branch = 'lizard2' }
+ 
+qmetaobject = { git = "https://github.com/whisperfish/qmetaobject-rs", branch = "whisperfork" }
+qttypes = { git = "https://github.com/whisperfish/qmetaobject-rs", branch = "whisperfork" }
+ 
+# [patch."https://github.com/whisperfish/libsignal-service-rs"]
+# libsignal-service = { path = "/home/rsmet/src/libsignal-service-rs/libsignal-service" }
+# libsignal-service-actix = { path = "/home/rsmet/src/libsignal-service-rs/libsignal-service-actix/" }
+ 
+# Smart dev mode: Compile most stuff in release mode, except for the things
+# that are actually maintained by our community
+[profile.dev.package."*"]
+opt-level = 3
+ 
+[profile.dev.package.libsignal-protocol]
+opt-level = 0
+ 
+[profile.dev.package.libsignal-service]
+opt-level = 0
+ 
+[profile.dev.package.libsignal-service-actix]
+opt-level = 0
+ 
+[profile.dev.package.qmetaobject]
+opt-level = 0
+ 
+[profile.release]
+# This flag is set in CI using CARGO_PROFILE_RELEASE_LTO=thin
+# lto = "thin"
+debug = true
+ 
+ 
++ BINS='--bin harbour-whisperfish'
++ '[' -z '' ']'
+++ grep VERSION_ID /etc/sailfish-release
+++ cut -d = -f2
+grep: /etc/sailfish-release: No such file or directory
++ TARGET_VERSION=
+++ echo
+++ awk -F. '{print $1 FS $2}'
++ MAJOR_VERSION=.
++ cargo build -j 1 -vv --release --no-default-features --bin harbour-whisperfish --features sailfish --manifest-path /home/vladislav/projects/whisperfish/rpm/../Cargo.toml
+   Compiling libc v0.2.140
+     Running `CARGO=/usr/bin/cargo CARGO_CRATE_NAME=build_script_build CARGO_MANIFEST_DIR=/home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/libc-0.2.140 CARGO_PKG_AUTHORS='The Rust Project Developers' CARGO_PKG_DESCRIPTION='Raw FFI bindings to platform libraries like libc.
+' CARGO_PKG_HOMEPAGE='https://github.com/rust-lang/libc' CARGO_PKG_LICENSE='MIT OR Apache-2.0' CARGO_PKG_LICENSE_FILE='' CARGO_PKG_NAME=libc CARGO_PKG_REPOSITORY='https://github.com/rust-lang/libc' CARGO_PKG_VERSION=0.2.140 CARGO_PKG_VERSION_MAJOR=0 CARGO_PKG_VERSION_MINOR=2 CARGO_PKG_VERSION_PATCH=140 CARGO_PKG_VERSION_PRE='' LD_LIBRARY_PATH='/home/vladislav/projects/whisperfish/target/release/deps:/usr/lib' rustc --crate-name build_script_build /home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/libc-0.2.140/build.rs --error-format=json --json=diagnostic-rendered-ansi --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="extra_traits"' --cfg 'feature="std"' -C metadata=be81315c573f0f7d -C extra-filename=-be81315c573f0f7d --out-dir /home/vladislav/projects/whisperfish/target/release/build/libc-be81315c573f0f7d --target i686-unknown-linux-gnu -L dependency=/home/vladislav/projects/whisperfish/target/release/deps --cap-lints warn`
+error: linker `cc` not found
+  |
+  = note: No such file or directory (os error 2)
+ 
+error: aborting due to previous error
+ 
+   Compiling proc-macro2 v1.0.43
+     Running `CARGO=/usr/bin/cargo CARGO_CRATE_NAME=build_script_build CARGO_MANIFEST_DIR=/home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/proc-macro2-1.0.43 CARGO_PKG_AUTHORS='David Tolnay <dtolnay@gmail.com>:Alex Crichton <alex@alexcrichton.com>' CARGO_PKG_DESCRIPTION='A substitute implementation of the compiler'\''s `proc_macro` API to decouple token-based libraries from the procedural macro use case.' CARGO_PKG_HOMEPAGE='' CARGO_PKG_LICENSE='MIT OR Apache-2.0' CARGO_PKG_LICENSE_FILE='' CARGO_PKG_NAME=proc-macro2 CARGO_PKG_REPOSITORY='https://github.com/dtolnay/proc-macro2' CARGO_PKG_VERSION=1.0.43 CARGO_PKG_VERSION_MAJOR=1 CARGO_PKG_VERSION_MINOR=0 CARGO_PKG_VERSION_PATCH=43 CARGO_PKG_VERSION_PRE='' LD_LIBRARY_PATH='/home/vladislav/projects/whisperfish/target/release/deps:/usr/lib' rustc --crate-name build_script_build --edition=2018 /home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/proc-macro2-1.0.43/build.rs --error-format=json --json=diagnostic-rendered-ansi --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="proc-macro"' --cfg 'feature="span-locations"' -C metadata=9038b4d34d6caf20 -C extra-filename=-9038b4d34d6caf20 --out-dir /home/vladislav/projects/whisperfish/target/release/build/proc-macro2-9038b4d34d6caf20 --target i686-unknown-linux-gnu -L dependency=/home/vladislav/projects/whisperfish/target/release/deps --cap-lints warn`
+   Compiling syn v1.0.80
+     Running `CARGO=/usr/bin/cargo CARGO_CRATE_NAME=build_script_build CARGO_MANIFEST_DIR=/home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/syn-1.0.80 CARGO_PKG_AUTHORS='David Tolnay <dtolnay@gmail.com>' CARGO_PKG_DESCRIPTION='Parser for Rust source code' CARGO_PKG_HOMEPAGE='' CARGO_PKG_LICENSE='MIT OR Apache-2.0' CARGO_PKG_LICENSE_FILE='' CARGO_PKG_NAME=syn CARGO_PKG_REPOSITORY='https://github.com/dtolnay/syn' CARGO_PKG_VERSION=1.0.80 CARGO_PKG_VERSION_MAJOR=1 CARGO_PKG_VERSION_MINOR=0 CARGO_PKG_VERSION_PATCH=80 CARGO_PKG_VERSION_PRE='' LD_LIBRARY_PATH='/home/vladislav/projects/whisperfish/target/release/deps:/usr/lib' rustc --crate-name build_script_build --edition=2018 /home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/syn-1.0.80/build.rs --error-format=json --json=diagnostic-rendered-ansi --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C debug-assertions=off --cfg 'feature="clone-impls"' --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="extra-traits"' --cfg 'feature="fold"' --cfg 'feature="full"' --cfg 'feature="parsing"' --cfg 'feature="printing"' --cfg 'feature="proc-macro"' --cfg 'feature="quote"' --cfg 'feature="visit"' --cfg 'feature="visit-mut"' -C metadata=8739b8d300381d7b -C extra-filename=-8739b8d300381d7b --out-dir /home/vladislav/projects/whisperfish/target/release/build/syn-8739b8d300381d7b --target i686-unknown-linux-gnu -L dependency=/home/vladislav/projects/whisperfish/target/release/deps --cap-lints warn`
+error: linker `cc` not found
+  |
+  = note: No such file or directory (os error 2)
+ 
+error: aborting due to previous error
+ 
+error: could not compile `syn`
+ 
+Caused by:
+  process didn't exit successfully: `CARGO=/usr/bin/cargo CARGO_CRATE_NAME=build_script_build CARGO_MANIFEST_DIR=/home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/syn-1.0.80 CARGO_PKG_AUTHORS='David Tolnay <dtolnay@gmail.com>' CARGO_PKG_DESCRIPTION='Parser for Rust source code' CARGO_PKG_HOMEPAGE='' CARGO_PKG_LICENSE='MIT OR Apache-2.0' CARGO_PKG_LICENSE_FILE='' CARGO_PKG_NAME=syn CARGO_PKG_REPOSITORY='https://github.com/dtolnay/syn' CARGO_PKG_VERSION=1.0.80 CARGO_PKG_VERSION_MAJOR=1 CARGO_PKG_VERSION_MINOR=0 CARGO_PKG_VERSION_PATCH=80 CARGO_PKG_VERSION_PRE='' LD_LIBRARY_PATH='/home/vladislav/projects/whisperfish/target/release/deps:/usr/lib' rustc --crate-name build_script_build --edition=2018 /home/mersdk/.cargo/registry/src/github.com-1285ae84e5963aae/syn-1.0.80/build.rs --error-format=json --json=diagnostic-rendered-ansi --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C debug-assertions=off --cfg 'feature="clone-impls"' --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="extra-traits"' --cfg 'feature="fold"' --cfg 'feature="full"' --cfg 'feature="parsing"' --cfg 'feature="printing"' --cfg 'feature="proc-macro"' --cfg 'feature="quote"' --cfg 'feature="visit"' --cfg 'feature="visit-mut"' -C metadata=8739b8d300381d7b -C extra-filename=-8739b8d300381d7b --out-dir /home/vladislav/projects/whisperfish/target/release/build/syn-8739b8d300381d7b --target i686-unknown-linux-gnu -L dependency=/home/vladislav/projects/whisperfish/target/release/deps --cap-lints warn` (exit code: 1)
+warning: build failed, waiting for other jobs to finish...
+error: linker `cc` not found
+  |
+  = note: No such file or directory (os error 2)
+ 
+error: aborting due to previous error
+ 
+error: build failed
+error: Bad exit status from /var/tmp/rpm-tmp.3YC9X7 (%build)
+ 
+ 
+RPM build errors:
+    Bad exit status from /var/tmp/rpm-tmp.3YC9X7 (%build)

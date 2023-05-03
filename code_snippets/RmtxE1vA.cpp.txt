@@ -1,0 +1,22 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+// złożone operatory arytmetyczne
+//      n++, ++n    zwiększenie wartości n o 1
+//      n--, --n    zmniejszenie wartości n o 1
+//      n += 10     zwiększenie wartości n o 10
+//      n *= 2      pomnożenie wartości n przez 2
+//      n /= 3      podzielenie wartości n przez 3
+//      n -= 5      zmniejszenie wartości n o 5
+ 
+int main()
+{
+    int liczba = 1;         // 1. utwórz zmienną liczba i nadaj jej wartość 1
+    while(liczba < 1000)    // 2. dopóki wartość zmiennej liczba jest mniejsza od 1000 wykonuj operacje 3 i 4
+    {
+        cout << liczba << endl;     // 3. wypisz wartość zmiennej liczba na ekran
+        liczba *= 2;        // 4. pomnóż wartość zmiennej liczba przez 2
+    }
+    return 0;
+}

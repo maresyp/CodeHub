@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+#define int int64_t
+ 
+const int inf = 2e18;
+const int mod = 1e9 + 7;
+ 
+bool relax(int& a, int b) {
+    if (a < b) {
+        a = b;
+        return true;
+    }
+    return false;
+}
+ 
+int32_t main() {
+    //freopen("show.in", "r", stdin);
+    //freopen("show.out", "w", stdout);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    int n;
+    cin >> n;
+    vector<pair<pair<int, int>, int>> segs(n); // r, l, ind
+    for (int i = 0; i < n; i++) {
+        int a, b;
+        cin >> a >> b;
+        b += a;
+        segs[i] = {{b, a}, i};
+    }
+    segs.push_back({{-1, -1}, -1});
+    n++;
+    sort(segs.begin(), segs.end());
+    vector<vector<vector<int>>> dp(n, vector<vector<int>>(n, vector<int>(2, -2e18)));
+    vector<vector<vector<pair<int, int>>>> p(n, vector<vector<pair<int, int>>>(n, vector<pair<int, int>>(2, {-1, -1})));
+    dp[0][0][0] = 0;
+    for (int i = 0; i + 1 < n; i++) {
+        for (int n0 = 0; n0 <= i; n0++) {
+            for (int t = 0; t < 2; t++) {
+                int cnt = 0;
+                for (int j = i + 1; j < n; j++) {
+                    cnt += segs[j].first.second >= segs[i].first.first;
+                    if (relax(dp[j][n0 + (t ? cnt : 0)][1 - t], dp[i][n0][t] + (t ? 0 : cnt))) {
+                        p[j][n0 + (t ? cnt : 0)][1 - t] = {i, n0};
+                    }
+                }
+            }
+        }
+    }
+    int ans_val = -2e18;
+    int ans_n0 = -1;
+    int ans_t = -1;
+    for (int n0 = 0; n0 < n; n0++) {
+        for (int t = 0; t < 2; t++) {
+            if (relax(ans_val, min(dp[n - 1][n0][t], n0))) {
+                ans_n0 = n0;
+                ans_t = t;
+            }
+        }
+    }
+    int ans_i = n - 1;
+    vector<int> ans(n - 1);
+    while (ans_i > 0) {
+        int p_i = p[ans_i][ans_n0][ans_t].first;
+        int p_n0 = p[ans_i][ans_n0][ans_t].second;
+        for (int j = p_i + 1; j <= ans_i; j++) {
+            if (segs[j].first.second >= segs[p_i].first.first) {
+                ans[segs[j].second] = ans_t + 1;
+            }
+        }
+        ans_i = p_i;
+        ans_n0 = p_n0;
+        ans_t = 1 - ans_t;
+    }
+    for (int x: ans) {
+        cout << x << ' ';
+    }
+    cout << '\n';
+}

@@ -1,0 +1,107 @@
+import java.util.Scanner;
+ 
+// Create a class named MultiplyBigNumber
+public class MultiplyBigNumber {
+    // Create a main method
+    public static void main(String[] args) {
+        // Create a Scanner object named scanner
+        Scanner scanner = new Scanner(System.in);
+ 
+        // Read a String named number1 from the scanner
+        String number1 = scanner.nextLine();
+        // Read a String named number2 from the scanner
+        String number2 = scanner.nextLine();
+ 
+        // Close the scanner
+        scanner.close();
+ 
+        // If one of the numbers is negative and the other is not, print "-" sign
+        if ((number1.charAt(0) == '-' || number2.charAt(0) == '-') && (number1.charAt(0) != '-' || number2.charAt(0) != '-')) {
+            System.out.print("-");
+        }
+ 
+        // If both numbers are negative, remove the "-" sign from both of them
+        if (number1.charAt(0) == '-' && number2.charAt(0) == '-') {
+            number1 = number1.substring(1);
+            number2 = number2.substring(1);
+        }
+ 
+        // Call the multiply method with number1 and number2 and print the result
+        System.out.println(multiply(number1, number2));
+    }
+ 
+    // Create a static method named multiply that takes two Strings as parameters and returns a String
+    static String multiply(String num1, String num2) { 
+        // Get the lengths of the numbers and store them in int variables named len1 and len2
+        int len1 = num1.length();
+        int len2 = num2.length();
+        
+        // If either length is 0, return "0"
+        if (len1 == 0 || len2 == 0)
+            return "0";
+ 
+        // Create an int array named result with size len1 + len2 and fill it with zeros
+        int[] result = new int[len1 + len2];
+        
+        // Create two int variables named i_n1 and i_n2 and assign them to 0
+        int i_n1 = 0;
+        int i_n2 = 0;
+ 
+        // Loop from the last index of num1 to the first index
+        for (int i = len1 - 1; i >= 0; i--) {
+            // Create an int variable named carry and assign it to 0
+            int carry = 0;
+            // Convert the char at the current index of num1 to an int and store it in an int variable named n1
+            int n1 = num1.charAt(i) - '0';
+ 
+            // Set i_n2 to 0
+            i_n2 = 0;
+ 
+            // Loop from the last index of num2 to the first index
+            for (int j = len2 - 1; j >= 0; j--) {
+                // Convert the char at the current index of num2 to an int and store it in an int variable named n2
+                int n2 = num2.charAt(j) - '0';
+ 
+                // Multiply n1 and n2 and add carry and the value at result[i_n1 + i_n2], store the result in an int variable named sum
+                int sum = n1 * n2 + carry + result[i_n1 + i_n2];
+ 
+                // Set carry to sum / 10
+                carry = sum / 10;
+ 
+                // Set result[i_n1 + i_n2] to sum % 10
+                result[i_n1 + i_n2] = sum % 10;
+ 
+                // Increment i_n2 by 1
+                i_n2++;
+            }
+ 
+            // If carry is not 0, add it to result[i_n1 + i_n2]
+            if (carry > 0)
+                result[i_n1 + i_n2] += carry;
+ 
+            // Increment i_n1 by 1
+            i_n1++;
+        }
+ 
+        // Create an int variable named i and assign it to result.length - 1
+        int i = result.length - 1;
+        
+        // While i is greater than or equal to 0 and result[i] is equal to 0, decrement i by 1
+        while (i >= 0 && result[i] == 0)
+            i--;
+ 
+        // If i is equal to -1, return "0"
+        if (i == -1)
+            return "0";
+ 
+        // Create a StringBuilder object named sB
+        StringBuilder sB = new StringBuilder();
+ 
+        // While i is greater than or equal to 0, append result[i] to sB and decrement i by 1
+        while (i >= 0)
+            sB.append(result[i--]);
+ 
+        // Return sB as a String
+        return sB.toString();
+    }
+}

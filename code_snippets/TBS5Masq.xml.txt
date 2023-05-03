@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+<!-- 
+ Reject all noto fonts
+ -->
+ 
+  <selectfont>
+    <rejectfont>
+        <glob>/usr/share/fonts/noto/*</glob>
+    </rejectfont>
+  </selectfont>
+ 
+</fontconfig>

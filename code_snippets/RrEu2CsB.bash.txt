@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-web-app
+spec:
+  replicas: 4 # Результаты нагрузочного тестирования показали, что 4 пода справляются с пиковой нагрузкой
+  strategy:
+    rollingUpdate:
+      maxSurge: 1 # Увеличиваем количество подов на 1 при обновлении, чтобы сохранить отказоустойчивость
+      maxUnavailable: 0 # Всегда хотим иметь доступные поды при обновлении
+  selector:
+    matchLabels:
+      app: my-web-app
+  template:
+    metadata:
+      labels:
+        app: my-web-app
+    spec:
+      # Распределение подов по разным зонам для обеспечения максимальной отказоустойчивости
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - my-web-app
+              topologyKey: "failure-domain.beta.kubernetes.io/zone"
+      containers:
+        - name: my-web-app
+          image: my-web-app:v1
+          resources:
+            requests:
+              cpu: "0.5" # Запрос на больше ресурсов CPU для первых запросов
+              memory: "128Mi" # Ровное потребление памяти в районе 128M
+            limits:
+              cpu: "1" # Ограничение потребления CPU
+              memory: "256Mi" # Ограничение потребления памяти
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10 # Учитываем время инициализации приложения (5-10 секунд)
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15 # Учитываем время инициализации приложения (5-10 секунд)
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-web-app
+spec:
+  selector:
+    app: my-web-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer # Используем LoadBalancer для распределения нагрузки между подами

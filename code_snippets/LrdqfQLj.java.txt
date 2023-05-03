@@ -1,0 +1,25 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+ 
+public class Main {
+ 
+    public static double readGoodsPrice(){
+        System.out.println("Enter the price of the goods: ");
+        double price = 0;
+        try {
+            Scanner scanner = new Scanner(System.in);
+            while((price = scanner.nextDouble())<=0){ //ochakvane da se vuvede double 
+                System.out.println("Enter positive number");
+            }
+        }
+        catch (InputMismatchException e){ //nesuvpadenie na vhodnite danni
+            e.printStackTrace(); //pak dava greshka no programata vrushta 0 => nezavurshva s greshka
+        }
+        return price;
+    }
+ 
+    public static void main(String[] args) {
+        double goodsPrice = readGoodsPrice();
+        System.out.println(goodsPrice) ;
+    }
+}

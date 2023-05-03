@@ -1,0 +1,25 @@
+set @fieldId := (select id from ruleFields where name='TYPE_CLIENT');
+ 
+set @sortKey := (select sortKey from ruleFieldValues where id_rule_field=@fieldId AND NAME is NULL);
+ 
+UPDATE ruleFieldValues SET sortKey=@sortKey+2 WHERE id_rule_field=@fieldId AND NAME is NULL;
+ 
+REPLACE INTO ruleFieldValues (name, id_rule_field, label, sortKey, tooltip) VALUES
+  ('CustomerForDeviceLoan', @fieldId, 'Airbox', @sortKey, 'CustomerForDeviceLoan'),
+  ('CustomerForBlister', @fieldId, 'Blister', @sortKey+1, 'CustomerForBlister');
+ 
+SET @row_num := 0;
+ 
+UPDATE ruleFieldValues
+    INNER JOIN (
+    SELECT id, @row_num := @row_num + 1 AS row_num
+    FROM ruleFieldValues
+    WHERE id_rule_field=@fieldId AND NAME is not NULL
+    ORDER BY label ASC
+    ) AS temp_table
+ON ruleFieldValues.id = temp_table.id
+SET ruleFieldValues.sortKey = temp_table.row_num;
+ 
+SET @maximum := (select max(sortKey) from ruleFieldValues WHERE id_rule_field=@fieldId AND NAME is not NULL);
+ 
+UPDATE ruleFieldValues SET sortKey=@maximum+1  WHERE id_rule_field=@fieldId AND NAME is NULL;

@@ -1,0 +1,41 @@
+class Hailstone {
+    public static int hailstoneLength(int n) {
+        int count = 1;
+        while (n != 1) {
+            System.out.print(n + " ");
+            if (n % 2 == 0) {
+                n /= 2;
+            } else if (n % 2 != 0) {
+                n *= 3;
+                n++;
+            }
+            count++;
+        }
+        System.out.print("1 ");
+        return count;
+    }
+ 
+    public static boolean isLongSeq(int n) {
+        boolean isLong = hailstoneLength(n) > n;
+        System.out.println(isLong);
+        return isLong;
+    }
+ 
+    public static double propLong(int n) {
+        double count = 0;
+        for (int i = 1; i <= n; i++) {
+            if (isLongSeq(i)) count++;
+        }
+        return count / n;
+    }
+}
+ 
+public class HailstoneRunner {
+    public static void main(String[] args) {
+        System.out.println(Hailstone.isLongSeq(5));
+        System.out.println(Hailstone.isLongSeq(8));
+ 
+        System.out.println("\nProportion section");
+        System.out.println(Hailstone.propLong(10));
+    }
+}

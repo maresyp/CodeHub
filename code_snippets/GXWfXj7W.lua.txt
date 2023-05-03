@@ -1,0 +1,236 @@
+--[[
+    State & Finite State Machine classes, Note that this a single file. Documentation coming soon?
+--]]
+ 
+export type Entity = any
+ 
+export type IFSM = {
+    InitialState     : IState,
+    EntitiesStateMap : {[Entity]:IState},
+    States           : {[string]: IState},
+    ActiveEntites    : {[Entity]: true},
+    PrintStateChange: boolean,
+ 
+    --> Methods
+    RegisterEntity             : (self: IFSM, entity: Entity) -> nil,
+    UnRegisterEntity           : (self: IFSM, entity: Entity) -> nil,
+    RegisterAndTurnOnEntity    : (self: IFSM, entity: Entity, ...any) -> nil,
+    UnRegisterAndTurnOffEntity : (self: IFSM, entity: Entity, ...any) -> nil,
+    TurnOnEntity               : (self: IFSM, entity: Entity, ...any) -> nil,
+    TurnOffEntity              : (self: IFSM, entity: Entity, ...any) -> nil,
+    TurnOn                     : (self: IFSM, ...any) -> nil,
+    TurnOff                    : (self: IFSM, ...any) -> nil,
+    Update                     : (dt: number) -> nil,
+    ChangeState                : (self: IFSM, entity: Entity, newState: IState, ...any) -> nil
+}
+ 
+ 
+export type IState = {
+    Name: string,
+    Entities : {[Entity]: true},
+    
+    --> Callbacks
+    OnEnter  : (entity: Entity, fsm: IFSM, ...any) -> nil,
+    OnUpdate : (entity: Entity, fsm: IFSM, dt: number, ...any) -> nil,
+    OnExit   : (entity: Entity, fsm: IFSM, ...any) -> nil,
+ 
+    --> Methods
+    Enter  : (self: IState, entity: Entity, fsm: IFSM, ...any) -> nil,
+    Exit   : (self: IState, entity: Entity, fsm: IFSM, ...any) -> nil,
+    Update : (self: IState, entity: Entity, fsm: IFSM, dt: number, ...any) -> nil,
+}
+ 
+ 
+ 
+function GetSetIntersection(set1, set2)
+    local result = {}
+    for k in pairs(set1) do
+      if set2[k] then
+        result[k] = true
+      end
+    end
+    return result
+  end
+ 
+ 
+function GetSetDifference(set1, set2)
+    local result = {}
+    for element in pairs(set1) do
+        if not set2[element] then
+            result[element] = true
+        end
+    end
+    return result
+end
+ 
+ 
+-- !== ================================================================================||>
+-- !==                                      FSM
+-- !== ================================================================================||>
+ 
+local finiteStateMachine = {} 
+finiteStateMachine.__index = finiteStateMachine
+ 
+function finiteStateMachine.new(initialState: IState, statesList: {[string]: IState}): IFSM
+    local self = setmetatable({}, finiteStateMachine) :: IFSM
+    self.InitialState     = initialState
+    self.States           = statesList
+    self.EntitiesStateMap = {}
+    self.ActiveEntites    = {}
+ 
+    self.PrintStateChange = true
+ 
+ 
+    return self 
+end
+ 
+ 
+ 
+function finiteStateMachine:RegisterEntity(entity: Entity)
+    self.EntitiesStateMap[entity] = self.InitialState
+end
+ 
+function finiteStateMachine:UnRegisterEntity(entity: Entity)
+    self.ActiveEntites[entity]    = nil
+    self.EntitiesStateMap[entity] = nil
+end
+ 
+ 
+function finiteStateMachine:TurnOnEntity(entity, ...)
+    if not self.EntitiesStateMap[entity] then
+        warn(entity, "is not registered in the state machine!")
+        return
+    end
+    
+    self.EntitiesStateMap[entity]:Enter(entity, self, ...)
+    self.ActiveEntites[entity] = true
+end
+ 
+function finiteStateMachine:TurnOffEntity(entity, ...)
+    if self.EntitiesStateMap[entity] and self.ActiveEntites[entity] then
+        self.EntitiesStateMap[entity]:Exit(entity, self, ...)
+        self.ActiveEntites[entity] = false
+    elseif self.EntitiesStateMap[entity] and not self.ActiveEntites[entity] then
+        warn(entity, "is not active")
+    else
+        warn(entity, "is not registered in the machine")
+    end
+end
+ 
+ 
+ 
+ 
+function finiteStateMachine:RegisterAndTurnOnEntity(entity: Entity, ...)
+    if self.EntitiesStateMap[entity] and self.ActiveEntites[entity] then
+        warn(entity, "is already registered & active!")
+        return
+    end
+    self.EntitiesStateMap[entity] = self.InitialState
+    self:TurnOnEntity(entity, ...)
+end
+ 
+ 
+ 
+function finiteStateMachine:UnRegisterAndTurnOffEntity(entity: Entity, ...)
+    if not self.EntitiesStateMap[entity] then
+        warn(entity, "is not registered in the machine!")
+        return
+    end
+    self.EntitiesStateMap[entity]:Exit(entity, self, ...)
+    self:UnRegisterEntity(entity)
+end
+ 
+ 
+ 
+function finiteStateMachine:TurnOn(...)
+    local inactiveRegisteredInstances = GetSetDifference(self.EntitiesStateMap, self.ActiveEntites)
+    for entity in inactiveRegisteredInstances do
+        self:TurnOnEntity(entity, ...)
+    end
+end
+ 
+ 
+function finiteStateMachine:TurnOff(...)
+    local activeRegisteredEntities = GetSetIntersection(self.EntitiesStateMap, self.ActiveEntites)
+    for entity in activeRegisteredEntities do
+        self.EntitiesStateMap[entity]:Exit(entity, self, ...)
+        self.ActiveEntites[entity] = nil
+    end
+end
+ 
+ 
+ 
+ 
+function finiteStateMachine:ChangeState(entity: Entity, newState: IState, ...)
+    local currentState = self.EntitiesStateMap[entity] 
+    if currentState then
+        if self.PrintStateChange then
+            warn(entity, "Coming from:", currentState.Name, "To:", newState.Name)
+        end
+ 
+        self.EntitiesStateMap[entity]:Exit(entity, self, ...)
+        self.EntitiesStateMap[entity] = newState
+        self.EntitiesStateMap[entity]:Enter(entity, self, ...)
+ 
+ 
+ 
+    else
+        warn(entity, "is not registered in the machine")
+    end
+end
+ 
+ 
+function finiteStateMachine:Update(dt)
+    local activeRegisteredEntities = GetSetIntersection(self.EntitiesStateMap, self.ActiveEntites)
+    for entity in activeRegisteredEntities do
+        self.EntitiesStateMap[entity]:Update(entity, self, dt)
+    end
+end
+ 
+ 
+ 
+ 
+ 
+-- !== ================================================================================||>
+-- !==                                      State
+-- !== ================================================================================||>
+ 
+local state = {} 
+state.__index = state
+ 
+function state.new(args)
+    local self = setmetatable({}, state)
+    self.Entities = {}
+    self.Name     = args.Name
+    self.OnEnter  = args.OnEnter or function()end
+    self.OnUpdate = args.OnUpdate or function()end
+    self.OnExit   = args.OnExit or function()end
+ 
+    return self
+end
+ 
+ 
+function state:Enter(subject, fsm, ...)
+    self.Entities[subject] = true
+    self.OnEnter(subject, fsm, ...)
+end
+ 
+function state:Update(subject, fsm, dt, ...)
+    if self.Entities[subject] then
+        self.OnUpdate(subject, fsm, dt, ...)
+    else
+        warn( if self.Name then "Entity is not in ".. self.Name else "Entity is not in state")
+    end
+end
+    
+function state:Exit(subject, fsm, ...)
+    self.Entities[subject] = nil
+    self.OnExit(subject, fsm, ...)
+end
+ 
+ 
+ 
+return {
+    FSM = finiteStateMachine,
+    State = state,
+}

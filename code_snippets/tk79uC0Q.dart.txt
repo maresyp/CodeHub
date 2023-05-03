@@ -1,0 +1,668 @@
+class InsertRepairPage extends StatefulWidget {
+  const InsertRepairPage({Key? key}) : super(key: key);
+ 
+  @override
+  State<InsertRepairPage> createState() => _InsertRepairPageState();
+}
+ 
+class _InsertRepairPageState extends State<InsertRepairPage> {
+  final textControllerCode = TextEditingController();
+  final textControllerCustomer = TextEditingController();
+  final textControllerDataAcc = TextEditingController();
+  final textControllerDataCons = TextEditingController();
+  final textControllerUser = TextEditingController();
+  final textControllerTechnician = TextEditingController();
+  final textControllerObjects = TextEditingController();
+  final textControllerToDoWorks = TextEditingController();
+  final textControllerPcosto = TextEditingController();
+  final textControllerRicambio1 = TextEditingController();
+  final textControllerRicambio2 = TextEditingController();
+  final textControllerRicambio3 = TextEditingController();
+  final textControllerNote = TextEditingController();
+  final textControllerPPubblico = TextEditingController();
+ 
+  final focusNodeCustomer = FocusNode();
+ 
+  final DateTime _date = DateTime.now();
+  final _formKeyScreen = GlobalKey<FormState>();
+  XFile? picture;
+  bool _inWarranty = false;
+  bool _formValid = false;
+  String _repairState = 'chekIn';
+ 
+  @override
+  void initState() {
+    BlocProvider.of<RepairBloc>(context).add(RepairEventInit());
+    BlocProvider.of<UserCubit>(context).getAlluser();
+    BlocProvider.of<TechnicianCubit>(context).getAlltechnician();
+ 
+    textControllerDataAcc.text = DateFormat('dd-MM-yyyy').format(_date);
+    super.initState();
+  }
+ 
+  @override
+  void dispose() {
+    textControllerCode.dispose();
+    textControllerCustomer.dispose();
+    textControllerDataAcc.dispose();
+    textControllerDataCons.dispose();
+    textControllerUser.dispose();
+    textControllerTechnician.dispose();
+    textControllerObjects.dispose();
+    textControllerToDoWorks.dispose();
+    textControllerPcosto.dispose();
+    textControllerRicambio1.dispose();
+    textControllerRicambio2.dispose();
+    textControllerRicambio3.dispose();
+    textControllerNote.dispose();
+    textControllerPPubblico.dispose();
+ 
+    super.dispose();
+  }
+ 
+  @override
+  Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+    return BlocConsumer<RepairBloc, RepairState>(
+      listener: (context, state) {
+        if (state is RepairSavedState) {
+          final idSaved = state.codeIdRepair;
+          _printOrNot(context, idSaved, textControllerCustomer.text,
+              textControllerObjects.text);
+          // _cleanField(context);
+ 
+          print('Riparazione salvata ${idSaved}');
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: Form(
+            key: _formKeyScreen,
+            onChanged: (() {
+              final isValid = _formKeyScreen.currentState?.validate() ?? false;
+              setState(() {
+                _formValid = isValid;
+              });
+            }),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SizedBox(height: h * 0.01),
+                  Text(
+                    'INSERIMENTO RIPARAZIONE',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  SizedBox(height: h * 0.01),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Card(
+                                color: Theme.of(context).colorScheme.secondary,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: h * 0.03,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          /* SizedBox(
+                                            height: h * 0.05,
+                                            width: w * 0.08,
+                                            child: CustomTextFormField(
+                                              txtLable: 'Codice',
+                                              enable: false,
+                                              controller: textControllerCode,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: w * 0.03,
+                                          ), */
+                                          SizedBox(
+                                            height: h * 0.1,
+                                            width: w * 0.12,
+                                            child: customTextFieldAutocCustomer(
+                                                context, w, h),
+                                          ),
+                                          SizedBox(
+                                            width: w * 0.03,
+                                          ),
+                                          SizedBox(
+                                              height: h * 0.06,
+                                              width: w * 0.06,
+                                              child: ElevatedButton(
+                                                onPressed: () => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: ((context) =>
+                                                            const CustomerPage()))),
+                                                child: Text(
+                                                  'New',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelLarge!
+                                                      .copyWith(
+                                                          fontSize: w >= 1201
+                                                              ? 22
+                                                              : w >= 601
+                                                                  ? 14
+                                                                  : w >= 400
+                                                                      ? 6
+                                                                      : 8),
+                                                ),
+                                              ))
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.03,
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.all(10.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(5)),
+                                          border: Border.all(
+                                              color: Colors.pink.shade50),
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  height: h * 0.001,
+                                                ),
+                                                SizedBox(
+                                                  height: h * 0.01,
+                                                ),
+                                                SizedBox(
+                                                  height: h * 0.08,
+                                                  width: w * 0.11,
+                                                  child: DateWidget(
+                                                      controller:
+                                                          textControllerDataAcc,
+                                                      w: w,
+                                                      h: h,
+                                                      label: 'Accettazione'),
+                                                ),
+                                                SizedBox(
+                                                  height: h * 0.03,
+                                                ),
+                                                SizedBox(
+                                                    height: h * 0.06,
+                                                    width: w * 0.11,
+                                                    child: DateWidget(
+                                                      controller:
+                                                          textControllerDataCons,
+                                                      w: w,
+                                                      h: h,
+                                                      label: 'Consegna',
+                                                    )),
+                                                SizedBox(
+                                                  height: h * 0.03,
+                                                ),
+                                                SizedBox(
+                                                    height: h * 0.09,
+                                                    width: w * 0.11,
+                                                    child:
+                                                        customTextFieldAutocUser(
+                                                            context, h, w)),
+                                                SizedBox(
+                                                  height: h * 0.09,
+                                                  width: w * 0.11,
+                                                  child:
+                                                      customButtonDropDownTechnician(
+                                                          context, h, w),
+                                                ),
+                                                SizedBox(
+                                                  height: h * 0.03,
+                                                  //width: w * 0.11,
+                                                  child: Text(
+                                                    'Garanzia',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headlineSmall,
+                                                  ),
+                                                ),
+                                                SwitchWarantyWidget(
+                                                  w: w,
+                                                  h: h,
+                                                  warranty: _inWarranty,
+                                                  toggleCallBack:
+                                                      toggleCallBackState,
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      15, 20, 0, 0),
+                                              child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: h * 0.35,
+                                                      width: w * 0.20,
+                                                      child: Card(
+                                                        semanticContainer: true,
+                                                        clipBehavior: Clip
+                                                            .antiAliasWithSaveLayer,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                        ),
+                                                        elevation: 5,
+                                                        margin: const EdgeInsets
+                                                            .all(10),
+                                                        child: picture != null
+                                                            ? Image.file(File(
+                                                                picture!.path))
+                                                            : const SizedBox
+                                                                .shrink(),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: h * 0.03,
+                                                    ),
+                                                    //Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
+                                                    SizedBox(
+                                                      height: h * 0.08,
+                                                      width: w * 0.09,
+                                                      child: _takePhotoButton(
+                                                          context),
+                                                    )
+                                                  ]),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.05,
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                          flex: 2,
+                          child: CentralColumn(
+                            h: h,
+                            w: w,
+                            textControllerObjects: textControllerObjects,
+                            textControllerToDoWorks: textControllerToDoWorks,
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: RightColumn(
+                            h: h,
+                            w: w,
+                            textControllerPcosto: textControllerPcosto,
+                            textControllerRicambio1: textControllerRicambio1,
+                            textControllerRicambio2: textControllerRicambio2,
+                            textControllerRicambio3: textControllerRicambio3,
+                            textControllerNote: textControllerNote,
+                            textControllerPPubblico: textControllerPPubblico,
+                          ))
+                    ]),
+                  ),
+                  Card(
+                      color: Theme.of(context).colorScheme.secondary,
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: h * 0.08,
+                                width: w * 0.09,
+                                child: _exitButton(context),
+                              ),
+                              SizedBox(
+                                width: w * 0.03,
+                              ),
+                              SizedBox(
+                                height: h * 0.08,
+                                width: w * 0.09,
+                                child: _saveButton(context, state),
+                              )
+                            ],
+                          )))
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+ 
+  /* Future _codeRetrieve(BuildContext context) async {
+    Future.delayed(const Duration(seconds: 2));
+    final id_repair = await context.read<RepairRepository>().getIdRepair();
+    final int addOne = int.parse(id_repair.id_repair.toString()) + 1;
+    textControllerCode.text = addOne.toString();
+  } */
+ 
+  Widget _takePhotoButton(
+    BuildContext context, {
+    bool loading = false,
+  }) {
+    return SizedBox(
+      child: ElevatedButton(
+          onPressed: () {
+            if (Platform.isWindows) {
+              _navigationCameraWindows(context);
+            }
+            if (Platform.isMacOS) {
+              _navigationCameraMacoOs(context);
+            }
+          },
+          child: Text('Foto', style: Theme.of(context).textTheme.labelLarge)),
+    );
+  }
+ 
+  Widget _saveButton(BuildContext context, RepairState state,
+      {bool loading = false}) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+ 
+    return SizedBox(
+      height: h * 0.10,
+      width: w * 0.15,
+      child: ElevatedButton(
+        style: Theme.of(context).elevatedButtonTheme.style,
+        onPressed: _formValid
+            ? () {
+                _saverepair(context);
+                _cleanField(context);
+                //_codeRetrieve(context);
+              }
+            : null,
+        child: state is RepairLoadingState
+            ? SizedBox(
+                height: h * 0.15,
+                width: w * 10,
+                child: CircularProgressIndicator(color: Colors.white),
+              )
+            : Text(
+                'Salva',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+      ),
+    );
+  }
+ 
+  _exitButton(
+    BuildContext context, {
+    bool loading = false,
+  }) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+    return SizedBox(
+      height: h * 0.10,
+      width: w * 0.15,
+      child: ElevatedButton(
+        style: Theme.of(context).elevatedButtonTheme.style,
+        onPressed: (() {
+          Navigator.pop(context);
+        }),
+        child: !loading
+            ? Text('Esci', style: Theme.of(context).textTheme.labelLarge)
+            : SizedBox(
+                height: h * 0.15,
+                width: w * 10,
+                child: const CircularProgressIndicator(color: Colors.white),
+              ),
+      ),
+    );
+  }
+ 
+  customTextFieldAutocCustomer(BuildContext context, w, h) {
+    return BlocBuilder<CustomerBloc, CustomerState>(
+      builder: (context, state) {
+        if (state is CustomerLoadingState) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is CustomerGetAllLoadedState) {
+          return CustomTextFieldAutoComplete(
+              label: const Text('Cliente'),
+              listSuggestions:
+                  state.customers.map((e) => e.name.toString()).toList(),
+              textEditingController: textControllerCustomer,
+              validator: (value) {
+                if (!state.customers
+                    .map((e) => e.name.toString())
+                    .contains(value)) {
+                  return 'Cliente non valido';
+                }
+              });
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+ 
+  customTextFieldAutocUser(BuildContext context, h, w) {
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        if (state is UserLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is UsersLoaded) {
+          return DropdownButtonWidget(
+            hint: 'Utente',
+            w: w,
+            h: h,
+            list: state.users.map((e) => e.username).toList(),
+            validator: (value) {
+              if (!state.users
+                  .map((e) => e.username)
+                  .toList()
+                  .contains(value)) {
+                return 'Selezionare User';
+              }
+            },
+            choiceResult: textControllerUser,
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+ 
+  customButtonDropDownTechnician(BuildContext context, double h, double w) {
+    //final double h;
+    return BlocBuilder<TechnicianCubit, TechnicianState>(
+      builder: (context, state) {
+        if (state is TechnicianLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is TechnicianLoaded) {
+          return DropdownButtonWidget(
+            hint: 'Tecnico',
+            w: w,
+            h: h,
+            list: state.technicians.map((e) => e.name).toList(),
+            choiceResult: textControllerTechnician,
+          );
+        } else {
+          return const SizedBox(
+            child: Text('Errore nel caricamento dati'),
+          );
+        }
+      },
+    );
+  }
+ 
+// method to call camera that return photo from cameraPage
+  Future<void> _navigationCameraWindows(BuildContext context) async {
+    final result = await availableCameras().then((value) => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CameraPageWindows())));
+    if (!mounted) return null;
+    setState(() {
+      picture = result;
+    });
+  }
+ 
+  // method to call camera that return photo from cameraPage
+  Future<void> _navigationCameraMacoOs(BuildContext context) async {
+    final result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CameraPageMacOs()));
+    final directory = await getTemporaryDirectory();
+    final path = directory.path + '/temp.png';
+    final file = File(path);
+    await file.writeAsBytes(result);
+    if (!mounted) return null;
+    setState(() {
+      picture = XFile(file.path);
+    });
+  }
+ 
+//lifting up from switch_warranty_widget
+  void toggleCallBackState(bool toggleSwitch) {
+    setState(() {
+      _inWarranty = toggleSwitch;
+    });
+  }
+ 
+  _saverepair(BuildContext context) {
+    final int? id_repair = int.tryParse(textControllerCode.text);
+    final String? customer = textControllerCustomer.text;
+    final DateTime? date_accept =
+        DateFormat('dd-MM-yyyy').parse(textControllerDataAcc.text);
+    final DateTime? date_delive =
+        DateFormat('dd-MM-yyyy').parse(textControllerDataCons.text);
+    final String? user = textControllerUser.text;
+    final String? technician = textControllerTechnician.text;
+    final bool? warranty = _inWarranty;
+ 
+    final String? name_image = textControllerCode.text;
+    final String? objects = textControllerObjects.text;
+    final String? works_to_do = textControllerToDoWorks.text;
+ 
+    final double? p_cost = textControllerPcosto.text.isNotEmpty
+        ? double.parse(textControllerPcosto.text)
+        : 0;
+    final double? p_part1 = textControllerRicambio1.text.isNotEmpty
+        ? double.parse(textControllerRicambio1.text)
+        : 0;
+    final double? p_part2 = textControllerRicambio2.text.isNotEmpty
+        ? double.parse(textControllerRicambio2.text)
+        : 0;
+    final double? p_part3 = textControllerRicambio3.text.isNotEmpty
+        ? double.parse(textControllerRicambio3.text)
+        : 0;
+    final String? note = textControllerNote.text;
+    final double? p_public = textControllerPPubblico.text.isNotEmpty
+        ? double.parse(textControllerPPubblico.text)
+        : 0;
+ 
+    context.read<RepairBloc>().repairAdd(Repair(
+          customer: customer,
+          date_accept: date_accept,
+          date_delive: date_delive,
+          user: user,
+          technician: technician,
+          warranty: warranty,
+          name_image: name_image,
+          objects: objects,
+          works_to_do: works_to_do,
+          repair_state: _repairState,
+          p_cost: p_cost,
+          p_part1: p_part1,
+          p_part2: p_part2,
+          p_part3: p_part3,
+          note: note,
+          p_public: p_public,
+          image: picture,
+        ));
+  }
+ 
+  void _cleanField(BuildContext context) {
+    picture = null;
+ 
+    textControllerCustomer.clear();
+    //textControllerDataAcc.clear();
+    //textControllerDataCons.clear();
+    //textControllerUser.clear();
+    // textControllerTechnician.clear();
+    textControllerObjects.clear();
+    textControllerToDoWorks.clear();
+    textControllerPcosto.clear();
+    textControllerRicambio1.clear();
+    textControllerRicambio2.clear();
+    textControllerRicambio3.clear();
+    textControllerNote.clear();
+    textControllerPPubblico.clear();
+  }
+ 
+  void _printOrNot(
+      BuildContext context, int codeId, String customer, String objects) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Riparazione - $codeId - salvata, vuoi stamparla?"),
+            actions: [
+              ElevatedButton(
+                  child: Text(
+                    "Sì",
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PrintReceipt(
+                              id_repair: codeId,
+                              customer: customer,
+                              objects: objects,
+                            )));
+                  }),
+              ElevatedButton(
+                child: Text(
+                  "No",
+                  style: Theme.of(context).textTheme.button,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // Salva i dati
+                },
+              ),
+            ],
+          );
+        });
+  }
+}

@@ -1,0 +1,14 @@
+class Polygon {
+  constructor() {
+    console.log("I'm a Polygon");
+  }
+}
+ 
+class Triangle extends Polygon {
+  constructor() {
+    console.log("I have 3 sides");
+    super();
+  }
+}
+ 
+const shape = new Triangle();

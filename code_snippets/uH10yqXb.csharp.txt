@@ -1,0 +1,40 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text;
+ 
+namespace TreasureFinder
+{
+    class Program
+    {
+        static string SubStringFinder(string str, char start, char end)
+        {
+            int startIndex = str.IndexOf(start) + 1;
+            int endIndex = str.LastIndexOf(end) - startIndex;
+ 
+            return str.Substring(startIndex, endIndex);
+        }
+        static void Main()
+        {
+            var key = Array.ConvertAll(Console.ReadLine().Split(), int.Parse);
+ 
+            string command;
+ 
+            while ((command = Console.ReadLine()) != "find")
+            {
+                char[] message = command.ToCharArray();
+ 
+                for (int i = 0; i < command.Count(); i++)
+                {
+                    message[i] = (char)(message[i] - key[i % key.Length]);
+                }
+ 
+                string str = new string(message);
+                string type = SubStringFinder(str, '&', '&');
+                string coordinates = SubStringFinder(str, '<', '>');
+ 
+                Console.WriteLine($"Found {type} at {coordinates}");
+            }
+        }
+    }
+}

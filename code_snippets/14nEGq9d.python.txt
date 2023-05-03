@@ -1,0 +1,13 @@
+temperatura = float(input("Tome la temperatura al paciente: "))
+estado = ""
+if temperatura < 36:
+  estado = "hipotermia"
+elif 36 <= temperatura <= 37.5:
+  estado = "la temperatura normal"
+elif 37.5 < temperatura  <= 39.5:
+  estado = "fiebre"
+elif 39.5 < temperatura <= 41:
+  estado = "fiebre muy alta"
+else:
+  estado = "hipertermia"
+print ("El paciente tiene",estado)

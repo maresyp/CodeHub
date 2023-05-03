@@ -1,0 +1,19 @@
+def f(s, cnt):
+    if s >= 43 and cnt - 1 == 2:
+        return 1
+    if s >= 43 and cnt - 1 < 2:
+        return 0
+    if s < 43 and cnt - 1 == 2:
+        return 0
+ 
+    A = f(s + 1, cnt + 1)
+    B = f(s + 2, cnt + 1)
+    C = f(s * 2, cnt + 1)
+    if cnt % 2 == 0:
+        return A or B or C
+    else:
+        return A and B and C
+ 
+for s in range(43):
+    if f(s,0):
+        print(s)

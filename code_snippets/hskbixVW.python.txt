@@ -1,0 +1,117 @@
+'''
+Zadanie rozgrzewkowe
+ 
+Napisz program, który będzie pytać użytkownika o liczby i zliczać ich sumę, aż do
+wprowadzenia przez użytkownika hasła “koniec”.
+Po wpisaniu tego hasła program, powinien opuścić pętle while i wyświetlić sumę tych
+ocen.
+'''
+ 
+ 
+ 
+'''
+Zadanie 1
+ 
+Uzupełnij wywołania funkcji range w taki sposób, aby uzyskać liczby podane w
+komentarzu. Należy zastosować najkrótszą wersję wywołania, jeśli więcej niż jedna
+opcja jest możliwa. Testowanie można zrealizować za pomocą pętli z powyższego
+okienka.
+ 
+??? - uzupełnij odpowiednimi wartościami 
+''' 
+# 0, 1, 2, 3, 4
+range(???)
+ 
+# 2, 4, 6, 8, 10
+range(???)
+ 
+# 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+range(???)
+ 
+# 5, 6, 7, 8, 9, 10, 11, 12
+range(???)
+ 
+# -5, -4, -3
+range(???)
+ 
+# 0, 5, 10, 15
+range(???)
+ 
+# -9 -6 -3 0 3
+range(???)
+ 
+# -100 -25 50 125
+range(???)
+ 
+'''
+Zadanie 2
+ 
+Napisz program, który wypisze ile lat miałeś/aś w kolejnych latach kalendarzowych od
+Twojego roku urodzenia. Program powinien wykorzystać zmienną wiek oraz pętle for z
+instrukcją range.
+ 
+np.
+Oczekiwany rezultat:
+ 
+W roku 1998 miałeś/aś 0 lat
+W roku 1999 miałeś/aś 1 lat
+W roku 2000 miałeś/aś 2 lat
+...
+W roku 2020 miałeś/aś 22 lat
+W roku 2021 miałeś/aś 23 lat
+'''
+ 
+ 
+'''
+Zadanie 3
+Napisz program, który wypisze w konsoli tabliczkę mnożenia. Wykorzystaj funkcję
+str(liczba).center(liczba_znaków) do wyrównania tekstu.
+'''
+ 
+ 
+################ ZADANIA DODATKOWE #####################
+ 
+'''
+1) Choinka / Piramida
+Napisz program, który zapyta użytkownika o wysokość (liczbę linijek), a następnie
+wyświetli choinkę / piramidę o podanej wysokości. Choinka ma składać się z gwiazdek
+‘*’ oraz spacji jako znaków białych.
+ 
+np.
+ 
+dla wys. 4:
+   *
+  * *
+ * * *
+* * * *
+ 
+lub np. dla wysokośći 5
+    *
+   * *
+  * * *
+ * * * *
+* * * * *
+'''
+ 
+ 
+'''
+2) Prostokąt
+Napisz program, który wczyta od użytkownika dwie liczby: wysokość i szerokość, a
+następnie wypisze w konsoli prostokąt składający się z gwiazdek.
+Przygotuj dwie wersje programu: prostokąt pusty w środku i wypełniony. Zapytaj
+użytkownika, którą wersję chciałby zobaczyć lub wyświetl obie jeden po drugim.
+'''
+ 
+ 
+'''
+3) Ciąg Fibonacciego
+Napisz program, który zapyta użytkownika o liczbę dodatnią (sprawdzi jej poprawność)
+a następnie wypisze podaną liczbę elementów ciągu Fibonacciego w konsoli.
+Dodatkowe: Program, który wypisze wszystkie elementy ciągu Fibonacciego, które są
+mniejsze od wprowadzonej liczby.
+ 
+https://boringowl.io/blog/ciag-fibonacciego
+ 
+https://matematykawpodstawowce.pl/ciag-fibonacciego/
+ 
+'''

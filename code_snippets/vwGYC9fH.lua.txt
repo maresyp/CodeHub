@@ -1,0 +1,57 @@
+-- Made by TheEvilDeveloper
+ 
+local function Draggable(Object: GuiObject, Draggable: boolean)
+    local TweenService = game:GetService("TweenService")
+    local UserInputService = game:GetService("UserInputService")
+ 
+    local TweenSpeed = 0.15 -- Delay
+    local DragSpeed = 0.25 -- Speed
+    local DragToggle = nil
+    local DragInput = nil
+    local DragStart = nil
+    local DragPosition = nil
+    local StartPosition = nil
+ 
+    local function UpdateInput(Input)
+        if not Draggable then return end        
+        local Delta = Input.Position - DragStart
+        local Location = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
+        TweenService:Create(Object, TweenInfo.new(TweenSpeed), {Position = Location}):Play()
+    end
+ 
+    Object.InputBegan:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+            DragToggle = true
+            DragStart = Input.Position
+            StartPosition = Object.Position
+            Input.Changed:Connect(function()
+                if Input.UserInputState == Enum.UserInputState.End then
+                    DragToggle = false
+                end
+            end)
+        end
+    end)
+ 
+    Object.InputChanged:Connect(function(Input)
+        if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
+            DragInput = Input
+        end
+    end)
+ 
+    UserInputService.InputChanged:Connect(function(Input)
+        if Input == DragInput and DragToggle then
+            UpdateInput(Input)
+        end
+    end)
+end
+ 
+--[[
+ 
+<<EXAMPLE>>
+ 
+local Gui = script.Parent
+local Frame = Gui:WaitForChild("DraggableFrame")
+ 
+Draggable(Frame, true) -- Object: GuiObject, Draggable: boolean
+ 
+]]

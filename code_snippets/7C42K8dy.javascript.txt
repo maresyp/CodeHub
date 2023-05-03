@@ -1,0 +1,40 @@
+var itemId = parseInt(window.location.href.split("/")[4]) // automatically gets the id of the item you're viewing. replace the code with an item id (number, not string) if you wish to input it manually
+var purchaseInterval = 150 // purchase attempt interval (in ms)
+var checkInterval = 1000 // onsale check interval (in ms)
+ 
+let fetchInterval = setInterval(() => {
+    fetch(`https://economy.roblox.com/v2/assets/${itemId}/details`, { credentials: "include" }).then(async (res) => {
+        let json = await res.json()
+        if (json.CollectibleProductId) {
+            console.log("Starting...")
+            clearInterval(fetchInterval)
+            let buyLoop = setInterval(() => {
+                $.ajax({
+                    url: `https://apis.roblox.com/marketplace-sales/v1/item/${json.CollectibleItemId}/purchase-item`,
+                    data: JSON.stringify({
+                        "collectibleProductId": json.CollectibleProductId,
+                        "idempotencyKey": crypto.randomUUID(),
+                        "expectedPurchaserType": "User",
+                        "expectedSellerId": 0,
+                        "expectedPrice": 0,
+                        "expectedPurchaserId": Roblox.CurrentUser.userId,
+                        "expectedCurrency": 1,
+                        "expectedSellerType": "User"
+                    }),
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    method: "POST"
+                }).always(function(data) {
+                    if (data.errorMessage == "QuantityExhausted") {
+                        console.log("This item has no more stock available")
+                        clearInterval(buyLoop)
+                    }
+                })
+            }, purchaseInterval)
+        } else {
+            console.log("This item is not a valid collectible")
+            clearInterval(fetchInterval)
+        }
+    })
+}, checkInterval)

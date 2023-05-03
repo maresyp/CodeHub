@@ -1,0 +1,57 @@
+{
+  "global": {
+    "delay": 10,
+    "mod_opcode": true,
+    "fps": 120
+  },
+  "custom": {
+    "com.YoStarJP.AzurLane": {
+      "mod_opcode": false
+    },
+    "com.YostarJP.BlueArchive": {
+      "mod_opcode": false
+    },
+    "com.sunborn.girlsfrontline.jp": {
+      "mod_opcode": false
+    },
+    "com.miHoYo.GenshinImpact": {
+      "mod_opcode": false
+    },
+    "co.grimoire.bxb": {
+      "mod_opcode": false
+    },
+    "jp.co.craftegg.band": {
+      "mod_opcode": false
+    },
+    "com.proximabeta.nikke": {
+      "mod_opcode": false
+    },
+    "com.rayark.cytus2": {
+      "mod_opcode": false
+    },
+    "com.heavenburnsred": {
+      "mod_opcode": true,
+      "fps": 120
+    },
+    "jp.co.cygames.umamusume": {
+      "mod_opcode": true,
+      "fps": 120
+    },
+    "com.bushiroad.d4dj": {
+      "mod_opcode": true,
+      "fps": 120
+    },
+    "com.bushiroad.lovelive.schoolidolfestival2": {
+      "mod_opcode": true,
+      "fps": 120
+    },
+    "com.bandainamcoent.imas_millionlive_theaterdays": {
+      "mod_opcode": false,
+      "fps": 120
+    },
+    "jp.co.bandainamcoent.BNEI0242": {
+      "mod_opcode": false,
+      "fps": 120
+    }
+  }
+}

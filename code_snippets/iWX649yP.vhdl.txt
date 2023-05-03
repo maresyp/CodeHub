@@ -1,0 +1,148 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+ 
+ENTITY i2s_axis_receiver IS
+  GENERIC (
+        D_WIDTH : INTEGER := 32; -- I2S Audio data width
+        I2S_DEBOUNCE_DELAYS : INTEGER := 3
+    );
+  PORT (
+    aclk : IN STD_LOGIC;
+    aresetn : IN STD_LOGIC;
+ 
+    -- I2S Audio Input
+    bclk_in : IN STD_LOGIC;
+    lrclk_in : IN STD_LOGIC;
+    sdata_in : IN STD_LOGIC;
+ 
+    -- Audio Data Output for left channel
+    ml_axis_tdata : OUT STD_LOGIC_VECTOR (D_WIDTH - 1 DOWNTO 0);
+    ml_axis_tready : IN STD_LOGIC;
+    ml_axis_tvalid : OUT STD_LOGIC;
+    ml_axis_tlast : OUT STD_LOGIC;
+ 
+    -- Audio Data Output for right channel
+    mr_axis_tdata : OUT STD_LOGIC_VECTOR (D_WIDTH - 1 DOWNTO 0);
+    mr_axis_tready : IN STD_LOGIC;
+    mr_axis_tvalid : OUT STD_LOGIC;
+    mr_axis_tlast : OUT STD_LOGIC
+  );
+END i2s_axis_receiver;
+ 
+ARCHITECTURE Behavioral OF i2s_axis_receiver IS
+  SIGNAL din_buffer : STD_LOGIC_VECTOR (D_WIDTH * 2 - 1 DOWNTO 0);
+  SIGNAL data_valid : STD_LOGIC;
+  SIGNAL bclk_edge : STD_LOGIC_VECTOR(I2S_DEBOUNCE_DELAYS DOWNTO 0);
+  SIGNAL ws_edge : STD_LOGIC_VECTOR(I2S_DEBOUNCE_DELAYS DOWNTO 0);    
+BEGIN
+ 
+  -- scanning bclk edge
+  PROCESS (aclk)
+  BEGIN
+    IF (rising_edge(aclk)) THEN
+      IF (aresetn = '0') THEN
+        bclk_edge <= (OTHERS => '0');
+      ELSE
+        bclk_edge <= bclk_edge(I2S_DEBOUNCE_DELAYS-1 downto 0) & bclk_in;
+      END IF;
+    END IF;
+  END PROCESS;
+ 
+  -- scanning ws/lrclk edge
+  PROCESS (aclk)    
+  BEGIN
+    IF (rising_edge(aclk)) THEN
+      IF (aresetn = '0') THEN
+        ws_edge <= (OTHERS => '0');        
+      ELSE
+        ws_edge <= ws_edge(I2S_DEBOUNCE_DELAYS-1 downto 0) & lrclk_in;
+      END IF;
+    END IF;
+  END PROCESS;
+ 
+  -- scanning sound data
+  PROCESS (aclk)
+    VARIABLE debounce_mask_rising : STD_LOGIC_VECTOR(I2S_DEBOUNCE_DELAYS DOWNTO 0) := ('0',OTHERS => '1');       
+  BEGIN
+    IF (rising_edge(aclk)) THEN
+      IF (aresetn = '0') THEN
+        din_buffer <= (OTHERS => '0');        
+      ELSIF (bclk_edge = debounce_mask_rising) THEN
+        din_buffer(D_WIDTH * 2 - 1 DOWNTO 0) <= din_buffer(D_WIDTH * 2 - 2 DOWNTO 0) & sdata_in;
+      END IF;
+    END IF;
+  END PROCESS;
+ 
+  -- scanning ws_frame for a valid sound data package
+  PROCESS (aclk)
+    VARIABLE first_syncin_package : STD_LOGIC;
+    VARIABLE debounce_mask_falling : STD_LOGIC_VECTOR(I2S_DEBOUNCE_DELAYS DOWNTO 0) := ('1',OTHERS => '0');
+  BEGIN
+    IF (rising_edge(aclk)) THEN
+      IF (aresetn = '0') THEN
+        data_valid <= '0';
+        first_syncin_package := '0';
+      ELSIF (ws_edge = debounce_mask_falling) THEN
+        IF (first_syncin_package = '0') THEN -- first packe contains invalid data
+          first_syncin_package := '1'; -- synced now
+        ELSE
+          data_valid <= '1'; -- synced, data is valid
+        END IF;
+      ELSE
+        data_valid <= '0';
+      END IF;
+    END IF;
+  END PROCESS;
+ 
+  -- When data is valid, put it to the AXI Stream, left channel
+  PROCESS (aclk)
+    VARIABLE transfer_state : INTEGER RANGE 0 TO 2;
+  BEGIN
+    IF (rising_edge(aclk)) THEN
+      IF (aresetn = '0') THEN
+        ml_axis_tvalid <= '0';
+        ml_axis_tlast <= '0';
+        transfer_state := 0;
+      ELSIF (data_valid = '1' AND transfer_state = 0) THEN
+        ml_axis_tvalid <= '1';
+        ml_axis_tlast <= '1';
+        ml_axis_tdata <= din_buffer(D_WIDTH * 2 - 1 DOWNTO D_WIDTH);
+        transfer_state := 1;
+      ELSIF (transfer_state = 1 AND ml_axis_tready = '1') THEN
+        ml_axis_tvalid <= '0';
+        ml_axis_tlast <= '0';
+        transfer_state := 2;
+      ELSIF (transfer_state = 2 AND data_valid = '0') THEN
+        transfer_state := 0;
+      END IF;
+    END IF;
+  END PROCESS;
+ 
+ 
+  -- When I2S data is valid, put it to the AXI Stream, right channel
+  PROCESS (aclk)
+    VARIABLE transfer_state : INTEGER RANGE 0 TO 2;
+  BEGIN
+    IF (rising_edge(aclk)) THEN
+      IF (aresetn = '0') THEN
+        mr_axis_tvalid <= '0';
+        mr_axis_tlast <= '0';
+        transfer_state := 0;
+      ELSIF (data_valid = '1' AND transfer_state = 0) THEN
+        mr_axis_tvalid <= '1';
+        mr_axis_tlast <= '1';
+        mr_axis_tdata <= din_buffer(D_WIDTH - 1 DOWNTO 0);
+        transfer_state := 1;
+      ELSIF (transfer_state = 1 AND mr_axis_tready = '1') THEN
+        mr_axis_tvalid <= '0';
+        mr_axis_tlast <= '0';
+        transfer_state := 2;
+      ELSIF (transfer_state = 2 AND data_valid = '0') THEN
+        transfer_state := 0;
+      END IF;
+    END IF;
+  END PROCESS;
+ 
+ 
+END Behavioral;

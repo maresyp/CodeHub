@@ -1,0 +1,2 @@
+#!/bin/bash
+scrot -s -e 'xclip -selection clipboard -target image/png -i $f; mv $f /home/tomo/Documents/screenshots'

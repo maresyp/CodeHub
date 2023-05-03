@@ -1,0 +1,519 @@
+-- e: mega ora
+-- r: kick
+-- t: ground kick
+-- h: blood suck
+-- b: uppercut
+-- lmb: punch
+-- y: omt scream
+-- f: shinei
+-- p: pose
+-- z: jump
+-- l: taunt (quote)
+ 
+ 
+ 
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+game.ReplicatedStorage.Deflect:FireServer(true)
+ 
+ 
+function loadStuff()
+    wait(.75)
+    
+ 
+    kick = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    kick.AnimationId = "rbxassetid://3804938028"
+ 
+    _G.anim1 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(kick)
+ 
+    omt = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    omt.AnimationId = "rbxassetid://5242641804"
+ 
+    _G.anim2 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(omt)
+ 
+    punch = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    punch.AnimationId = "rbxassetid://3445790486"
+ 
+    _G.anim3 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(punch)
+ 
+    pose = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    pose.AnimationId = "rbxassetid://3857209527"
+    
+    _G.anim4 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(pose)
+ 
+    leftPunch = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    leftPunch.AnimationId = "rbxassetid://3445806846"
+ 
+    _G.anim5 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(leftPunch)
+    
+    shinei = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    shinei.AnimationId = "rbxassetid://218504594"
+    
+    _G.anim6 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(shinei)
+    
+    axeKick = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    axeKick.AnimationId = "rbxassetid://3445853933"
+    
+    _G.anim7 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(axeKick)
+ 
+    uppercutAnim = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    uppercutAnim.AnimationId = "rbxassetid://5022688512"
+ 
+    _G.anim8 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(uppercutAnim)
+ 
+    vampGrab = Instance.new("Animation", game.Players.LocalPlayer.Character)
+    vampGrab.AnimationId = "rbxassetid://3683231351"
+ 
+    _G.anim9 = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(vampGrab)
+ 
+end
+ 
+-- load animations when script executes
+ 
+loadStuff()
+ 
+-- load animations after death
+ 
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    loadStuff()
+    wait(.75)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+    game.ReplicatedStorage.Deflect:FireServer(true)
+ 
+end)
+ 
+ 
+_G.kick = function(leg1)
+    
+    local leg = game.Players.LocalPlayer.Character[leg1]
+    
+    -- make hitbox part
+    local hitbox1 = Instance.new("Part", game.Players.LocalPlayer.Character)
+    hitbox1.CFrame = leg.CFrame
+    hitbox1.Name = "hitbox1"
+    hitbox1.Transparency = 1
+    hitbox1.Anchored = false
+    hitbox1.CanCollide = false
+ 
+    -- make weld that connects to right arm and hitbox
+    local weld = Instance.new("WeldConstraint", hitbox1)
+    weld.Part0 = hitbox1
+    weld.Part1 = leg
+ 
+    hitbox1.Size = leg.Size * 1.2
+    hitbox1.Massless = true
+    hitbox1.Color = Color3.new(0,0,0)
+    game.Debris:AddItem(hitbox1, 0.3) -- destroy hitbox after .3 seconds (with no code yielding)
+ 
+    --[[
+        local userdata_1 = game:GetService("Workspace").Entities["Menacing Dummy"].Humanoid;  target
+        local userdata_2 = CFrame.new(-6266.57568, 576.63147, -389.268402, 0.910382628, -0.322563976, 0.259144157, 0.282751679, 0.0277367681, -0.958792031, 0.30208388, 0.946141243, 0.116456524);  punch effect position
+        local number_1 = 50;  damage
+        local number_2 = 0.25;  velocity duration
+        local userdata_3 = Vector3.new(45.6050453, -0.000103456521, -20.4982872);  velocity
+        local string_1 = "rbxassetid://241837157";  punch effect
+        local number_3 = 0.075;  punch effect size
+        local userdata_4 = Color3.new(0, 255, 0);  color
+        local string_2 = "rbxassetid://260430079";  sound
+        local number_4 = 0.9;  playback speed
+        local number_5 = 1;  punch sound volume
+        local Target = game:GetService("ReplicatedStorage").Damage;
+        Target:FireServer(userdata_1, userdata_2, number_1, number_2, userdata_3, string_1, number_3, userdata_4, string_2, number_4, number_5);
+    ]]
+    
+    local debounce = false
+    
+    -- deal damage if arm hits a humanoid
+    local hitRegister = hitbox1.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+                if debounce == false then
+                debounce = true
+                print(hit.Parent.Name)
+                delay(.001, function() debounce = false end)
+            game.ReplicatedStorage.Knock:FireServer(hit.Parent.Humanoid)
+            game.ReplicatedStorage.Damage:FireServer(hit.Parent.Humanoid, hit.Parent.HumanoidRootPart.CFrame, 50, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 25 + Vector3.new(0, 25, 0), "rbxassetid://241837157", .1, Color3.new(255, 255, 255), "rbxassetid://367499850", 1, 1)
+            hitbox1:Destroy()
+            end
+        elseif(hit.Parent.Parent:FindFirstChild("Humanoid")) and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+                if debounce == false then
+                debounce = true
+                print(hit.Parent.Name .. " elif")
+                delay(.001, function() debounce = false end)
+            game.ReplicatedStorage.Knock:FireServer(hit.Parent.Parent.Humanoid)
+            game.ReplicatedStorage.Damage:FireServer(hit.Parent.Parent.Humanoid, hit.Parent.Parent.HumanoidRootPart.CFrame, 50, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 25 + Vector3.new(0, 25, 0), "rbxassetid://241837157", .1, Color3.new(255, 255, 255), "rbxassetid://367499850", 1, 1)
+            hitbox1:Destroy()
+            end
+        end
+    end)
+end
+ 
+local mouse = game.Players.LocalPlayer:GetMouse()
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 'r' then
+        game.ReplicatedStorage.Damage:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(0,0,0), "", 0, Color3.new(0,0,0), "rbxassetid://4255432837", 1, 2)
+        _G.anim1:Play(.1, 1, 2)
+        _G.kick("Right Leg")
+    end
+end)
+ 
+_G.omtAttack = function()
+    game.ReplicatedStorage.Yell:FireServer()
+    game.ReplicatedStorage.Damage:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(0,0,0), "", 0, Color3.new(0,0,0), "rbxassetid://1246016402", 1, 100)
+    for i,v in pairs(game.Workspace.Entities:GetChildren()) do
+        if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Name ~= game.Players.LocalPlayer.Name then
+            if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude < 30 then
+                game.ReplicatedStorage.Damage:FireServer(v.Humanoid, v.HumanoidRootPart.CFrame, 25, 0.25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 50 + Vector3.new(50, 10, 50), "", 0.001, Color3.new(0,0,0), "", 1, 0)
+                game.ReplicatedStorage.Knock:FireServer(v.Humanoid)
+            end
+        end
+    end
+end
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 'y' then
+        _G.anim2:Play(.1, 1, 2)
+        _G.omtAttack()
+    end
+end)
+ 
+_G.strongPunch = function()
+    local arm = game.Players.LocalPlayer.Character["Right Arm"]
+ 
+    local hitbox1 = Instance.new("Part", game.Players.LocalPlayer.Character)
+    hitbox1.CFrame = arm.CFrame
+    hitbox1.Name = "hitbox2"
+    hitbox1.Transparency = 1
+    hitbox1.Anchored = false
+    hitbox1.CanCollide = false
+ 
+    local weld = Instance.new("WeldConstraint", arm)
+    weld.Part0 = hitbox1
+    weld.Part1 = arm
+ 
+    hitbox1.Size = arm.Size * 1.2
+    hitbox1.Massless = true
+    hitbox1.Color = Color3.new(0,0,0)
+    game.Debris:AddItem(hitbox1, .4)
+ 
+    local debounce =false
+ 
+    local hitRegister = hitbox1.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+            if debounce == false then
+                debounce = true
+                print(hit.Parent.Name)
+                delay(.001, function() debounce = false end)
+            game.ReplicatedStorage.Knock:FireServer(hit.Parent.Humanoid)
+            game.ReplicatedStorage.Damage:FireServer(hit.Parent.Humanoid, hit.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 100 + Vector3.new(25, 50, 0), "rbxassetid://241837157", .5, Color3.new(0, 255, 255), "rbxassetid://3932506183", 1, 50)
+            hitbox1:Destroy()
+        end
+    elseif(hit.Parent.Parent:FindFirstChild("Humanoid")) and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+        if debounce == false then
+            debounce = true
+            print(hit.Parent.Name)
+            delay(.001, function() debounce = false end)
+        game.ReplicatedStorage.Knock:FireServer(hit.Parent.Parent.Humanoid)
+        game.ReplicatedStorage.Damage:FireServer(hit.Parent.Parent.Humanoid, hit.Parent.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 100 + Vector3.new(0, 100, 0), "rbxassetid://241837157", .5, Color3.new(0, 255, 255), "rbxassetid://3932506183", 1, 50)
+        hitbox1:Destroy()
+        end
+    end
+    end)
+end
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 'e' then
+        _G.anim3:Play()
+        game.ReplicatedStorage.Damage:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(0,0,0), "", 0, Color3.new(0,0,0), "rbxassetid://2553992169", 1, 2)
+        _G.strongPunch()
+    end
+end)
+ 
+_G.standJump = function()
+    game.ReplicatedStorage.Jump:FireServer(BrickColor.Red())
+    game.ReplicatedStorage.Damage:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0.25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 100 + Vector3.new(0, 100, 0), "", 0, Color3.new(0,0,0), "rbxassetid://157878578", 1, 10)
+end
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 'z' then
+        _G.standJump()
+    end
+end)
+ 
+_G.pose = function(playOrPause)
+    if playOrPause == "play" then
+        game.ReplicatedStorage.Taunt:FireServer(game.Players.LocalPlayer.Character.Head, "rbxassetid://2540377045", 10000, 10000, 0)
+        game.ReplicatedStorage.Menacing:FireServer(true)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 0
+        _G.anim4:Play()
+    elseif playOrPause == "pause" then
+        game.ReplicatedStorage.Taunt:FireServer(game.Players.LocalPlayer.Character.Head, "", 0, 0, 0)
+        game.ReplicatedStorage.Menacing:FireServer(false)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+        _G.anim4:Stop()
+    end
+end
+ 
+local pose = true
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 'p' and pose then
+        _G.pose("play")
+        pose = false
+    elseif key == 'p' and not pose then
+        _G.pose("pause")
+        pose = true
+    end
+end)
+ 
+_G.lmbMove = function()
+    local leftArm = game.Players.LocalPlayer.Character["Right Arm"]
+ 
+    local hitbox1 = Instance.new("Part", game.Players.LocalPlayer.Character)
+ 
+    hitbox1.CFrame = leftArm.CFrame
+    hitbox1.Name = "hitbox1"
+    hitbox1.Transparency = 1
+    hitbox1.Anchored = false
+    hitbox1.CanCollide = false
+ 
+    local weld = Instance.new("WeldConstraint", hitbox1)
+    weld.Part0 = hitbox1
+    weld.Part1 = leftArm
+ 
+    hitbox1.Size = leftArm.Size * 1.3
+    hitbox1.Massless = true
+    hitbox1.Color = Color3.new(0,0,0)
+    game.Debris:AddItem(hitbox1, 0.7)
+ 
+    local debounce = false
+ 
+    local hitRegister = hitbox1.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+            if debounce == false then
+            debounce = true
+            print(hit.Parent.Name)
+            delay(.001, function() debounce = false end)
+        game.ReplicatedStorage.Knock:FireServer(hit.Parent.Humanoid)
+        game.ReplicatedStorage.Damage:FireServer(hit.Parent.Humanoid, hit.Parent.HumanoidRootPart.CFrame, 40, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 25 + Vector3.new(0, 0, 0), "rbxassetid://241837157", .05, Color3.new(255, 255, 255), "rbxassetid://4766118952", 1, 1)
+        hitbox1:Destroy()
+        end
+        elseif(hit.Parent.Parent:FindFirstChild("Humanoid")) and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+            if debounce == false then
+            debounce = true
+            print(hit.Parent.Name .. " elif")
+            delay(.001, function() debounce = false end)
+        game.ReplicatedStorage.Knock:FireServer(hit.Parent.Parent.Humanoid)
+        game.ReplicatedStorage.Damage:FireServer(hit.Parent.Parent.Humanoid, hit.Parent.Parent.HumanoidRootPart.CFrame, 40, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 25 + Vector3.new(0, 0, 0), "rbxassetid://241837157", .05, Color3.new(255, 255, 255), "rbxassetid://4766118952", 1, 1)
+        hitbox1:Destroy()
+    end
+end
+end)
+end
+ 
+mouse.Button1Down:Connect(function()
+    _G.anim5:Play(.1, 1, 1.1)
+    _G.lmbMove()
+    wait(.3)
+    game.ReplicatedStorage.Damage:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(0,0,0), "", 0, Color3.new(0,0,0), "rbxassetid://147722227", 1, 2)
+end)
+ 
+_G.shinei = function(arm)
+    local arm1 = game.Players.LocalPlayer.Character[arm]
+    local hitbox1 = Instance.new("Part", game.Players.LocalPlayer.Character)
+    hitbox1.Transparency = 1
+    hitbox1.CFrame = arm1.CFrame
+    hitbox1.Massless = true
+    hitbox1.Color = Color3.new(0,0,0)
+    hitbox1.Anchored = false
+    hitbox1.CanCollide = false
+    hitbox1.Size = arm1.Size * 1.2
+ 
+    local weld = Instance.new("WeldConstraint", arm1)
+    weld.Part0 = hitbox1
+    weld.Part1 = arm1
+    game.Debris:AddItem(hitbox1, .55)
+ 
+    local debounce =false
+ 
+    local hitRegister = hitbox1.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+            if debounce == false then
+                debounce = true
+                print(hit.Parent.Name)
+                delay(.001, function() debounce = false end)
+                for i = 0, 40, 1 do
+                    game.ReplicatedStorage.StrongPunch:FireServer(Vector3.new(5, 5, 5), Vector3.new(5, 5, 5), BrickColor.Random())
+                end
+            game.ReplicatedStorage.Knock:FireServer(hit.Parent.Humanoid)
+            game.ReplicatedStorage.Damage:FireServer(hit.Parent.Humanoid, hit.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 600 + Vector3.new(0, 200, 0), "rbxassetid://241837157", 2, Color3.new(0, 150, 150), "rbxassetid://5715042480", 1, 50)
+            hitbox1:Destroy()
+        end
+    elseif(hit.Parent.Parent:FindFirstChild("Humanoid")) and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+        if debounce == false then
+            debounce = true
+            print(hit.Parent.Name)
+            delay(.001, function() debounce = false end)
+            for i = 0, 40, 1 do
+            game.ReplicatedStorage.StrongPunch:FireServer(Vector3.new(5, 5, 5), Vector3.new(5, 5, 5), BrickColor.Random())
+        end
+        game.ReplicatedStorage.Knock:FireServer(hit.Parent.Parent.Humanoid)
+        game.ReplicatedStorage.Damage:FireServer(hit.Parent.Parent.Humanoid, hit.Parent.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 700 + Vector3.new(0, 500, 0), "rbxassetid://241837157", 2, Color3.new(0, 150, 150), "rbxassetid://5715042480", 1, 50)
+        hitbox1:Destroy()
+        end
+    end
+    end)
+end
+ 
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 'f' then
+        game.ReplicatedStorage.Damage:FireServer(game.Players.LocalPlayer.Character.Humanoid, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 0, 0, Vector3.new(0,0,0), "", 0, Color3.new(0,0,0), "rbxassetid://2440670891", 1, 2)
+        _G.anim6:Play()
+        _G.shinei("Right Arm")
+        _G.shinei("Left Arm")
+    end
+end)
+ 
+_G.axekickMove = function()
+    for i,v in pairs(game.Workspace.Entities:GetChildren()) do
+        if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Name ~= game.Players.LocalPlayer.Name then
+            if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude < 25 then
+                game.ReplicatedStorage.Damage:FireServer(v.Humanoid, v.HumanoidRootPart.CFrame, 70, 0.25, Vector3.new(0, 1000, 0), "rbxassetid://241837157", 0.0001, Color3.new(0, 255, 0), "rbxassetid://4965083997", 1, 100)
+                game.ReplicatedStorage.Knock:FireServer(v.Humanoid)
+            end
+        end
+    end    
+end
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 't' then
+        _G.anim7:Play()
+        wait(.5)
+        game.ReplicatedStorage.GravityForce:FireServer()
+        _G.axekickMove()
+    end
+end)
+ 
+_G.uppercut = function(arm)
+    local arm1 = game.Players.LocalPlayer.Character[arm]
+ 
+    local hitbox1 = Instance.new("Part", game.Players.LocalPlayer.Character)
+ 
+    hitbox1.CFrame = arm1.CFrame
+    hitbox1.Name = "hitbox1"
+    hitbox1.Transparency = 1
+    hitbox1.Anchored = false
+    hitbox1.CanCollide = false
+ 
+    local weld = Instance.new("WeldConstraint", hitbox1)
+    weld.Part0 = hitbox1
+    weld.Part1 = arm1
+    
+    hitbox1.Size = arm1.Size * 1.1
+    hitbox1.Massless = true
+    hitbox1.Color = Color3.new(0,0,0)
+ 
+    game.Debris:AddItem(hitbox1, 0.5)
+    
+    local debounce = false
+    
+    local hitRegister = hitbox1.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+            if debounce == false then
+            debounce = true
+            print(hit.Parent.Name)
+            delay(.001, function() debounce = false end)
+        game.ReplicatedStorage.Knock:FireServer(hit.Parent.Humanoid)
+        game.ReplicatedStorage.Damage:FireServer(hit.Parent.Humanoid, hit.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 30 + Vector3.new(0, 40, 0), "rbxassetid://241837157", .4, Color3.new(255, 255, 255), "rbxassetid://1058693352", 1, 1000)
+        hitbox1:Destroy()
+    end
+elseif(hit.Parent.Parent:FindFirstChild("Humanoid")) and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+    if debounce == false then
+        debounce = true
+        print(hit.Parent.Name)
+        delay(.001, function() debounce = false end)
+    game.ReplicatedStorage.Knock:FireServer(hit.Parent.Parent.Humanoid)
+    game.ReplicatedStorage.Damage:FireServer(hit.Parent.Parent.Humanoid, hit.Parent.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 30 + Vector3.new(0, 40, 0), "rbxassetid://241837157", .4, Color3.new(255, 255, 255), "rbxassetid://1058693352", 1, 1000)
+    hitbox1:Destroy()
+    end
+end
+end)
+end
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == 'b' then
+        _G.anim8:Play()
+        _G.uppercut("Left Arm")
+    end
+end)
+ 
+--[[
+local userdata_1 = Humanoid
+local number_1 = 20;
+local number_2 = 0.25;
+local userdata_2 = Vector3.new(-0, 0, 0);
+local Target = game:GetService("ReplicatedStorage").VampireDamage;
+Target:FireServer(userdata_1, number_1, number_2, userdata_2);
+]]
+ 
+_G.grab = function()
+    local leftArm = game.Players.LocalPlayer.Character["Right Arm"]
+ 
+    local hitbox1 = Instance.new("Part", game.Players.LocalPlayer.Character)
+    hitbox1.CFrame = leftArm.CFrame
+    hitbox1.Transparency = 1
+    hitbox1.Name = "hitbox1"
+    hitbox1.CanCollide = false
+    hitbox1.Anchored = false
+    hitbox1.Massless = true
+    hitbox1.Color = Color3.new(0,0,0)
+    hitbox1.Size = leftArm.Size * 1.2
+ 
+    local weld = Instance.new("WeldConstraint", hitbox1)
+    weld.Part0 = hitbox1
+    weld.Part1 = leftArm
+ 
+    game.Debris:AddItem(hitbox1, .7)
+ 
+    local debounce = false
+    
+    local hitRegister = hitbox1.Touched:Connect(function(hit)
+        if hit.Parent:FindFirstChild("Humanoid") and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+            if debounce == false then
+            debounce = true
+            print(hit.Parent.Name)
+            delay(.001, function() debounce = false end)
+        game.ReplicatedStorage.Knock:FireServer(hit.Parent.Humanoid)
+        --game.ReplicatedStorage.Damage:FireServer(hit.Parent.Humanoid, hit.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 30 + Vector3.new(0, 40, 0), "rbxassetid://241837157", .4, Color3.new(255, 255, 255), "rbxassetid://1058693352", 1, 1000)
+        game.ReplicatedStorage.VampireDamage:FireServer(hit.Parent.Humanoid, 100, 0.25, Vector3.new(-0,0,0))
+        hitbox1:Destroy()
+    end
+elseif(hit.Parent.Parent:FindFirstChild("Humanoid")) and hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+    if debounce == false then
+        debounce = true
+        print(hit.Parent.Name)
+        delay(.001, function() debounce = false end)
+        game.ReplicatedStorage.Knock:FireServer(hit.Parent.Parent.Humanoid)
+        --game.ReplicatedStorage.Damage:FireServer(hit.Parent.Parent.Humanoid, hit.Parent.Parent.HumanoidRootPart.CFrame, 75, .25, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * 30 + Vector3.new(0, 40, 0), "rbxassetid://241837157", .4, Color3.new(255, 255, 255), "rbxassetid://1058693352", 1, 1000)
+        game.ReplicatedStorage.VampireDamage:FireServer(hit.Parent.Parent.Humanoid, 100, 0.25, Vector3.new(-0,0,0))
+    hitbox1:Destroy()
+    end
+end
+end)
+end
+ 
+mouse.keyDown:Connect(function(key)
+    if key == 'h' then
+        _G.anim5:Play()
+        _G.grab()
+    end
+end)
+ 
+ 
+mouse.keyDown:Connect(function(key)
+    if key == 'l' then
+        game.ReplicatedStorage.Taunt:FireServer(game.Players.LocalPlayer.Character.Head, "rbxassetid://3657899780", 10000, 10000, 0)
+    end
+end)

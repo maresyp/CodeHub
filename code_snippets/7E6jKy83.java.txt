@@ -1,0 +1,245 @@
+/* l2jfrozen Project - www.l2jfrozen.com 
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+package com.l2jfrozen.gameserver.model.actor.instance;
+ 
+import java.util.concurrent.ScheduledFuture;
+ 
+import com.l2jfrozen.Config;
+import com.l2jfrozen.gameserver.ai.CtrlIntention;
+import com.l2jfrozen.gameserver.datatables.SkillTable;
+import com.l2jfrozen.gameserver.model.L2Skill;
+import com.l2jfrozen.gameserver.model.base.ClassId;
+import com.l2jfrozen.gameserver.network.serverpackets.ActionFailed;
+import com.l2jfrozen.gameserver.network.serverpackets.MagicSkillUser;
+import com.l2jfrozen.gameserver.network.serverpackets.MoveToPawn;
+import com.l2jfrozen.gameserver.network.serverpackets.MyTargetSelected;
+import com.l2jfrozen.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jfrozen.gameserver.network.serverpackets.ValidateLocation;
+import com.l2jfrozen.gameserver.skills.SkillHolder;
+import com.l2jfrozen.gameserver.templates.L2NpcTemplate;
+import com.l2jfrozen.gameserver.thread.ThreadPoolManager;
+ 
+/**
+ * @author terius
+ */
+public class L2TeriusBuffInstance extends L2NpcInstance
+{
+    private ScheduledFuture<?> _aiTask;
+    
+    @Override
+    public void onAction(L2PcInstance player)
+    {
+        if (this != player.getTarget())
+        {
+            player.setTarget(this);
+            player.sendPacket(new MyTargetSelected(getObjectId(), 0));
+            player.sendPacket(new ValidateLocation(this));
+        }
+        else
+        {
+            if (!canInteract(player))
+                player.getAI().setIntention(CtrlIntention.AI_INTENTION_INTERACT, this);
+            else
+            {
+                // Rotate the player to face the instance
+                player.sendPacket(new MoveToPawn(player, this, L2NpcInstance.INTERACTION_DISTANCE));
+                
+                if (hasRandomAnimation())
+                    onRandomAnimation();
+                
+                showMainWindow(player);
+                
+                // Send ActionFailed to the player in order to avoid he stucks
+                player.sendPacket(ActionFailed.STATIC_PACKET);
+            }
+        }
+    }
+   
+    private void showMainWindow(L2PcInstance player)
+    {
+        
+        NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
+        html.setFile("data/html/mods/TeriusBuff.htm");
+        html.replace("%objectId%", String.valueOf(getObjectId()));
+        html.replace("%npcname%", getName());
+        player.sendPacket(html);
+    }   
+    
+    private class TeriusAI implements Runnable
+    {
+        private final L2TeriusBuffInstance _caster;
+        
+        protected TeriusAI(final L2TeriusBuffInstance caster)
+        {
+            _caster = caster;
+        }
+        
+        private final SkillHolder[] FIGHTER_BUFFS =
+        {
+            new SkillHolder(1352, 1),
+            new SkillHolder(1353, 1),
+            new SkillHolder(1415, 1),
+            new SkillHolder(1393, 3),
+            new SkillHolder(1392, 3),
+            new SkillHolder(1191, 3),
+            new SkillHolder(1189, 3),
+            new SkillHolder(1182, 3),
+            new SkillHolder(1392, 3),
+            new SkillHolder(1040, 3),
+            new SkillHolder(1036, 2),
+            new SkillHolder(1062, 2),
+            new SkillHolder(1045, 6),
+            new SkillHolder(1068, 3),
+            new SkillHolder(1035, 4),
+            new SkillHolder(1240, 3),
+            new SkillHolder(1242, 3),
+            new SkillHolder(1077, 3),
+            new SkillHolder(1086, 2),
+            new SkillHolder(1204, 2),
+            new SkillHolder(1268, 4),
+            new SkillHolder(264, 1),
+            new SkillHolder(266, 1),
+            new SkillHolder(267, 1),
+            new SkillHolder(268, 1),
+            new SkillHolder(269, 1),
+            new SkillHolder(304, 1),
+            new SkillHolder(306, 1),
+            new SkillHolder(308, 1),
+            new SkillHolder(270, 1),
+            new SkillHolder(364, 1),
+            new SkillHolder(274, 1),
+            new SkillHolder(275, 1),
+            new SkillHolder(271, 1),
+            new SkillHolder(309, 1),
+            new SkillHolder(307, 1),
+            new SkillHolder(272, 1),
+            new SkillHolder(310, 1),
+            new SkillHolder(1363, 1),
+            new SkillHolder(1388, 3),
+            new SkillHolder(4700, 13),
+            new SkillHolder(1323, 1),
+        };
+        private final SkillHolder[] MAGE_BUFFS =
+        {
+            new SkillHolder(1352, 1),
+            new SkillHolder(1353, 1),
+            new SkillHolder(1415, 1),
+            new SkillHolder(1393, 3),
+            new SkillHolder(1392, 3),
+            new SkillHolder(1191, 3),
+            new SkillHolder(1189, 3),
+            new SkillHolder(1182, 3),
+            new SkillHolder(1392, 3),
+            new SkillHolder(1040, 3),
+            new SkillHolder(1036, 2),
+            new SkillHolder(1045, 6),
+            new SkillHolder(1048, 6),
+            new SkillHolder(1062, 2),
+            new SkillHolder(1035, 4),
+            new SkillHolder(1085, 3),
+            new SkillHolder(1078, 6),
+            new SkillHolder(1304, 3),
+            new SkillHolder(1243, 6),
+            new SkillHolder(1204, 2),
+            new SkillHolder(1303, 2),
+            new SkillHolder(1259, 4),
+            new SkillHolder(1059, 3),
+            new SkillHolder(266, 1),
+            new SkillHolder(264, 1),
+            new SkillHolder(267, 1),
+            new SkillHolder(306, 1),
+            new SkillHolder(308, 1),
+            new SkillHolder(270, 1),
+            new SkillHolder(268, 1),
+            new SkillHolder(304, 1),
+            new SkillHolder(273, 1),
+            new SkillHolder(307, 1),
+            new SkillHolder(276, 1),
+            new SkillHolder(349, 1),
+            new SkillHolder(277, 1),
+            new SkillHolder(365, 1),
+            new SkillHolder(304, 1),
+            new SkillHolder(1413, 1),
+            new SkillHolder(1389, 3),
+            new SkillHolder(4702, 13),
+            new SkillHolder(1323, 1),
+        };
+        
+        @Override
+        public void run()
+        {
+            for (final L2PcInstance player : getKnownList().getKnownPlayers().values())
+            {           
+                
+                if (player.isMageClass() && (player.getClassId() != ClassId.overlord) && (player.getClassId() != ClassId.warcryer))
+                {
+                    for (SkillHolder skills : MAGE_BUFFS) 
+                    {
+                        TeriusCast(player, skills.getSkill());
+                    }
+ 
+                }else
+                    for (SkillHolder skills : FIGHTER_BUFFS)
+                    {
+                        TeriusCast(player, skills.getSkill());
+                    }
+ 
+            }
+        }   
+        
+    private boolean TeriusCast(final L2PcInstance player,L2Skill skill)
+        {
+            if (player.isDead() || !player.isVisible() || !isInsideRadius(player, 200, false, false))
+                return false;
+            
+            if (player.getFirstEffect(skill) == null)
+            {
+                heal(player);
+                SkillTable.getInstance().getInfo(skill.getId(), skill.getLevel()).getEffects(player, player);
+                skill.getEffects(_caster, player, false, false, false);
+                broadcastPacket(new MagicSkillUser(_caster, player, skill.getId(), skill.getLevel(), Config.PROTECTOR_SKILLTIME, 0));
+ 
+                return true;
+            }
+            
+            return false;
+        }
+    }
+    
+    static void heal(L2PcInstance activeChar)
+    {
+        activeChar.setCurrentHp(activeChar.getMaxHp());
+        activeChar.setCurrentCp(activeChar.getMaxCp());
+        activeChar.setCurrentMp(activeChar.getMaxMp());
+    }   
+    
+    public L2TeriusBuffInstance(final int objectId, final L2NpcTemplate template)
+    {
+        super(objectId, template);
+        
+        if (_aiTask != null)
+        {
+            _aiTask.cancel(true);
+        }
+        
+        _aiTask = ThreadPoolManager.getInstance().scheduleAiAtFixedRate(new TeriusAI(this), 3000, 3000);
+    }
+ 
+}

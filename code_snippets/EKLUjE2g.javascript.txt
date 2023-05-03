@@ -1,0 +1,71 @@
+import express from 'express';
+import fetch from 'node-fetch';
+import { Client } from 'discord.js';
+import config from './config.js';
+ 
+const router = express.Router();
+const DISCORD_API_BASE_URL = 'https://discord.com/api';
+ 
+export const getToken = () => {
+  const accessToken = process.env.DISCORD_TOKEN;
+  if (!accessToken) {
+    throw new Error('Access token not found');
+  }
+  return accessToken;
+};
+ 
+const token = getToken();
+const client = new Client();
+ 
+// OAuth2 redirect URI handler
+router.get('/callback', async (req, res) => {
+  // Retrieve the authorization code from the query parameters
+  const { code } = req.query;
+  if (!code) {
+    return res.status(400).send('Authorization code missing');
+  }
+ 
+  // Exchange the authorization code for an access token
+  const tokenRes = await fetch(`${DISCORD_API_BASE_URL}/oauth2/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      client_id: config.CLIENT_ID,
+      client_secret: config.CLIENT_SECRET,
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: redirectUri,
+      scope: 'identify',
+    }),
+  });
+ 
+  const tokenData = await tokenRes.json();
+  if (!tokenRes.ok) {
+    return res.status(400).send(`Error fetching token: ${tokenData.error}`);
+  }
+ 
+  // Get the user's Discord information using the access token
+  const userRes = await fetch(`${DISCORD_API_BASE_URL}/users/@me`, {
+    headers: {
+      Authorization: `Bearer ${tokenData.access_token}`,
+    },
+  });
+ 
+  const userData = await userRes.json();
+  if (!userRes.ok) {
+    return res.status(400).send(`Error fetching user: ${userData.error}`);
+  }
+ 
+  // Log in the Discord bot with the user's access token
+  await client.login(tokenData.access_token);
+ 
+  // Set the user's ID as a cookie for future use
+  res.cookie('userId', userData.id);
+ 
+  // Redirect the user back to the homepage
+  res.redirect('/');
+});
+ 
+export default router;

@@ -1,0 +1,50 @@
+import curses
+ 
+def main(stdscr):
+    # Set up the screen
+    curses.curs_set(0)
+    stdscr.nodelay(True)
+    stdscr.timeout(100)
+ 
+    sh, sw = stdscr.getmaxyx()
+    w = curses.newwin(sh, sw, 0, 0)
+ 
+    # Set up the turtle
+    turtle = [sh // 2, sw // 2]
+    w.addch(turtle[0], turtle[1], '@')
+    w.refresh()
+ 
+    while True:
+        # Get user input
+        key = w.getch()
+ 
+        # Initialize new position as the current position
+        new_turtle = [turtle[0], turtle[1]]
+ 
+        if key != -1:
+            if key == curses.KEY_UP or key == ord('w') or key == ord('W'):
+                new_turtle[0] -= 1
+                traceback = '|'
+            elif key == curses.KEY_DOWN or key == ord('s') or key == ord('S'):
+                new_turtle[0] += 1
+                traceback = '|'
+            elif key == curses.KEY_LEFT or key == ord('a') or key == ord('A'):
+                new_turtle[1] -= 1
+                traceback = '-'
+            elif key == curses.KEY_RIGHT or key == ord('d') or key == ord('D'):
+                new_turtle[1] += 1
+                traceback = '-'
+            else:
+                continue
+ 
+            # Check if new position is inside the screen boundaries
+            if new_turtle[0] < 0 or new_turtle[0] >= sh or new_turtle[1] < 0 or new_turtle[1] >= sw:
+                continue
+ 
+            # Draw the traceback and update the turtle position
+            w.addch(turtle[0], turtle[1], traceback)
+            w.addch(new_turtle[0], new_turtle[1], '@')
+            w.refresh()
+            turtle = new_turtle
+ 
+curses.wrapper(main)

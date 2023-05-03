@@ -1,0 +1,45 @@
+public with sharing class ConverteTemperaturaCF {
+    
+    public Decimal tempKelvin;
+    public static Decimal tempCelsius;
+    
+    public static Decimal converteTemp(){
+        return tempCelsius*1.8 + 32;
+    }
+    
+    public Decimal converteTempKC(){
+        return this.tempKelvin-273.15;
+        
+    }
+    
+    public static Decimal converteCToF(Decimal c){
+        return c*1.8 + 32;
+    }
+ 
+}
+    /*ANONYMOUS
+     * 
+     * 
+ConverteTemperaturaCF conversor = new ConverteTemperaturaCF();
+ 
+conversor.tempCelsius = 22;
+ 
+Decimal tempF = conversor.converteTemp();
+ 
+System.debug(conversor.tempCelsius+'ºC equivale a '+tempF+'ºF');
+ 
+//********************************************
+ 
+ConverteTemperaturaCF.tempCelsius = 22;
+ 
+Decimal tempF = ConverteTemperaturaCF.converteTemp();
+ 
+System.debug(ConverteTemperaturaCF.tempCelsius+'ºC equivale a '+tempF+'ºF');
+ 
+ 
+//************************************************
+ConverteTemperaturaCF conversor = new ConverteTemperaturaCF();
+conversor.tempKelvin = 273.15;
+System.debug(conversor.converteTempKC());
+ 
+*/

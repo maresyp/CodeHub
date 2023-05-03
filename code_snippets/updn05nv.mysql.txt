@@ -1,0 +1,36 @@
+CREATE TABLE Клиент(
+  Код_клиента SMALLINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  ФИО CHAR(50) NOT NULL,
+ Паспортные_данные BIGINT NOT NULL,
+  Контактный_номер BIGINT NOT NULL
+);
+CREATE TABLE Специалист(
+  Код_специалиста TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  ФИО CHAR(50) NOT NULL,
+  Специализация CHAR(15) NOT NULL
+);
+CREATE TABLE Техника(
+  Код_техники SMALLINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  Название CHAR(20) NULL,
+  Результат_диагностики CHAR(30) NOT NULL
+);
+CREATE TABLE Вид_работ(
+  Код_работы TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  Название CHAR(50) NOT NULL,
+  Приоритет TINYINT NOT NULL,
+  Оценочная_сложность TINYINT NULL
+);
+CREATE TABLE Заявка(
+  Код_заявки SMALLINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  Очередь TINYINT NOT NULL,
+  Дата_отправки DATE NOT NULL,
+  Дата_принятия DATE NOT NULL,
+  Код_клиента SMALLINT NOT NULL,
+  Код_специалиста TINYINT NOT NULL,
+  Код_техники SMALLINT NOT NULL,
+  Код_работы TINYINT NOT NULL,
+  CONSTRAINT fkClient FOREIGN KEY (Код_клиента) REFERENCES Клиент(Код_клиента),
+  CONSTRAINT fkSpec FOREIGN KEY (Код_специалиста) REFERENCES Специалист(Код_специалиста),
+  CONSTRAINT fkDev FOREIGN KEY (Код_техники) REFERENCES Техника(Код_техники),
+  CONSTRAINT fkWork FOREIGN KEY (Код_работы) REFERENCES Вид_работ(Код_работы)
+);

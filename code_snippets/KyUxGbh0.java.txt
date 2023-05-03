@@ -1,0 +1,107 @@
+float
+// paddle
+  paddleX,
+  paddleY,
+  paddleW, // plotis
+  paddleH, // aukštis
+  paddleStep,
+// ball
+  ballX = 0,
+  ballY = 0,
+  ballSize, // diametras
+  ballStep;
+ 
+int 
+  ballWayX = 1, // panašu į boolean (true / false)
+  ballWayY = 1; // 1 (true) ; -1 (false)
+  
+void setup () {
+  size (1280, 750);
+  rectMode (CENTER);
+  
+  paddleX = width * 0.5; // per vidurį
+  paddleY = height * 0.95; // apačioje
+  
+  paddleW = width * 0.125;
+  //paddleW = width;
+  paddleH = height * 0.03;
+    
+  ballSize = height * 0.1;
+  paddleStep = ballStep = width * 0.01;
+  //ballStep = width * 0.008;
+  // 1280 * 0.01 = 12.8
+  
+  //paddleX = width / 2;
+  //ballX = paddleX - paddleW / 2;
+  //paddleY = height / 2;
+  //ballY = paddleY - paddleH * 2;
+  //circle (ballX, ballY, ballSize);
+  //rect (paddleX, paddleY, paddleW, paddleH);
+  //println ("paddleY: " + str(paddleY));
+  
+  //paddleX = 0;
+  //noStroke ();
+  //stroke (50, 50, 50); // rgb
+  //strokeWeight (50);
+}
+ 
+void paddle () {
+  fill (255, 0, 0);
+  rect (paddleX, paddleY, paddleW, paddleH);
+  
+  if (keyPressed) {
+    //if (key == 'a')
+    if (keyCode == LEFT && paddleX > 0)
+      paddleX -= paddleStep;
+    if (keyCode == RIGHT && paddleX < width)
+      paddleX += paddleStep;
+  }
+}
+ 
+void ball () {
+  //fill (255);
+  fill (random (255), random (255), random (255));
+  
+  ballX += ballStep * ballWayX;
+  ballY += ballStep * ballWayY;
+  println (ballY);
+  
+  // ballStep 13; -13
+  //if (true)
+  //if (ballY > height / 2)
+  
+  // atsimuša nuo dešinės ir kairės
+   if (ballX > width || ballX < 0)
+      //atsimuša
+      ballWayX *= -1;
+      // 1 -> -1
+      // -1 -> 1
+      
+   if (ballY < 0)
+     ballWayY = 1;
+  
+  if (ballY + ballSize / 2 > paddleY - paddleH / 2){
+    if (
+     ballX > paddleX - paddleW / 2
+     //ball dešiniau nei kairys paddle kraštas (x)
+     &&
+     ballX < paddleX + paddleW / 2
+     // ball kairiau nei dešinys paddle kraštas (x)
+    ) {
+      ballWayY = -1;
+      //fill (0, 255, 0);
+      //stop ();
+    }
+  }
+  
+  if (ballY > height)
+    stop ();
+    
+  circle (ballX, ballY, ballSize);
+}
+ 
+void draw () {
+  background (0);
+  paddle ();
+  ball ();
+}

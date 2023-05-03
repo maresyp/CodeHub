@@ -1,0 +1,30 @@
+#pragma once
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+ 
+const int CLASSROOMS_NUMBER = 12;
+ 
+struct Record {
+    int groupNumber = -1; // Номер группы
+    int subjectCode; // Код дисциплины
+    int dayOfWeek; // День недели
+    int pairNumber; // Номер пары
+    int classroomInd; // Номер аудитории
+};
+ 
+// Определение типа таблицы
+struct Table {
+    vector<Record> records;
+    string classrooms[CLASSROOMS_NUMBER] = { "A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3" };
+};
+ 
+void createRecord(Record& record, Table& table);
+int enterClassroom(Record& record, Table& table);
+void insertRecord(Record record, Table& table);
+void printRecord(Table& table, int day, int pair, int group);
+void printTable(Table& table);
+void deleteRecord(Table& table, int day, int pair, int group);
+void printTableBySubject(Table& table, int subjectCode);
+void moveRecord(Table& table, int oldDay, int oldPair);

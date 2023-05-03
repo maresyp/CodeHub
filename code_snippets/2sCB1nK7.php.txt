@@ -1,0 +1,25 @@
+add_filter('site-reviews/review/value/assigned_links', function ($value, $tag) {
+    $links = [];
+    foreach ($tag->review->assigned_posts as $postId) {
+        $sports = get_the_terms($postId, 'sport');
+        if (is_array($sports)) {
+            foreach ($sports as $term) {
+                $links[] = sprintf('<a href="%s">%s</a>', 
+                    esc_url(get_term_link($term->slug, 'sport')),
+                    esc_html($term->name)
+                );
+            }
+        }
+        $locations = get_the_terms($postId, 'location');
+        if (is_array($locations)) {
+            foreach ($locations as $term) {
+                $links[] = sprintf('<a href="%s">%s</a>', 
+                    esc_url(get_term_link($term, 'location')),
+                    esc_html($term->name)
+                );
+            }
+        }
+    }
+    $categories = implode('&nbsp;|&nbsp;', $links);
+    return sprintf('%s<br>%s', $value, $categories);
+}, 10, 2);

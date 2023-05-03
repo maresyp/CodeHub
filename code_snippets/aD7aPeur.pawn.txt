@@ -1,0 +1,157 @@
+/*
+    * @file                     whitelist.pwn
+    * @author                   sants
+    * @date                     9/13/2022 at 23:20
+    * @version                  Version 1.0.0
+    * @codedin                  23 minutes
+*/
+ 
+ 
+#define FILTERSCRIPT
+ 
+#include <a_samp>
+#include <DOF2>
+#include <zcmd>
+#include <sscanf2>
+ 
+#define PASTAWLIP "WLIP/%s.ini"
+#define PASTAWLNICK "WLNICK/%s.ini"
+ 
+#if defined FILTERSCRIPT
+ 
+new path[50], wlmsg[120];
+ 
+public OnFilterScriptInit()
+{
+    print("\n--------------------------------------");
+    print(" [WhiteList 1.0 by Sants]");
+    print("--------------------------------------\n");
+    return 1;
+}
+ 
+public OnFilterScriptExit()
+{
+    DOF2_Exit();
+    return 1;
+}
+ 
+public OnPlayerConnect(playerid)
+{
+    if(!IsPlayerWListed(playerid)) {
+        SendClientMessage(playerid, -1, "[WL] Você não está em nossa WL, favor entre em contato com a administração");
+        SetTimerEx("KickPlayer", 2000, 0, "i", playerid);
+    } else {
+        SendClientMessage(playerid, -1, "[WL] WhitList confirmada! Bem vindo ao nosso servidor");
+ 
+    }
+    return 1;
+}
+ 
+ 
+CMD:addwlip(playerid, params[]) {
+    new ip[17];
+    if(!IsPlayerAdmin(playerid)) return SendClientMessage(playerid, -1, "(ERRO) Você não tem permissão");
+    else {
+        if(!sscanf(params, "s[17]", ip)) {
+            format(path, sizeof(path), PASTAWLIP, ip);
+            if(DOF2_FileExists(path)) return SendClientMessage(playerid, -1, "(ERRO) IP já consta na WL");
+            else {
+                DOF2_CreateFile(path);
+                DOF2_SaveFile();
+                format(wlmsg, sizeof(wlmsg), "[WL] Você adicionou o IP [%s] a WhiteList", ip);
+                SendClientMessage(playerid, -1, wlmsg);
+            }
+        } else return SendClientMessage(playerid, -1, "(ERRO) Uso: /addwlip [IP]");
+    }
+    return 1;
+}
+ 
+CMD:addwlnick(playerid, params[]) {
+    new nick[MAX_PLAYER_NAME];
+    if(!IsPlayerAdmin(playerid)) return SendClientMessage(playerid, -1, "(ERRO) Você não tem permissão");
+    else {
+        if(!sscanf(params, "s[26]", nick)) {
+            format(path, sizeof(path), PASTAWLNICK, nick);
+            if(DOF2_FileExists(path)) return SendClientMessage(playerid, -1, "(ERRO) Este nick já consta na WL");
+            else {
+                DOF2_CreateFile(path);
+                DOF2_SaveFile();
+                format(wlmsg, sizeof(wlmsg), "[WL] Você adicionou o nick [%s] a WhiteList", nick);
+                SendClientMessage(playerid, -1, wlmsg);
+            }
+        } else return SendClientMessage(playerid, -1, "(ERRO) Uso: /addwlnick [NICK]");
+    }
+    return 1;
+}
+ 
+CMD:remwlip(playerid, params[]) {
+    new ip[17];
+    if(!IsPlayerAdmin(playerid)) return SendClientMessage(playerid, -1, "(ERRO) Você não tem permissão");
+    else {
+        if(!sscanf(params, "s[17]", ip)) {
+            format(path, sizeof(path), PASTAWLIP, ip);
+            if(!DOF2_FileExists(path)) return SendClientMessage(playerid, -1, "(ERRO) IP não conta na WL");
+            else {
+                DOF2_RemoveFile(path);
+                format(wlmsg, sizeof(wlmsg), "[WL] Você removeu o IP [%s] da WhiteList", ip);
+                SendClientMessage(playerid, -1, wlmsg);
+            }
+        } else return SendClientMessage(playerid, -1, "(ERRO) Uso: /remwlip [IP]");
+    }
+    return 1;
+}
+ 
+CMD:remwlnick(playerid, params[]) {
+    new nick[MAX_PLAYER_NAME];
+    if(!IsPlayerAdmin(playerid)) return SendClientMessage(playerid, -1, "(ERRO) Você não tem permissão");
+    else {
+        if(!sscanf(params, "s[26]", nick)) {
+            format(path, sizeof(path), PASTAWLNICK, nick);
+            if(!DOF2_FileExists(path)) return SendClientMessage(playerid, -1, "(ERRO) Nick não conta na WL");
+            else {
+                DOF2_RemoveFile(path);
+                format(wlmsg, sizeof(wlmsg), "[WL] Você removeu o NICK [%s] da WhiteList", nick);
+                SendClientMessage(playerid, -1, wlmsg);
+            }
+        } else return SendClientMessage(playerid, -1, "(ERRO) Uso: /remwlip [NICK]");
+    }
+    return 1;
+}
+ 
+IsPlayerWListed(playerid) {
+    format(path, sizeof(path), PASTAWLIP, GetPlayerIpEx(playerid));
+    if(DOF2_FileExists(path)) return 1;
+    else {
+        format(path, sizeof(path), PASTAWLNICK, GetPlayerNick(playerid));
+        if(DOF2_FileExists(path)) return 1;
+    }
+    return 0;
+}
+ 
+GetPlayerNick(playerid) {
+    new nick[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, nick, sizeof(nick));
+    return nick;
+}
+ 
+GetPlayerIpEx(playerid) {
+    new ip[17];
+    GetPlayerIp(playerid, ip, sizeof(ip));
+    return ip;
+}
+ 
+stock UpdateWLNick(oldnick, nick) {
+    format(path, sizeof(path), PASTAWLNICK, nick);
+    DOF2_CreateFile(path);
+    DOF2_SaveFile();
+    format(path, sizeof(path), PASTAWLNICK, oldnick);
+    DOF2_RemoveFile(path);
+ 
+    return 1;
+}
+ 
+stock KickPlayer(playerid) {
+    Kick(playerid);
+}
+ 
+#endif

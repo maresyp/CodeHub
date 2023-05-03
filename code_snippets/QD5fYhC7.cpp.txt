@@ -1,0 +1,95 @@
+#include <iostream>
+ 
+float determinant(float A[4][4]) {
+    float det = 0;
+    float submatrix[3][3];
+    int sign = 1;
+ 
+    for (int i = 0; i < 4; i++) {
+        int sub_i = 0;
+        for (int j = 1; j < 4; j++) {
+            int sub_j = 0;
+            for (int k = 0; k < 4; k++) {
+                if (k != i) {
+                    submatrix[sub_i][sub_j] = A[j][k];
+                    sub_j++;
+                }
+            }
+            sub_i++;
+        }
+        det = det + sign * A[0][i] * (
+                submatrix[0][0] * (submatrix[1][1] * submatrix[2][2] - submatrix[2][1] * submatrix[1][2])
+                - submatrix[0][1] * (submatrix[1][0] * submatrix[2][2] - submatrix[2][0] * submatrix[1][2])
+                + submatrix[0][2] * (submatrix[1][0] * submatrix[2][1] - submatrix[2][0] * submatrix[1][1]));
+        sign = -sign;
+    }
+ 
+    return det;
+}
+ 
+bool isPointInsideTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2,
+                              float x3, float y3, float z3, float x4, float y4, float z4,
+                              float xp, float yp, float zp) {
+    // Calculate the determinants of the four submatrices formed by replacing the
+    // x, y, z coordinates of the tetrahedron vertices with those of the point
+    float A1[4][4] = {{x1, y1, z1, 1},
+                      {x2, y2, z2, 1},
+                      {x3, y3, z3, 1},
+                      {x4, y4, z4, 1}};
+ 
+    float A2[4][4] = {{xp, xp, xp, 1},
+                      {x2, y2, z2, 1},
+                      {x3, y3, z3, 1},
+                      {x4, y4, z4, 1}};
+ 
+    float A3[4][4] = {{x1, y1, z1, 1},
+                      {xp, xp, xp, 1},
+                      {x3, y3, z3, 1},
+                      {x4, y4, z4, 1}};
+ 
+    float A4[4][4] =
+            {{x1, y1, z1, 1},
+             {x2, y2, z2, 1},
+             {xp, xp, xp, 1},
+             {x4, y4, z4, 1}};
+ 
+    float A5[4][4] = {{x1, y1, z1, 1},
+                      {x2, y2, z2, 1},
+                      {x3, y3, z3, 1},
+                      {xp, xp, xp, 1}};
+ 
+    float det1 = determinant(A1);
+    float det2 = determinant(A2);
+    float det3 = determinant(A3);
+    float det4 = determinant(A4);
+    float det5 = determinant(A5);
+ 
+    // The point is inside the tetrahedron if and only if all four determinants have the same sign
+    if ((det1 > 0 && det2 > 0 && det3 > 0 && det4 > 0 && det5 > 0) || (det1 < 0 && det2 < 0 && det3 < 0 && det4 < 0 && det5 < 0)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+ 
+int main() {
+ 
+    float time = 0;
+// Define the tetrahedron vertices and the test point
+    float x1 = 0, y1 = 0, z1 = -0.7;
+    float x2 = -1.5, y2 = 0, z2 = 0;
+    float x3 = 0, y3 = -0.2, z3 = 0;
+    float x4 = 0.3, y4 = 0.4, z4 = 0.5;
+    float xp = 0, yp = 0, zp = 0;
+ 
+// Check if the point is inside the tetrahedron
+    if (isPointInsideTetrahedron(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, xp, yp, zp)) {
+        std::cout << "The point (" << xp << ", " << yp << ", " << zp << ") is inside the tetrahedron.\n";
+    } else {
+        std::cout << "The point (" << xp << ", " << yp << ", " << zp << ") is outside the tetrahedron.\n";
+    }
+ 
+ 
+ 
+    return 0;
+}

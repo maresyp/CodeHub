@@ -1,0 +1,15 @@
+window.googletag = window.googletag || {cmd: []};
+    googletag.cmd.push(function() {
+        googletag.defineSlot('/21804793526/sport.ua/300x250-mob-1', [[300, 250], [336, 280]], 'div-gpt-ad-1681823103962-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().collapseEmptyDivs();
+        googletag.enableServices();
+    });
+ 
+    document.addEventListener('DOMContentLoaded', function () {
+        let zone = document.getElementById('zone_1322042011');
+        if (zone) {
+            zone.innerHTML = '<div id=\'div-gpt-ad-Sport.ua/300x250mob\' style=\'min-width: 300px; min-height: 50px;\'><\/div>';
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1681823103962-0'); });
+        }
+    });

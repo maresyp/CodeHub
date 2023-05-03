@@ -1,0 +1,49 @@
+#Aufgabe 3.2.1
+ 
+mysql> SELECT * FROM artikel;
++---------------+------------------+-------------+--------+
+| artikelnummer | herstellernummer | artikelname | preis  |
++---------------+------------------+-------------+--------+
+|             1 |               10 | Maus        |  10.00 |
+|             2 |               10 | Tastatur    |  20.00 |
+|             3 |               50 | Drucker     | 300.00 |
+|             4 |               30 | Festplatte  | 400.00 |
+|             5 |               20 | Monitor     | 500.00 |
++---------------+------------------+-------------+--------+
+5 rows in set (0.01 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.2.2
+ 
+mysql> select artikelname as Artikel, preis as Nettopreis, (preis)+(preis*0.19) as Bruttopreis from Artikel;
++------------+------------+-------------+
+| Artikel    | Nettopreis | Bruttopreis |
++------------+------------+-------------+
+| Maus       |      10.00 |     11.9000 |
+| Tastatur   |      20.00 |     23.8000 |
+| Drucker    |     300.00 |    357.0000 |
+| Festplatte |     400.00 |    476.0000 |
+| Monitor    |     500.00 |    595.0000 |
++------------+------------+-------------+
+5 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.2.3
+ 
+mysql> SELECT artikelname as Artikel, preis AS Einzelpreis, (preis*50) as Gesamtpreis FROM Artikel; 
++------------+-------------+-------------+
+| Artikel    | Einzelpreis | Gesamtpreis |
++------------+-------------+-------------+
+| Maus       |       10.00 |      500.00 |
+| Tastatur   |       20.00 |     1000.00 |
+| Drucker    |      300.00 |    15000.00 |
+| Festplatte |      400.00 |    20000.00 |
+| Monitor    |      500.00 |    25000.00 |
++------------+-------------+-------------+
+5 rows in set (0.00 sec)
+ 
+mysql> NOTEE

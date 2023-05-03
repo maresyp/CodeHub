@@ -1,0 +1,23 @@
+public static void selectionSort(int[] f){
+  for(int i = f.length-1; i >= 0; --i){
+    int maxId = indexOfGreatestElement(f,i);
+    swap(f,maxId,i);
+  }
+}
+ 
+public swap(int[] f, int x, int y){
+  int tmp = f[x];
+  f[x] = f[y];
+  f[y] = tmp;
+}
+ 
+public static void indexOfGreatestElement(int[] f, int i){
+  int maxIdx = 0; //maxWerte initialisieren
+  for(int x = i; x> 0; --x){
+    if(f[maxIdx] < f[x]){
+      maxIdx = x;
+    }
+  }
+ 
+  return maxIdx;
+}

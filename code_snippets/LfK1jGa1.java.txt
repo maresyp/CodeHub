@@ -1,0 +1,176 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner keyboard = new Scanner(System.in);
+        double a = 3;
+        double b = 4;
+        double c = 5;
+        int remove;
+        System.out.println("Player 1, enter your name: "); // name of player 1
+        String p1 = keyboard.next();
+        System.out.println("Player 2, enter your name: "); // name of player 2
+        String p2 = keyboard.next();
+        System.out.println(" ");
+        System.out.println("A: " + a + "  B: " + b + "  C: " + c); // initial score
+        System.out.println(" ");
+        System.out.println(p1 + ", " + "Choose a pile: ");
+        String pick = keyboard.next();
+        System.out.println("How many to remove from pile " +
+                pick + ":");
+        remove = keyboard.nextInt();
+        if (pick.equals("a") || pick.equals("A")) {
+            if(remove > a){ // anti cheat 1 for pile a
+                System.out.println("Pile A" +
+                        " doesn't have that many. try again: ");
+                remove = keyboard.nextInt();
+                a = a - remove;
+            
+            }
+            else {
+                a = a - remove;
+            }
+        } else if (pick.equals("b") || pick.equals("B")) {
+            if(remove > b){ // anti cheat 1 for pile b
+                System.out.println("Pile B" +
+                        " doesn't have that many. try again: ");
+                remove = keyboard.nextInt();
+                b = b - remove;
+            }
+            else {
+                b = b - remove;
+            }
+        } else if (pick.equals("c") || pick.equals("C")) {
+            if(remove > c){ // anti cheat 1 for pile c
+                System.out.println("Pile C"
+                        + " doesn't have that many. try again: ");
+                remove = keyboard.nextInt();
+                c = c - remove;
+            }
+            else {
+                c = c - remove;
+            }
+        }
+        System.out.println("A: " + a + "  B: " + b + "  C: " + c);
+        System.out.println(" ");
+        System.out.println(p2 + ", " + "Choose a pile: ");
+        pick = keyboard.next();
+        System.out.println("How many to remove from pile " +
+                pick + ":");
+        remove = keyboard.nextInt();
+        if (pick.equals("a") || pick.equals("A")) {
+            if(remove > a){
+                System.out.println("Pile A" +
+                        " doesn't have that many. try again: ");
+                remove = keyboard.nextInt();
+                a = a - remove;
+            }
+            else {
+                a = a - remove;
+            }
+        } else if (pick.equals("b") || pick.equals("B")) {
+            if(remove > b){
+                System.out.println("Pile B" +
+                        " doesn't have that many. try again: ");
+                remove = keyboard.nextInt();
+                b = b - remove;
+            }
+            else {
+                b = b - remove;
+            }
+        } else if (pick.equals("c") || pick.equals("C")) {
+            if(remove > c){
+                System.out.println("Pile C"
+                        + " doesn't have that many. try again: ");
+                remove = keyboard.nextInt();
+                c = c - remove;
+            }
+            else {
+                c = c - remove;
+            }
+        }
+        while (a > 0 || b > 0 || c > 0) {
+ 
+            System.out.println("A: " + a + "  B: " + b + "  C: " + c);
+            System.out.println(" ");
+            System.out.println(p1 + ", " + "Choose a pile: ");
+            pick = keyboard.next();
+            System.out.println("How many to remove from pile " +
+                    pick + ":");
+            remove = keyboard.nextInt();
+            if (pick.equals("a") || pick.equals("A")) {
+                if(remove > a){
+                    System.out.println("Pile A" +
+                            " doesn't have that many. try again: ");
+                    remove = keyboard.nextInt();
+                    a = a - remove;
+                }
+                else {
+                    a = a - remove;
+                }
+            } else if (pick.equals("b") || pick.equals("B")) {
+                if(remove > b){
+                    System.out.println("Pile B" +
+                            " doesn't have that many. try again: ");
+                    remove = keyboard.nextInt();
+                    b = b - remove;
+                }
+                else {
+                    b = b - remove;
+                }
+            } else if (pick.equals("c") || pick.equals("C")) {
+                if(remove > c){
+                    System.out.println("Pile C"
+                            + " doesn't have that many. try again: ");
+                    remove = keyboard.nextInt();
+                    c = c - remove;
+                }
+                else {
+                    c = c - remove;
+                }
+            }
+            System.out.println("A: " + a + "  B: " + b + "  C: " + c);
+            System.out.println(" ");
+            System.out.println(p2 + ", " + "Choose a pile: ");
+            pick = keyboard.next();
+            System.out.println("How many to remove from pile " +
+                    pick + ":");
+            remove = keyboard.nextInt();
+            if (pick.equals("a") || pick.equals("A")) {
+                if(remove > a){
+                    System.out.println("Pile A" +
+                            " doesn't have that many. try again: ");
+                    remove = keyboard.nextInt();
+                    a = a - remove;
+                }
+                else {
+                    a = a - remove;
+                }
+            } else if (pick.equals("b") || pick.equals("B")) {
+                if(remove > b){
+                    System.out.println("Pile B" +
+                            " doesn't have that many. try again: ");
+                    remove = keyboard.nextInt();
+                    b = b - remove;
+                }
+                else {
+                    b = b - remove;
+                }
+            } else if (pick.equals("c") || pick.equals("C")) {
+                if(remove > c){
+                    System.out.println("Pile C"
+                            + " doesn't have that many. try again: ");
+                    remove = keyboard.nextInt();
+                    c = c - remove;
+                }
+                else {
+                    c = c - remove;
+                }
+            }
+ 
+ 
+ 
+        }
+        System.out.println("All piles are empty. Good job!");
+    }
+ 
+}

@@ -1,0 +1,153 @@
+/*
+###########################################################################################
+Commands are:
+ 
+!scramble on - start the game
+!scramble off - stop the game
+!guess WORD - guess a word
+!word - tells you the current scramble word
+ 
+Note: Make sure you have the wordlist you supplied me saved in words.txt in your $mircdir.
+File words.txt: https://pastebin.com/SvThZB28
+ 
+Question:
+x Way to somehow put some scoring script code like top players for the week then resets after?
+x Is it possible to keep it running in the channel when started but if no one's playing anymore after 3 
+questions it'll stop on its own? 
+x That the game can be started/stopped only by # @s
+x That scores for correct answers are given in random, say between 150-200 points and if you guess wrong total score random minus 10-50 points (for fun)
+ 
+###########################################################################################
+*/
+ 
+alias -l scramble {
+  var %a,%b $1
+  while ($numtok(%a,32) < $len($1)) var %a $addtok(%a,$r(1,$len($1)),32)
+  return $regsubex(%a,/(\S+(?: |$))/g,$mid(%b,\1,1))
+}
+alias -l s_new {
+  var -g %s_word $read(words.txt),%s_scramble $scramble(%s_word)
+  msg $1 7It's Scramble Time!!! Fastest fingers first! Now, get ready..............
+  msg $1 3Type quickly your 4!guess (word) 3to answer. The scrambled word is:4 %s_scramble $+ 3. 
+  msg $1 3You have 7[120] seconds.
+  .timerscramble 1 120 s_fail $1
+}
+alias -l s_fail {
+  msg $1 3No one got it! Are you all dummies???? The word was:4 %s_word
+  msg $1 3A new word to solve will appear after 7[60] minutes...
+  unset %s_word
+  .timerscramble 0 3600 s_new $1
+}
+alias -l s_cleanup {
+  .timerscramble off
+  unset %s_word %s_scramble
+}
+on *:TEXT:!scramble &:#: {
+  if ($nick !isop $chan) { msg $chan ( $+ $nick $+ ): Access denied. | return }
+  if ($2 == on) {
+    if (%s_scramble) { msg # 3The game is already going... Type 4!word 3to see what the current scrambled word is! | return }
+ 
+    s_new #
+  }
+  if ($2 == off) {
+    if (!%s_scramble) { msg $chan 3Not any game running! | return }
+ 
+    msg # 3Game stopped by 4 $nick $+ .
+ 
+    s_cleanup 
+  }
+}
+on *:TEXT:!guess &:#: {
+  if (%s_word) {
+    if ($2 !== %s_word) { s_take_points $nick | msg # 3Wrong $nick $+ , try again. You have [[ $+ $timer(scramble).secs $+ ]] seconds left. | return }
+ 
+    s_give_points $nick
+ 
+    msg # 3Great work $nick $+ ! You correctly guessed the scrambled word: 4 %s_word
+    msg # 3A new word to solve will appear after 7[60] minutes...
+ 
+    unset %s_word
+ 
+    .timerscramble 0 3600 s_new #
+  }
+}
+on *:TEXT:!word:#: {
+  if (%s_word) msg # 7The scrambled word is: %s_scramble $+ , you have [[ $+ $timer(scramble).secs $+ ]] seconds left.   
+}
+ 
+ON *:TEXT:!mypoints:#: {
+  var %f = guess_stats.txt
+  var %p = $gettok($read(%f,nw,$nick *),2,32)
+ 
+  msg $chan ( $+ $nick $+ ): You have $iif(%p,$v1,0) points.
+}
+ 
+ON *:TEXT:!points *:#: {
+  var %f = guess_stats.txt
+  var %p = $gettok($read(%f,nw,$2 *),2,32)
+ 
+  msg $chan ( $+ $nick $+ ): $2 have $iif(%p,$v1,0) points.
+}
+ 
+ON *:TEXT:!top3:#: { s_top_players $chan 3 }
+ON *:TEXT:!top5:#: { s_top_players $chan 5 }
+ON *:TEXT:!top10:#: { s_top_players $chan 10 }
+ 
+alias s_give_points {
+  ; /s_give_points <nick>
+ 
+  if (!$1) { return }
+ 
+  var %f = guess_stats.txt
+  var %p = $gettok($read(%f,nw,$1 *),2,32)
+  var %rn = $readn
+  var %r = $rands(150,200)
+ 
+  if (%p) && (%rn) { write -dl $+ %rn $qt(%f) }
+ 
+  write $qt(%f) $1 $calc(%p + %r)
+}
+ 
+alias s_take_points {
+  ; /s_take_points <nick>
+ 
+  if (!$1) { return }
+ 
+  var %f = guess_stats.txt
+  var %p = $gettok($read(%f,nw,$1 *),2,32)
+  var %rn = $readn
+  var %r = $rands(10,50)
+ 
+  if (%p) && (%rn) { write -dl $+ %rn $qt(%f) }
+ 
+  write $qt(%f) $1 $calc(%p - %r)
+}
+ 
+alias s_top_players {
+  ; /s_top_players <#chan> <number>
+ 
+  if (!$1) && (!$2) && ($2 !isnum) { return }
+ 
+  var %f = guess_stats.txt
+ 
+  if ($window(@top_players)) { window -c $v1 }
+ 
+  if ($file(%f)) {
+    window -hj100000000000 @top_players
+    loadbuf @top_players $qt(%f)
+    filter -ceutww 2 32 @top_players @top_players
+  }
+ 
+  var %i = 1
+  while (%i <= $2) {
+    var %line = $line(@top_players,%i)
+    var %nick = $gettok(%line,1,32)
+    var %points = $gettok(%line,2,32)
+ 
+    if (%line) { msg $1 ( $+ $chr(35) $+ %i $+ ): %nick - %points }
+ 
+    inc %i
+  }
+ 
+  if ($window(@top_players)) { window -c $v1 }
+}

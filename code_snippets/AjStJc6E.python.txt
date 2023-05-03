@@ -1,0 +1,300 @@
+from math import floor
+ 
+ 
+def main2(z: int) -> float:
+    if z < 126:
+        return pow(floor(78 * z), 6)
+    elif 126 <= z < 215:
+        return pow(z - 81, 7) - pow(z / 30.0 + z ** 3 + 1, 2)
+    elif z >= 215:
+        return z ** 4 / 90 - 30 * z ** 7
+ 
+ 
+def main3(m: int, a: int, z: float, b: int, y: float) -> float:
+    mult = 1
+    for j in range(1, a + 1):
+        summ = 0
+        for k in range(1, m + 1):
+            summ += k ** 2 + j ** 3 - 50 * z * z
+        mult *= summ
+    summ = 0
+    for j in range(1, b + 1):
+        summ += 47 * (y ** 2 - y ** 3) ** 3 + 25 * j ** 5
+    return mult + summ
+ 
+ 
+from math import atan
+ 
+ 
+def main4(n: int) -> float:
+    if n == 0:
+        return -0.23
+    elif n >= 1:
+        return 22 * atan(main4(n - 1)) ** 2 + main4(n - 1)
+ 
+ 
+from math import ceil
+ 
+ 
+def main5(x: list, y: list) -> float:
+    summ = 0
+    x_n = x.copy()
+    x_n.insert(0, 0)
+    y_n = y.copy()
+    y_n.insert(0, 0)
+    n = len(x)
+    for i in range(1, n+1):
+        summ += 61*(23*x_n[n + 1 - ceil(i/4)] - (y_n[n+1 - ceil(i/2)])**2/5)**3
+    return summ
+ 
+ 
+def main6(x: list) -> int:
+    if x[0] == 'ATS':
+        return 11
+    if x[2] == 'RED':
+        return case_red(x)
+    elif x[2] == 'WISP':
+        return case_wisp(x)
+    elif x[2] == 'P4':
+        return case_p4(x)
+ 
+ 
+def case_red(x: list) -> int:
+    if x[4] == 'MTML':
+        return 0 if x[3] == 'ZIMPL' else 1
+    elif x[4] == 'XTEND':
+        return 2 if x[1] == 'TEX' else 3
+ 
+ 
+def case_wisp(x: list) -> int:
+    if x[2] == 'WISP' and x[4] == 'MTML':
+        return 4 if x[1] == 'TEX' else 5
+    elif x[2] == 'WISP' and x[4] == 'XTEND':
+        return 6 if x[1] == 'TEX' else 7
+ 
+ 
+def case_p4(x: list) -> int:
+    if x[3] == 'ZIMPL':
+        return 8 if x[1] == 'TEX' else 9
+    elif x[3] == 'SAS':
+        return 10
+ 
+ 
+def main7(data: dict) -> str:
+    cp = {k: bin(int(v, 16))[2::] for k, v in data.items()}
+    print(cp)
+    r = '0'*(5-len(cp.get('E1'))) + cp.get('E1')
+    r = '0' * (5-len(cp.get('E2'))) + cp.get('E2') + r
+    if len(cp.get('E3')) <= 6:
+        r = '0' * (6-len(cp.get('E3'))) + cp.get('E3') + r
+    else:
+        r = cp.get('E3')[-6:] + r
+    if len(cp.get('E3')) <= 4:
+        r = '0' * (4-len(cp.get('E3'))) + cp.get('E3') + r
+    else:
+        r = cp.get('E3')[-4:] + r
+    if len(cp.get('E4')) <= 9:
+        r = '0' * (9-len(cp.get('E4'))) + cp.get('E4') + r
+    else:
+        r = cp.get('E4')[-9:] + r
+    if len(cp.get('E5')) <= 3:
+        r = '0' * (3-len(cp.get('E5'))) + cp.get('E5') + r
+    else:
+        r = cp.get('E5')[-3:] + r
+    print(r)
+    res = 0
+    for i in range(0, len(r), 4):
+        chunk = '0b' + r[-4:]
+        res += int(chunk, 2) * 10**i
+        r = r[:-4]
+        print(r)
+ 
+    print(res)
+    return str(int(r, 2))
+ 
+ 
+import re
+ 
+ 
+def main8(s: str):
+    result = {}
+    no_outer_dels_and_spaces = re.sub(r"[|\[\] ]|decl|\n", '', s)  # Delete |, [, ], decl, spaces, \n
+    elems = re.split(';', no_outer_dels_and_spaces)  # Split to entries
+    elems.pop(-1)  # Delete last empty entry
+    str_val_key = [el.split('>') for el in elems]  # Split to ['value', 'key'] pairs
+    str_val_key = [[k, v.split('#')] for v, k in str_val_key]  # Made ['key', 'value']
+    for entry in str_val_key:
+        entry[1].pop(0)
+        entry[1] = list(map(int, entry[1]))
+    res = {key: value for key, value in str_val_key}
+    return res
+ 
+ 
+def main9(data: list) -> list:
+    new_table = []
+    for block in data:
+        new_block = block[1].split('&')
+        new_block[0], new_block[1] = new_block[1], new_block[0]
+        new_block[0] = new_block[0].replace('[at]', '@')
+        new_block[1] = '0' if new_block[1] == 'N' else '1'
+        new_block.append(block[2].split()[0])
+        new_table.append(new_block)
+    for i in range(len(new_table)):
+        for j in range(len(new_table)):
+            if new_table[i][2] < new_table[j][2]:
+                new_table[i], new_table[j] = new_table[j], new_table[i]
+    return new_table
+ 
+ 
+def main10():
+    return Mealy()
+ 
+ 
+class MealyError(Exception):
+    pass
+ 
+ 
+class Mealy:
+ 
+    def __init__(self):
+        self.state = 'A'
+ 
+    def check(self):
+        match self.state:
+            case 'A':
+                self.state = 'B'
+                return 0
+            case 'B':
+                self.state = 'C'
+                return 1
+            case 'C':
+                self.state = 'D'
+                return 2
+            case 'D':
+                return 6
+            case 'E':
+                self.state = 'F'
+                return 7
+            case _:
+                raise MealyError('check')
+ 
+    def stall(self):
+        match self.state:
+            case 'C':
+                self.state = 'E'
+                return 4
+            case 'D':
+                self.state = 'E'
+                return 5
+            case 'F':
+                self.state = 'C'
+                return 8
+            case _:
+                raise MealyError('stall')
+ 
+    def cut(self):
+        if self.state == 'C':
+            return 3
+        else:
+            raise MealyError('cut')
+ 
+ 
+def test10():
+    o = main10()
+    cases = {'A': {'check': 0, 'stall': MealyError, 'cut': MealyError},
+             'B': {'check': 1, 'stall': MealyError, 'cut': MealyError},
+             'C': {'check': 2, 'stall': 4, 'cut': 3},
+             'D': {'check': 6, 'stall': 5, 'cut': MealyError},
+             'E': {'check': 7, 'stall': MealyError, 'cut': MealyError},
+             'F': {'check': MealyError, 'stall': 8, 'cut': MealyError}}
+    try:  # Testing A-state
+        o.cut()
+    except MealyError:
+        try:
+            o.stall()
+        except MealyError:
+            assert o.check() == 0
+    try:  # Testing B-state
+        o.cut()
+    except MealyError:
+        try:
+            o.stall()
+        except MealyError:
+            assert o.check() == 1
+    # Testing C-D-E-F-C path
+    assert o.cut() == 3
+    assert o.check() == 2
+    try:  # Testing D-state
+        o.cut()
+    except MealyError:
+        assert o.check() == 6
+        assert o.stall() == 5
+    try:  # Testing E-state
+        o.cut()
+    except MealyError:
+        try:
+            o.stall()
+        except MealyError:
+            assert o.check() == 7
+    try:  # Testing F-state
+        o.cut()
+    except MealyError:
+        try:
+            o.check()
+        except MealyError:
+            assert o.stall() == 8
+    assert o.stall() == 4  # Testing C-E path
+ 
+ 
+ 
+def test3():
+    print('pass' if main3(5, 4, -0.63, 3, -0.12) == 4.16e+06 else f'error: {main3(5, 4, -0.63, 3, -0.12)}')
+    print('pass' if main3(8, 5, -0.66, 4, 0.06) == 4.85e+11 else f'error')
+    print('pass' if main3(7, 2, -0.55, 6, 0.82) == 3.09e+05 else f'error')
+    print('pass' if main3(4, 7, -0.86, 8, -0.64) == -4.79e+15 else f'error')
+    print('pass' if main3(3, 2, 0.49, 8, 0.93) == 1.54e+06 else f'error')
+ 
+ 
+def test6():
+    print(main6(['ATS', 'TEX', 'P4', 'SAS', 'MTML']))
+    print(main6(['HAXE', 'JFLEX', 'P4', 'SAS', 'XTEND']))
+    print(main6(['HAXE', 'TEX', 'RED', 'SAS', 'MTML']))
+    print(main6(['HAXE', 'JFLEX', 'P4', 'ZIMPL', 'XTEND']))
+    print(main6(['HAXE', 'JFLEX', 'WISP', 'ZIMPL', 'XTEND']))
+ 
+ 
+def test7():
+    res = main7({'E1': '0x1e', 'E2': '0x1b', 'E3': '0x2b', 'E4': '0x1e9', 'E5': '0x2'})
+    print(f'Test 1 {res}: result {1586540414}')
+    res = 'passed' if main7(
+        {'E1': '0x1c', 'E2': '0x11', 'E3': '0x338', 'E4': '0x39', 'E5': '0x5'}) == '2744967740' else 'failed'
+    print(f'Test 1 {res}')
+    res = 'passed' if main7(
+        {'E1': '0x7', 'E2': '0x13', 'E3': '0x2cb', 'E4': '0x184', 'E5': '0x2'}) == '1481322087' else 'failed'
+    print(f'Test 1 {res}')
+    res = 'passed' if main7(
+        {'E1': '0x18', 'E2': '0x3', 'E3': '0xa9', 'E4': '0x74', 'E5': '0x5'}) == '2806162552' else 'failed'
+    print(f'Test 1 {res}')
+ 
+ 
+def test8():
+    print(main8('| [ decl [ #-652 #-6198#-4479 #-4556 ]|>\nveoned; ] '
+                '[ decl [ #5648 #-70 #-8183 ] |> edsoan_331; ][ decl [ #-2205 #-4761 ]|> zaedor;] |'))
+ 
+ 
+def test9():
+    data = [[None, 'N&sazetij33[at]mail.ru', 'Шазетий Борис', 'Шазетий Борис'],
+            [None, 'N&bimetev89[at]mail.ru', 'Биметев Павел', 'Биметев Павел'],
+            [None, 'N&sizutskij14[at]mail.ru', 'Сизутский Антон', 'Сизутский Антон']]
+    print(main9(data))
+    data = [[None, 'N&german91[at]mail.ru', 'Ладин Герман', 'Ладин Герман'],
+            [None, 'Y&felberg86[at]rambler.ru', 'Фелберг Назар', 'Фелберг Назар'],
+            [None, 'Y&stanislav94[at]yandex.ru', 'Сагов Станислав', 'Сагов Станислав']]
+    print(main9(data))
+ 
+ 
+if __name__ == '__main__':
+    print('Hello World!')
+    o = main10()
+    o.cut()
+    test10()

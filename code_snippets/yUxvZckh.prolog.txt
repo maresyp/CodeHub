@@ -1,0 +1,37 @@
+%check if a list is doubletone or not
+doubletone([_, _]).
+ 
+not_doubletone(L):-
+    not(doubletone(L)).
+ 
+%whether two lists are same length or not
+length([], 0).
+length([X|Y], N):-
+    length(Y, N1),
+    N1 is N-1.
+ 
+same_length(X, Y):-
+    length(X, L1), length(Y, L2), L1 =:= L2.
+ 
+same_length2([X], [Y]).
+same_length2([X|L1], [Y|L2]):-
+    same_length2(L1, L2).
+ 
+is_natural(0).
+is_natural(s(X)):-
+    is_natural(X).
+ 
+even(0).
+odd(1).
+even(s(s(X))):-
+    even(X).
+ 
+odd(s(s(X))):-
+    odd(X).
+ 
+mutliple_three(0).
+multiple_three(s(s(s(X)))):-
+    mutiple_three(X).
+ 
+is_less_than(0, Y):- is_natural(Y).
+is_less_than(s(X), s(Y)):- is_less_than(X, Y).

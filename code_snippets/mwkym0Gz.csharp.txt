@@ -1,0 +1,19 @@
+using System;
+ 
+namespace GladiatorFight
+{
+    public class Gladiator : Fighter
+    {
+        public Gladiator(string name, int health, int damage, int armor) : base (name, health, damage, armor)
+        {
+            
+        }
+        
+        public override int GetSkillDamage(int roundCount)
+        {
+            int skillDamage = Damage + (roundCount * 10); 
+                Console.Write("\nИспользован скилл Гладиатора! #К урону от обычной атаки добавлен доп урон (Ход * 10)#");
+            return skillDamage;
+        }
+    }
+}

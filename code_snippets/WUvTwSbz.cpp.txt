@@ -1,0 +1,27 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+string convert10to2(long long liczba)
+{
+    string wynik = "";
+    if(liczba < 0)
+        wynik = "-";
+ 
+    while(liczba > 0)
+    {
+        if(liczba % 2 == 0)
+            wynik = "0" + wynik;
+        else
+            wynik = "1" + wynik;
+        liczba = liczba / 2;
+    }
+    return wynik;
+}
+ 
+int main()
+{
+    long long liczba = 1245;
+    cout << convert10to2(liczba) << endl;
+    return 0;
+}

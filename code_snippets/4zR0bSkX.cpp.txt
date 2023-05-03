@@ -1,0 +1,9 @@
+#include <iostream>         // dołączenie biblioteki
+ 
+using namespace std;        // przestrzeń nazw std
+ 
+int main()                  // nagłówek funkcji głównej programu
+{                           // klamra otwierająca blok
+    cout << "Hello world!" << endl;     // wypisanie tekstu na ekran, endl - przejście do kolejnego wiersza
+    return 0;               // wyjście z funkcji głównej programu i tym samym z całego programu
+}                           // klamra zamykająca blok

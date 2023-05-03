@@ -1,0 +1,127 @@
+if( apply_filters( 'wcfm_is_allow_orders_extended_notifications', true ) ) {
+    add_action( 'woocommerce_order_status_on-hold', 'updated_wcfm_message_on_new_order', 9 );
+    add_action( 'woocommerce_order_status_pending', 'updated_wcfm_message_on_new_order', 9 );
+    add_action( 'woocommerce_order_status_processing', 'updated_wcfm_message_on_new_order', 9 );
+    add_action( 'ywraq_after_create_order', 'updated_wcfm_message_on_new_order', 9 );
+}
+add_action( 'woocommerce_order_status_completed', 'updated_wcfm_message_on_new_order', 9 );
+add_action( 'wcfm_manual_orders_manage_complete', 'updated_wcfm_message_on_new_order', 9 );
+ 
+function updated_wcfm_message_on_new_order( $order_id, $is_renewal = false ) {
+    global $WCFM;
+ 
+    if ( apply_filters( 'wcfm_is_allow_orders_extended_notifications', true ) ) {
+        remove_action( 'woocommerce_order_status_on-hold', array( $WCFM->wcfm_notification, 'wcfm_message_on_new_order' ) );
+        remove_action( 'woocommerce_order_status_pending', array( $WCFM->wcfm_notification, 'wcfm_message_on_new_order' ) );
+        remove_action( 'woocommerce_order_status_processing', array( $WCFM->wcfm_notification, 'wcfm_message_on_new_order' ) );
+        remove_action( 'ywraq_after_create_order', array( $WCFM->wcfm_notification, 'wcfm_message_on_new_order' ) );
+    }
+    remove_action( 'woocommerce_order_status_completed', array( $WCFM->wcfm_notification, 'wcfm_message_on_new_order' ) );
+    remove_action( 'wcfm_manual_orders_manage_complete', array( $WCFM->wcfm_notification, 'wcfm_message_on_new_order' ) );
+ 
+    if (is_admin() && !$is_renewal) return;
+ 
+    if (get_post_meta($order_id, '_wcfm_new_order_notified', true)) return;
+ 
+    $author_id = -2;
+    $author_is_admin = 1;
+    $author_is_vendor = 0;
+    $message_to = 0;
+    $order = wc_get_order($order_id);
+ 
+    // Admin Notification
+    $wcfm_messages = sprintf(__('You have received an Order <b>#%s</b>', 'wc-frontend-manager'), '<a class="wcfm_dashboard_item_title" href="' . get_wcfm_view_order_url($order_id) . '">' . $order->get_order_number() . '</a>');
+ 
+    $raw_message = [
+        'l10n'    => [
+            'text'         => 'You have received an Order <b>#%s</b>',
+            'domain'    => 'wc-frontend-manager',
+            'wrapper'    => [
+                'function'     => 'sprintf',
+                'args'         => [
+                    '<a class="wcfm_dashboard_item_title" href="' . get_wcfm_view_order_url($order_id) . '">' . $order->get_order_number() . '</a>'
+                ]
+            ]
+        ]
+    ];
+ 
+    $WCFM->wcfm_notification->wcfm_send_direct_message($author_id, $message_to, $author_is_admin, $author_is_vendor, $wcfm_messages, 'order', apply_filters('wcfm_is_allow_order_notification_email', false), $raw_message);
+ 
+    // Vendor Notification
+    if ($WCFM->is_marketplace) {
+        $order_vendors = array();
+        foreach ($order->get_items() as $item_id => $item) {
+            if (version_compare(WC_VERSION, '4.4', '<')) {
+                $product = $order->get_product_from_item($item);
+            } else {
+                $product = $item->get_product();
+            }
+            $product_id   = 0;
+            if (is_object($product)) {
+                $product_id   = $item->get_product_id();
+            }
+            if ($product_id) {
+                $author_id = -1;
+                $message_to = wcfm_get_vendor_id_by_post($product_id);
+ 
+                if ($message_to) {
+                    if (apply_filters('wcfm_is_allow_itemwise_notification', true)) {
+                        $wcfm_messages = sprintf(__('You have received an Order <b>#%s</b> for <b>%s</b>', 'wc-frontend-manager'), '<a class="wcfm_dashboard_item_title" href="' . get_wcfm_view_order_url($order_id) . '">' . $order->get_order_number() . '</a>', get_the_title($product_id));
+ 
+                        $raw_message = [
+                            'hook'        => [
+                                'name'  => 'wcfm_new_order_vendor_notification_message',
+                                'args'  => [
+                                    $order_id,
+                                    $message_to
+                                ]
+                            ],
+                            'l10n'    => [
+                                'text'         => 'You have received an Order <b>#%s</b> for <b>%s</b>',
+                                'domain'    => 'wc-frontend-manager',
+                                'wrapper'    => [
+                                    'function'     => 'sprintf',
+                                    'args'         => [
+                                        '<a class="wcfm_dashboard_item_title" href="' . get_wcfm_view_order_url($order_id) . '">' . $order->get_order_number() . '</a>',
+                                        get_the_title($product_id)
+                                    ]
+                                ]
+                            ]
+                        ];
+                    } elseif (!in_array($message_to, $order_vendors)) {
+                        $wcfm_messages = sprintf(__('You have received an Order <b>#%s</b>', 'wc-frontend-manager'), '<a class="wcfm_dashboard_item_title" href="' . get_wcfm_view_order_url($order_id) . '">' . $order->get_order_number() . '</a>');
+ 
+                        $raw_message = [
+                            'hook'        => [
+                                'name'  => 'wcfm_new_order_vendor_notification_message',
+                                'args'  => [
+                                    $order_id,
+                                    $message_to
+                                ]
+                            ],
+                            'l10n'    => [
+                                'text'         => 'You have received an Order <b>#%s</b>',
+                                'domain'    => 'wc-frontend-manager',
+                                'wrapper'    => [
+                                    'function'     => 'sprintf',
+                                    'args'         => [
+                                        '<a class="wcfm_dashboard_item_title" href="' . get_wcfm_view_order_url($order_id) . '">' . $order->get_order_number() . '</a>'
+                                    ]
+                                ]
+                            ]
+                        ];
+                    } else {
+                        continue;
+                    }
+                    $wcfm_messages = apply_filters('wcfm_new_order_vendor_notification_message', $wcfm_messages, $order_id, $message_to);
+                    $WCFM->wcfm_notification->wcfm_send_direct_message($author_id, $message_to, $author_is_admin, $author_is_vendor, $wcfm_messages, 'order', apply_filters('wcfm_is_allow_order_notification_email', false), $raw_message);
+                    $order_vendors[$message_to] = $message_to;
+ 
+                    do_action('wcfm_after_new_order_vendor_notification', $message_to, $product_id, $order_id);
+                }
+            }
+        }
+    }
+ 
+    update_post_meta($order_id, '_wcfm_new_order_notified', 'yes');
+}

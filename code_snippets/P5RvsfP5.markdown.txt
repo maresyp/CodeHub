@@ -1,0 +1,101 @@
+Scrapebox Macro Automated Yellow Pages Scraping Guide
+By https://www.getivan.com/
+Step-By-Step Instructions are Included Below.
+Click Here to Watch the Video
+UPDATE: The program has been updated a bit, so you technically don't NEED to use macros, but I've tested both ways, and this will still get you a lot more results, although it's more trouble. Exporting the results still does not work very well, by the way. You need to pull the autosaves from the Scrapebox folder, in order to get everything you scraped. Also, I now recommend these proxies, as they have a very success-rate, and are MUCH cheaper than anything else I've yet to find: Ivan's Proxies
+Description:
+Putting this another way, you can use Scrapebox and Macros to Scrape a Huge Number of Business Listings from Yellow Pages.These business listings contain a variety of information, from website URLs, to phone numbers, and emails.  It all depends on what those businesses chose to include in their listing.I figured out how to scale the scraping, which gives you the ability to scrape hundreds of thousands, and eventually millions, of business listing information across thousands of niches.
+This information can be used for large scale research, Web Design Services, NAP Citations, Directories, Cold Email Marketing Campaigns, and other Marketing Services.  
+City Files:
+→ USA | 40k+ Cities
+→ USA | Top 5000 Cities
+→ United Kingdom (UK) | 992 Cities
+→ Canada | Top 384 Cities
+→ Ireland | Top 84 Cities
+→ Bahrain | Top 23 Cities
+→ 2k+ Niches in the USA 
+INSTRUCTIONS:
+→ First, and foremost, please make sure you study the video associated with this section, as that is going to be the best way for you to learn, observe, and practice.
+→ You need a list of cities opened in a text or csv format
+→ Scrapbox, or the YP Scraper Premimum plugin executable, need to be opened, or at least visible on-screen
+→ Pulover’s Macro Creator needs to be open, and ready-to-go  
+→ Go ahead and open the YP Scraper Premium Plugin, and configure the Settings  
+
+Load your proxies from the text file you downloaded, earlier, and make sure the “use” proxies box is checked  
+On the right side, make sure connections is set to the number of proxies/threads you purchased, or less  
+Timeout should be no more than 15secs, but can be less, if you wish, and the same for connect timeout  
+Zero Second Delay  
+Anywhere between 1-3 proxy retries, with 3 being the average, but if you are on Proxy Rotator, then I recommend adjusting this, if your backend shows too many queries on your threads  
+Records per keyword should be about 100 (I’ve tried up to 1000, but I think 100 works better, overall)  
+The records areas always freeze and jump, so don’t be concerned if it doesn’t appear to be moving, btw  
+Once you have everything set, you can go ahead, and click “Exit” on the plugin, because the next time you open it, it will keep those settings  
+
+→ In Pulover’s, you need to be familiar with the hotkeys, but there are only a few, so it’s nothing major  
+
+In the upper left, you’ll see a record button, you need to click that, in order for the program to be ready for your recording hotkey  
+Once the record button is pressed, it’s F9 to start/stop recording, and F10 to start again, by default  
+F8 is also supposed to be a stop key, and F12 is supposed to pause (it’s easy to get mixed up, here, so do a few tests, and get comfortable)  
+The upper right area also has a section for indicating the number of times that you want to loop the macro you’ve created, and that’s a really important area, so make sure you’re setting it properly based on your VPS  
+My 4-core CPU and 16gb RAM is completely consumed by 100 instances of the YP Scraper, if I recall correctly, so please use that as a guide for the number of loops you are gonna do  
+The Mini-Menu also has a “Show/Hide Main Window” button, on the far right, which makes it useful to get the full program viewable back  
+If you mess up, I recommend just starting a new project, as a clean slate can speed up the process  
+Make absolutely sure that you go to Options, then Settings, and review this area carefully, because something broken, here, will not allow things to work properly  
+Under Recording, you want keystrokes, mouse movements, clicks, and probably wheel to be checked off  
+Under Playback, you probably want to check the box for “Return Mouse After Playback”  
+Under Default, you absolutely NEED to check the box for “Screen” (When I first started, this one area hindered everything else I did correctly)  
+Final point… this program has a really awesome array of features, the majority of which I haven’t even looked into, but it’s so simple to use, and powerful, that I would highly encourage everyone to consider what this freeware can do for you, and your business endeavors 🙂  
+
+→ You need a command prompt text file, on your desktop, for closing all the YP Scraper process quickly, and compiling your records easily  
+
+Command Prompt for closing all YP Scraper Instances: taskkill /im ypscraper.plugin.exe /t /f (the files are automatically saved, so don’t worry about that)  
+Command Prompt for combining files: copy *.txt 0combine.txt (you can name the resulting text file whatever you want, I just like to use zero so that it’s at the top)  
+Place these two strings in a text file on your desktop, and you’ll be ready to use them at the end of a scraping batch  
+
+→ Lastly, make sure to place your windows properly  
+
+Your List of Cities should be to the left  
+Your Scrapebox Instance to the Right  
+And probably your YP Scraper in the Middle’ish  
+You technically don’t need the main Scrapebox Instance open, as you can also open YP Scraper through an Executable shortcut, it just depends, so please refer to the video if you are confused by this  
+
+→ The process is very simple, you are using a macro recording program to segment your scraping to different areas, across different scraping instances  
+
+You are opening an instance, pasting new locations, and clicking start  
+It’s that simple  
+
+Macro Recording Steps: 
+
+Open YP Scraper  
+Cut a Static Area of Cities (ctrl+x)  
+Select the YellowPages.com Definition (this is the USA)  
+Next t Location, click the dropdown, and select User Locations  
+Click in the area, select all with ctrl+a, then ctrl+v paste your locations, here  
+Type your Keyword, or paste from another list, in the keyword section (one keyword is enough)  
+Click Start, then minimize that instance of YP Scraper  
+Press F8, on your Keyboard, to stop the macro  
+
+The recording process should take less than 1-minute, and from there, you can set your number of loops, so that it will repeat itself based on your preferences.
+You need to debug it after every run, so once you’ve recorded your macro, make sure you sit back, and watch it work.  
+There are subtlties to where and how you click, and what you press, at various times.
+One small error can send your macro spinning out-of-control, so that it completely breaks the process.  
+You might have to record a few times to get it right.
+Once it’s good-to-go, you can let it run based on your loop, for 4-8 hrs, before you go through the process of killing all the YP Scraper Tasks, and compiling all the files.  
+Clean Up Steps:
+→ Open Command Prompt, and enter taskkill /im ypscraper.plugin.exe /t /f (this will kill all those processes)
+→ Open your Scrapebox Folder, which contains the program exe, navigate to the plugins sub-folder, then the YP Scraper folder, and finally, the autosave and records folders  
+
+Inside of those folders, in the upper right search bar, you can simply put .txt, and it should show you all the text files (make sure you are inside of one folder at a time)  
+Once they show you those text files, you can drag them to another folder that is titled based on your scraping  
+After that, go up to the address bar of your new folder, with all those files, and copy the location of that folder  
+Open Command Prompt, and enter the name of the hard-drive you’ll be looking at (C: is usually default, but sometimes I’ll need to put D:)  
+Once in the right drive, in Command Prompt, you will need to make CP look at the right folder, and you can do that by entering “cd (then paste that file location, here)” (no quotes, btw), so cd C:\file\name\goes here\, and hit enter  
+You should be in the right folder, at this point, and that’s where you can use that command I had you save, earlier, which was “copy *.txt 0combine.txt” (without quotes, of course)  
+This combines ALL of those text files into one beautiful monster 🙂  
+
+→ There is actually one last step, in the cleanup process, which is scrubbing your results, and fortunately, Scrapebox can help with that, too! 🙂
+It all depends on what you’re using the results for, but check the video for more info on this, or feel free to tinker around, and see if you can figure it out, yourself (it’s not hard)  
+Congratulations!
+If you made it this far, you should have yourself a method for scraping up-to millions of business listings for all kinds of purposes.
+It’s definitely a bit of a jerry-rig, and it could definitely be improved, but for now, it’s easy enough, and it brings results, so that’s good enough for me! 😛  
+Keep your eye out for additions to this method, and be sure to let me know if you got any good ideas, or if you just wanna share what you’re working on.
+The more I know about you guys, the better products I can make, so thanks again, and I’ll catch you soon! 🙂

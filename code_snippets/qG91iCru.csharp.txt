@@ -1,0 +1,20 @@
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+ 
+namespace MatchPhoneNumber
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string numbers = Console.ReadLine();
+ 
+            Regex pattern = new Regex(@" ?\+359([- ])2(\1)\d{3}(\1)\d{4}\b");
+ 
+            MatchCollection matchedNumbers = pattern.Matches(numbers);
+ 
+            Console.Write(string.Join(", ", matchedNumbers.Select(x => x.Value.Trim())));
+        }
+    }
+}

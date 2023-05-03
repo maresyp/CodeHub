@@ -1,0 +1,48 @@
+<?php
+ 
+interface Product {}
+ 
+class Book implements Product {
+    public function __construct(
+        public readonly string $title,
+        public readonly string $author,
+    ) {}
+}
+ 
+class BookFactory {
+    public static function create(): Book {
+        return new Book(
+            $_POST['title'] ?? '',
+            $_POST['author'] ?? '',
+        );
+    }
+}
+ 
+class DVD implements Product {}
+class DVDFactory {}
+ 
+class Furniture implements Product {}
+class FurnitureFactory {}
+ 
+class ProductFactory {
+    public static function create(string $type): Product {
+        $factory = $type . 'Factory';
+        return $factory::create();
+    }
+}
+ 
+$_POST = [
+    'type' => 'Book',
+    'title' => 'My Book',
+    'author' => 'The Author',
+];
+ 
+$product = ProductFactory::create($_POST['type']);
+var_dump($product);
+ 
+// object(Book)#1 (2) {
+//   ["title"]=>
+//   string(7) "My Book"
+//   ["author"]=>
+//   string(10) "The Author"
+// }

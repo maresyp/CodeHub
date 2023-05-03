@@ -1,0 +1,42 @@
+// Use these meta_keys in the Custom Fields metabox to add external rating values to your pages.
+// If found, the values of these meta_keys will be added to the total rating counts of the Rating Summary.
+// These meta keys will only work if you are assigning reviews to the page.  
+//
+// external_rating_0
+// external_rating_1
+// external_rating_2
+// external_rating_3
+// external_rating_4
+// external_rating_5
+ 
+/**
+ * Used by the Summary shortcode
+ */
+add_filter('site-reviews/ratings', function (array $ratings, array $args) {
+    if (empty($ratings)) {
+        $ratings = [0,0,0,0,0,0];
+    }
+    foreach ((array) $args['assigned_posts'] as $postId) {
+        foreach ($ratings as $rating => $value) {
+            $metaKey = 'external_rating_'.$rating;
+            $ratings[$rating] += (int) get_post_meta($postId, $metaKey, true);
+        }
+    }
+    return $ratings;
+}, 10, 2);
+ 
+/**
+ * Used when calculating the average rating, ranking, and counts for assigned posts, users, and terms.
+ */
+add_filter('site-reviews/ratings/grouped', function (array $ratings, $metaKey) {
+    if ('post' !== $metaKey) {
+        return $ratings;
+    }
+    foreach ($ratings as $postId => $ratingValues) {
+        foreach ($ratingValues as $rating => $value) {
+            $metaKey = 'external_rating_'.$rating;
+            $ratings[$postId][$rating] += (int) get_post_meta($postId, $metaKey, true);
+        }
+    }
+    return $ratings;
+}, 10, 2);

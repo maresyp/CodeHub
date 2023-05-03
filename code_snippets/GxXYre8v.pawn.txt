@@ -1,0 +1,32 @@
+/*
+    System: Dead
+    Author: ╭໑˚🖤『Cauã』₊꒷꒦#1125
+*/
+ 
+#define FILTERSCRIPT
+ 
+#include <a_samp>
+ 
+#if MAX_PLAYERS != 100
+    #undef MAX_PLAYERS
+    #define MAX_PLAYERS 100
+#endif
+ 
+new bool:IsDeath[MAX_PLAYERS];
+ 
+public OnPlayerSpawn(playerid)
+{
+    if(IsDeath[playerid]) {
+        SetPlayerPos(playerid, X, Y, Z);
+        GivePlayerMoney(playerid, GetPlayerMoney(playerid));
+        SendClientMessage(playerid, -1, "Você morreu e foi para o hospital"); //após a morte vc perde todo o dinheiro
+        IsDeath[playerid] = false;
+    }
+    return 1;
+}
+ 
+public OnPlayerDeath(playerid, killerid, reason)
+{
+    IsDeath[playerid] = true;
+    return 1;
+}

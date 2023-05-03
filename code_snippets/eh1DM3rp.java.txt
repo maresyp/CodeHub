@@ -1,0 +1,81 @@
+public class Solution {
+    public int solveOptimized(ArrayList<Integer> arr){
+        int ans = 0;
+        int n = arr.size();
+        
+        //extract even ArrayList and odd ArrayList
+        /*
+            for example for given array [2,1,6,4]
+            even array = [2, 0, 6, 0] 
+            (even indices taken as it is, odd taken 0)
+            odd array = [0, 1, 0, 4]
+            this makes prefix sum unaffected but helps in 
+            visualising array for to calculate prefixSums
+        */
+        ArrayList<Integer>evenArray = new ArrayList<Integer>();
+        ArrayList<Integer>oddArray = new ArrayList<Integer>();
+ 
+        for(int i = 0 ; i < n ; i++){
+            if(i%2 == 0){
+                evenArray.add(arr.get(i));
+                oddArray.add(0);
+            }else{
+                oddArray.add(arr.get(i));
+                evenArray.add(0);
+            }
+        }
+ 
+ 
+        //calulate prefix Sum for each array;
+ 
+        ArrayList<Integer>evenPrefixSum = new ArrayList<Integer>();
+        ArrayList<Integer>oddPrefixSum = new ArrayList<Integer>();
+        for(int i = 0 ; i < n ; i++){
+            if(i == 0){
+                evenPrefixSum.add(evenArray.get(0));
+                oddPrefixSum.add(oddArray.get(0));
+            }
+            else{
+                
+                evenPrefixSum.add(evenPrefixSum.get(i-1) + evenArray.get(i));
+                oddPrefixSum.add(oddPrefixSum.get(i-1) + oddArray.get(i));
+            }
+        }
+ 
+        /*
+            Logic 
+            indices:
+            0, 1, 2, 3 ........ i-1, i , i+1 , ......n-1
+            when we delete something nothing changes before 
+            that elements(no indices change)
+            but after it, all elements shift 1 by 1 so,
+             odd numbered become even and vice versa
+ 
+            so if we remove ith element
+ 
+            evenSum = evenSum for this range [0, i-1] 
+                    + oddSUm for this range [i, n-1]
+        */
+ 
+        for(int i = 0 ; i < n ; i++){
+            //removing ith element;
+            int evenSum = 0, oddSum = 0;
+ 
+            //0 --> i - 1
+            if(i > 0){
+                evenSum+= evenPrefixSum.get(i-1);
+                oddSum += oddPrefixSum.get(i - 1);
+            }
+            // i+1 --> n - 1 
+            evenSum += oddPrefixSum.get(n-1) - oddPrefixSum.get(i);
+            oddSum += evenPrefixSum.get(n - 1) - evenPrefixSum.get(i);
+            if(evenSum == oddSum)ans++;
+        }
+        return ans;
+    }
+    public int solve(ArrayList<Integer> A) {
+        int ans = 0;   
+        return solveOptimized(A);
+    }
+ 
+}

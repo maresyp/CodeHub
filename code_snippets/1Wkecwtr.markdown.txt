@@ -1,0 +1,277 @@
+DiscoDude: ---BEGIN SESSION---
+DiscoDude: Session logging commenced
+Ryusui|GM: BATTLE COMET START
+Ryusui|GM: EXCHANGE 1/12
+Ryusui|GM: Phase 1 - Icy Slopes [Sheer Ascent], [Hard to Grip]
+Ryusui|GM: The Beryllium Chef whips out his little climbing axe and gets to work climbing the [Sheer Ascent]. "And away I go! :D"
+Ryusui|GM: !f 3 (Quick)
+DiscoDude: <@Ryusui|GM> rolled 4dF+3 for 6 [4dF = [+][+][ ][+]]
+Ryusui|GM: (SWS)
+Vera: Vera's noises get a bit more frantic when she hears the starting bell and Beryllium Chef's obnoxious voice, and her legs start pedaling and kicking about!
+(Attempting to overcome Buried in the Snow with AGGRESSIVE! Mediocre (+0) Opposition, right?)
+Ryusui|GM: The little guy takes off like a shot! They weren't kidding when they claimed he was an expert at this. He's geot a head start and he's -Making Good Time- as he goes!
+Ryusui|GM: (yes)
+Vera: !f 2 (AGGRESSIVE)
+DiscoDude: <@Vera> rolled 4dF+2 for 0 [4dF = [ ][-][-][ ]]
+Vera: (*head-desk)
+Vera: (Er, what happens on tie?)
+;}"÷™+╎®^★█¬ˇ¾: ((Success at minor cost.))
+Margen: Margen works himself out of the snow, flipping his lower appendages around to pull himself out a little at a time
+Ryusui|GM: (roll it, margen)
+Ryusui|GM: (got an idea for a suitable minor cost, Vera?)
+Margen: !f careful 3
+DiscoDude: <@Margen> rolled 4dF for 0 [4dF = [-][ ][ ][+]]
+Vera: (SWS.)
+Ryusui|GM: (yeah, you flipped the roll syntax, so that's actually a 3 result)
+Vera: (For future reference, you can't put anything between "!f" and the number: "careful" isn't a number it can use. XD)
+Margen: Margen scrambles a bit to get out, but finds purchase and extracts his head with a pwuff* sound
+(Whups!)
+;}"÷™+╎®^★█¬ˇ¾: Mel snatches Tako-San off the counter-top and begins the climb up the mountain.
+Vera: (Would a minor cost be a negative aspect but with no free invokes?)
+Vera: (Also, name the boost from your SWS, <@!Margen>.)
+Margen: (Hmm... Best Served Cold?)
+Vera: (How does that help you in the coming Exchanges?)
+Ryusui|GM: Dovelia, meanwhile, leaps at the side of the comet, arm blade at the ready, her own interpretation of the Beryllium Chef's climbing axe strategy!
+Margen: (good point, I'm honestly not sure how I benefit from getting out other than being unstuck though so I'm kinda stumped)
+Ryusui|GM: !f 3 (Aggressive)
+DiscoDude: <@Ryusui|GM> rolled 4dF+3 for 3 [4dF = [ ][+][ ][-]]
+Ryusui|GM: (margen let's say you just have -Frosty Momentum-)
+Margen: (That works, thanks!)
+Vera: (Still need an answer to my question, BTW.)
+Ryusui|GM: (like, he springs out of the snow and carries that momentum forward up the ascent)
+Vera: (I know, but I had my own question.)
+Ryusui|GM: (repeat it please?)
+Vera: (What mechanically qualifies as a "minor" cost?)
+Ryusui|GM: Dovelia is not an expert climber, but her improvised climbing pick does the trick. She's trailing behind the Beryllium Chef, but only slightly.
+Vera: (Negative aspect with no free invoke?)
+Ryusui|GM: (it might be a narrative cost too, i think)
+Margen: (AH! Cooler Heads
+After a harrowing experience head-down in the snow which he does not intend to repeat, Margen is going to be more careful dealing with ice. )
+Ryusui|GM: (but yeah negative aspect sounds good)
+Vera: With a final slam of both legs, her feet find purchase from which to slowly... pivot-rise... stiff as a board... out of the snow. Kind of. She's still Covered in White!
+Vera: (I think Tako still needs to go?)
+Vera: (<@!;}"÷™+╎®^★█¬ˇ¾>?)
+;}"÷™+╎®^★█¬ˇ¾: ((I made my post;  <@!Ryusui|GM> hasn't responded to it.))
+Ryusui|GM: (you gonna roll?)
+Ryusui|GM: ('cause you gave your action but you didn't roll)
+;}"÷™+╎®^★█¬ˇ¾: ((It wasn't obvious, since you didn't post a difficulty with the aspects that need to be overcome.))
+Ryusui|GM: (whoop, sorry, mechanically it's +1 at each step)
+Vera: (Come to think of it, yeah; all we know is "6 is SWS.")
+Ryusui|GM: (my bad)
+;}"÷™+╎®^★█¬ˇ¾: ((Is that cumulative?))
+Ryusui|GM: (no)
+;}"÷™+╎®^★█¬ˇ¾: As Mel starts up the mountain, the slope quickly steepens until she has to use one hand for Tako-San and one to climb.
+"You need to use both hands.  Here."  Tako-San says, as he climbs onto Mel's back, "Wait, actually, I have a better idea." then crawls into her out-stretched hands to help anchor them into the snow.
+((Cleverly Overcome Average (+1) difficulty))
+;}"÷™+╎®^★█¬ˇ¾: !f 2
+DiscoDude: <@;}"÷™+╎®^★█¬ˇ¾> rolled 4dF+2 for 1 [4dF = [-][+][-][ ]]
+Vera: (Success at minor cost? Failure with an upside? (I forget if there's other options besides those and "boost it."))
+;}"÷™+╎®^★█¬ˇ¾: Unfortunately, the space snow is colder than Tako-San anticipated, leaving him Strained from having to self-thermoregulate.
+Margen: Margen plans out a route up the [Sheer Ascent], picking out ice holds and spots he can hold onto.
+Margen: !f 3 (careful)
+DiscoDude: <@Margen> rolled 4dF+3 for 2 [4dF = [-][-][+][ ]]
+Vera: (Oh, is it a new Exchange now?)
+Vera: (Uh, here:)
+Vera: > EXCHANGE 2/12
+Margen: (Oh uh oh did I jump the gun?)
+Vera: (Yeah.)
+Margen: (D'oh xl )
+Ryusui|GM: EXCHANGE 2/12
+Ryusui|GM: Phase 2 - Jagged Spikes [Brittle Yet Deadly], [Jutting at All Angles]
+Ryusui|GM: "Oh boy! :D" The Beryllium Chef wastes no time launching himself up the maze of jagged spikes [Jutting at All Angles].
+Ryusui|GM: !f 4 (Careful)
+DiscoDude: <@Ryusui|GM> rolled 4dF+4 for 5 [4dF = [ ][+][+][-]]
+Vera: (That sounds more QUICK or FLASHY, but okay.)
+Ryusui|GM: (it's SWS either way)
+Ryusui|GM: This is his element. Possibly more so than the kitchen. He picks his way through the jutting spikes like water flowing along rocks, gaining -Even More Momentum- as he does so. Of course, the artfulness of the display is spoiled by his cheerful yelps of "whoop!" and "a-ha!" as he goes.
+;}"÷™+╎®^★█¬ˇ¾: ((I haven't seen the stats on the house chefs at all this season.))
+Ryusui|GM: (i'm pretty sure i posted the last two)
+Ryusui|GM: (i just now put this one in <#321434530562965506>)
+Vera: (<@!Margen>, describe your success.)
+Margen: Margen picks his way up the face of the ice wall, navigating one or two tentacles at a time up the immense cliff face.
+Margen: *
+;}"÷™+╎®^★█¬ˇ¾: "Perfekto!" Tako-San shouts as he and Mel come up to the field of icicles, "I hope you remember the physical training I added."
+"Ugh!  I still have the calluses from that.  Octo-Lash?"
+"Exactly!"
+Mel grabs Tako-San by a couple tentacles and whips him forward and upward to latch onto one of the spikes, repeating this until they reach the top.
+((Flashily Overcome Average (+1) difficulty.))
+;}"÷™+╎®^★█¬ˇ¾: !f 3
+DiscoDude: <@;}"÷™+╎®^★█¬ˇ¾> rolled 4dF+3 for 1 [4dF = [-][ ][ ][-]]
+Ryusui|GM: (the dice do not like you today ^_^;)
+;}"÷™+╎®^★█¬ˇ¾: ((Guess things are balancing out from before.))
+;}"÷™+╎®^★█¬ˇ¾: ((Trying to remember if I used the free invoke on Tako-San's Tank Girl aspect in the quick-fire.))
+;}"÷™+╎®^★█¬ˇ¾: ((Oh!  Wait; doesn't matter: It refreshes every scene.))
+;}"÷™+╎®^★█¬ˇ¾: ((I'll spend that, then.))
+Vera: (I see your Tank-Girl, and raise you a free invoke on STRAINED [?].)
+;}"÷™+╎®^★█¬ˇ¾: ((In that case....))
+Once Tako-San and Mel-Chan reached the next ledge, Mel notices some blue dripping from her employer.  "You're bleeding!"
+"Turns out, ice cuts like glass.  Ai'll be fine.  See!"  Tako-San throws up one of his tentacles.  "It's already starting to clot.  Just a bit Scrambled."
+Vera: Vera looks around and sees that she's currently last up the slope. Gritting her resolve, she stabs her hands straight into the cliff-face to climb!
+(Using AGGRESSIVE again.)
+Vera: !f 2 (AGGRESSIVE)
+DiscoDude: <@Vera> rolled 4dF+2 for 2 [4dF = [ ][ ][ ][ ]]
+Ryusui|GM: (woo)
+Vera: She's no Dio Brando walking up a pillar, but using her hands is only somewhat less impressive for such a feat. She soon joins Margen at the top of the slope just as Dovelia's about to head into the thicket of icicles.
+Ryusui|GM: Dovelia is likewise taking a more direct approach to the ascent. Throwing herself upwards, she lashes out spinning with her blade, striking at the ice spikes to propel herself upward.
+Ryusui|GM: !f 3 (Aggressive)
+DiscoDude: <@Ryusui|GM> rolled 4dF+3 for 6 [4dF = [+][+][ ][+]]
+Ryusui|GM: (SWS)
+Ryusui|GM: Crash! Crash! There's a sound of glass shattering on every impact. Dovelia's -Shattering Ascent- is marked by ice shards flying everywhere as her ferocious strikes against the ice spikes carry her upward.
+Ryusui|GM: EXCHANGE 3/12
+Ryusui|GM: Phase 3 - Deep Slush [Like Moving Through Quicksand], [Freezing Winds]
+Vera: Vera takes a moment to calm herself, and looks up at the thicket.
+"Oh, fck me..."
+She lets out a shivering sigh, and starts picking her way through in short bursts, pausing frequently to look ahead, trying to identify a clear path to a promising "checkpoint," before repeating the process.
+(CLEVER works, right?)
+Ryusui|GM: (yeah)
+Vera: !f 3 (CLEVER)
+DiscoDude: <@Vera> rolled 4dF+3 for 3 [4dF = [+][ ][ ][-]]
+Vera: (*phew)
+Vera: There was one point where she feared she'd have to backtrack through her route and try a different way, but ultimately manages to squeeze through a small gap. Aside from that one hiccup, Vera managed to take the smoothest and most painless path through the maze out of all the chefs (if not necessarily the fastest).
+Margen: Margen won't be caught head-down in aheap of solid water again, so he's going to Carefully weave between brittle but deadly blades.
+Margen: !f 3 (careful)
+DiscoDude: <@Margen> rolled 4dF+3 for 3 [4dF = [ ][ ][-][+]]
+Vera: (Describe your success.)
+Margen: Margen flits between the blades, spinning past their gleaming edges as he ascends the field of lethal glass
+Ryusui|GM: The sheer climb gives way to walkable slope. However, it's evident this slope is made up of very loosely packed snow. The final ascent will be no easier than the first two stages. Dovelia raises her metal arm as a shield against the frosty wind blowing down from the spire, and marches onward.
+Ryusui|GM: !f 2 (Careful)
+DiscoDude: <@Ryusui|GM> rolled 4dF+2 for 1 [4dF = [-][-][ ][+]]
+Margen: "This Reminds me of that Exotic Ingredients course where we had to scale a mountain for some rare berries!"
+Ryusui|GM: (i'll be taking that success at a cost)
+;}"÷™+╎®^★█¬ˇ¾: Mel groans; "I'm so glad you made these uniforms water-proof.  At least you'll have an easy time getting through."
+"Ai could always call to get you carried acrossed as part of my accommodations." Tako-San replies.
+"I think I've got this."  Then, under her breath, "Maybe the ghoul-girl was right."
+Ryusui|GM: Dovelia trudges through the slush. Her arm is designed to resist extreme conditions, but the cold is intense enough to leave it bedecked with ice crystals. She doesn't want to imagine what's happening to its internals. ([Frostbitten Arm])
+;}"÷™+╎®^★█¬ˇ¾: As Tako-San swims through the slush more or less effortlessly, Mel is left hopping like an arctic hare to get through the deep snow.
+((Flashily Overcome Average (+1) difficulty))
+;}"÷™+╎®^★█¬ˇ¾: !f 3
+DiscoDude: <@;}"÷™+╎®^★█¬ˇ¾> rolled 4dF+3 for 2 [4dF = [-][+][ ][-]]
+Ryusui|GM: (...oh shoot, i had a boost)
+Ryusui|GM: (that's a success btw)
+Vera: (Roll it back?)
+Ryusui|GM: (nah i'll stick with both)
+;}"÷™+╎®^★█¬ˇ¾: ((Boost?))
+Ryusui|GM: (yes, i got a boost from the SWS on the second stage)
+;}"÷™+╎®^★█¬ˇ¾: ((Ah.))
+Vera: (What of Beryllium? 8D)
+;}"÷™+╎®^★█¬ˇ¾: Fortunately, Mel manages to make decent time and reunites with Tako-San on the other side.
+Ryusui|GM: "Is time to dive into the cake frosting!" the Beryllium Chef says, grinning, as he vanishes into the slush. Apparently he intends to take a direct approach.
+Ryusui|GM: !f 2 (Aggressive)
+DiscoDude: <@Ryusui|GM> rolled 4dF+2 for 2 [4dF = [ ][ ][-][+]]
+Ryusui|GM: For about a minute, the Beryllium Chef vanishes completely under the snow, only a tiny raised bump indicating his progress. Then, with a triumphant cheer, he leaps straight up through what must have been six solid feet of slush.
+Vera: "Haha, never say those words in that context again."
+Ryusui|GM: EXCHANGE 4/12
+Ryusui|GM: Phase 4 - Frozen Peak [Ice-Rimed Plateau], [Crystalline Spire]
+Ryusui|GM: The top of the comet is a large, flat, circular space ringing the tail - a colossal column of solid [Comet Tail Ice] rising almost to the roof of Kitchen Arena.
+Ryusui|GM: (hang on, everyone)
+Ryusui|GM: (i need to finish setting the scene)
+Ryusui|GM: Two things become evident for everyone who reaches the peak.
+Ryusui|GM: First off: there is a squat metal gun emplacement placed near the edge, conveniently on the very same side Margen is ascending. Atop it is a pristine sample of [Comet Tail Ice][!!], ripe for the taking. There's a note attached to it: "For Margen, Winner of the Quick-Fire"
+Ryusui|GM: Presumably, it's set to fire upon anyone who tries to steal the ice that's been set aside for Margen.
+Ryusui|GM: The second thing...
+Ryusui|GM: A shadow falls over the center of the arena as Dovelia, Tako, and the Beryllium Chef reach the peak.
+Ryusui|GM: Something streaks down from the highest point of the crystal spire - something large, sinuous, and winged. It screeches threateningly on its descent, hovering in midair between them and the crystal spire.
+Ryusui|GM: "Oh, hello doggy! :D" the Beryllium Chef says, waving.
+Ryusui|GM: "One final challenge awaits our intrepid, mountain-climbing chefs!" Holly cuts in. "It's everyone's favorite frosty engine of interstellar mayhem, Crystallexius, the Celestial Icewyrm!"
+;}"÷™+╎®^★█¬ˇ¾: "Doggy?"  Tako-San and Mel say in unison .... and fear.
+Ryusui|GM: "A dragon," Dovelia mutters under her breath. "Of course."
+Ryusui|GM: (so, again, there's nothing stopping Margen from reaching the top, getting his sample of ice, then heading back down - the rest of you will have to deal with the dragon!)
+Ryusui|GM: (extracting the ice while he's here won't be impossible, but it will be harder XD)
+Ryusui|GM: Crystallexius responds to the Beryllium Chef's enthusiastic greeting by blasting him with a gout of sub-zero breath.
+Ryusui|GM: !f 2 (freezing breath)
+DiscoDude: <@Ryusui|GM> rolled 4dF+2 for -1 [4dF = [-][-][ ][-]]
+Vera: (Would rolling SNEAKY to try and literally piggyback off of Margen's success be kosher (assuming he does succeed his roll first)?)
+Margen: From below, Margen says something along the lines of "but that would contaminate the whole batch of frosting!" but it's probably lost to the [freezing winds]
+Ryusui|GM: (...i'll allow that, so long as it doesn't interfere with Margen's success XD)
+Vera: (Got it.)
+Ryusui|GM: !f 3 (Beryllium's Quick)
+DiscoDude: <@Ryusui|GM> rolled 4dF+3 for 3 [4dF = [-][ ][ ][+]]
+Vera: (I also have a plan for if he doesn't advance, of course.)
+Ryusui|GM: For a second, it looks like the Beryllium Chef got blasted full in the face by Crystallexius's attack. There is, a moment later, a Beryllium Chef-shaped mound of ice where he was standing. Then comes the cheerful yelp - "Is a good doggy, yes you are!" - and somehow he is almost directly opposite where he was standing.
+Ryusui|GM: While Crystallexius regards Dovelia and Tako with draconic rage, the Beryllium Chef darts to the crystal spire and attempts to chip off a sizable chunk of ice.
+Ryusui|GM: !f 3 (Quick)
+DiscoDude: <@Ryusui|GM> rolled 4dF+3 for 4 [4dF = [ ][ ][+][ ]]
+Ryusui|GM: (SWS)
+Ryusui|GM: The piece of [Comet Tail Ice][!] he comes away with is a column of ice easily three times his own size, and he hefts it over his head effortlessly.
+Margen: Margen begins a quadrupedal slog through the icy soup, going as directly as possible without falling in deep pits.
+Margen: !f 3 (careful)
+DiscoDude: <@Margen> rolled 4dF+3 for 1 [4dF = [-][ ][-][ ]]
+Margen: (ruh-roh)
+Ryusui|GM: (oh wait, Crystallexius is still in play, so the roll should be harder - thinking +3 to get away with it while he's here)
+Ryusui|GM: (Beryllium still gets a success though)
+Ryusui|GM: (got a boost or invoke to spend, or are you okay with success at a cost?)
+Vera: (You have *Cooler Heads*.)
+Margen: (uhh I got an SWS
+Yeah that one)
+Vera: Meanwhile, Vera, seeing that Margen's setting out, gets out a loop of butcher's twine and attempts to discreetly lasso a leg to have him drag her through.
+Ryusui|GM: (then that's a success, margen)
+Ryusui|GM: (i love it, Vera)
+Margen: Margen makes a poor step and goes into the frigid soup with a plorp. It's exceedingly cold, but Margen realizes he's actually able to see better in the water below the frigid slush.
+Vera: (Uh- Let's goooooo)
+Ryusui|GM: (roll 'em XD)
+Vera: !f 2 (SNEAKY)
+DiscoDude: <@Vera> rolled 4dF+2 for 1 [4dF = [+][ ][-][-]]
+Margen: He swims his way to the plateau, happy to stretch his tentacles even if it's really chilly.
+;}"÷™+╎®^★█¬ˇ¾: ((Great (+4); now I'm imagining Crystallexius as "white Rathalos".))
+Margen: He feels a little heavy as he swims, but he figures it's the cold XD
+Ryusui|GM: (got something to invoke, or wanna take another success at a cost? XD)
+Vera: It's... It's not the most pleasant ride, for sure. Vera's snow-coat has hardened into an Ice Cube Outfit [?] by the time she's dragged onto the shore.
+(Upgrading (downgrading?) my Covered in White aspect to the above.)
+Ryusui|GM: (...i like this XD)
+Ryusui|GM: (<@!;}"÷™+╎®^★█¬ˇ¾>!)
+Margen: (Margen is rather numb right now)
+;}"÷™+╎®^★█¬ˇ¾: ((Would that add an invoke against, then?))
+Ryusui|GM: (yes, that's the idea)
+;}"÷™+╎®^★█¬ˇ¾: ((Then there should be two now.))
+Ryusui|GM: (there wasn't before)
+Ryusui|GM: (so it's one now)
+Margen: (He can't feel the lasso XD)
+Ryusui|GM: Dovelia briefly eyes Margen's free sample of ice, then shakes her head. Without further ado, she leaps at the ice dragon, blade at the ready, muttering all the while about how ridiculous this whole idea is.
+Ryusui|GM: !f 3 (Aggressive)
+DiscoDude: <@Ryusui|GM> rolled 4dF+3 for 1 [4dF = [-][-][-][+]]
+Ryusui|GM: !f 2 (Flying)
+DiscoDude: <@Ryusui|GM> rolled 4dF+2 for 1 [4dF = [ ][+][-][-]]
+Ryusui|GM: (...i'm gonna self-compel Frostbitten Arm for an extra FATE Point, but spend her Shattering Ascent boost for a tie XD)
+Ryusui|GM: The dragon deftly takes to the air and dodges Dovelia's wild swing - not at all helped by the frozen servos in her arm - but she manages to land on her feet regardless, -A Little Closer to the Spire-.
+;}"÷™+╎®^★█¬ˇ¾: "Meru-Chan, does the house's shard remind you of anything?" Tako-San says with their equivalent of a smirk.
+"Y-Your not serious, are you?"
+"Time I made up for that humiliation before the ii-gi's."
+Mel is about to object with the fact that it wasn't in front of the Hydreagens, but gives a sigh instead and prepares to toss Tako-San like a knife as the octopod lock his tentacles to hold a curved star shape.  With a huff and a hefty pitch, Tako-San  goes careening through the air like a shuriken; if not to knock the shard out of the Beryllium Chef;s grip outright, then at least distract them long enough for Mel to take it.
+((Flashily Overcome against Beryllium Chef's opposition))
+;}"÷™+╎®^★█¬ˇ¾: !f 3
+DiscoDude: <@;}"÷™+╎®^★█¬ˇ¾> rolled 4dF+3 for 5 [4dF = [+][+][ ][ ]]
+Vera: (Very smash-and-grab. XD)
+;}"÷™+╎®^★█¬ˇ¾: ((I'm now thinking Mel used to do a lot of sports as a pre-pubescent boy.))
+;}"÷™+╎®^★█¬ˇ¾: ((The baseball showing here, specifically.))
+Ryusui|GM: !f 3 (Quick)
+DiscoDude: <@Ryusui|GM> rolled 4dF+3 for 5 [4dF = [+][+][ ][ ]]
+Ryusui|GM: (remember i got two boosts to spend here~)
+Vera: (I'd say Momentum's more relevant here.)
+Ryusui|GM: (if you can manage a +6, i'll let you steal his ice outright)
+Ryusui|GM: (er, +6 worth of boosts/invokes/whatever)
+;}"÷™+╎®^★█¬ˇ¾: ((High Concept, Carrot (for motivation), and Tank Girls.))
+Vera: (Honestly, this seems like something worth spending Beryllium's Fate points to prevent.)
+Ryusui|GM: (you have 2 FATE Points; you didn't spend the Tank Girls invoke already?)
+Vera: (He did.)
+Ryusui|GM: (and we're agreed he has 2 FP?)
+;}"÷™+╎®^★█¬ˇ¾: ((Oh; right.))
+Ryusui|GM: (well, you can take the L and try to get the ice legit next exchange)
+;}"÷™+╎®^★█¬ˇ¾: ((I could spend for a reroll, but the chances are in Tako-San's favor.))
+;}"÷™+╎®^★█¬ˇ¾: Tako-San slams into a hunk of ice.  He gives a triumphant "Yat-Tah!" before the camera zooms out to show him slung from one of Crystallexius's wing tips; turn's out: the dragon attempted to take a swing at the Beryllium Chef at the same time.  "MÉRU!" the cephalopod shouts.
+"On it!"
+"Get the ice-u first!"
+"But-!"
+"Ai'll be fine!"
+Ryusui|GM: The Beryllium Chef is about to make his getaway with the ice when he hears the sound of Tako's mishap. He turns around and waves. "Hi there, Mr. Sharkman!"
+;}"÷™+╎®^★█¬ˇ¾: "SE-FA-LO-POD!"
+;}"÷™+╎®^★█¬ˇ¾: "YU NOT EVEN CLOUSU!"
+Ryusui|GM: "Our challengers have reached the top, but the ice remains just out of grasp!" Holly calls out. "It's time for a classic throwdown between chef and dragon! But first..." She gives a wink. "...a word from our sponsors!"
+Ryusui|GM: (last lines, <@&627978553669058562>?)
+Margen: chattering cold Glurrid noises
+;}"÷™+╎®^★█¬ˇ¾: ((N/A))
+Ryusui|GM: "I don't know who I enjoy dealing with less," Dovelia mutters, looking between the looming dragon and the Beryllium Chef, who seems content to do a silly dance.
+Ryusui|GM: (<@!Vera>?)
+Vera: chattering cold ghoul noises
+;}"÷™+╎®^★█¬ˇ¾: chattering cold human noises
+Ryusui|GM: "Don't touch that dial, folks!"
+Ryusui|GM: !end

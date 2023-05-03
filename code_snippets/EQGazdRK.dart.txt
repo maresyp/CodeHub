@@ -1,0 +1,118 @@
+/// Move round a map avoiding blizzards
+/// 1) once
+/// 2) there and back and there again
+ 
+import 'dart:collection';
+import 'dart:math';
+ 
+import 'package:more/more.dart';
+ 
+class Point3 {
+  final int x, y, z;
+  const Point3(this.x, this.y, this.z);
+  Point3 operator +(Point3 o) => Point3(o.x + x, o.y + y, o.z + z);
+  bool get isInBounds =>
+      Point(x, y) == start ||
+      Point(x, y) == end ||
+      x.between(0, width - 1) &&
+          y.between(0, height - 1); //don't worry about time dimension
+  @override
+  int get hashCode => Object.hash(x, y, z);
+  @override
+  bool operator ==(Object o) => o is Point3 && o.x == x && o.y == y && o.z == z;
+}
+ 
+class Blizzard {
+  Point<int> pos, dir;
+  Blizzard(this.pos, this.dir);
+  move() => pos = Point((pos.x + dir.x) % width, (pos.y + dir.y) % height);
+}
+ 
+const headings = {
+  'N': Point3(0, -1, 1),
+  'W': Point3(-1, 0, 1),
+  'E': Point3(1, 0, 1),
+  'S': Point3(0, 1, 1),
+  'F': Point3(0, 0, 1), // just sit here for a round
+  //'B': Point3(0, 0, -1) Can't go back in time!
+};
+var n6 = headings.values;
+ 
+const bDirs = {
+  '^': Point(0, -1),
+  '<': Point(-1, 0),
+  '>': Point(1, 0),
+  'v': Point(0, 1),
+};
+ 
+var cameFrom = <Point3, Point3>{};
+// Returns map of Points examined and their distances from the start.
+Map<Point3, int> dijkstra(Point3 start, Point<int> end) {
+  cameFrom = {start: Point3(-1, -1, -1)};
+  var bestCost = {start: 0};
+  var frontier = ListQueue<Point3>();
+  frontier.add(start);
+  while (frontier.isNotEmpty) {
+    var here = frontier.removeFirst();
+    if (here.x == end.x && here.y == end.y) break;
+    var ns =
+        n6.map((e) => here + e).where((e) => e.isInBounds && !isBlocked(e));
+    for (var next in ns) {
+      var newCost = bestCost[here]! + 1;
+      if (!bestCost.containsKey(next) || newCost < bestCost[next]!) {
+        bestCost[next] = newCost;
+        frontier.add(next);
+        cameFrom[next] = here;
+      }
+    }
+  }
+  return bestCost;
+}
+ 
+isBlocked(Point3 p3) => blocks.contains(Point3(p3.x, p3.y, p3.z % duration));
+ 
+void buildBlocks(List<String> lines) {
+  var bs = lines.map((e) => e.split('')).toList();
+  height = bs.length - 2;
+  width = bs.first.length - 2;
+  start = Point(bs.first.indexOf('.') - 1, -1);
+  end = Point(bs.last.indexOf('.') - 1, height);
+  var blizzards = <Blizzard>{};
+  for (var y in 1.to(bs.length - 1)) {
+    for (var x in 1.to(bs.first.length - 1).where((x) => bs[y][x] != '.')) {
+      // Don't ever need to look at the walls, so offset the co-ords by 1.
+      blizzards.add(Blizzard(Point(x - 1, y - 1), bDirs[bs[y][x]]!));
+    }
+  }
+  // Blizzards will all cycle after this time.
+  duration = width.lcm(height);
+  blocks = <Point3>{};
+  for (var t in 0.to(duration)) {
+    for (var b in blizzards) {
+      blocks.add(Point3(b.pos.x, b.pos.y, t));
+      b.move();
+    }
+  }
+}
+ 
+late int height, width;
+late Point<int> start, end;
+late Set<Point3> blocks;
+var duration = 1000;
+ 
+part1(List<String> lines) {
+  buildBlocks(lines);
+  var pp = dijkstra(Point3(start.x, start.y, 0), end);
+  return pp.keys.firstWhere((e) => e.x == end.x && e.y == end.y).z;
+}
+ 
+part2(List<String> lines) {
+  buildBlocks(lines);
+  var pp = dijkstra(Point3(start.x, start.y, 0), end);
+  var t = pp.keys.firstWhere((e) => e.x == end.x && e.y == end.y).z;
+  pp = dijkstra(Point3(end.x, end.y, t), start);
+  t = pp.keys.firstWhere((e) => e.x == start.x && e.y == start.y).z;
+  pp = dijkstra(Point3(start.x, start.y, t), end);
+  t = pp.keys.firstWhere((e) => e.x == end.x && e.y == end.y).z;
+  return t;
+}

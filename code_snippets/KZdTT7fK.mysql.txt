@@ -1,0 +1,4 @@
+SELECT s.SupplierName, c.CategoryName, p.ProductName, max(Price)
+FROM Suppliers s
+JOIN Products p ON p.SupplierID = s.SupplierID
+JOIN Categories c ON p.CategoryID = c.CategoryID

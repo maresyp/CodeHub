@@ -1,0 +1,74 @@
+-- single checkout
+-- ios
+ 
+ 
+with res as 
+(select 
+  PARSE_DATE('%Y%m%d', event_date) as event_date
+  , event_name 
+  , up.key as exp_name
+  , up.value.string_value as exp_group
+  , user_pseudo_id
+-- стата по событие purchase / TYP
+  , case when (select max(ep.value.string_value) from unnest(event_params) as ep where ep.key = 'type_delivery') in('pickup mvideo', 'pickup MVIDEO' )then 'Самовывоз' else 'Остальное' end as type_delivery
+  , safe_cast((select ep.value.string_value from unnest(event_params) as ep where ep.key = 'transaction_id') as int) as transaction_id
+from `mvideo-1539598073758.analytics_234497047.events_*`, unnest(user_properties) as up
+where 1=1
+and _TABLE_SUFFIX between '20230404' and '20230404' --FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 3 DAY))
+and up.key ='firebase_exp_280' -- выбирам только эксп
+and platform='IOS' -- эксп работает только на iOS
+and event_name in ('session_start','view_cart','add_to_cart','begin_checkout','checkout_view_opened','checkout_first_step_pressed','checkout2_view_opened','purchase','order_placed') 
+and platform='IOS'
+group by 1,2,3,4,5,6,7),
+ 
+ 
+unique_exp_users as 
+ 
+ 
+  (select user_pseudo_id as unique_exp_user_id, count_exp_group
+  from 
+    (select user_pseudo_id, count(distinct exp_group) as count_exp_group
+    from res  
+    group by 1)
+  where count_exp_group = 1)
+ 
+ 
+select 
+  --event_date , --убираем если хотим посмотреть стату кумулятивно, без разделения по дням
+  exp_name
+  , exp_group
+  , count(distinct user_pseudo_id ) as DAU
+  , count(distinct case when event_name = 'add_to_cart' then user_pseudo_id end) as addToCart_users -- добавление в корзину
+  , count(distinct case when event_name = 'view_cart' then user_pseudo_id end) as viewCart_users -- просмотр корзины
+ 
+ 
+  , count(distinct case when event_name = 'begin_checkout' then user_pseudo_id end) as beginCheckout1_users --  пользак нажимает на кнопку "Оформить заказ" на экране корзины
+  , count(distinct case when event_name = 'checkout_view_opened' then user_pseudo_id end) as Checkout1_users --  пользаки на первом этапе чекаута 
+ 
+ 
+  , count(distinct case when event_name = 'checkout_first_step_pressed' then user_pseudo_id end) as beginCheckout2_users --  пользак закончил первых шаг чекаута, нажимает на переход на второй
+  , count(distinct case when event_name = 'checkout2_view_opened' then user_pseudo_id end) as Checkout2_users --  пользаки на втором этапе чекаута 
+ 
+ 
+  , count(distinct case when event_name = 'purchase' then user_pseudo_id end) as purchase_users --  пользаки нажавшие "заказать" == заказ сформирован
+  , count(distinct case when event_name = 'purchase' then user_pseudo_id end) as transactions --  транзакции всего
+  , count(distinct case when event_name = 'purchase' and type_delivery = 'Самовывоз' then user_pseudo_id end) as transactions_pickup --  транзакции самовывоз
+  , count(distinct case when event_name = 'purchase' and type_delivery = 'Остальное' then user_pseudo_id end) as transactions_other --  транзакции самовывоз
+ 
+ 
+  , count(distinct case when event_name = 'order_placed' then user_pseudo_id end) as TYP_users --  пользаки перешедшие на TYP
+  , count(distinct case when event_name = 'order_placed' and type_delivery = 'Самовывоз' then user_pseudo_id end) as TYP_transactions_pickup --  транзакции самовывоз
+  , count(distinct case when event_name = 'order_placed' and type_delivery = 'Остальное' then user_pseudo_id end) as TYP_transactions_other --  транзакции остальное
+  , count(distinct case when event_name = 'purchase' then order_id end) as checks -- чеки по transaction_id purchase
+  , sum( case when event_name = 'purchase' then value_orders end ) as value_orders -- выручка по transaction_id purchase
+ 
+  , count(distinct case when event_name = 'order_placed' then order_id end) as checks_typ -- чеки по transaction_id TYP
+  , sum( case when event_name = 'order_placed' then value_orders end ) as value_orders_typ -- выручка по transaction_id TYP
+ 
+from res
+left join unique_exp_users on res.user_pseudo_id = unique_exp_users.unique_exp_user_id
+left join (SELECT order_id,sum(value_orders) as value_orders FROM `mvideo-ru.PATM.orders_S_K` where product='App' and completed = 'Y' group by 1) as checks
+  on cast(checks.order_id as int)= cast(res.transaction_id as int)
+ 
+group by 1,2 --,3
+order by 2

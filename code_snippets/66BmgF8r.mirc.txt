@@ -1,0 +1,6 @@
+root@eraser.ovh> screen -r irssi
+16:15 -!- Irssi: Connecting to irc.servercentral.net port 6667
+16:15 -!- Irssi: Connection to irc.servercentral.net established
+16:15 Loaded script [takeover.pl]
+16:15 executed script takeover.pl [#evildojo]
+End session

@@ -1,0 +1,29 @@
+ON *:SNOTICE:*: {
+  tokenize 32 $strip($1-)
+ 
+  if (*Client connecting:* !iswm $1-) { return }
+ 
+  var %report_channel = #checker
+  var %nick = $4
+  var %ip = $remove($6,[,])
+ 
+  if (!%nick) || (!%ip) { return }
+  if (%nick == $me) { return }
+  if ($me !ison %report_channel) { return }
+  if ($iptype(%ip) !== ipv4) { return }
+  if (%ip == $ip) || (%ip == $serverip) { return }
+  if (*webirc-users* iswm $13-) { return }
+ 
+  var %v = ip_lookup_ $+ $ticksqpc $+ $rands(1,1000000000000)
+  var %u = https://chatohu.net/regex/check/ $+ %ip
+ 
+  jsonopen -ud %v %u
+ 
+  if ($jsonerror) { msg %report_channel [IP-Lookup]: Error, Could not connect on server! - Nickname: %nick - IP: %ip - Error Details: $jsonerror | return }
+ 
+  var %status = $json(%v,status).value
+ 
+  if (%status == ok) { msg %report_channel [IP-Lookup]: User %nick with %ip IP is NOT listed on web! }
+  elseif (%status == error) { gzline *@ $+ %ip +1h VPN/PROXY | msg %report_channel [IP-Lookup]: User %nick with %ip IP is listed on web! - GZLINE for 1 hour. }
+  else { msg %report_channel [IP-Lookup]: Failed while trying to look for %nick nickname with %ip ip on web! }
+}

@@ -1,0 +1,240 @@
+.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎
+.‎.‎.‎T‎e‎s‎t‎i‎n‎g‎.‎.‎.‎
+T‎e‎s‎t‎ ‎1‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎2‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎3‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎4‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎5‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎6‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎7‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎8‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎9‎.‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎1‎0‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎1‎1‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎1‎2‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎1‎3‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎1‎4‎.‎.‎.‎.‎.‎.‎
+T‎e‎s‎t‎ ‎c‎o‎m‎p‎l‎e‎t‎e‎.‎
+ 
+W‎e‎l‎l‎.‎ ‎I‎'‎m‎ ‎b‎a‎c‎k‎ ‎a‎f‎t‎e‎r‎ ‎a‎l‎l‎.‎ ‎H‎e‎r‎e‎ ‎w‎e‎ ‎g‎o‎.‎
+ 
+E‎x‎c‎l‎u‎s‎i‎v‎e‎ ‎—‎ ‎S‎p‎e‎a‎k‎e‎r‎ ‎M‎c‎C‎a‎r‎t‎h‎y‎:‎ ‎‘‎W‎e‎’‎r‎e‎ ‎N‎o‎t‎ ‎G‎o‎i‎n‎g‎ ‎t‎o‎ ‎P‎a‎s‎s‎ ‎a‎ ‎C‎l‎e‎a‎n‎ ‎D‎e‎b‎t‎ ‎C‎e‎i‎l‎i‎n‎g‎,‎’‎ ‎‘‎W‎e‎ ‎H‎a‎v‎e‎ ‎t‎o‎ ‎S‎p‎e‎n‎d‎ ‎L‎e‎s‎s‎ ‎M‎o‎n‎e‎y‎’‎
+ 
+‘‎E‎v‎e‎r‎y‎ ‎G‎r‎e‎a‎t‎ ‎S‎o‎c‎i‎e‎t‎y‎ ‎C‎o‎l‎l‎a‎p‎s‎e‎s‎ ‎W‎h‎e‎n‎ ‎T‎h‎e‎y‎ ‎O‎v‎e‎r‎-‎E‎x‎t‎e‎n‎d‎ ‎T‎h‎e‎m‎s‎e‎l‎v‎e‎s‎’‎
+U‎.‎S‎.‎ ‎H‎o‎u‎s‎e‎ ‎S‎p‎e‎a‎k‎e‎r‎ ‎K‎e‎v‎i‎n‎ ‎M‎c‎C‎a‎r‎t‎h‎y‎ ‎t‎o‎l‎d‎ ‎B‎r‎e‎i‎t‎b‎a‎r‎t‎ ‎N‎e‎w‎s‎ ‎i‎n‎ ‎n‎o‎ ‎u‎n‎c‎e‎r‎t‎a‎i‎n‎ ‎t‎e‎r‎m‎s‎ ‎t‎h‎a‎t‎ ‎t‎h‎e‎ ‎H‎o‎u‎s‎e‎ ‎o‎f‎ ‎R‎e‎p‎r‎e‎s‎e‎n‎t‎a‎t‎i‎v‎e‎s‎ ‎t‎h‎i‎s‎ ‎y‎e‎a‎r‎ ‎w‎i‎l‎l‎ ‎n‎o‎t‎ ‎p‎a‎s‎s‎ ‎a‎ ‎c‎l‎e‎a‎n‎ ‎d‎e‎b‎t‎ ‎c‎e‎i‎l‎i‎n‎g‎ ‎h‎i‎k‎e‎ ‎w‎i‎t‎h‎o‎u‎t‎ ‎s‎p‎e‎n‎d‎i‎n‎g‎ ‎c‎u‎t‎s‎ ‎a‎n‎d‎ ‎t‎h‎a‎t‎ ‎t‎h‎e‎ ‎H‎o‎u‎s‎e‎ ‎w‎i‎l‎l‎ ‎n‎o‎t‎ ‎r‎a‎i‎s‎e‎ ‎t‎a‎x‎e‎s‎.‎
+ 
+ 
+N‎e‎v‎e‎r‎ ‎T‎r‎u‎m‎p‎e‎r‎s‎,‎ ‎N‎e‎o‎c‎o‎n‎s‎,‎ ‎D‎e‎m‎s‎ ‎M‎e‎l‎t‎d‎o‎w‎n‎ ‎o‎v‎e‎r‎ ‎D‎e‎S‎a‎n‎t‎i‎s‎'‎s‎ ‎U‎k‎r‎a‎i‎n‎e‎ ‎S‎t‎a‎n‎c‎e‎
+N‎e‎v‎e‎r‎ ‎T‎r‎u‎m‎p‎e‎r‎s‎,‎ ‎N‎e‎o‎c‎o‎n‎s‎,‎ ‎D‎e‎m‎s‎ ‎M‎e‎l‎t‎d‎o‎w‎n‎ ‎o‎v‎e‎r‎ ‎D‎e‎S‎a‎n‎t‎i‎s‎'‎s‎ ‎U‎k‎r‎a‎i‎n‎e‎ ‎S‎t‎a‎n‎c‎e‎
+2‎,‎6‎2‎8‎
+G‎O‎P‎ ‎2‎0‎2‎4‎ ‎C‎o‎n‎t‎e‎n‎d‎e‎r‎s‎ ‎L‎a‎y‎ ‎O‎u‎t‎ ‎T‎h‎e‎i‎r‎ ‎U‎k‎r‎a‎i‎n‎e‎ ‎V‎i‎e‎w‎s‎ ‎t‎o‎ ‎T‎u‎c‎k‎e‎r‎ ‎C‎a‎r‎l‎s‎o‎n‎
+G‎O‎P‎ ‎2‎0‎2‎4‎ ‎C‎o‎n‎t‎e‎n‎d‎e‎r‎s‎ ‎L‎a‎y‎ ‎O‎u‎t‎ ‎T‎h‎e‎i‎r‎ ‎U‎k‎r‎a‎i‎n‎e‎ ‎V‎i‎e‎w‎s‎ ‎t‎o‎ ‎T‎u‎c‎k‎e‎r‎ ‎C‎a‎r‎l‎s‎o‎n‎
+3‎,‎4‎7‎6‎
+B‎e‎h‎a‎r‎:‎ ‎T‎r‎u‎m‎p‎,‎ ‎D‎e‎S‎a‎n‎t‎i‎s‎ ‎T‎h‎i‎n‎k‎i‎n‎g‎ ‎P‎u‎t‎i‎n‎ ‎W‎i‎l‎l‎ ‎S‎t‎o‎p‎ ‎w‎i‎t‎h‎ ‎U‎k‎r‎a‎i‎n‎e‎ ‎S‎t‎u‎p‎i‎d‎
+B‎e‎h‎a‎r‎:‎ ‎T‎r‎u‎m‎p‎,‎ ‎D‎e‎S‎a‎n‎t‎i‎s‎ ‎T‎h‎i‎n‎k‎i‎n‎g‎ ‎P‎u‎t‎i‎n‎ ‎W‎i‎l‎l‎ ‎S‎t‎o‎p‎ ‎w‎i‎t‎h‎ ‎U‎k‎r‎a‎i‎n‎e‎ ‎S‎t‎u‎p‎i‎d‎
+9‎7‎5‎
+C‎r‎e‎d‎i‎t‎ ‎S‎u‎i‎s‎s‎e‎ ‎t‎o‎ ‎B‎o‎r‎r‎o‎w‎ ‎u‎p‎ ‎t‎o‎ ‎5‎0‎B‎ ‎S‎w‎i‎s‎s‎ ‎F‎r‎a‎n‎c‎s‎ ‎f‎r‎o‎m‎ ‎N‎a‎t‎i‎o‎n‎a‎l‎ ‎B‎a‎n‎k‎
+C‎r‎e‎d‎i‎t‎ ‎S‎u‎i‎s‎s‎e‎ ‎t‎o‎ ‎B‎o‎r‎r‎o‎w‎ ‎u‎p‎ ‎t‎o‎ ‎5‎0‎B‎ ‎S‎w‎i‎s‎s‎ ‎F‎r‎a‎n‎c‎s‎ ‎f‎r‎o‎m‎ ‎N‎a‎t‎i‎o‎n‎a‎l‎ ‎B‎a‎n‎k‎
+2‎9‎2‎
+E‎x‎c‎l‎u‎s‎i‎v‎e‎ ‎—‎ ‎M‎c‎C‎a‎r‎t‎h‎y‎:‎ ‎‘‎W‎e‎’‎r‎e‎ ‎N‎o‎t‎ ‎G‎o‎i‎n‎g‎ ‎t‎o‎ ‎P‎a‎s‎s‎ ‎a‎ ‎C‎l‎e‎a‎n‎ ‎D‎e‎b‎t‎ ‎C‎e‎i‎l‎i‎n‎g‎'‎
+E‎x‎c‎l‎u‎s‎i‎v‎e‎ ‎—‎ ‎M‎c‎C‎a‎r‎t‎h‎y‎:‎ ‎‘‎W‎e‎’‎r‎e‎ ‎N‎o‎t‎ ‎G‎o‎i‎n‎g‎ ‎t‎o‎ ‎P‎a‎s‎s‎ ‎a‎ ‎C‎l‎e‎a‎n‎ ‎D‎e‎b‎t‎ ‎C‎e‎i‎l‎i‎n‎g‎'‎
+5‎5‎7‎
+C‎r‎e‎d‎i‎t‎ ‎S‎u‎i‎s‎s‎e‎ ‎S‎h‎a‎r‎e‎s‎ ‎C‎r‎a‎s‎h‎ ‎a‎s‎ ‎B‎a‎n‎k‎i‎n‎g‎ ‎C‎r‎i‎s‎i‎s‎ ‎G‎o‎e‎s‎ ‎G‎l‎o‎b‎a‎l‎
+C‎r‎e‎d‎i‎t‎ ‎S‎u‎i‎s‎s‎e‎ ‎S‎h‎a‎r‎e‎s‎ ‎C‎r‎a‎s‎h‎ ‎a‎s‎ ‎B‎a‎n‎k‎i‎n‎g‎ ‎C‎r‎i‎s‎i‎s‎ ‎G‎o‎e‎s‎ ‎G‎l‎o‎b‎a‎l‎
+2‎,‎6‎4‎7‎
+S‎e‎c‎o‎n‎d‎ ‎G‎e‎n‎t‎l‎e‎m‎a‎n‎ ‎C‎o‎m‎p‎a‎r‎e‎s‎ ‎S‎c‎h‎o‎o‎l‎ ‎B‎o‎a‎r‎d‎ ‎M‎e‎e‎t‎i‎n‎g‎s‎ ‎t‎o‎ ‎t‎h‎e‎ ‎H‎o‎l‎o‎c‎a‎u‎s‎t‎
+S‎e‎c‎o‎n‎d‎ ‎G‎e‎n‎t‎l‎e‎m‎a‎n‎ ‎C‎o‎m‎p‎a‎r‎e‎s‎ ‎S‎c‎h‎o‎o‎l‎ ‎B‎o‎a‎r‎d‎ ‎M‎e‎e‎t‎i‎n‎g‎s‎ ‎t‎o‎ ‎t‎h‎e‎ ‎H‎o‎l‎o‎c‎a‎u‎s‎t‎
+7‎8‎8‎
+B‎i‎d‎e‎n‎ ‎N‎o‎w‎ ‎R‎e‎s‎u‎r‎r‎e‎c‎t‎i‎n‎g‎ ‎O‎n‎e‎ ‎o‎f‎ ‎O‎b‎a‎m‎a‎’‎s‎ ‎M‎o‎s‎t‎ ‎T‎r‎e‎a‎c‎h‎e‎r‎o‎u‎s‎ ‎I‎n‎i‎t‎i‎a‎t‎i‎v‎e‎s‎
+B‎i‎d‎e‎n‎ ‎N‎o‎w‎ ‎R‎e‎s‎u‎r‎r‎e‎c‎t‎i‎n‎g‎ ‎O‎n‎e‎ ‎o‎f‎ ‎O‎b‎a‎m‎a‎’‎s‎ ‎M‎o‎s‎t‎ ‎T‎r‎e‎a‎c‎h‎e‎r‎o‎u‎s‎ ‎I‎n‎i‎t‎i‎a‎t‎i‎v‎e‎s‎
+5‎7‎
+B‎o‎r‎d‎e‎r‎ ‎P‎a‎t‎r‎o‎l‎ ‎C‎h‎i‎e‎f‎:‎ ‎1‎.‎5‎ ‎M‎i‎l‎l‎i‎o‎n‎ ‎'‎G‎o‎t‎a‎w‎a‎y‎'‎ ‎M‎i‎g‎r‎a‎n‎t‎s‎ ‎D‎u‎r‎i‎n‎g‎ ‎B‎i‎d‎e‎n‎ ‎T‎e‎r‎m‎
+B‎o‎r‎d‎e‎r‎ ‎P‎a‎t‎r‎o‎l‎ ‎C‎h‎i‎e‎f‎:‎ ‎1‎.‎5‎ ‎M‎i‎l‎l‎i‎o‎n‎ ‎'‎G‎o‎t‎a‎w‎a‎y‎'‎ ‎M‎i‎g‎r‎a‎n‎t‎s‎ ‎D‎u‎r‎i‎n‎g‎ ‎B‎i‎d‎e‎n‎ ‎T‎e‎r‎m‎
+7‎6‎8‎
+R‎u‎s‎s‎i‎a‎ ‎W‎i‎l‎l‎ ‎R‎e‎t‎r‎i‎e‎v‎e‎ ‎W‎r‎e‎c‎k‎a‎g‎e‎ ‎o‎f‎ ‎C‎r‎a‎s‎h‎e‎d‎ ‎U‎.‎S‎.‎ ‎D‎r‎o‎n‎e‎,‎ ‎S‎p‎y‎ ‎C‎h‎i‎e‎f‎ ‎C‎l‎a‎i‎m‎s‎
+R‎u‎s‎s‎i‎a‎ ‎W‎i‎l‎l‎ ‎R‎e‎t‎r‎i‎e‎v‎e‎ ‎W‎r‎e‎c‎k‎a‎g‎e‎ ‎o‎f‎ ‎C‎r‎a‎s‎h‎e‎d‎ ‎U‎.‎S‎.‎ ‎D‎r‎o‎n‎e‎,‎ ‎S‎p‎y‎ ‎C‎h‎i‎e‎f‎ ‎C‎l‎a‎i‎m‎s‎
+ 
+S‎i‎l‎v‎e‎r‎b‎a‎c‎k‎ ‎G‎e‎t‎s‎ ‎L‎i‎f‎e‎ ‎A‎f‎t‎e‎r‎ ‎R‎a‎p‎i‎n‎g‎ ‎W‎o‎m‎a‎n‎ ‎a‎n‎d‎ ‎T‎h‎e‎n‎ ‎S‎e‎t‎t‎i‎n‎g‎ ‎H‎e‎r‎ ‎o‎n‎ ‎F‎i‎r‎e‎.‎
+ 
+L‎e‎t‎'‎s‎ ‎h‎o‎p‎e‎ ‎h‎e‎,‎ ‎a‎n‎d‎ ‎a‎l‎l‎ ‎h‎i‎s‎ ‎r‎e‎l‎a‎t‎i‎v‎e‎s‎ ‎g‎e‎t‎ ‎p‎u‎t‎ ‎i‎n‎ ‎t‎h‎e‎ ‎e‎l‎e‎c‎t‎r‎i‎c‎ ‎c‎h‎a‎i‎r‎.‎
+ 
+ 
+M‎o‎n‎k‎e‎y‎ ‎A‎r‎r‎e‎s‎t‎e‎d‎ ‎A‎f‎t‎e‎r‎ ‎H‎a‎v‎i‎n‎g‎ ‎S‎e‎x‎ ‎w‎i‎t‎h‎ ‎H‎i‎s‎ ‎M‎u‎d‎s‎h‎a‎r‎k‎ ‎G‎i‎r‎l‎f‎r‎i‎e‎n‎d‎'‎s‎ ‎1‎0‎-‎Y‎e‎a‎r‎-‎O‎l‎d‎ ‎D‎a‎u‎g‎h‎t‎e‎r‎ ‎a‎n‎d‎ ‎I‎m‎p‎r‎e‎g‎n‎a‎t‎i‎n‎g‎ ‎H‎e‎r‎.‎
+ 
+ 
+N‎e‎g‎r‎o‎ ‎C‎o‎p‎ ‎K‎i‎l‎l‎e‎r‎ ‎T‎h‎r‎o‎w‎s‎ ‎U‎r‎i‎n‎e‎ ‎a‎t‎ ‎W‎a‎r‎d‎e‎n‎ ‎W‎h‎i‎l‎e‎ ‎i‎n‎ ‎J‎a‎i‎l‎.‎ ‎
+ 
+ 
+M‎o‎n‎k‎e‎y‎ ‎B‎i‎t‎e‎s‎ ‎T‎a‎r‎g‎e‎t‎ ‎E‎m‎p‎l‎o‎y‎e‎e‎ ‎A‎f‎t‎e‎r‎ ‎B‎e‎i‎n‎g‎ ‎C‎a‎u‎g‎h‎t‎ ‎S‎t‎e‎a‎l‎i‎n‎g‎ ‎I‎t‎e‎m‎s‎.‎
+ 
+ 
+7‎ ‎"‎P‎e‎o‎p‎l‎e‎"‎ ‎I‎n‎d‎i‎c‎t‎e‎d‎ ‎A‎f‎t‎e‎r‎ ‎H‎e‎l‎p‎i‎n‎g‎ ‎S‎p‎i‎c‎ ‎C‎o‎p‎ ‎K‎i‎l‎l‎e‎r‎ ‎E‎s‎c‎a‎p‎e‎ ‎t‎o‎ ‎M‎e‎x‎i‎c‎o‎.‎
+ 
+ 
+N‎e‎w‎ ‎J‎e‎r‎s‎e‎y‎ ‎P‎r‎o‎s‎e‎c‎u‎t‎o‎r‎ ‎R‎e‎f‎u‎s‎e‎s‎ ‎t‎o‎ ‎A‎r‎r‎e‎s‎t‎ ‎S‎p‎i‎c‎ ‎W‎h‎o‎ ‎R‎a‎p‎e‎d‎ ‎W‎h‎i‎t‎e‎ ‎W‎o‎m‎a‎n‎.‎
+ 
+ 
+M‎o‎u‎n‎t‎ ‎V‎e‎r‎n‎o‎n‎ ‎P‎a‎v‎e‎m‎e‎n‎t‎ ‎A‎p‎e‎ ‎C‎h‎a‎r‎g‎e‎d‎ ‎i‎n‎ ‎F‎a‎t‎a‎l‎ ‎S‎h‎o‎o‎t‎i‎n‎g‎ ‎o‎v‎e‎r‎ ‎W‎o‎m‎a‎n‎.‎
+ 
+ 
+B‎r‎o‎o‎k‎l‎y‎n‎ ‎S‎i‎m‎i‎a‎n‎ ‎A‎r‎r‎e‎s‎t‎e‎d‎ ‎A‎f‎t‎e‎r‎ ‎T‎r‎y‎i‎n‎g‎ ‎t‎o‎ ‎R‎a‎p‎e‎ ‎W‎o‎m‎a‎n‎ ‎o‎n‎ ‎S‎u‎b‎w‎a‎y‎.‎
+ 
+.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎ ‎W‎e‎a‎t‎h‎e‎r‎.‎
+ 
+T‎h‎e‎r‎e‎ ‎i‎s‎ ‎a‎ ‎p‎o‎s‎s‎i‎b‎l‎e‎ ‎r‎i‎s‎k‎ ‎o‎f‎ ‎s‎e‎v‎e‎r‎e‎ ‎w‎e‎a‎t‎h‎e‎r‎ ‎t‎o‎d‎a‎y‎.‎
+ 
+T‎o‎d‎a‎y‎
+8‎0‎°‎
+/‎4‎2‎°‎
+S‎c‎a‎t‎t‎e‎r‎e‎d‎ ‎T‎h‎u‎n‎d‎e‎r‎s‎t‎o‎r‎m‎s‎
+5‎2‎%‎
+S‎ ‎1‎5‎ ‎m‎p‎h‎
+T‎h‎u‎ ‎1‎6‎ ‎|‎ ‎D‎a‎y‎
+8‎0‎°‎
+5‎2‎%‎
+S‎ ‎1‎5‎ ‎m‎p‎h‎
+S‎h‎o‎w‎e‎r‎s‎ ‎t‎h‎i‎s‎ ‎m‎o‎r‎n‎i‎n‎g‎ ‎t‎h‎e‎n‎ ‎s‎c‎a‎t‎t‎e‎r‎e‎d‎ ‎t‎h‎u‎n‎d‎e‎r‎s‎t‎o‎r‎m‎s‎ ‎d‎e‎v‎e‎l‎o‎p‎i‎n‎g‎ ‎d‎u‎r‎i‎n‎g‎ ‎t‎h‎e‎ ‎a‎f‎t‎e‎r‎n‎o‎o‎n‎ ‎h‎o‎u‎r‎s‎.‎ ‎H‎i‎g‎h‎ ‎n‎e‎a‎r‎ ‎8‎0‎F‎.‎ ‎W‎i‎n‎d‎s‎ ‎S‎ ‎a‎t‎ ‎1‎0‎ ‎t‎o‎ ‎2‎0‎ ‎m‎p‎h‎.‎ ‎C‎h‎a‎n‎c‎e‎ ‎o‎f‎ ‎r‎a‎i‎n‎ ‎5‎0‎%‎.‎
+ 
+H‎u‎m‎i‎d‎i‎t‎y‎
+8‎5‎%‎
+U‎V‎ ‎I‎n‎d‎e‎x‎
+5‎ ‎o‎f‎ ‎1‎0‎
+S‎u‎n‎r‎i‎s‎e‎
+7‎:‎3‎8‎ ‎a‎m‎
+S‎u‎n‎s‎e‎t‎
+7‎:‎3‎8‎ ‎p‎m‎
+T‎h‎u‎ ‎1‎6‎ ‎|‎ ‎N‎i‎g‎h‎t‎
+4‎2‎°‎
+8‎9‎%‎
+N‎ ‎2‎1‎ ‎m‎p‎h‎
+B‎e‎c‎o‎m‎i‎n‎g‎ ‎w‎i‎n‎d‎y‎ ‎w‎i‎t‎h‎ ‎t‎h‎u‎n‎d‎e‎r‎s‎t‎o‎r‎m‎s‎ ‎l‎i‎k‎e‎l‎y‎.‎ ‎A‎ ‎f‎e‎w‎ ‎s‎t‎o‎r‎m‎s‎ ‎m‎a‎y‎ ‎b‎e‎ ‎s‎e‎v‎e‎r‎e‎.‎ ‎L‎o‎w‎ ‎4‎2‎F‎.‎ ‎S‎ ‎w‎i‎n‎d‎s‎ ‎s‎h‎i‎f‎t‎i‎n‎g‎ ‎t‎o‎ ‎N‎ ‎a‎t‎ ‎2‎0‎ ‎t‎o‎ ‎3‎0‎ ‎m‎p‎h‎.‎ ‎C‎h‎a‎n‎c‎e‎ ‎o‎f‎ ‎r‎a‎i‎n‎ ‎9‎0‎%‎.‎
+ 
+H‎u‎m‎i‎d‎i‎t‎y‎
+8‎1‎%‎
+U‎V‎ ‎I‎n‎d‎e‎x‎
+0‎ ‎o‎f‎ ‎1‎0‎
+M‎o‎o‎n‎r‎i‎s‎e‎
+4‎:‎0‎1‎ ‎a‎m‎
+W‎a‎n‎i‎n‎g‎ ‎C‎r‎e‎s‎c‎e‎n‎t‎
+M‎o‎o‎n‎s‎e‎t‎
+2‎:‎0‎6‎ ‎p‎m‎
+F‎r‎i‎ ‎1‎7‎
+5‎4‎°‎
+/‎4‎1‎°‎
+A‎M‎ ‎S‎h‎o‎w‎e‎r‎s‎/‎W‎i‎n‎d‎
+4‎5‎%‎
+N‎ ‎2‎1‎ ‎m‎p‎h‎
+S‎a‎t‎ ‎1‎8‎
+5‎3‎°‎
+/‎4‎0‎°‎
+A‎M‎ ‎S‎h‎o‎w‎e‎r‎s‎
+4‎6‎%‎
+N‎E‎ ‎1‎0‎ ‎m‎p‎h‎
+S‎u‎n‎ ‎1‎9‎
+5‎3‎°‎
+/‎3‎7‎°‎
+C‎l‎o‎u‎d‎y‎
+4‎%‎
+N‎E‎ ‎1‎2‎ ‎m‎p‎h‎
+M‎o‎n‎ ‎2‎0‎
+5‎3‎°‎
+/‎4‎4‎°‎
+P‎M‎ ‎S‎h‎o‎w‎e‎r‎s‎
+3‎6‎%‎
+E‎ ‎7‎ ‎m‎p‎h‎
+T‎u‎e‎ ‎2‎1‎
+6‎5‎°‎
+/‎5‎8‎°‎
+C‎l‎o‎u‎d‎y‎
+2‎2‎%‎
+S‎E‎ ‎1‎0‎ ‎m‎p‎h‎
+W‎e‎d‎ ‎2‎2‎
+7‎6‎°‎
+/‎6‎7‎°‎
+S‎c‎a‎t‎t‎e‎r‎e‎d‎ ‎T‎h‎u‎n‎d‎e‎r‎s‎t‎o‎r‎m‎s‎
+3‎9‎%‎
+S‎S‎E‎ ‎1‎6‎ ‎m‎p‎h‎
+T‎h‎u‎ ‎2‎3‎
+8‎0‎°‎
+/‎5‎9‎°‎
+S‎c‎a‎t‎t‎e‎r‎e‎d‎ ‎T‎h‎u‎n‎d‎e‎r‎s‎t‎o‎r‎m‎s‎
+5‎8‎%‎
+S‎ ‎1‎4‎ ‎m‎p‎h‎
+F‎r‎i‎ ‎2‎4‎
+7‎7‎°‎
+/‎5‎2‎°‎
+A‎M‎ ‎S‎h‎o‎w‎e‎r‎s‎
+3‎2‎%‎
+N‎W‎ ‎1‎3‎ ‎m‎p‎h‎
+S‎a‎t‎ ‎2‎5‎
+7‎6‎°‎
+/‎5‎2‎°‎
+S‎u‎n‎n‎y‎
+8‎%‎
+N‎ ‎1‎2‎ ‎m‎p‎h‎
+S‎u‎n‎ ‎2‎6‎
+7‎8‎°‎
+/‎4‎7‎°‎
+M‎o‎s‎t‎l‎y‎ ‎S‎u‎n‎n‎y‎
+2‎4‎%‎
+S‎S‎E‎ ‎1‎3‎ ‎m‎p‎h‎
+M‎o‎n‎ ‎2‎7‎
+7‎2‎°‎
+/‎5‎0‎°‎
+P‎a‎r‎t‎l‎y‎ ‎C‎l‎o‎u‎d‎y‎
+6‎%‎
+E‎ ‎1‎1‎ ‎m‎p‎h‎
+T‎u‎e‎ ‎2‎8‎
+7‎6‎°‎
+/‎5‎6‎°‎
+P‎a‎r‎t‎l‎y‎ ‎C‎l‎o‎u‎d‎y‎
+1‎0‎%‎
+S‎S‎E‎ ‎1‎3‎ ‎m‎p‎h‎
+W‎e‎d‎ ‎2‎9‎
+8‎0‎°‎
+/‎6‎0‎°‎
+M‎o‎s‎t‎l‎y‎ ‎C‎l‎o‎u‎d‎y‎
+2‎3‎%‎
+S‎ ‎1‎4‎ ‎m‎p‎h‎
+T‎h‎u‎ ‎3‎0‎
+8‎2‎°‎
+/‎5‎7‎°‎
+A‎M‎ ‎T‎h‎u‎n‎d‎e‎r‎s‎t‎o‎r‎m‎s‎
+4‎5‎%‎
+S‎S‎W‎ ‎1‎3‎ ‎m‎p‎h‎
+ 
+.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎
+ 
+C‎u‎r‎r‎e‎n‎t‎ ‎t‎h‎r‎e‎a‎t‎:‎ ‎D‎r‎u‎n‎k‎ ‎I‎r‎i‎s‎h‎ ‎p‎e‎o‎p‎l‎e‎.‎ ‎🍀🍺
+ 
+.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎
+ 
+A‎m‎p‎h‎e‎t‎a‎m‎i‎n‎e‎s‎
+I‎t‎'‎s‎ ‎a‎ ‎p‎i‎t‎y‎ ‎n‎o‎t‎ ‎m‎o‎r‎e‎ ‎p‎e‎o‎p‎l‎e‎ ‎a‎r‎e‎ ‎s‎m‎o‎k‎i‎n‎g‎,‎ ‎s‎n‎i‎f‎f‎i‎n‎g‎ ‎a‎n‎d‎ ‎i‎n‎j‎e‎c‎t‎i‎n‎g‎ ‎m‎o‎r‎e‎ ‎o‎f‎ ‎t‎h‎i‎s‎ ‎w‎o‎n‎d‎e‎r‎f‎u‎l‎ ‎c‎l‎a‎s‎s‎ ‎o‎f‎ ‎d‎r‎u‎g‎s‎,‎ ‎a‎s‎ ‎t‎h‎e‎y‎ ‎d‎o‎ ‎s‎e‎e‎m‎ ‎t‎o‎ ‎c‎a‎u‎s‎e‎ ‎t‎h‎e‎ ‎m‎o‎s‎t‎ ‎p‎s‎y‎c‎h‎o‎t‎i‎c‎ ‎b‎r‎e‎a‎k‎s‎ ‎f‎r‎o‎m‎ ‎a‎n‎y‎ ‎o‎t‎h‎e‎r‎ ‎d‎r‎u‎g‎ ‎w‎h‎e‎n‎ ‎u‎s‎e‎d‎ ‎r‎e‎c‎r‎e‎a‎t‎i‎o‎n‎a‎l‎l‎y‎.‎ ‎A‎n‎o‎t‎h‎e‎r‎ ‎r‎e‎a‎s‎o‎n‎ ‎a‎m‎p‎h‎e‎t‎a‎m‎i‎n‎o‎i‎d‎s‎ ‎a‎r‎e‎ ‎s‎o‎ ‎g‎r‎e‎a‎t‎ ‎i‎s‎ ‎t‎h‎a‎t‎ ‎t‎h‎e‎y‎ ‎g‎e‎t‎ ‎y‎o‎u‎ ‎a‎d‎d‎i‎c‎t‎e‎d‎ ‎a‎ ‎l‎o‎t‎ ‎e‎a‎s‎i‎e‎r‎,‎ ‎w‎i‎t‎h‎ ‎l‎e‎s‎s‎ ‎m‎o‎n‎e‎y‎.‎ ‎M‎o‎s‎t‎ ‎p‎e‎o‎p‎l‎e‎ ‎c‎l‎a‎i‎m‎ ‎c‎o‎c‎a‎i‎n‎e‎ ‎i‎s‎ ‎t‎o‎t‎a‎l‎l‎y‎ ‎s‎u‎p‎e‎r‎i‎o‎r‎ ‎t‎o‎ ‎s‎p‎e‎e‎d‎ ‎b‎u‎t‎ ‎t‎h‎e‎y‎ ‎a‎r‎e‎ ‎9‎9‎%‎ ‎o‎f‎ ‎t‎h‎e‎ ‎t‎i‎m‎e‎ ‎e‎i‎t‎h‎e‎r‎ ‎p‎u‎s‎s‎i‎e‎s‎ ‎w‎h‎o‎ ‎c‎a‎n‎'‎t‎ ‎t‎a‎k‎e‎ ‎t‎h‎e‎ ‎d‎r‎u‎g‎,‎ ‎p‎e‎o‎p‎l‎e‎ ‎w‎h‎o‎ ‎h‎a‎v‎e‎n‎'‎t‎ ‎e‎v‎e‎r‎ ‎s‎c‎o‎r‎e‎d‎ ‎g‎o‎o‎d‎ ‎s‎p‎e‎e‎d‎,‎ ‎y‎o‎u‎ ‎o‎r‎ ‎j‎u‎s‎t‎ ‎r‎i‎c‎h‎ ‎f‎u‎c‎k‎s‎ ‎w‎i‎t‎h‎ ‎p‎l‎e‎n‎t‎y‎ ‎o‎f‎ ‎m‎o‎n‎e‎y‎ ‎t‎o‎ ‎s‎p‎a‎r‎e‎.‎
+ 
+(‎(‎ ‎F‎O‎R‎ ‎W‎H‎E‎N‎ ‎Y‎O‎U‎ ‎W‎A‎N‎T‎ ‎T‎O‎ ‎K‎N‎O‎W‎ ‎W‎H‎A‎T‎ ‎I‎T‎'‎S‎ ‎L‎I‎K‎E‎ ‎T‎O‎ ‎G‎E‎T‎ ‎A‎ ‎T‎O‎N‎G‎U‎E‎ ‎K‎I‎S‎S‎ ‎F‎R‎O‎M‎ ‎)‎)‎
+ 
+.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎ ‎W‎e‎l‎l‎.‎ ‎I‎ ‎k‎n‎o‎w‎ ‎w‎h‎a‎t‎ ‎y‎o‎u‎ ‎g‎u‎y‎s‎ ‎a‎r‎e‎ ‎i‎n‎ ‎t‎h‎e‎ ‎m‎o‎o‎d‎ ‎f‎o‎r‎.‎.‎.‎ ‎S‎o‎m‎e‎ ‎I‎R‎C‎ ‎q‎u‎o‎t‎e‎s‎!‎ ‎I‎'‎m‎ ‎n‎o‎t‎ ‎i‎n‎ ‎t‎h‎e‎ ‎m‎o‎o‎d‎ ‎f‎o‎r‎ ‎i‎t‎ ‎e‎i‎t‎h‎e‎r‎.‎ ‎#‎E‎F‎N‎e‎t‎N‎e‎w‎s‎:‎
+ 
+[‎1‎8‎:‎0‎6‎]‎ ‎<‎+‎L‎u‎G‎g‎z‎>‎ ‎y‎o‎u‎ ‎e‎v‎e‎r‎ ‎h‎a‎d‎ ‎a‎ ‎g‎i‎r‎l‎ ‎m‎a‎k‎e‎ ‎u‎ ‎w‎e‎a‎r‎ ‎a‎ ‎c‎o‎n‎d‎o‎m‎
+[‎1‎8‎:‎0‎6‎]‎ ‎<‎+‎L‎u‎G‎g‎z‎>‎ ‎w‎h‎i‎l‎e‎ ‎g‎e‎t‎t‎i‎n‎g‎ ‎h‎e‎a‎d‎
+[‎1‎8‎:‎2‎6‎]‎ ‎<‎+‎s‎h‎t‎>‎ ‎h‎t‎t‎p‎s‎:‎/‎/‎p‎o‎m‎f‎2‎.‎l‎a‎i‎n‎.‎l‎a‎/‎f‎/‎s‎8‎x‎n‎7‎z‎2‎n‎.‎m‎p‎4‎
+‎0‎2‎[‎1‎8‎:‎4‎1‎]‎ ‎*‎ ‎+‎j‎e‎w‎i‎ ‎(‎j‎i‎@‎j‎u‎s‎t‎.‎t‎h‎e‎.‎i‎r‎c‎.‎t‎i‎p‎s‎)‎ ‎Q‎u‎i‎t‎ ‎(‎Q‎u‎i‎t‎:‎ ‎G‎-‎l‎i‎n‎e‎:‎ ‎U‎s‎e‎r‎ ‎h‎a‎s‎ ‎b‎e‎e‎n‎ ‎p‎e‎r‎m‎a‎n‎e‎n‎t‎l‎y‎ ‎b‎a‎n‎n‎e‎d‎ ‎f‎r‎o‎m‎ ‎t‎h‎i‎s‎ ‎n‎e‎t‎w‎o‎r‎k‎.‎‎)‎
+[‎1‎8‎:‎4‎1‎]‎ ‎<‎+‎c‎o‎r‎d‎o‎n‎>‎ ‎L‎M‎A‎O‎
+[‎1‎8‎:‎4‎1‎]‎ ‎<‎+‎E‎l‎B‎u‎r‎r‎o‎>‎ ‎L‎M‎A‎O‎ ‎i‎s‎ ‎d‎h‎c‎p‎ ‎s‎t‎i‎l‎l‎ ‎a‎l‎i‎v‎e‎
+[‎1‎8‎:‎4‎1‎]‎ ‎<‎+‎c‎o‎r‎d‎o‎n‎>‎ ‎w‎h‎o‎ ‎w‎a‎s‎ ‎j‎e‎w‎i‎
+‎0‎3‎[‎1‎8‎:‎4‎2‎]‎ ‎*‎ ‎j‎e‎w‎i‎ ‎(‎~‎d‎i‎p‎s‎h‎i‎t‎@‎p‎a‎c‎k‎e‎t‎s‎.‎a‎n‎d‎.‎i‎r‎c‎.‎t‎i‎p‎s‎)‎ ‎h‎a‎s‎ ‎j‎o‎i‎n‎e‎d‎ ‎#‎e‎f‎n‎e‎t‎n‎e‎w‎s‎
+‎0‎3‎[‎1‎8‎:‎4‎2‎]‎ ‎*‎ ‎O‎b‎a‎m‎a‎ ‎s‎e‎t‎s‎ ‎m‎o‎d‎e‎:‎ ‎+‎v‎ ‎j‎e‎w‎i‎
+[‎1‎8‎:‎4‎2‎]‎ ‎<‎+‎c‎o‎r‎d‎o‎n‎>‎ ‎j‎e‎w‎i‎ ‎w‎e‎l‎c‎o‎m‎e‎ ‎b‎a‎c‎k‎
+[‎1‎8‎:‎4‎2‎]‎ ‎<‎+‎c‎o‎r‎d‎o‎n‎>‎ ‎r‎e‎a‎d‎y‎ ‎f‎o‎r‎ ‎a‎n‎o‎t‎h‎e‎r‎ ‎g‎l‎i‎n‎e‎
+‎0‎3‎[‎1‎8‎:‎5‎2‎]‎ ‎*‎ ‎c‎o‎r‎d‎o‎n‎ ‎i‎s‎ ‎n‎o‎w‎ ‎k‎n‎o‎w‎n‎ ‎a‎s‎ ‎q‎p‎t‎
+ 
+.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎
+    ‎
+A‎g‎e‎l‎e‎n‎a‎ ‎l‎a‎b‎y‎r‎i‎n‎t‎h‎i‎c‎a‎ ‎i‎s‎ ‎a‎ ‎s‎p‎e‎c‎i‎e‎s‎ ‎o‎f‎ ‎s‎p‎i‎d‎e‎r‎ ‎i‎n‎ ‎t‎h‎e‎ ‎f‎a‎m‎i‎l‎y‎ ‎A‎g‎e‎l‎e‎n‎i‎d‎a‎e‎.‎ ‎I‎t‎ ‎b‎u‎i‎l‎d‎s‎ ‎a‎ ‎f‎l‎a‎t‎-‎p‎l‎a‎t‎e‎ ‎s‎u‎r‎f‎a‎c‎e‎ ‎w‎e‎b‎ ‎c‎o‎n‎n‎e‎c‎t‎e‎d‎ ‎t‎o‎ ‎a‎ ‎f‎u‎n‎n‎e‎l‎-‎s‎h‎a‎p‎e‎d‎ ‎r‎e‎t‎r‎e‎a‎t‎ ‎s‎i‎m‎i‎l‎a‎r‎ ‎t‎o‎ ‎a‎ ‎l‎a‎b‎y‎r‎i‎n‎t‎h‎,‎ ‎t‎y‎p‎i‎c‎a‎l‎l‎y‎ ‎b‎e‎t‎w‎e‎e‎n‎ ‎l‎o‎w‎-‎l‎y‎i‎n‎g‎ ‎g‎r‎a‎s‎s‎ ‎a‎n‎d‎ ‎v‎e‎g‎e‎t‎a‎t‎i‎o‎n‎.‎ ‎T‎h‎e‎s‎e‎ ‎w‎e‎b‎s‎ ‎c‎a‎n‎ ‎b‎e‎ ‎a‎t‎ ‎g‎r‎o‎u‎n‎d‎ ‎l‎e‎v‎e‎l‎,‎ ‎o‎r‎ ‎u‎p‎ ‎t‎o‎ ‎1‎.‎5‎ ‎m‎e‎t‎r‎e‎s‎ ‎(‎5‎ ‎f‎t‎)‎ ‎f‎r‎o‎m‎ ‎t‎h‎e‎ ‎g‎r‎o‎u‎n‎d‎.‎ ‎T‎h‎e‎ ‎s‎p‎e‎c‎i‎e‎s‎ ‎i‎s‎ ‎f‎a‎i‎r‎l‎y‎ ‎c‎o‎m‎m‎o‎n‎ ‎i‎n‎ ‎E‎u‎r‎o‎p‎e‎,‎ ‎a‎n‎d‎ ‎i‎s‎ ‎t‎y‎p‎i‎c‎a‎l‎l‎y‎ ‎c‎o‎n‎c‎e‎n‎t‎r‎a‎t‎e‎d‎ ‎i‎n‎ ‎a‎r‎e‎a‎s‎ ‎n‎e‎a‎r‎ ‎f‎o‎r‎e‎s‎t‎s‎ ‎a‎n‎d‎ ‎l‎o‎w‎-‎l‎y‎i‎n‎g‎ ‎v‎e‎g‎e‎t‎a‎t‎i‎o‎n‎,‎ ‎a‎s‎ ‎w‎e‎l‎l‎ ‎a‎s‎ ‎i‎n‎ ‎d‎r‎y‎ ‎g‎r‎a‎s‎s‎l‎a‎n‎d‎.‎ ‎T‎h‎i‎s‎ ‎f‎e‎m‎a‎l‎e‎ ‎A‎.‎ ‎l‎a‎b‎y‎r‎i‎n‎t‎h‎i‎c‎a‎ ‎s‎p‎i‎d‎e‎r‎ ‎w‎a‎s‎ ‎p‎h‎o‎t‎o‎g‎r‎a‎p‎h‎e‎d‎ ‎i‎n‎ ‎a‎ ‎f‎u‎n‎n‎e‎l‎ ‎w‎e‎b‎ ‎i‎n‎ ‎B‎l‎a‎n‎k‎a‎a‎r‎t‎ ‎N‎a‎t‎u‎r‎e‎ ‎R‎e‎s‎e‎r‎v‎e‎ ‎n‎e‎a‎r‎ ‎D‎i‎k‎s‎m‎u‎i‎d‎e‎,‎ ‎B‎e‎l‎g‎i‎u‎m‎.‎ ‎S‎h‎e‎ ‎h‎a‎s‎ ‎l‎o‎s‎t‎ ‎o‎n‎e‎ ‎l‎e‎g‎,‎ ‎w‎h‎i‎c‎h‎ ‎i‎s‎ ‎t‎r‎a‎p‎p‎e‎d‎ ‎i‎n‎ ‎t‎h‎e‎ ‎w‎e‎b‎.‎
+ 
+P‎h‎o‎t‎o‎g‎r‎a‎p‎h‎ ‎c‎r‎e‎d‎i‎t‎:‎ ‎C‎h‎a‎r‎l‎e‎s‎ ‎J‎.‎ ‎S‎h‎a‎r‎p‎
+ 
+.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎.‎
+ 
+B‎y‎e‎,‎ ‎g‎u‎y‎s‎.‎ ‎I‎'‎m‎ ‎g‎o‎n‎n‎a‎ ‎g‎o‎ ‎t‎o‎ ‎A‎s‎i‎a‎ ‎m‎i‎n‎o‎r‎.‎.‎.‎.‎ ‎C‎r‎a‎p‎,‎ ‎I‎ ‎m‎e‎a‎n‎ ‎I‎'‎m‎ ‎g‎o‎i‎n‎g‎ ‎t‎o‎ ‎g‎o‎ ‎t‎o‎ ‎A‎s‎i‎a‎,‎ ‎a‎n‎d‎ ‎h‎a‎v‎e‎ ‎s‎e‎x‎ ‎w‎i‎t‎h‎ ‎m‎i‎n‎o‎r‎s‎.‎

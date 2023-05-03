@@ -1,0 +1,8 @@
+SELECT Country, COUNT(*) as Total
+FROM (
+  SELECT Country FROM Customers
+  UNION ALL
+  SELECT Country FROM Suppliers
+) as VSE
+GROUP BY Country
+ORDER BY Total DESC;

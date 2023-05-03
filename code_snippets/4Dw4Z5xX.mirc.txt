@@ -1,0 +1,5 @@
+ON ^*:OPEN:?: {
+  inc %test.times
+  query $nick
+  msg $nick Hello11 $+($nick) ! How can I help you?
+}

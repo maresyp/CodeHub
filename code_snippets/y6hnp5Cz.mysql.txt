@@ -1,0 +1,103 @@
+-- FILE_NAME : registration.sql
+ 
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Apr 11, 2023 at 07:12 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.4.29
+ 
+START TRANSACTION;
+ 
+-- --------------------------------------------------------
+ 
+--
+-- Table structure for table `tbl_registration`
+--
+ 
+CREATE TABLE `tbl_registration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `first_name` varchar(50) NOT NULL,
+  `middle_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `gender` enum('male','female','other') NOT NULL,
+  `email` varchar(255) NOT NULL COMMENT "Email Address",
+  `email_verified` enum('true','false') DEFAULT "false" NOT NULL,
+  `email_verified_at` datetime DEFAULT NULL COMMENT "Email Address Verified DateTime",
+  `mobile_primary` varchar(11) NOT NULL COMMENT "Primary Mobile Number",
+  `mobile_secondary`varchar(11) DEFAULT NULL COMMENT "Secondary Mobile Number",
+  `birthdate` date NOT NULL,
+  `blood_group` TINYINT(1) DEFAULT NULL,
+  `education` int(11) NOT NULL COMMENT "Education ID",
+  `occupation_type` TINYINT(1) NOT NULL,
+  `occupation` varchar(100) DEFAULT NULL,
+  `state` int(11) NOT NULL COMMENT "State ID",
+  `dist` int(11) NOT NULL COMMENT "District ID",
+  `sub_dist` int(11) NOT NULL COMMENT "Sub District ID",
+  `city` varchar(100) NOT NULL COMMENT "City/Village Name",
+  `post_code` int(6) NOT NULL COMMENT "City/Village Post Code",
+  `status` enum('active','inactive','blocked','suspended') DEFAULT "inactive" NOT NULL,
+  `status_at` datetime DEFAULT NULL COMMENT "Status Update DateTime",
+  `verified` enum('true','false') DEFAULT "false" NOT NULL,
+  `verified_at` datetime DEFAULT NULL COMMENT "Verified DateTime",
+  `verified_by` int(11) DEFAULT NULL COMMENT "Verified Person ID",
+  `created_by` int(11) DEFAULT NULL COMMENT "Create Person ID",
+  `updated_by` int(11) DEFAULT NULL COMMENT "Update Person ID",
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp() COMMENT "Data Update DateTime Update"
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+--
+-- Table structure for table `tbl_blood_group`
+--
+ 
+CREATE TABLE `tbl_blood_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `blood_group` varchar(3) NOT NULL,
+  `status` enum('active','inactive') DEFAULT "inactive"
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+--
+-- Dumping data for table `tbl_blood_group`
+--
+ 
+INSERT INTO `tbl_blood_group` (`id`, `blood_group`, `status`) VALUES
+(NULL, 'A+', 'active'),
+(NULL, 'A-', 'active'),
+(NULL, 'B+', 'active'),
+(NULL, 'B-', 'active'),
+(NULL, 'AB+', 'active'),
+(NULL, 'AB-', 'active'),
+(NULL, 'O+', 'active'),
+(NULL, 'O-', 'active');
+ 
+--
+-- Table structure for table `tbl_education`
+--
+ 
+CREATE TABLE `tbl_education` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `education_type` varchar(100) NOT NULL,
+  `status` enum('active','inactive') DEFAULT "inactive"
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+--
+-- Dumping data for table `tbl_education`
+--
+ 
+INSERT INTO `tbl_education` (`id`, `education_type`, `status`) VALUES
+(NULL, '7th Below', 'active'),
+(NULL, '8th Pass', 'active'),
+(NULL, '9th Pass', 'active'),
+(NULL, '10th Pass', 'active'),
+(NULL, '11th Pass', 'active'),
+(NULL, '12th Pass', 'active'),
+(NULL, 'Graduate (Bachelor)', 'active'),
+(NULL, 'Post Graduate (Master)', 'active'),
+(NULL, 'PhD', 'active');
+ 
+-- --------------------------------------------------------
+ 
+COMMIT;

@@ -1,0 +1,30 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/*
+pętla DO WHILE - składnia:
+ 
+do
+{
+    komendy do wykonania w każdym kroku pętli
+} while(warunek kontynuacji pętli);
+*/
+ 
+int  main()
+{
+    int liczba, licznik_parzyste = 0, licznik_nieparzyste = 0;
+ 
+    do
+    {
+        cin >> liczba;
+        if(liczba % 2 == 0)
+            ++licznik_parzyste;
+        else
+            ++licznik_nieparzyste;
+    } while(liczba != 0);
+ 
+    cout << "Wczytano " << licznik_parzyste << " liczb parzystych i " << licznik_nieparzyste << " liczb nieparzystych.\n";
+ 
+    return 0;
+}

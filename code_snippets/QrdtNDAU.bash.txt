@@ -1,0 +1,10 @@
+#!/bin/bash
+# Outputs current battery level %
+# Calculated by averaging the battery levels of both the external and internal batteries
+# The average isn't weighted because both batteries on my T480 are of the same capacity
+# Otherwise $(cat /sys/class/power_supply/BATi/energy_full) should be used for weighting
+BAT0=$(cat /sys/class/power_supply/BAT0/capacity)
+BAT1=$(cat /sys/class/power_supply/BAT1/capacity)
+sum=$((BAT0+BAT1))
+avg=$((sum/2))
+printf "%s\n" $avg

@@ -1,0 +1,14 @@
+curl --location 'https://komusru001.webim.ru/l/o/check-spelling3' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: */*' \
+--header 'Accept-Language: ru' \
+--header 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15' \
+--header 'Connection: keep-alive' \
+--header 'Sec-Fetch-Dest: empty' \
+--header 'Cookie: WEBIM_URL=https%3A%2F%2Fkomusru001.webim.ru%2Fwebim; WEBIM_LOCALE=ru; WEBIM_STATUS=invisible; WEBIM_DEVICE_ID=1d134390c68836644a537962b76db179; WEBIM_AUTH_TOKEN=MTYzNzM4fDgxZjA0MzI1MWQwNGQ4M2YxOTMwMjgyMDBjMDRkNWU1; WEBIM_BACKDOOR_LOGIN=oleg; WEBIM_ONLINE=false; PHPSESSID=1s6252d2q378impkhdeodh62t1; _ga=GA1.2.1056851467.1672045658; tmr_lvid=a3b43089de923588b984e803878e0bea; tmr_lvidTS=1672045658147; _fbp=fb.1.1673598314762.639841191; WEBIM_REFERAL=https%3A%2F%2Fwebim.ru%2Fkb%2F; WEBIM_LANDING=https%3A%2F%2Fwebim.ru%2Ffeatures%2F; _ym_d=1672045658; _ym_uid=1672045658848078655' \
+--header 'X-Account-Name: komusru001' \
+--header 'Authorization: Basic by5sZWdAd2ViaW0ucnU6QmVZUjhyYWhFWXBzemtzdlRLYnc=' \
+--data-urlencode '_id=0' \
+--data-urlencode 'lang=ru;en' \
+--data-urlencode 'options=4' \
+--data-urlencode 'text=Спасибо за ожидание! Кристина, для быстрого решения Вашего вопроса. Вы можете обратиться к нам в чат после 9 часов по московскому  времени. Мы переведем на оператора.  Оператор в чате направит счет .'

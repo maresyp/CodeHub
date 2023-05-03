@@ -1,0 +1,1376 @@
+#include <LoRa.h>
+ 
+//-------------------------------------------------
+//---------- Addresse sur le reseau LoRa ----------
+//#define DEBUG
+#define Master
+// #define LoRa_Interface
+// #define C1 //https://www.deviceplus.com/arduino/arduino-preprocessor-directives-tutorial/
+// #define C2
+// #define C3
+// #define C4
+ 
+#ifdef Master
+#include <RTClib.h>
+#include <SparkFunDMX.h>
+#include <ArduinoJson.h>
+#include <EasyNextionLibrary.h>
+// Librairies pour écrire sur la mémoire :
+#include "SPIFFS.h"
+#include <esp_task_wdt.h>
+#endif
+ 
+#ifdef LoRa_Interface
+String addr_LoRa = "LoRa_Interface";
+byte localAddress = 0xBA;
+byte destination = 0xAA;
+String incoming = "";
+String incoming1 = "";
+String incoming2 = "";
+String incoming3 = "";
+unsigned long prevMillis3;
+byte msgCount = 0; // count of outgoing messages
+//  SPI port:  LoRa (SX1278)
+#define LoRa_SCK 5
+#define LoRa_MISO 19
+#define LoRa_MOSI 27
+#define LoRa_CS 18
+#define DI0 26 //  LoRa_IRQ
+#endif
+#ifdef C1
+String addr_LoRa = "C1";
+byte localAddress = 0xAB;
+#endif
+#ifdef C2
+String addr_LoRa = "C2";
+byte localAddress = 0xAC;
+#endif
+#ifdef C3
+String addr_LoRa = "C3";
+byte localAddress = 0xAD;
+#endif
+#ifdef C4
+String addr_LoRa = "C4";
+byte localAddress = 0xAE;
+#endif
+#ifdef C5
+String addr_LoRa = "C5";
+byte localAddress = 0xAF;
+#endif
+ 
+#if defined(C1) || defined(C2) || defined(C3) || defined(C4) || defined(C5)
+// byte destination = 0xAA;
+byte destination = 0xBA;
+#include <DFRobot_B_LUX_V30B.h>
+#include <LowPower.h>
+DFRobot_B_LUX_V30B myLux(13); // The sensor chip is set to 13 pins, SCL and SDA adopt default configuration
+ 
+/* Déclaration de la sonde le lumière */
+long lux;
+ 
+/* Paramètres des sondes NTC */
+ 
+// https://www.thinksrs.com/downloads/programs/Therm%20Calc/NTCCalibrator/NTCcalculator.htm
+// https://www.ametherm.com/blog/thermistor/arduino-and-thermistors
+ 
+/*int ThermistorPinA1 = A1;
+int ThermistorPinA2 = A2;
+int ThermistorPinA3 = A3;
+ 
+int VoA1;
+int VoA2;
+int VoA3;
+float R1 = 10000;
+float logR2A1, R2A1, TA1;
+float logR2A2, R2A2, TA2;
+float logR2A3, R2A3, TA3;
+String Avalue = "0.8893603324e-03";
+String Bvalue = "2.512257790e-04";
+String Cvalue = "1.929834478e-07";
+float A = 0.8893603324e-03, B = 2.512257790e-04, C = 1.929834478e-07; // Steinhart-Hart and Hart Coefficients
+ 
+ 
+float vinA1 = 0;
+ 
+//https://www.instructables.com/id/Humidity-Sensor-Arduino/
+float voltage = 3.3;
+const float resolution = 1024.0;
+float rhSlope = 0.0062 * voltage;
+float rhOffset = 0.16 * voltage;*/
+ 
+String message = "message";
+byte msgCount = 0; // count of outgoing messages
+byte duree = 0;
+#endif
+ 
+#ifdef Master
+ 
+//  SPI port:  LoRa (SX1278)
+#define LoRa_CS 18
+#define DI0 26     //  LoRa_IRQ
+#define BAND 433E6 //  other freq: 433E6  // or ? LoRa f(MHz)
+#define CLK 14
+#define MISO 2
+#define MOSI 15
+ 
+//!!!!!!___Il faut modifier les pins dans le fichier "SparkFunDMX.cpp" pour que ça fonctionne _____!!!!!!//
+ 
+#define Select LOW    //  Low CS means that SPI device Selected
+#define DeSelect HIGH //  High CS means that SPI device Deselected
+ 
+byte localAddress = 0xAA;
+byte destination = 0xEE; // address of this device
+int counter = 0;         //  count sent LoRa messages
+ 
+RTC_DS3231 rtc;
+DateTime now;
+ 
+SparkFunDMX dmx;
+// DMX Channel Definitions
+#define TOTAL_CHANNELS 500
+ 
+EasyNex myNex(Serial);
+//!!! Pins du port Serial1 modifié dans le fichier "HardwareSerial.cpp" pour pouvoir faire fonctionner le port Serial1 !!!
+ 
+long consigne_declenchement[12] = {20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000};
+unsigned int consigne_zone_neutre[12] = {500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500};
+byte consigne_intensite[12] = {70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70};
+byte heure_allumage[12] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
+byte heure_extinction[12] = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22};
+int adresse_DMX[12][2] = {
+    {177, 208},
+    {161, 176},
+    {145, 160},
+    {129, 144},
+    {113, 128},
+    {97, 112},
+    {81, 96},
+    {65, 80},
+    {49, 64},
+    {1, 14},
+    {17, 30},
+    {33, 48},
+};
+bool allumage[12]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+bool allumage1[12]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+bool On_Off[12][30] = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+};
+bool lastOn_Off[12][30];
+ 
+#endif
+float TC_A1_C1M;
+float TC_A2_C1M;
+float TC_A3_C1M;
+int Humidite_C1M;
+int TC_DHT22_C1M;
+#ifdef Master
+long luxmetre[3]{0, 0, 0};
+byte heure;
+byte minute;
+byte seconde;
+bool sd = 0;
+bool demarrage = 0;
+//Watchdog
+int last = millis();
+//3 seconds WDT
+#define WDT_TIMEOUT 8
+// Variables Nextion
+unsigned long prevMillis;
+byte Compnextion = 0;
+byte lastCompnextion = 0;
+byte ConsigneIdNext = 0;
+byte lastConsigneIdNext = 0;
+unsigned long prevMillis1;
+bool actualiser = 1;
+unsigned int temps_admin;
+bool AdminNext;
+#endif
+ 
+/***********************************************************/
+void setup()
+{
+#ifdef Master
+#ifdef DEBUG
+  Serial1.begin(9600);
+  Serial1.println("Bonjour");
+#endif
+ 
+ 
+  // Nextion
+  myNex.begin(9600); // Begin the object with a baud rate of 9600
+                     // If no parameter was given in the begin(), the default baud rate of 9600 will be used
+  delay(500);        // Wait for Nextion to start
+ 
+  pinMode(LoRa_CS, OUTPUT);
+ 
+  initSPIFFS();
+  LoRa_Setup();
+  //dmx.initWrite(TOTAL_CHANNELS); // initialization for complete bus
+  RTC_Setup();
+ 
+  ConsigneIdNext = 0;
+  lastConsigneIdNext = 0;
+  dmx.initWrite(TOTAL_CHANNELS); // initialization for complete bus
+  Start_eclairage();
+  // Watchdog
+  esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
+  esp_task_wdt_add(NULL); //add current thread to WDT watch
+#ifdef DEBUG
+  Serial1.println("Setup done!");
+#endif
+#endif
+#if defined(C1) || defined(C2) || defined(C3) || defined(C4) || defined(C5)
+  Serial.begin(9600); // initialize Serial
+  while (!Serial)
+    ;
+  myLux.begin();
+  Serial.println("LoRa Duplex");
+  Serial.println(addr_LoRa);
+ 
+  if (!LoRa.begin(433E6))
+  { // initialize ratio at 433 MHz
+    Serial.println("LoRa init failed. Check your connections.");
+    while (true)
+      ; // if failed, do nothing
+  }
+  Serial.println("LoRa init succeeded.");
+  delay(200);
+#endif
+#if defined(LoRa_Interface)
+  Serial.begin(9600); // initialize Serial
+  while (!Serial)
+    ;
+ 
+  SPI.begin(LoRa_SCK, LoRa_MISO, LoRa_MOSI, LoRa_CS);
+ 
+  LoRa.setPins(LoRa_CS, -1, DI0);
+ 
+  Serial.println("LoRa Duplex");
+  Serial.println(addr_LoRa);
+ 
+  if (!LoRa.begin(433E6))
+  { // initialize ratio at 433 MHz
+    Serial.println("LoRa init failed. Check your connections.");
+    while (true)
+      ; // if failed, do nothing
+  }
+  Serial.println("LoRa init succeeded.");
+  delay(200);
+#endif
+}
+ 
+void loop()
+{
+#if defined(C1) || defined(C2) || defined(C3) || defined(C4) || defined(C5)
+  if (duree >= 75) // Toutes les 5 minutes
+  {
+    /* LECTURE DES SONDES NTC */
+ 
+    /*VoA1 = analogRead(ThermistorPinA1);
+    vinA1 = ((VoA1 / 1024) * 5);
+    R2A1 = R1 * (1023.0 / (float)VoA1 - 1.0);
+    logR2A1 = log(R2A1);
+    TA1 = (1.0 / (A + B * logR2A1 + C * logR2A1 * logR2A1 * logR2A1)) - 273.15; // Steinhart and Hart Equation. T  = 1 / {A + B[ln(R)] + C[ln(R)]^3}
+ 
+    VoA2 = analogRead(ThermistorPinA2);
+    R2A2 = R1 * (1023.0 / (float)VoA2 - 1.0);
+    logR2A2 = log(R2A2);
+    TA2 = (1.0 / (A + B * logR2A2 + C * logR2A2 * logR2A2 * logR2A2)) - 273.15; // Steinhart and Hart Equation. T  = 1 / {A + B[ln(R)] + C[ln(R)]^3}
+ 
+    VoA3 = analogRead(ThermistorPinA3);
+    R2A3 = R1 * (1023.0 / (float)VoA3 - 1.0);
+    logR2A3 = log(R2A3);
+    TA3 = (1.0 / (A + B * logR2A3 + C * logR2A3 * logR2A3 * logR2A3)) - 273.15; // Steinhart and Hart Equation. T  = 1 / {A + B[ln(R)] + C[ln(R)]^3}
+    */
+ 
+    float TA1 = 20.30;
+    float TempCA2 = 18.64;
+    float TempCA3 = 19.80;
+    lux = myLux.lightStrengthLux();
+ 
+    /* LECTURE DES SONDES HIH3040 */
+ 
+    /*int humiditySensor = analogRead(A4);
+      float humidityVoltage = (humiditySensor / resolution) * voltage;
+      float sensorRH = (humidityVoltage - rhOffset) / rhSlope;
+      float trueRH = sensorRH / (1.0546 - (0.00216 * TA1));*/
+ 
+    float h = 62;
+    float t = 19;
+ 
+    String message = "{\"TC_A1_" + addr_LoRa + "\":" + TA1 + ",\"TC_A2_" + addr_LoRa + "\":" + TempCA2 + ",\"TC_A3_" + addr_LoRa + "\":" + TempCA3 + ",\"Humidite_" + addr_LoRa + "\":" + h + ",\"TC_DHT22_" + addr_LoRa + "\":" + t + ",\"Lumiere_" + addr_LoRa + "\":" + lux + "}";
+    sendMessage(message);
+    Serial.println("Sending " + message);
+ 
+    // parse for a packet, and call onReceive with the result:
+    // onReceive(LoRa.parsePacket());
+ 
+    delay(400);
+    duree = 0;
+  }
+ 
+  if (duree < 75) // arrêt pendant 5 minutes
+  {
+    duree++;
+    LoRa.sleep();
+    LowPower.powerDown(SLEEP_4S, ADC_OFF, BOD_OFF);
+  }
+}
+#endif
+#ifdef LoRa_Interface
+if ((millis() - prevMillis3) > 2000)
+{
+  sendMessage(incoming1);
+  // Serial.println("Sending " + incoming1);
+  sendMessage(incoming2);
+  // Serial.println("Sending " + incoming2);
+  sendMessage(incoming3);
+  // Serial.println("Sending " + incoming3);
+  prevMillis3 = millis();
+}
+ 
+// parse for a packet, and call onReceive with the result:
+onReceive(LoRa.parsePacket());
+}
+ 
+void onReceive(int packetSize)
+{
+  if (packetSize == 0)
+    return; // if there's no packet, return
+ 
+  // read packet header bytes:
+  int recipient = LoRa.read();       // recipient address
+  byte sender = LoRa.read();         // sender address
+  byte incomingMsgId = LoRa.read();  // incoming msg ID
+  byte incomingLength = LoRa.read(); // incoming msg length
+  incoming = "";
+#ifdef DEBUG
+  Serial.println("sender : " + String(sender, HEX));
+#endif
+  String adresse_LoRa = String(sender, HEX);
+ 
+  while (LoRa.available())
+  {
+    incoming += (char)LoRa.read();
+  }
+ 
+  if (incomingLength != incoming.length())
+  { // check length for error
+#ifdef DEBUG
+    Serial.println("error: message length does not match length");
+#endif
+    return; // skip rest of function
+  }
+ 
+  // if the recipient isn't this device or broadcast,
+  if (recipient != localAddress && recipient != 0xFF)
+  {
+#ifdef DEBUG
+    Serial.println("This message is not for me.");
+#endif
+    return; // skip rest of function
+  }
+ 
+  // if mdessage is for this device, or broadcast, print details:
+  Serial.print("{\"message\":");
+  Serial.print(incoming);
+  Serial.print(",\"Coordonees\":{\"Received_from\":\""); //!!!Infos ici!!!! : https://en.cppreference.com/w/cpp/language/escape!!
+  Serial.print("0x" + String(sender, HEX));
+  Serial.print("\",\"Message_ID\":");
+  Serial.print(String(incomingMsgId));
+  Serial.print(",\"Message_length\":");
+  Serial.print(String(incomingLength));
+  Serial.print(",\"RSSI\":");
+  Serial.print(String(LoRa.packetRssi()));
+  Serial.print(",\"Snr\":");
+  Serial.print(String(LoRa.packetSnr()));
+  Serial.println("}}");
+ 
+  if (adresse_LoRa == "ab")
+  {
+    incoming1 = incoming;
+  }
+  if (adresse_LoRa == "ac")
+  {
+    incoming2 = incoming;
+  }
+  if (adresse_LoRa == "ad")
+  {
+    incoming3 = incoming;
+  }
+}
+#endif
+ 
+#if defined(C1) || defined(C2) || defined(C3) || defined(C4) || defined(C5) || defined(LoRa_Interface)
+void sendMessage(String outgoing)
+{
+  LoRa.beginPacket();            // start packet
+  LoRa.write(destination);       // add destination address
+  LoRa.write(localAddress);      // add sender address
+  LoRa.write(msgCount);          // add message ID
+  LoRa.write(outgoing.length()); // add payload length
+  LoRa.print(outgoing);          // add payload
+  LoRa.endPacket();              // finish packet and send it
+  msgCount++;                    // increment message ID
+}
+#endif
+ 
+#ifdef Master
+WatchDog();
+if (sd != 1)
+{
+  digitalWrite(LoRa_CS, Select); //  SELECT (low) LoRa SPI
+  onReceive(LoRa.parsePacket());
+}
+dmx.update();
+if (sd == 1)
+{
+  Write_SPIFFS();
+  sd = 0;
+}
+Nextion();
+Horloge();
+}
+ 
+void WatchDog() // https://iotassistant.io/esp32/enable-hardware-watchdog-timer-esp32-arduino-ide/
+{
+  if (millis() - last >= 2000)
+  {
+    #ifdef DEBUG
+    Serial1.println("Resetting WDT...");
+    #endif
+    esp_task_wdt_reset();
+    last = millis();
+  }
+}
+ 
+void onReceive(int packetSize)
+{
+  if (packetSize == 0)
+    return; // if there's no packet, return
+ 
+  // read packet header bytes:
+  int recipient = LoRa.read();       // recipient address
+  byte sender = LoRa.read();         // sender address
+  byte incomingMsgId = LoRa.read();  // incoming msg ID
+  byte incomingLength = LoRa.read(); // incoming msg length
+  String incoming = "";
+ 
+  while (LoRa.available())
+  {
+    incoming += (char)LoRa.read();
+  }
+ 
+  if (incomingLength != incoming.length())
+  { // check length for error
+#ifdef DEBUG
+    Serial1.println("error: message length does not match length");
+#endif
+    return; // skip rest of function
+  }
+ 
+  // if the recipient isn't this device or broadcast,
+  if (recipient != localAddress && recipient != 0xFF)
+  {
+#ifdef DEBUG
+    Serial1.println("This message is not for me.");
+#endif
+    return; // skip rest of function
+  }
+ 
+// if mdessage is for this device, or broadcast, print details:
+#ifdef DEBUG
+  Serial1.print("{\"message\":");
+  Serial1.print(incoming);
+  Serial1.print(",\"Coordonees\":{\"Received_from\":\""); //!!!Infos ici!!!! : https://en.cppreference.com/w/cpp/language/escape!!
+  Serial1.print("0x" + String(sender, HEX));
+  Serial1.print("\",\"Message_ID\":");
+  Serial1.print(String(incomingMsgId));
+  Serial1.print(",\"Message_length\":");
+  Serial1.print(String(incomingLength));
+  Serial1.print(",\"RSSI\":");
+  Serial1.print(String(LoRa.packetRssi()));
+  Serial1.print(",\"Snr\":");
+  Serial1.print(String(LoRa.packetSnr()));
+  Serial1.println("}}");
+#endif
+  StaticJsonDocument<192> doc;
+ 
+  DeserializationError error = deserializeJson(doc, incoming);
+ 
+  if (error)
+  {
+#ifdef DEBUG
+    Serial1.print(F("deserializeJson() failed: "));
+    Serial1.println(error.f_str());
+#endif
+    return;
+  }
+ 
+  TC_A1_C1M = doc["TC_A1_C1"];       // 20.3
+  TC_A2_C1M = doc["TC_A2_C1"];       // 18.64
+  TC_A3_C1M = doc["TC_A3_C1"];       // 19.8
+  Humidite_C1M = doc["Humidite_C1"]; // 62
+  TC_DHT22_C1M = doc["TC_DHT22_C1"]; // 19
+  if (doc["Lumiere_C1"] > 0)
+  {
+    luxmetre[0] = doc["Lumiere_C1"]; // 1669
+  }
+  if (doc["Lumiere_C2"] > 0)
+  {
+    luxmetre[1] = doc["Lumiere_C2"];
+  }
+ 
+  if (doc["Lumiere_C3"] > 0)
+  {
+    luxmetre[2] = doc["Lumiere_C3"];
+  }
+  else
+  {
+  }
+ 
+  Gestion_eclairage();
+}
+ 
+void Gestion_eclairage()
+{
+  // Serial1.println((String) "FreeRam : " + esp_get_free_heap_size());
+ 
+  byte zone[3][2] = {
+      {0, 4},
+      {4, 8},
+      {8, 12},
+  };
+ 
+#ifdef DEBUG
+  Serial1.println((String) "luxmetre[0] : (Gestion_eclairage) " + luxmetre[0]);
+#endif
+  for (byte sonde = 0; sonde < 3; sonde++)
+  {
+    for (byte compartiment = zone[sonde][0]; compartiment < zone[sonde][1]; compartiment++)
+    {
+      if (heure >= heure_allumage[compartiment] && heure < heure_extinction[compartiment]) // partie concernant le jour
+ 
+      {
+        if (luxmetre[sonde] < (consigne_declenchement[compartiment] - (consigne_zone_neutre[compartiment] / 2)) && luxmetre[sonde] != 0)
+        {
+          allumage[compartiment] = 1; // Cette partie permet l'extinction/allumage des lampes ce fasse unnqiuemenet si besoin et pas à chaque fois que les sondes envoient leur valeur
+        }
+        if (luxmetre[sonde] > (consigne_declenchement[compartiment] + (consigne_zone_neutre[compartiment] / 2)) && luxmetre[sonde] != 0)
+        {
+          allumage[compartiment] = 0;
+        }
+        if (allumage[compartiment] != allumage1[compartiment] || demarrage == 0)
+        {
+          for (byte adresse = adresse_DMX[compartiment][0]; adresse <= adresse_DMX[compartiment][1]; adresse++)
+          {
+            if (luxmetre[sonde] < (consigne_declenchement[compartiment] - (consigne_zone_neutre[compartiment] / 2)) && luxmetre[sonde] != 0)
+            {
+              dmx.write((adresse), (consigne_intensite[compartiment] * 2.55));
+#ifdef DEBUG
+              Serial1.println((String) "Compartiment " + (compartiment + 1) + " : ON ; Adresse : " + adresse + " intensite : " + consigne_intensite[compartiment]);
+#endif
+              allumage1[compartiment] = 1;
+            }
+            if (luxmetre[sonde] > (consigne_declenchement[compartiment] + (consigne_zone_neutre[compartiment] / 2)) && luxmetre[sonde] != 0)
+            {
+              dmx.write((adresse), 0);
+#ifdef DEBUG
+              Serial1.println((String) "Compartiment " + (compartiment + 1) + " : OFF; Adresse : " + adresse + " intensite : 0");
+#endif
+              allumage1[compartiment] = 0;
+            }
+          }
+          demarrage = 1; // permet de mettre en route l'eclairage unniquement au demarrage
+        }
+      }
+ 
+      else // partie concernant la nuit
+      {
+        for (byte adresse = adresse_DMX[compartiment][0]; adresse < adresse_DMX[compartiment][1]; adresse++)
+        {
+          dmx.write((adresse), 0);
+          allumage1[compartiment] = 0;
+          demarrage = 1; // permet de mettre en route l'eclairage unniquement au demarrage
+#ifdef DEBUG
+          Serial1.println((String) "Adresse : " + adresse + " intensite : 0");
+#endif
+        }
+      }
+    }
+  }
+#ifdef DEBUG
+  Serial1.print((String) "Heure : " + heure);
+  Serial1.println((String) ":" + minute + ":" + seconde);
+#endif
+}
+ 
+void Gestion_eclairage_Nextion()
+{
+  byte zone[3][2] = {
+      {0, 4},
+      {4, 8},
+      {8, 12},
+  };
+ 
+#ifdef DEBUG
+  Serial1.println((String) "luxmetre[0] : (Gestion_eclairage) " + luxmetre[0]);
+#endif
+  for (byte sonde = 0; sonde < 3; sonde++)
+  {
+    // if (now.hour() >= heure_allumage[Compnextion - 1] && now.hour() < heure_extinction[Compnextion - 1]) // partie concernant le jour
+    if (heure >= heure_allumage[Compnextion - 1] && heure < heure_extinction[Compnextion - 1]) // partie concernant le jour
+    {
+      for (byte adresse = adresse_DMX[Compnextion - 1][0]; adresse <= adresse_DMX[Compnextion - 1][1]; adresse++)
+      {
+        if (luxmetre[sonde] < (consigne_declenchement[Compnextion - 1] - (consigne_zone_neutre[Compnextion - 1] / 2)) && luxmetre[sonde] != 0)
+        {
+          dmx.write((adresse), (consigne_intensite[Compnextion - 1] * 2.55));
+#ifdef DEBUG
+          Serial1.println((String) "Compnextion" + (Compnextion) + " : ON ; Adresse : " + adresse + " intensite : " + consigne_intensite[Compnextion - 1]);
+#endif
+          allumage1[Compnextion - 1] = 1;
+        }
+        if (luxmetre[sonde] > (consigne_declenchement[Compnextion - 1] + (consigne_zone_neutre[Compnextion - 1] / 2)) && luxmetre[sonde] != 0)
+        {
+          dmx.write((adresse), 0);
+#ifdef DEBUG
+          Serial1.println((String) "Compnextion" + (Compnextion) + " : OFF; Adresse : " + adresse + " intensite : 0");
+#endif
+          allumage1[Compnextion - 1] = 0;
+        }
+      }
+    }
+    else // partie concernant la nuit
+    {
+      for (byte adresse = adresse_DMX[Compnextion - 1][0]; adresse < adresse_DMX[Compnextion - 1][1]; adresse++)
+      {
+        dmx.write((adresse), 0);
+        allumage1[Compnextion - 1] = 0;
+#ifdef DEBUG
+        Serial1.println((String) "Adresse : " + adresse + " intensite : 0");
+#endif
+      }
+    }
+  }
+}
+ 
+/*void Gestion_eclairage_Nextion_Zone_DMX()
+{
+ 
+#ifdef DEBUG
+  Serial1.println((String) "luxmetre[0] : (Gestion_eclairage) " + luxmetre[0]);
+#endif
+  for (byte sonde = 0; sonde < 3; sonde++)
+  {
+    //if (now.hour() >= heure_allumage[Compnextion - 1] && now.hour() < heure_extinction[Compnextion - 1]) // partie concernant le jour
+    if (heure >= heure_allumage[Compnextion - 1] && heure < heure_extinction[Compnextion - 1]) // partie concernant le jour
+    {
+      for (byte adresse = adresse_DMX[Compnextion - 1][0]; adresse <= adresse_DMX[Compnextion - 1][1]; adresse++)
+      {
+        //if (luxmetre[sonde] < (consigne_declenchement[Compnextion - 1] - (consigne_zone_neutre[Compnextion - 1] / 2)) && luxmetre[sonde] != 0)
+        byte luminaire = adresse - adresse_DMX[Compnextion - 1][0]; // Peut-être rajouter "+1"
+ 
+        if (luxmetre[sonde] < (consigne_declenchement[Compnextion - 1] - (consigne_zone_neutre[Compnextion - 1] / 2)) && luxmetre[sonde] != 0 && On_Off[Compnextion - 1][luminaire] == 1)
+        {
+          dmx.write((adresse), (consigne_intensite[Compnextion - 1] * 2.55));
+#ifdef DEBUG
+          Serial1.println((String) "Compnextion" + (Compnextion) + " : ON ; Adresse : " + adresse + " intensite : " + consigne_intensite[Compnextion - 1]);
+#endif
+          allumage1[Compnextion - 1] = 1;
+        }
+        if (luxmetre[sonde] > (consigne_declenchement[Compnextion - 1] + (consigne_zone_neutre[Compnextion - 1] / 2)) && luxmetre[sonde] != 0 || On_Off[Compnextion - 1][luminaire] == 0)
+        {
+          dmx.write((adresse), 0);
+#ifdef DEBUG
+          Serial1.println((String) "Compnextion" + (Compnextion) + " : OFF; Adresse : " + adresse + " intensite : 0");
+#endif
+          allumage1[Compnextion - 1] = 0;
+        }
+      }
+    }
+    else // partie concernant la nuit
+    {
+      for (byte adresse = adresse_DMX[Compnextion - 1][0]; adresse < adresse_DMX[Compnextion - 1][1]; adresse++)
+      {
+        dmx.write((adresse), 0);
+        allumage1[Compnextion - 1] = 0;
+#ifdef DEBUG
+        Serial1.println((String) "Adresse : " + adresse + " intensite : 0");
+#endif
+      }
+    }
+  }
+}*/
+ 
+void Horloge()
+{
+  if ((millis() - prevMillis1) > 1000)
+  {
+    now = rtc.now();
+    heure = now.hour();
+    minute = now.minute();
+    seconde = now.second();
+    myNex.writeNum("Heure.val", heure);
+    myNex.writeNum("Minute.val", minute);
+    myNex.writeNum("Seconde.val", seconde);
+ 
+    prevMillis1 = millis();
+  }
+}
+ 
+void Nextion()
+{
+  if ((millis() - prevMillis) > 100)
+  {
+    bool HeureNextActiv;
+    String stringFromNextion;
+    bool OKNext;
+    bool lastOKNext;
+    bool lastAdminNext;
+ 
+    AdminNext = myNex.readNumber("Mot_De_Passe.mdp.val");
+    if (AdminNext != 777777)
+    {
+      lastAdminNext = AdminNext;
+    }
+    else if (AdminNext == 777777 && AdminNext == 49)
+    {
+      AdminNext = lastAdminNext;
+    }
+ 
+    ConsigneIdNext = myNex.readNumber("Nombre.ConsigneId.val");
+    if (ConsigneIdNext != 777777)
+    {
+      lastConsigneIdNext = ConsigneIdNext;
+    }
+    else if (ConsigneIdNext == 777777 && ConsigneIdNext == 49)
+    {
+      ConsigneIdNext = lastConsigneIdNext;
+    }
+ 
+    if (ConsigneIdNext == 0 || ConsigneIdNext == 30)
+    {
+      Compnextion = myNex.readNumber("Accueil.compartiment.val"); // We read the value of n0 and store it to Compnextion variable
+      if (Compnextion != 777777)
+      {                                // 777777 is the return value if the code fails to read the new value
+        lastCompnextion = Compnextion; // The chances of getting a wrong value is one in a million.
+        // Use this if() to ensure it if you believe it is needed.
+        // You can either call the readCompnextion funtion again
+        // or set a safe value in case of failure.
+        // Ex: Compnextion = 2222; or use the last value method
+      }
+      else if (Compnextion == 777777)
+      {
+        Compnextion = lastCompnextion;
+      }
+    }
+ 
+    if (Compnextion == 0 && actualiser == 1)
+    {
+      myNex.writeStr("page Accueil");
+      actualiser = 0;
+    }
+ 
+    if (AdminNext == 1)
+    {
+      temps_admin++;
+      if (temps_admin >= (((2 * 60) * 100) / 25)) // evniron 2 minute
+      {
+        myNex.writeStr("Mot_De_Passe.mdp.val=0");
+        myNex.writeStr("page Accueil");
+        temps_admin = 0;
+      }
+    }
+    else
+    {
+      temps_admin = 0;
+    }
+    if (Compnextion > 0 && Compnextion < 50)
+    {
+#ifdef DEBUG
+      Serial1.println((String) "Compnextion : " + Compnextion);
+#endif
+ 
+      if (ConsigneIdNext > 0 && ConsigneIdNext < 30)
+      {
+        OKNext = myNex.readNumber("Nombre.OK.val");
+        if (OKNext != 777777)
+        {
+          lastOKNext = OKNext;
+        }
+        else if (OKNext == 777777 && OKNext == 49)
+        {
+          OKNext = lastOKNext;
+        }
+#ifdef DEBUG
+        Serial1.println((String) "OKNext : " + OKNext);
+#endif
+      }
+#ifdef DEBUG
+      Serial1.println((String) "ConsigneIdNext : " + ConsigneIdNext);
+#endif
+ 
+      if (ConsigneIdNext == 0)
+      {
+        NextionPageReglages();
+      }
+      if (ConsigneIdNext == 1)
+      {
+        myNex.writeStr("t2.txt", "Consigne allumage");
+        stringFromNextion = myNex.readStr("t1.txt");
+        char charBuf[50];
+        stringFromNextion.toCharArray(charBuf, 50);
+        if (atol(charBuf) > 0 && OKNext == 1)
+        {
+          consigne_declenchement[Compnextion - 1] = atol(charBuf);
+          NextionPageReglages();
+          Gestion_eclairage_Nextion();
+          sd = 1;
+          myNex.writeNum("Nombre.OK.val", 0);
+          OKNext = 0;
+        }
+      }
+      if (ConsigneIdNext == 2)
+      {
+        myNex.writeStr("t2.txt", "Consigne Zone Neutre");
+        stringFromNextion = myNex.readStr("t1.txt");
+        char charBuf[50];
+        stringFromNextion.toCharArray(charBuf, 50);
+        if (atol(charBuf) > 0 && atol(charBuf) < 10000 && OKNext == 1)
+        {
+          consigne_zone_neutre[Compnextion - 1] = atol(charBuf);
+          NextionPageReglages();
+          Gestion_eclairage_Nextion();
+          sd = 1;
+          myNex.writeNum("Nombre.OK.val", 0);
+          OKNext = 0;
+        }
+      }
+      if (ConsigneIdNext == 3)
+      {
+        myNex.writeStr("t2.txt", "Consigne intensite");
+        stringFromNextion = myNex.readStr("t1.txt");
+        char charBuf[50];
+        stringFromNextion.toCharArray(charBuf, 50);
+        if (atol(charBuf) > 0 && atol(charBuf) <= 100 && OKNext == 1)
+        {
+          consigne_intensite[Compnextion - 1] = atol(charBuf);
+          NextionPageReglages();
+          Gestion_eclairage_Nextion();
+          sd = 1;
+          myNex.writeNum("Nombre.OK.val", 0);
+          OKNext = 0;
+        }
+      }
+      if (ConsigneIdNext == 4)
+      {
+        myNex.writeStr("t2.txt", "Heure d'allumage");
+        stringFromNextion = myNex.readStr("t1.txt");
+        char charBuf[50];
+        stringFromNextion.toCharArray(charBuf, 50);
+        if (atol(charBuf) > 2 && atol(charBuf) < heure_extinction[Compnextion - 1])
+        {
+          HeureNextActiv = 1;
+        }
+        else
+        {
+          HeureNextActiv = 0;
+        }
+        if (atol(charBuf) > 0 && atol(charBuf) <= 24 && HeureNextActiv == 1 && OKNext == 1)
+        {
+          heure_allumage[Compnextion - 1] = atol(charBuf);
+          NextionPageReglages();
+          Gestion_eclairage_Nextion();
+          sd = 1;
+          myNex.writeNum("Nombre.OK.val", 0);
+          OKNext = 0;
+        }
+      }
+      if (ConsigneIdNext == 5)
+      {
+        myNex.writeStr("t2.txt", "Heure extinction");
+        stringFromNextion = myNex.readStr("t1.txt");
+        char charBuf[50];
+        stringFromNextion.toCharArray(charBuf, 50);
+        if (atol(charBuf) > heure_allumage[Compnextion - 1])
+        {
+          HeureNextActiv = 1;
+        }
+        else
+        {
+          HeureNextActiv = 0;
+        }
+        if (atol(charBuf) > 0 && atol(charBuf) <= 24 && HeureNextActiv == 1 && OKNext == 1)
+        {
+          heure_extinction[Compnextion - 1] = atol(charBuf);
+          NextionPageReglages();
+          Gestion_eclairage_Nextion();
+          sd = 1;
+          myNex.writeNum("Nombre.OK.val", 0);
+          OKNext = 0;
+        }
+      }
+      /*if (ConsigneIdNext == 6)
+      {
+        //NextionPageON_OFF();
+ 
+        On_Off[Compnextion - 1][0] = myNex.readNumber("sw0.val");
+        On_Off[Compnextion - 1][1] = myNex.readNumber("sw1.val");
+        On_Off[Compnextion - 1][2] = myNex.readNumber("sw2.val");
+        On_Off[Compnextion - 1][3] = myNex.readNumber("sw3.val");
+        On_Off[Compnextion - 1][4] = myNex.readNumber("sw4.val");
+        On_Off[Compnextion - 1][5] = myNex.readNumber("sw5.val");
+        On_Off[Compnextion - 1][6] = myNex.readNumber("sw6.val");
+        On_Off[Compnextion - 1][7] = myNex.readNumber("sw7.val");
+        On_Off[Compnextion - 1][8] = myNex.readNumber("sw8.val");
+        On_Off[Compnextion - 1][9] = myNex.readNumber("sw9.val");
+        On_Off[Compnextion - 1][10] = myNex.readNumber("sw10.val");
+        On_Off[Compnextion - 1][11] = myNex.readNumber("sw11.val");
+        On_Off[Compnextion - 1][12] = myNex.readNumber("sw12.val");
+        On_Off[Compnextion - 1][13] = myNex.readNumber("sw13.val");
+        On_Off[Compnextion - 1][14] = myNex.readNumber("sw14.val");
+        On_Off[Compnextion - 1][15] = myNex.readNumber("sw15.val");
+        On_Off[Compnextion - 1][16] = myNex.readNumber("sw16.val");
+        On_Off[Compnextion - 1][17] = myNex.readNumber("sw17.val");
+        On_Off[Compnextion - 1][18] = myNex.readNumber("sw18.val");
+        On_Off[Compnextion - 1][19] = myNex.readNumber("sw19.val");
+        On_Off[Compnextion - 1][20] = myNex.readNumber("sw20.val");
+        On_Off[Compnextion - 1][21] = myNex.readNumber("sw21.val");
+        On_Off[Compnextion - 1][22] = myNex.readNumber("sw22.val");
+        On_Off[Compnextion - 1][23] = myNex.readNumber("sw23.val");
+        On_Off[Compnextion - 1][24] = myNex.readNumber("sw24.val");
+        On_Off[Compnextion - 1][25] = myNex.readNumber("sw25.val");
+        On_Off[Compnextion - 1][26] = myNex.readNumber("sw26.val");
+        On_Off[Compnextion - 1][27] = myNex.readNumber("sw27.val");
+        On_Off[Compnextion - 1][28] = myNex.readNumber("sw28.val");
+        On_Off[Compnextion - 1][29] = myNex.readNumber("sw29.val");
+ 
+        for (byte luminaire = 0; luminaire < 30; luminaire++)
+        {
+          //String Switch1 = String("sw" + luminaire);
+          //String Switch = String(Switch1 + ".val");
+          //On_Off[Compnextion - 1][luminaire] = myNex.readNumber("sw0.val");
+          //On_Off[Compnextion - 1][luminaire] = myNex.readNumber(Switch);
+          if (On_Off[Compnextion - 1][luminaire] != 777777)
+          {
+            lastOn_Off[Compnextion - 1][luminaire] = On_Off[Compnextion - 1][luminaire];
+          }
+          else if (On_Off[Compnextion - 1][luminaire] == 777777)
+          {
+            On_Off[Compnextion - 1][luminaire] = lastOn_Off[Compnextion - 1][luminaire];
+          }
+        }
+ 
+        if (OKNext == 1)
+        {
+          //NextionPageON_OFF();
+          NextionPageReglages();
+          Gestion_eclairage_Nextion_Zone_DMX();
+          //sd = 1;
+          myNex.writeNum("Nombre.OK.val", 0);
+          OKNext = 0;
+        }
+      }*/
+ 
+      if (Compnextion >= 1 && Compnextion <= 4)
+      {
+        myNex.writeNum("nLux.val", luxmetre[0]);
+      }
+      if (Compnextion >= 5 && Compnextion <= 8)
+      {
+        myNex.writeNum("nLux.val", luxmetre[1]);
+      }
+      if (Compnextion >= 9 && Compnextion <= 12)
+      {
+        myNex.writeNum("nLux.val", luxmetre[2]);
+      }
+    }
+    prevMillis = millis();
+  }
+}
+ 
+void NextionPageReglages()
+{
+  myNex.writeStr("page Reglages");
+  myNex.writeNum("nCall.val", (consigne_declenchement[Compnextion - 1]));
+  myNex.writeNum("nCZN.val", (consigne_zone_neutre[Compnextion - 1]));
+  myNex.writeNum("nCInt.val", (consigne_intensite[Compnextion - 1]));
+  myNex.writeNum("nCHa.val", (heure_allumage[Compnextion - 1]));
+  myNex.writeNum("nCHe.val", (heure_extinction[Compnextion - 1]));
+  myNex.writeNum("nAllumage.val", (consigne_declenchement[Compnextion - 1] - (consigne_zone_neutre[Compnextion - 1] / 2)));
+  myNex.writeNum("nExtinction.val", (consigne_declenchement[Compnextion - 1] + (consigne_zone_neutre[Compnextion - 1] / 2)));
+  myNex.writeNum("Nombre.ConsigneId.val", 30);
+}
+ 
+/*void NextionPageON_OFF()
+{
+  if (Compnextion == 1)
+  {
+    myNex.writeStr("page ON_OFF C1");
+    myNex.writeNum("n0.val", Compnextion);
+  }
+  if (Compnextion >= 2 && Compnextion <= 9)
+  {
+    myNex.writeStr("page ON_OFF C2_C9");
+    myNex.writeNum("n0.val", Compnextion);
+  }
+  if (Compnextion == 10)
+  {
+    myNex.writeStr("page ON_OFF C10");
+    myNex.writeNum("n0.val", Compnextion);
+  }
+  if (Compnextion == 11)
+  {
+    myNex.writeStr("page ON_OFF C12");
+    myNex.writeNum("n0.val", Compnextion);
+  }
+  if (Compnextion == 12)
+  {
+    myNex.writeStr("page ON_OFF C12");
+    myNex.writeNum("n0.val", Compnextion);
+  }
+ 
+  myNex.writeNum("sw0.val", (On_Off[Compnextion - 1][0]));
+  myNex.writeNum("sw1.val", (On_Off[Compnextion - 1][1]));
+  myNex.writeNum("sw2.val", (On_Off[Compnextion - 1][2]));
+  myNex.writeNum("sw3.val", (On_Off[Compnextion - 1][3]));
+  myNex.writeNum("sw10.val", (On_Off[Compnextion - 1][10]));
+  myNex.writeNum("sw11.val", (On_Off[Compnextion - 1][11]));
+  myNex.writeNum("sw12.val", (On_Off[Compnextion - 1][12]));
+  myNex.writeNum("sw13.val", (On_Off[Compnextion - 1][13]));
+  myNex.writeNum("sw14.val", (On_Off[Compnextion - 1][14]));
+  myNex.writeNum("sw15.val", (On_Off[Compnextion - 1][15]));
+  myNex.writeNum("sw16.val", (On_Off[Compnextion - 1][16]));
+  myNex.writeNum("sw17.val", (On_Off[Compnextion - 1][17]));
+  myNex.writeNum("sw18.val", (On_Off[Compnextion - 1][18]));
+  myNex.writeNum("sw19.val", (On_Off[Compnextion - 1][19]));
+  myNex.writeNum("sw20.val", (On_Off[Compnextion - 1][20]));
+  myNex.writeNum("sw21.val", (On_Off[Compnextion - 1][21]));
+  myNex.writeNum("sw22.val", (On_Off[Compnextion - 1][22]));
+  myNex.writeNum("sw23.val", (On_Off[Compnextion - 1][23]));
+  myNex.writeNum("sw24.val", (On_Off[Compnextion - 1][24]));
+  myNex.writeNum("sw25.val", (On_Off[Compnextion - 1][25]));
+  myNex.writeNum("sw26.val", (On_Off[Compnextion - 1][26]));
+  myNex.writeNum("sw27.val", (On_Off[Compnextion - 1][27]));
+  myNex.writeNum("sw28.val", (On_Off[Compnextion - 1][28]));
+  myNex.writeNum("sw29.val", (On_Off[Compnextion - 1][29]));
+  //myNex.writeNum("Nombre.ConsigneId.val", 30);
+}*/
+ 
+void RTC_Setup()
+{
+  if (!rtc.begin())
+  {
+#ifdef DEBUG
+    Serial1.println("Couldn't find RTC");
+#endif
+    Serial.flush();
+    while (1)
+      delay(10);
+  }
+ 
+  if (rtc.lostPower())
+  {
+#ifdef DEBUG
+    Serial1.println("RTC lost power, let's set the time!");
+#endif
+    // When time needs to be set on a new device, or after a power loss, the
+    // following line sets the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
+}
+ 
+void LoRa_Setup()
+{
+  //  now test the LoRa
+  SPI.begin(CLK, MISO, MOSI, LoRa_CS);
+ 
+  LoRa.setPins(LoRa_CS, -1, DI0);
+  digitalWrite(LoRa_CS, Select); //  SELECT (low) LoRa SPI
+#ifdef DEBUG
+  Serial1.println("LoRa Sender");
+#endif
+  if (!LoRa.begin(BAND))
+  {
+#ifdef DEBUG
+    Serial1.println("Starting LoRa failed!");
+#endif
+    // now what?
+  }
+  else
+  {
+#ifdef DEBUG
+    Serial1.println("LoRa Initial OK!");
+#endif
+    delay(1000);
+  }
+}
+ 
+void Start_eclairage()
+{
+  // Serial1.println((String) "FreeRam : " + esp_get_free_heap_size());
+ 
+#ifdef DEBUG
+  Serial1.println((String) "luxmetre[0] : (Gestion_eclairage) " + luxmetre[0]);
+#endif
+ 
+  for (byte compartiment = 0; compartiment < 12; compartiment++)
+  {
+    if (now.hour() >= heure_allumage[compartiment] && now.hour() < heure_extinction[compartiment]) // partie concernant le jour
+    {
+      for (byte adresse = adresse_DMX[compartiment][0]; adresse <= adresse_DMX[compartiment][1]; adresse++)
+      {
+        dmx.write((adresse), (consigne_intensite[compartiment] * 2.55));
+#ifdef DEBUG
+        Serial1.println((String) "Compartiment " + (compartiment + 1) + " : ON ; Adresse : " + adresse + " intensite : " + consigne_intensite[compartiment]);
+#endif
+        allumage1[compartiment] = 1;
+      }
+    }
+ 
+    else // partie concernant la nuit
+    {
+      for (byte adresse = adresse_DMX[compartiment][0]; adresse < adresse_DMX[compartiment][1]; adresse++)
+      {
+        dmx.write((adresse), 0);
+        allumage1[compartiment] = 0;
+        demarrage = 1; // permet de mettre en route l'eclairage unniquement au demarrage
+#ifdef DEBUG
+        Serial1.println((String) "Adresse : " + adresse + " intensite : 0");
+#endif
+      }
+    }
+  }
+#ifdef DEBUG
+  Serial1.print((String) "Heure : " + heure);
+  Serial1.println((String) ":" + minute + ":" + seconde);
+#endif
+}
+ 
+// Initialize SPIFFS
+void initSPIFFS()
+{
+  if (!SPIFFS.begin(true))
+  {
+#ifdef DEBUG
+    Serial1.println("An error has occurred while mounting SPIFFS");
+#endif
+  }
+#ifdef DEBUG
+  Serial1.println("SPIFFS mounted successfully");
+#endif
+ 
+  File root = SPIFFS.open("/");
+  File file = root.openNextFile();
+ 
+  while (file)
+  {
+#ifdef DEBUG
+    Serial1.print("File: ");
+    Serial1.println(file.name());
+#endif
+    file.close();
+    file = root.openNextFile();
+  }
+ 
+  long number;
+  String temp;
+ 
+  for (byte i = 0; i < 12; i++)
+  {
+    for (byte consigne_SPIFFS = 0; consigne_SPIFFS < 5; consigne_SPIFFS++)
+    {
+      if (consigne_SPIFFS == 0)
+      {
+        temp = "/c_decl";
+      }
+      if (consigne_SPIFFS == 1)
+      {
+        temp = "/c_inte";
+      }
+      if (consigne_SPIFFS == 2)
+      {
+        temp = "/c_z_n";
+      }
+      if (consigne_SPIFFS == 3)
+      {
+        temp = "/h_all";
+      }
+      if (consigne_SPIFFS == 4)
+      {
+        temp = "/h_ext";
+      }
+ 
+      temp.concat(i);
+      temp.concat(".txt");
+      char FileName[temp.length() + 1];
+      temp.toCharArray(FileName, sizeof(FileName));
+      String fichier = readFile(SPIFFS, FileName);
+      if (fichier)
+      {
+#ifdef DEBUG
+        // Serial1.println((String) "Reading to " + FileName);
+#endif
+        number = fichier.toInt();
+#ifdef DEBUG
+        Serial1.println(number);
+#endif
+        if (number > 0 && consigne_SPIFFS == 0)
+        {
+          consigne_declenchement[i] = number;
+#ifdef DEBUG
+          Serial1.println((String) "long consigne_declenchement : " + consigne_declenchement[i]);
+#endif
+        }
+        if (number > 0 && consigne_SPIFFS == 1)
+        {
+          consigne_intensite[i] = number;
+#ifdef DEBUG
+          Serial1.println((String) "long consigne_intensite : " + consigne_intensite[i]);
+#endif
+        }
+        if (number > 0 && consigne_SPIFFS == 2)
+        {
+          consigne_zone_neutre[i] = number;
+#ifdef DEBUG
+          Serial1.println((String) "long consigne_zone_neutre : " + consigne_zone_neutre[i]);
+#endif
+        }
+        if (number > 0 && consigne_SPIFFS == 3)
+        {
+          heure_allumage[i] = number;
+#ifdef DEBUG
+          Serial1.println((String) "long heure_allumage : " + heure_allumage[i]);
+#endif
+        }
+        if (number > 0 && consigne_SPIFFS == 4)
+        {
+          heure_extinction[i] = number;
+#ifdef DEBUG
+          Serial1.println((String) "long heure_extinction : " + heure_extinction[i]);
+#endif
+        }
+        // close the file:
+        file.close();
+      }
+      else
+      {
+// if the file didn't open, print an error:
+#ifdef DEBUG
+        Serial1.println((String) "error opening : " + FileName);
+#endif
+      }
+    }
+  }
+}
+ 
+void Write_SPIFFS()
+{
+  char cstr[16];
+  String temp = "/c_decl";
+  temp.concat(Compnextion - 1);
+  temp.concat(".txt");
+  char FileName[temp.length() + 1];
+  temp.toCharArray(FileName, sizeof(FileName));
+  itoa(consigne_declenchement[Compnextion - 1], cstr, 10); // https://arduino.stackexchange.com/questions/42986/convert-int-to-char
+  writeFile(SPIFFS, FileName, cstr);
+ 
+  temp = "/c_inte";
+  temp.concat(Compnextion - 1);
+  temp.concat(".txt");
+  FileName[temp.length() + 1];
+  temp.toCharArray(FileName, sizeof(FileName));
+  itoa(consigne_intensite[Compnextion - 1], cstr, 10);
+  writeFile(SPIFFS, FileName, cstr);
+ 
+  temp = "/c_z_n";
+  temp.concat(Compnextion - 1);
+  temp.concat(".txt");
+  FileName[temp.length() + 1];
+  temp.toCharArray(FileName, sizeof(FileName));
+  itoa(consigne_zone_neutre[Compnextion - 1], cstr, 10);
+  writeFile(SPIFFS, FileName, cstr);
+ 
+  temp = "/h_all";
+  temp.concat(Compnextion - 1);
+  temp.concat(".txt");
+  FileName[temp.length() + 1];
+  temp.toCharArray(FileName, sizeof(FileName));
+  itoa(heure_allumage[Compnextion - 1], cstr, 10);
+  writeFile(SPIFFS, FileName, cstr);
+ 
+  temp = "/h_ext";
+  temp.concat(Compnextion - 1);
+  temp.concat(".txt");
+  FileName[temp.length() + 1];
+  temp.toCharArray(FileName, sizeof(FileName));
+  itoa(heure_extinction[Compnextion - 1], cstr, 10);
+  writeFile(SPIFFS, FileName, cstr);
+}
+ 
+// Read File from SPIFFS
+String readFile(fs::FS &fs, const char *path)
+{
+#ifdef DEBUG
+  Serial1.printf("Reading file: %s", path);
+#endif
+  File file = fs.open(path);
+  if (!file || file.isDirectory())
+  {
+#ifdef DEBUG
+    Serial1.println("- failed to open file for reading");
+#endif
+    return String();
+  }
+  String fileContent;
+  while (file.available())
+  {
+    fileContent = file.readString();
+    break;
+  }
+  return fileContent;
+}
+ 
+// Write file to SPIFFS
+void writeFile(fs::FS &fs, const char *path, const char *message)
+{
+  Serial1.printf("Writing file: %srn", path);
+  File file = fs.open(path, FILE_WRITE);
+  if (!file)
+  {
+#ifdef DEBUG
+    Serial1.println("- failed to open file for writing");
+#endif
+    return;
+  }
+  if (file.print(message))
+  {
+#ifdef DEBUG
+    Serial1.println("- file written");
+#endif
+  }
+  else
+  {
+#ifdef DEBUG
+    Serial1.println("- frite failed");
+#endif
+  }
+}
+ 
+#endif

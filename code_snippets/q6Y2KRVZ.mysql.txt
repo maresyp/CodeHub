@@ -1,0 +1,82 @@
+#Aufgabe 3.4.1
+ 
+mysql> SELECT artikelname AS Artikel, preis AS Nettopreis, (preis)+(preis*0.2) AS Neupreis FROM Artikel WHERE preis > 300;
++------------+------------+----------+
+| Artikel    | Nettopreis | Neupreis |
++------------+------------+----------+
+| Festplatte |     400.00 |  480.000 |
+| Monitor    |     500.00 |  600.000 |
++------------+------------+----------+
+2 rows in set (0.00 sec)
+ 
+mysql> SELECT TRUNCATE (480.000,2);
++----------------------+
+| TRUNCATE (480.000,2) |
++----------------------+
+|               480.00 |
++----------------------+
+1 row in set (0.00 sec)
+ 
+mysql> SELECT TRUNCATE (600.000,2);
++----------------------+
+| TRUNCATE (600.000,2) |
++----------------------+
+|               600.00 |
++----------------------+
+1 row in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+--Ich habe es nicht hinbekommen in der Ausgabe zu Runden oder zu kürzen bzw. konnte nicht alles in EINEN Befehl packen
+ 
+ 
+#Aufgabe 3.4.2
+ 
+mysql> SELECT AVG(preis) AS Durchschnittspreis FROM artikel WHERE artikelname = 'Tastatur' or artikelname = 'Drucker' or artikelname = 'Festplatte';
++--------------------+
+| Durchschnittspreis |
++--------------------+
+|         240.000000 |
++--------------------+
+1 row in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.4.3
+ 
+mysql> SELECT SUM(herstellernummer =10) AS Artikelanzahl FROM artikel;
++---------------+
+| Artikelanzahl |
++---------------+
+|             2 |
++---------------+
+1 row in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.4.4
+ 
+mysql> SELECT SUM(preis * 5) as Gesamtpreis FROM Artikel WHERE herstellernummer = 10;
++-------------+
+| Gesamtpreis |
++-------------+
+|      150.00 |
++-------------+
+1 row in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.4.5
+ 
+mysql> SELECT MIN(preis) AS Billig, MAX(preis) AS Teuer FROM Artikel;
++--------+--------+
+| Billig | Teuer  |
++--------+--------+
+|  10.00 | 500.00 |
++--------+--------+
+1 row in set (0.00 sec)
+ 
+mysql> NOTEE

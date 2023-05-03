@@ -1,0 +1,5 @@
+curl --location 'https://api.maukirim.com/api/v1/otp/validate' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer c412c3a758c79bc342b5634115b7e6b1' \
+--form 'msdn="628xxx"' \
+--form 'otp="909266"'

@@ -1,0 +1,14 @@
+On *:open:*:*:{
+  if (scoutlink.net !isin $address($nick,2)) {
+    msg $nick 7 [ Automatic Message ] 12 Hello $nick ! I do not answer to private messages. If you need help, /join #help . If you just want to talk, then talk to me in the public channel :) Thank you!
+  }
+}
+on *:QUIT:{
+  if ($query($nick) != $null) { /close -m $nick }
+}
+on *:PART:#:{
+  if ($query($nick) != $null) { /close -m $nick }
+}
+on *:KICK:#:{
+  if ($query($knick) != $null) { /close -m $knick }
+}

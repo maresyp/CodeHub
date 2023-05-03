@@ -1,0 +1,9 @@
+USE sakila;
+SELECT 
+    title, length
+FROM
+    sakila.film
+Where 
+title= 'Academy dinosaur'
+ 
+;

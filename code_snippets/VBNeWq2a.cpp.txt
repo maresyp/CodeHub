@@ -1,0 +1,75 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+ 
+using namespace std;
+ 
+const short ROZMIAR = 6;
+ 
+void sortuj(int* tablica)
+{
+    for(short i = 0; i < ROZMIAR - 1; ++i)
+    {
+        bool flaga = true;
+        for(short j = 0; j < ROZMIAR - i - 1; ++j)
+            if(tablica[j] > tablica[j + 1])
+            {
+                swap(tablica[j], tablica[j + 1]);
+                flaga = false;  // opuszczamy flagę, gdyż doszło do zamiany
+            }
+        if(flaga)   // flaga podniesiona - nie doszło do żadnej zamiany, więc wszystko jest na swoim miejscu i możemy wyjść
+            return;
+    }
+}
+ 
+void wypisuje(int* tablica)
+{
+    sortuj(tablica);        // posortowanie tablicy przed jej wypisaniem
+    for(short i = 0; i < ROZMIAR; ++i)
+    {
+        cout << tablica[i] << " " ;
+    }
+    cout << endl;
+ 
+}
+ 
+bool czy_juz_jest(int* tablica, int liczba, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        if(liczba == tablica[i])
+        {
+            return true;
+        }
+    }
+ 
+    return false;
+ 
+ 
+}
+ 
+void wypelnij(int* tablica)
+{
+    srand(time(nullptr));
+ 
+ 
+    for(short i = 0; i <ROZMIAR; ++i)
+    {
+        int liczba;
+        do
+        {
+            liczba = (rand() % 49) + 1;
+        }
+        while(czy_juz_jest(tablica, liczba, i));
+        tablica[i] = liczba;
+    }
+}
+ 
+ 
+int main()
+{
+    int tablica[ROZMIAR];
+    wypelnij(tablica);
+    wypisuje(tablica);
+    return 0;
+}

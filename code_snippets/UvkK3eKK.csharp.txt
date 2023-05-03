@@ -1,0 +1,19 @@
+using System;
+ 
+namespace GladiatorFight
+{
+    public class Duelist : Fighter
+    {
+        public Duelist(string name, int health, int damage, int armor) : base (name, health, damage, armor)
+        {
+            
+        }
+        
+        public override int GetSkillDamage(int roundCount)
+        {
+            int skillDamage = Damage * 2;
+            Console.Write("\nИспользован скилл Дуелиста! *Двойной урон*");
+            return skillDamage;
+        }
+    }
+}

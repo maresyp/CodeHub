@@ -1,0 +1,87 @@
+add_action('end_wcfm_vendor_settings', function ($vendor_id) {
+    global $WCFM, $WCFMmp;
+    $wcfm_min_order_amt = get_user_meta($vendor_id, '_wcfm_min_order_amt', true);
+?>
+    <div class="page_collapsible" id="wcfm_settings_form_min_order_amount_head">
+        <label class="wcfmfa fa-cart-plus"></label>
+        <?php _e('Min Order Amount', 'wc-frontend-manager'); ?><span></span>
+    </div>
+    <div class="wcfm-container">
+        <div id="wcfm_settings_form_vendor_invoice_expander" class="wcfm-content">
+            <?php
+            $WCFM->wcfm_fields->wcfm_generate_form_field(array(
+                "_wcfm_min_order_amt" => array('label' => __('Minimum Amount', 'wc-frontend-manager'), 'type' => 'number', 'class' => 'wcfm-text wcfm_non_negative_input wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $wcfm_min_order_amt),
+            ));
+            ?>
+        </div>
+    </div>
+    <div class="wcfm_clearfix"></div>
+<?php
+}, 500);
+add_filter('wcfm_marketplace_settings_fields_general', function ($setting_fields, $vendor_id) {
+    if (!wcfm_is_vendor()) {
+        $wcfm_min_order_amt = get_user_meta($vendor_id, '_wcfm_min_order_amt', true);
+        $wcfm_min_order_amt_field = array(
+            "_wcfm_min_order_amt" => array('label' => __('Minimum Amount', 'wc-frontend-manager'), 'type' => 'number', 'class' => 'wcfm-text wcfm_non_negative_input wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $wcfm_min_order_amt),
+        );
+        $setting_fields = array_merge($wcfm_min_order_amt_field, $setting_fields);
+    }
+    return $setting_fields;
+}, 50, 2);
+add_action('woocommerce_single_product_summary', function () {
+    global $WCFM, $WCFMmp, $post;
+    $vendor_id = 0;
+    $product_id = 0;
+    if (is_product() && $post && is_object($post)) {
+        $product_id = $post->ID;
+    }
+    if (!$product_id) return;
+    $vendor_id = wcfm_get_vendor_id_by_post($product_id);
+    if (!$vendor_id) return;
+    $wcfm_min_order_amt = get_user_meta($vendor_id, '_wcfm_min_order_amt', true);
+    if (!$wcfm_min_order_amt) return;
+    echo '<div class="wcfm_clearfix"></div><div class="wcfmmp_shipment_processing_display">' . __('Minimum order amount should be ', 'wc-multivendor-marketplace') . ' ' . wc_price($wcfm_min_order_amt) . '</div><div class="wcfm_clearfix"></div>';
+}, 35);
+add_action('wcfm_vendor_settings_update', function ($vendor_id, $wcfm_settings_form) {
+    global $WCFM, $WCFMmp;
+    if (isset($wcfm_settings_form['_wcfm_min_order_amt'])) {
+        $wcfm_min_order_amt = $wcfm_settings_form['_wcfm_min_order_amt'];
+        update_user_meta($vendor_id, '_wcfm_min_order_amt', $wcfm_min_order_amt);
+    }
+}, 500, 2);
+add_action('woocommerce_check_cart_items', function () {
+    global $WCFM, $WCFMmp;
+    $return = true;
+    if (is_cart() || is_checkout()) {
+        $vendor_wise_cart_total = array();
+        foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+            $cart_product_id = $cart_item['product_id'];
+            $cart_product = get_post($cart_product_id);
+            if (!isset($vendor_wise_cart_total[$cart_product->post_author])) $vendor_wise_cart_total[$cart_product->post_author] = 0;
+            $vendor_wise_cart_total[$cart_product->post_author] += $cart_item['line_subtotal'];
+            if(WC()->cart->display_prices_including_tax()) {
+                $vendor_wise_cart_total[$cart_product->post_author] += $cart_item['line_subtotal_tax'];
+            }
+        }
+        $error_notices = [];
+        if (!empty($vendor_wise_cart_total)) {
+            foreach ($vendor_wise_cart_total as $vendor_id => $cart_total) {
+                if (wcfm_is_vendor($vendor_id)) {
+                    $wcfm_min_order_amt = get_user_meta($vendor_id, '_wcfm_min_order_amt', true);
+                    if ($wcfm_min_order_amt && ($wcfm_min_order_amt > $cart_total)) {
+                        $vendor_label = wcfm_get_vendor_store($vendor_id) . ' ' . apply_filters('wcfm_sold_by_label', $vendor_id, __('Store', 'wc-frontend-manager'));
+                        $error_notices[] = [$vendor_label, wc_price($wcfm_min_order_amt)];
+                    }
+                }
+            }
+        }
+        if(!empty($error_notices)) {
+            wc_clear_notices();
+            foreach($error_notices as $vendor_notice) {
+                wc_add_notice(sprintf(__("%s minimum order amount should be %s, please add few more items from this store!", "wc-frontend-manager"), $vendor_notice[0], $vendor_notice[1]), 'error');
+            } 
+        }
+        $return = false;
+    }
+    return $return;
+}, 1000);

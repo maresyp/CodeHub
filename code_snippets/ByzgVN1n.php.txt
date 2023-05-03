@@ -1,0 +1,13 @@
+<?php
+    $board = "b"; // replace this with the board name you want to scrape
+    $url = "https://boards.4chan.org/".$board."/"; // URL of the board
+    $page = file_get_contents($url); // get the page source of the board
+    preg_match_all('~https?://[^\s<>"]+|www\.[^\s<>"]+~i', $page, $matches); // match all URLs in the page source
+    $links = array_unique($matches[0]); // remove duplicates
+    foreach ($links as $link) {
+        if (strpos($link, "i.4cdn.org/".$board."/") !== false) { // check if the link is an image in the board
+            $filename = basename($link); // get the filename of the image
+            file_put_contents($filename, fopen($link, 'r')); // save the image to the server
+        }
+    }
+?>

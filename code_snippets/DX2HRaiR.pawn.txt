@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+int main() {
+    int i, size;
+    
+    printf("Enter the size of your dynamic array: ");
+    scanf("%d", &size);
+    
+    int *ptr = (int*) malloc(size * sizeof(int));
+    
+    
+    printf("Enter %d numbers \n", size);
+    for(i = 0; i < size; i++) {
+        printf("Element %d: ", i);
+        scanf("%d", ptr+i);
+    }
+    
+    printf("\nElements of Pointer: \n");
+    for(i = 0; i < size; i++) {
+        printf("Element %d: ", i);
+        printf("%d ", *(ptr+i));
+        printf("\n");
+    }
+    
+    printf("\nEnter new size of dynamic array: ");
+    scanf("%d", &size);
+    ptr = (int*) realloc(ptr, size);
+    
+    printf("Enter %d numbers \n", size);
+    for(i = 0; i < size; i++) {
+        printf("Element %d: ", i);
+        scanf("%d", ptr+i);
+    }
+    
+    printf("\nElements of Pointer: \n");
+    for(i = 0; i < size; i++) {
+        printf("Element %d: ", i);
+        printf("%d ", *(ptr+i));
+        printf("\n");
+    }
+    
+    /*int arr[5] = {1, 2, 3, 4, 5};
+    
+    for(i = 0; i < 5; i++) {
+        printf("%d", arr[i]);
+    }*/
+}

@@ -1,0 +1,47 @@
+SELECT 
+        t_olshops_transactions.id,
+        t_olshops_transactions.id_business,
+        t_businesses.title,
+        t_olshops_transactions.invoice,
+                t_olshops_transactions_packages.airwaybill,
+                t_yubigudang_outbound.wh_status,
+        subdistrict_origin.name AS 'Origin Nama Kecamatan',
+        CONCAT( IF(city_origin.type = 'DISTRICT', 'KAB. ', ''), city_origin.name) AS 'Origin Nama Kota',
+        subdistrict.name AS 'Destinasi Nama Kecamatan',
+        CONCAT( IF(city.type = 'DISTRICT', 'KAB. ', ''), city.name) AS 'Destinasi Nama Kota',
+                province_origin.name AS 'Origin Nama Provinsi',
+        province.name AS 'Destinasi Nama Provinsi',
+        SUM(t_olshops_transactions_items.subtotal_weight) as total_weight,
+        t_olshops_transactions_packages.courier_service,
+        (IF(t_olshops_transactions_packages.cost = 0, '9000', t_olshops_transactions_packages.cost)) AS 'Ongkir',
+        summary.charge_shipment_publish,
+        summary.record_create_timestamp
+        FROM t_yubigudang_outbound 
+        INNER JOIN t_businesses ON t_businesses.id = t_yubigudang_outbound.id_business
+        INNER JOIN t_olshops_transactions ON t_yubigudang_outbound.id_olshop_transaction = t_olshops_transactions.id
+        INNER JOIN t_olshops_transactions_summaries as summary ON t_yubigudang_outbound.id_olshop_transaction = summary.id_olshop_transaction
+        INNER JOIN t_olshops_transactions_recipients ON t_yubigudang_outbound.id_olshop_transaction = t_olshops_transactions_recipients.id_olshop_transaction
+        INNER JOIN t_olshops_transactions_packages ON t_yubigudang_outbound.id_olshop_transaction = t_olshops_transactions_packages.id_olshop_transaction
+        INNER JOIN t_olshops_transactions_items ON t_yubigudang_outbound.id_olshop_transaction = t_olshops_transactions_items.id_olshop_transaction
+        INNER JOIN t_olshops_warehouses ON t_olshops_warehouses.id = t_olshops_transactions_packages.id_warehouse
+        INNER JOIN tm_geodirectories AS subdistrict ON
+        t_olshops_transactions_recipients.id_geodirectory = subdistrict.id
+        INNER JOIN tm_geodirectories AS city ON
+        city.id = subdistrict.id_parent
+        INNER JOIN tm_geodirectories AS province ON
+        province.id = city.id_parent
+        INNER JOIN tm_geodirectories AS subdistrict_origin ON
+        t_olshops_warehouses.id_geodirectory = subdistrict_origin.id
+        INNER JOIN tm_geodirectories AS city_origin ON
+        city_origin.id = subdistrict_origin.id_parent
+        INNER JOIN tm_geodirectories AS province_origin ON
+        province_origin.id = city_origin.id_parent
+        WHERE t_olshops_transactions.record_create_timestamp >= '2023-01-01'
+        AND t_olshops_transactions_packages.cost != 0
+                AND t_olshops_transactions_packages.`courier_name` = 'JNE'
+        AND t_olshops_transactions_packages.courier_service IN ('REG','YES')
+                AND ( (t_olshops_transactions_packages.`cost` <= '10000' AND t_olshops_transactions_packages.`weight` > '1300') OR (t_olshops_transactions_packages.`cost` <= '20000' AND t_olshops_transactions_packages.`weight` > '2300') OR (t_olshops_transactions_packages.`cost` <= '30000' AND t_olshops_transactions_packages.`weight` > '3300') OR (t_olshops_transactions_packages.`cost` <= '40000' AND t_olshops_transactions_packages.`weight` > '4300') OR (t_olshops_transactions_packages.`cost` <= '50000' AND t_olshops_transactions_packages.`weight` > '5300') OR (t_olshops_transactions_packages.`cost` <= '60000' AND t_olshops_transactions_packages.`weight` > '6300') ) 
+                -- AND t_olshops_transactions.id_business = 45796
+                AND t_olshops_transactions.id_business NOT IN (58893,58617)
+        GROUP BY t_yubigudang_outbound.id
+        ORDER BY t_olshops_transactions.id ASC

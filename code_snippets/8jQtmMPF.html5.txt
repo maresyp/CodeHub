@@ -1,0 +1,464 @@
+#workskin,
+.userstuff {
+  font-size: 100%;
+}
+ 
+#chapters {
+  border: 0;
+  margin-right: 5px;
+}
+ 
+h4 {
+  font-size: 1.2em;
+}
+ 
+div#inner,
+#workskin,
+.blurb .userstuff,
+.news .userstuff,
+.system .userstuff {
+  width: 100% !important;
+  margin: auto;
+}
+ 
+.collection blockquote.userstuff {
+  width: 90% !important;
+  padding-top: 10px;
+}
+ 
+#workskin blockquote.userstuff {
+  width: 90% !important;
+  padding-top: 10px;
+  margin: auto;
+}
+ 
+#footer .module {
+  max-width: 40%;
+  margin: auto;
+}
+ 
+#footer .heading {
+  overflow-wrap: break-word;
+}
+ 
+.filters dt,
+.javascript {
+  background-color: transparent;
+}
+ 
+#ui-datepicker-div {
+  top: 522px !important;
+}
+ 
+#header {
+  font-size: 110%;
+}
+ 
+#header .search {
+  display: block;
+}
+ 
+#header .heading,
+#login,
+#greeting,
+#header .primary {
+  display: block;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  float: none;
+}
+ 
+#login,
+#greeting {
+  padding: 0;
+}
+ 
+#header .dropdown .menu a,
+#header .dropdown .menu .current {
+  white-space: nowrap;
+}
+ 
+#header .user {
+  float: none;
+  text-align: center;
+}
+ 
+#header .menu,
+#small_login,
+#header .dropdown:hover .current + .menu,
+#header .menu,
+#small_login,
+#header .dropdown:hover .current + .menu {
+  width: auto;
+}
+ 
+.primary li:nth-of-type(4) .menu {
+  margin-left: -110px;
+}
+ 
+.home .header .userstuff,
+.home .header dl.stats,
+.home .header .type {
+  margin-left: auto;
+  vertical-align: bottom;
+}
+ 
+dl.stats {
+  vertical-align: bottom !important;
+}
+ 
+.home .header h2 {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  text-align: center;
+  word-break: break-word;
+}
+ 
+.home .header ul.actions,
+ul.actions,
+p.actions,
+li.actions,
+span.actions,
+fieldset.actions,
+dd.actions {
+  float: none;
+}
+ 
+.news h4.landmark {
+  display: none;
+}
+ 
+h3.heading {
+  padding: 5px 0;
+}
+ 
+h2.title.heading {
+  padding-top: 20px;
+}
+ 
+.user h2.heading,
+.admin h2.heading,
+.collection h2.heading {
+  margin: 10px auto;
+  text-align: center;
+}
+ 
+div.preface {
+  margin: 1.5em;
+}
+ 
+#dashboard,
+#dashboard.own {
+  border-bottom: 0px;
+  border-top: 0px;
+  border: 0px;
+}
+ 
+.blurb .header .heading {
+  margin: 0.375em 0.375em;
+  overflow-wrap: break-word;
+}
+ 
+.header .datetime {
+  text-align: center !important;
+  padding-bottom: 8px;
+  position: initial;
+  margin-top: 5px;
+  font-size: 90% !important;
+  text-transform: uppercase;
+  padding: 5px auto;
+  font-family: sans-serif !important;
+}
+ 
+.datetime {
+  font-family: monospace;
+  padding-bottom: 5px;
+  position: initial;
+  margin-top: 5px;
+  font-size: 90%;
+  text-transform: uppercase;
+  padding: 5px auto;
+}
+ 
+.own .user .module .group {
+  border: 0px solid black;
+}
+ 
+a.tag {
+  word-break: break-word;
+  font-size: 90%;
+}
+ 
+.blurb h4.heading a {
+  word-break: break-word;
+}
+ 
+.blurb h4.heading,
+.blurb .header .heading {
+  margin: 0;
+}
+ 
+.blurb ul.required-tags {
+  position: initial;
+  top: initial;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  margin: auto;
+}
+ 
+.blurb ul.required-tags li + li + li,
+.blurb ul.required-tags li + li + li + li {
+  position: initial;
+  left: initial;
+}
+ 
+.blurb ul.required-tags li {
+  display: inline-flex;
+}
+ 
+.bookmark p.status {
+  position: relative;
+  right: initial;
+  z-index: initial;
+  display: inline-block;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+ 
+.bookmark .status span,
+.bookmark .status a {
+  display: inline-block;
+}
+ 
+.bookmark span.count {
+  line-height: initial;
+  position: initial;
+  top: initial;
+  left: initial;
+  text-align: center;
+}
+ 
+.bookmark .status a:focus {
+  overflow: initial;
+}
+ 
+.bookmark .status .count {
+  background: none;
+}
+ 
+.blurb .header h5.fandoms {
+  margin: 0px;
+}
+ 
+.blurb .header p.notice,
+.blurb ul.series {
+  margin: 10px 0;
+}
+ 
+.blurb .tags li {
+  padding-left: 0;
+  padding-right: 0;
+}
+ 
+.assigned.module th[scope=col],
+thead th[scope=col] {
+  max-width: 18px;
+  overflow: hidden;
+}
+ 
+#wrangulator table {
+  font-size: 80%;
+}
+ 
+#wrangulator ul.actions li a,
+#wrangulator ul.actions li label {
+  font-size: 70% !important;
+}
+ 
+tr,
+th,
+td,
+thead,
+tfoot {
+  vertical-align: top;
+}
+ 
+#wrangulator tbody tr th {
+  word-break: break-word;
+}
+ 
+#wrangulator tbody a.tag {
+  margin: initial;
+  padding: initial;
+  background: initial !important;
+}
+ 
+.faq .userstuff .notice,
+.faq .userstuff .caution,
+.faq .example,
+.guideline .userstuff .notice,
+.guideline .userstuff .caution,
+.guideline .example {
+  margin: 0;
+}
+ 
+li.showme a.actions,
+dl.stats dd,
+.actions a,
+.actions a:link,
+.actions a:visited,
+.action,
+.action:link,
+.action:visited {
+  white-space: normal;
+  height: initial;
+  font-size: auto;
+  vertical-align: middle;
+}
+ 
+dl.stats {
+  font-family: monospace;
+  margin-bottom: 15px;
+}
+ 
+p.kudos {
+  background: none;
+  padding: 0;
+  min-height: 0;
+  word-break: break-word;
+  font-size: 80%;
+  font-family: Trebuchet MS, Helvetica, Roboto, Arial, sans-serif;
+  text-align: justify;
+}
+ 
+p.kudos::before {
+  content: "KUDOS:";
+  font-weight: bold;
+}
+ 
+div.preface,
+.preface.group blockquote.userstuff {
+  margin: 0;
+}
+ 
+.chapter .secondary,
+.download .secondary {
+  top: initial;
+  right: 0;
+  margin: 10px;
+}
+ 
+.chapter .expandable.secondary,
+.chapter .expandable.secondary select {
+  width: 90%;
+}
+ 
+.skins .header .heading,
+.user.pseud.picture.blurb .header .heading {
+  margin: 0.375em 0.375em;
+}
+ 
+.userstuff dd {
+  margin-inline-start: 1em;
+}
+ 
+.blurb dl.tags dd,
+dl.meta dd {
+  margin-left: 0;
+}
+ 
+.meta dd {
+  margin: 0.643em 0;
+}
+ 
+.user .primary p.icon,
+.admin .primary .icon,
+.collection .icon {
+  position: initial;
+  margin: 10px auto;
+  border-radius: 50%;
+}
+ 
+.primary .icon {
+  position: relative;
+  border-radius: 50%;
+}
+ 
+input#site_search {
+  width: auto;
+}
+ 
+.comment blockquote.userstuff p {
+  margin-block-end: 0;
+  margin-block-start: 0;
+  margin-block: 0;
+  margin: 10px 10px 15px 0;
+  margin-right: 10px;
+  text-align: justify;
+}
+ 
+blockquote.userstuff.summary {
+  padding-top: 10px !important;
+  padding-bottom: 20px !important;
+}
+ 
+ul.tags.commas {
+  padding: 15px 0 15px 0;
+  font-size: 85%;
+}
+ 
+.comment .icon .visitor {
+  background: url(/images/imageset.png) no-repeat 0 -525px transparent;
+}
+ 
+.comment h4.byline {
+  overflow-wrap: break-word;
+  padding: 10px;
+}
+ 
+.notes .module {
+  border: 1px solid #dedede !important;
+  background-color: #000000;
+}
+ 
+h5.byline.heading,
+.series {
+  font-size: auto;
+  text-align: auto !important;
+}
+ 
+h5.byline.heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+ 
+blockquote.userstuff.notes {
+  background-color: #ededed !important;
+  padding: 5px;
+  font-size: 85%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+ 
+.own .user .module .group {
+  padding-top: 20px;
+}
+ 
+div[role=menu] {
+  margin-top: 10px;
+}
+ 
+.fandoms .heading {
+  text-transform: 95%;
+  font-weight: bold;
+  font-family: san-serif;
+}
+ 
+ul .actions {
+  margin-top: 10px;
+}

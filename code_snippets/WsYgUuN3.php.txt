@@ -1,0 +1,25 @@
+Resposta para atividade:
+ 
+Linha 3 $user = new User();
+ 
+Linha 9 $user.conectar
+ 
+ 
+Explicação:
+ 
+Para complementas as linhas 3 e 9, objetivando que o código funcione adequadamente deve- se inserir os  códigos.
+ 
+ 
+ 
+--------------------------------------
+ 
+Acredito que ficaria assim:
+ 
+//linha 3
+//$u = new User();
+//linha 9 (completa):
+//$u->conectar("nomeDB", "localhost", "user", "password");
+ 
+Obs1: A classe User está no arquivo usuarios.php
+Obs2: $user está reservada para receber o valor repassado pelo formulário.
+Obs3: O método conectar é para se conectar ao Banco de Dados. O login do usuário é realizado por meio do método logar.

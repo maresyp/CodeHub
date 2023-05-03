@@ -1,0 +1,18 @@
+<?php
+ 
+add_filter( 'arts/elementor/kinsey_widget_portfolio_masonry_grid/query_args', 'custom_kinsey_filter_2' );
+function custom_kinsey_filter_2( $args ) {
+  global $post;
+ 
+  if ( $post->ID === 3285 ) {
+    $args['arts_portfolio_category'] ='yachting';
+  } elseif ( $post->ID === 4035 ) {
+    $args['arts_portfolio_category'] = 'residential-complex';
+  } elseif ( $post->ID === 4039 ) {
+    $args['arts_portfolio_category'] = 'hotel';
+  } elseif ( $post->ID === 4037 ) {
+    $args['arts_portfolio_category'] = 'residential';
+  }
+ 
+  return $args;
+}

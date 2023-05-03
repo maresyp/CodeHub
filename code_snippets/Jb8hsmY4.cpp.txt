@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+ 
+using namespace std;
+ 
+double pi(unsigned N)
+{
+    double x, y;
+    
+    unsigned n = 0;
+    
+    for(unsigned i = 0; i < N; ++i)
+    {
+        x = 1.0 * rand() / RAND_MAX;
+        y = 1.0 * rand() / RAND_MAX;
+        
+        if(x * x + y * y <= 1)
+            ++n;
+    }
+    
+    return 4.0 * n / N;
+}
+ 
+int main()
+{
+    srand(time(nullptr));
+    unsigned N;
+    cout << "Podaj liczbe ile punktow ma byc losowanych (im wiecej punktow, tym wyzsza dokladnosc szacowania): ";
+    cin >> N;
+    cout << "Liczba PI zostala oszacowana na ";
+    cout << pi(N);   
+    
+    return 0;
+}

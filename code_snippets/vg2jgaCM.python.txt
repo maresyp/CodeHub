@@ -1,0 +1,132 @@
+def on_on_chat():
+    global totem
+    totem = 0
+player.on_chat(":untotem", on_on_chat)
+ 
+def on_on_chat2():
+    global spamwords, spamvar2
+    spamwords = [" Xeno spammer on top",
+        " Xeno admin is best minecraft admin",
+        " Never gonna give you up never gonna let you down never gonna run around and desert you.",
+        " I cant really think of much more, but this is better then my last admin thing ngl",
+        " Mmh, no, i dont understand this, grilled cheese obama sandwich...",
+        " Im just putting the most random stuff in this for no reason. like. mmh no i dont undestand this.",
+        " Minecraft education edition is my dog - Xeno Admin",
+        " I rule over all editions. And that will stay the same",
+        " I said right foot creep",
+        " Never judge a book by its cover - a book",
+        " i judge books by their covers - a real guy",
+        " Change my mind i am him",
+        " Xeno on bottom - lame person",
+        " I enjoy using Xeno - cool person",
+        " Ernesto is him - W man",
+        " ratatatata",
+        " ting tang wada bing bang",
+        " wada wada bing bang"]
+    spamvar2 = 1
+    while spamvar2 == 1:
+        player.execute("/tellraw @a {\"rawtext\":[{\"text\":\"" + colors._pick_random() + spamwords._pick_random() + "\"}]}")
+player.on_chat(":randomspam", on_on_chat2)
+ 
+def on_on_chat3():
+    player.execute("replaceitem entity @s slot.armor.head 1 netherite_helmet")
+    player.execute("replaceitem entity @s slot.armor.chest 1 netherite_chestplate")
+    player.execute("replaceitem entity @s slot.armor.legs 1 netherite_leggings")
+    player.execute("replaceitem entity @s slot.armor.feet 1 netherite_boots")
+player.on_chat(":armor", on_on_chat3)
+ 
+def on_on_chat4():
+    player.execute("/replaceitem entity @s slot.armor.head 1 grass")
+player.on_chat(":grassbrain", on_on_chat4)
+ 
+def on_on_chat5():
+    global god
+    god = 1
+    while god == 1:
+        player.execute("/effect @s instant_health 1 255 true")
+player.on_chat(":god", on_on_chat5)
+ 
+def on_on_chat6():
+    global god
+    god = 0
+player.on_chat(":ungod", on_on_chat6)
+ 
+def on_on_chat7():
+    global spamvar
+    spamvar = 1
+    while spamvar == 1:
+        player.execute("/tellraw @s {\"rawtext\":[{\"text\":\"§g Xeno Admin SPAMMER \"}]}")
+player.on_chat(":spam", on_on_chat7)
+ 
+def on_on_chat8():
+    global totem
+    totem = 1
+    while totem == 1:
+        player.execute("/replaceitem entity @s slot.weapon.offhand 1 totem_of_undying ")
+player.on_chat(":totem", on_on_chat8)
+ 
+def on_on_chat9():
+    player.execute("/tellraw @s {\"rawtext\":[{\"text\":\"§g Teleporting... \"}]}")
+    loops.pause(1000)
+    player.teleport(randpos(pos(0, 0, 0), pos(10000, 0, 10000)))
+player.on_chat(":tpr", on_on_chat9)
+ 
+def on_on_chat10():
+    player.execute("/tellraw @s {\"rawtext\":[{\"text\":\"§g:grassbrain | :gms | :gmc | :spam | :unspam | :fly | :unfly | :totem | :untotem | :god | :ungod | :lockworld | :bringall | :randomspam | :unrandomspam | :armor \"}]}")
+player.on_chat(":cmds", on_on_chat10)
+ 
+def on_on_chat11():
+    gameplay.set_game_mode(CREATIVE, mobs.target(LOCAL_PLAYER))
+player.on_chat(":gmc", on_on_chat11)
+ 
+def on_on_chat12():
+    global spamvar2
+    spamvar2 = 0
+player.on_chat(":unrandomspam", on_on_chat12)
+ 
+def on_on_chat13():
+    player.execute("/ability @s mayfly true")
+player.on_chat(":fly", on_on_chat13)
+ 
+def on_on_chat14():
+    global spamvar
+    spamvar = 0
+player.on_chat(":unspam", on_on_chat14)
+ 
+def on_on_chat15():
+    player.execute("/tp @a @s")
+player.on_chat(":bringall", on_on_chat15)
+ 
+def on_on_chat16():
+    player.execute("/ability @s mayfly false")
+player.on_chat(":unfly", on_on_chat16)
+ 
+def on_on_chat17():
+    gameplay.set_game_mode(SURVIVAL, mobs.target(LOCAL_PLAYER))
+player.on_chat(":gms", on_on_chat17)
+ 
+def on_on_chat18():
+    player.execute("/kick @a §0⁕§GWorld has been locked by Admin of world please ask them to renew the code and give it to you to regain access..." + " Admin: " + Admin)
+player.on_chat(":lockworld", on_on_chat18)
+ 
+def on_on_chat19():
+    global Admin
+    for index in range(3):
+        Admin = player.name()
+player.on_chat(".setAdmin", on_on_chat19)
+ 
+Admin = ""
+spamvar = 0
+god = 0
+spamvar2 = 0
+spamwords: List[str] = []
+totem = 0
+colors: List[str] = []
+player.execute("/tag @s add Free")
+welcome = ["Welcome to Xeno Admin",
+    "Hey, i hope you enjoy Xeno Admin",
+    "Good day' mate hope ya enjoy the Admin aka Xeno Admin!"]
+colors = ["§4", "§6", "§1"]
+player.execute("/tellraw @s {\"rawtext\":[{\"text\":\"§0.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ..                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .\"}]}")
+player.execute("/tellraw @a {\"rawtext\":[{\"text\":\"" + colors._pick_random() + welcome._pick_random() + "\"}]}")
+player.execute("/tellraw @s {\"rawtext\":[{\"text\":\"§5use :cmds to view commands\"}]}")

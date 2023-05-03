@@ -1,0 +1,16 @@
+@FXML
+    void onOpenDecipherItem() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open file");
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            FileReader reader = new FileReader(selectedFile);
+            int c;
+            StringBuilder sb = new StringBuilder();
+            while ((c = reader.read()) > 0) {
+                sb.append((char)c);
+            }
+            TextToDecipherInputField.setText(sb.toString());
+            reader.close();
+        }
+    }

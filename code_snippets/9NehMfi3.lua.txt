@@ -1,0 +1,29 @@
+-- Set up the HTTP request headers
+local headers = {
+    ["Authorization"] = "Bearer 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",
+    ["Content-Type"] = "application/json"
+}
+ 
+-- Set up the request body with the text to generate a completion for
+local request_body = {
+    prompt = "Hello, ChatGPT!",
+    max_tokens = 50
+}
+ 
+-- Encode the request body as a JSON string
+local request_body_json = textutils.serializeJSON(request_body)
+ 
+-- Send the HTTP request to the API endpoint
+local response = http.post(
+    "https://api.openai.com/v1/engines/davinci-codex/completions",
+    request_body_json,
+    headers
+)
+ 
+-- Decode the response body from JSON
+local response_json = textutils.unserializeJSON(response.readAll())
+ 
+-- Extract the generated text from the response
+local generated_text = response_json.choices[1].text
+ 
+print(generated_text)

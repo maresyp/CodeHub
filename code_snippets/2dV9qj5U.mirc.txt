@@ -1,0 +1,33 @@
+alias lastword {
+  if (mibbit isin $address($$1,5)) {
+    guser -a lastword $$1 11
+  }
+  elseif (undernet isin $address($$1,5)) {
+    guser -a lastword $$1 2
+  }
+  else {
+    guser -a lastword $$1 3
+  }
+}
+ 
+#lastword_response on
+ 
+on lastword:text:*:?: {
+  .timer 1 $rand(5,10) msg $nick $read(lastword.txt)
+  .disable #lastword_response
+  .timer 1 5 .enable #lastword_response
+}
+ 
+on lastword:notice:*:?: {
+  .timer 1 $rand(5,10) msg $nick $read(lastword.txt)
+  .disable #lastword_response
+  .timer 1 5 .enable #lastword_response
+}
+ 
+on lastword:action:*:?: {
+  .timer 1 $rand(5,10) msg $nick $read(lastword.txt)
+  .disable #lastword_response
+  .timer 1 5 .enable #lastword_response
+}
+ 
+#lastword_response end

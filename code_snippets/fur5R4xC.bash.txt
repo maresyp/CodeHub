@@ -1,0 +1,85 @@
+blkdiscard /dev/vdb
+blkdiscard /dev/vdc
+ 
+sgdisk --zap-all /dev/vdb
+sgdisk --zap-all /dev/vdc
+ 
+ls -lart /dev/disk/by-path
+ 
+zpool create \
+    -o ashift=12 \
+    -O acltype=posixacl -O canmount=off -O compression=lz4 \
+    -O xattr=sa -f storage mirror \
+     /dev/disk/by-path/pci-0000:2c:00.0-ata-1 \
+    /dev/disk/by-path/pci-0000:2c:00.0-ata-2 
+ 
+zpool add storage cache /dev/disk/by-path/pci-0000:26:00.0-ata-2
+zpool add storage log /dev/disk/by-path/pci-0000:2c:00.0-ata-5
+zfs set atime=off storage
+zfs set recordsize=1M storage
+zfs set redundant_metadata=most storage
+zpool set autotrim=on storage
+zfs set sync=always storage 
+zfs set mountpoint=none storage
+zfs create storage/files
+zfs set mountpoint=/files storage/files
+zfs create storage/backup
+zfs set mountpoint=/backup storage/backup
+zfs set dedup=verify storage/backup
+ 
+#IMPORTANT MEMORY SETTINGS
+cat >> /etc/modprobe.d/zfs.conf << EOF
+options zfs zfs_arc_min=10737418239
+options zfs zfs_arc_max=10737418240
+EOF
+ 
+update-initramfs -u
+ 
+echo "$[10 * 1024*1024*1024 - 1]" >/sys/module/zfs/parameters/zfs_arc_min
+echo "$[10 * 1024*1024*1024]" >/sys/module/zfs/parameters/zfs_arc_max
+ 
+ 
+ 
+ 
+#just INFOS: 
+ 
+#recordsize 16k – 32k : database, IoT, logging, monitoring, webserver
+#recordsize 64k – 256k : VMs, normal files, network shares, operating systems
+#recordsize 256k + :  pictures, movies, music, backups, isos, images, big data
+#but a recommend standard is recordsize=1M
+#optimal for proxmox: 128k
+ 
+#enable dedub verify check the blocks more intense.
+#zfs set dedup=verify storage/backup
+#zfs set dedup=on storage/backup
+ 
+#create a volume 
+#zfs create -s -V 10G storage/vol1
+ 
+#install iscsi server and give the volume to another server as local storage over ethernet.
+#apt-get install tgt
+ 
+#cat >> /etc/tgt/conf.d/target01.conf << EOF
+#<target iqn.2021-5.servername:vol1>
+#backing-store /dev/zvol/storage/vol1
+#</target>
+#EOF
+ 
+#systemctl reload tgt
+ 
+#diagnostics
+#zpool status
+#zpool iostat -v
+#arcstat
+#zfs list storage/backup
+#zdb -b storage
+ 
+#activate deduplication not under 1,5% rate
+#zfs get compressratio,refcompressratio
+ 
+#zfs get all storage/backup
+ 
+#arc_summary -s zil
+#arc_summary -s l2arc
+#arc_summary -s archits
+#arc_summary -s arc

@@ -1,0 +1,946 @@
+//[Az] - Varrios Los Aztecas Commands by, Knyazev aka SexyArturo
+CMD:azhelp(playerid, params[])
+{
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+        new string[2400];
+        strcat(string, "\n{FFFFFF}Aztecas - General Commands (1/12)", 2400 );
+        strcat(string, "\n{FF0000}/AzMembers {ACACAC}( Shows All Current Aztecas Online! )", 2400 );
+        strcat(string, "\n{FF0000}/AzH {ACACAC}( Tells Other Aztecas You Need Help! )", 2400 );
+        strcat(string, "\n{FF0000}/Az {ACACAC}( Official Azteca Private Chat )", 2400 );
+        strcat(string, "\n{FF0000}/AzAfk {ACACAC}( Azteca AFK )", 2400 );
+        strcat(string, "\n{FF0000}/AzBack {ACACAC}( Azteca Is Now Back )", 2400 );
+        strcat(string, "\n{FF0000}/AzSay {ACACAC}( Public Announce In Main Chat )", 2400 );
+        strcat(string, "\n{FF0000}/AzC(1/4) {ACACAC}( Choose Different Aztecas Colors (1/4) )", 2400 );
+        strcat(string, "\n{FF0000}/AzHL {ACACAC}( Azteca Highlight )", 2400 );
+        strcat(string, "\n{FF0000}/AzSkin(1/6) {ACACAC}( Choose Different Aztecas Skins (1/6) )", 2400 );
+        strcat(string, "\n{FF0000}/AzRules {ACACAC}( Important Azteca Rules )", 2400 );
+        strcat(string, "\n{FFFFFF}Aztecas - Weapons Commands (1/12)", 2400 );
+        strcat(string, "\n{FF0000}/AzWeaps {ACACAC}( Aztecas Weapons Pack )", 2400 );
+        strcat(string, "\n{FF0000}/AzWeaps2 {ACACAC}( Aztecas Weapons Pack 2 )", 2400 );
+        strcat(string, "\n{FF0000}/AzD {ACACAC}( Azteca Desert_Eagle )", 2400 );
+        strcat(string, "\n{FF0000}/AzS {ACACAC}( Azteca Sawn Off )", 2400 );
+        strcat(string, "\n{FF0000}/AzSp {ACACAC}( Azteca Sniper Rifle )", 2400 );
+        strcat(string, "\n{FF0000}/AzM4 {ACACAC}( Azteca M4 Rifle )", 2400 );
+        strcat(string, "\n{FFFFFF}Aztecas - Teleport Commands (1/12)", 2400 );
+        strcat(string, "\n{FF0000}/AzMode(1/6) {ACACAC}( Azteca Modes 1/6 )", 2400 );
+        strcat(string, "\n{FF0000}/AzWh {ACACAC}( Azteca Warehouse Mode )", 2400 );
+        strcat(string, "\n{FF0000}/AzBase {ACACAC}( Azteca Base )", 2400 );
+        strcat(string, "\n{FF0000}/AzParking {ACACAC}( Azteca Parking )", 2400 );
+        strcat(string, "\n{FFFFFF}Aztecas - Vehicle Menu Commands (1/12)", 2400 );
+        strcat(string, "\n{FF0000}/AzVeh {ACACAC}( Vehicle Menu In This Section )", 2400 );
+        strcat(string, "\n{FFFFFF}Aztecas - Management Commands (8/12)", 2400 );
+        strcat(string, "\n{FF0000}/SetTempAz {ACACAC}( Set Temporary Azteca Level )", 2400 );
+        strcat(string, "\n{FF0000}/SetAz {ACACAC}( Set Permanent Azteca Level )", 2400 );
+        strcat(string, "\n{FF0000}/OSetAz {ACACAC}( Set Offline Permanent Azteca Level )", 2400 );
+        strcat(string, "\n{FF0000}/AzO {ACACAC}( Official Azteca Management Chat )", 2400 );
+        strcat(string, "\n{FF0000}/AzAnn {ACACAC}( Announce To All The Azteca Members )", 2400 );
+        strcat(string, "\n\n{ACACAC}Commands Scripted by, {FF0000}Knyazev aka SexyArturo ", 2400 );
+        ShowPlayerDialog(playerid,1235, DIALOG_STYLE_MSGBOX, "{FFFFFF}Az - Varrios Los Aztecas Commands", string, "OK","Cancel");
+    } else return SendMessageToPlayer(playerid,COLOR_RED, "ERROR: You need to be a [Az] member to use this command.");
+    return 1;
+}
+CMD:azveh(playerid, params[])
+{
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+        new string[1900];
+        strcat(string, "\n{FFFFFF}Official {FF0000}Az - Varrios Los Aztecas {FFFFFF}Vehicle CMDs", 1900 );
+        strcat(string, "\n\n{FF0000}/AzCar(1/3) {ACACAC}( Huntley/Sultan/DFT-30 )", 1900 );
+        strcat(string, "\n{FF0000}/AzBike {ACACAC}( NRG-500 )", 1900 );
+        strcat(string, "\n{FF0000}/AzHeli {ACACAC}( Maverick )", 1900 );
+        strcat(string, "\n{FF0000}/AzHydra {ACACAC}( Hydra )", 1900 );
+        strcat(string, "\n{FF0000}/AzHunter {ACACAC}( Hunter )", 1900 );
+        strcat(string, "\n{FF0000}/AzBoat {ACACAC}( Jetmax )", 1900 );
+        strcat(string, "\n{FF0000}/AzTune {ACACAC}( Tune Your Vehicle )", 1900 );
+        strcat(string, "\n\n{ACACAC}Enjoy Everything We Offer You", 1900 );
+        ShowPlayerDialog(playerid,1235, DIALOG_STYLE_MSGBOX, "{FFFFFF}Varrios Los Aztecas Vehicle Menu", string, "OK","Cancel");
+    } else return SendMessageToPlayer(playerid,COLOR_RED, "ERROR: You need to be a [Az] member to use this command.");
+    return 1;
+}
+CMD:azrules(playerid, params[])
+{
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+        new string[1900];
+        strcat(string, "\n{ACACAC}Official {FF0000}Az - Varrios Los Aztecas {ACACAC}Rules", 1900 );
+        strcat(string, "\n\n{FF0000}Rule 1: {FFFFFF}You have to follow all the Server Rules{FF0000}.", 1900 );
+        strcat(string, "\n{FF0000}Rule 2: {FFFFFF}You are not allowed to spam in {FF0000}Az {FFFFFF}Chat or else you will be punished{FF0000}.", 1900 );
+        strcat(string, "\n{FF0000}Rule 3: {FFFFFF}Asking for Promotion will lead you to a Demotion{FF0000}.", 1900 );
+        strcat(string, "\n{FF0000}Rule 4: {FFFFFF}You don't are allowed should insult any other clan!{FF0000}.", 1900 );
+        strcat(string, "\n{FF0000}Rule 5: {FFFFFF}Hacking is not totally allowed in our group and you will be permanently banned in {FF0000}Az Gang.", 1900 );
+        strcat(string, "\n{FF0000}Rule 6: {FFFFFF}Being respectful in our clan is obligatory, you shouldn't disrespect any member {FF0000}Az.", 1900 );
+        strcat(string, "\n\n{ACACAC}Read All The Rules For No Make Mistakes", 1900 );
+        ShowPlayerDialog(playerid,1235, DIALOG_STYLE_MSGBOX, "{FFFFFF}Varrios Los Aztecas Rule Menu", string, "OK","Cancel");
+    } else return SendMessageToPlayer(playerid,COLOR_RED, "ERROR: You need to be a [Az] member to use this command.");
+    return 1;
+}
+forward MessageToAz(color,const string[]);
+    public MessageToAz(color,const string[])
+    {
+        for(new i = 0; i < MAX_PLAYERS; i++)
+        {
+            if(IsPlayerConnected(i) == 1)
+            if(PlayerInfo[i][Az] >= 1) {
+            if(PlayerInfo[i][LoggedIn] == 1) {
+            SendClientMessage(i, color, string); }
+        }
+      }
+    }
+CMDMessageToAz(playerid,command[])
+{
+    new string[128];
+    GetPlayerName(playerid,string,sizeof(string));
+    format(string,sizeof(string),"{01DFA5}[INFO]:{ACACAC} '%s' {01DFA5}(Level:{ACACAC} %d{01DFA5}) |{ACACAC} Command:{01DFA5} %s",string,PlayerInfo[playerid][Az],command);
+    MessageToAz(0x000066AA,string);
+    return 1;
+}
+//Llave//
+//new azawaystatus[MAX_PLAYERS] = 0;
+static AzDutyPlaying[MAX_PLAYERS];
+CMD:azmembers(playerid,params[])
+{
+    #pragma unused params
+    new count = 0;
+    new string[128];
+    new ChangeColor;
+    new AzR[128];
+    new AzDUTY[128];
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+    SendClientMessage(playerid, 0xFF0000AA, " ");
+    SendClientMessage(playerid, 0xACACACAA, "__________ Online {01DFA5}Varrios Los Aztecas {ACACAC}Members __________");
+    SendClientMessage(playerid, 0xFF0000AA, " ");
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(!IsPlayerConnected(i)) continue;
+        if(PlayerInfo[i][LoggedIn] == 0) continue;
+        if(PlayerInfo[i][Az] == 0) continue;
+ 
+        if(PlayerInfo[i][Az] == 1) { AzR = "Treasurer"; ChangeColor = 0x088A68AA; }
+        if(PlayerInfo[i][Az] == 2) { AzR = "Enforcer"; ChangeColor = 0x088A68AA; }
+        if(PlayerInfo[i][Az] == 3) { AzR = "Thug Hunter"; ChangeColor = 0x088A68AA; }
+        if(PlayerInfo[i][Az] == 4) { AzR = "Gangster"; ChangeColor = 0x00FF80AA; }
+        if(PlayerInfo[i][Az] == 5) { AzR = "Assasin"; ChangeColor = 0x00FF80AA; }
+        if(PlayerInfo[i][Az] == 6) { AzR = "Lord Knight"; ChangeColor = 0x00FF80AA; }
+        if(PlayerInfo[i][Az] == 7) { AzR = "Lieutenant"; ChangeColor = 0x23538EAA; }
+        if(PlayerInfo[i][Az] == 8) { AzR = "Legend"; ChangeColor = 0x23538EAA; }
+        if(PlayerInfo[i][Az] == 9) { AzR = "UnderBoss"; ChangeColor = 0x23538EAA; }
+        if(PlayerInfo[i][Az] == 10) { AzR = "The Don"; ChangeColor = 0x4F0F6FAA; }
+        if(PlayerInfo[i][Az] == 11) { AzR = "Godfather"; ChangeColor = 0x4F0F6FAA; }
+        if(PlayerInfo[i][Az] == 12) { AzR = "President"; ChangeColor = 0x0B2161AA; }
+ 
+        if(AzDutyPlaying[i] == 0) AzDUTY = "{FFFF00}Playing!";
+        if(AzDutyPlaying[i] == 1) AzDUTY = "{FF0000}AFK!";
+ 
+        format(string, 128, "Rank: %d - %s (Id:%i) | %s | %s",PlayerInfo[i][Az], PlayerName2(i),i,AzR,AzDUTY);
+        SendClientMessage(playerid, ChangeColor, string);
+        count++;
+    }
+    if (count == 0) SendClientMessage(playerid,0xFF0000AA,"{01DFA5}No Online {ACACAC}Varrios Los Aztecas{01DFA5} Members");
+    SendClientMessage(playerid, 0xACACACAA, "___________________________________________________");
+    return 1;
+}
+CMD:az(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+            new string[150]; format(string, sizeof(string), "{FF0000}| AzChat |: {088A68}Treasurer - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 2)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {088A68}Enforcer - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 3)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {088A68}Thug Hunter - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 4)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {00FF80}Gangster - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 5)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {00FF80}Assasin - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 6)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {00FF80}Lord Knight - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 7)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {23538E}Lieutenant - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 8)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {23538E}Legend - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 9)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {23538E}UnderBoss - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 10)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {4F0F6F}The Don - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 11)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {4F0F6F}Godfather - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][Az] == 12)
+            format(string, sizeof(string), "{FF0000}| AzChat |: {0B2161}President - %s: {CCEEFF}%s", PlayerName2(playerid), params[0] );
+            MessageToAz(green,string);
+ 
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+    return 1;
+}
+forward AzHighLight(playerid);
+public AzHighLight(playerid)
+{
+    if(PlayerInfo[playerid][blipS] == 0)
+    {
+        SetPlayerColor(playerid, 0x010A32AA); PlayerInfo[playerid][blipS] = 1;
+    }
+    else
+    {
+        SetPlayerColor(playerid, 0x440016AA); PlayerInfo[playerid][blipS] = 0;
+    }
+    return 0;
+}
+CMD:azhl(playerid,params[])
+{
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command.");
+    if(PlayerInfo[playerid][Az] >= 1) {
+    if(PlayerInfo[playerid][blip] == 0)
+    {
+                PlayerInfo[playerid][pColour] = GetPlayerColor(playerid);
+                PlayerInfo[playerid][blip] = 1;
+                BlipTimer[playerid] = SetTimerEx("AzHighLight", 1000, 1, "i", playerid);
+                SendClientMessage(playerid,0xACACACAA,"[Az HighLight]: Name is flashing.");
+                CMDMessageToAz(playerid,"AzHL (ON)");
+    }
+    else
+    {
+                KillTimer( BlipTimer[playerid] );
+                PlayerInfo[playerid][blip] = 0;
+                SetPlayerColor(playerid, PlayerInfo[playerid][pColour] );
+                SendClientMessage(playerid,0xACACACAA,"[Az HighLight]: Name un-flashing.");
+                CMDMessageToAz(playerid,"AzHL (OFF)");
+    }
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [Az] member to use this command.", "OK", "");
+    return 1;
+}
+CMD:azsay(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+        if(isnull(params)) return SendClientMessage(playerid,0xFF0000AA, "USAGE: /AzSay [text]");
+        new string[150]; format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: Treasurer - %s Says: {8A084B}%s", PlayerName2(playerid), params[0]);
+        if(PlayerInfo[playerid][Az] == 2)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Enforcer - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 3)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Thug Hunter - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 4)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Gangster - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 5)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Assasin - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 6)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Lord Knight - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 7)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Lieutenant - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 8)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Legend - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 9)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}UnderBoss - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 10)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}The Don - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 11)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}Godfather - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        if(PlayerInfo[playerid][Az] == 12)
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {0B614B}President - %s Says: {8A084B}%s", PlayerName2(playerid), params[0] );
+        return SendClientMessageToAll(0xFF0000AA,string);
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+}
+AzStaffRanks(rank){
+    new output[128];
+    if(rank==8){
+        output="Legend";
+    }else if(rank==9){
+        output="UnderBoss";
+    }else if(rank==10){
+        output="The Don";
+    }else if(rank==11){
+        output="Godfather";
+    }else if(rank==12){
+        output="President";
+    }
+ 
+    return output;
+}
+ 
+forward MessageToStaffAz(const member[],level,const message[]);
+public MessageToStaffAz(const member[],level,const message[])
+{
+    new azmsg[128];
+    for(new i = 0; i < MAX_PLAYERS; i++) {
+    if(IsPlayerConnected(i) == 1)
+        if(PlayerInfo[i][Az] >= 8) {
+            if(PlayerInfo[i][LoggedIn] == 1) {
+            format(azmsg,128,"{FF0000}[Aztecas OPER 8+]: {0B2F3A}%s - %s: {01DFA5}%s",AzStaffRanks(level),member,message);
+            SendClientMessage(i,-1,azmsg);}
+        }
+    }
+}
+ 
+CMD:azo(playerid, params[]){
+    if(!PlayerInfo[playerid][LoggedIn]) return SendClientMessage(playerid, red, "ERROR: You have to be LoggedIn to use this command.");
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    if(PlayerInfo[playerid][Az] < 8) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member rank 8+ to use this command.");
+    if(isnull(params)) return SendClientMessage(playerid, red, "USAGE: /azo [message]");
+    new pyname[64];
+    GetPlayerName(playerid,pyname,sizeof(pyname));
+    MessageToStaffAz(pyname,PlayerInfo[playerid][Az],params);
+    new string[128];
+    format(string, sizeof(string), "[Aztecas OPER 8+]: %d - %s: %s", PlayerInfo[playerid][Az],PlayerName2(playerid), params[0]);
+    return 1;
+}
+ 
+CMD:azwh(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =1381.5;
+    Ty[playerid] =-16.7;
+    Tz[playerid] =1000.9;
+    Ti[playerid] = 1;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Ware House");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Az Ware House Mode", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzWh");
+    return 1;
+}
+CMD:azmode1(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =-978.0;
+    Ty[playerid] =1024.9;
+    Tz[playerid] =1345.0;
+    Ti[playerid] = 10;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Battlefield Mode 1");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Battlefield Mode 1", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzMode1");
+    return 1;
+}
+CMD:azmode2(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =346.870025;
+    Ty[playerid] =309.259033;
+    Tz[playerid] =999.155700;
+    Ti[playerid] = 6;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Millie Room Mode 2");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Millie Room Mode 2", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzMode2");
+    return 1;
+}
+CMD:azmode3(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =2169.461181;
+    Ty[playerid] =1618.798339;
+    Tz[playerid] =1000.976562;
+    Ti[playerid] = 1;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Catigula Mode 3");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Catigula Mode 3", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzMode3");
+    return 1;
+}
+CMD:azmode4(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =2543.462646;
+    Ty[playerid] =-1308.379882;
+    Tz[playerid] =1026.728393;
+    Ti[playerid] = 2;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Crack Factory Mode 4");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Crack Factory Mode 4", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzMode4");
+    return 1;
+}
+CMD:azmode5(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =2215.454833;
+    Ty[playerid] =-1147.475585;
+    Tz[playerid] =1025.796875;
+    Ti[playerid] = 15;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Jefferson Motel 5");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Jefferson Motel Mode 5", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzMode5");
+    return 1;
+}
+CMD:azmode6(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =298.507934;
+    Ty[playerid] =-141.647048;
+    Tz[playerid] =1004.054748;
+    Ti[playerid] = 7;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Ammunation Range Mode 6");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Ammunation Range Mode 6", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzMode6");
+    return 1;
+}
+CMD:azbase(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =2648.436;
+    Ty[playerid] =-1996.673;
+    Tz[playerid] =13.123;
+    Ti[playerid] = 0;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Az Base");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Base", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzBase");
+    return 1;
+}
+CMD:azparking(playerid,params[]) {
+    #pragma unused params
+    if(!PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You have to be Az Member to use this command.");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 1;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,0x00FFFFAA, tstring);
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,0xFF0000FF,"You can't use this command in jail.");
+    Tx[playerid] =2318.271;
+    Ty[playerid] =1932.392;
+    Tz[playerid] =5.043;
+    Ti[playerid] = 0;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~~h~ Azteca Parking");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "[TELE]: %s Has Just Teleport To Azteca Parking", dsname);
+    SendClientMessageToAll(0x7FFFD4AA, string);
+    CMDMessageToAz(playerid,"AzParking");
+    return 1;
+}
+CMD:azc(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerColor(playerid,0x01DFA5FF);
+    SendClientMessage(playerid,0x01DFA5AA,"You settled Azteca Colour 1");
+    CMDMessageToAz(playerid,"AzC");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "");
+    return 1;
+}
+CMD:azc2(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerColor(playerid,0xFAE5D3FF);
+    SendClientMessage(playerid,0xFAE5D3AA,"You settled Azteca Colour 2");
+    CMDMessageToAz(playerid,"AzC2");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "");
+    return 1;
+}
+CMD:azc3(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerColor(playerid,0xFFD700FF);
+    SendClientMessage(playerid,0xFFD700AA,"You settled Azteca Colour 3");
+    CMDMessageToAz(playerid,"AzC3");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "");
+    return 1;
+}
+CMD:azc4(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerColor(playerid,0xA20A4BFF);
+    SendClientMessage(playerid,0xA20A4BAA,"You settled Azteca Colour 4");
+    CMDMessageToAz(playerid,"AzC4");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "");
+    return 1;
+}
+CMD:azafk(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+        new string[256],kuldoneve[MAX_PLAYER_NAME];
+        SendClientMessage(playerid,0x99FF00AA,"Type /azback when you back.");
+        GameTextForPlayer(playerid,"~r~ Are you now AFK", 5000, 1);
+        TogglePlayerControllable(playerid, 0);
+        GetPlayerName(playerid, kuldoneve, sizeof(kuldoneve));
+        format(string, sizeof(string), "{FF0000}[Varrios Los Aztecas]: {ACACAC}%s - {FF0000}Is now away from keyboard!",kuldoneve, playerid);
+        SendClientMessageToAll(yellow, string);
+        CMDMessageToAz(playerid,"AzAfk");
+        AzDutyPlaying[playerid] = 1;
+    }else return SendClientMessage(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+    return 1;
+}
+CMD:azback(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+        new string[256],kuldoneve[MAX_PLAYER_NAME];
+        GameTextForPlayer(playerid,"~g~ Welcome Back Az Member", 5000, 1);
+        TogglePlayerControllable(playerid, 1);
+        GetPlayerName(playerid, kuldoneve, sizeof(kuldoneve));
+        format(string, sizeof(string), "{0047AB}[Varrios Los Aztecas]: {ACACAC}%s - {0047AB}Is now back!", kuldoneve, playerid);
+        SendMessageToAll(COLOR_YELLOW, string);
+        CMDMessageToAz(playerid,"AzBack");
+        AzDutyPlaying[playerid] = 0;
+    } else return SendMessageToPlayer(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+    return 1;
+}
+CMD:azweaps(playerid,params[]) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+        GivePlayerWeapon(playerid,24,9000); GivePlayerWeapon(playerid,16,9000); GivePlayerWeapon(playerid,31,9000);
+        GivePlayerWeapon(playerid,26,9000); GivePlayerWeapon(playerid,34,9000);
+        GivePlayerWeapon(playerid,4,9000); GivePlayerWeapon(playerid,32,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{01DFA5}[Varrios Los Aztecas]: {ACACAC}%s has used command: {01DFA5}AzWeaps", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[AzWeaps] Az Member %s(%d) has used cmd: AzWeaps.",ename,playerid);
+        CMDMessageToAz(playerid,"AzWeaps");
+        return 1;
+    } else return SendMessageToPlayer(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+}
+CMD:azweaps2(playerid,params[]) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+        GivePlayerWeapon(playerid,30,9000); GivePlayerWeapon(playerid,46,9000); GivePlayerWeapon(playerid,41,9000);
+        GivePlayerWeapon(playerid,43,9000); GivePlayerWeapon(playerid,28,9000);
+        GivePlayerWeapon(playerid,3,9000); GivePlayerWeapon(playerid,27,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{01DFA5}[Varrios Los Aztecas]: {ACACAC}%s has used command: {01DFA5}AzWeaps2", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[AzWeaps2] Az Member %s(%d) has used cmd: AzWeaps2.",ename,playerid);
+        CMDMessageToAz(playerid,"AzWeaps2");
+        return 1;
+    } else return SendMessageToPlayer(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+}
+CMD:azd(playerid,params[]) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+        ResetPlayerWeapons(playerid);
+        GivePlayerWeapon(playerid,24,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{01DFA5}[Varrios Los Aztecas]: {ACACAC}%s has used command: {01DFA5}AzD", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[AzDesert] Az Member %s(%d) has used cmd: AzD.",ename,playerid);
+        CMDMessageToAz(playerid,"AzD");
+        return 1;
+    } else return SendMessageToPlayer(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+}
+CMD:azs(playerid,params[]) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+        ResetPlayerWeapons(playerid);
+        GivePlayerWeapon(playerid,26,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{01DFA5}[Varrios Los Aztecas]: {ACACAC}%s has used command: {01DFA5}AzS", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[AzSawn] Az Member %s(%d) has used cmd: AzS.",ename,playerid);
+        CMDMessageToAz(playerid,"AzS");
+        return 1;
+    } else return SendMessageToPlayer(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+}
+CMD:azm4(playerid,params[]) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+        ResetPlayerWeapons(playerid);
+        GivePlayerWeapon(playerid,31,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{01DFA5}[Varrios Los Aztecas]: {ACACAC}%s has used command: {01DFA5}AzM4", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[AzM4] Az Member %s(%d) has used cmd: AzM4.",ename,playerid);
+        CMDMessageToAz(playerid,"AzM4");
+        return 1;
+    } else return SendMessageToPlayer(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+}
+CMD:azsp(playerid,params[]) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+        ResetPlayerWeapons(playerid);
+        GivePlayerWeapon(playerid,34,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{01DFA5}[Varrios Los Aztecas]: {ACACAC}%s has used command: {01DFA5}AzSp", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[AzSniper] Az Member %s(%d) has used cmd: AzSp.",ename,playerid);
+        CMDMessageToAz(playerid,"AzSp");
+        return 1;
+    } else return SendMessageToPlayer(playerid,COLOR_RED,"ERROR: You need to be a [Az] member to use this command.");
+}
+CMD:setaz(playerid,params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+            if(!IsPlayerAdmin(playerid) && PlayerInfo[playerid][Az] < 8) return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You must be a level 8+ Az member to use this command", "OK", "Cancel");
+            new tmp[128], tmp2[128], Index;     tmp = strtok(params,Index), tmp2 = strtok(params,Index);
+            if(isnull(params)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /setAz [playerid] [level]")
+            &&
+            SendClientMessage(playerid, orange, "Function: Will set the Level of Az of the Specific Player");
+            new player1, level, playername[MAX_PLAYER_NAME], adminname[MAX_PLAYER_NAME], string[128];
+            player1 = strval(tmp);
+            if(isnull(tmp2)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /setAz [playerid] [level]")
+            &&
+            SendClientMessage(playerid, orange, "Function: Will set the Level of Az of the Specific Player");
+            level = strval(tmp2);
+ 
+            if(IsPlayerConnected(player1) && player1 != INVALID_PLAYER_ID) {
+                if(PlayerInfo[player1][LoggedIn] == 1) {
+                    if(level > 12 ) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Max Perm Az Level is 12");
+                    if(level == PlayerInfo[player1][Az]) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player is already this Az level");
+                    CMDMessageToAdmins(playerid,"SetAz");
+                    CMDMessageToAz(playerid,"SetAz");
+                    GetPlayerName(player1, playername, sizeof(playername)); GetPlayerName(playerid, adminname, sizeof(adminname));
+                    new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+ 
+                    if(level > 0) format(string,sizeof(string)," %s has set youre Az Status to level %d",adminname, level);
+                    else format(string,sizeof(string)," %s has set youre Az Status to level %d",adminname, level);
+                    SendClientMessage(player1,0x00FFFFAA,string);
+ 
+                    if(level > PlayerInfo[player1][Az]) GameTextForPlayer(player1,"~g~Az LEVEL UP", 2000, 3);
+                    else GameTextForPlayer(player1,"~r~Az LEVEL DOWN", 2000, 3);
+ 
+                    format(string,sizeof(string),"You have made %s Az Level %d on %d/%d/%d at %d:%d:%d", playername, level, day, month, year, hour, minute, second); SendClientMessage(playerid,0x00FFFFAA,string);
+                    format(string,sizeof(string),"%s has made %s Az Level %d on %d/%d/%d at %d:%d:%d",adminname, playername, level, day, month, year, hour, minute, second);
+                    SaveToFile("azmembers",string);
+                    dUserSetINT(PlayerName2(player1)).("Az",(level));
+                    PlayerInfo[player1][Az] = level;
+                    return PlayerPlaySound(player1,1057,0.0,0.0,0.0);
+                } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player must be registered and logged in to be set as a Az member");
+            } else return SendClientMessage(playerid, 0xFF0000AA, "Player is not connected");
+    } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: You must be logged in to use this commands");
+}
+ 
+CMD:azh(playerid,params[]) {
+    if(PlayerInfo[playerid][Az] >= 1) {
+        new string[128]; format(string, sizeof(string), "{01DFA5}[Varrios Los Aztecas]: {ACACAC}%s - {FFFFFF}Is Requesting Help!!!", PlayerName2(playerid), params[0] );
+        MessageToAz(red,string);
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    return 1;
+}
+CMD:azskin1(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerSkin(playerid,173);
+    CMDMessageToAz(playerid,"AzSkin1");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    return 1;
+}
+CMD:azskin2(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerSkin(playerid,174);
+    CMDMessageToAz(playerid,"AzSkin2");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    return 1;
+}
+CMD:azskin3(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerSkin(playerid,175);
+    CMDMessageToAz(playerid,"AzSkin3");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    return 1;
+}
+CMD:azskin4(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerSkin(playerid,114);
+    CMDMessageToAz(playerid,"AzSkin4");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    return 1;
+}
+CMD:azskin5(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerSkin(playerid,115);
+    CMDMessageToAz(playerid,"AzSkin5");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    return 1;
+}
+CMD:azskin6(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][Az] >= 1) {
+    SetPlayerSkin(playerid,116);
+    CMDMessageToAz(playerid,"AzSkin6");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+    return 1;
+}
+CMD:azcar1(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,579);
+            CMDMessageToAz(playerid,"AzCar1");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az Huntley");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+}
+CMD:azcar2(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,560);
+            CMDMessageToAz(playerid,"AzCar2");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az Sultan");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+}
+CMD:azcar3(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,578);
+            CMDMessageToAz(playerid,"AzCar3");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az DFT-30");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+}
+CMD:azhunter(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,425);
+            CMDMessageToAz(playerid,"AzHunter");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az Hunter");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+}
+CMD:azheli(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,487);
+            CMDMessageToAz(playerid,"AzHeli");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az Heli");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+}
+CMD:azbike(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,522);
+            CMDMessageToAz(playerid,"AzBike");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az NRG-500");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command.", "OK", "Cancel");
+}
+CMD:azboat(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,493);
+            CMDMessageToAz(playerid,"AzBoat");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az Jetmax");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command", "OK", "Cancel");
+}
+CMD:aztune(playerid, params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid, red, "ERROR : You need to be Logged in to use this command");
+    if(PlayerInfo[playerid][Az] >= 1) {
+        new vehicleid = GetPlayerVehicleID(playerid);
+        CMDMessageToAz(playerid, "AzTune");
+        ChangeVehicleColor(vehicleid,0,1);
+        AddVehicleComponent(vehicleid, 1010);
+        PlayerPlaySound(playerid,1133,0.0,0.0,0.0);
+        return PlayerPlaySound(playerid,1133,0.0,0.0,0.0);
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command", "OK", "");
+}
+CMD:azhydra(playerid,params[]) {
+    #pragma unused params
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][Az] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,520);
+            CMDMessageToAz(playerid,"AzHydra");
+            return SendClientMessage(playerid,0x00FFFFAA,"You are spawned Az Hydra");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [Az] member to use this command", "OK", "Cancel");
+}
+CMD:settempaz(playerid,params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+            if(PlayerInfo[playerid][Az] < 8) return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be 8+ level Az Member to use this command", "OK", "Cancel");
+            new tmp[128], tmp2[128], Index;     tmp = strtok(params,Index), tmp2 = strtok(params,Index);
+            if(isnull(params)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /SetTempAz [playerid] [level]");
+            new player1, level, playername[MAX_PLAYER_NAME], adminname[MAX_PLAYER_NAME], string[128];
+            player1 = strval(tmp);
+            if(isnull(tmp2)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /SetTempAz [playerid] [level]");
+            level = strval(tmp2);
+ 
+            if(IsPlayerConnected(player1) && player1 != INVALID_PLAYER_ID) {
+                if(PlayerInfo[player1][LoggedIn] == 1) {
+                    if(level > 7 ) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Max Temporary Az Level is 7");
+                    if(level == PlayerInfo[player1][Az]) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player is already this Az level");
+                    CMDMessageToAz(playerid,"SetTempAz");
+                    GetPlayerName(player1, playername, sizeof(playername)); GetPlayerName(playerid, adminname, sizeof(adminname));
+                    new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+ 
+                    if(level > 0) format(string,sizeof(string)," %s has set youre Az Status to level %d",adminname, level);
+                    else format(string,sizeof(string)," %s has set youre Az Status to level %d",adminname, level);
+                    SendClientMessage(player1,0x00FFFFAA,string);
+ 
+                    if(level > PlayerInfo[player1][Az]) GameTextForPlayer(player1,"~g~Az Rank Promoted", 2000, 3);
+                    else GameTextForPlayer(player1,"~r~Az Rank Demoted", 2000, 3);
+ 
+                    format(string,sizeof(string),"You have made %s Az Temp Level %d on %d/%d/%d at %d:%d:%d", playername, level, day, month, year, hour, minute, second); SendClientMessage(playerid,0x00FFFFAA,string);
+                    format(string,sizeof(string),"%s has made %s Az Temp Level %d on %d/%d/%d at %d:%d:%d",adminname, playername, level, day, month, year, hour, minute, second);
+                    PlayerInfo[player1][Az] = level;
+                    return PlayerPlaySound(player1,1057,0.0,0.0,0.0);
+                } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player must be registered and logged in to be set as a AzHTTP() member");
+            } else return SendClientMessage(playerid, 0xFF0000AA, "Player is not connected");
+    } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: You must be logged in to use this commands");
+}
+CMD:osetaz(playerid,params[])
+{
+    if(PlayerInfo[playerid][Az] < 8 ) return ShowPlayerDialog(playerid,1,DIALOG_STYLE_MSGBOX,"ERROR","You need to be 8+ level Az Member to use this command","OK","Terminate");
+    {
+    new file[256],string[120];
+    new tmp[128], tmp2[128], Index; tmp = strtok(params,Index), tmp2 = strtok(params,Index);
+    if(isnull(params)) return SendClientMessage(playerid, red, "USAGE: /osetAz [name] [level]");
+    if(isnull(tmp2)) return SendClientMessage(playerid, red, "ERROR: You must input a level");
+    if(strval(tmp2) > 12) return SendClientMessage(playerid, red, "ERROR: Max Az Rank is 12");
+    if(dUserINT(tmp).("Az") > PlayerInfo[playerid][Az]) return SendClientMessage(playerid, red, "ERROR: You can't set this player's rank.");
+    if(strval(tmp2) > PlayerInfo[playerid][Az]) return SendClientMessage(playerid,0x000066AA,"ERROR: You can't set yourself rank Az");
+    format(file,sizeof(file),"/ladmin/users/%s.sav",udb_encode(tmp));
+    if(!fexist(file)) return SendClientMessage(playerid, red, "ERROR: that account don't even exist!");
+    dini_Set(file,"Az",tmp2);
+    new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+    format(string,sizeof(string),"You have setted offline %s's Az level to %s on %d/%d/%d at %d:%d:%d",tmp,tmp2 ,day, month, year, hour, minute, second );
+    SendClientMessage(playerid,0x00FFFFAA,string);
+    CMDMessageToAz(playerid,"OSetAz");
+    }
+    return 1;
+}
+CMD:azann(playerid,params[]) {
+    if(isnull(params)) return SendClientMessage(playerid, red, "USAGE: /AzAnn [text]");
+    if(PlayerInfo[playerid][Az] >= 8) {
+    for(new i = 0; i < MAX_PLAYERS; i++) {
+    if(IsPlayerConnected(i)) {
+    if(PlayerInfo[i][Az] >= 1){
+    if(PlayerInfo[i][LoggedIn] == 1) {
+    PlayerPlaySound(i,1057,0.0,0.0,0.0); GameTextForPlayer(i,params, 4000, 3); GameTextForPlayer(playerid,params, 4000, 3);}}}}
+    new string[128]; format(string,sizeof(string),"{01DFA5}[Az]{ACACAC} Management{01DFA5} \"%s\" {ACACAC}has Announced to {01DFA5}Official Az Members.", pName(playerid) );
+    MessageToAz(0x00FFFFAA, string);
+    CMDMessageToAz(playerid,"AzAnn");
+    } else return ShowPlayerDialog(playerid,1,DIALOG_STYLE_MSGBOX,"ERROR","You need to be 8+ level Az Member to use this command", "OK", "");
+    return 1;
+}
+IRCCMD:aztecas(botid, channel[], user[], host[], params[])
+{
+    if (IRC_IsVoice(botid, channel, user))
+    {
+    new count = 0,string[128],AzRank[128];
+    IRC_GroupSay(gGroupID, channel,"____ |- Aztecas Members -| ____");
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (IsPlayerConnected(i))
+        {
+            if(PlayerInfo[i][Az] >= 1 && PlayerInfo[i][LoggedIn] == 1)
+            {
+ 
+                {
+                    switch(PlayerInfo[i][Az])
+                    {
+                        case 1: {
+                            AzRank = "Treasurer";
+                        }
+                        case 2: {
+                            AzRank = "Enforcer";
+                        }
+                        case 3: {
+                            AzRank = "Thug Hunter";
+                        }
+                        case 4: {
+                            AzRank = "Gangster";
+                        }
+                        case 5: {
+                            AzRank = "Assasin";
+                        }
+                        case 6: {
+                            AzRank = "Lord Knight";
+                        }
+                        case 7: {
+                            AzRank = "Lieutenant";
+                        }
+                        case 8: {
+                            AzRank = "Legend";
+                        }
+                        case 9: {
+                            AzRank = "UnderBoss";
+                        }
+                        case 10: {
+                            AzRank = "The Don";
+                        }
+                        case 11: {
+                            AzRank = "GodFather";
+                        }
+                        case 12: {
+                            AzRank = "President";
+                        }
+                    }
+                }
+                format(string, 128, "Rank: %d - %s (Id:%i) | %s |",PlayerInfo[i][Az], PlayerName2(i),i,AzRank);
+                IRC_GroupSay(gGroupID, channel, string);
+                count++;
+            }
+        }
+    }
+    if (count == 0) IRC_GroupSay(gGroupID, channel,"04No Aztecas Members Online");
+    } else return IRC_GroupSay(gGroupID, channel, "4ERROR: You are must be Voice to use this command");
+    return 1;
+}

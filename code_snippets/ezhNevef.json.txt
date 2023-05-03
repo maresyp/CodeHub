@@ -1,0 +1,15 @@
+{
+  status: 'Success',
+  method: 'server',
+  maindata: '679f2c768bd6e0c66bb70de9094fdef71a539cc8ea78749e977c332f68795f19ab34e768b7c06fb3e9867e6ccae726356e76d05ffdee15d326ac23b19bfe647c7662922da735590577ed2613d540b76eb0ef2775856f339f3b76766b1bc274fbb0fd929aa1316ec0b1c81a59f12dc95e1d06d5ce8e042b5cf46318be5a45fc2c',
+  otherdata: [
+    '7b44fdab20fea2e92abcb5e82eb4c32e',
+    '5ca574b4cb40a2bf06efcb1bfab5d368',
+    'f9b64ad07c9b579edde357d8e8133872',
+    'a2b805bc3189ee0f337fa8e20afc4bb7',
+    '9fc9577c28d0adc6a8e045acd0417a67',
+    '5f7c63a3e4a699072501af28821ff616',
+    'bc941b36b062ec85f7fc7c5a7c61aae4',
+    '48d07c0aa8ce1ca0469686dc75126aef'
+  ]
+}

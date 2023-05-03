@@ -1,0 +1,69 @@
+local args = {[1] = "UPDATE26"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "DREAM"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "NINJA"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "EPHONE"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "PRIME"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "HEAVENPART3"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "SHARDS"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "CITY"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "35KLIKES"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "HEAVEN"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "25KLIKES"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "RUSSO"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "15KLIKES"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "update16"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "MRBEAST"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "9c354"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "5KLIKES"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "MINIONS"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "1MVISITS"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "YOUTUBE"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "FLOPPA"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "2KLIKES"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)
+    local args = {[1] = "750K"}
+    game:GetService("ReplicatedStorage").CheckCode:FireServer(unpack(args))
+    wait(0.2)

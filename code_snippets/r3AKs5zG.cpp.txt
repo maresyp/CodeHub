@@ -1,0 +1,76 @@
+/*
++---------------------------------------------+
+|                                             |
+|       © 17/04/2023 (18:14) MinaMagdy        |
+|                                             |
++---------------------------------------------+
+*/
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+ 
+using namespace std;
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
+#define multi_ordered_set tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update>
+#define endl "\n"
+#define MOD 1000000007
+#define INF 2000000000
+#define all(s) s.begin(), s.end()
+#define rall(s) s.rbegin(), s.rend()
+#define sz(x) int(x.size())
+ 
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+// --------------------------->         GEOMETRY         <---------------------------    
+#define EPS 1e-9
+#define PI acos(-1)
+#define X real()
+#define Y imag()
+#define angle(a) atan2(a.Y, a.X)
+#define vec(a, b) point((b) - (a))
+#define length(a) hypot(a.Y, a.X)
+#define normalize(a) (a) / length(a)
+#define dot_prod(a, b) real(conj(a) * (b))
+#define cross_prod(a, b) imag(conj(a) * (b))
+#define lengthSqr(p) dot_prod(p, p)
+#define rotateO(p, ang) p * exp(point(0, ang))
+#define rotateA(p, about, ang) rotateO(vec((about), (p)), ang) + (about)
+#define reflicatO(v, m) conj(v / m) * m
+#define reflicatA(v, about, m) conj(vec(about, v) / vec(about, m)) * vec(about, m) + about
+ 
+typedef complex<ld> point;
+bool cin_point(point &p) {
+    double x = -INF, y = -INF;
+    cin >> x >> y;
+    p = {x, y};
+    return x != -INF or y != -INF;
+}
+ 
+int solve() {
+    int n;
+    cin >> n;
+    if (!n) return 1;
+    vector<point> v(n);
+    for (int i = 0; i < n; i++) cin_point(v[i]);
+    int a = 0, b = 0;
+    for (int i = 0; i < n; i++) {
+        int f1 = (v[i].X > v[n / 2].X ? 1 : v[i].X < v[n / 2].X ? -1 : 0);
+        int f2 = (v[i].Y > v[n / 2].Y ? 1 : v[i].Y < v[n / 2].Y ? -1 : 0);
+        if (f1 * f2 > 0) a++;
+        else if (f1 * f2 < 0) b++;
+    }
+    cout << a << " " << b << endl;
+    return 0;
+}
+ 
+int main(void)
+{
+    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
+    int testcase = 1;
+    // cin >> testcase;
+    while (testcase)
+        testcase -= solve();
+    return 0;
+}

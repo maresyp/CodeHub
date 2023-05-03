@@ -1,0 +1,93 @@
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="uuid"
+ 
+dacf255c-e46a-e4a1-b097-diacak12
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="partner_name"
+ 
+partname
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="client_name"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="invoice_date"
+ 
+kalender
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="due_date"
+ 
+kalender
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="status"
+ 
+0
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="invoice_items"
+ 
+[{"item_description":"descb","item_name":"nameb","price":14720,"product_id":"idbarang","quantity":1,"tax_id":"","tax_total":0,"total":14720,"uuid":"82c86370-6148-12e7-f32c-diacak12a","discount":0}]
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="items"
+ 
+[{"item_description":"descb","item_name":"nameb","price":14720,"product_id":"idbarang","quantity":1,"tax_id":"","tax_total":0,"total":14720,"uuid":"82c86370-6148-12e7-f32c-diacak12a","discount":0}]
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="terms"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="sent"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="discount"
+ 
+0
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="number"
+ 
+INV/2023/99705
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="notes"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="salespersons_id"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="currency"
+ 
+Rp
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="signature_text_header"
+ 
+kalenderb
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="signature_text_footer"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="partner_id"
+ 
+uuname
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="logo"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="signature"
+ 
+ 
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="template"
+ 
+1
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="meta_settings"
+ 
+{"amount":{"en_name":"Amount","id_name":"Jumlah","index":"8","show":"true","table_width":"15"},"description":{"en_name":"Description","id_name":"Deskripsi","index":"2","show":"true","table_width":"15"},"discount":{"en_name":"Discount","id_name":"Diskon","index":"6","show":"true","table_width":"10"},"price":{"en_name":"Price","id_name":"Harga","index":"5","show":"true","table_width":"15"},"product":{"en_name":"Product","id_name":"Produk","index":"1","show":"true","table_width":"15"},"quantity":{"en_name":"Quantity","id_name":"Kuantitas","index":"3","show":"true","table_width":"10"},"tax":{"en_name":"Tax","id_name":"Pajak","index":"7","show":"true","table_width":"10"},"uom":{"en_name":"Unit","id_name":"Satuan","index":"4","show":"false","table_width":"10"},"join":{"product_sku":"false"},"delivery_fee":{"show":"true"},"discount_total":{"show":"true"}}
+------WebKitFormBoundaryacak16
+Content-Disposition: form-data; name="custom_field"
+ 
+{}
+------WebKitFormBoundaryacak16--

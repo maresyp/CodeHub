@@ -1,0 +1,165 @@
+<?php
+ 
+class ContaBancaria {
+    public $nr_conta;
+    public $nome_titular;
+    public $saldo;
+ 
+    public function __construct($nr_conta, $nome_titular, $saldo) {
+        $this->nr_conta = $nr_conta;
+        $this->nome_titular = $nome_titular;
+        $this->saldo = $saldo;
+    }
+}
+ 
+$contas = [];
+$MAX_CONTAS = 20;
+ 
+function buscarConta($numero, $contas) {
+    foreach ($contas as $index => $conta) {
+        if ($conta->nr_conta == $numero) {
+            return $index;
+        }
+    }
+    return -1;
+}
+ 
+function adicionarConta(&$contas, $MAX_CONTAS) {
+    if (count($contas) >= $MAX_CONTAS) {
+        echo "Limite de contas atingido.\n";
+        return;
+    }
+ 
+    echo "Digite o numero da conta: ";
+    $nr_conta = intval(trim(fgets(STDIN)));
+ 
+    echo "Digite o nome do titular: ";
+    $nome_titular = trim(fgets(STDIN));
+ 
+    echo "Digite o saldo inicial: ";
+    $saldo = floatval(trim(fgets(STDIN)));
+ 
+    $contas[] = new ContaBancaria($nr_conta, $nome_titular, $saldo);
+    echo "Conta adicionada com sucesso!\n";
+}
+ 
+function listarContas($contas) {
+    foreach ($contas as $conta) {
+        echo "Conta: {$conta->nr_conta}, Titular: {$conta->nome_titular}, Saldo: " . number_format($conta->saldo, 2, '.', '') . "\n";
+    }
+}
+ 
+function verConta($contas) {
+    echo "Digite o numero da conta: ";
+    $nr_conta = intval(trim(fgets(STDIN)));
+ 
+    $posicao = buscarConta($nr_conta, $contas);
+    if ($posicao != -1) {
+        $conta = $contas[$posicao];
+        echo "Conta: {$conta->nr_conta}, Titular: {$conta->nome_titular}, Saldo: " . number_format($conta->saldo, 2, '.', '') . "\n";
+    } else {
+        echo "Conta não encontrada.\n";
+    }
+}
+ 
+function deposito(&$contas) {
+    echo "Digite o numero da conta: ";
+    $nr_conta = intval(trim(fgets(STDIN)));
+ 
+    echo "Digite o valor do deposito: ";
+    $valor_deposito = floatval(trim(fgets(STDIN)));
+ 
+    $posicao = buscarConta($nr_conta, $contas);
+    if ($posicao != -1) {
+        $contas[$posicao]->saldo += $valor_deposito;
+        echo "Deposito realizado com sucesso.\n";
+    } else {
+        echo "Conta não encontrada.\n";
+    }
+}
+ 
+function saque(&$contas) {
+    echo "Digite o numero da conta: ";
+    $nr_conta = intval(trim(fgets(STDIN)));
+ 
+    echo "Digite o valor do saque: ";
+    $valor_saque = floatval(trim(fgets(STDIN)));
+ 
+    $posicao = buscarConta($nr_conta, $contas);
+    if ($posicao != -1) {
+        if ($contas[$posicao]->saldo >= $valor_saque) {
+            $contas[$posicao]->saldo -= $valor_saque;
+            echo "Saque realizado com sucesso.\n";
+        } else {
+            echo "Saldo insuficiente.\n";
+        }
+    } else {
+        echo "Conta não encontrada.\n";
+    }
+}
+            
+function transferencia(&$contas) {
+    echo "Digite o numero da conta de origem: ";
+    $nr_conta_origem = intval(trim(fgets(STDIN)));
+    
+    echo "Digite o numero da conta de destino: ";
+    $nr_conta_destino = intval(trim(fgets(STDIN)));
+ 
+    echo "Digite o valor da transferencia: ";
+    $valor_transferencia = floatval(trim(fgets(STDIN)));
+ 
+    $posicao_origem = buscarConta($nr_conta_origem, $contas);
+    $posicao_destino = buscarConta($nr_conta_destino, $contas);
+ 
+    if ($posicao_origem != -1 && $posicao_destino != -1) {
+        if ($contas[$posicao_origem]->saldo >= $valor_transferencia) {
+            $contas[$posicao_origem]->saldo -= $valor_transferencia;
+            $contas[$posicao_destino]->saldo += $valor_transferencia;
+            echo "Transferencia realizada com sucesso.\n";
+        } else {
+            echo "Saldo insuficiente.\n";
+        }
+    } else {
+        echo "Uma ou ambas as contas não foram encontradas.\n";
+    }
+}
+ 
+while (true) {
+    echo "\nMenu:\n";
+    echo "1. Adicionar conta\n";
+    echo "2. Listar todas as contas\n";
+    echo "3. Ver uma conta pelo número\n";
+    echo "4. Fazer deposito\n";
+    echo "5. Fazer saque\n";
+    echo "6. Transferir entre contas\n";
+    echo "0. Sair\n";
+    echo "Escolha uma opção: ";
+    
+    $opcao = intval(trim(fgets(STDIN)));
+ 
+    switch ($opcao) {
+        case 1:
+            adicionarConta($contas, $MAX_CONTAS);
+            break;
+        case 2:
+            listarContas($contas);
+            break;
+        case 3:
+            verConta($contas);
+            break;
+        case 4:
+            deposito($contas);
+            break;
+        case 5:
+            saque($contas);
+            break;
+        case 6:
+            transferencia($contas);
+            break;
+        case 0:
+            echo "Encerrando programa...\n";
+            exit(0);
+        default:
+            echo "Opção inválida!\n";
+    }
+}

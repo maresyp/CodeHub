@@ -1,0 +1,24 @@
+public int find(int n, int m, int[][] edges) {
+        // Sort edges by decreasing order of reward
+        Arrays.sort(edges, (a, b) -> Integer.compare(b[2], a[2]));
+ 
+        // Initialize disjoint-set data structure
+        int[] parent = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            parent[i] = i;
+        }
+ 
+        // Use Kruskal's algorithm to find minimum spanning tree
+        int totalReward = 0;
+        for (int[] edge : edges) {
+            int parentA = findParent(edge[0], parent);
+            int parentB = findParent(edge[1], parent);
+            if (parentA != parentB) {
+                // Removing this edge would disconnect the graph
+                parent[parentB] = parentA;
+                totalReward += edge[2];
+            }
+        }
+ 
+        return totalReward;
+    }

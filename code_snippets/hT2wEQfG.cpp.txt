@@ -1,0 +1,158 @@
+class Access
+{
+public:
+    virtual ~Access() = 0 {}
+    virtual void foo() = 0;
+};
+ 
+class Interface
+{
+public:
+    virtual ~Interface() = 0 {}
+    virtual Access& open() = 0;
+};
+ 
+class ScopeGuard final
+{
+public:
+    explicit ScopeGuard(std::function<void()> onExit) 
+        : onExit_(onExit) 
+        , ready_(true)
+    {
+    }
+    ScopeGuard(ScopeGuard&& other)
+        : onExit_(other.onExit_)
+        , ready_(true)
+    {
+        other.ready_ = false;
+    }
+    virtual ~ScopeGuard()
+    {
+        if (ready_)
+        {
+            onExit_();
+            ready_ = false;
+        }
+    }
+private:
+    ScopeGuard();
+    ScopeGuard(ScopeGuard& other);
+    ScopeGuard& operator=(ScopeGuard&& other);
+    ScopeGuard& operator=(const ScopeGuard& other);
+ 
+    bool ready_;
+    std::function<void()> onExit_;
+};
+ 
+class Widget final : public Interface
+{
+private:
+    class Opener final : public Access
+    {
+    public:
+        explicit Opener(Widget& host) 
+            : guard_([&host] { host.end();})
+            , host_(host)
+        {}
+        Opener(Opener&& other)
+            : guard_(std::move(other.guard_))
+            , host_(other.host_)
+        {}
+        virtual void foo()
+        {
+            host_.foo();
+        }
+    private:
+        ScopeGuard guard_;
+        Widget& host_;
+    };
+ 
+    class Giver final
+    {
+    public:
+        explicit Giver(Widget& host) 
+            : guard_([&host] { host.end();})
+            , host_(host) 
+        {
+        }
+        Giver(Giver&& other)
+            : guard_(std::move(other.guard_))
+            , host_(other.host_)
+        {
+        }
+        void zig()
+        {
+            host_.zig();
+        }
+        void zag()
+        {
+            host_.zag();
+        }
+    private:
+        ScopeGuard guard_;
+        Widget& host_;
+    };
+ 
+    void close()
+    {
+        std::cout << "close" << std::endl;
+    }
+        
+    void end()
+    {
+        std::cout << "end" << std::endl;
+    }
+ 
+    void zig()
+    {
+        std::cout << "zig" << std::endl;
+    }
+ 
+    void zag()
+    {
+        std::cout << "zag" << std::endl;
+    }
+ 
+    void foo()
+    {
+        std::cout << "foo" << std::endl;
+    }
+ 
+    Opener opener_;
+ 
+public:
+    Widget()
+        : opener_(*this)
+    {
+    }
+    virtual Access& open() override
+    {
+        std::cout << "open" << std::endl;
+        return opener_;
+ 
+    }
+    Giver begin()
+    {
+        std::cout << "begin" << std::endl;
+        return Giver(*this);
+    }
+};
+ 
+int _tmain(int, _TCHAR*)
+{
+    {
+        Widget widget;
+ 
+        auto giver = widget.begin();
+        auto& opener = widget.open();
+ 
+        giver.zig();
+        giver.zag();
+ 
+        opener.foo();
+ 
+        std::cout << "hell, yeah!" << std::endl;
+    }
+ 
+    return 0;
+}

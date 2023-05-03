@@ -1,0 +1,23 @@
+import inspect
+ 
+def generate_doc(module_name):
+    """
+    Генерирует документацию на модуль в формате Markdown.
+ 
+    :param module_name: Имя модуля, для которого необходимо сгенерировать документацию.
+    """
+    module = __import__(module_name)
+    file_name = module.__file__
+    functions = inspect.getmembers(module, inspect.isfunction)
+ 
+    markdown = f"# Документация на модуль {module_name}\n\n"
+    markdown += f"Файл: `{file_name}`\n\n"
+ 
+    for name, func in functions:
+        args = inspect.signature(func).parameters.values()
+        args_list = ", ".join([arg.name for arg in args])
+ 
+        markdown += f"## `{name}({args_list})`\n\n"
+        markdown += f"{func.__doc__}\n\n"
+ 
+    return markdown

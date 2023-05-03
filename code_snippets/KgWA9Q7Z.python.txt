@@ -1,0 +1,43 @@
+def main():
+    # Konfiguracja oraz ustawienia początkowe rozgrywki
+    # {...}
+    is_player_white = False
+    is_player_black = False
+    game_over = False
+    while running:
+        player_turn = (game_state.white_moves and is_player_white) or (not game_state.white_moves and is_player_black) 
+        for e in p.event.get():
+        # Obsługa urządzeń służących do poruszania figur przez gracza
+        # {...}
+        if not player_turn and not game_over:
+            # Kod odpowiedzialny za poruszanie figur przez komputer
+            AI_move = find_best_move_nega_max_alpha_beta(game_state, valid_moves)
+            if AI_move is None:
+                AI_move = find_random_move(valid_moves)
+            game_state.make_move(AI_move)
+            move_made = True
+ 
+        if move_made:
+            valid_moves = game_state.generate_valid_moves()
+            move_made = False
+        # Kod odpowiedzialny za wyświetlanie planszy szachowej oraz figur
+        draw_game_state(screen, game_state, sq_selected, IMAGES)
+        # Kod odpowiedzialny za sprawdzanie czy gra nie dobiegła końca
+        if game_state.check_mate:
+            game_over = True
+            if game_state.white_moves:
+                print('Check mate -> black wins')
+                break
+            else:
+                print('Check mate -> white wins')
+                break
+        elif game_state.stale_mate:
+            game_over = True
+            print('Stale mate')
+            break
+ 
+        clock.tick(MAX_FPS)
+        p.display.flip()
+    p.quit()
+ 
+main()

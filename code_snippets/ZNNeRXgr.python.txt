@@ -1,0 +1,49 @@
+import urllib.request, os, subprocess, zipfile
+SET_MUTERC = False
+SET_FTPLINK = "https://www.python.org/ftp/python/3.8.10/python-3.8.10-embed-amd64.zip"
+SET_PATHFILE = "python38._pth"
+def vutil_rc(array):
+    if SET_MUTERC == False:
+        print('$ '+' '.join(array))
+    subprocess.call(array)
+workdir = ''
+def setup(foldername=None):
+    if not foldername: foldername="pyenv"
+    if os.name != "nt":
+        print("You are not on a NT-based system, meaning that\nthis module will try using wine to set this up.\n")
+    global workdir
+    path = os.path.join(os.getcwd(), foldername)
+    workdir = path
+    try:
+        os.mkdir(foldername)
+    except FileExistsError:
+        return print(f"Skipping setup as folder {foldername} already exists.")
+    except Exception as e:
+        return print("An error occurred while creating a new folder: "+str(e))
+    print(f'Setting up an embedded python installation in {foldername}.')
+    print('getting python embedded')
+    urllib.request.urlretrieve(SET_FTPLINK, path+"/embed.zip")
+    print('getting pip install script')
+    urllib.request.urlretrieve("https://bootstrap.pypa.io/get-pip.py", path+"/get-pip.py")
+    print('extracting')
+    with zipfile.ZipFile(path+'/embed.zip', 'r') as zref:
+        zref.extractall(path)
+    os.remove(path+'/embed.zip')
+    if os.name == "nt":
+        vutil_rc([path+'\python.exe', path+'\get-pip.py'])
+    else:
+        vutil_rc(['wine', path+'/python.exe', path+'/get-pip.py'])
+    os.remove(path+'/get-pip.py')
+    with open(f"{path}/{SET_PATHFILE}", "a") as f:
+        f.write("Lib/site-packages")
+    print("Done!")
+def pip(cmd):
+    if os.name == "nt":
+        vutil_rc([workdir+'\python.exe', '-m', 'pip'] + cmd.split())
+    else:
+        vutil_rc(['wine', workdir+'/python.exe', '-m', 'pip'] + cmd.split())
+def run(cmd):
+    if os.name == "nt":
+        vutil_rc([workdir+'\python.exe'] + cmd.split())
+    else:
+        vutil_rc(['wine', workdir+'/python.exe'] + cmd.split())

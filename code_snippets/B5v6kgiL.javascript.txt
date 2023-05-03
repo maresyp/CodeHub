@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Római szémok</title>
+</head>
+<body>
+    
+<form action="post">
+<label for="inputR">Római szám:</label>
+<input type="text" name="inputRomai" id="inputR">
+ 
+<button type="submit" onclick="RomanToInt(document.getElementById('inputR').value)">Átvált</button>
+ 
+</form>
+ 
+ 
+<script>
+"use strict"
+ 
+function RomanToInt(s)
+{
+ 
+ 
+const RomanN = {
+    "I":1,
+    "V":5,
+    "X":10,
+    "L":50,
+    "C":100,
+    "D":500,
+    "M":1000
+}    
+let sum =0
+let num =0
+let pattern = "[IVXLCDM]"
+ 
+const re = new RegExp(pattern)
+ 
+if (re.exec(s,pattern))
+{
+ 
+ 
+ 
+ 
+ 
+    for (let i = 0; i < s.length; i++)
+    {
+        let currentChar = s[i]
+ 
+        
+     
+        num = RomanN[currentChar]
+    
+ 
+        if ((i + 1 < s.length) && (RomanN[s[i+1]] > RomanN[currentChar]))
+        {
+            sum -= num
+        }
+        else
+        {
+            sum += num
+        }
+    }
+}
+else{
+document.write("Római számot nem tartalmaz")
+ 
+}
+    document.write(sum)
+ 
+}
+//RomanToInt("VIII");
+ 
+ 
+ 
+ 
+</script>
+ 
+ 
+</body>
+</html>

@@ -1,0 +1,28 @@
+library ieee;
+use ieee. std_logic_1164.all;
+ 
+entity DRS_FF is
+PORT( S,R,D,CLK   : in  std_logic;
+      Q, QN       : out std_logic);
+end DRS_FF;
+ 
+Architecture behavioral of DRS_FF is
+    signal tmp : std_logic;
+begin
+    process(S, R, D, clk)
+    -- variable tmp: std_logic;
+    begin
+        if (S = '0' and R = '1') then
+            tmp <= '0';
+        elsif (S = '1' and R = '0') then
+            tmp <= '1';
+        elsif (S = '1' and R = '1') then
+            tmp <= 'X';
+        elsif (clk = '1' and clk'event) then
+            tmp <= D;
+        end if; 
+ 
+    end process;
+        Q  <= tmp;
+        QN <= not tmp;
+end behavioral;

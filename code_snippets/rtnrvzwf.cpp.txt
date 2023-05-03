@@ -1,0 +1,29 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/* pętla WHILE - składnia:
+ 
+while(warunek)
+    komendy do wykonania DOPÓKI warunek jest prawdziwy
+ 
+*/
+ 
+int main()
+{
+    cout << "Podaj liczbe calkowita: ";
+    int liczba;
+    cin >> liczba;
+ 
+    // sprawdzenie błędu bufora
+    while(cin.fail())      // cin.fail() zwraca prawdę (true) jeśli w buforze wejścia (cin) jest błąd
+    {
+        cout << "Podales niepoprawna wartosc. Wpisz jeszcze raz: ";
+        cin.clear();                // usunięcie informacji o błędzie
+        cin.ignore(99999, '\n');    // usunięcie informacji z bufora wejścia
+        cin >> liczba;
+    }
+ 
+    cout << "Podales liczbe " << liczba << endl;
+    return 0;
+}

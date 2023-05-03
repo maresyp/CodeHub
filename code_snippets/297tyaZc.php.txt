@@ -1,0 +1,39 @@
+/**
+     * @Route("/application/{applicationId}/form/{formRecordId}/download",
+     *     name="company.form.applications_download_additional",
+     *     requirements={"id" = "\d+"}, methods={"GET"})
+     * @ParamConverter("application", options={"id" = "applicationId"})
+     * @ParamConverter("FormRecord", options={"id" = "formRecordId"})
+     *
+     * @param Application $application
+     * @param FormRecord $formRecord
+     * @return JsonResponse
+     */
+    public function downloadFormAnswersAction(Application $application, FormRecord $formRecord)
+    {
+        /** @var Admin $admin */
+        $admin = $this->getUser();
+ 
+        /** @var ApplicationService $applicationService */
+        $applicationService = $this->get('tts.application_service');
+        if (!$applicationService->canAdminModifyApplication($application, $admin)) {
+            $this->throwApiException(Response::HTTP_FORBIDDEN);
+        }
+        $view = $this->renderView(
+            'PDF/Candidate/additional_info.html.twig',
+            [
+                'job' => $application->getJob(),
+                'application' => $application,
+                'candidate' => $application->getCandidate(),
+                'company' => $admin->getCompany(),
+                'formRecord' => $formRecord
+            ]
+        );
+        $filename = preg_replace("/[^a-zA-Z0-9]+/", "", $application->getCandidate()->getFullName());
+        $filename .= $formRecord->getId();
+        dump($formRecord);
+        $pdfGenerator = $this->get('tts.pdf_puppeteer');
+        $pdf = $pdfGenerator->setHtml($view)->paperSize(210, 297)
+            ->pdf_fromTmp();
+        return new PdfResponse($pdf, "onboarding_form_" . $filename . ".pdf");
+    }

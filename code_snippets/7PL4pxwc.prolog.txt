@@ -1,0 +1,18 @@
+onfig.status: creating src/atomic_ops/Makefile
+config.status: creating src/atomic_ops/sysdeps/Makefile
+config.status: creating tests/Makefile
+config.status: creating src/config.h
+config.status: src/config.h is unchanged
+config.status: executing depfiles commands
+config.status: executing default commands
+root@gitlab:/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/bdw-gc-logical-mod# make
+make[1]: Entering directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/bdw-gc-logical-mod'
+/bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H   -I./include -I./include -I./libatomic_ops/src -I./libatomic_ops/src  -fexceptions -g -O2 -fno-strict-aliasing -MT allchblk.lo -MD -MP -MF .deps/allchblk.Tpo -c -o allchblk.lo allchblk.c
+libtool: Version mismatch error.  This is libtool 2.4.6 Debian-2.4.6-15, but the
+libtool: definition of this LT_INIT comes from libtool 2.4.
+libtool: You should recreate aclocal.m4 with macros from libtool 2.4.6 Debian-2.4.6-15
+libtool: and run autoconf again.
+make[1]: *** [Makefile:1361: allchblk.lo] Error 63
+make[1]: Leaving directory '/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/bdw-gc-logical-mod'
+make: *** [Makefile:1704: all-recursive] Error 1
+root@gitlab:/opt/logicmoo_workspace/packs_sys/logicmoo_opencog/bdw-gc-logical-mod#

@@ -1,0 +1,63 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+ 
+entity akkumulator is
+ 
+port (
+d  : in std_logic_vector(3 downto 0); -- Daten-Eingang
+      ld : in std_logic; -- MUX Steuereingang: 0(gedrückt)=Ergebnis durchschalten, 1(nicht gedrückt)= Dateneingang durchschalten
+sub : in std_logic; -- 0=+, 1=-
+e  : in std_logic; -- enable Auffangregister 0(gedrückt)= enabled
+clk : in std_logic; -- Takt
+ 
+c : out std_logic; -- LEDG(4) carry out
+q : out std_logic_vector(3 downto 0); -- LEDG(3..0) Daten-Ausgang
+-- debug pins:
+z_out : out std_logic_vector(4 downto 0)
+-- LEDR(4..0), z4 = carry
+);
+end entity akkumulator;
+ 
+architecture akk of akkumulator is
+ 
+signal q_out,q_in: std_logic_vector(4 downto 0);
+signal x,y,yu,yui: std_logic_vector(3 downto 0);
+signal z: std_logic_vector(4 downto 0);
+ 
+begin
+ 
+    y <= d;
+ 
+ 
+    with ld select --Multiplexer
+        q_in <=  z when '0',
+        std_logic_vector('0' & signed(d)) when '1';
+ 
+ 
+    x <= q_out(3 downto 0);
+ 
+    yu <=  y xor "1111";
+    yui <= std_logic_vector(signed(yu) + 1);
+ 
+    with sub select --Rechner
+        z  <= std_logic_vector(signed('0' & x)+ signed('0' & y)) when '0',
+        std_logic_vector(signed('0' & x)+ signed('0' & yui)) when '1';
+ 
+    z_out <= z;
+    
+    P: process (clk)
+    begin
+ 
+        if rising_edge(clk) then
+        if e = '1' then
+        q_out  <= q_in;
+        end if;
+        end if;
+ 
+        q <=  q_out(3 downto 0);
+        c <= q_out(4);
+ 
+    end process ;
+ 
+end architecture akk;
