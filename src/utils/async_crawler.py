@@ -72,10 +72,8 @@ class PasteParser(html.parser.HTMLParser):
                     self.source_name = value
 
 class Crawler:
-    def __init__(self, client: httpx.AsyncClient, starting_url: str, filter_func:FilterFunc, workers=10, limit=100, save_seen=False, load_seen=False) -> None:
+    def __init__(self, client: httpx.AsyncClient, starting_url: str, filter_func:FilterFunc, workers=10, limit=100, rate_limiter: bool = False) -> None:
         self.__client = client
-        self.save_seen = save_seen
-        self.load_seen = load_seen
 
         self.starting_url = starting_url
         self.seen = set()
@@ -87,17 +85,14 @@ class Crawler:
         self.limit = limit
         self.filter_func = filter_func
 
+        self.delay = 0
+        if rate_limiter:
+            self.num_workers = 1
+            self.delay = 1.5
+
     async def run(self) -> None:
         # start by putting the starting url in the todo queue
         await self.todo.put(self.starting_url)
-
-        if self.load_seen:
-            try:
-                with open("seen.txt") as f:
-                    for url in f:
-                        self.seen.add(url.strip())
-            except FileNotFoundError:
-                print("No seen.txt file found. Starting from scratch.")
 
         # create a list of workers
         workers = [asyncio.create_task(self.worker()) for _ in range(self.num_workers)]
@@ -109,17 +104,14 @@ class Crawler:
         for worker in workers:
             worker.cancel()
 
-        if self.save_seen:
-            # append seen urls to file
-            with open("seen.txt", "a") as f:
-                for url in self.seen:
-                    f.write(url + "\n")
+        print(f'crawled {len(self.done)} pages, {len(self.seen)} seen, {self.total} total')
 
     async def worker(self) -> None:
         while True:
             url = await self.todo.get()
             try:
                 await self.crawl(url)
+                await asyncio.sleep(self.delay)
             except Exception as e:
                 print(f"Error crawling {url}: {e}")
             finally:
@@ -169,8 +161,9 @@ class Crawler:
             await self.push_todo_url(url)
 
     async def push_todo_url(self, url: str) -> None:
-        if self.total >= self.limit:
-            return
+        if self.limit != -1:
+            if self.total >= self.limit:
+                return
         self.total += 1
 
         await self.todo.put(url)
@@ -189,8 +182,8 @@ if __name__ == "__main__":
                 client,
                 "https://www.pastebin.com/archive",
                 url_filter.url_filter,
-                workers=1,
-                limit=5)
+                workers=10,
+                limit=500)
             await crawler.run()
 
     asyncio.run(main())
