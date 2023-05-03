@@ -1,0 +1,47 @@
+package main
+ 
+import (
+    "fmt"
+    "math"
+)
+ 
+func main() {
+    blocks := []map[string]bool{
+        {"gym": false, "school": true, "store": false, "pool": false},
+        {"gym": true, "school": false, "store": false, "pool": true},
+        {"gym": true, "school": true, "store": false, "pool": false},
+        {"gym": false, "school": true, "store": false, "pool": false},
+        {"gym": false, "school": true, "store": false, "pool": false},
+        {"gym": false, "school": true, "store": true, "pool": true},
+    }
+ 
+    reqs := []string{"gym", "school", "store", "pool"}
+ 
+    closestBlock := getClosestBlock(blocks, reqs)
+    fmt.Printf("Block with the most minimum distance to all facilities: %d\n", closestBlock)
+}
+ 
+func getClosestBlock(blocks []map[string]bool, reqs []string) int {
+    // closest distante to large number
+    closestDistance := math.MaxInt32
+    closestBlock := -1
+ 
+    // for loop untuk calculate setiap block sesuai reqs
+    for i, block := range blocks {
+        distance := 0
+        for _, req := range reqs {
+            if !block[req] {
+                // case nya req tidak cocok, kita tambahkan 1
+                distance++
+            }
+        }
+ 
+        // check paling dekat
+        if distance < closestDistance {
+            closestDistance = distance
+            closestBlock = i
+        }
+    }
+ 
+    return closestBlock
+}

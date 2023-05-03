@@ -1,0 +1,50 @@
+float
+  // ball
+    ballX = 0,
+    ballY = 0,
+    ballSize, // diametras
+    ballStep,
+  // paddle
+    paddleX,
+    paddleY,
+    paddleW,
+    paddleH,
+    paddleStep;
+ 
+void setup () {
+  size (1280, 740);
+  rectMode (CENTER);
+  
+  ballSize = height * 0.1;
+  ballStep = width * 0.01;
+  
+  paddleX = width * 0.5;
+  paddleY = height * 0.95;
+  paddleW = width * 0.125;
+  paddleH = height * 0.03;
+  paddleStep = width * 0.01;
+  
+  //circle (ballX, ballY, ballSize);
+  rect (paddleX, paddleY, paddleW, paddleH);
+}
+ 
+void ball () {
+  // kamuolio judėjimas
+  ballX += ballStep;
+  ballY += ballStep;
+  
+  if (ballY > height)
+    stop ();
+    
+  fill (255);
+  if (ballY + ballSize / 2 > paddleY - paddleH / 2) {
+    // pažymiu, kad yra kamuolio kontaktas su paddle
+    fill (0, 255, 0);
+    stop ();
+  }
+  circle (ballX, ballY, ballSize);
+}
+ 
+void draw () {
+  ball ();
+}

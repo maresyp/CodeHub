@@ -1,0 +1,5 @@
+window.onload = function() {
+    var image = document.querySelector('.wp-caption-text');
+    var caption = image.querySelector('a');
+    caption.setAttribute('target', '_blank');
+}

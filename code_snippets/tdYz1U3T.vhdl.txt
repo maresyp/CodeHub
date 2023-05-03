@@ -1,0 +1,56 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+ 
+entity d_trigger_testbench is
+end d_trigger_testbench;
+ 
+architecture Behavioral of d_trigger_testbench is
+    signal D : std_logic;
+    signal clk : std_logic;
+    signal Q : std_logic;
+    signal nQ : std_logic;
+ 
+component d_trigger
+    Port (
+    C : in STD_LOGIC;
+    D : in STD_LOGIC;
+    Q: out STD_LOGIC;
+    nQ : out STD_LOGIC
+    );
+end component;
+ 
+begin
+    Test_d_trigger: d_trigger port map (clk, D, Q, nQ);
+    
+    -- генератор тактов
+    gen:
+    process
+    begin
+        clk <= '0';
+        wait for 15 ns;
+        clk <= '1';
+        wait for 15 ns;
+    end process;
+    
+    -- генератор сигнала Д
+    test:
+    process
+    begin 
+        wait for 100ns;
+        wait until clk'event and clk = '0'; d <= '0';
+        wait until clk'event and clk = '0'; d <= '1';
+        wait until clk'event and clk = '0'; d <= '0';
+    end process;
+     
+    -- ниже процесс сравнения выходов тестируемого объекта
+    -- с ожидаемыми
+    check:
+    process
+    begin
+        wait until clk'event and clk = '1';
+        wait for 9 ns; -- задержка на предполагаемое время прохождения
+        -- сигнала в D-триггере и выходном порте микросхемы!
+        assert (d = q) report "MISCOMPARING ERROR"
+        severity FAILURE;
+    end process;
+end Behavioral;

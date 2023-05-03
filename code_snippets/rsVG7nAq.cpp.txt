@@ -1,0 +1,218 @@
+string caesar_encrypt(string plaintext, int shift) {
+    string ciphertext = "";
+    for (char& c : plaintext) {
+        if (isalpha(c)) {
+            // Convert to uppercase
+            char upper_c = toupper(c);
+            // Get the position of the character in the alphabet
+            int char_pos = upper_c - 'A';
+            // Apply the shift and wrap around the alphabet
+            int shifted_pos = (char_pos + shift) % 26;
+            // Convert the shifted position back to a character
+            char shifted_char = shifted_pos + 'A';
+            // Convert back to original case
+            if (islower(c)) {
+                shifted_char = tolower(shifted_char);
+            }
+            // Add the shifted character to the ciphertext
+            ciphertext += shifted_char;
+        }
+        else if (isdigit(c)) {
+            cout << "is difit " << c << endl;
+            // Get the value of the digit
+            int digit_val = c - '0';
+            // Apply the shift and wrap around the digits
+            int shifted_val = (digit_val + shift) % 10;
+            // Convert the shifted value back to a character
+            char shifted_char = shifted_val + '0';
+            cout << "shifted " << shifted_char;
+            // Add the shifted character to the ciphertext
+            ciphertext += shifted_char;
+        }
+        else {
+            // Non-alphabetic characters are left unchanged
+            ciphertext += c;
+        }
+    }
+    return ciphertext;
+}
+ 
+string caesar_decrypt(string ciphertext, int shift) {
+    string plaintext = "";
+    for (char& c : ciphertext) {
+        if (isalpha(c)) {
+            // Convert to uppercase
+            char upper_c = toupper(c);
+            // Get the position of the character in the alphabet
+            int char_pos = upper_c - 'A';
+            // Apply the reverse shift and wrap around the alphabet
+            int shifted_pos = (char_pos - shift + 26) % 26;
+            // Convert the shifted position back to a character
+            char shifted_char = shifted_pos + 'A';
+            // Convert back to original case
+            if (islower(c)) {
+                shifted_char = tolower(shifted_char);
+            }
+            // Add the shifted character to the plaintext
+            plaintext += shifted_char;
+        }
+        else if (isdigit(c)) {
+            // Get the value of the digit
+            int digit_val = c - '0';
+            // Apply the reverse shift and wrap around the digits
+            int shifted_val = (digit_val - shift + 10) % 10;
+            // Convert the shifted value back to a character
+            char shifted_char = shifted_val + '0';
+            // Add the shifted character to the plaintext
+            plaintext += shifted_char;
+        }
+        else {
+            // Non-alphabetic characters are left unchanged
+            plaintext += c;
+        }
+    }
+    return plaintext;
+}
+ 
+vector<string> split_ecrypted(const string& s) {
+    vector<string> tokens;
+    size_t start = 0, end = 0;
+    while ((end = s.find('⋉', start)) != string::npos) {
+        tokens.push_back(s.substr(start, end - start));
+        start = end + 1;
+    }
+    tokens.push_back(s.substr(start));
+    return tokens;
+}
+ 
+void encrypt_file(string file_name) {
+    int lines_at_the_end = 0;
+    int start_empty_lines_index = -1;
+    ifstream file_lines(file_name);
+    if (file_lines.is_open()) {
+        string line;
+        int curr = 0;
+        while (!file_lines.eof()) {
+            getline(file_lines, line);
+            if (line != "") {
+                lines_at_the_end = 0;
+                start_empty_lines_index = -1;
+            }
+            else {
+                lines_at_the_end++;
+                if (start_empty_lines_index == -1) start_empty_lines_index = curr;
+            }
+            cout << "line is " << line << endl;
+            curr++;
+        }
+    }
+ 
+    cout << "at the end is " << lines_at_the_end << endl;
+    cout << "empty starts from " << start_empty_lines_index << endl;
+ 
+    ifstream file_r(file_name);
+    if (file_r.is_open()) {
+        string encrypted_line = "";
+        string line;
+        int all_lines = 0;
+        int curr_2 = 0;
+        while (getline(file_r, line)) {
+            if (line == "" && start_empty_lines_index != -1 && curr_2 >= start_empty_lines_index) break;
+            all_lines++;
+            line = caesar_encrypt(line, 7);
+            encrypted_line = encrypted_line + line + "⋉";
+            curr_2++;
+        }
+        file_r.close();
+ 
+        cout << "enc line is " << encrypted_line << endl;
+        vector<string> enc = split_ecrypted(encrypted_line);
+ 
+        file_r.close();
+ 
+        ofstream file2(file_name, ofstream::trunc);
+        file2.close();
+ 
+        ofstream origfile(file_name, std::ios::app);
+ 
+        int curr = 0;
+        for (const string& e : enc) {
+            origfile << e;
+            if (curr + 1 < all_lines) origfile << "\n";
+            curr++;
+        }
+ 
+        for (int i = 0; i < lines_at_the_end; i++) {
+            origfile << "\n";
+        }
+ 
+        origfile.close();
+    }
+}
+ 
+void decrypt_file(string file_name) {
+    int lines_at_the_end = 0;
+    int start_empty_lines_index = -1;
+    ifstream file_lines(file_name);
+    if (file_lines.is_open()) {
+        string line;
+        int curr = 0;
+        while (!file_lines.eof()) {
+            getline(file_lines, line);
+            if (line != "") {
+                lines_at_the_end = 0;
+                start_empty_lines_index = -1;
+            }
+            else {
+                lines_at_the_end++;
+                if (start_empty_lines_index == -1) start_empty_lines_index = curr;
+            }
+            cout << "line is " << line << endl;
+            curr++;
+        }
+    }
+ 
+    cout << "at the end is " << lines_at_the_end << endl;
+    cout << "empty starts from " << start_empty_lines_index << endl;
+ 
+    ifstream file_r(file_name);
+    int all_lines = 0;
+    if (file_r.is_open()) {
+        string decrypted_line = "";
+        string line;
+        int curr_2 = 0;
+        while (getline(file_r, line)) {
+            if (line == "" && start_empty_lines_index != -1 && curr_2 >= start_empty_lines_index) break;
+            all_lines++;
+            line = caesar_decrypt(line, 7);
+            decrypted_line = decrypted_line + line + "⋉";
+            curr_2++;
+        }
+        file_r.close();
+ 
+        cout << "dec line is " << decrypted_line << endl;
+        vector<string> enc = split_ecrypted(decrypted_line);
+ 
+        file_r.close();
+ 
+        ofstream file2(file_name, ofstream::trunc);
+        file2.close();
+ 
+        ofstream origfile(file_name, std::ios::app);
+ 
+        cout << "all lines " << all_lines << endl;
+        int curr = 0;
+        for (const string& e : enc) {
+            cout << "curr " << curr << " e is " << e << endl;
+            origfile << e;
+            if (curr + 1 < all_lines) origfile << "\n";
+            curr++;
+        }
+ 
+        for (int i = 0; i < lines_at_the_end; i++) {
+            origfile << "\n";
+        }
+ 
+        origfile.close();
+    }
+}

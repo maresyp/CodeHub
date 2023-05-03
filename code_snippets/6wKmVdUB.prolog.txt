@@ -1,0 +1,166 @@
+:- use_module(library(logicmoo_common)).
+/*
+JSON Conversion
+:- use_module(library(http/json_convert)).
+ 
+test_pairs(Name,Type,In,Out):- 
+  kaggle_arc_eval(Name,Stuff), once(atom_json_term(Stuff,json(L),[])),
+  json_pairs(L,Type,In,Out).
+ 
+json_pairs([],_,_,_):- !, fail.
+json_pairs(json(T),Type,In,Out):-!,json_pairs(T,Type,In,Out).
+json_pairs([input=In,output=Out],_Type,In,Out):-!.
+json_pairs(Type=List,Type,In,Out):-!,member(L,List),
+   json_pairs(L,Type,In,Out).
+json_pairs([H|T],Type,In,Out):-!, 
+  (json_pairs(H,Type,In,Out);json_pairs(T,Type,In,Out)).
+ 
+%print_trainer:- kaggle_arc_train(Name,Stuff), atom_json_term(Stuff,JSON,[]),print_arc(Name,JSON).
+%print_evaler:- kaggle_arc_eval(Name,Stuff), atom_json_term(Stuff,JSON,[]),print_arc(Name,JSON).
+ 
+*/
+ 
+:- [kaggle_arc_train].
+:- [kaggle_arc_eval].
+ 
+print_trainer:- kaggle_arc_train(Name,Type,In,Out),print_arc(Name=in(Type),In),print_arc(Name=out(Type),Out).
+ 
+% Type is test or train
+kaggle_arc(Name,Type,In,Out):- kaggle_arc_train(Name,Type,In,Out).
+kaggle_arc(Name,Type,In,Out):- kaggle_arc_eval(Name,Type,In,Out).
+ 
+/*
+% data looks like
+ 
+kaggle_arc_train('007bbfb7',train,[[0,7,7],[7,7,7],[0,7,7]],[[0,0,0,0,7,7,0,7,7],[0,0,0,7,7,7,7,7,7],[0,0,0,0,7,7,0,7,7],[0,7,7,0,7,7,0,7,7],[7,7,7,7,7,7,7,7,7],[0,7,7,0,7,7,0,7,7],[0,0,0,0,7,7,0,7,7],[0,0,0,7,7,7,7,7,7],[0,0,0,0,7,7,0,7,7]]).
+kaggle_arc_train('007bbfb7',train,[[4,0,4],[0,0,0],[0,4,0]],[[4,0,4,0,0,0,4,0,4],[0,0,0,0,0,0,0,0,0],[0,4,0,0,0,0,0,4,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,4,0,4,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0]]).
+kaggle_arc_train('007bbfb7',train,[[0,0,0],[0,0,2],[2,0,2]],[[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,2],[0,0,0,0,0,0,2,0,2],[0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,2],[2,0,2,0,0,0,2,0,2]]).
+kaggle_arc_train('007bbfb7',train,[[6,6,0],[6,0,0],[0,6,6]],[[6,6,0,6,6,0,0,0,0],[6,0,0,6,0,0,0,0,0],[0,6,6,0,6,6,0,0,0],[6,6,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0],[0,6,6,0,0,0,0,0,0],[0,0,0,6,6,0,6,6,0],[0,0,0,6,0,0,6,0,0],[0,0,0,0,6,6,0,6,6]]).
+kaggle_arc_train('007bbfb7',train,[[2,2,2],[0,0,0],[0,2,2]],[[2,2,2,2,2,2,2,2,2],[0,0,0,0,0,0,0,0,0],[0,2,2,0,2,2,0,2,2],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,2,2,2,2,2,2],[0,0,0,0,0,0,0,0,0],[0,0,0,0,2,2,0,2,2]]).
+kaggle_arc_train('007bbfb7',test,[[7,0,7],[7,0,7],[7,7,0]],[[7,0,7,0,0,0,7,0,7],[7,0,7,0,0,0,7,0,7],[7,7,0,0,0,0,7,7,0],[7,0,7,0,0,0,7,0,7],[7,0,7,0,0,0,7,0,7],[7,7,0,0,0,0,7,7,0],[7,0,7,7,0,7,0,0,0],[7,0,7,7,0,7,0,0,0],[7,7,0,7,7,0,0,0,0]]).
+ 
+kaggle_arc_train('00d62c1b',train,[[0,0,0,0,0,0],[0,0,3,0,0,0],[0,3,0,3,0,0],[0,0,3,0,3,0],[0,0,0,3,0,0],[0,0,0,0,0,0]],[[0,0,0,0,0,0],[0,0,3,0,0,0],[0,3,4,3,0,0],[0,0,3,4,3,0],[0,0,0,3,0,0],[0,0,0,0,0,0]]).
+kaggle_arc_train('00d62c1b',train,[[0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,0,0,0,0,0],[0,0,0,3,0,3,0,0,0,0],[0,0,3,0,0,0,3,0,0,0],[0,0,0,0,0,3,0,3,0,0],[0,0,0,3,0,3,3,0,0,0],[0,0,3,3,3,0,0,0,0,0],[0,0,0,3,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,0,0,0,0,0],[0,0,0,3,0,3,0,0,0,0],[0,0,3,0,0,0,3,0,0,0],[0,0,0,0,0,3,4,3,0,0],[0,0,0,3,0,3,3,0,0,0],[0,0,3,3,3,0,0,0,0,0],[0,0,0,3,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]]).
+kaggle_arc_train('00d62c1b',train,[[0,0,0,0,0,3,0,0,0,0],[0,0,0,0,3,0,0,0,0,0],[0,3,3,0,3,3,0,3,0,0],[3,0,0,3,0,0,3,0,3,0],[0,0,0,3,0,0,3,3,0,0],[0,0,0,3,0,0,3,0,0,0],[0,0,0,3,0,0,3,0,0,0],[0,0,0,0,3,3,0,3,0,0],[0,0,0,0,0,0,0,0,3,0],[0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,3,0,0,0,0],[0,0,0,0,3,0,0,0,0,0],[0,3,3,0,3,3,0,3,0,0],[3,0,0,3,4,4,3,4,3,0],[0,0,0,3,4,4,3,3,0,0],[0,0,0,3,4,4,3,0,0,0],[0,0,0,3,4,4,3,0,0,0],[0,0,0,0,3,3,0,3,0,0],[0,0,0,0,0,0,0,0,3,0],[0,0,0,0,0,0,0,0,0,0]]).
+kaggle_arc_train('00d62c1b',train,[[0,0,0,0,0,0,0,0,0,0],[0,0,3,3,3,3,0,0,0,0],[0,0,3,0,0,3,0,0,0,0],[0,0,3,0,0,3,0,3,0,0],[0,0,3,3,3,3,3,3,3,0],[0,0,0,3,0,0,0,0,3,0],[0,0,0,3,0,0,0,3,3,0],[0,0,0,3,3,0,0,3,0,3],[0,0,0,3,0,3,0,0,3,0],[0,0,0,0,3,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0],[0,0,3,3,3,3,0,0,0,0],[0,0,3,4,4,3,0,0,0,0],[0,0,3,4,4,3,0,3,0,0],[0,0,3,3,3,3,3,3,3,0],[0,0,0,3,0,0,0,0,3,0],[0,0,0,3,0,0,0,3,3,0],[0,0,0,3,3,0,0,3,4,3],[0,0,0,3,4,3,0,0,3,0],[0,0,0,0,3,0,0,0,0,0]]).
+kaggle_arc_train('00d62c1b',train,[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,3,3,3,3,0,3,3,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,3,0,0,0,0,0,0,0,3,0],[0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,3,0,0,0,0],[0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,3,0,0,0,0],[0,0,3,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,3,3,3,0,0,0,0,3,0,3,0,0],[0,0,0,0,0,0,3,3,0,0,3,0,0,3,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,0,0,3,3,0,0,3,0,0,3,0,0],[0,0,0,0,0,0,0,3,3,3,3,0,3,0,0,3,3,3,0,0],[0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,3,0,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,3,3,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,3,3,3,3,4,3,3,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,3,4,3,0,0,0,0,0,0,0,3,0],[0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,4,4,4,4,4,4,3,0,0,0,0],[0,0,0,0,3,0,0,0,3,4,4,4,4,4,4,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,4,4,4,4,4,4,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,4,4,4,4,4,4,3,0,0,0,0],[0,0,3,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0],[0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,3,3,3,0,0,0,0,3,0,3,0,0],[0,0,0,0,0,0,3,3,4,4,3,0,0,3,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,4,4,3,3,0,0,3,0,0,3,0,0],[0,0,0,0,0,0,0,3,3,3,3,0,3,0,0,3,3,3,0,0],[0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,3,4,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,3,3,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
+kaggle_arc_train('00d62c1b',test,[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,3,3,3,3,0,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,3,0,0,0,0,3,0,0,3,0,0,0,0,0,0,0],[0,0,0,0,3,3,3,3,3,0,3,3,3,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,3,0,0],[0,0,0,0,0,0,0,0,0,3,3,3,3,3,0,0,0,3,0,0],[0,0,0,0,0,0,0,0,0,3,0,0,0,3,0,0,0,3,0,0],[0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,3,0,0],[0,0,0,0,0,0,3,3,0,3,0,0,0,3,3,3,3,3,0,0],[0,0,3,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0],[0,3,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,3,3,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,3,4,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,3,3,3,3,0,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,3,4,4,4,4,3,4,4,3,0,0,0,0,0,0,0],[0,0,0,0,3,3,3,3,3,0,3,3,3,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,4,4,4,3,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,3,4,4,4,3,0,0],[0,0,0,0,0,0,0,0,0,3,3,3,3,3,4,4,4,3,0,0],[0,0,0,0,0,0,0,0,0,3,4,4,4,3,4,4,4,3,0,0],[0,0,0,0,0,0,0,0,3,3,3,3,3,3,4,4,4,3,0,0],[0,0,0,0,0,0,3,3,4,3,0,0,0,3,3,3,3,3,0,0],[0,0,3,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0],[0,3,4,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,4,4,4,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,4,4,4,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,3,3,3,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]).
+*/
+%tell(s),ignore((nl,nl,test_pairs(Name,Type,In,Out),format('~N~q.~n',[test_pairs_cache(Name,Type,In,Out)]),fail)),told.
+ 
+is_grid([H|L]):- nonvar(L), is_list(H),member(E,H),!,\+ is_list(E).
+ 
+print_arc(Name,json(JSON)):-!, print_arc(Name,JSON).
+print_arc(Name,train=Y):- !, print_arc(Name,Y).
+print_arc(Name,X->Y):- !, print_arc(in(Name),X), print_arc(out(Name),Y).
+print_arc(Name,X=Y):- !, print_arc(Name=X,Y).
+print_arc(Name,[H|L]):- is_grid([H|L]),!,print_grid(Name,[H|L]).
+print_arc(Name,[H|L]):- !, maplist(print_arc(Name),[H|L]).
+print_arc(Name,Val):- print_tree_nl(Name=Val).
+ 
+% Grid pretty printing
+print_grid(Name,Grid):- wdmsg(Name),print_grid(Grid).
+print_grid(Grid):- maplist(print_rows,Grid),nl.
+print_rows(List):- maplist(write_c,List),nl.
+block_colors([(black),(blue),(red),(green),(yellow),'#c0c0c0',(magenta),'#ff8c00',(cyan),'#8b4513']).
+write_c(V):-var(V),!,write(' ?').
+write_c(0):-!,write(' .').
+write_c(N):-write(' '),write_c1(N).
+write_c1(C):- integer(C),block_colors(L),nth0(C,L,Color),ansi_format(fg(Color),'~w',[C]),!.
+write_c1(C):-write(' '),write(C).
+ 
+% Random Non Blk Eles
+first_color(Grid1,C1):- sub_term(C1,Grid1),C1 \= 0,integer(C1).
+ 
+% Grid size/resize
+make_lengths(N,L):- length(L,N).
+grid_size(Grid,Size):- grid_size_nd(Grid,Size),!.
+grid_size_nd([C,R|Rows],size(H,V)):- 
+   (var(Rows)->between(2,30,V);!), 
+   length([C,R|Rows],V),
+   (var(R)->between(1,30,H);true), 
+   length(R,H),
+   (is_list(C)->true;(length(C,H),maplist(make_lengths(H),Rows))).
+grid_size_nd([L],size(H,1)):- (var(L)->between(1,30,H);true), length(L,H).
+ 
+% make or do plan
+do_change(Change,Grid1,Grid2):- \+ is_list(Change),!,one_change(Change,Grid1,Grid2).
+do_change(Change,Grid1,Grid2):- do_change_nd(Change,Grid1,Grid2).
+ 
+do_change_nd([],Grid1,Grid1).
+do_change_nd([H|T],Grid1,Grid2):- one_change(H,Grid1,GridM),do_change_nd(T,GridM,Grid2).
+ 
+one_change(same,Grid1,Grid2):- is_grid(Grid2),Grid1=Grid2,!.
+one_change(colorChange(C1,C2),Grid1,Grid2):- 
+  first_color(Grid1,C1),ignore((is_grid(Grid2),first_color(Grid2,C2))),
+  subst(Grid1,C1,C2,Grid2).
+one_change(blank1Color(C1),Grid1,Grid2):- 
+  first_color(Grid1,C1),copy_cells(==(C1),free_cell,Grid1,Grid2).
+one_change(same_size,Grid1,Grid2):- var(Grid2),grid_size(Grid1,C1),grid_size(Grid2,C1),!.
+one_change(resize(C1,C2),Grid1,Grid2):- var(Grid2),grid_size(Grid1,C1),grid_size(Grid2,C2).
+ 
+individual(Grid,Indv):- hv_value(Grid,C,H,V),individual_from(Grid,C,H,V,Indv).
+ 
+ 
+individual_from(Grid,C,H,V,[How|Indv]):- nav_to(Grid,C,H,V,How,C,H2,V2),individual_from(Grid,C,H2,V2,Indv).
+individual_from(Grid,C,H,V,[]):- !.
+ 
+ 
+hv_value(Grid,C,H,V):- nth1(V,Grid,Row),nth1(H,Row,C).
+/*b_set_hv_value(Grid,C,H,V):- nth1(V,Grid,Row),set_nth1(H,Row,C).
+nb_set_hv_value(Grid,C,H,V):- nth1(V,Grid,Row),nb_set_nth1(H,Row,C).
+b_rplc_hv_value(Grid,OldC,NewC,H,V):- nth1(V,Grid,Row),rplc_nth1(H,Row,OldC,NewC).
+nb_rplc_hv_value(Grid,OldC,NewC,H,V):- nth1(V,Grid,Row),nb_rplc_nth1(H,Row,OldC,NewC).
+ 
+*/
+% turtle(H,V,Dir,N,H2,V2):- 
+prim_ops([
+call_object_grid_size(obj),
+trim_grid_to_size(point,size),
+fill_from_point(point,color),
+create_a_ray(point,dir,len),
+object_as_own_grid(obj,gridOps),
+copy_one_object(obj,point),
+rotate_one_object(obj,nsew),
+flatten_one_object(obj),
+sort_by_gravity(nsew),
+flip_grid(hOrv),
+rotate_grid(nsew)]).
+ 
+create_movements:- 
+ forall( between(1,30,H),
+  forall(between(1,30,V),
+  calc_movement(H,V))).
+ 
+calc_movement(H,V):- forall(nav(Dir,HO,VO), save_calc_movement(H,V,Dir,HO,VO)).
+ 
+save_calc_movement(H,V,Dir,HO,VO):- H2 is HO+H, V2 is VO+V,
+  ignore((between(1,30,H2), between(1,30,V2), 
+    format(atom(HV),'point_~`0t~d~2+_~`0t~d~2+',  [H,V]),
+    format(atom(HV2),'point_~`0t~d~2+_~`0t~d~2+', [H2,V2]),
+    assert_if_new(save1_calc_movement(HV,Dir,HV2)),
+    assert_if_new(save1_calc_point(H,V,HV)),
+    assert_if_new(save1_calc_movement(H,V,Dir,H2,V2)))).
+  
+  
+ 
+ 
+% eventually use 2nd arg as a hueristic
+nav_to(Grid,_OldC,H,V,How,C,H2,V2):- save1_calc_movement(H,V,How,H2,V2), hv_value(Grid,C,H2,V2).
+ 
+nav(s,0,1). nav(e, 1,0). nav(w,-1,0). nav(n,0,-1).
+nav(se, 1,1). nav(sw,-1,1). nav(nw,-1,-1). nav(ne, 1,-1).
+ 
+rot45(s,sw). rot45(sw,w). rot45(w,nw). rot45(nw,n). rot45(n,ne). rot45(ne,e). rot45(e,se). rot45(se,s).
+ 
+ 
+free_cell(Var):- var(Var),!.
+free_cell(0).
+ 
+copy_cells(B,A,H,HH):- call(B,H),!,call(A,HH).
+copy_cells(_,_,H,H):- \+ is_list(H),!.
+copy_cells(_,_,[],[]):-!. 
+copy_cells(B,A,[H|T],[HH|TT]):-!, copy_cells(B,A,H,HH), copy_cells(B,A,T,TT).
+  
+ 
+same_grid(Grid1,Grid1).

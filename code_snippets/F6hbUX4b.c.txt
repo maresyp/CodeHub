@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <math.h>
+ 
+int main() {
+    double a, b, c, status = scanf("%lf%lf%lf", &a, &b, &c) == 3 && a < b && (b - a) / c == (int)((b - a) / c);
+    
+    for (double x = a; x <= b && status; x += c) {
+        printf("%lf | ", x);
+        if (x <= 5)
+            printf("%lf", 4 * fabs(sin(4 * x + 1) + 0.5));
+        else if (x <= 11) 
+            printf("%lf", x * x / 11 + 0.5 * sin(3 * x));
+        else
+            printf("%lf", x * x / (pow(x + 11, 2) + 2 * x + 1));
+        
+        printf("\n");
+    }
+    
+    if (!status) printf("n/a");
+ 
+    return 0;
+}

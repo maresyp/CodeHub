@@ -1,0 +1,18 @@
+; Actualizado a 15-08-2022
+ 
+alias _cartel { 
+if (!%canalradio) { set %canalradio $$?="¿Canal público de la radio?" }
+if (!%nomradio) { set %nomradio $$?="¿Nombre de la radio?" } 
+if (!%dj.radio) { set %dj.radio $$?="¿Nombre del locutor en emisión?" } 
+if (!%urlcorta) { set %urlcorta $$?="¿Url de la radio?" } 
+var %timer.cartel = 10
+var %timer = 1
+while (%timer.cartel) { 
+.timercartel 1 %timer /msg %canalradio [ %nomradio ] ¡Conecta la mejor radio! Dj: %dj.radio Web: %urlcorta
+inc %timer
+dec %timer.cartel
+if (%timer.cartel == 0) { 
+.timercartel 1 %timer /msg %canalradio [ %nomradio ] ¡Conecta la mejor radio! Dj: %dj.radio Web: %urlcorta
+unset %timer.cartel %timer
+}
+}

@@ -1,0 +1,52 @@
+import cv2 as cv
+import matplotlib.pyplot as plt
+ 
+def load_images():
+    """
+    Load the two noisy images from the file system
+    """
+    img1 = cv.imread('Noisyimage1.jpg')
+    img2 = cv.imread('Noisyimage2.jpg')
+    return img1, img2
+ 
+def apply_filters(img):
+    """
+    Apply averaging and median filters to an image
+ 
+    Parameters:
+        img: the input image
+ 
+    Returns:
+        A tuple of the filtered images
+    """
+    blur = cv.blur(img, (5, 5))
+    median = cv.medianBlur(img, 5)
+    return blur, median
+ 
+def display_images(images, titles):
+    """
+    Display the input images with the corresponding titles using pyplot
+ 
+    Parameters:
+        images: a list of images to display
+        titles: a list of titles to display with each image
+    """
+    for i, (image, title) in enumerate(zip(images, titles)):
+        plt.subplot(2, 3, i + 1)
+        plt.imshow(image, 'gray')
+        plt.title(title)
+        plt.xticks([])
+        plt.yticks([])
+    plt.show()
+ 
+if __name__ == '__main__':
+    img1, img2 = load_images()
+ 
+    blur1, median1 = apply_filters(img1)
+    blur2, median2 = apply_filters(img2)
+ 
+    titles = ['Noisy image 1', 'Averaging', 'Median',
+              'Noisy image 2', 'Averaging', 'Median']
+    images = [img1, blur1, median1, img2, blur2, median2]
+ 
+    display_images(images, titles)

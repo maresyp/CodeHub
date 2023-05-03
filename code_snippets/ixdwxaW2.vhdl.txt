@@ -1,0 +1,46 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+ 
+entity registry_file is
+    port (
+        register_address_1     : in std_logic_vector(4 downto 0);
+        register_address_2     : in std_logic_vector(4 downto 0);
+        register_write_address : in std_logic_vector(4 downto 0);
+        register_write_data    : in std_logic_vector(31 downto 0);
+        RegWrite               : in std_logic;
+        
+        register_output_1  : out std_logic_vector(31 downto 0);
+        register_output_2  : out std_logic_vector(31 downto 0)
+        
+        --debug_write_output : out std_logic_vector(31 downto 0)
+    );
+end entity registry_file;
+ 
+architecture dataflow of registry_file is
+    -- Registry Array
+    type register_array is array (0 to 31) of std_logic_vector(31 downto 0);
+    signal registers: register_array := (others => (others => '0'));
+    
+    -- Address to Integer Conversion, REMOVED DUE TO OUT OF BOUNDS SIMULAITON BUG
+    --signal Read_1_Address, Read_2_Address, Write_Address : integer := 0;
+begin
+    -- Debug Outputs
+    --debug_write_output <= registers(to_integer(unsigned(register_write_address)));
+ 
+    -- Address to Integer Conversion, REMOVED DUE TO OUT OF BOUNDS SIMULAITON BUG
+    --Read_1_Address <= to_integer(unsigned(register_address_1));
+    --Read_2_Address <= to_integer(unsigned(register_address_2));
+    --Write_Address <= to_integer(unsigned(register_write_address));
+ 
+    -- Read Outputs
+    --register_output_1 <= registers(Read_1_Address);
+    --register_output_2 <= registers(Read_2_Address);
+    register_output_1 <= registers(to_integer(unsigned(register_address_1)));
+    register_output_2 <= registers(to_integer(unsigned(register_address_2)));
+        
+    -- Register Write Logic
+    registers(to_integer(unsigned(register_write_address))) <= register_write_data when (RegWrite = '1') and (to_integer(unsigned(register_write_address)) <= 30) and (to_integer(unsigned(register_write_address)) >= 0)
+                                                               else registers(to_integer(unsigned(register_write_address)));
+    
+end dataflow;

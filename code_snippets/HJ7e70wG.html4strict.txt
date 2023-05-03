@@ -1,0 +1,82 @@
+<!-- code generated with ScreenKit by alombi (© alombi 2020)-->
+<html>
+<head>
+<title>Welcome</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+ 
+<style>
+  body {
+    background-color:#f2f2f2;
+    color:#333333;
+    font-family: system-ui;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5%;
+    max-width: 650px;
+    }
+    p{
+      font-size:18px;
+      color:black;
+      font-weight:400;
+    }
+    h1{
+      font-size:45px;
+      font-weight:800;
+      background:linear-gradient(to bottom right,rgba(69,195,167,1) 0%,rgba(60,185,158,1) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+  
+    }
+    .sub {
+      font-weight:200;
+      font-size:35px;
+      margin-top:-40;
+      color:black;
+    }
+      h2{
+     font-weight:600;
+     font-size:33px;
+     color:black;
+    }
+        b{
+      color:#007AFF;
+    }
+ 
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1C1C1E;
+                color: #AAAAAA;
+            }
+ 
+            #transaction {
+                background-color: #191919;
+                box-shadow: none;
+            }
+            p {
+                color: #AAAAAA;
+            }
+            h2{
+              color:white;
+            }
+            .sub, .sub2{
+              color:white;
+            }
+      
+        }
+ 
+    </style>
+ 
+    <body>
+      <h1>UpdateServices</h1>
+      <h2 class="sub">Updating, Reimagined</h2>
+      <p>Hey! Looks like this is the first time you're running UpdateServices. <br>First of all, welcome and thanks for downloading! </p>
+      <p>UpdateServices assists in updating shortcuts powered by the UpdateKit API.</p>
+ 
+    <h2>Ready for Developers!</h2>
+    <p>UpdateServices supports shortcut signed versions. Need to force an update on a old version of the shortcut? Just change a single value on Pastebin (or another pasting service) from <code>true</code> to <code>false</code>. It couldn't be easier.<p>
+ 
+    <h2>Ready to Start?</h2>
+    <p>When you are ready, tap <b>Done</b> and start updating with UpdateServices.</p>
+    </body>
+</html>

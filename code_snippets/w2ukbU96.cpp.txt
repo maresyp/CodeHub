@@ -1,0 +1,171 @@
+// main.cpp
+#include "head.h"
+ 
+int main()
+{
+    Lista* lista = new Lista;       // wywołuje się konstruktor listy
+    lista->dodaj_element(5);
+    lista->dodaj_element(10);
+    lista->dodaj_element(15);
+    lista->wyswietl_liste();
+    lista->removeByIndex(4);
+    lista->wyswietl_liste();
+    lista->usun_liste();
+ 
+    return 0;
+}
+ 
+// head.h
+#ifndef HEAD_H_INCLUDED
+#define HEAD_H_INCLUDED
+ 
+#include <iostream>
+ 
+using namespace std;
+ 
+struct Element
+{
+    int wartosc;
+    Element* next;
+};
+ 
+struct Lista
+{
+    Element* head;
+    Lista();
+    void dodaj_element(int value);
+    void wyswietl_liste();
+    void usun_ostatni_element();
+    void usun_liste();
+    void removeByIndex(unsigned index);
+};
+ 
+#endif // HEAD_H_INCLUDED
+ 
+// Lista.cpp
+#include "head.h"
+ 
+/*struct Element
+{
+    int wartosc;
+    Element* next;
+};
+ 
+struct Lista
+{
+    Element* head;
+    Lista();
+    void dodaj_element(int value);
+    void wyswietl_liste();
+    void usun_ostatni_element();
+    void usun_liste();
+    void removeByIndex(unsigned index);
+};*/
+ 
+Lista::Lista() : head(nullptr) {}   // konstruktor listy
+ 
+void Lista::dodaj_element(int value)
+{
+    Element* nowy = new Element;
+ 
+    // wypełnienie danymi
+    nowy->wartosc = value;
+    nowy->next = nullptr;
+ 
+    if(head == nullptr)     // dodajemy pierwszy element
+    {
+        head = nowy;
+        return;
+    }
+ 
+    // dodajemy na kolejną pozycję
+    Element* temp = head;
+ 
+    // wędrujemy na koniec listy
+    while(temp->next != nullptr)
+        temp = temp->next;
+ 
+    // dodajemy jako ostatni element
+    temp->next = nowy;
+}
+ 
+void Lista::wyswietl_liste()
+{
+    if(head == nullptr)
+    {
+        cout << "Lista jest pusta :(\n";
+        return;
+    }
+    Element* temp = head;
+    while(temp != nullptr)
+    {
+        cout << temp->wartosc << '\t';
+        temp = temp->next;
+    }
+    cout << endl;
+}
+ 
+void Lista::usun_ostatni_element()
+{
+    // usuwamy pierwszy element
+    if(head->next == nullptr)
+    {
+        delete head;
+        head = nullptr;
+        return;
+    }
+ 
+    // lista ma więcej niż jeden element
+    Element* temp = head;
+ 
+    while(temp->next->next != nullptr)
+        temp = temp->next;
+    delete temp->next;
+    temp->next = nullptr;
+}
+ 
+void Lista::usun_liste()
+{
+    while(head != nullptr)
+        usun_ostatni_element();
+}
+ 
+void Lista::removeByIndex(unsigned index)
+{
+    if(head == nullptr)
+        return;
+    // usuwamy pierwszy element listy
+    if(index == 0)
+    {
+        Element* temp = head;
+        head = temp->next;
+        delete temp;
+        return;
+    }
+ 
+    // usuwamy inny element niż pierwszy
+    unsigned j = 0;
+    Element* temp = head;
+ 
+    while(temp != nullptr)
+    {
+        //cout << j << '\t' << temp->wartosc << endl;
+        if((j + 1) == index) break;
+        temp = temp->next;
+        ++j;
+    }
+    if(temp != nullptr)     // zabezpieczenie, aby nie usuwać czegoś, czego nie ma
+    {
+        // usuwamy ostatni element listy
+        if(temp->next->next == nullptr)
+        {
+            delete temp->next;
+            temp->next = nullptr;
+            return;
+        }
+        // usuwamy środkowy element listy
+        Element* usuwany = temp->next;
+        temp->next = temp->next->next;
+        delete usuwany;
+    }
+}

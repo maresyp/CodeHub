@@ -1,0 +1,592 @@
+import pandas as pd
+import os
+S=os.system
+S('cls')
+print('ATTENZIONE: NON AGGIORNARE PANDAS : QUESTA VERSIONE 1.0.5 HA L\'OPZIONE decimal IN pd.read_excel CHE MANCA NELLE VERSIONI PIU NUOVE')
+print('SENZA OPZIONE decimal TUTTO IL PROGRAMMA VA IN CRISI')
+print(f'Versione in uso di pandas={pd.__version__}')
+input('Un tasto per continuare')
+"""
+Created on Fri May 31 09:24:19 2019
+ 
+ 
+@author: ugo.donini
+#da riesaminare e semplificare per ridurre il numero di righe di codice
+#30/08/2019: MODIFICATO IL BLOCCO PER KT/V PER EVITARE ASSENZA DI DATI CHE METTE IN CRASH IL SISTEMA
+"""
+#!http://localhost:8888/tree?token=38abbcc08e2b9d1dd6908bf6c55c0b9bccf617ef613ea9c4/usr/bin/env python3.7
+ 
+####vedi anche studio in PC studio salvato nella cartella python 3.7
+ 
+# ultimo aggiornamento: 30/07/2019
+# !!!! AGGIUNTO OPZIONE IN DF_GRAFICO: OPZIONE DI CONSIDERARE SOLO LA DIALISI NELLO STESSO GIORNO DELLA SETTIMANA DELLA DIALISI ATTUALE
+ 
+# ! pip install screeninfo # dimensioni dello screen attuale
+#! pip install pyperclip
+#%config IPCompleter.greedy=True # ABILITO AUTOCOMPLETION PER TASTO TAB
+#oppure in alternativa:
+ 
+#get_ipython().run_line_magic('config', 'IPCompleter.greedy=True # autocomplete con TAB')
+ 
+"""
+ATTENZIONE: VALORI nan POSSONO METTERE IN CRISI ESECUZIONE DI GRAFICI
+ 
+VEDI QUESTE MODIFICHE
+            # tolgo doppioni da df_pz_in_dialisi_oggi_storico e ordino secondo DATA.  !!! INDIASPENSABILE PER OTTENERE DEI GRAFICI CORRETTI !!!
+            # PREFERISCO METTERE QUESTO TRATTAMENTO DEL DF SOLO QUI PERCHè CAMBIA IL DF E L'INDICE DIVENTA LA DATA
+            df_tmp=df_tmp.groupby(['DATA']).first()# tolgo i doppioni
+            # in questo modo 'DATA' diventa index
+            df_tmp.RIC.fillna(0,inplace=True) # sostituisco le cellule NaN con 0 che é compatibile coi grafici
+            df_tmp.AumentoPeso.fillna(0,inplace=True) # sostituisco le cellule NaN con 0 che é compatibile coi grafici
+            df_tmp['DHB/UFTOT'].fillna(0,inplace=True) # sostituisco le cellule NaN con 0 che é compatibile coi grafici
+            df_tmp.UF_TOT_LT.fillna(0,inplace=True) # sostituisco le cellule NaN con 0 che é compatibile coi grafici
+            df_tmp.P_PRE.fillna(0,inplace=True) # sostituisco le cellule NaN con 0 che é compatibile coi grafici
+            df_tmp.HB_INI.fillna(0,inplace=True) # sostituisco le cellule NaN con 0 che é compatibile coi grafici           
+            #**************************** modificato 29/01/2021
+"""
+ 
+import re
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import datetime
+import pprint
+import openpyxl
+import sys
+import shutil
+import pyperclip as clip
+import pickle as pik
+import os
+import seaborn as sns
+from matplotlib.dates import date2num
+import matplotlib.gridspec as gridspec
+import SeabornFig2Grid as sfg
+from screeninfo import get_monitors
+from os import name # nome del sistema operativo
+from os import system
+import pyperclip as clip
+from pandas.plotting import  register_matplotlib_converters
+register_matplotlib_converters()
+ 
+cl_s=os.system('cls')
+cl_s
+os.system('cls')
+cl_s=print('\033[H\033[J') # sistema per fare cls dello schermo con caratteri speciali
+#os.system('cls') QUANDO QUESTO COMANDO NON FUNZIONA
+#ATTENZIONE: ... SeabornFig2Grid è UN MODULO INSERITO A MANO NELLA LIBRERIA CHE SI TROVA IN :
+# c:\Users\ugo.donini\AppData\Local\Continuum\anaconda3\Lib\site-packages\
+ 
+p,pp,DF,DT,S,J=print,pprint.pprint,pd.DataFrame,pd.to_datetime,os.system,os.path.join
+ 
+ 
+def date_trattamenti(df,cog,no):# DATAFRAME,COGNOME, NOME
+    cog=cog.upper()
+    no=no.upper()
+    mask1=df['Cognome']== cog
+    mask2=df['Nome']== no
+    ris=list(df[mask1 & mask2].date_eu.str[0:10]) #seleziono solo la data senza l'ora
+    
+    clip.copy(', '.join(ris))
+    cl_s
+    p('Ho salvato la lista delle date anche in APPUNTI')
+    return ris
+ 
+def sele_elab(df): #seleziono i dati con un filtro tempo da a
+    cl_s
+    data_sele=[input('anno: ...'),input('mese: ... '), input('giorno: ... ')]
+    ora_sele_da=[input('ora da (inizio periodo): ...')]
+    ora_sele_a=[input('ora a (fine periodo): ... ')]
+    sele_data_ini=data_sele+ora_sele_da
+    sele_data_fin=data_sele+ora_sele_a
+    data_sele_ini=pd.to_datetime(' '.join(sele_data_ini))
+    data_sele_fin=pd.to_datetime(' '.join(sele_data_fin))
+    df_tmp=(df[df.DATA<data_sele_fin])
+    df_tmp2=df_tmp[df_tmp.DATA>data_sele_ini]
+    lista_pz_sele=list(df_tmp2.Cognome_Nome)
+    df_elab=df.loc[lista_pz_sele] #in df_elab i dati  di df solo dei pazienti selezionati
+    return df_elab,data_sele_ini,data_sele_fin
+ 
+def plotta(x,y,valore='Valore',titolo='Titolo',PAT2='C:\\TMP'): #prova di plot dei valori dove x deve essere la DATA e y il valore da controllare
+    
+    try:
+            fl=os.path.join(PAT2,f'{titolo}_test.png')# DA MODIFICARE IN MODO UNIVERSALE
+            fig, ax = plt.subplots()
+            ax.plot(x, y)
+            plt.gcf().autofmt_xdate()
+            ax.set(xlabel='DATA', ylabel=valore,title=f'{titolo}\nVariazione di {valore} nel tempo',ylim=(0, 1.8))
+            ax.grid()
+            p(fl)
+            fig.savefig(fl)
+            plt.show()
+    except:
+            p(titolo,': errore: ',valore.max())
+ 
+ 
+def str_data_2_data(df):
+    #p(df.head(1))
+    #creo il diz mesi che mi serve per correggere la DATA in stringa della tabella
+    mesi=['gen','feb','mar','apr','mag','giu','lug','ago','sett','ott','nov','dic']
+    mesi=dict(enumerate(mesi))
+    dict_mesi={v:k for k,v in mesi.items()}
+    #trasformo la stringa DATA in datetime - valore DATA perfetto
+    df=df.str.replace('.',':') # correggo la separazione ore minuti
+    df=df.apply(dt_trsf)
+    return df  
+def dt_trsf(d0):
+    try:
+        mesi=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic']
+        mesi=dict(enumerate(mesi,1))
+        dict_mesi={v:k for k,v in mesi.items()}    
+        d1=d0.split(' ')
+        d1[1]=str(dict_mesi[d1[1]])
+        d1=' '.join(d1)
+        d1=(pd.to_datetime(d1,dayfirst=True,infer_datetime_format=True))
+        return d1
+    except:
+        return d0        
+ 
+def t_float(ddf):
+    ddf=float(ddf)
+    return ddf
+def t_int(ddf):
+    ddf=int(ddf)
+    return ddf
+def t_dtt(ddf):# da controllare e migliorare
+    ddf=pd.to_datetime(ddf)
+    return ddf
+ 
+def set_tipi(df,sele_int=[],sele_float=[]):
+    if len(sele_int):
+        df[sele_int]=df[sele_int].astype('int')
+        #p(df[sele_int].head())
+    if len(sele_float):
+        df[sele_float]=df[sele_float].astype('float')
+        #p(df[sele_float].head())
+        
+    return df
+    
+def df_tipi_dataset(fl='C:\\tmp\\TSS_tipi_elab.CSV'):
+    df_type=pd.read_csv(fl,sep=';',decimal=',')
+    df_type.columns=['Indice','COLONNA','TIPO']
+    p(df_type.head())
+    df_tipi=df_type[['COLONNA','TIPO']]
+    #p(df_tipi.head())
+    dd=pd.Series(df.dtypes.index, name='didas')
+    dtmp=DF(dd)
+    return df_tipi,dtmp
+    #dtmp.to_csv('C:\\tmp\\TSS_tipi.CSV',sep=';',decimal=',')
+def crea_dict_tipi(df_tipi): # metodo forse obsoleto prodotto dall disperazione prima di capire bene
+    # con questo metodo voglio ottenere un dizionario dei tipi
+    ris_1=[]
+    for i in range(len(df_tipi)):
+        rx=tuple(df_tipi.iloc[i,:].values)
+        ris_1+=[rx]
+    ris_1=dict(ris_1)
+    return ris_1
+def info_df(df):
+    return df.info()
+ 
+def crea_dict_tipi(l1,tipi_mask={0:'None',1:'int',2:'float',3:'datetime',4:'str'},): #dict constructor per i tipi
+    tipi=tipi_mask
+    dida=str(tipi).replace('}',')')
+    dida=dida.replace('{','(')
+    dida=dida.replace(" '","")
+    dida=dida.replace("',",",")
+    dida=dida.replace(':',"=")
+    sele_tipo=[]
+    cl_s
+    for i in l1:
+        tipo=int(input(f'{i} - scegli tipo: {dida}: ... ' ))
+        sele_tipo+=[(i,tipi[tipo])]
+    sele_tipo_dict=dict(sele_tipo)
+    return sele_tipo_dict
+ 
+def collima_2_liste(l1,l2):
+    z1=zip(l1,l2)
+    for i in z1:
+        p(i)
+    return dict(z1)
+ 
+def l1(df):
+    return df.head(1)
+ 
+def seab_fig_1(df1,pz,pat_ris):
+    fig=plt.figure()
+    fig.suptitle(pz+': DP='+str(df1.iloc[-1,6]))
+    fig.add_subplot(221)
+    #etichette=['AumentoPeso','Delta_HB','UF_TOT_LT']
+    g1=sns.regplot(x='DataNum', y='AumentoPeso',  data=df1)
+    plt.gcf().autofmt_xdate() #posiziono le didascalie nella x in obliquo
+    fig.add_subplot(222)
+    g2=sns.regplot(x='DataNum', y='Delta_HB',  data=df1)
+    plt.gcf().autofmt_xdate() #posiziono le didascalie nella x in obliquo
+    fig.add_subplot(223)
+    g3=sns.regplot(x='DataNum', y='UF_TOT_LT',  data=df1)
+    plt.gcf().autofmt_xdate() #posiziono le didascalie nella x in obliquo
+ 
+    fig.add_subplot(224)
+    g4=sns.regplot(x='DataNum', y='PAS_FIN',  data=df1)
+    plt.gcf().autofmt_xdate() #posiziono le didascalie nella x in obliquo
+    fig.savefig(pat_ris+pz+'fig1.png')
+    plt.show
+ 
+def seab_fig_2(df1,pz,pat_ris):
+    fig=plt.figure()
+    g1=sns.lmplot(x='DataNum',y='Delta_HB',data=df1)
+    plt.title(pz+': DP='+str(df1.iloc[-1,6]))
+    g2=sns.lmplot(x='DataNum',y='UF_TOT_LT',data=df1)
+    plt.title(pz+': DP='+str(df1.iloc[-1,6]))
+    fig1 = g1
+    fig2=g2
+    fig1.savefig(pat_ris+pz+'fig1.png')
+    fig2.savefig(pat_ris+pz+'fig2.png')
+    plt.show()  
+def seab_fig_3(df1,pz,pat_ris): # da studiare
+    fig=plt.figure()
+    g1=sns.scatterplot(x='DataNum',y='Delta_HB',data=df1)
+    plt.title(pz+': DP='+str(df1.iloc[-1,6]))
+    g2=sns.scatterplot(x='DataNum',y='UF_TOT_LT',data=df1)
+    plt.title(pz+': DP='+str(df1.iloc[-1,6]))
+    fig1 = g1
+    fig2=g2
+    #fig1.savefig(pat_ris+pz+'fig1.png') # da studiare
+    #fig2.savefig(pat_ris+pz+'fig2.png')
+    plt.show()
+    
+#!!!! IMPORTANTISSIMO !!!! INDISPENSABILE PERCONVERTIRE LASTRINGA IN DATA: dayfirst=Tru
+def str_2_tm(expr):
+    return pd.to_datetime(expr,dayfirst=True)
+#!!! IMPORTANTISSIMO PER RINOMINARE LA TESTATA IN MODO SICURO !!!
+def tst_rnm(df,new): #new)lista della nuova testata
+    cl_s
+    tst_orig=df.columns
+    col_rst=dict(zip(tst_orig,new))
+    df.rename(columns=col_rst,inplace=True)
+    p('ORA MOSTRO IL RISULTATO: SE TUTTO OK INVIO ALTRIMENTI UN TASTO QUALSIASI')
+    pp(col_rst)
+    pp(df.dtypes)
+    p('\n\n')
+    r=input('Tutto OK ? (invio se tutto OK)' )
+    p('\033[H\033[J') # sistema per fare cls dello schermo con caratteri speciali
+    cl_s
+    if not r:
+        return df
+def plt_sintesi_1(dfx,s1=[3,5,6,17,20,21,30,22]):
+    #da modificare tenendo presente la coonna 'DATA'
+    #va tolta dalle opzioni e gestita in modo separato
+    #median() è un artifizio per ottenere la lista
+    dfx=DF(dfx)
+    pz_lst=list(dfx.groupby(dfx.index).median().index)
+                  
+    #p(pz_lst)
+    
+    clm=dfx.columns
+    sele=list(clm[s1])+['DATA']
+    #p(sele)
+    for pz in pz_lst:
+        ris_tmp=DF(dfx.loc[pz,sele])
+ 
+        #ris_tmp.rename(index=ris_tmp.DATA,inplace=True)
+        ######fig=plt.figure()
+        ris_tmp=DF(D1.loc[pz,sele])
+        ris_tmp.index=ris_tmp.DATA
+        ris_tmp.drop(['DATA'], axis=1,inplace=True)
+        p(pz)
+        p(sele)
+        p(ris_tmp.tail())
+        
+        #fig.suptitle(pz+': DP='+str(ris_tmp.loc[pz,-1]))
+        sele1=[]
+        for j in sele:
+            if not j=='DATA':
+                sele1+=[j]
+        ris_tmp.index.name=''
+    # trovare metodo più elegante per sottarre un elemento dalla lista
+    for i in sele1:
+        fig=plt.figure()
+        
+        fig.suptitle(pz+': DP='+str(ris_tmp.loc[pz,'D_P']))
+        plt.plot(ris_tmp[i])
+        #plt.plot(ris_tmp[i])
+        plt.legend(sele,loc='upper left')
+        plt.gcf().autofmt_xdate()
+        plt.show 
+#!!! NON FUNZIONA QUESTO METODO NON CONSENTE DI MODIFICARE I VALORI IN D1
+def P_PRE_update(D1,D2,data=str(pd.to_datetime(datetime.datetime.today(),dayfirst=True))[:10]):
+    mask_data=D1.DATA>=pd.to_datetime(data,dayfirst=True)
+    p(mask_data)
+    D1.P_PRE[mask_data].loc[:]=D2.P_PRE.loc[:]
+    p(D1.P_PRE)
+    return D1
+def tsf_PESI(D1,D2):
+    df_tot=pd.concat([D1,D2],axis=0, sort=True)
+    mask=df_tot.P_PRE!=0.0
+    df_tot1=df_tot[mask]
+    
+    df_tot1['D_P']=df_tot1.PS-df_tot1.P_PRE
+    return df_tot1
+ 
+def scatter_tot_1(dfx,lst_par,titolo,PAT,trasparenza=0.2):
+    cl=['r','b','g','y','c','v']
+    fig=plt.figure()
+    fig.suptitle(titolo)
+    etichette=lst_par
+    #lst_hb=['HB_INI','HB_FIN','D_HB']
+    n=0
+    for p1 in lst_par:
+        ris_1=dfx[p1]
+        plt.scatter(dfx.index,ris_1, s=100, color=cl[n],alpha=trasparenza)
+        #plt.scatter(dfx.index,ris_1, s=100, alpha=.5)
+        #plt.legend(etichette,loc='upper left')
+        plt.gcf().autofmt_xdate()
+        n+=1
+    plt.legend(etichette,loc='lower left')
+    fig.savefig(PAT)
+ 
+def plt_sintesi_2(dfx,s1=[3,5,6,17,20,21,30,22]):
+    #median() è un artifizio per ottenere la lista
+    pz_lst=list(dfx.groupby(dfx.index).median().index)
+                  
+    p(pz_lst)
+    
+    clm=dfx.columns
+    sele=list(clm[s1])
+    p(sele)
+    for pz in pz_lst:
+        ris_tmp=dfx.loc[pz,sele]
+ 
+        #ris_tmp.rename(index=ris_tmp.DATA,inplace=True)
+        fig=plt.figure()
+        #fig.suptitle(pz+': DP='+str(ris_tmp.loc[pz,-1]))
+        ris_tmp.index=ris_tmp.DATA
+        for i in sele:
+            plt.plot(ris_tmp[i])
+        plt.legend(sele,loc='upper left')
+        plt.gcf().autofmt_xdate()
+        plt.show
+def testate(df):
+    # da elaborare CONSIDERARE LA CONVENIENZA DI TRASFORMARE I DIZIONARI IN DATAFRAME
+        #Testata originale di '0_import.xls' ottenuto con macro vecchio programma per ACCESS
+    # viene tolto la colonna 'ID': così restano 28 elementi ... forse colonna ID E' da rimettere per utilizzare programma ACCESS
+ 
+    tipi_orig={'Nome risorsa': 'str',
+     'Numero di serie': 'str',
+     'Nome del filtro': 'str',
+     'Peso secco\nKg': 'float',
+     'Pressione media TMP\nmmHg': 'float',
+     'Peso predialisi\nKg': 'float',
+     'Aumento di peso\nKg': 'float',
+     'Peso da perdere\nKg': 'float',
+     'Ora di inizio trattamento': 'datetime',
+     'Ora di fine trattamento': 'datetime',
+     'Totale UF\nml': 'int',
+     'Tempo effettivo': 'datetime',
+     'Sistolica predialisi\nmmHg': 'int',
+     'Diastolica predialisi\nmmHg': 'int',
+     'Codice fiscale': 'str',
+     'Cognome': 'str',
+     'Nome': 'str',
+     'Data del trattamento': 'datetime',
+     'Peso post dialisi\nKg': 'float',
+     'Ricircolo\n%': 'float',
+     'Emoglobina iniziale\ng/dl': 'float',
+     'Emoglobina finale\ng/dl': 'float',
+     'OCM Kt/V': 'float',
+     'Ora di fine sessione': 'datetime',
+     'Frequenza cardiaca post-dialisi\nbpm': 'int',
+     'Pressione sistolica post-dialisi\nmmHg': 'int',
+     'Pressione diastolica post-dialisi\nmmHg': 'int',
+     'Flusso ematico effettivo\nml/min': 'int'}
+    tipi_orig_int_float={'Peso secco\nKg': 'float',
+     'Pressione media TMP\nmmHg': 'float',
+     'Peso predialisi\nKg': 'float',
+     'Aumento di peso\nKg': 'float',
+     'Peso da perdere\nKg': 'float',
+     'Totale UF\nml': 'int',
+     'Sistolica predialisi\nmmHg': 'int',
+     'Diastolica predialisi\nmmHg': 'int',
+     'Peso post dialisi\nKg': 'float',
+     'Ricircolo\n%': 'float',
+     'Emoglobina iniziale\ng/dl': 'float',
+     'Emoglobina finale\ng/dl': 'float',
+     'Frequenza cardiaca post-dialisi\nbpm': 'int',
+     'Pressione sistolica post-dialisi\nmmHg': 'int',
+     'Pressione diastolica post-dialisi\nmmHg': 'int',
+     'Flusso ematico effettivo\nml/min': 'int',
+      }
+    tst_import=df.columns #RICAVATE DIRETTAMENTE DOPO IMPORTAZIONE DATI EXCEL
+    #CONTROLLO TESTATA ORIGINALE CON DICT TIPI
+    no_in_tst=[k for k in tst_import if not k in tipi_orig ]
+ 
+    p("COLONNA ASSENTE IN DICT 'tipi_orig'\n",no_in_tst)
+    #Testata schema ridottissimo
+    tst_rid=['ID_PAZ', 'STATUS', 'Cognome', 'Nome', 'FILTRO', 'DATA', 'PS', 'D_P',
+           'P_PRE', 'P_RESIDUO', 'UF_TOT', 'RIC', 'HB_INI', 'HB_FIN', 'D_HB',
+           'TMP', 'Kt/V', 'QB_EFFETT', 'PAS_FIN', 'PAD_FIN', 'FC_FIN', 'T_DIAL']
+ 
+    #testata nuova per la tabella elaborata
+    tst_mod=['Risorsa', 'NS', 'FILTRO', 'PS','TMP', 'P_PRE','AumentoPeso', 'PesoDaPerdere','OraInizio', 'OraFine','UF_TOT',
+           'T_DIAL', 'SisPredial','DiasPredial', 'CF', 'Cognome', 'Nome',
+           'DATA', 'P_POST', 'RIC','HB_INI','HB_FIN', 'Kt/V','OraFineSess', 'FC_FIN',
+           'PAS_FIN','PAD_FIN','QB_EFFETT','RBV_min']
+    tst_da_aggiungere=['Delta_tempo']
+    df_tipi={'AumentoPeso': 'float',
+     'CF': 'str',
+     'Cognome': 'str',
+     'DATA': 'datetime',
+     'DiasPredial': 'int',
+     'FC_FIN': 'int',
+     'FILTRO': 'str',
+     'HB_FIN': 'float',
+     'HB_INI': 'float',
+     'Kt/V': 'float',
+     'NS': 'str',
+     'Nome': 'str',
+     'OraFine': 'datetime_verificare',
+     'OraInizio': 'datetime_verificare',
+     'PAD_FIN': 'int',
+     'PAS_FIN': 'int',
+     'PS': 'float',
+     'P_POST': 'float',
+     'P_PRE': 'float',
+     'PesoDaPerdere': 'float',
+     'QB_EFFETT': 'float',
+     'RIC': 'float',
+     'Risorsa': 'str',
+     'SisPredial': 'int',
+     'TMP': 'float',
+     'T_DIAL': 'datetime_verificare',
+     'UF_TOT': 'float',
+     'date_eu': 'str',
+     'date_eu_convertita_in_tipo_data': 'datetime'}
+    tipi_mod_int_float={
+     'AumentoPeso': 'float',
+     'DiasPredial': 'int',
+     'FC_FIN': 'int',
+     'HB_FIN': 'float',
+     'HB_INI': 'float',
+     'Kt/V': 'float',
+     'PAD_FIN': 'int',
+     'PAS_FIN': 'int',
+     'PS': 'float',
+     'P_POST': 'float',
+     'P_PRE': 'float',
+     'PesoDaPerdere': 'float',
+     'QB_EFFETT': 'float',
+     'RIC': 'float',
+     'SisPredial': 'int',
+     'TMP': 'float',
+     'UF_TOT': 'float',
+      }
+    tipi_orig_datetime={
+     'Ora di inizio trattamento': 'datetime',
+     'Ora di fine trattamento': 'datetime',
+     'Data del trattamento': 'datetime',
+     'Ora di fine sessione':'datetime'
+     }
+ 
+    DIDA=dict(enumerate(tst_mod))
+    #pp(DIDA)
+    #datetime_verificare: formato data strano e diverso studiare per conversione
+    tempo_dialisi={'Tempo effettivo': 'datetime','Delta_tempo':'datetime'}
+    sele_float=[k for k,v in df_tipi.items() if v=='float']
+    sele_int=[k for k,v in df_tipi.items() if v=='int']
+    sele_time=[k for k,v in df_tipi.items() if v=='datetime']
+ 
+ 
+ 
+ 
+    return [tipi_orig,tipi_orig_int_float,tst_import,no_in_tst,tst_rid,tst_mod,tst_da_aggiungere,
+            df_tipi,tipi_mod_int_float,tipi_orig_datetime,DIDA,tempo_dialisi,sele_float,sele_int,sele_time
+           ]
+    os.makedirs(pat_tmp,exist_ok=True)
+    # In[100]:
+    #SELEZIONO LA DATA PER FILTRARE I DATI DEI PAZIENTI
+    cl_s
+    fl_date_f=os.path.join(pat_tmp,fl_st)
+    rsp=''
+    try:
+        d_f=pd.read_csv(fl_date_f,sep=';')
+        data_sele_ini,data_sele_fin=d_f.iloc[0,0],d_f.iloc[1,0]
+        rsp= input(f'Vuoi utilizzare le date filtro già impostate ({data_sele_ini, data_sele_fin} )(s/n): ... ').upper() 
+    except:
+        rsp='N'
+    if 'N' in rsp:
+        data_sele_ini=input('Set di filtro_data (ini-fin)\nData inzio(gg/mm/aaaa hh:mm): ... ')
+        data_sele_fin=input('Set di filtro_data (ini-fin)\nData fine(gg/mm/aaaa hh:mm): ... ')
+        data_sele_ini=str_2_tm(data_sele_ini)
+        data_sele_fin=str_2_tm(data_sele_fin)
+        d_f=pd.DataFrame([data_sele_ini,data_sele_fin])
+        d_f.to_csv(fl_date_f,sep=';',index=False)
+    else:
+        pass
+    rs='' 
+    return data_sele_ini, data_sele_fin
+    #date_filtro=pd.Series([data_sele_ini,data_sele_fin]) #problemi conpd.Series: mmette una data come head
+def estrai_stat(df,idx,par,stat='mean'):
+    df_tot.groupby(df_tot.index).describe().loc[idx][par].loc[stat].round(1)
+ 
+# modulo per salvare codice in unico DF di eleenti di codice da ricordare
+def df_input(df1): #aggiunge una riga al df df1 partendo dall'ultima: richiede un index numerico
+    cl_s
+    ix=max(df1.index)
+    if df1.iloc[0,0]=='':# controllo se ho un record vuoto; si può migliorare il metodo del contollo con row ... 
+        ix-=ix
+    cols=(dict(enumerate(df1.columns,1)))
+    pp(cols)
+    r1=input('Numero corrispondente della colonna che vuoi aggiornare da Appunti(solo invio se non vuoi Appunti): ... ')
+    if r1:
+        r1=int(r1)            
+        p('hai scelto: ... ',cols[r1])
+        entry_clip=cols[r1]
+    else:
+        entry_clip=''
+ 
+    for i in df1.columns:
+        df1.loc[ix+1,'Data']=pd.to_datetime(datetime.datetime.now()) # inserisco la data del momento              
+        if not i=='Data':
+            if entry_clip==i:
+                p(f'Inserisco {i} da clip')
+                input('Un tasto quando sei pronto')
+                entry=clip.paste()
+            else:
+                entry=input(i+': ...')
+            df1.loc[ix+1,i]=entry
+            
+    return df1
+        
+def crea_df(new_dict): #crea df da dizionario
+    df=DF(new_dict, index=range(1,2))# crea la prima riga vuota
+    return df
+    
+def DATA(dt=datetime.datetime.now()): #SE SI OMETTE L'ARGOMENTO dt si ottiene la data pandas del momento
+    D= pd.to_datetime(dt)
+    p(D)
+    return (D)
+def pik_save(obj,fl1):
+    filehandler = open(fl1,"wb")
+    pickle.dump(obj,filehandler)
+def pik_load(fl1):
+    file = open(fl1,'rb')
+    return pickle.load(file)
+#def my_code(op=0,PAT_CODE='c:\\Users\\ugodo\\MEMORIA\\code\\'):
+def my_code(op=0,PAT_CODE='c:\\Users\\ugo.donini\\MEMORIA\\code\\'): #opzione Domus Nova
+    pat_memo_code=PAT_CODE
+    os.makedirs(pat_memo_code,exist_ok=True)
+    os.chdir(pat_memo_code)
+    #memo_code_fl='MEMO_CODE.PK'
+    memo_code_fl='MEMO_CODE.PK'
+    if os.path.exists(memo_code_fl):
+        mc_df=pik_load(memo_code_fl)
+    else:
+        nuovo={'Data':'','Linguaggio':'','Scopo':'','Codice':'','Grading':'','Note':''}
+        mc_df=crea_df(nuovo)
+    if op:
+        df_input(mc_df) # il df mc_df viene modificato in place e se la prima riga é vuota viene aggiornata la prima riga
+        pik_save(mc_df,memo_code_fl)
+    else:
+        p(f'Metti il primo parametro di my_code()=1 per registrare nuovo codice: my_code(1)\n')
+        p(f'Nel secondo parametro pat di default {PAT_CODE}')
+        p('\nOra la tua opzione è di sola consultazione\npuoi analizzare il DF ottenuto coi metodi che vuoi')
+        
+    return mc_df

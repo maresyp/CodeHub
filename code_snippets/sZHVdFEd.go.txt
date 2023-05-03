@@ -1,0 +1,185 @@
+func parsOrigin() {
+    inputDir := "./input"      // директория, содержащая входные файлы
+    outputDir := "./output"    // базовая директория для сохранения файлов с сегментами
+    outputFile := "output.txt" // имя файла, в который будут сохранены найденные блоки
+ 
+    // очистка директории outputDir
+    if err := os.RemoveAll(outputDir); err != nil {
+        panic(fmt.Sprintf("Не удалось очистить директорию %s: %s", outputDir, err))
+    }
+ 
+    // создание директории outputDir, если ее еще не существует
+    if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+        os.Mkdir(outputDir, os.ModePerm)
+    }
+ 
+    // получение списка файлов в директории input
+    files, err := ioutil.ReadDir(inputDir)
+    if err != nil {
+        panic(fmt.Sprintf("Не удалось получить список файлов в директории %s: %s", inputDir, err))
+    }
+ 
+    // создание директорий output с тем же названием, что и входные файлы
+    for _, file := range files {
+        inputFilename := filepath.Join(inputDir, file.Name())
+        outputFilename := filepath.Join(outputDir, file.Name())
+ 
+        // создание директории output, если ее еще не существует
+        if _, err := os.Stat(outputFilename); os.IsNotExist(err) {
+            os.Mkdir(outputFilename, os.ModePerm)
+        }
+ 
+        // открытие входного файла для чтения
+        inputFileHandle, err := os.Open(filepath.Join(inputFilename))
+        if err != nil {
+            panic(fmt.Sprintf("Не удалось открыть файл %s: %s", inputFileHandle.Name(), err))
+        }
+        defer inputFileHandle.Close()
+ 
+        // открытие выходного файла для записи
+        outputFileHandle, err := os.Create(filepath.Join(outputFilename, outputFile))
+        if err != nil {
+            panic(fmt.Sprintf("Не удалось создать файл %s: %s", outputFile, err))
+        }
+        defer outputFileHandle.Close()
+ 
+        // создание файлов сегментов
+        for i := 1; i <= 6; i++ {
+            segmentFilename := fmt.Sprintf("%s/segment%d.txt", outputFilename, i)
+            segmentFileHandle, err := os.Create(segmentFilename)
+            if err != nil {
+                panic(fmt.Sprintf("Не удалось создать файл %s: %s", segmentFilename, err))
+            }
+            segmentFileHandle.Close()
+        }
+ 
+        scanner := bufio.NewScanner(inputFileHandle)
+ 
+        // флаги для определения начала и конца блока
+        blockStart := false
+        blockEnd := false
+ 
+        lines := []string{}
+ 
+        // строка для сохранения текущего блока
+        num := 0
+        for scanner.Scan() {
+            line := scanner.Text()
+            // убираем пробелы в начале
+            line = strings.TrimLeft(line, " ")
+            if strings.Contains(line, "Ϟ") && !strings.HasPrefix(line, "Ϟ") {
+                for i, value := range strings.Split(line, "Ϟ") {
+                    if i == 0 {
+                        lines = append(lines, value)
+                    } else {
+                        lines = append(lines, "Ϟ"+value)
+                    }
+ 
+                }
+            } else {
+                lines = append(lines, line)
+            }
+ 
+        }
+ 
+        var block string
+ 
+        num = 0
+        for _, line := range lines {
+            if strings.Count(line, "\"")%2 != 0 && num == 0 {
+                if strings.Count(line, `"`)%2 != 0 {
+                    line = strings.ReplaceAll(line, `\"`, "@")
+                }
+                num++
+            } else if num >= 1 && num < 5 {
+                line = strings.ReplaceAll(line, `\"`, "@")
+                line = strings.ReplaceAll(line, `"`, "@")
+                line = strings.ReplaceAll(line, `”`, "@")
+                num++
+            } else if num == 5 {
+                line = strings.ReplaceAll(line, `«`, "@")
+                line = strings.ReplaceAll(line, `»`, "@")
+                num = 0
+            }
+ 
+            // проверка начала блока
+            if !blockStart && strings.Contains(line, "\"") {
+                var cSml = strings.Count(line, "\"")
+ 
+                if cSml != 1 {
+                    blockStart = false
+                    blockEnd = true
+                    block = line
+                } else {
+                    blockStart = true
+                    blockEnd = false
+                    block = line
+                }
+            } else if blockStart {
+                // добавление строки в блок
+                block += " " + line
+                // проверка конца блока
+                if strings.Contains(line, "\"") {
+                    blockStart = false
+                    blockEnd = true
+                }
+            }
+ 
+            // сохранение блока в файлы сегментов и в итоговый файл
+            if blockEnd && strings.Contains(block, "Ϟ") {
+                index := strings.Index(block, "\"")
+                name := ""
+                if index != 0 {
+                    name = block[:strings.Index(block, "\"")-1]
+                    block = block[strings.Index(block, "\"")+1 : strings.LastIndex(block, "\"")]
+                }
+ 
+                block = strings.ReplaceAll(block, "\"", "")
+ 
+                block = strings.ReplaceAll(block, "\n", " ")
+                block = strings.ReplaceAll(block, "Ϟ", "\n")
+                block = strings.ReplaceAll(block, "{w}", "[i]")
+                block = strings.TrimSpace(block)
+ 
+                // запись сегментов в файлы
+                segments := strings.Split(block, "\n")
+ 
+                finalBlock := ""
+                for i, segment := range segments {
+                    segmentFilename := fmt.Sprintf("%s/segment%d.txt", outputFilename, i+1)
+                    segmentFileHandle, err := os.OpenFile(segmentFilename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+                    if err != nil {
+                        panic(fmt.Sprintf("Не удалось открыть файл %s: %s", segmentFilename, err))
+                    }
+                    defer segmentFileHandle.Close()
+ 
+                    segment = strings.ReplaceAll(segment, "@", `\"`)
+                    if len(name) != 0 {
+                        segment = name + ": " + segment
+                        segment = strings.ReplaceAll(segment, "Ϟ", "")
+                    }
+                    finalBlock += segment + "\n"
+                    if _, err := segmentFileHandle.WriteString(segment); err != nil {
+                        panic(fmt.Sprintf("Не удалось записать файл %s: %s", segmentFilename, err))
+                    }
+                    if _, err := segmentFileHandle.WriteString("\n\n"); err != nil {
+                        panic(fmt.Sprintf("Не удалось записать файл %s: %s", segmentFilename, err))
+                    }
+                }
+ 
+                // запись блока в итоговый файл
+                if _, err := outputFileHandle.WriteString(finalBlock); err != nil {
+                    panic(fmt.Sprintf("Не удалось записать файл %s: %s", outputFile, err))
+                }
+                if _, err := outputFileHandle.WriteString("\n"); err != nil {
+                    panic(fmt.Sprintf("Не удалось записать файл %s: %s", outputFile, err))
+                }
+                blockEnd = false
+            }
+        }
+ 
+        if err := scanner.Err(); err != nil {
+            panic(err)
+        }
+    }
+}

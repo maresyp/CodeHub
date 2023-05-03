@@ -1,0 +1,57 @@
+public class Boletim {
+    private Decimal n1;
+    private Decimal n2;
+    private Decimal n3;
+    private Decimal n4;
+    private Decimal media;
+    
+    public Boletim(){
+        
+    }
+    public Boletim(Decimal n1, Decimal n2, Decimal n3, Decimal n4){
+        this.n1 = n1;
+        this.n2 = n2;
+        this.n3 = n3;
+        this.n4 = n4;
+ 
+    }
+    public void setN1(Decimal n1){
+        this.n1 = n1;
+    }
+    public void setN2(Decimal n2){
+        this.n2 = n2;
+    }
+    public void setN3(Decimal n3){
+        this.n3 = n3;
+    }
+    public void setN4(Decimal n4){
+        this.n4 = n4;
+    }
+    public Decimal getMedia(){
+        return this.media;
+    }
+    public String calculaMedia(){
+        this.media = (n1+n2+n3+n4)/4;
+        if(this.media>=5){
+            if(this.media>10){
+                return 'Nota incorreta';
+            }
+            return 'Aprovado';
+        }else if(media>=4){
+            return 'Recuperação';
+        }else{
+            return 'Reprovado';
+        }
+    }
+}
+ 
+//ANONYMOUS
+/*Boletim b = new Boletim();
+b.setN1(5);
+b.setN2(8);
+b.setN3(3);
+b.setN4(10);
+System.debug(b.calculaMedia()+' - '+b.getMedia());*/
+ 
+/*Boletim b = new Boletim(5, 8, 3, 10);
+System.debug(b.calculaMedia()+' - '+b.getMedia());*/

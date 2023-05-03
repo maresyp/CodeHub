@@ -1,0 +1,44 @@
+import java.util.Scanner;
+ 
+public class SuitcaseLoader {
+ 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // Read the capacity of the airplane trunk
+        double capacity = Double.parseDouble(scanner.nextLine());
+        // Initialize a variable to store the number of loaded suitcases
+        int count = 0;
+        // Initialize a variable to store the command or the volume of a suitcase
+        String input = scanner.nextLine();
+        // Loop until the command "End" is received or the capacity is exceeded
+        while (!input.equals("End")) {
+           double volume = Double.parseDouble(input);
+            // Increase the volume by 10% for every third suitcase
+            if (count % 3 == 0) {
+                volume *= 1.1;
+            }
+            // Check if there is enough space for the suitcase
+            if (capacity >= volume) {
+                // Subtract the volume from the capacity
+                capacity -= volume;
+                // Increment the count of loaded suitcases
+                count++;
+            } else {
+                // Break the loop if there is no more space
+                break;
+            }
+            // Read the next input
+            input = scanner.nextLine();
+        }
+        // Close the scanner
+        scanner.close();
+        // Print the appropriate message depending on the input and capacity
+        if (input.equals("End")) {
+            System.out.println("Congratulations! All suitcases are loaded!");
+        } else {
+            System.out.println("No more space!");
+        }
+        // Print the statistic of how many suitcases are loaded
+        System.out.println("Statistic: " + count + " suitcases loaded!");
+    }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantt Chart</title>
+    <style>
+        .card-background {
+            border-radius: 10px;
+            /* overflow: hidden; */
+        }
+        .rounded {
+            border-radius: 5px !important;
+        }
+        .container-fluid .card {
+            width: 100% !important;
+            overflow: hidden !important;
+        }
+    </style>
+    <style>
+        .gtaskname div, .gres div {
+            white-space: break-spaces !important;
+            overflow: hidden !important;
+        }
+        .gres {
+            width: 300px !important;
+            max-width: 300px !important;
+        }
+        .gtaskname {
+            max-width: 300px !important;
+            width: 300px !important;
+        }
+        .gtaskname > div {
+            width: 100%;
+            max-width: 100%;
+        }
+        .gcomp {
+            max-width: 50px;
+            min-width: 50px;
+            width: 50px;
+        }
+        .gres > div {
+            padding: 5px 5px;
+        }
+        .gchartcontainer {
+            display:grid;
+            grid-template-columns: 1.35fr 1fr auto;
+        }
+        #GanttChartDIVglisthead .gselector {
+            max-width: 500px;
+            width: auto;
+        }
+        .gtaskname ul {
+            list-style-type: none;
+        }
+    </style>
+ 
+    <link rel="stylesheet" href="assets/jsgantt.css" type="text/css" />
+    <script src="assets/jsgantt.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
+    <script src="assets/jquery.slim.min.js"></script>
+    <script src="assets/popper.min.js"></script>
+    <script src="assets/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid py-3 mb-4 h-100" style="overflow: auto;">
+        <!-- <div v-if="isLoading">
+            <Loading/>
+        </div> -->
+        <div data-app class="pb-3">
+            <div class="card card-background">
+                <div class="card-header">
+                    <h5 class="mb-0">Gantt Chart</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="offset-9 form-group col-3">
+                            <!-- <select class="form-control" v-model="workspace" @change="loadGantt(workspace, false)">
+                                <option :value="work._id" v-for="work, index in myWorkspace" :key="index">{{ work.name }}</option>
+                            </select> -->
+                        </div>
+                    </div>
+                    <div class="gantt" id="GanttChartDIV"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

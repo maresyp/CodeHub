@@ -1,0 +1,34 @@
+//CRIADO POR FELIPE ESTRELA DE ALBUQUERQUE
+using System;
+ 
+class Lampada {
+    private bool ligada;
+ 
+    public Lampada(bool ligada) {
+        this.ligada = ligada;
+    }
+ 
+    public void Ligar() {
+        ligada = true;
+    }
+ 
+    public void Desligar() {
+        ligada = false;
+    }
+ 
+    public override string ToString() {
+        return $"A lâmpada está {(ligada ? "ligada" : "desligada")}.";
+    }
+}
+ 
+class Program {
+    static void Main(string[] args) {
+        // Criando a lâmpada desligada
+        Lampada lampada = new Lampada(false);
+ 
+        // Ligar a lâmpada
+        lampada.Ligar();
+ 
+        Console.WriteLine(lampada); // "A lâmpada está ligada."
+    }
+}

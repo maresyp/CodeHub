@@ -1,0 +1,165 @@
+/**
+ * The class provides methods for creating a new Point object with 
+ * specified x and y coordinates, accessing and 
+ * modifying the x and y coordinates, checking the relative 
+ * position of two points, moving the point by a specified 
+ * amount in the x and y directions, finding the midpoint 
+ * between two points, and calculating the Euclidean distance 
+ * between two points.
+ *
+ * @author Niv Ziv
+ * @version 10/04/2023
+ */
+public class Point
+{
+    // instance variables - replace the example below with your own
+    private int _x; // x-coordinate of the point
+    private int _y; // y-coordinate of the point
+    private final int DEFAULT = 0; // default value for coordinates if provided values are less than zero
+    
+    /**
+     * Constructor for objects of class Point
+     */
+    public Point(int x, int y) // constructor that takes x and y values
+    {
+        // if the provided x or y value is less than 0, set it to the default value of 0
+        if(x < DEFAULT)
+        {
+            x = DEFAULT;
+        }
+        if(y < DEFAULT)
+        {
+            y = DEFAULT;
+        }
+        // set the x and y values for this point object
+        this._x = x;
+        this._y = y;
+        
+    }
+    
+    public Point (Point other) // constructor that takes another point object and copies its coordinates
+    {
+        // set the x and y values for this point object to be the same as the other point object
+        this._x = other._x;
+        this._y = other._y;
+    }
+ 
+    public int getX() // method to get the x-coordinate of the point
+    {
+        return _x;
+    }
+    
+    public int getY() // method to get the y-coordinate of the point
+    {
+        return _y;
+    }
+    
+    public void setX(int num) // method to set the x-coordinate of the point to a new value
+    {
+        // only set the x-coordinate if the provided value is greater than 0
+        if(num > 0)
+        {
+            this._x = num;
+        }
+    }
+    
+    public void setY(int num) // method to set the y-coordinate of the point to a new value
+    {
+        // only set the y-coordinate if the provided value is greater than 0
+        if(num > 0)
+        {
+            this._y = num;
+        }
+    }
+    
+    public String toString() // method to return a string representation of the point object
+    {
+        return "("+ _x +","+ _y +")"; 
+    }
+    
+    public boolean equals(Point other) // method to check if this point object is equal to another point object
+    {
+        // if the x and y coordinates of both points are the same, they are equal
+        if(this._x == other._x && this._y == other._y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public boolean isAbove(Point other) // method to check if this point object is above another point object
+    {
+        // if the y-coordinate of this point is greater than the y-coordinate of the other point, it is above it
+        if(this._y > other._y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public boolean isUnder(Point other) // method to check if this point object is below another point object
+    {
+        // if the y-coordinate of this point is less than the y-coordinate of the other point, it is below it
+        if(this._y < other._y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public boolean isLeft(Point other) // method to check if this point
+    {
+        if(this._x < other._x)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public boolean isRight(Point other)
+    {
+    // checks if this point is to the right of the other point
+        if(this._x > other._x)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+ 
+    public void move(int deltaX, int deltaY)
+    {
+        // moves the point by the specified amount in the x and y directions
+        _x += deltaX;
+        _y += deltaY;
+    }
+    
+    public Point middle(Point p)
+    {
+        // returns a new point that is the midpoint between this point and the given point
+        Point mPoint = new Point(_x, _y);
+        mPoint._x = Math.round((this._x + p._x)/2);
+        mPoint._y = Math.round((this._y + p._y)/2);
+        return mPoint;
+    }
+    
+    public double distance(Point p)
+    {
+        // calculates the Euclidean distance between this point and the given point
+        return Math.sqrt(Math.pow(this._x - p._x, 2) + Math.pow(this._y - p._y, 2));
+    }
+}

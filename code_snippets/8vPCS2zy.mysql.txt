@@ -1,0 +1,91 @@
+# Aufgabe 3.5.1.1
+ 
+mysql> SELECT herstellernummer, artikelname, preis FROM artikel WHERE herstellernummer IN (10, 30, 50);
++------------------+-------------+--------+
+| herstellernummer | artikelname | preis  |
++------------------+-------------+--------+
+|               10 | Maus        |  10.00 |
+|               10 | Tastatur    |  20.00 |
+|               30 | Festplatte  | 400.00 |
+|               50 | Drucker     | 300.00 |
++------------------+-------------+--------+
+4 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+# Aufgabe 3.5.1.2
+ 
+mysql> SELECT artikelname, preis FROM artikel WHERE preis BETWEEN 200 AND 400;
++-------------+--------+
+| artikelname | preis  |
++-------------+--------+
+| Drucker     | 300.00 |
+| Festplatte  | 400.00 |
++-------------+--------+
+2 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+# Aufgabe 3.5.1.3
+ 
+mysql> SELECT artikelname, preis FROM artikel WHERE artikelname LIKE 'M%';
++-------------+--------+
+| artikelname | preis  |
++-------------+--------+
+| Maus        |  10.00 |
+| Monitor     | 500.00 |
++-------------+--------+
+2 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+# Aufgabe 3.5.2.1
+ 
+mysql> SELECT herstellername, land FROM hersteller;
++-----------------+-------------+
+| herstellername  | land        |
++-----------------+-------------+
+| Logitech        | Schweiz     |
+| SONY            | Japan       |
+| Maxtor          | USA         |
+| Medion          | Deutschland |
+| Hewlett Packard | USA         |
++-----------------+-------------+
+5 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+# Aufgabe 3.5.2.2
+ 
+mysql> SELECT herstellername, land FROM hersteller WHERE herstellername LIKE 'M%' AND herstellername NOT LIKE 'Japan';
++----------------+-------------+
+| herstellername | land        |
++----------------+-------------+
+| Maxtor         | USA         |
+| Medion         | Deutschland |
++----------------+-------------+
+2 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+# Aufgabe 3.5.2.3
+ 
+mysql> SELECT herstellername, land FROM hersteller WHERE herstellername NOT LIKE 'M%' AND land LIKE 'USA' OR 'Deutschland';
++-----------------+------+
+| herstellername  | land |
++-----------------+------+
+| Hewlett Packard | USA  |
++-----------------+------+
+1 row in set, 1 warning (0.00 sec)
+ 
+mysql> NOTEE

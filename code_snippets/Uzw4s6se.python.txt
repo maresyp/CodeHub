@@ -1,0 +1,106 @@
+"""
+    |NAME : Slmaan AL-Beady
+    |DR   : Jafar  Abu-Khait
+    |0112551 Computer Vision Spring 2023   
+    |Programming Assignment # 1
+"""
+import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+ 
+ 
+def convolution(image, filter_type, threshold):
+    """
+    Define kernel based on filter type and apply convolution
+    Parameters:
+    img (numpy.ndarray): The image to apply the filter to.
+    filter (str): The type of filter to apply. Currently supports "gaussian" and "prewitt".
+    x (int): -/ Threshold value for the filter prewitt    \-
+.           -/    sigma   value for the filter Gaussian   \-
+ 
+    Returns:
+    numpy.ndarray: The filtered image.
+    """
+    kernel = None
+    if filter_type == "gaussian":
+        kernel = generate_gaussian_kernel(threshold) #threshold=sigma
+        output = cv.filter2D(image, -1, kernel)
+    elif filter_type == "prewitt":
+        kernel_x = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])
+        kernel_y = np.array([[-1,-1,-1],[0,0,0],[1,1,1]])
+        # Apply Gaussian blur to image before applying Prewitt filter
+        image = cv.GaussianBlur(image, (11, 11), 0)
+        grad_x = cv.filter2D(image, -1, kernel_x)
+        grad_y = cv.filter2D(image, -1, kernel_y)
+        # Calculate gradient magnitution and threshold the result
+        magnitution = np.sqrt(grad_x ** 2 + grad_y ** 2)
+        output = np.zeros_like(magnitution, dtype=np.uint8)
+        output[magnitution > threshold] = 255
+    else:
+        raise Exception("Invalid filter type: %s. Supported types are 'gaussian' and 'prewitt'." % filter_type)
+    return output
+ 
+ 
+def generate_gaussian_kernel(sigma):
+    """
+        Generates a Gaussian kernel based on sigma.
+ 
+        Parameters:
+        sigma (int): The sigma value to use.
+ 
+        Returns:
+        numpy.ndarray: The Gaussian kernel.
+    """    
+    kernel = np.zeros((2 * sigma + 1, 2 * sigma + 1), dtype=np.float32)
+    summation = 0.0
+    for x in range(-sigma, sigma + 1):
+        for y in range(-sigma, sigma + 1):
+            kernel[x + sigma, y + sigma] = np.exp(-(x **2 + y **2) /(2 * sigma ** 2)) / np.sqrt(np.pi * (2 * sigma ** 2))
+            summation += kernel[x + sigma, y + sigma]
+    # Normalize kernel so that all elements sum to 1
+    kernel /= summation
+    return kernel
+ 
+ 
+def plot_results(images, titles):
+    # Plot images and titles in a grid
+    num_images = len(images)
+    rows = int(num_images/3) + (num_images%3 > 0)
+    plt.figure(figsize=(20, 20))
+    for i, (image, title) in enumerate(zip(images, titles)):
+        plt.subplot(rows, 3, i+1)
+        plt.title(title), plt.xticks([]), plt.yticks([])
+        plt.imshow(image, cmap='gray')
+    plt.show()
+ 
+ 
+# First Part
+def run_first_part():
+    # Apply Gaussian filter to House1.jpg for different kernel sizes
+    image = cv.imread("House1.jpg")
+    images = [image]
+    titles = ["Original Image"]
+    for x in range(1, 4):
+        filtered = convolution(image, "gaussian", x)
+        images.append(filtered)
+        titles.append("Gaussian Filter Size %s" % (2*x+1))
+    plot_results(images, titles)
+ 
+ 
+# Second Part
+def run_second_part():
+    # Apply Prewitt filter to House2.jpg for different threshold values
+    image = cv.imread("House2.jpg")
+    thresholds = [1, 5, 10]
+    images = [image]
+    titles = ["Original Image"]
+    for threshold in thresholds:
+        filtered = convolution(image, "prewitt", threshold)
+        images.append(filtered)
+        titles.append("Prewitt Filter Threshold %s" % threshold)
+    plot_results(images, titles)
+ 
+ 
+if __name__ == "__main__":
+    run_first_part()
+    run_second_part()

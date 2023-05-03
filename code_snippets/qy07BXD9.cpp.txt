@@ -1,0 +1,13 @@
+int getPos(int v, int vl, int vr, int y) {
+    if (vl == vr) {
+        if (t[v] < y)
+            return -1;
+        else
+            return vl;
+    }
+    int vm = (vl + vr) / 2;
+    if (t[2 * v] >= y) //t[2*v] is a maximum in the left part
+        return getPos(2 * v, vl, vm, y);
+    else
+        return getPos(2 * v + 1, vm + 1, vr, y);
+}

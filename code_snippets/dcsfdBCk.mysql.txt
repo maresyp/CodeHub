@@ -1,0 +1,14 @@
+SELECT
+    employees.FIO as fullname
+    ,employees.Dolzn as post
+    ,employee_info.уч_степень as academicDegree
+    ,employee_info.уч_звание as academicStatus
+    ,employee_info.карьера as career
+    ,employee_info.научные_интересы as academicInterest
+FROM
+    employee_info
+LEFT JOIN employees ON employee_info.id_sotrudnik = employees.id_sotrudnik
+AND employee_info.id_fakultet = employees.id_fakultet
+AND employee_info.id_kafedra = employees.id_kafedra
+WHERE
+    employee_info.id_fakultet = 1 AND employee_info.id_kafedra = 4;

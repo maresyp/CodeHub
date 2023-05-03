@@ -1,0 +1,51 @@
+local modem = peripheral.find("modem") or error("No modem attached", 0)
+modem.open(65532)
+ 
+d1 = {}
+ 
+-- user data
+d1["AL"] = "28"
+ 
+local protocol = "dns_message"
+ 
+function NameToId(name)
+    for key, val in pairs(d1) do
+        if key == name then
+            return val
+        end
+    end
+    return "__NONE__"
+end
+ 
+function IdToName(id)
+    for key, val in pairs(d1) do
+        if val == id then
+            return key
+        end
+    end
+    return "__NONE__"
+end
+ 
+function sender(mode, who, dat, to_id)
+    local mesData = {
+        sMode = mode,
+        sWho = who,
+        sDat = dat,
+        sProtocol = protocol,
+    }
+ 
+    modem.transmit(to_id, 65532, mesData)
+end
+ 
+while true do
+    local event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
+    if message["sProtocol"] == "dns_message" then
+        print(("DNS Check: %d"):format(replyChannel))
+        if message["sWho"] == "id" then
+            sender("ans", "id", NameToId(message["sDat"]), replyChannel)
+        elseif message["sWho"] == "name" then
+            sender("ans", "name", IdToName(message["sDat"]), replyChannel)
+        end
+    end
+    sleep(0.01)
+end

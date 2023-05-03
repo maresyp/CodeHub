@@ -1,0 +1,20 @@
+<!--
+Override Kartra phone number form field validation to allow leading zeros.
+Only overrides when field name is "phone", and only works for in-line (non-iframe) opt-in and checkout forms.
+Add this code to FOOTER tracking for pages or a custom code block for memberships.
+-->
+<script>
+function newIsValidChar ($el, char, type, rules) {
+return ($el[0].name === 'phone' ? !!char.match(/[0-9]/) : oldIsValidChar($el, char, type, rules));
+}
+function fixIVC (list, obs) {
+if (window.isValidChar) {
+console.log('fixing isValidChar');
+obs.disconnect();
+window.oldIsValidChar = window.isValidChar;
+window.isValidChar = window.newIsValidChar;
+}
+}
+var bmo = new MutationObserver(fixIVC);
+bmo.observe(document.body, { childList: true, subtree: true });
+</script>

@@ -1,0 +1,75 @@
+------------------------------------------------------------------------------------------------------
+                SET A
+-----------------------------------------------------------------------------------------------------
+(1.)
+A predicate is an expression of one or more variables determined on some specific domain. A predicate with variables can be made a proposition by either authorizing a value to the variable or by quantifying the variable. Predicate Logic deals with predicates, which are propositions, consist of variables.
+ 
+1. Facts to FOPL
+    a. likes(Hari,banana)
+    b. likes(Hari,banana) --> likes(Sita,banana)
+    c. likes(Hari,X) ^ likes(Sita,X) --> likes(Meena,X)
+ 
+2. To CNF
+    a. likes(Hari,banana)
+    b. ~likes(Hari,banana) V likes(Sita,banana)
+    c. ~[likes(Hari,X) ^ likes(Sita,X)] V likes(Meena,X)
+       ~likes(Hari,X) V ~likes(Sita,X) V likes(Meena,X)
+ 
+3. To get: likes(Meena,banana)
+    negation: ~likes(Meena,banana)
+ 
+ 
+-----------------------------------------------------------------------------------------------------
+likes(amrit,football).
+likes(ram,X):-likes(amrit,X).
+likes(mahesh,X) :-likes(amrit,X), likes(ram,X).
+ 
+?- likes(amrit,football).
+true.
+ 
+?- likes(sita,football).
+false.
+ 
+?- likes(mahesh,X).
+X = football.
+ 
+?- likes(Who,football).
+Who = amrit ;
+Who = ram ;
+Who = mahesh.
+------------------------------------------------------------------------------------------------------
+                SET B
+-----------------------------------------------------------------------------------------------------
+(1.)
+A predicate is an expression of one or more variables determined on some specific domain. A predicate with variables can be made a proposition by either authorizing a value to the variable or by quantifying the variable. Predicate Logic deals with predicates, which are propositions, consist of variables.
+ 
+1. Facts to FOPL
+    a. likes(Hari,swimming)
+    b. likes(Hari,swimming) --> likes(Sita,swimming)
+    c. likes(Hari,X) ^ likes(Sita,X) --> likes(Meena,X)
+ 
+2. To CNF
+    a. likes(Hari,swimming)
+    b. ~likes(Hari,swimming) V likes(Sita,swimming)
+    c. ~[likes(Hari,X) ^ likes(Sita,X)] V likes(Meena,X)
+       ~likes(Hari,X) V ~likes(Sita,X) V likes(Meena,X)
+ 
+3. To get: likes(Meena,swimming)
+    negation: ~likes(Meena,swimming)
+ 
+-----------------------------------------------------------------------------------------------------
+father(ram,sunil).
+father(bishnu,ram).
+grandfather(bishnu,sunil):-father(bishnu,ram),father(ram,sunil).
+ 
+?- father(ram,sunil).
+true.
+ 
+?- father(krishna,ram).
+false.
+ 
+?- father(X,sunil).
+X = ram.
+ 
+?- grandfather(X,sunil).
+X = bishnu.

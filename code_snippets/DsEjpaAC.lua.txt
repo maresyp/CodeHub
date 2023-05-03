@@ -1,0 +1,98 @@
+function changeDirection(direction)
+    if(direction=="left")
+    then
+        turtle.turnLeft()
+        current_direction = current_direction - 1
+        if(current_direction == 0)
+        then
+            current_direction = 4
+        end
+    elseif(direction=="right")
+    then
+        turtle.turnRight()
+        current_direction = current_direction + 1
+        if(current_direction == 5)
+        then
+            current_direction = 1
+        end
+    else
+        print("Something went wrong changing directions")
+    end
+end
+ 
+function calcXDirToHome()
+    if(x_blocks < 0) --I've travelled west
+    then
+        return 2
+    else
+        return 4
+    end
+end
+ 
+function calcYDirToHome()
+    if(y_blocks < 0) --I've travelled north
+    then
+        return 1
+    else
+        return 3
+    end
+end
+ 
+function faceDirection(direction)
+    if (current_direction == direction)
+    then
+        return
+    else
+        changeDirection("left")
+        faceDirection(direction)
+    end
+end
+ 
+function travelForward(numBlocks)
+    local blocks_moved = 0
+    print("Travelling forward " .. tostring(numBlocks) .. " spaces")
+    while(blocks_moved < numBlocks)
+    do
+        turtle.forward(1)
+        slam.slamUpdate()
+ 
+        blocks_moved = blocks_moved + 1
+    end
+    slam.getSlam()
+end
+ 
+function goHome(x_homeDir,y_homeDir)
+    faceDirection(x_homeDir)
+    travelForward(makePositive(x_blocks))
+ 
+    faceDirection(y_homeDir)
+    travelForward(makePositive(y_blocks)) 
+end
+ 
+function mineForward(numBlocks)
+    local blocks_moved = 0
+    print("Mining forward " .. tostring(numBlocks) .. " spaces")
+    while(blocks_moved < numBlocks)
+    do
+        if(turtle.detect())
+        then
+            turtle.dig()
+        end
+        turtle.forward(1)
+        slam.slamUpdate()
+        turtle.dig()
+        turtle.digUp()
+        turtle.digDown()
+ 
+        blocks_moved = blocks_moved + 1
+    end
+    slam.getSlam()
+end
+ 
+function shiftRow(direction)
+    print("Shifting to next row to my " .. tostring(direction))
+    changeDirection(direction)
+    mineForward(1)
+    changeDirection(direction)
+    slam.getSlam()
+end

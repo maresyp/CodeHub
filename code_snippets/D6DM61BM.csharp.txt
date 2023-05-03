@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using OfficeOpenXml;
+using System.IO.Packaging;
+ 
+namespace SpredsheetReader
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //string filePath = "D:\Users\Пользователь\Desktop\test.xlsx";
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            string filePath = Console.ReadLine();
+            ExcelPackage spredsheet = new ExcelPackage(new FileInfo(filePath));
+            ExcelWorksheet worksheet = spredsheet.Workbook.Worksheets.ElementAtOrDefault(0);
+            List<string[]> cables = new List<string[]>();
+ 
+            for (int row = 1; row <= worksheet.Dimension.End.Row; row++)
+            {
+                string[] fragment = new string[worksheet.Columns.EndColumn];
+ 
+                for (int column = 0; column < worksheet.Columns.EndColumn; column++)
+                {
+                    fragment[column] = worksheet.Cells[row, column + 1].Value.ToString();
+                }
+ 
+                cables.Add(fragment);
+            }
+ 
+            Console.Clear();
+            Console.Write("Path to output file: ");
+            filePath = Console.ReadLine();
+            ExcelPackage outputFile = new ExcelPackage();
+            ExcelWorksheet outputSpredsheet = outputFile.Workbook.Worksheets.Add("Sheet1");
+ 
+            for (int i = 0; i < cables.Count; i++)
+            {
+                for (int j = 0; j < worksheet.Columns.EndColumn; j++)
+                {
+                    outputSpredsheet.Cells[i + 1, j + 1].Value = cables[i][j];
+                }
+            }
+ 
+            outputFile.SaveAs(new FileInfo(filePath));
+            outputFile.Dispose();
+            Console.ReadKey();
+        }

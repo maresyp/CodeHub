@@ -1,0 +1,201 @@
+console.log("╔══════════════════════════════════╗");
+console.log("║         Starting Bot...          ║");
+console.log("╚══════════════════════════════════╝");
+// Load environment variables from .env file
+ 
+require('dotenv').config();
+ 
+const { Client, Events, GatewayIntentBits, ActivityType, WebhookClient } = require('discord.js')
+//const Discord = require('discord.js');
+import { Client, Intents } from 'discord.js';
+const fetch = require('node-fetch');
+import express from 'express';
+import { getToken } from './oauth2.js';
+import oauth2Router from './oauth2.js';
+ 
+import dotenv from 'dotenv';
+ 
+const client = new Client({
+    intents:[
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+    ],
+});
+ 
+const token = process.env.DISCORD_TOKEN;
+ 
+if (!token) {
+  console.error('Discord token not found in environment variables.');
+  process.exit(1);
+}
+ 
+dotenv.config();
+ 
+const app = express();
+ 
+app.use('/api', oauth2Router);
+ 
+//Created by ChatGPT 3
+//import 'module-alias/register';
+ 
+const DISCORD_API_BASE_URL = 'https://discord.com/api';
+ 
+ 
+// Define a route to handle the OAuth2 callback
+app.get('/api/callback', async (req, res) => {
+  const code = req.query.code;
+ 
+  // Exchange code for token
+  const data = {
+    client_id: process.env.DISCORD_CLIENT_ID,
+    client_secret: process.env.DISCORD_CLIENT_SECRET,
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: process.env.DISCORD_REDIRECT_URI,
+    scope: process.env.OAUTH2,
+  };
+  const response = await fetch(`${DISCORD_API_BASE_URL}/oauth2/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams(data),
+  });
+ 
+  const tokenData = await response.json();
+ 
+  // Use the token to fetch user data
+  const userResponse = await fetch(`${DISCORD_API_BASE_URL}/users/@me`, {
+    headers: {
+      authorization: `${tokenData.token_type} ${tokenData.access_token}`,
+    },
+  });
+ 
+  const userData = await userResponse.json();
+ 
+  // Do something with the user data
+  console.log(userData);
+ 
+  // Parse response and get access token
+  const accessToken = tokenData.access_token;
+ 
+  // Save token to environment variable or database
+  process.env.DISCORD_TOKEN = accessToken;
+ 
+  res.send('OAuth2 completed successfully!');
+});
+ 
+//Weebhook for AI Bot
+//const webhook = new WebhookClient('webhook id', 'webhook token'); Just in case
+const webhook = new WebhookClient({
+  url: process.env.DISCORD_WEBHOOK_URL });
+const channelId = process.env.CHANNEL_ID;
+const message = process.env.MESSAGE_TEXT;
+ 
+const commandList = require('./commands/commandList');
+ 
+//Import the "ask" function from the "ai.js" file
+ 
+const { ask } = require("./ai.js");
+ 
+//Register a slash command against the Discord API using commandList.js
+ 
+    client.on('interactionCreate', async interaction => {
+        if (!interaction.isChatInputCommand()) return;
+ 
+        if (interaction.commandName === 'ping') {
+            await interaction.reply('Pong!');
+    }
+});
+ 
+//Reply if message has "!" as first character
+    client.on(`ready`, async () => {
+        try {
+        console.log(`✅ The AI bot is online and ready for humanity annihilation!`);
+        console.log(`${client.user.tag} is unleashing chaos!`);
+ 
+        const channel = await client.channels.fetch(channelId);
+        console.log(`Found channel: ${channel.name}`);
+        webhook.send(process.env.MESSAGE_TEXT);
+//        await channel.send(message);
+    }   catch (error) {
+        console.error(`An error occurred while sending the message: ${error.message}`);
+    }
+    });
+ 
+//Message when bot is online
+//Set the client user's presence (Status type for the bot using ActivityType [PLAYING | LISTENING | WATCHING | COMPETING | | STREAMING | CUSTOM ])
+let status = [
+    {
+    name: 'annihilating humanity',
+        type: ActivityType.Competing,
+    },
+    {
+    name: 'with the Old Gods',
+        type: ActivityType.Playing,
+    },
+    {
+    name: 'The Worlds Between',
+        type: ActivityType.Streaming,
+//      url: 'rtmp://stream.everythingbagel.me:1935/live',
+        url: 'https://www.twitch.tv/dismalshadowx',
+    },
+    {
+    name: 'sorrows of the dead',
+        type: ActivityType.Listening,
+    },
+    {
+    name: 'Nathan\'s  stream',
+        type: ActivityType.Watching,
+    },
+];
+ 
+    setInterval(() => {
+let random = Math.floor(Math.random() * status.length);
+    client.user.setActivity(status[random]);
+    }, 10000);
+ 
+    client.on(Events.Create, async message => {
+        if (message.content.startsWith('!')) {
+      
+//Remove the exclamation mark from the message    
+            const prompt = message.content.substring(1);
+        
+//Prompt GPT-3
+            const answer = await ask(prompt);
+            client.channels.fetch(message.channelId).then(channel => channel.send(answer));
+  }
+});
+ 
+// Log messages when the bot connects and disconnects from Discord
+client.on('shardReconnecting', () => {
+    console.log(`🔄 ${client.user.tag} is attempting to reconnect to Discord...`);
+});
+ 
+client.on('shardResume', (replayed) => {
+    console.log(`🟢 ${client.user.tag} has resumed connection to Discord (replayed ${replayed} events)`);
+});
+ 
+client.on('shardDisconnect', (event, id) => {
+    console.log(`🔴 ${client.user.tag} has disconnected from Discord (event: ${event}, id: ${id})`);
+});
+ 
+// Handle any errors that occur while the bot is running
+client.on('error', error => {
+    console.error('Error occurred:', error);
+});
+ 
+// Bot Token Here[Required]: Authenticate and log in with Discord API using the bot token.(End of file)
+client.login(process.env.DISCORD_TOKEN);
+  const accessToken = process.env.DISCORD_TOKEN;
+  if (!accessToken) {
+    throw new Error('Access token not found');
+  }
+  return accessToken;
+};
+ 
+app.use('/api', oauth2Router);
+module.exports = app;
+export default client;

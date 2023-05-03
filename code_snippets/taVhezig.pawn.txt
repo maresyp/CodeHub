@@ -1,0 +1,92 @@
+#define FILTERSCRIPT
+ 
+#include <a_samp>
+#include <DOF2>
+#include <Pawn.CMD>
+#include <sscanf2>
+ 
+#define function%0(%1) \
+        forward %0(%1); public %0(%1)
+ 
+enum E_VIP_DATA {
+    nVip,
+    tVip
+}
+ 
+new Vips[MAX_PLAYERS][E_VIP_DATA];
+ 
+public OnPlayerConnect(playerid)
+{
+    CarregarVip(playerid);
+    return 1;
+}
+ 
+public OnPlayerSpawn(playerid)
+{
+    SetTimerEx("CheckVip", 1000, false, "i", playerid);
+    return 1;
+}
+ 
+function CheckVip(playerid)
+{
+    if(Vips[playerid][nVip])
+    {
+        if(gettime() > Vips[playerid][tVip])
+        {
+            if(DOF2_FileExists(File(playerid)))
+                DOF2_RemoveFile(File(playerid));
+ 
+            Vips[playerid][nVip] = 0;
+            Vips[playerid][tVip] = 0;
+            SendClientMessage(playerid, -1, "[ ! ] Seu vip expirou");
+        }
+    }
+    return 1;
+}
+ 
+stock PlayerName(playerid) {
+    new name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, 24);
+    return name;
+}
+ 
+stock File(playerid) {
+    new pasta_vip[35];
+    format(pasta_vip, 35, "Vips\%s.ini", PlayerName(playerid));
+    return pasta_vip;
+}
+ 
+stock SalvarVip(playerid) {
+    if(!DOF2_FileExists(File(playerid)))
+        DOF2_CreateFile(File(playerid));
+ 
+    DOF2_SetInt(File(playerid), "Nivel VIP", Vips[playerid][nVip]);
+    DOF2_SetInt(File(playerid), "Tempo Vip", Vips[playerid][tVip]);
+    DOF2_SaveFile();
+    return 1;
+}
+ 
+stock CarregarVip(playerid) {
+    if(DOF2_FileExists(File(playerid))) {
+        Vips[playerid][nVip] = DOF2_GetInt(File(playerid), "Nivel VIP");
+        Vips[playerid][tVip] = DOF2_GetInt(File(playerid), "Tempo VIP");
+    }
+    return 1;
+}
+ 
+CMD:darvip(playerid, params[]) {
+    if(!IsPlayerAdmin(playerid))
+        return SendClientMessage(playerid, -1, "Voce nao e admin");
+ 
+    new IDx, Vip, Tempo, name[MAX_PLAYER_NAME], pasta_vip[35];
+    if(sscanf(params, "iii", IDx, Vip, Tempo))
+        return SendClientMessage(playerid, -1, "[ X ] Comando errado ! /darvip [ID] [Nivel VIP] [Tempo]");
+ 
+    if(!(1 <= Vip <= 3))
+        return SendClientMessage(playerid, -1, "[ X ] Nivel invalido ! o e permitido niveis entre 1 e 3");
+ 
+    Vips[IDx][nVip] = Vip;
+    Vips[IDx][tVip] = (gettime() + 60 * 60 * 24 * Tempo);
+    SalvarVip(IDx);
+    return 1;
+}

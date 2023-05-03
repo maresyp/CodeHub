@@ -1,0 +1,24 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+ 
+-- Description of a dynamic rising clock edge triggered
+-- D flip-flop with high-active asynchronous reset.
+ 
+entity Dflipflop is
+  port (clk : in STD_LOGIC;
+        res : in STD_LOGIC;
+        D   : in STD_LOGIC;
+        Q   : out STD_LOGIC);
+end entity;
+ 
+architecture impl of Dflipflop is
+begin
+  process (clk, res)
+  begin
+    if res = '1' then
+      Q <= '0';
+    elsif rising_edge(clk) then
+      Q <= D;
+    end if;
+  end process;
+end architecture;

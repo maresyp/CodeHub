@@ -1,0 +1,6 @@
+./ghpc create community/examples/slurm-gcp-v5-hpc-centos7.yaml \
+    -l ERROR --vars project_id=PROJECT_ID
+ 
+terraform -chdir=slurm-gcp-v5/primary init
+ 
+terraform -chdir=slurm-gcp-v5/primary apply

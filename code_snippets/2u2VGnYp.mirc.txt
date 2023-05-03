@@ -1,0 +1,4 @@
+on *:join:#cod2.wars: {
+  whois $nick $nick
+  
+  }

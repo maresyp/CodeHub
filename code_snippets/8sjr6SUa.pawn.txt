@@ -1,0 +1,39 @@
+#include a_samp
+#include streamer
+ 
+static const Float:STREAM_DISTANCE = 100.0;
+ 
+static bool:playerActiveStreamIn[MAX_PLAYERS];
+static Text3D:playerActiveStreamLabel[MAX_PLAYERS][MAX_PLAYERS];
+ 
+main(){}
+ 
+public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+    if((newkeys & KEY_YES) && !playerActiveStreamIn[playerid])
+    {
+        new label[32], Float:x, Float:y, Float:z, Float:distance;
+ 
+        playerActiveStreamIn[playerid] = true;
+ 
+        for(new i = (GetPlayerPoolSize() + 1); i != -1; --i) // foreach
+        {
+            GetPlayerPos(i, x, y, z);
+ 
+            if((distance = GetPlayerDistanceFromPoint(playerid, x, y, z)) <= STREAM_DISTANCE)
+            {
+                format(label, sizeof(label), "(%i) - Distância: %.1f", i, distance);
+                playerActiveStreamLabel[playerid][i] = CreateDynamic3DTextLabel(label, -1, 0.0, 0.0, 0.5, STREAM_DISTANCE, .attachedplayer = i, .playerid = playerid);
+            }
+        }
+    }
+    if((newkeys & KEY_NO) && playerActiveStreamIn[playerid])
+    {
+        playerActiveStreamIn[playerid] = false;
+ 
+        for(new i = (GetPlayerPoolSize() + 1); i != -1; --i) // foreach
+            if(IsValidDynamic3DTextLabel(playerActiveStreamLabel[playerid][i]))
+                  DestroyDynamic3DTextLabel(playerActiveStreamLabel[playerid][i]);
+    }
+    return 1;
+}

@@ -1,0 +1,99 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+using namespace std;
+ 
+const int N = 2e5 + 5;
+int n, q, a[N];
+ 
+int t[4 * N]; ///t[i] -- is the value of the vertex i
+ 
+///Complexity -- O(N)
+///log N ?
+///N log N ?
+void build(int v, int vl, int vr) {
+    ///vertex number v corresponds to the segment [vl; vr]
+    ///and I want to calculate value for this segment
+    if (vl == vr) {
+        t[v] = a[vl];
+        //cout << "For vertex " << v << " the range is from " << vl << " to " << vr
+        //    << " and the answer is " << t[v] << endl;
+        return;
+    }
+ 
+    ///we want to split into 2 parts
+    int vm = (vl + vr) / 2;
+    ///the left son corresponds to [vl; vm], has index 2 * v
+    ///the right son corresponds to [vm + 1; vr], has index 2 * v + 1
+ 
+    ///ask for the left son
+    build(2 * v, vl, vm);
+ 
+    ///ask for the right son
+    build(2 * v + 1, vm + 1, vr);
+ 
+    ///calculate the answer = min(answer for left, answer for right)
+    t[v] = min(t[2 * v], t[2 * v + 1]);
+    //cout << "For vertex " << v << " the range is from " << vl << " to " << vr
+    //    << " and the answer is " << t[v] << endl;
+}
+ 
+///Complexity -- O(log N)
+int get(int v, int vl, int vr, int l, int r) {
+    ///we want to find the answer for [l; r]
+    ///and now we're in vertex v which corresponds to [vl; vr]
+    ///IT SHOULD ALWAYS BE TRUE THAT l >= vl and r <= vr
+    if (l == vl && r == vr) {
+        return t[v];
+    }
+    int vm = (vl + vr) / 2;
+    ///r <= vm ---> we can just take the left son
+    if (r <= vm)
+        return get(2 * v, vl, vm, l, r);
+    ///l > vm ---> take the right son
+    if (l > vm)
+        return get(2 * v + 1, vm + 1, vr, l, r);
+    ///l <= vm & r > vm
+    return min(get(2 * v, vl, vm, l, vm),
+           get(2 * v + 1, vm + 1, vr, vm + 1, r));
+}
+ 
+///Complexity O(log N)
+void update(int v, int vl, int vr, int pos, int val) {
+    if (vl == vr) {
+        ///pos == vl == vr
+        a[vl] = val;
+        t[v] = a[vl];
+        return;
+    }
+    int vm = (vl + vr) / 2;
+    if (pos <= vm)
+        update(2 * v, vl, vm, pos, val);
+    else
+        update(2 * v + 1, vm + 1, vr, pos, val);
+ 
+    t[v] = min(t[2 * v], t[2 * v + 1]);
+}
+ 
+signed main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++)
+        cin >> a[i];
+    build(1, 1, n);
+    for (int i = 1; i <= q; i++) {
+        int t;
+        cin >> t;
+        if (t == 1) {
+            int pos, val;
+            cin >> pos >> val;
+            update(1, 1, n, pos, val);
+        } else {
+            int l, r;
+            cin >> l >> r;
+            cout << get(1, 1, n, l, r) << "\n";
+        }
+    }
+}

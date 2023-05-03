@@ -1,0 +1,127 @@
+#include "Header.h"
+ 
+void createRecord(Record& record, Table& table) {
+    cout << "Enter group number: ";
+    int numb;
+    cin >> numb;
+    record.groupNumber = numb;
+ 
+    cout << "Enter subject code: ";
+    cin >> numb;
+    record.subjectCode = numb;
+ 
+    cout << "Enter day of the week (1-6): ";
+    cin >> numb;
+    record.dayOfWeek = numb;
+ 
+    cout << "Enter pair number: ";
+    cin >> numb;
+    record.pairNumber = numb;
+ 
+    record.classroomInd = enterClassroom(record, table);
+}
+ 
+int enterClassroom(Record& record, Table& table) {
+    cout << "Choose classroom\n";
+    int cnt = 0;
+    for (int i = 0; i < CLASSROOMS_NUMBER; i++) {
+        bool flag = true;
+        for (int rcd = 0; rcd < table.records.size(); rcd++) {
+            if (record.dayOfWeek == table.records[rcd].dayOfWeek && record.pairNumber == table.records[rcd].pairNumber) {
+                if (table.records[rcd].classroomInd == i) {
+                    flag = false;
+                }
+            }
+        }
+        cnt++;
+        if (flag) {
+            cout << table.classrooms[i] << '\t';
+        }
+        else {
+            cout << "-\t";
+        }
+        if (cnt % 3 == 0) {
+            cout << '\n';
+        }
+    }
+    string cl;
+    cin >> cl;
+    for (int i = 0; i < CLASSROOMS_NUMBER; i++) {
+        if (table.classrooms[i] == cl) {
+            return i;
+        }
+    }
+}
+ 
+void insertRecord(Record record, Table& table) {
+    for (int i = 0; i < table.records.size(); i++) {
+        if (table.records[i].dayOfWeek == record.dayOfWeek) {
+            table.records.insert(table.records.begin() + i, record);
+            return;
+        }
+    }
+    table.records.push_back(record);
+}
+ 
+void printRecord(Table& table, int day, int pair, int group) {
+    cout << "----------------------------------\n";
+    for (int i = 0; i < table.records.size(); i++) {
+        if (table.records[i].dayOfWeek == day && table.records[i].pairNumber == pair && table.records[i].groupNumber == group) {
+            cout << "Day of week: " << day << '\n';
+            cout << "Pair number: " << pair << '\n';
+            cout << "Group: " << group << '\n';
+            cout << "Subject: " << table.records[i].subjectCode << '\n';
+            cout << "Classroom: " << table.classrooms[table.records[i].classroomInd] << '\n';
+            return;
+        }
+    }
+    cout << "----------------------------------\n";
+}
+ 
+void printTable(Table& table) {
+    cout << "-------------TABLE----------------\n";
+    for (int i = 0; i < table.records.size(); i++) {
+        cout << "Day of week: " << table.records[i].dayOfWeek << '\n';
+        cout << "Pair number: " << table.records[i].pairNumber << '\n';
+        cout << "Group: " << table.records[i].groupNumber << '\n';
+        cout << "Subject: " << table.records[i].subjectCode << '\n';
+        cout << "Classroom: " << table.classrooms[table.records[i].classroomInd] << '\n';
+        if (i < table.records.size() - 1) {
+            if (table.records[i].dayOfWeek == table.records[i + 1].dayOfWeek) {
+                cout << "....................................\n";
+            }
+            else {
+                cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
+            }
+        }
+    }
+}
+ 
+void deleteRecord(Table& table, int day, int pair, int group) {
+    for (int i = 0; i < table.records.size(); i++) {
+        if (table.records[i].dayOfWeek == day && table.records[i].pairNumber == pair && table.records[i].groupNumber == group) {
+            table.records.erase(table.records.begin() + i);
+        }
+    }
+}
+ 
+void moveRecord(Table& table, int oldDay, int oldPair) {
+    Record rcd;
+    cout << "Enter new parameters\n";
+    createRecord(rcd, table);
+    insertRecord(rcd, table);
+    deleteRecord(table, oldDay, oldPair, rcd.groupNumber);
+}
+ 
+void printTableBySubject(Table& table, int subjectCode) {
+    cout << "---------TABLE-BY-SUBJECT---------\n";
+    for (int i = 0; i < table.records.size(); i++) {
+        if (table.records[i].subjectCode == subjectCode) {
+            cout << "Day of week: " << table.records[i].dayOfWeek << '\n';
+            cout << "Pair number: " << table.records[i].pairNumber << '\n';
+            cout << "Group: " << table.records[i].groupNumber << '\n';
+            cout << "Classroom: " << table.classrooms[table.records[i].classroomInd] << '\n';
+            cout << "....................................\n";
+        }
+    }
+}

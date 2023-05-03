@@ -1,0 +1,72 @@
+module io.builder;
+ 
+import std.stdio;
+ 
+const format = "%f\n";
+ 
+struct Vector
+{
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    float w = 1;
+}
+ 
+void WriteVector(ref Vector victim)
+{
+    writeln(victim.x);
+    writeln(victim.y);
+    writeln(victim.z);
+    writeln(victim.w);
+}
+ 
+void ReadVector(ref Vector victim)
+{
+    readf!format(victim.x);
+    readf!format(victim.y);
+    readf!format(victim.z);
+    readf!format(victim.w);
+}
+ 
+interface IO
+{
+    void Exec(ref float victim);
+}
+ 
+final class Input : IO
+{
+    void Exec(ref float victim)
+    {
+        readf!format(victim);
+    }
+}
+ 
+final class Output : IO
+{
+    void Exec(ref float victim)
+    {
+        writeln(victim);
+    }
+}
+ 
+void Io(ref Vector victim, IO io)
+{
+    io.Exec(victim.x);
+    io.Exec(victim.y);
+    io.Exec(victim.z);
+    io.Exec(victim.w);
+}
+ 
+int main()
+{
+    Vector fourDimentional;
+    
+    //ReadVector(fourDimentional);
+    //WriteVector(fourDimentional);
+ 
+    Io(fourDimentional, new Input());
+    Io(fourDimentional, new Output());
+   
+ 
+    return 0;
+}

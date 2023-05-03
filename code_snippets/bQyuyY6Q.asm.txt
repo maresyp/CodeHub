@@ -1,0 +1,643 @@
+0000 | 00007FF6D4465807 | 9C                       | pushfq                                  | rax: 0-> 0 rbx: 173BD87CFD0-> 173BD87CFD0 rcx: 0- | 00000072D32FFDD8: 7FF6D4465807-> 200206           
+0001 | 00007FF6D4465808 | 68 ABAE1E6F              | push 6F1EAEAB                           | rsp: 72D32FFDD8-> 72D32FFDD0                      | 00000072D32FFDD0: 173BD87CFD0-> 6F1EAEAB          
+0002 | 00007FF6D446580D | 48:892C24                | mov qword ptr ss:[rsp],rbp              |                                                   | 00000072D32FFDD0: 6F1EAEAB-> 7FF6D4058000         
+0003 | 00007FF6D4465811 | 48:89ED                  | mov rbp,rbp                             |                                                   |                                                   
+0004 | 00007FF6D4465814 | 56                       | push rsi                                | rsp: 72D32FFDD0-> 72D32FFDC8                      | 00000072D32FFDC8: 0-> 0                           
+0005 | 00007FF6D4465815 | 48:BE DB00000000000000   | mov rsi,DB                              | rsi: 0-> DB                                       |                                                   
+0006 | 00007FF6D446581F | 48:897424 08             | mov qword ptr ss:[rsp+8],rsi            |                                                   | 00000072D32FFDD0: 7FF6D4058000-> DB               
+0007 | 00007FF6D4465824 | 48:8B3424                | mov rsi,qword ptr ss:[rsp]              | rsi: DB-> 0                                       | 00000072D32FFDC8: 0-> 0                           
+0008 | 00007FF6D4465828 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFDC8-> 72D32FFDD0                      |                                                   
+0009 | 00007FF6D446582C | 41:50                    | push r8                                 | rsp: 72D32FFDD0-> 72D32FFDC8                      | 00000072D32FFDC8: 0-> 72D32FFD38                  
+000A | 00007FF6D446582E | 41:50                    | push r8                                 | rsp: 72D32FFDC8-> 72D32FFDC0                      | 00000072D32FFDC0: 173BD86B810-> 72D32FFD38        
+000B | 00007FF6D4465830 | 41:58                    | pop r8                                  | rsp: 72D32FFDC0-> 72D32FFDC8                      | 00000072D32FFDC0: 72D32FFD38-> 72D32FFD38         
+000C | 00007FF6D4465832 | 53                       | push rbx                                | rsp: 72D32FFDC8-> 72D32FFDC0                      | 00000072D32FFDC0: 72D32FFD38-> 173BD87CFD0        
+000D | 00007FF6D4465833 | 48:BB 6991230000000000   | mov rbx,239169                          | rbx: 173BD87CFD0-> 239169                         |                                                   
+000E | 00007FF6D446583D | 53                       | push rbx                                | rsp: 72D32FFDC0-> 72D32FFDB8                      | 00000072D32FFDB8: 1F4-> 239169                    
+000F | 00007FF6D446583E | 8F4424 08                | pop qword ptr ss:[rsp+8]                | rsp: 72D32FFDB8-> 72D32FFDC0                      | 00000072D32FFDC0: 173BD87CFD0-> 173BD87CFD0 00000 
+0010 | 00007FF6D4465842 | 48:8B1C24                | mov rbx,qword ptr ss:[rsp]              | rbx: 239169-> 173BD87CFD0                         | 00000072D32FFDC0: 173BD87CFD0-> 173BD87CFD0       
+0011 | 00007FF6D4465846 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFDC0-> 72D32FFDC8                      |                                                   
+0012 | 00007FF6D446584A | 68 67FFEC7B              | push 7BECFF67                           | rsp: 72D32FFDC8-> 72D32FFDC0                      | 00000072D32FFDC0: 173BD87CFD0-> 7BECFF67          
+0013 | 00007FF6D446584F | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFDC0-> 72D32FFDB8                      |                                                   
+0014 | 00007FF6D4465856 | 53                       | push rbx                                | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDB0: 0-> 173BD87CFD0                 
+0015 | 00007FF6D4465857 | 48:89C3                  | mov rbx,rax                             | rbx: 173BD87CFD0-> 0                              |                                                   
+0016 | 00007FF6D446585A | 41:53                    | push r11                                | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDA8: 0-> 200246                      
+0017 | 00007FF6D446585C | 49:89DB                  | mov r11,rbx                             | r11: 200246-> 0                                   |                                                   
+0018 | 00007FF6D446585F | 4C:895C24 10             | mov qword ptr ss:[rsp+10],r11           |                                                   | 00000072D32FFDB8: 239169-> 0                      
+0019 | 00007FF6D4465864 | 41:5B                    | pop r11                                 | rsp: 72D32FFDA8-> 72D32FFDB0 r11: 0-> 200246      | 00000072D32FFDA8: 200246-> 200246                 
+001A | 00007FF6D4465866 | 5B                       | pop rbx                                 | rbx: 0-> 173BD87CFD0 rsp: 72D32FFDB0-> 72D32FFDB8 | 00000072D32FFDB0: 173BD87CFD0-> 173BD87CFD0       
+001B | 00007FF6D4465867 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFDB8-> 72D32FFDC0                      | 00000072D32FFDB8: 0-> 0 00000072D32FFDB8: 0-> 0   
+001C | 00007FF6D446586A | 68 D4B4FB3B              | push 3BFBB4D4                           | rsp: 72D32FFDC0-> 72D32FFDB8                      | 00000072D32FFDB8: 0-> 3BFBB4D4                    
+001D | 00007FF6D446586F | 41:51                    | push r9                                 | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDB0: 173BD87CFD0-> 7FF6D4058000      
+001E | 00007FF6D4465871 | 49:89E1                  | mov r9,rsp                              | r9: 7FF6D4058000-> 72D32FFDB0                     |                                                   
+001F | 00007FF6D4465874 | 49:83C1 08               | add r9,8                                | r9: 72D32FFDB0-> 72D32FFDB8                       |                                                   
+0020 | 00007FF6D4465878 | 49:81E9 08000000         | sub r9,8                                | r9: 72D32FFDB8-> 72D32FFDB0                       |                                                   
+0021 | 00007FF6D446587F | 4C:870C24                | xchg qword ptr ss:[rsp],r9              | r9: 72D32FFDB0-> 7FF6D4058000                     | 00000072D32FFDB0: 7FF6D4058000-> 72D32FFDB0       
+0022 | 00007FF6D4465883 | 5C                       | pop rsp                                 |                                                   | 00000072D32FFDB0: 72D32FFDB0-> 72D32FFDB0         
+0023 | 00007FF6D4465884 | 53                       | push rbx                                | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDA8: 200246-> 173BD87CFD0            
+0024 | 00007FF6D4465885 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFDA8-> 72D32FFDB0                      | 00000072D32FFDA8: 173BD87CFD0-> 173BD87CFD0 00000 
+0025 | 00007FF6D4465888 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFDB0-> 72D32FFDB8                      | 00000072D32FFDB0: 173BD87CFD0-> 173BD87CFD0 00000 
+0026 | 00007FF6D446588B | FF7424 20                | push qword ptr ss:[rsp+20]              | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDD8: 200206-> 200206 00000072D32FFDB 
+0027 | 00007FF6D446588F | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDB0: 200206-> 200206 00000072D32FFDA 
+0028 | 00007FF6D4465892 | 58                       | pop rax                                 | rax: 0-> 200206 rsp: 72D32FFDA8-> 72D32FFDB0      | 00000072D32FFDA8: 200206-> 200206                 
+0029 | 00007FF6D4465893 | 52                       | push rdx                                | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDA8: 200206-> 0                      
+002A | 00007FF6D4465894 | 48:89E2                  | mov rdx,rsp                             | rdx: 0-> 72D32FFDA8                               |                                                   
+002B | 00007FF6D4465897 | 48:83C2 08               | add rdx,8                               | rdx: 72D32FFDA8-> 72D32FFDB0                      |                                                   
+002C | 00007FF6D446589B | 48:81C2 08000000         | add rdx,8                               | rdx: 72D32FFDB0-> 72D32FFDB8                      |                                                   
+002D | 00007FF6D44658A2 | 48:871424                | xchg qword ptr ss:[rsp],rdx             | rdx: 72D32FFDB8-> 0                               | 00000072D32FFDA8: 0-> 72D32FFDB8                  
+002E | 00007FF6D44658A6 | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              | rsp: 72D32FFDA8-> 72D32FFDB8                      | 00000072D32FFDA8: 72D32FFDB8-> 72D32FFDB8         
+002F | 00007FF6D44658AA | FF7424 10                | push qword ptr ss:[rsp+10]              | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDC8: 239169-> 239169 00000072D32FFDB 
+0030 | 00007FF6D44658AE | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDB0: 239169-> 239169 00000072D32FFDA 
+0031 | 00007FF6D44658B1 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFDA8-> 72D32FFDA0                      | 00000072D32FFDA8: 239169-> 239169 00000072D32FFDA 
+0032 | 00007FF6D44658B4 | 5B                       | pop rbx                                 | rbx: 173BD87CFD0-> 239169 rsp: 72D32FFDA0-> 72D32 | 00000072D32FFDA0: 239169-> 239169                 
+0033 | 00007FF6D44658B5 | 48:81C4 08000000         | add rsp,8                               | rsp: 72D32FFDA8-> 72D32FFDB0                      |                                                   
+0034 | 00007FF6D44658BC | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFDB0-> 72D32FFDB8                      |                                                   
+0035 | 00007FF6D44658C0 | 68 C3A8B41E              | push 1EB4A8C3                           | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDB0: 239169-> 1EB4A8C3               
+0036 | 00007FF6D44658C5 | 41:56                    | push r14                                | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDA8: 239169-> 0                      
+0037 | 00007FF6D44658C7 | 49:89E6                  | mov r14,rsp                             | r14: 0-> 72D32FFDA8                               |                                                   
+0038 | 00007FF6D44658CA | 49:83C6 08               | add r14,8                               | r14: 72D32FFDA8-> 72D32FFDB0                      |                                                   
+0039 | 00007FF6D44658CE | 49:81EE 08000000         | sub r14,8                               | r14: 72D32FFDB0-> 72D32FFDA8                      |                                                   
+003A | 00007FF6D44658D5 | 4C:873424                | xchg qword ptr ss:[rsp],r14             | r14: 72D32FFDA8-> 0                               | 00000072D32FFDA8: 0-> 72D32FFDA8                  
+003B | 00007FF6D44658D9 | 5C                       | pop rsp                                 |                                                   | 00000072D32FFDA8: 72D32FFDA8-> 72D32FFDA8         
+003C | 00007FF6D44658DA | 48:890424                | mov qword ptr ss:[rsp],rax              |                                                   | 00000072D32FFDA8: 72D32FFDA8-> 200206             
+003D | 00007FF6D44658DE | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFDA8-> 72D32FFDB0                      | 00000072D32FFDA8: 200206-> 200206 00000072D32FFDA 
+003E | 00007FF6D44658E1 | 8F4424 10                | pop qword ptr ss:[rsp+10]               | rsp: 72D32FFDB0-> 72D32FFDB8                      | 00000072D32FFDC0: 0-> 0 00000072D32FFDB0: 200206- 
+003F | 00007FF6D44658E5 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFDB8-> 72D32FFDB0                      |                                                   
+0040 | 00007FF6D44658E9 | 48:891C24                | mov qword ptr ss:[rsp],rbx              |                                                   | 00000072D32FFDB0: 200206-> 239169                 
+0041 | 00007FF6D44658ED | 8F4424 20                | pop qword ptr ss:[rsp+20]               | rsp: 72D32FFDB0-> 72D32FFDB8                      | 00000072D32FFDD0: DB-> DB 00000072D32FFDB0: 23916 
+0042 | 00007FF6D44658F1 | 48:8B1C24                | mov rbx,qword ptr ss:[rsp]              | rbx: 239169-> 173BD87CFD0                         | 00000072D32FFDB8: 173BD87CFD0-> 173BD87CFD0       
+0043 | 00007FF6D44658F5 | 41:54                    | push r12                                | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDB0: 239169-> 0                      
+0044 | 00007FF6D44658F7 | 49:89E4                  | mov r12,rsp                             | r12: 0-> 72D32FFDB0                               |                                                   
+0045 | 00007FF6D44658FA | 49:83C4 08               | add r12,8                               | r12: 72D32FFDB0-> 72D32FFDB8                      |                                                   
+0046 | 00007FF6D44658FE | 49:81C4 08000000         | add r12,8                               | r12: 72D32FFDB8-> 72D32FFDC0                      |                                                   
+0047 | 00007FF6D4465905 | 4C:332424                | xor r12,qword ptr ss:[rsp]              |                                                   | 00000072D32FFDB0: 0-> 0                           
+0048 | 00007FF6D4465909 | 68 FFE35F3B              | push 3B5FE3FF                           | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDA8: 200206-> 3B5FE3FF               
+0049 | 00007FF6D446590E | 48:890C24                | mov qword ptr ss:[rsp],rcx              |                                                   | 00000072D32FFDA8: 3B5FE3FF-> 0                    
+004A | 00007FF6D4465912 | 4C:89E1                  | mov rcx,r12                             | rcx: 0-> 72D32FFDC0                               |                                                   
+004B | 00007FF6D4465915 | 48:314C24 08             | xor qword ptr ss:[rsp+8],rcx            |                                                   | 00000072D32FFDB0: 0-> 72D32FFDC0                  
+004C | 00007FF6D446591A | 59                       | pop rcx                                 | rcx: 72D32FFDC0-> 0 rsp: 72D32FFDA8-> 72D32FFDB0  | 00000072D32FFDA8: 0-> 0                           
+004D | 00007FF6D446591B | 4C:332424                | xor r12,qword ptr ss:[rsp]              | r12: 72D32FFDC0-> 0                               | 00000072D32FFDB0: 72D32FFDC0-> 72D32FFDC0         
+004E | 00007FF6D446591F | 5C                       | pop rsp                                 | rsp: 72D32FFDB0-> 72D32FFDC0                      | 00000072D32FFDB0: 72D32FFDC0-> 72D32FFDC0         
+004F | 00007FF6D4465920 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFDC0-> 72D32FFDB8                      | 00000072D32FFDC0: 0-> 0 00000072D32FFDB8: 173BD87 
+0050 | 00007FF6D4465923 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDB8: 0-> 0 00000072D32FFDB0: 72D32FF 
+0051 | 00007FF6D4465926 | 48:8B0424                | mov rax,qword ptr ss:[rsp]              | rax: 200206-> 0                                   | 00000072D32FFDB0: 0-> 0                           
+0052 | 00007FF6D446592A | 48:81C4 08000000         | add rsp,8                               | rsp: 72D32FFDB0-> 72D32FFDB8                      |                                                   
+0053 | 00007FF6D4465931 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFDB8-> 72D32FFDC0                      |                                                   
+0054 | 00007FF6D4465935 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFDC0-> 72D32FFDC8                      |                                                   
+0055 | 00007FF6D4465939 | 68 72EBF73B              | push 3BF7EB72                           | rsp: 72D32FFDC8-> 72D32FFDC0                      | 00000072D32FFDC0: 0-> 3BF7EB72                    
+0056 | 00007FF6D446593E | 4C:891C24                | mov qword ptr ss:[rsp],r11              |                                                   | 00000072D32FFDC0: 3BF7EB72-> 200246               
+0057 | 00007FF6D4465942 | 41:53                    | push r11                                | rsp: 72D32FFDC0-> 72D32FFDB8                      | 00000072D32FFDB8: 0-> 200246                      
+0058 | 00007FF6D4465944 | 48:810424 33AAD36C       | add qword ptr ss:[rsp],6CD3AA33         |                                                   | 00000072D32FFDB8: 200246-> 6CF3AC79               
+0059 | 00007FF6D446594C | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFDB8-> 72D32FFDB0                      | 00000072D32FFDB8: 6CF3AC79-> 6CF3AC79 00000072D32 
+005A | 00007FF6D446594F | 41:5B                    | pop r11                                 | rsp: 72D32FFDB0-> 72D32FFDB8 r11: 200246-> 6CF3AC | 00000072D32FFDB0: 6CF3AC79-> 6CF3AC79             
+005B | 00007FF6D4465951 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFDB8-> 72D32FFDC0                      |                                                   
+005C | 00007FF6D4465955 | 49:81EB 33AAD36C         | sub r11,6CD3AA33                        | r11: 6CF3AC79-> 200246                            |                                                   
+005D | 00007FF6D446595C | 48:C70424 B0110000       | mov qword ptr ss:[rsp],11B0             |                                                   | 00000072D32FFDC0: 200246-> 11B0                   
+005E | 00007FF6D4465964 | E9 54D0CDFF              | jmp tiger_lite.7FF6D41429BD             |                                                   |                                                   
+005F | 00007FF6D41429BD | E8 00000000              | call tiger_lite.7FF6D41429C2            | rsp: 72D32FFDC0-> 72D32FFDB8                      | 00000072D32FFDB8: 6CF3AC79-> 7FF6D41429C2         
+0060 | 00007FF6D41429C2 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFDB8-> 72D32FFDB0                      |                                                   
+0061 | 00007FF6D41429C9 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFDB0-> 72D32FFDA8                      |                                                   
+0062 | 00007FF6D41429CD | 68 A12BE15D              | push 5DE12BA1                           | rsp: 72D32FFDA8-> 72D32FFDA0                      | 00000072D32FFDA0: 239169-> 5DE12BA1               
+0063 | 00007FF6D41429D2 | 48:891424                | mov qword ptr ss:[rsp],rdx              |                                                   | 00000072D32FFDA0: 5DE12BA1-> 0                    
+0064 | 00007FF6D41429D6 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFDA0-> 72D32FFDA8                      | 00000072D32FFDA0: 0-> 0 00000072D32FFDA0: 0-> 0   
+0065 | 00007FF6D41429D9 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFDA8-> 72D32FFDB0                      | 00000072D32FFDA8: 0-> 0 00000072D32FFDA8: 0-> 0   
+0066 | 00007FF6D41429DC | 41:56                    | push r14                                | rsp: 72D32FFDB0-> 72D32FFDA8                      | 00000072D32FFDA8: 0-> 0                           
+0067 | 00007FF6D41429DE | 49:89E6                  | mov r14,rsp                             | r14: 0-> 72D32FFDA8                               |                                                   
+0068 | 00007FF6D41429E1 | 49:83C6 08               | add r14,8                               | r14: 72D32FFDA8-> 72D32FFDB0                      |                                                   
+0069 | 00007FF6D41429E5 | 49:81EE 08000000         | sub r14,8                               | r14: 72D32FFDB0-> 72D32FFDA8                      |                                                   
+006A | 00007FF6D41429EC | 4C:873424                | xchg qword ptr ss:[rsp],r14             | r14: 72D32FFDA8-> 0                               | 00000072D32FFDA8: 0-> 72D32FFDA8                  
+006B | 00007FF6D41429F0 | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              |                                                   | 00000072D32FFDA8: 72D32FFDA8-> 72D32FFDA8         
+006C | 00007FF6D41429F4 | 68 FD3BFF7F              | push 7FFF3BFD                           | rsp: 72D32FFDA8-> 72D32FFDA0                      | 00000072D32FFDA0: 0-> 7FFF3BFD                    
+006D | 00007FF6D41429F9 | 48:891C24                | mov qword ptr ss:[rsp],rbx              |                                                   | 00000072D32FFDA0: 7FFF3BFD-> 173BD87CFD0          
+006E | 00007FF6D41429FD | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFDA0-> 72D32FFDA8                      | 00000072D32FFDA0: 173BD87CFD0-> 173BD87CFD0 00000 
+006F | 00007FF6D4142A00 | 41:56                    | push r14                                | rsp: 72D32FFDA8-> 72D32FFDA0                      | 00000072D32FFDA0: 173BD87CFD0-> 0                 
+0070 | 00007FF6D4142A02 | 49:89E6                  | mov r14,rsp                             | r14: 0-> 72D32FFDA0                               |                                                   
+0071 | 00007FF6D4142A05 | 49:83C6 08               | add r14,8                               | r14: 72D32FFDA0-> 72D32FFDA8                      |                                                   
+0072 | 00007FF6D4142A09 | 49:81EE 08000000         | sub r14,8                               | r14: 72D32FFDA8-> 72D32FFDA0                      |                                                   
+0073 | 00007FF6D4142A10 | 4C:873424                | xchg qword ptr ss:[rsp],r14             | r14: 72D32FFDA0-> 0                               | 00000072D32FFDA0: 0-> 72D32FFDA0                  
+0074 | 00007FF6D4142A14 | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              |                                                   | 00000072D32FFDA0: 72D32FFDA0-> 72D32FFDA0         
+0075 | 00007FF6D4142A18 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFDA0-> 72D32FFD98                      |                                                   
+0076 | 00007FF6D4142A1C | 48:891C24                | mov qword ptr ss:[rsp],rbx              |                                                   | 00000072D32FFD98: 0-> 173BD87CFD0                 
+0077 | 00007FF6D4142A20 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD98-> 72D32FFDA0                      | 00000072D32FFD98: 173BD87CFD0-> 173BD87CFD0 00000 
+0078 | 00007FF6D4142A23 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFDA0-> 72D32FFD98                      |                                                   
+0079 | 00007FF6D4142A2A | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD98-> 72D32FFD90                      |                                                   
+007A | 00007FF6D4142A31 | 48:890C24                | mov qword ptr ss:[rsp],rcx              |                                                   | 00000072D32FFD90: 0-> 0                           
+007B | 00007FF6D4142A35 | 55                       | push rbp                                | rsp: 72D32FFD90-> 72D32FFD88                      | 00000072D32FFD88: 0-> 7FF6D4058000                
+007C | 00007FF6D4142A36 | 59                       | pop rcx                                 | rcx: 0-> 7FF6D4058000 rsp: 72D32FFD88-> 72D32FFD9 | 00000072D32FFD88: 7FF6D4058000-> 7FF6D4058000     
+007D | 00007FF6D4142A37 | 48:894C24 08             | mov qword ptr ss:[rsp+8],rcx            |                                                   | 00000072D32FFD98: 173BD87CFD0-> 7FF6D4058000      
+007E | 00007FF6D4142A3C | 48:8B0C24                | mov rcx,qword ptr ss:[rsp]              | rcx: 7FF6D4058000-> 0                             | 00000072D32FFD90: 0-> 0                           
+007F | 00007FF6D4142A40 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD90-> 72D32FFD98                      |                                                   
+0080 | 00007FF6D4142A44 | 68 464AFF37              | push 37FF4A46                           | rsp: 72D32FFD98-> 72D32FFD90                      | 00000072D32FFD90: 0-> 37FF4A46                    
+0081 | 00007FF6D4142A49 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD90-> 72D32FFD88                      |                                                   
+0082 | 00007FF6D4142A4D | 56                       | push rsi                                | rsp: 72D32FFD88-> 72D32FFD80                      | 00000072D32FFD80: 0-> 0                           
+0083 | 00007FF6D4142A4E | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD80-> 72D32FFD88                      | 00000072D32FFD80: 0-> 0 00000072D32FFD80: 0-> 0   
+0084 | 00007FF6D4142A51 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD88-> 72D32FFD90                      | 00000072D32FFD88: 0-> 0 00000072D32FFD88: 0-> 0   
+0085 | 00007FF6D4142A54 | 41:52                    | push r10                                | rsp: 72D32FFD90-> 72D32FFD88                      | 00000072D32FFD88: 0-> 0                           
+0086 | 00007FF6D4142A56 | 49:89E2                  | mov r10,rsp                             | r10: 0-> 72D32FFD88                               |                                                   
+0087 | 00007FF6D4142A59 | 49:83C2 08               | add r10,8                               | r10: 72D32FFD88-> 72D32FFD90                      |                                                   
+0088 | 00007FF6D4142A5D | 49:81EA 08000000         | sub r10,8                               | r10: 72D32FFD90-> 72D32FFD88                      |                                                   
+0089 | 00007FF6D4142A64 | 4C:871424                | xchg qword ptr ss:[rsp],r10             | r10: 72D32FFD88-> 0                               | 00000072D32FFD88: 0-> 72D32FFD88                  
+008A | 00007FF6D4142A68 | 5C                       | pop rsp                                 |                                                   | 00000072D32FFD88: 72D32FFD88-> 72D32FFD88         
+008B | 00007FF6D4142A69 | 52                       | push rdx                                | rsp: 72D32FFD88-> 72D32FFD80                      | 00000072D32FFD80: 0-> 0                           
+008C | 00007FF6D4142A6A | 41:53                    | push r11                                | rsp: 72D32FFD80-> 72D32FFD78                      | 00000072D32FFD78: 1-> 200246                      
+008D | 00007FF6D4142A6C | 49:89FB                  | mov r11,rdi                             | r11: 200246-> 173BD86B810                         |                                                   
+008E | 00007FF6D4142A6F | 4C:89DA                  | mov rdx,r11                             | rdx: 0-> 173BD86B810                              |                                                   
+008F | 00007FF6D4142A72 | 41:5B                    | pop r11                                 | rsp: 72D32FFD78-> 72D32FFD80 r11: 173BD86B810-> 2 | 00000072D32FFD78: 200246-> 200246                 
+0090 | 00007FF6D4142A74 | 48:895424 08             | mov qword ptr ss:[rsp+8],rdx            |                                                   | 00000072D32FFD88: 72D32FFD88-> 173BD86B810        
+0091 | 00007FF6D4142A79 | 48:8B1424                | mov rdx,qword ptr ss:[rsp]              | rdx: 173BD86B810-> 0                              | 00000072D32FFD80: 0-> 0                           
+0092 | 00007FF6D4142A7D | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD80-> 72D32FFD88                      |                                                   
+0093 | 00007FF6D4142A81 | 68 A30EFB33              | push 33FB0EA3                           | rsp: 72D32FFD88-> 72D32FFD80                      | 00000072D32FFD80: 0-> 33FB0EA3                    
+0094 | 00007FF6D4142A86 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD80-> 72D32FFD78                      |                                                   
+0095 | 00007FF6D4142A8A | 48:893424                | mov qword ptr ss:[rsp],rsi              |                                                   | 00000072D32FFD78: 200246-> 0                      
+0096 | 00007FF6D4142A8E | 4C:89FE                  | mov rsi,r15                             |                                                   |                                                   
+0097 | 00007FF6D4142A91 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD78-> 72D32FFD70                      |                                                   
+0098 | 00007FF6D4142A98 | 48:893424                | mov qword ptr ss:[rsp],rsi              |                                                   | 00000072D32FFD70: 48-> 0                          
+0099 | 00007FF6D4142A9C | 8F4424 08                | pop qword ptr ss:[rsp+8]                | rsp: 72D32FFD70-> 72D32FFD78                      | 00000072D32FFD78: 0-> 0 00000072D32FFD70: 0-> 0   
+009A | 00007FF6D4142AA0 | 5E                       | pop rsi                                 | rsp: 72D32FFD78-> 72D32FFD80                      | 00000072D32FFD78: 0-> 0                           
+009B | 00007FF6D4142AA1 | 68 4495BF55              | push 55BF9544                           | rsp: 72D32FFD80-> 72D32FFD78                      | 00000072D32FFD78: 0-> 55BF9544                    
+009C | 00007FF6D4142AA6 | 68 B011BD77              | push 77BD11B0                           | rsp: 72D32FFD78-> 72D32FFD70                      | 00000072D32FFD70: 0-> 77BD11B0                    
+009D | 00007FF6D4142AAB | 41:56                    | push r14                                | rsp: 72D32FFD70-> 72D32FFD68                      | 00000072D32FFD68: 200346-> 0                      
+009E | 00007FF6D4142AAD | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD68-> 72D32FFD70                      | 00000072D32FFD68: 0-> 0 00000072D32FFD68: 0-> 0   
+009F | 00007FF6D4142AB0 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD70-> 72D32FFD78                      | 00000072D32FFD70: 0-> 0 00000072D32FFD70: 0-> 0   
+00A0 | 00007FF6D4142AB3 | 68 E942F32B              | push 2BF342E9                           | rsp: 72D32FFD78-> 72D32FFD70                      | 00000072D32FFD70: 0-> 2BF342E9                    
+00A1 | 00007FF6D4142AB8 | 48:890424                | mov qword ptr ss:[rsp],rax              |                                                   | 00000072D32FFD70: 2BF342E9-> 0                    
+00A2 | 00007FF6D4142ABC | 48:89E0                  | mov rax,rsp                             | rax: 0-> 72D32FFD70                               |                                                   
+00A3 | 00007FF6D4142ABF | 48:83C0 08               | add rax,8                               | rax: 72D32FFD70-> 72D32FFD78                      |                                                   
+00A4 | 00007FF6D4142AC3 | 48:2D 08000000           | sub rax,8                               | rax: 72D32FFD78-> 72D32FFD70                      |                                                   
+00A5 | 00007FF6D4142AC9 | 48:870424                | xchg qword ptr ss:[rsp],rax             | rax: 72D32FFD70-> 0                               | 00000072D32FFD70: 0-> 72D32FFD70                  
+00A6 | 00007FF6D4142ACD | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              |                                                   | 00000072D32FFD70: 72D32FFD70-> 72D32FFD70         
+00A7 | 00007FF6D4142AD1 | 4C:892C24                | mov qword ptr ss:[rsp],r13              |                                                   | 00000072D32FFD70: 72D32FFD70-> 0                  
+00A8 | 00007FF6D4142AD5 | 68 A830FF7F              | push 7FFF30A8                           | rsp: 72D32FFD70-> 72D32FFD68                      | 00000072D32FFD68: 0-> 7FFF30A8                    
+00A9 | 00007FF6D4142ADA | 68 1457BF77              | push 77BF5714                           | rsp: 72D32FFD68-> 72D32FFD60                      | 00000072D32FFD60: FFFFFFFFFFB3B4C0-> 77BF5714     
+00AA | 00007FF6D4142ADF | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD60-> 72D32FFD58                      |                                                   
+00AB | 00007FF6D4142AE6 | 4C:892424                | mov qword ptr ss:[rsp],r12              |                                                   | 00000072D32FFD58: 7FF6D4058000-> 0                
+00AC | 00007FF6D4142AEA | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD58-> 72D32FFD60                      | 00000072D32FFD58: 0-> 0 00000072D32FFD58: 0-> 0   
+00AD | 00007FF6D4142AED | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD60-> 72D32FFD68                      | 00000072D32FFD60: 0-> 0 00000072D32FFD60: 0-> 0   
+00AE | 00007FF6D4142AF0 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD68-> 72D32FFD60                      |                                                   
+00AF | 00007FF6D4142AF7 | 57                       | push rdi                                | rsp: 72D32FFD60-> 72D32FFD58                      | 00000072D32FFD58: 0-> 173BD86B810                 
+00B0 | 00007FF6D4142AF8 | 48:89E7                  | mov rdi,rsp                             | rdi: 173BD86B810-> 72D32FFD58                     |                                                   
+00B1 | 00007FF6D4142AFB | 48:83C7 08               | add rdi,8                               | rdi: 72D32FFD58-> 72D32FFD60                      |                                                   
+00B2 | 00007FF6D4142AFF | 48:81EF 08000000         | sub rdi,8                               | rdi: 72D32FFD60-> 72D32FFD58                      |                                                   
+00B3 | 00007FF6D4142B06 | 48:873C24                | xchg qword ptr ss:[rsp],rdi             | rdi: 72D32FFD58-> 173BD86B810                     | 00000072D32FFD58: 173BD86B810-> 72D32FFD58        
+00B4 | 00007FF6D4142B0A | 5C                       | pop rsp                                 |                                                   | 00000072D32FFD58: 72D32FFD58-> 72D32FFD58         
+00B5 | 00007FF6D4142B0B | 4C:891C24                | mov qword ptr ss:[rsp],r11              |                                                   | 00000072D32FFD58: 72D32FFD58-> 200246             
+00B6 | 00007FF6D4142B0F | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD58-> 72D32FFD60                      | 00000072D32FFD58: 200246-> 200246 00000072D32FFD5 
+00B7 | 00007FF6D4142B12 | 68 BD82DF7E              | push 7EDF82BD                           | rsp: 72D32FFD60-> 72D32FFD58                      | 00000072D32FFD58: 200246-> 7EDF82BD               
+00B8 | 00007FF6D4142B17 | 52                       | push rdx                                | rsp: 72D32FFD58-> 72D32FFD50                      | 00000072D32FFD50: 72D32FFDA8-> 0                  
+00B9 | 00007FF6D4142B18 | 48:89E2                  | mov rdx,rsp                             | rdx: 0-> 72D32FFD50                               |                                                   
+00BA | 00007FF6D4142B1B | 48:83C2 08               | add rdx,8                               | rdx: 72D32FFD50-> 72D32FFD58                      |                                                   
+00BB | 00007FF6D4142B1F | 48:81EA 08000000         | sub rdx,8                               | rdx: 72D32FFD58-> 72D32FFD50                      |                                                   
+00BC | 00007FF6D4142B26 | 48:871424                | xchg qword ptr ss:[rsp],rdx             | rdx: 72D32FFD50-> 0                               | 00000072D32FFD50: 0-> 72D32FFD50                  
+00BD | 00007FF6D4142B2A | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              |                                                   | 00000072D32FFD50: 72D32FFD50-> 72D32FFD50         
+00BE | 00007FF6D4142B2E | 4C:891424                | mov qword ptr ss:[rsp],r10              |                                                   | 00000072D32FFD50: 72D32FFD50-> 0                  
+00BF | 00007FF6D4142B32 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD50-> 72D32FFD58                      | 00000072D32FFD50: 0-> 0 00000072D32FFD50: 0-> 0   
+00C0 | 00007FF6D4142B35 | 68 BC8EDF17              | push 17DF8EBC                           | rsp: 72D32FFD58-> 72D32FFD50                      | 00000072D32FFD50: 0-> 17DF8EBC                    
+00C1 | 00007FF6D4142B3A | 41:52                    | push r10                                | rsp: 72D32FFD50-> 72D32FFD48                      | 00000072D32FFD48: 72D32FFDA8-> 0                  
+00C2 | 00007FF6D4142B3C | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+00C3 | 00007FF6D4142B43 | 4C:890C24                | mov qword ptr ss:[rsp],r9               |                                                   | 00000072D32FFD40: 72D32FFDF8-> 7FF6D4058000       
+00C4 | 00007FF6D4142B47 | 41:5A                    | pop r10                                 | rsp: 72D32FFD40-> 72D32FFD48 r10: 0-> 7FF6D405800 | 00000072D32FFD40: 7FF6D4058000-> 7FF6D4058000     
+00C5 | 00007FF6D4142B49 | 41:52                    | push r10                                | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 7FF6D4058000-> 7FF6D4058000     
+00C6 | 00007FF6D4142B4B | 8F4424 08                | pop qword ptr ss:[rsp+8]                | rsp: 72D32FFD40-> 72D32FFD48                      | 00000072D32FFD48: 0-> 0 00000072D32FFD40: 7FF6D40 
+00C7 | 00007FF6D4142B4F | 41:5A                    | pop r10                                 | rsp: 72D32FFD48-> 72D32FFD50 r10: 7FF6D4058000->  | 00000072D32FFD48: 0-> 0                           
+00C8 | 00007FF6D4142B51 | 68 F5CBFE7D              | push 7DFECBF5                           | rsp: 72D32FFD50-> 72D32FFD48                      | 00000072D32FFD48: 0-> 7DFECBF5                    
+00C9 | 00007FF6D4142B56 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+00CA | 00007FF6D4142B5A | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD40-> 72D32FFD38                      |                                                   
+00CB | 00007FF6D4142B61 | 4C:890424                | mov qword ptr ss:[rsp],r8               |                                                   | 00000072D32FFD38: 7FFC6FBBB16E-> 72D32FFD38       
+00CC | 00007FF6D4142B65 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 72D32FFD38-> 72D32FFD38 0000007 
+00CD | 00007FF6D4142B68 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD40-> 72D32FFD48                      | 00000072D32FFD40: 72D32FFD38-> 72D32FFD38 0000007 
+00CE | 00007FF6D4142B6B | 68 E3FFD707              | push 7D7FFE3                            | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 72D32FFD38-> 7D7FFE3            
+00CF | 00007FF6D4142B70 | 48:890C24                | mov qword ptr ss:[rsp],rcx              |                                                   | 00000072D32FFD40: 7D7FFE3-> 0                     
+00D0 | 00007FF6D4142B74 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD40: 0-> 0 00000072D32FFD38: 72D32FF 
+00D1 | 00007FF6D4142B77 | 41:58                    | pop r8                                  | rsp: 72D32FFD38-> 72D32FFD40 r8: 72D32FFD38-> 0   | 00000072D32FFD38: 0-> 0                           
+00D2 | 00007FF6D4142B79 | 41:56                    | push r14                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 0                           
+00D3 | 00007FF6D4142B7B | 49:89E6                  | mov r14,rsp                             | r14: 0-> 72D32FFD38                               |                                                   
+00D4 | 00007FF6D4142B7E | 49:83C6 08               | add r14,8                               | r14: 72D32FFD38-> 72D32FFD40                      |                                                   
+00D5 | 00007FF6D4142B82 | 49:81C6 08000000         | add r14,8                               | r14: 72D32FFD40-> 72D32FFD48                      |                                                   
+00D6 | 00007FF6D4142B89 | 4C:873424                | xchg qword ptr ss:[rsp],r14             | r14: 72D32FFD48-> 0                               | 00000072D32FFD38: 0-> 72D32FFD48                  
+00D7 | 00007FF6D4142B8D | 5C                       | pop rsp                                 | rsp: 72D32FFD38-> 72D32FFD48                      | 00000072D32FFD38: 72D32FFD48-> 72D32FFD48         
+00D8 | 00007FF6D4142B8E | FF7424 78                | push qword ptr ss:[rsp+78]              | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFDC0: 11B0-> 11B0 00000072D32FFD40: 0 
+00D9 | 00007FF6D4142B92 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD40: 11B0-> 11B0 00000072D32FFD38: 7 
+00DA | 00007FF6D4142B95 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD38: 11B0-> 11B0 00000072D32FFD30: 2 
+00DB | 00007FF6D4142B98 | 41:59                    | pop r9                                  | rsp: 72D32FFD30-> 72D32FFD38 r9: 7FF6D4058000-> 1 | 00000072D32FFD30: 11B0-> 11B0                     
+00DC | 00007FF6D4142B9A | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD38-> 72D32FFD40                      |                                                   
+00DD | 00007FF6D4142B9E | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+00DE | 00007FF6D4142BA2 | FF7424 70                | push qword ptr ss:[rsp+70]              | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFDB8: 7FF6D41429C2-> 7FF6D41429C2 000 
+00DF | 00007FF6D4142BA6 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD40: 7FF6D41429C2-> 7FF6D41429C2 000 
+00E0 | 00007FF6D4142BA9 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD38: 7FF6D41429C2-> 7FF6D41429C2 000 
+00E1 | 00007FF6D4142BAC | 59                       | pop rcx                                 | rcx: 0-> 7FF6D41429C2 rsp: 72D32FFD30-> 72D32FFD3 | 00000072D32FFD30: 7FF6D41429C2-> 7FF6D41429C2     
+00E2 | 00007FF6D4142BAD | 48:81C4 08000000         | add rsp,8                               | rsp: 72D32FFD38-> 72D32FFD40                      |                                                   
+00E3 | 00007FF6D4142BB4 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+00E4 | 00007FF6D4142BB8 | 68 36CC7F7F              | push 7F7FCC36                           | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 7FF6D41429C2-> 7F7FCC36         
+00E5 | 00007FF6D4142BBD | 68 1BDDAB5F              | push 5FABDD1B                           | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7FF6D41429C2-> 5FABDD1B         
+00E6 | 00007FF6D4142BC2 | 41:56                    | push r14                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 7FF6D41429C2-> 0                
+00E7 | 00007FF6D4142BC4 | 49:89C6                  | mov r14,rax                             |                                                   |                                                   
+00E8 | 00007FF6D4142BC7 | 4C:897424 08             | mov qword ptr ss:[rsp+8],r14            |                                                   | 00000072D32FFD38: 5FABDD1B-> 0                    
+00E9 | 00007FF6D4142BCC | 41:5E                    | pop r14                                 | rsp: 72D32FFD30-> 72D32FFD38                      | 00000072D32FFD30: 0-> 0                           
+00EA | 00007FF6D4142BCE | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 0-> 0 00000072D32FFD38: 0-> 0   
+00EB | 00007FF6D4142BD1 | 8F4424 78                | pop qword ptr ss:[rsp+78]               | rsp: 72D32FFD40-> 72D32FFD48                      | 00000072D32FFDB8: 7FF6D41429C2-> 7FF6D41429C2 000 
+00EC | 00007FF6D4142BD5 | 48:83E9 05               | sub rcx,5                               | rcx: 7FF6D41429C2-> 7FF6D41429BD                  |                                                   
+00ED | 00007FF6D4142BD9 | 48:81E9 BD290F00         | sub rcx,F29BD                           | rcx: 7FF6D41429BD-> 7FF6D4050000                  |                                                   
+00EE | 00007FF6D4142BE0 | 41:51                    | push r9                                 | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 0-> 11B0                        
+00EF | 00007FF6D4142BE2 | 41:56                    | push r14                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 0                           
+00F0 | 00007FF6D4142BE4 | 4D:89F6                  | mov r14,r14                             |                                                   |                                                   
+00F1 | 00007FF6D4142BE7 | 48:C70424 1191FC6B       | mov qword ptr ss:[rsp],6BFC9111         |                                                   | 00000072D32FFD38: 0-> 6BFC9111                    
+00F2 | 00007FF6D4142BEF | 4C:8B0C24                | mov r9,qword ptr ss:[rsp]               | r9: 11B0-> 6BFC9111                               | 00000072D32FFD38: 6BFC9111-> 6BFC9111             
+00F3 | 00007FF6D4142BF3 | 48:81C4 08000000         | add rsp,8                               | rsp: 72D32FFD38-> 72D32FFD40                      |                                                   
+00F4 | 00007FF6D4142BFA | 41:81C1 980AEF7B         | add r9d,7BEF0A98                        | r9: 6BFC9111-> E7EB9BA9                           |                                                   
+00F5 | 00007FF6D4142C01 | 41:81F1 3F03EAE7         | xor r9d,E7EA033F                        | r9: E7EB9BA9-> 19896                              |                                                   
+00F6 | 00007FF6D4142C08 | 41:51                    | push r9                                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 6BFC9111-> 19896                
+00F7 | 00007FF6D4142C0A | 810424 D088ED7E          | add dword ptr ss:[rsp],7EED88D0         |                                                   | 00000072D32FFD38: 19896-> 7EEF2166                
+00F8 | 00007FF6D4142C11 | 5D                       | pop rbp                                 | rsp: 72D32FFD38-> 72D32FFD40 rbp: 7FF6D4058000->  | 00000072D32FFD38: 7EEF2166-> 7EEF2166             
+00F9 | 00007FF6D4142C12 | 81ED D088ED7E            | sub ebp,7EED88D0                        | rbp: 7EEF2166-> 19896                             |                                                   
+00FA | 00007FF6D4142C18 | 4C:8B0C24                | mov r9,qword ptr ss:[rsp]               | r9: 19896-> 11B0                                  | 00000072D32FFD40: 11B0-> 11B0                     
+00FB | 00007FF6D4142C1C | 48:81C4 08000000         | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+00FC | 00007FF6D4142C23 | 48:81ED 579FFB7F         | sub rbp,7FFB9F57                        | rbp: 19896-> FFFFFFFF8005F93F                     |                                                   
+00FD | 00007FF6D4142C2A | 48:81ED 8F7DF73A         | sub rbp,3AF77D8F                        | rbp: FFFFFFFF8005F93F-> FFFFFFFF450E7BB0          |                                                   
+00FE | 00007FF6D4142C31 | 48:81ED EE2FD47E         | sub rbp,7ED42FEE                        | rbp: FFFFFFFF450E7BB0-> FFFFFFFEC63A4BC2          |                                                   
+00FF | 00007FF6D4142C38 | 48:81C5 878EFF5C         | add rbp,5CFF8E87                        | rbp: FFFFFFFEC63A4BC2-> FFFFFFFF2339DA49          |                                                   
+0100 | 00007FF6D4142C3F | 48:81C5 C086DB77         | add rbp,77DB86C0                        | rbp: FFFFFFFF2339DA49-> FFFFFFFF9B156109          |                                                   
+0101 | 00007FF6D4142C46 | 48:01CD                  | add rbp,rcx                             | rbp: FFFFFFFF9B156109-> 7FF66F1A6109              |                                                   
+0102 | 00007FF6D4142C49 | 48:81ED C086DB77         | sub rbp,77DB86C0                        | rbp: 7FF66F1A6109-> 7FF5F73EDA49                  |                                                   
+0103 | 00007FF6D4142C50 | 48:81ED 878EFF5C         | sub rbp,5CFF8E87                        | rbp: 7FF5F73EDA49-> 7FF59A3F4BC2                  |                                                   
+0104 | 00007FF6D4142C57 | 48:81C5 EE2FD47E         | add rbp,7ED42FEE                        | rbp: 7FF59A3F4BC2-> 7FF619137BB0                  |                                                   
+0105 | 00007FF6D4142C5E | 48:81C5 8F7DF73A         | add rbp,3AF77D8F                        | rbp: 7FF619137BB0-> 7FF6540AF93F                  |                                                   
+0106 | 00007FF6D4142C65 | 48:81C5 579FFB7F         | add rbp,7FFB9F57                        | rbp: 7FF6540AF93F-> 7FF6D4069896                  |                                                   
+0107 | 00007FF6D4142C6C | 68 8F17642B              | push 2B64178F                           | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 11B0-> 2B64178F                 
+0108 | 00007FF6D4142C71 | 68 EB9CFF79              | push 79FF9CEB                           | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7EEF2166-> 79FF9CEB             
+0109 | 00007FF6D4142C76 | 68 2AEB775F              | push 5F77EB2A                           | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 0-> 5F77EB2A                    
+010A | 00007FF6D4142C7B | 48:890C24                | mov qword ptr ss:[rsp],rcx              |                                                   | 00000072D32FFD30: 5F77EB2A-> 7FF6D4050000         
+010B | 00007FF6D4142C7F | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD30-> 72D32FFD38                      | 00000072D32FFD30: 7FF6D4050000-> 7FF6D4050000 000 
+010C | 00007FF6D4142C82 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 7FF6D4050000-> 7FF6D4050000 000 
+010D | 00007FF6D4142C85 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD40-> 72D32FFD38                      |                                                   
+010E | 00007FF6D4142C8C | 56                       | push rsi                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 7FF6D4050000-> 0                
+010F | 00007FF6D4142C8D | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD30-> 72D32FFD38                      | 00000072D32FFD30: 0-> 0 00000072D32FFD30: 0-> 0   
+0110 | 00007FF6D4142C90 | BE CF9FB77F              | mov esi,7FB79FCF                        | rsi: 0-> 7FB79FCF                                 |                                                   
+0111 | 00007FF6D4142C95 | F7D6                     | not esi                                 | rsi: 7FB79FCF-> 80486030                          |                                                   
+0112 | 00007FF6D4142C97 | FFC6                     | inc esi                                 | rsi: 80486030-> 80486031                          |                                                   
+0113 | 00007FF6D4142C99 | 81EE 30604880            | sub esi,80486030                        | rsi: 80486031-> 1                                 |                                                   
+0114 | 00007FF6D4142C9F | 56                       | push rsi                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 0-> 1                           
+0115 | 00007FF6D4142CA0 | 812C24 CCB9EB6F          | sub dword ptr ss:[rsp],6FEBB9CC         |                                                   | 00000072D32FFD30: 1-> 90144635                    
+0116 | 00007FF6D4142CA7 | 59                       | pop rcx                                 | rcx: 7FF6D4050000-> 90144635 rsp: 72D32FFD30-> 72 | 00000072D32FFD30: 90144635-> 90144635             
+0117 | 00007FF6D4142CA8 | 81C1 CCB9EB6F            | add ecx,6FEBB9CC                        | rcx: 90144635-> 1                                 |                                                   
+0118 | 00007FF6D4142CAE | 5E                       | pop rsi                                 | rsp: 72D32FFD38-> 72D32FFD40 rsi: 1-> 0           | 00000072D32FFD38: 0-> 0                           
+0119 | 00007FF6D4142CAF | 41:52                    | push r10                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 0                           
+011A | 00007FF6D4142CB1 | 41:BA 071CB75D           | mov r10d,5DB71C07                       | r10: 0-> 5DB71C07                                 |                                                   
+011B | 00007FF6D4142CB7 | 41:81EA F81AB75D         | sub r10d,5DB71AF8                       | r10: 5DB71C07-> 10F                               |                                                   
+011C | 00007FF6D4142CBE | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD38-> 72D32FFD30                      |                                                   
+011D | 00007FF6D4142CC2 | 4C:891424                | mov qword ptr ss:[rsp],r10              |                                                   | 00000072D32FFD30: 90144635-> 10F                  
+011E | 00007FF6D4142CC6 | 41:50                    | push r8                                 | rsp: 72D32FFD30-> 72D32FFD28                      | 00000072D32FFD28: 0-> 0                           
+011F | 00007FF6D4142CC8 | 41:B8 560CBF77           | mov r8d,77BF0C56                        | r8: 0-> 77BF0C56                                  |                                                   
+0120 | 00007FF6D4142CCE | 814424 08 1FB3777E       | add dword ptr ss:[rsp+8],7E77B31F       |                                                   | 00000072D32FFD30: 10F-> 7E77B42E                  
+0121 | 00007FF6D4142CD6 | 44:014424 08             | add dword ptr ss:[rsp+8],r8d            |                                                   | 00000072D32FFD30: 7E77B42E-> F636C084             
+0122 | 00007FF6D4142CDB | 816C24 08 1FB3777E       | sub dword ptr ss:[rsp+8],7E77B31F       |                                                   | 00000072D32FFD30: F636C084-> 77BF0D65             
+0123 | 00007FF6D4142CE3 | 41:58                    | pop r8                                  | rsp: 72D32FFD28-> 72D32FFD30 r8: 77BF0C56-> 0     | 00000072D32FFD28: 0-> 0                           
+0124 | 00007FF6D4142CE5 | 5B                       | pop rbx                                 | rbx: 173BD87CFD0-> 77BF0D65 rsp: 72D32FFD30-> 72D | 00000072D32FFD30: 77BF0D65-> 77BF0D65             
+0125 | 00007FF6D4142CE6 | 81EB 560CBF77            | sub ebx,77BF0C56                        | rbx: 77BF0D65-> 10F                               |                                                   
+0126 | 00007FF6D4142CEC | 41:5A                    | pop r10                                 | rsp: 72D32FFD38-> 72D32FFD40 r10: 10F-> 0         | 00000072D32FFD38: 0-> 0                           
+0127 | 00007FF6D4142CEE | 31C0                     | xor eax,eax                             |                                                   |                                                   
+0128 | 00007FF6D4142CF0 | F0:0FB10C2B              | lock cmpxchg dword ptr ds:[rbx+rbp],ecx |                                                   | 00007FF6D40699A5: 0-> 1                           
+0129 | 00007FF6D4142CF5 | 0F84 07000000            | je tiger_lite.7FF6D4142D02              |                                                   |                                                   
+012A | 00007FF6D4142D02 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD40: 7FF6D4050000-> 7FF6D4050000 000 
+012B | 00007FF6D4142D05 | 48:8B0C24                | mov rcx,qword ptr ss:[rsp]              | rcx: 1-> 7FF6D4050000                             | 00000072D32FFD38: 7FF6D4050000-> 7FF6D4050000     
+012C | 00007FF6D4142D09 | 51                       | push rcx                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 77BF0D65-> 7FF6D4050000         
+012D | 00007FF6D4142D0A | 48:89E1                  | mov rcx,rsp                             | rcx: 7FF6D4050000-> 72D32FFD30                    |                                                   
+012E | 00007FF6D4142D0D | 48:83C1 08               | add rcx,8                               | rcx: 72D32FFD30-> 72D32FFD38                      |                                                   
+012F | 00007FF6D4142D11 | 48:81C1 08000000         | add rcx,8                               | rcx: 72D32FFD38-> 72D32FFD40                      |                                                   
+0130 | 00007FF6D4142D18 | 48:870C24                | xchg qword ptr ss:[rsp],rcx             | rcx: 72D32FFD40-> 7FF6D4050000                    | 00000072D32FFD30: 7FF6D4050000-> 72D32FFD40       
+0131 | 00007FF6D4142D1C | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              | rsp: 72D32FFD30-> 72D32FFD40                      | 00000072D32FFD30: 72D32FFD40-> 72D32FFD40         
+0132 | 00007FF6D4142D20 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+0133 | 00007FF6D4142D24 | 55                       | push rbp                                | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 7FF6D4050000-> 7FF6D4069896     
+0134 | 00007FF6D4142D25 | 48:89E5                  | mov rbp,rsp                             | rbp: 7FF6D4069896-> 72D32FFD40                    |                                                   
+0135 | 00007FF6D4142D28 | 48:83C5 08               | add rbp,8                               | rbp: 72D32FFD40-> 72D32FFD48                      |                                                   
+0136 | 00007FF6D4142D2C | 48:81ED 08000000         | sub rbp,8                               | rbp: 72D32FFD48-> 72D32FFD40                      |                                                   
+0137 | 00007FF6D4142D33 | 48:872C24                | xchg qword ptr ss:[rsp],rbp             | rbp: 72D32FFD40-> 7FF6D4069896                    | 00000072D32FFD40: 7FF6D4069896-> 72D32FFD40       
+0138 | 00007FF6D4142D37 | 5C                       | pop rsp                                 |                                                   | 00000072D32FFD40: 72D32FFD40-> 72D32FFD40         
+0139 | 00007FF6D4142D38 | 50                       | push rax                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7FF6D4050000-> 0                
+013A | 00007FF6D4142D39 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 0-> 0 00000072D32FFD38: 0-> 0   
+013B | 00007FF6D4142D3C | 68 0CFECF7F              | push 7FCFFE0C                           | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 7FCFFE0C                    
+013C | 00007FF6D4142D41 | 58                       | pop rax                                 | rax: 0-> 7FCFFE0C rsp: 72D32FFD38-> 72D32FFD40    | 00000072D32FFD38: 7FCFFE0C-> 7FCFFE0C             
+013D | 00007FF6D4142D42 | 35 16F6BF67              | xor eax,67BFF616                        | rax: 7FCFFE0C-> 1870081A                          |                                                   
+013E | 00007FF6D4142D47 | 53                       | push rbx                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7FCFFE0C-> 10F                  
+013F | 00007FF6D4142D48 | BB 3FCC747B              | mov ebx,7B74CC3F                        | rbx: 10F-> 7B74CC3F                               |                                                   
+0140 | 00007FF6D4142D4D | 29D8                     | sub eax,ebx                             | rax: 1870081A-> 9CFB3BDB                          |                                                   
+0141 | 00007FF6D4142D4F | 5B                       | pop rbx                                 | rbx: 7B74CC3F-> 10F rsp: 72D32FFD38-> 72D32FFD40  | 00000072D32FFD38: 10F-> 10F                       
+0142 | 00007FF6D4142D50 | 35 F03AFB9C              | xor eax,9CFB3AF0                        | rax: 9CFB3BDB-> 12B                               |                                                   
+0143 | 00007FF6D4142D55 | 89C3                     | mov ebx,eax                             | rbx: 10F-> 12B                                    |                                                   
+0144 | 00007FF6D4142D57 | 58                       | pop rax                                 | rax: 12B-> 0 rsp: 72D32FFD40-> 72D32FFD48         | 00000072D32FFD40: 0-> 0                           
+0145 | 00007FF6D4142D58 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+0146 | 00007FF6D4142D5C | 53                       | push rbx                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 10F-> 12B                       
+0147 | 00007FF6D4142D5D | 48:89CB                  | mov rbx,rcx                             | rbx: 12B-> 7FF6D4050000                           |                                                   
+0148 | 00007FF6D4142D60 | 53                       | push rbx                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 72D32FFD40-> 7FF6D4050000       
+0149 | 00007FF6D4142D61 | 8F4424 08                | pop qword ptr ss:[rsp+8]                | rsp: 72D32FFD30-> 72D32FFD38                      | 00000072D32FFD38: 12B-> 12B 00000072D32FFD30: 7FF 
+014A | 00007FF6D4142D65 | 48:8B1C24                | mov rbx,qword ptr ss:[rsp]              | rbx: 7FF6D4050000-> 12B                           | 00000072D32FFD38: 12B-> 12B                       
+014B | 00007FF6D4142D69 | 48:81C4 08000000         | add rsp,8                               | rsp: 72D32FFD38-> 72D32FFD40                      |                                                   
+014C | 00007FF6D4142D70 | 8F042B                   | pop qword ptr ds:[rbx+rbp]              | rsp: 72D32FFD40-> 72D32FFD48                      | 00007FF6D40699C1: 7FF6D4050000-> 7FF6D4050000 000 
+014D | 00007FF6D4142D73 | 41:51                    | push r9                                 | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 7FF6D4050000-> 11B0             
+014E | 00007FF6D4142D75 | 55                       | push rbp                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 12B-> 7FF6D4069896              
+014F | 00007FF6D4142D76 | BD A00AF77F              | mov ebp,7FF70AA0                        | rbp: 7FF6D4069896-> 7FF70AA0                      |                                                   
+0150 | 00007FF6D4142D7B | 41:53                    | push r11                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 7FF6D4050000-> 200246           
+0151 | 00007FF6D4142D7D | 41:55                    | push r13                                | rsp: 72D32FFD30-> 72D32FFD28                      | 00000072D32FFD28: 0-> 0                           
+0152 | 00007FF6D4142D7F | 41:BD 45BEBC39           | mov r13d,39BCBE45                       | r13: 0-> 39BCBE45                                 |                                                   
+0153 | 00007FF6D4142D85 | 41:C1ED 01               | shr r13d,1                              | r13: 39BCBE45-> 1CDE5F22                          |                                                   
+0154 | 00007FF6D4142D89 | 41:81E5 2D7BE574         | and r13d,74E57B2D                       | r13: 1CDE5F22-> 14C45B20                          |                                                   
+0155 | 00007FF6D4142D90 | 41:C1E5 01               | shl r13d,1                              | r13: 14C45B20-> 2988B640                          |                                                   
+0156 | 00007FF6D4142D94 | 41:81ED 4217D9A9         | sub r13d,A9D91742                       | r13: 2988B640-> 7FAF9EFE                          |                                                   
+0157 | 00007FF6D4142D9B | 45:89EB                  | mov r11d,r13d                           | r11: 200246-> 7FAF9EFE                            |                                                   
+0158 | 00007FF6D4142D9E | 41:5D                    | pop r13                                 | rsp: 72D32FFD28-> 72D32FFD30 r13: 7FAF9EFE-> 0    | 00000072D32FFD28: 0-> 0                           
+0159 | 00007FF6D4142DA0 | 41:81E3 8C47E17F         | and r11d,7FE1478C                       | r11: 7FAF9EFE-> 7FA1068C                          |                                                   
+015A | 00007FF6D4142DA7 | 41:81E3 738EDE3F         | and r11d,3FDE8E73                       | r11: 7FA1068C-> 3F800600                          |                                                   
+015B | 00007FF6D4142DAE | 41:81EB B3C2BD7E         | sub r11d,7EBDC2B3                       | r11: 3F800600-> C0C2434D                          |                                                   
+015C | 00007FF6D4142DB5 | 41:81C3 8CDDFE6B         | add r11d,6BFEDD8C                       | r11: C0C2434D-> 2CC120D9                          |                                                   
+015D | 00007FF6D4142DBC | 41:FFC3                  | inc r11d                                | r11: 2CC120D9-> 2CC120DA                          |                                                   
+015E | 00007FF6D4142DBF | 41:81F3 FAB7F66D         | xor r11d,6DF6B7FA                       | r11: 2CC120DA-> 41379720                          |                                                   
+015F | 00007FF6D4142DC6 | 44:29DD                  | sub ebp,r11d                            | rbp: 7FF70AA0-> 3EBF7380                          |                                                   
+0160 | 00007FF6D4142DC9 | 41:5B                    | pop r11                                 | rsp: 72D32FFD30-> 72D32FFD38 r11: 41379720-> 2002 | 00000072D32FFD30: 200246-> 200246                 
+0161 | 00007FF6D4142DCB | 55                       | push rbp                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 200246-> 3EBF7380               
+0162 | 00007FF6D4142DCC | 812C24 EBDDF770          | sub dword ptr ss:[rsp],70F7DDEB         |                                                   | 00000072D32FFD30: 3EBF7380-> CDC79595             
+0163 | 00007FF6D4142DD3 | 41:59                    | pop r9                                  | rsp: 72D32FFD30-> 72D32FFD38 r9: 11B0-> CDC79595  | 00000072D32FFD30: CDC79595-> CDC79595             
+0164 | 00007FF6D4142DD5 | 41:81C1 EBDDF770         | add r9d,70F7DDEB                        | r9: CDC79595-> 3EBF7380                           |                                                   
+0165 | 00007FF6D4142DDC | 5D                       | pop rbp                                 | rsp: 72D32FFD38-> 72D32FFD40 rbp: 3EBF7380-> 7FF6 | 00000072D32FFD38: 7FF6D4069896-> 7FF6D4069896     
+0166 | 00007FF6D4142DDD | 41:FFC9                  | dec r9d                                 | r9: 3EBF7380-> 3EBF737F                           |                                                   
+0167 | 00007FF6D4142DE0 | 41:81C1 818C40C1         | add r9d,C1408C81                        | r9: 3EBF737F-> 0                                  |                                                   
+0168 | 00007FF6D4142DE7 | 44:89CA                  | mov edx,r9d                             |                                                   |                                                   
+0169 | 00007FF6D4142DEA | 41:59                    | pop r9                                  | rsp: 72D32FFD40-> 72D32FFD48 r9: 0-> 11B0         | 00000072D32FFD40: 11B0-> 11B0                     
+016A | 00007FF6D4142DEC | 85D2                     | test edx,edx                            |                                                   |                                                   
+016B | 00007FF6D4142DEE | 0F84 6F010000            | je tiger_lite.7FF6D4142F63              |                                                   |                                                   
+016C | 00007FF6D4142F63 | BB B264FA27              | mov ebx,27FA64B2                        | rbx: 12B-> 27FA64B2                               |                                                   
+016D | 00007FF6D4142F68 | FFC3                     | inc ebx                                 | rbx: 27FA64B2-> 27FA64B3                          |                                                   
+016E | 00007FF6D4142F6A | 83C3 FF                  | add ebx,FFFFFFFF                        | rbx: 27FA64B3-> 27FA64B2                          |                                                   
+016F | 00007FF6D4142F6D | F7D3                     | not ebx                                 | rbx: 27FA64B2-> D8059B4D                          |                                                   
+0170 | 00007FF6D4142F6F | C1EB 01                  | shr ebx,1                               | rbx: D8059B4D-> 6C02CDA6                          |                                                   
+0171 | 00007FF6D4142F72 | 81F3 44EDF67E            | xor ebx,7EF6ED44                        | rbx: 6C02CDA6-> 12F420E2                          |                                                   
+0172 | 00007FF6D4142F78 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+0173 | 00007FF6D4142F7F | 56                       | push rsi                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7FF6D4069896-> 0                
+0174 | 00007FF6D4142F80 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 0-> 0 00000072D32FFD38: 0-> 0   
+0175 | 00007FF6D4142F83 | BE 1FDF0BED              | mov esi,ED0BDF1F                        | rsi: 0-> ED0BDF1F                                 |                                                   
+0176 | 00007FF6D4142F88 | 01F3                     | add ebx,esi                             | rbx: 12F420E2-> 1                                 |                                                   
+0177 | 00007FF6D4142F8A | 5E                       | pop rsi                                 | rsp: 72D32FFD40-> 72D32FFD48 rsi: ED0BDF1F-> 0    | 00000072D32FFD40: 0-> 0                           
+0178 | 00007FF6D4142F8B | 85DB                     | test ebx,ebx                            |                                                   |                                                   
+0179 | 00007FF6D4142F8D | 0F84 09010000            | je tiger_lite.7FF6D414309C              |                                                   |                                                   
+017A | 00007FF6D4142F93 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+017B | 00007FF6D4142F97 | 4C:892C24                | mov qword ptr ss:[rsp],r13              |                                                   | 00000072D32FFD40: 0-> 0                           
+017C | 00007FF6D4142F9B | 41:BD 9D1F777B           | mov r13d,7B771F9D                       | r13: 0-> 7B771F9D                                 |                                                   
+017D | 00007FF6D4142FA1 | 41:57                    | push r15                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 0                           
+017E | 00007FF6D4142FA3 | 41:BF 926EFA1B           | mov r15d,1BFA6E92                       | r15: 0-> 1BFA6E92                                 |                                                   
+017F | 00007FF6D4142FA9 | 41:51                    | push r9                                 | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: CDC79595-> 11B0                 
+0180 | 00007FF6D4142FAB | 41:B9 1791F77C           | mov r9d,7CF79117                        | r9: 11B0-> 7CF79117                               |                                                   
+0181 | 00007FF6D4142FB1 | 41:C1E1 02               | shl r9d,2                               | r9: 7CF79117-> F3DE445C                           |                                                   
+0182 | 00007FF6D4142FB5 | 41:81F1 7F044C9B         | xor r9d,9B4C047F                        | r9: F3DE445C-> 68924023                           |                                                   
+0183 | 00007FF6D4142FBC | 44:89CB                  | mov ebx,r9d                             | rbx: 1-> 68924023                                 |                                                   
+0184 | 00007FF6D4142FBF | 41:59                    | pop r9                                  | rsp: 72D32FFD30-> 72D32FFD38 r9: 68924023-> 11B0  | 00000072D32FFD30: 11B0-> 11B0                     
+0185 | 00007FF6D4142FC1 | 44:01FB                  | add ebx,r15d                            | rbx: 68924023-> 848CAEB5                          |                                                   
+0186 | 00007FF6D4142FC4 | 41:5F                    | pop r15                                 | rsp: 72D32FFD38-> 72D32FFD40 r15: 1BFA6E92-> 0    | 00000072D32FFD38: 0-> 0                           
+0187 | 00007FF6D4142FC6 | 81EB B0D8EE7D            | sub ebx,7DEED8B0                        | rbx: 848CAEB5-> 69DD605                           |                                                   
+0188 | 00007FF6D4142FCC | 44:01EB                  | add ebx,r13d                            | rbx: 69DD605-> 8214F5A2                           |                                                   
+0189 | 00007FF6D4142FCF | 81C3 B0D8EE7D            | add ebx,7DEED8B0                        | rbx: 8214F5A2-> 3CE52                             |                                                   
+018A | 00007FF6D4142FD5 | 41:5D                    | pop r13                                 | rsp: 72D32FFD40-> 72D32FFD48 r13: 7B771F9D-> 0    | 00000072D32FFD40: 0-> 0                           
+018B | 00007FF6D4142FD7 | 56                       | push rsi                                | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 0-> 0                           
+018C | 00007FF6D4142FD8 | 53                       | push rbx                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 3CE52                       
+018D | 00007FF6D4142FD9 | BB 8F79EF3E              | mov ebx,3EEF798F                        | rbx: 3CE52-> 3EEF798F                             |                                                   
+018E | 00007FF6D4142FDE | BE 04476F0E              | mov esi,E6F4704                         | rsi: 0-> E6F4704                                  |                                                   
+018F | 00007FF6D4142FE3 | F7D6                     | not esi                                 | rsi: E6F4704-> F190B8FB                           |                                                   
+0190 | 00007FF6D4142FE5 | C1EE 01                  | shr esi,1                               | rsi: F190B8FB-> 78C85C7D                          |                                                   
+0191 | 00007FF6D4142FE8 | FFC6                     | inc esi                                 | rsi: 78C85C7D-> 78C85C7E                          |                                                   
+0192 | 00007FF6D4142FEA | 81C6 AC58D51B            | add esi,1BD558AC                        | rsi: 78C85C7E-> 949DB52A                          |                                                   
+0193 | 00007FF6D4142FF0 | 29DE                     | sub esi,ebx                             | rsi: 949DB52A-> 55AE3B9B                          |                                                   
+0194 | 00007FF6D4142FF2 | 5B                       | pop rbx                                 | rbx: 3EEF798F-> 3CE52 rsp: 72D32FFD38-> 72D32FFD4 | 00000072D32FFD38: 3CE52-> 3CE52                   
+0195 | 00007FF6D4142FF3 | F7DE                     | neg esi                                 | rsi: 55AE3B9B-> AA51C465                          |                                                   
+0196 | 00007FF6D4142FF5 | 41:55                    | push r13                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 3CE52-> 0                       
+0197 | 00007FF6D4142FF7 | 41:BD 563DF047           | mov r13d,47F03D56                       | r13: 0-> 47F03D56                                 |                                                   
+0198 | 00007FF6D4142FFD | 44:01EE                  | add esi,r13d                            | rsi: AA51C465-> F24201BB                          |                                                   
+0199 | 00007FF6D4143000 | 41:5D                    | pop r13                                 | rsp: 72D32FFD38-> 72D32FFD40 r13: 47F03D56-> 0    | 00000072D32FFD38: 0-> 0                           
+019A | 00007FF6D4143002 | 81C6 45FEBD0D            | add esi,DBDFE45                         | rsi: F24201BB-> 0                                 |                                                   
+019B | 00007FF6D4143008 | 89F0                     | mov eax,esi                             |                                                   |                                                   
+019C | 00007FF6D414300A | 48:8B3424                | mov rsi,qword ptr ss:[rsp]              |                                                   | 00000072D32FFD40: 0-> 0                           
+019D | 00007FF6D414300E | 48:81C4 08000000         | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+019E | 00007FF6D4143015 | 85C0                     | test eax,eax                            |                                                   |                                                   
+019F | 00007FF6D4143017 | 0F84 10000000            | je tiger_lite.7FF6D414302D              |                                                   |                                                   
+01A0 | 00007FF6D414302D | 6548:A1 3000000000000000 | mov rax,qword ptr gs:[30]               | rax: 0-> 72D301F000                               | 00000072D301F030: 72D301F000-> 72D301F000         
+01A1 | 00007FF6D4143038 | 48:C1E0 20               | shl rax,20                              | rax: 72D301F000-> D301F00000000000                |                                                   
+01A2 | 00007FF6D414303C | 31D2                     | xor edx,edx                             |                                                   |                                                   
+01A3 | 00007FF6D414303E | 68 38748F43              | push 438F7438                           | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 0-> 438F7438                    
+01A4 | 00007FF6D4143043 | 48:890424                | mov qword ptr ss:[rsp],rax              |                                                   | 00000072D32FFD40: 438F7438-> D301F00000000000     
+01A5 | 00007FF6D4143047 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD40: D301F00000000000-> D301F0000000 
+01A6 | 00007FF6D414304A | 5A                       | pop rdx                                 | rdx: 0-> D301F00000000000 rsp: 72D32FFD38-> 72D32 | 00000072D32FFD38: D301F00000000000-> D301F0000000 
+01A7 | 00007FF6D414304B | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+01A8 | 00007FF6D414304F | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+01A9 | 00007FF6D4143056 | 41:51                    | push r9                                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: D301F00000000000-> 11B0         
+01AA | 00007FF6D4143058 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 11B0-> 11B0 00000072D32FFD38: 1 
+01AB | 00007FF6D414305B | 813424 1C1CBF3B          | xor dword ptr ss:[rsp],3BBF1C1C         |                                                   | 00000072D32FFD40: 11B0-> 3BBF0DAC                 
+01AC | 00007FF6D4143062 | 58                       | pop rax                                 | rax: D301F00000000000-> 3BBF0DAC rsp: 72D32FFD40- | 00000072D32FFD40: 3BBF0DAC-> 3BBF0DAC             
+01AD | 00007FF6D4143063 | 41:50                    | push r8                                 | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 3BBF0DAC-> 0                    
+01AE | 00007FF6D4143065 | 41:B8 9FC7ED6F           | mov r8d,6FEDC79F                        | r8: 0-> 6FEDC79F                                  |                                                   
+01AF | 00007FF6D414306B | 41:53                    | push r11                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 11B0-> 200246                   
+01B0 | 00007FF6D414306D | 41:BB A575FF3D           | mov r11d,3DFF75A5                       | r11: 200246-> 3DFF75A5                            |                                                   
+01B1 | 00007FF6D4143073 | 45:21D8                  | and r8d,r11d                            | r8: 6FEDC79F-> 2DED4585                           |                                                   
+01B2 | 00007FF6D4143076 | 41:5B                    | pop r11                                 | rsp: 72D32FFD38-> 72D32FFD40 r11: 3DFF75A5-> 2002 | 00000072D32FFD38: 200246-> 200246                 
+01B3 | 00007FF6D4143078 | 41:C1E0 04               | shl r8d,4                               | r8: 2DED4585-> DED45850                           |                                                   
+01B4 | 00007FF6D414307C | 41:81F0 4C446BE5         | xor r8d,E56B444C                        | r8: DED45850-> 3BBF1C1C                           |                                                   
+01B5 | 00007FF6D4143083 | 44:31C0                  | xor eax,r8d                             | rax: 3BBF0DAC-> 11B0                              |                                                   
+01B6 | 00007FF6D4143086 | 41:58                    | pop r8                                  | rsp: 72D32FFD40-> 72D32FFD48 r8: 3BBF1C1C-> 0     | 00000072D32FFD40: 0-> 0                           
+01B7 | 00007FF6D4143088 | 48:09C2                  | or rdx,rax                              | rdx: D301F00000000000-> D301F000000011B0          |                                                   
+01B8 | 00007FF6D414308B | 68 ECCAED4F              | push 4FEDCAEC                           | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 0-> 4FEDCAEC                    
+01B9 | 00007FF6D4143090 | 55                       | push rbp                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 200246-> 7FF6D4069896           
+01BA | 00007FF6D4143091 | 52                       | push rdx                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 11B0-> D301F000000011B0         
+01BB | 00007FF6D4143092 | 5D                       | pop rbp                                 | rsp: 72D32FFD30-> 72D32FFD38 rbp: 7FF6D4069896->  | 00000072D32FFD30: D301F000000011B0-> D301F0000000 
+01BC | 00007FF6D4143093 | 55                       | push rbp                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: D301F000000011B0-> D301F0000000 
+01BD | 00007FF6D4143094 | 8F4424 08                | pop qword ptr ss:[rsp+8]                | rsp: 72D32FFD30-> 72D32FFD38                      | 00000072D32FFD38: 7FF6D4069896-> 7FF6D4069896 000 
+01BE | 00007FF6D4143098 | 5D                       | pop rbp                                 | rsp: 72D32FFD38-> 72D32FFD40 rbp: D301F000000011B | 00000072D32FFD38: 7FF6D4069896-> 7FF6D4069896     
+01BF | 00007FF6D4143099 | 8F0419                   | pop qword ptr ds:[rcx+rbx]              | rsp: 72D32FFD40-> 72D32FFD48                      | 00007FF6D408CE52: D301F000000011B0-> D301F0000000 
+01C0 | 00007FF6D414309C | 68 D250F77D              | push 7DF750D2                           | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: D301F000000011B0-> 7DF750D2     
+01C1 | 00007FF6D41430A1 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD40-> 72D32FFD38                      |                                                   
+01C2 | 00007FF6D41430A8 | 4C:890424                | mov qword ptr ss:[rsp],r8               |                                                   | 00000072D32FFD38: 7FF6D4069896-> 0                
+01C3 | 00007FF6D41430AC | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 0-> 0 00000072D32FFD38: 0-> 0   
+01C4 | 00007FF6D41430AF | 8F4424 70                | pop qword ptr ss:[rsp+70]               | rsp: 72D32FFD40-> 72D32FFD48                      | 00000072D32FFDB0: 0-> 0 00000072D32FFD40: 0-> 0   
+01C5 | 00007FF6D41430B3 | 48:81EC 08000000         | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+01C6 | 00007FF6D41430BA | 4C:893424                | mov qword ptr ss:[rsp],r14              |                                                   | 00000072D32FFD40: 0-> 0                           
+01C7 | 00007FF6D41430BE | 41:BE A85A6777           | mov r14d,77675AA8                       | r14: 0-> 77675AA8                                 |                                                   
+01C8 | 00007FF6D41430C4 | 41:81EE 31E5EF7F         | sub r14d,7FEFE531                       | r14: 77675AA8-> F7777577                          |                                                   
+01C9 | 00007FF6D41430CB | 41:C1E6 05               | shl r14d,5                              | r14: F7777577-> EEEEAEE0                          |                                                   
+01CA | 00007FF6D41430CF | 41:81C6 7CB7FB1F         | add r14d,1FFBB77C                       | r14: EEEEAEE0-> EEA665C                           |                                                   
+01CB | 00007FF6D41430D6 | 41:51                    | push r9                                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 11B0                        
+01CC | 00007FF6D41430D8 | 41:B9 9D03FF27           | mov r9d,27FF039D                        | r9: 11B0-> 27FF039D                               |                                                   
+01CD | 00007FF6D41430DE | 41:81F1 35093150         | xor r9d,50310935                        | r9: 27FF039D-> 77CE0AA8                           |                                                   
+01CE | 00007FF6D41430E5 | 45:09CE                  | or r14d,r9d                             | r14: EEA665C-> 7FEE6EFC                           |                                                   
+01CF | 00007FF6D41430E8 | 41:59                    | pop r9                                  | rsp: 72D32FFD38-> 72D32FFD40 r9: 77CE0AA8-> 11B0  | 00000072D32FFD38: 11B0-> 11B0                     
+01D0 | 00007FF6D41430EA | 41:81F6 7B809D7B         | xor r14d,7B9D807B                       | r14: 7FEE6EFC-> 473EE87                           |                                                   
+01D1 | 00007FF6D41430F1 | 68 4F62F67B              | push 7BF6624F                           | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 11B0-> 7BF6624F                 
+01D2 | 00007FF6D41430F6 | 48:893424                | mov qword ptr ss:[rsp],rsi              |                                                   | 00000072D32FFD38: 7BF6624F-> 0                    
+01D3 | 00007FF6D41430FA | BE EBEF7304              | mov esi,473EFEB                         | rsi: 0-> 473EFEB                                  |                                                   
+01D4 | 00007FF6D41430FF | 41:31F6                  | xor r14d,esi                            | r14: 473EE87-> 16C                                |                                                   
+01D5 | 00007FF6D4143102 | 5E                       | pop rsi                                 | rsp: 72D32FFD38-> 72D32FFD40 rsi: 473EFEB-> 0     | 00000072D32FFD38: 0-> 0                           
+01D6 | 00007FF6D4143103 | 44:89F3                  | mov ebx,r14d                            | rbx: 3CE52-> 16C                                  |                                                   
+01D7 | 00007FF6D4143106 | 41:5E                    | pop r14                                 | rsp: 72D32FFD40-> 72D32FFD48 r14: 16C-> 0         | 00000072D32FFD40: 0-> 0                           
+01D8 | 00007FF6D4143108 | FF7424 50                | push qword ptr ss:[rsp+50]              | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD98: 7FF6D4058000-> 7FF6D4058000 000 
+01D9 | 00007FF6D414310C | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD40: 7FF6D4058000-> 7FF6D4058000 000 
+01DA | 00007FF6D414310F | 48:8B0424                | mov rax,qword ptr ss:[rsp]              | rax: 11B0-> 7FF6D4058000                          | 00000072D32FFD38: 7FF6D4058000-> 7FF6D4058000     
+01DB | 00007FF6D4143113 | 41:57                    | push r15                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: D301F000000011B0-> 0            
+01DC | 00007FF6D4143115 | 49:89E7                  | mov r15,rsp                             | r15: 0-> 72D32FFD30                               |                                                   
+01DD | 00007FF6D4143118 | 49:83C7 08               | add r15,8                               | r15: 72D32FFD30-> 72D32FFD38                      |                                                   
+01DE | 00007FF6D414311C | 49:81C7 08000000         | add r15,8                               | r15: 72D32FFD38-> 72D32FFD40                      |                                                   
+01DF | 00007FF6D4143123 | 4C:873C24                | xchg qword ptr ss:[rsp],r15             | r15: 72D32FFD40-> 0                               | 00000072D32FFD30: 0-> 72D32FFD40                  
+01E0 | 00007FF6D4143127 | 5C                       | pop rsp                                 | rsp: 72D32FFD30-> 72D32FFD40                      | 00000072D32FFD30: 72D32FFD40-> 72D32FFD40         
+01E1 | 00007FF6D4143128 | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+01E2 | 00007FF6D414312C | 68 792E7B7E              | push 7E7B2E79                           | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 7FF6D4058000-> 7E7B2E79         
+01E3 | 00007FF6D4143131 | 68 6236F56F              | push 6FF53662                           | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7FF6D4058000-> 6FF53662         
+01E4 | 00007FF6D4143136 | 50                       | push rax                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 72D32FFD40-> 7FF6D4058000       
+01E5 | 00007FF6D4143137 | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD30-> 72D32FFD38                      | 00000072D32FFD30: 7FF6D4058000-> 7FF6D4058000 000 
+01E6 | 00007FF6D414313A | 8F0424                   | pop qword ptr ss:[rsp]                  | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 7FF6D4058000-> 7FF6D4058000 000 
+01E7 | 00007FF6D414313D | 8F042B                   | pop qword ptr ds:[rbx+rbp]              | rsp: 72D32FFD40-> 72D32FFD48                      | 00007FF6D4069A02: 7FF6D4058000-> 7FF6D4058000 000 
+01E8 | 00007FF6D4143140 | 56                       | push rsi                                | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 7FF6D4058000-> 0                
+01E9 | 00007FF6D4143141 | 41:56                    | push r14                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7FF6D4058000-> 0                
+01EA | 00007FF6D4143143 | 41:55                    | push r13                                | rsp: 72D32FFD38-> 72D32FFD30                      | 00000072D32FFD30: 7FF6D4058000-> 0                
+01EB | 00007FF6D4143145 | 41:BD 3FFF1F7F           | mov r13d,7F1FFF3F                       | r13: 0-> 7F1FFF3F                                 |                                                   
+01EC | 00007FF6D414314B | 41:C1E5 08               | shl r13d,8                              | r13: 7F1FFF3F-> 1FFF3F00                          |                                                   
+01ED | 00007FF6D414314F | 41:81E5 776E5F7F         | and r13d,7F5F6E77                       | r13: 1FFF3F00-> 1F5F2E00                          |                                                   
+01EE | 00007FF6D4143156 | 41:81E5 B10B7A7B         | and r13d,7B7A0BB1                       | r13: 1F5F2E00-> 1B5A0A00                          |                                                   
+01EF | 00007FF6D414315D | 41:81ED 0E0CBB9C         | sub r13d,9CBB0C0E                       | r13: 1B5A0A00-> 7E9EFDF2                          |                                                   
+01F0 | 00007FF6D4143164 | 45:89EE                  | mov r14d,r13d                           | r14: 0-> 7E9EFDF2                                 |                                                   
+01F1 | 00007FF6D4143167 | 41:5D                    | pop r13                                 | rsp: 72D32FFD30-> 72D32FFD38 r13: 7E9EFDF2-> 0    | 00000072D32FFD30: 0-> 0                           
+01F2 | 00007FF6D4143169 | 41:FFCE                  | dec r14d                                | r14: 7E9EFDF2-> 7E9EFDF1                          |                                                   
+01F3 | 00007FF6D414316C | 41:81F6 777D7F5F         | xor r14d,5F7F7D77                       | r14: 7E9EFDF1-> 21E18086                          |                                                   
+01F4 | 00007FF6D4143173 | 41:C1EE 06               | shr r14d,6                              | r14: 21E18086-> 878602                            |                                                   
+01F5 | 00007FF6D4143177 | 41:F7D6                  | not r14d                                | r14: 878602-> FF7879FD                            |                                                   
+01F6 | 00007FF6D414317A | 41:81CE 8C415B3E         | or r14d,3E5B418C                        | r14: FF7879FD-> FF7B79FD                          |                                                   
+01F7 | 00007FF6D4143181 | 41:81EE DC7DAB9B         | sub r14d,9BAB7DDC                       | r14: FF7B79FD-> 63CFFC21                          |                                                   
+01F8 | 00007FF6D4143188 | 44:89F6                  | mov esi,r14d                            | rsi: 0-> 63CFFC21                                 |                                                   
+01F9 | 00007FF6D414318B | 41:5E                    | pop r14                                 | rsp: 72D32FFD38-> 72D32FFD40 r14: 63CFFC21-> 0    | 00000072D32FFD38: 0-> 0                           
+01FA | 00007FF6D414318D | F7DE                     | neg esi                                 | rsi: 63CFFC21-> 9C3003DF                          |                                                   
+01FB | 00007FF6D414318F | 81E6 222CBF3F            | and esi,3FBF2C22                        | rsi: 9C3003DF-> 1C300002                          |                                                   
+01FC | 00007FF6D4143195 | 81C6 63C3FF7F            | add esi,7FFFC363                        | rsi: 1C300002-> 9C2FC365                          |                                                   
+01FD | 00007FF6D414319B | 81CE 6B32F75C            | or esi,5CF7326B                         | rsi: 9C2FC365-> DCFFF36F                          |                                                   
+01FE | 00007FF6D41431A1 | 81C6 910C0023            | add esi,23000C91                        | rsi: DCFFF36F-> 0                                 |                                                   
+01FF | 00007FF6D41431A7 | 89F3                     | mov ebx,esi                             | rbx: 16C-> 0                                      |                                                   
+0200 | 00007FF6D41431A9 | FF3424                   | push qword ptr ss:[rsp]                 | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD40: 0-> 0 00000072D32FFD38: 0-> 0   
+0201 | 00007FF6D41431AC | 5E                       | pop rsi                                 | rsp: 72D32FFD38-> 72D32FFD40                      | 00000072D32FFD38: 0-> 0                           
+0202 | 00007FF6D41431AD | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+0203 | 00007FF6D41431B1 | FFB424 90000000          | push qword ptr ss:[rsp+90]              | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFDD8: 239169-> 239169 00000072D32FFD4 
+0204 | 00007FF6D41431B8 | 48:8B0424                | mov rax,qword ptr ss:[rsp]              | rax: 7FF6D4058000-> 239169                        | 00000072D32FFD40: 239169-> 239169                 
+0205 | 00007FF6D41431BC | 41:55                    | push r13                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 0-> 0                           
+0206 | 00007FF6D41431BE | 49:89E5                  | mov r13,rsp                             | r13: 0-> 72D32FFD38                               |                                                   
+0207 | 00007FF6D41431C1 | 49:83C5 08               | add r13,8                               | r13: 72D32FFD38-> 72D32FFD40                      |                                                   
+0208 | 00007FF6D41431C5 | 49:81C5 08000000         | add r13,8                               | r13: 72D32FFD40-> 72D32FFD48                      |                                                   
+0209 | 00007FF6D41431CC | 4C:872C24                | xchg qword ptr ss:[rsp],r13             | r13: 72D32FFD48-> 0                               | 00000072D32FFD38: 0-> 72D32FFD48                  
+020A | 00007FF6D41431D0 | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              | rsp: 72D32FFD38-> 72D32FFD48                      | 00000072D32FFD38: 72D32FFD48-> 72D32FFD48         
+020B | 00007FF6D41431D4 | 48:2D 2492FB6F           | sub rax,6FFB9224                        | rax: 239169-> FFFFFFFF9027FF45                    |                                                   
+020C | 00007FF6D41431DA | 48:2D 691EFE77           | sub rax,77FE1E69                        | rax: FFFFFFFF9027FF45-> FFFFFFFF1829E0DC          |                                                   
+020D | 00007FF6D41431E0 | 48:05 6579E95B           | add rax,5BE97965                        | rax: FFFFFFFF1829E0DC-> FFFFFFFF74135A41          |                                                   
+020E | 00007FF6D41431E6 | 48:2D 5730FE33           | sub rax,33FE3057                        | rax: FFFFFFFF74135A41-> FFFFFFFF401529EA          |                                                   
+020F | 00007FF6D41431EC | 48:2D E00A7E7B           | sub rax,7B7E0AE0                        | rax: FFFFFFFF401529EA-> FFFFFFFEC4971F0A          |                                                   
+0210 | 00007FF6D41431F2 | 48:01C8                  | add rax,rcx                             | rax: FFFFFFFEC4971F0A-> 7FF5989C1F0A              |                                                   
+0211 | 00007FF6D41431F5 | 48:05 E00A7E7B           | add rax,7B7E0AE0                        | rax: 7FF5989C1F0A-> 7FF6141A29EA                  |                                                   
+0212 | 00007FF6D41431FB | 48:05 5730FE33           | add rax,33FE3057                        | rax: 7FF6141A29EA-> 7FF648185A41                  |                                                   
+0213 | 00007FF6D4143201 | 48:2D 6579E95B           | sub rax,5BE97965                        | rax: 7FF648185A41-> 7FF5EC2EE0DC                  |                                                   
+0214 | 00007FF6D4143207 | 48:05 691EFE77           | add rax,77FE1E69                        | rax: 7FF5EC2EE0DC-> 7FF6642CFF45                  |                                                   
+0215 | 00007FF6D414320D | 48:05 2492FB6F           | add rax,6FFB9224                        | rax: 7FF6642CFF45-> 7FF6D4289169                  |                                                   
+0216 | 00007FF6D4143213 | 68 976CF931              | push 31F96C97                           | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 239169-> 31F96C97               
+0217 | 00007FF6D4143218 | 4C:892424                | mov qword ptr ss:[rsp],r12              |                                                   | 00000072D32FFD40: 31F96C97-> 0                    
+0218 | 00007FF6D414321C | 50                       | push rax                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 72D32FFD48-> 7FF6D4289169       
+0219 | 00007FF6D414321D | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD38-> 72D32FFD30                      |                                                   
+021A | 00007FF6D4143221 | 4C:891C24                | mov qword ptr ss:[rsp],r11              |                                                   | 00000072D32FFD30: 0-> 200246                      
+021B | 00007FF6D4143225 | 49:BB AE8A775A00000000   | mov r11,5A778AAE                        | r11: 200246-> 5A778AAE                            |                                                   
+021C | 00007FF6D414322F | 4C:295C24 08             | sub qword ptr ss:[rsp+8],r11            |                                                   | 00000072D32FFD38: 7FF6D4289169-> 7FF679B106BB     
+021D | 00007FF6D4143234 | 41:5B                    | pop r11                                 | rsp: 72D32FFD30-> 72D32FFD38 r11: 5A778AAE-> 2002 | 00000072D32FFD30: 200246-> 200246                 
+021E | 00007FF6D4143236 | 41:5C                    | pop r12                                 | rsp: 72D32FFD38-> 72D32FFD40 r12: 0-> 7FF679B106B | 00000072D32FFD38: 7FF679B106BB-> 7FF679B106BB     
+021F | 00007FF6D4143238 | 49:81C4 AE8A775A         | add r12,5A778AAE                        | r12: 7FF679B106BB-> 7FF6D4289169                  |                                                   
+0220 | 00007FF6D414323F | 4C:89242B                | mov qword ptr ds:[rbx+rbp],r12          |                                                   | 00007FF6D4069896: 7FF6D44550C0-> 7FF6D4289169     
+0221 | 00007FF6D4143243 | 41:5C                    | pop r12                                 | rsp: 72D32FFD40-> 72D32FFD48 r12: 7FF6D4289169->  | 00000072D32FFD40: 0-> 0                           
+0222 | 00007FF6D4143245 | B8 DD81FE6B              | mov eax,6BFE81DD                        | rax: 7FF6D4289169-> 6BFE81DD                      |                                                   
+0223 | 00007FF6D414324A | C1E8 07                  | shr eax,7                               | rax: 6BFE81DD-> D7FD03                            |                                                   
+0224 | 00007FF6D414324D | C1E0 03                  | shl eax,3                               | rax: D7FD03-> 6BFE818                             |                                                   
+0225 | 00007FF6D4143250 | FFC0                     | inc eax                                 | rax: 6BFE818-> 6BFE819                            |                                                   
+0226 | 00007FF6D4143252 | 83C0 01                  | add eax,1                               | rax: 6BFE819-> 6BFE81A                            |                                                   
+0227 | 00007FF6D4143255 | 41:51                    | push r9                                 | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 0-> 11B0                        
+0228 | 00007FF6D4143257 | 41:B9 86A56D2D           | mov r9d,2D6DA586                        | r9: 11B0-> 2D6DA586                               |                                                   
+0229 | 00007FF6D414325D | 05 CF82E712              | add eax,12E782CF                        | rax: 6BFE81A-> 19A76AE9                           |                                                   
+022A | 00007FF6D4143262 | 44:01C8                  | add eax,r9d                             | rax: 19A76AE9-> 4715106F                          |                                                   
+022B | 00007FF6D4143265 | 2D CF82E712              | sub eax,12E782CF                        | rax: 4715106F-> 342D8DA0                          |                                                   
+022C | 00007FF6D414326A | 41:59                    | pop r9                                  | rsp: 72D32FFD40-> 72D32FFD48 r9: 2D6DA586-> 11B0  | 00000072D32FFD40: 11B0-> 11B0                     
+022D | 00007FF6D414326C | 41:53                    | push r11                                | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFD40: 11B0-> 200246                   
+022E | 00007FF6D414326E | 41:BB CD422634           | mov r11d,342642CD                       | r11: 200246-> 342642CD                            |                                                   
+022F | 00007FF6D4143274 | 44:31D8                  | xor eax,r11d                            | rax: 342D8DA0-> BCF6D                             |                                                   
+0230 | 00007FF6D4143277 | 41:5B                    | pop r11                                 | rsp: 72D32FFD40-> 72D32FFD48 r11: 342642CD-> 2002 | 00000072D32FFD40: 200246-> 200246                 
+0231 | 00007FF6D4143279 | 48:05 E620DE79           | add rax,79DE20E6                        | rax: BCF6D-> 79E9F053                             |                                                   
+0232 | 00007FF6D414327F | 48:2D 2956D57F           | sub rax,7FD55629                        | rax: 79E9F053-> FFFFFFFFFA149A2A                  |                                                   
+0233 | 00007FF6D4143285 | 48:2D D5DFFD33           | sub rax,33FDDFD5                        | rax: FFFFFFFFFA149A2A-> FFFFFFFFC616BA55          |                                                   
+0234 | 00007FF6D414328B | 48:05 37EBA85B           | add rax,5BA8EB37                        | rax: FFFFFFFFC616BA55-> 21BFA58C                  |                                                   
+0235 | 00007FF6D4143291 | 48:05 E9162A3F           | add rax,3F2A16E9                        | rax: 21BFA58C-> 60E9BC75                          |                                                   
+0236 | 00007FF6D4143297 | 48:01C8                  | add rax,rcx                             | rax: 60E9BC75-> 7FF734EEBC75                      |                                                   
+0237 | 00007FF6D414329A | 48:2D E9162A3F           | sub rax,3F2A16E9                        | rax: 7FF734EEBC75-> 7FF6F5C4A58C                  |                                                   
+0238 | 00007FF6D41432A0 | 48:2D 37EBA85B           | sub rax,5BA8EB37                        | rax: 7FF6F5C4A58C-> 7FF69A1BBA55                  |                                                   
+0239 | 00007FF6D41432A6 | 48:05 D5DFFD33           | add rax,33FDDFD5                        | rax: 7FF69A1BBA55-> 7FF6CE199A2A                  |                                                   
+023A | 00007FF6D41432AC | 48:05 2956D57F           | add rax,7FD55629                        | rax: 7FF6CE199A2A-> 7FF74DEEF053                  |                                                   
+023B | 00007FF6D41432B2 | 48:2D E620DE79           | sub rax,79DE20E6                        | rax: 7FF74DEEF053-> 7FF6D410CF6D                  |                                                   
+023C | 00007FF6D41432B8 | 48:83EC 08               | sub rsp,8                               | rsp: 72D32FFD48-> 72D32FFD40                      |                                                   
+023D | 00007FF6D41432BC | 48:893424                | mov qword ptr ss:[rsp],rsi              |                                                   | 00000072D32FFD40: 200246-> 0                      
+023E | 00007FF6D41432C0 | 57                       | push rdi                                | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 7FF679B106BB-> 173BD86B810      
+023F | 00007FF6D41432C1 | BF 5348FF4F              | mov edi,4FFF4853                        | rdi: 173BD86B810-> 4FFF4853                       |                                                   
+0240 | 00007FF6D41432C6 | F7D7                     | not edi                                 | rdi: 4FFF4853-> B000B7AC                          |                                                   
+0241 | 00007FF6D41432C8 | 81C7 AC24BFBB            | add edi,BBBF24AC                        | rdi: B000B7AC-> 6BBFDC58                          |                                                   
+0242 | 00007FF6D41432CE | 89FE                     | mov esi,edi                             | rsi: 0-> 6BBFDC58                                 |                                                   
+0243 | 00007FF6D41432D0 | 5F                       | pop rdi                                 | rsp: 72D32FFD38-> 72D32FFD40 rdi: 6BBFDC58-> 173B | 00000072D32FFD38: 173BD86B810-> 173BD86B810       
+0244 | 00007FF6D41432D1 | 81CE CB19FF0D            | or esi,DFF19CB                          | rsi: 6BBFDC58-> 6FFFDDDB                          |                                                   
+0245 | 00007FF6D41432D7 | F7D6                     | not esi                                 | rsi: 6FFFDDDB-> 90002224                          |                                                   
+0246 | 00007FF6D41432D9 | 81C6 A7D2F33F            | add esi,3FF3D2A7                        | rsi: 90002224-> CFF3F4CB                          |                                                   
+0247 | 00007FF6D41432DF | 81EE 774C0090            | sub esi,90004C77                        | rsi: CFF3F4CB-> 3FF3A854                          |                                                   
+0248 | 00007FF6D41432E5 | 89F3                     | mov ebx,esi                             | rbx: 0-> 3FF3A854                                 |                                                   
+0249 | 00007FF6D41432E7 | 48:8B3424                | mov rsi,qword ptr ss:[rsp]              | rsi: 3FF3A854-> 0                                 | 00000072D32FFD40: 0-> 0                           
+024A | 00007FF6D41432EB | 48:83C4 08               | add rsp,8                               | rsp: 72D32FFD40-> 72D32FFD48                      |                                                   
+024B | 00007FF6D41432EF | 81C3 EA570CC0            | add ebx,C00C57EA                        | rbx: 3FF3A854-> 3E                                |                                                   
+024C | 00007FF6D41432F5 | FF342B                   | push qword ptr ds:[rbx+rbp]             | rsp: 72D32FFD48-> 72D32FFD40                      | 00007FF6D40698D4: 7FF6D410CF6D-> 7FF6D410CF6D 000 
+024D | 00007FF6D41432F8 | 48:810424 E26BDF76       | add qword ptr ss:[rsp],76DF6BE2         |                                                   | 00000072D32FFD40: 7FF6D410CF6D-> 7FF74AF03B4F     
+024E | 00007FF6D4143300 | 5A                       | pop rdx                                 | rdx: D301F000000011B0-> 7FF74AF03B4F rsp: 72D32FF | 00000072D32FFD40: 7FF74AF03B4F-> 7FF74AF03B4F     
+024F | 00007FF6D4143301 | 48:81EA E26BDF76         | sub rdx,76DF6BE2                        | rdx: 7FF74AF03B4F-> 7FF6D410CF6D                  |                                                   
+0250 | 00007FF6D4143308 | 48:39C2                  | cmp rdx,rax                             |                                                   |                                                   
+0251 | 00007FF6D414330B | 0F84 63010000            | je tiger_lite.7FF6D4143474              |                                                   |                                                   
+0252 | 00007FF6D4143474 | FFB424 88000000          | push qword ptr ss:[rsp+88]              | rsp: 72D32FFD48-> 72D32FFD40                      | 00000072D32FFDD0: DB-> DB 00000072D32FFD40: 7FF74 
+0253 | 00007FF6D414347B | 48:8B1C24                | mov rbx,qword ptr ss:[rsp]              | rbx: 3E-> DB                                      | 00000072D32FFD40: DB-> DB                         
+0254 | 00007FF6D414347F | 68 490CF737              | push 37F70C49                           | rsp: 72D32FFD40-> 72D32FFD38                      | 00000072D32FFD38: 173BD86B810-> 37F70C49          
+0255 | 00007FF6D4143484 | 48:893424                | mov qword ptr ss:[rsp],rsi              |                                                   | 00000072D32FFD38: 37F70C49-> 0                    
+0256 | 00007FF6D4143488 | 48:89E6                  | mov rsi,rsp                             | rsi: 0-> 72D32FFD38                               |                                                   
+0257 | 00007FF6D414348B | 48:83C6 08               | add rsi,8                               | rsi: 72D32FFD38-> 72D32FFD40                      |                                                   
+0258 | 00007FF6D414348F | 48:81C6 08000000         | add rsi,8                               | rsi: 72D32FFD40-> 72D32FFD48                      |                                                   
+0259 | 00007FF6D4143496 | 48:873424                | xchg qword ptr ss:[rsp],rsi             | rsi: 72D32FFD48-> 0                               | 00000072D32FFD38: 0-> 72D32FFD48                  
+025A | 00007FF6D414349A | 48:8B2424                | mov rsp,qword ptr ss:[rsp]              | rsp: 72D32FFD38-> 72D32FFD48                      | 00000072D32FFD38: 72D32FFD48-> 72D32FFD48         
+025B | 00007FF6D414349E | 48:C1E3 03               | shl rbx,3                               | rbx: DB-> 6D8                                     |                                                   
+025C | 00007FF6D41434A2 | 48:2D 7090B93C           | sub rax,3CB99070                        | rax: 7FF6D410CF6D-> 7FF697573EFD                  |                                                   
+025D | 00007FF6D41434A8 | 48:05 93A0777F           | add rax,7F77A093                        | rax: 7FF697573EFD-> 7FF716CEDF90                  |                                                   
+025E | 00007FF6D41434AE | 48:05 3233DF7F           | add rax,7FDF3332                        | rax: 7FF716CEDF90-> 7FF796AE12C2                  |                                                   
+025F | 00007FF6D41434B4 | 48:05 3FDFFF7B           | add rax,7BFFDF3F                        | rax: 7FF796AE12C2-> 7FF812ADF201                  |                                                   
+0260 | 00007FF6D41434BA | 48:01D8                  | add rax,rbx                             | rax: 7FF812ADF201-> 7FF812ADF8D9                  |                                                   
+0261 | 00007FF6D41434BD | 48:2D 3FDFFF7B           | sub rax,7BFFDF3F                        | rax: 7FF812ADF8D9-> 7FF796AE199A                  |                                                   
+0262 | 00007FF6D41434C3 | 48:2D 3233DF7F           | sub rax,7FDF3332                        | rax: 7FF796AE199A-> 7FF716CEE668                  |                                                   
+0263 | 00007FF6D41434C9 | 48:2D 93A0777F           | sub rax,7F77A093                        | rax: 7FF716CEE668-> 7FF6975745D5                  |                                                   
+0264 | 00007FF6D41434CF | 48:05 7090B93C           | add rax,3CB99070                        | rax: 7FF6975745D5-> 7FF6D410D645                  |                                                   
+0265 | 00007FF6D41434D5 | FF20                     | jmp qword ptr ds:[rax]                  |                                                   | 00007FF6D410D645: 7FF6D40B98D5-> 7FF6D40B98D5     
+0266 | 00007FF6D40B98D5 | E9 A4B7FCFF              | jmp tiger_lite.7FF6D408507E             |                                                   |                                                   
+0267 | 00007FF6D408507E | 48:89EE                  | mov rsi,rbp                             | rsi: 0-> 7FF6D4069896                             |                                                   
+0268 | 00007FF6D4085081 | 48:81C6 00000000         | add rsi,0                               |                                                   |                                                   
+0269 | 00007FF6D4085088 | 48:8B36                  | mov rsi,qword ptr ds:[rsi]              | rsi: 7FF6D4069896-> 7FF6D4289169                  | 00007FF6D4069896: 7FF6D4289169-> 7FF6D4289169     
+026A | 00007FF6D408508B | 48:81C6 00000000         | add rsi,0                               |                                                   |                                                   
+026B | 00007FF6D4085092 | 48:0FB716                | movzx rdx,word ptr ds:[rsi]             | rdx: 7FF6D410CF6D-> 74                            | 00007FF6D4289169: 1E56EC00400074-> 1E56EC00400074 
+026C | 00007FF6D4085096 | 48:01EA                  | add rdx,rbp                             | rdx: 74-> 7FF6D406990A                            |                                                   
+026D | 00007FF6D4085099 | 48:8922                  | mov qword ptr ds:[rdx],rsp              |                                                   | 00007FF6D406990A: 72D32FFD50-> 72D32FFD48         
+026E | 00007FF6D408509C | 48:C7C7 00000000         | mov rdi,0                               | rdi: 173BD86B810-> 0                              |                                                   
+026F | 00007FF6D40850A3 | 49:89EC                  | mov r12,rbp                             | r12: 0-> 7FF6D4069896                             |                                                   
+0270 | 00007FF6D40850A6 | 49:81C4 00000000         | add r12,0                               |                                                   |                                                   
+0271 | 00007FF6D40850AD | 4D:8B2424                | mov r12,qword ptr ds:[r12]              | r12: 7FF6D4069896-> 7FF6D4289169                  | 00007FF6D4069896: 7FF6D4289169-> 7FF6D4289169     
+0272 | 00007FF6D40850B1 | 49:81C4 02000000         | add r12,2                               | r12: 7FF6D4289169-> 7FF6D428916B                  |                                                   
+0273 | 00007FF6D40850B8 | 6641:8B3C24              | mov di,word ptr ds:[r12]                | rdi: 0-> 40                                       | 00007FF6D428916B: 40001E56EC0040-> 40001E56EC0040 
+0274 | 00007FF6D40850BD | 48:C1E7 03               | shl rdi,3                               | rdi: 40-> 200                                     |                                                   
+0275 | 00007FF6D40850C1 | 49:89ED                  | mov r13,rbp                             | r13: 0-> 7FF6D4069896                             |                                                   
+0276 | 00007FF6D40850C4 | 49:81C5 00000000         | add r13,0                               |                                                   |                                                   
+0277 | 00007FF6D40850CB | 4D:8B6D 00               | mov r13,qword ptr ds:[r13]              | r13: 7FF6D4069896-> 7FF6D4289169                  | 00007FF6D4069896: 7FF6D4289169-> 7FF6D4289169     
+0278 | 00007FF6D40850CF | 49:81C5 04000000         | add r13,4                               | r13: 7FF6D4289169-> 7FF6D428916D                  |                                                   
+0279 | 00007FF6D40850D6 | 4D:6365 00               | movsxd r12,dword ptr ds:[r13]           | r12: 7FF6D428916B-> 1E56EC                        | 00007FF6D428916D: 40001E56EC-> 40001E56EC         
+027A | 00007FF6D40850DA | 48:89E8                  | mov rax,rbp                             | rax: 7FF6D410D645-> 7FF6D4069896                  |                                                   
+027B | 00007FF6D40850DD | 48:05 00000000           | add rax,0                               |                                                   |                                                   
+027C | 00007FF6D40850E3 | 4C:0120                  | add qword ptr ds:[rax],r12              |                                                   | 00007FF6D4069896: 7FF6D4289169-> 7FF6D446E855     
+027D | 00007FF6D40850E6 | 49:89E8                  | mov r8,rbp                              | r8: 0-> 7FF6D4069896                              |                                                   
+027E | 00007FF6D40850E9 | 49:81C0 3E000000         | add r8,3E                               | r8: 7FF6D4069896-> 7FF6D40698D4                   |                                                   
+027F | 00007FF6D40850F0 | 49:8B10                  | mov rdx,qword ptr ds:[r8]               | rdx: 7FF6D406990A-> 7FF6D410CF6D                  | 00007FF6D40698D4: 7FF6D410CF6D-> 7FF6D410CF6D     
+0280 | 00007FF6D40850F3 | 48:01FA                  | add rdx,rdi                             | rdx: 7FF6D410CF6D-> 7FF6D410D16D                  |                                                   
+0281 | 00007FF6D40850F6 | 4C:8B0A                  | mov r9,qword ptr ds:[rdx]               | r9: 11B0-> 7FF6D4090900                           | 00007FF6D410D16D: 7FF6D4090900-> 7FF6D4090900     
+0282 | 00007FF6D40850F9 | 41:FFE1                  | jmp r9                                  |                                                   |

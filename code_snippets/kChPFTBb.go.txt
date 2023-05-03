@@ -1,0 +1,45 @@
+/*
+https://gocoding.org/es/ejercicios-de-pr%C3%A1ctica-de-golang/
+1. Cree un programa que use la biblioteca estándar de Go para crear un servidor HTTP simple que pueda manejar diferentes rutas y devolver diferentes respuestas.
+*/
+ 
+package main
+ 
+import (
+    "errors"
+    "fmt"
+    "io"
+    "net/http"
+    "os"
+)
+ 
+const port = "8080" //Port
+ 
+// http://127.0.0.1:8080/
+func getRoot(w http.ResponseWriter, r *http.Request) {
+    fmt.Print(" Client on / ")
+    io.WriteString(w, "Mi pagina \n")
+}
+ 
+func getClients(w http.ResponseWriter, r *http.Request) {
+    fmt.Print(" Client on /clients ")
+    io.WriteString(w, "Lista de clientes \n")
+}
+ 
+func main() {
+ 
+    //Diferentes callbacks para el servidor web
+    http.HandleFunc("/", getRoot)           //a la raiz 127.0.0.1:8080
+    http.HandleFunc("/clients", getClients) // a 127.0.0.1:8080/clients
+ 
+    fmt.Printf("Server running on port %v \n", port)
+    err := http.ListenAndServe(":"+(port), nil)
+ 
+    if errors.Is(err, http.ErrServerClosed) {
+        fmt.Printf("Server closed \n")
+    } else if err != nil {
+        fmt.Printf("Error %v starting server : ", err)
+        os.Exit(1)
+    }
+ 
+}

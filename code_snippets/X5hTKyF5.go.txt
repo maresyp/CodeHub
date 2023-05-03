@@ -1,0 +1,61 @@
+/*
+https://gocoding.org/es/ejercicios-de-pr%C3%A1ctica-de-golang/
+2. Escriba un programa que use las rutinas y los canales para crear una aplicación concurrente que realice múltiples tareas simultáneamente.
+*/
+ 
+package main
+ 
+import (
+    "fmt"
+    "math/rand"
+    "time"
+)
+ 
+//Crea un multiplicador temporal aleatorio
+func Aleatorio() time.Duration {
+    max := 3
+    min := 1
+    return (time.Duration)(rand.Intn(max-min) + min)
+}
+ 
+//Funcion representando un coche que se lanzara en un hilo llamado con go utiliza un canal 
+func coche1(canal chan string) {
+    time.Sleep(time.Second * Aleatorio())
+    canal <- "coche 1"
+}
+ 
+//Funcion representando un coche que se lanzara en un hilo llamado con go utiliza un canal 
+func coche2(canal chan string) {
+    time.Sleep(time.Second * Aleatorio())
+    canal <- "coche 2"
+}
+ 
+//Funcion representando un coche que se lanzara en un hilo llamado con go utiliza un canal 
+func coche3(canal chan string) {
+    time.Sleep(time.Second * Aleatorio())
+    canal <- "coche 3"
+}
+ 
+func main() {
+    //Crea los canales de comunicacion
+    canal1 := make(chan string)
+    canal2 := make(chan string)
+    canal3 := make(chan string)
+ 
+    //Arranca las tres rutinas , hilos con su canal correspondiente para enviar datos
+    go coche1(canal1)
+    go coche2(canal2)
+    go coche3(canal3)
+ 
+    select { //El que acaba antes escribe en winner la informacion del canal
+    case winner := <-canal1:
+        fmt.Println(winner)
+ 
+    case winner := <-canal2:
+        fmt.Println(winner)
+ 
+    case winner := <-canal3:
+        fmt.Println(winner)
+    }
+ 
+}

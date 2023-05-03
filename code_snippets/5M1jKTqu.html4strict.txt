@@ -1,0 +1,100 @@
+<div id="div-gpt-ad-sport.ua/catfish">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            catfish("div-gpt-ad-sport.ua/catfish");
+        });
+    </script>
+</div>
+<script>
+!(function () { window.googletag = window.googletag || {}; window.vmpbjs = window.vmpbjs || {}; window.vpb = window.vpb || {}; vpb.cmd = vpb.cmd || []; vpb.st=Date.now();  vpb.fastLoad = true; googletag.cmd = googletag.cmd || []; vmpbjs.cmd = vmpbjs.cmd || []; var cmds = []; try{ cmds = googletag.cmd.slice(0); googletag.cmd.length = 0; }catch(e){} var ready = false; function exec(cb) { return cb.call(googletag); } var overriden = false; googletag.cmd.push(function () { overriden = true; googletag.cmd.unshift = function (cb) { if (ready) { return exec(cb); } cmds.unshift(cb); if (cb._startgpt) { ready = true; for (var k = 0; k < cmds.length; k++) { exec(cmds[k]); } } }; googletag.cmd.push = function (cb) { if (ready) { return exec(cb); } cmds.push(cb); }; }); if(!overriden){ googletag.cmd.push = function (cb) { cmds.push(cb); }; googletag.cmd.unshift = function (cb) { cmds.unshift(cb); if (cb._startgpt) { ready = true; if (googletag.apiReady) { cmds.forEach(function (cb) { googletag.cmd.push(cb); }); } else { googletag.cmd = cmds; } } }; } var dayMs = 36e5, cb = parseInt(Date.now() / dayMs), vpbSrc = '//player.adtcdn.com/prebidlink/' + cb + '/wrapper_hb_741474_17583.js', pbSrc = vpbSrc.replace('wrapper_hb', 'hb'), gptSrc = '//securepubads.g.doubleclick.net/tag/js/gpt.js', c = document.head || document.body || document.documentElement; function loadScript(src, cb) { var s = document.createElement('script'); s.src = src; s.defer=false; c.appendChild(s); s.onload = cb; s.onerror = function(){ var fn = function(){}; fn._startgpt = true; googletag.cmd.unshift(fn); }; return s; } loadScript(pbSrc); loadScript(gptSrc); loadScript(vpbSrc); })();
+</script>
+<script type="text/plain" id="vpb-catfish-template">
+    <div class="vpb-catfish-container d-print-none" style="position:fixed;bottom:0px;right:0;left:0px;z-index:9998;background:rgba(255, 255, 255, 0.5)">
+    <div class="vpb-ad" style="display: block;position: relative;margin:0px auto;">
+        <span class="vpb-close-button" id="vpb-close-button"
+              style="display: none;position: absolute;top:-15px;left:-2px;z-index:9999;cursor: pointer;">
+            <img src="/images/b/cbimage.png"/>
+        </span>
+    </div>
+</div>
+</script>
+<script>
+     function catfish(div) {
+         var gt = window.googletag || {};
+         gt.cmd = gt.cmd || [];
+         gt.cmd.push(function () {
+             var adContainer = document.getElementById(div);
+             if(adContainer.getAttribute('data-cat')==='1') return;
+             adContainer.setAttribute('data-cat',1);
+             var template = document.getElementById('vpb-catfish-template').innerHTML
+             adContainer.innerHTML = template;
+             var catId =  'vpb-ad-wrapped-generated-' + (Math.random() + Date.now());
+             adContainer.id =catId;
+             var innerWrapper = adContainer.getElementsByClassName('vpb-ad')[0];
+             var closeBtn = adContainer.getElementsByClassName('vpb-close-button')[0];
+             var newAdDiv = document.createElement('div');
+             newAdDiv.id = div;
+             newAdDiv.setAttribute('data-hb-catfish',catId);
+             innerWrapper.appendChild(newAdDiv);
+             googletag.pubads().addEventListener('slotRenderEnded', function (event) {
+                 var slot = event.slot;
+                 var slotId = slot.getSlotElementId();
+                 if (slotId != div) return;
+                 if (event.isEmpty) {
+                     closeBtn.style.display = 'none';
+                     adContainer.style.display = 'none';
+                     return;
+                 }
+                 adContainer.style.display = 'block';
+                 innerWrapper.style.width = event.size[0] + 'px';
+                 innerWrapper.style.height = event.size[1] + 'px';
+                 closeBtn.style.display = 'inline-block';
+                 closeBtn.addEventListener('click', function () {
+                     adContainer.parentElement.removeChild(adContainer);
+                 });
+             });
+             gt.display(div);
+         });
+     }
+</script>
+<script type="text/javascript">
+        var ua = navigator.userAgent.toLowerCase();
+        if(ua.indexOf('mobile')==-1 && ua.indexOf('iphone')==-1 && ua.indexOf('ipad')==-1  && ua.indexOf('android')==-1) { //desktop
+            var gptadslots = [];
+            var googletag = googletag || {cmd:[]};
+            window.googletag = window.googletag || {cmd: []};
+            googletag.cmd.push(function() {
+                var mapping1 = googletag.sizeMapping()
+                    .addSize([1440,0], [[1366,90],[1280,90],[970,90],[1440,180],[980,120],[1350,180],[1180,120]])
+                    .addSize([1366,0], [[1366,90],[1280,90],[970,90],[980,120],[1350,180],[1180,120]])
+                    .addSize([1280,0], [[1280,90],[970,90],[980,120],[728,90],[1180,120]])
+                    .addSize([1000,0], [[970,90],[980,120],[728,90]])
+                    .addSize([800,0], [728,90])
+                    .addSize([0,0], [970, 90])
+                .build();
+                gptadslots.push(googletag.defineSlot('/21804793526/sport.ua/catfish', [970,90], 'div-gpt-ad-sport.ua/catfish')
+                .defineSizeMapping(mapping1)
+                .addService(googletag.pubads()));
+                googletag.pubads().enableSingleRequest();
+                googletag.pubads().collapseEmptyDivs();
+                googletag.enableServices();
+                });
+        } else { //mobile
+            var gptadslots = [];
+            var googletag = googletag || {cmd:[]};
+            window.googletag = window.googletag || {cmd: []};
+            googletag.cmd.push(function() {
+                var mapping2 = googletag.sizeMapping()
+                    .addSize([320,0], [[300,165],[320,100],[300,100],[320,50],[300,50]])
+                    .addSize([300,0], [[300,100],[300,50]])
+                    .addSize([0,0], [320, 100])
+                .build();
+                gptadslots.push(googletag.defineSlot('/21804793526/sport.ua/catfish', [320,100], 'div-gpt-ad-sport.ua/catfish')
+                .defineSizeMapping(mapping2)
+                .addService(googletag.pubads()));
+                googletag.pubads().enableSingleRequest();
+                googletag.pubads().collapseEmptyDivs();
+                googletag.enableServices();
+                });
+            }
+</script>

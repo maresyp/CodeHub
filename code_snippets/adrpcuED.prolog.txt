@@ -1,0 +1,109 @@
+grupa(1,romania).  
+grupa(1,cehia).  
+grupa(1,norvegia).
+grupa(1,germania).
+  
+grupa(2,spania).
+grupa(2,ungaria).  
+grupa(2,croatia).
+ 
+ 
+scor(romania,norvegia,30, 20).
+scor(romania,cehia,25, 20).
+scor(germania, romania, 22, 23).
+scor(cehia,norvegia,20, 22).
+ 
+castigate(G,X,EI,SX,SE):-
+grupa(G,X),
+((scor(X,EI,SX,SE) , SX>SE) ;
+(scor(EI,X,SE,SX) , SX> SE)),
+write(X),write('-'),
+write(EI),write(': '),
+write(SX),write('-'),
+write(SE),
+nl.
+ 
+/*L=[e1,e2,e3,e4]
+    e1: [e2,e3,e4] e1-e2, %e2-e1
+        [e3,e4]    e1-e3,
+        [e4]       e1-e4
+        []         STOP
+    
+    e2: [e3,e4]    e2-e3
+        [e4]       e2-e4
+        []         STOP
+        
+    e3: [e4]       e3-e4
+        []         STOP
+        
+    e4: []         STOP
+*/
+ 
+perm_echi(E,[],LM):-
+LM = [].
+ 
+perm_echi(E,LE,LM):-
+LE=[H|LE1],
+MC=[E,H], %MC2=[H,E]
+perm_echi(E,LE1,LM1),
+append([MC],LM1,LM). %LM=[MC|LM1] 
+%append([MC, MC2], LM1, LM)
+%LM=[MC,MC2|LM1]
+ 
+meciuri1G([],LM):-
+LM=[].
+ 
+meciuri1G(LE,LM):-
+LE=[H|LE1],
+perm_echi(H,LE1,LM1),
+meciuri1G(LE1,LMR),
+append(LMR,LM1,LM).
+ 
+afisare1G(G,LM):- %G ct in intrebare
+findall(E,grupa(G,E),LE),
+meciuri1G(LE,LM),
+write(LM),
+nl.
+ 
+afisareTG(LM):-
+findall(G,grupa(G,_),LG),
+sort(LG,LGS),
+findall(Z,(member(GH,LGS),afisare1G(GH,LMG),member(Z,LMG)),LM).
+ 
+perm_echiV2(E,LE,LM):- %E e o ct
+findall(Var,(member(Y,LE),Var=[E,Y]),LM).
+ 
+/*L=[e2,e3,e4], E=e1
+ 
+Y=e2, Var=[e1,e2] 
+Y=e3, Var=[e1,e3]
+Y=e4, Var=[e1,e4]
+*/
+%findall(Var,(member(Y,LE),L=[[E,Y],[Y,E]],member(Var,L)),LM).
+%findall(Var,(member(Y,LE),Var=[E,Y]),LM1),
+%findall(Var,(member(Y,LE),Var=[Y,E]),LM2),
+%append(LM1,LM2,LM).
+ 
+meciuri1G_V2(LE,LM):-
+findall(M,(member(X,LE),exclude(X,LE,LX),perm_echiV2(X,LX,LM1),
+member(M,LM1)),LM).
+ 
+exclude(X,L,LX):-
+findall(Y,(member(Y,L),Y\=X),LX).
+ 
+/* L=[e1,e2,e3,e4], 
+X=e1 LX=[e2,e3,e4] LM1=[e1-e2,e1-e3,e1-e4]       %[[e1,e2],[e1,e3],[e1,e4]]
+X=e2 LX=[e1,e3,e4] LM1=[[e2,e1],[e2,e3],[e2,e4]] %[[e1,e2],[e2,e3],[e2,e4]]
+X=e3
+X=e4*/
+ 
+meciuri1G_V3(LE,LM):-
+findall(M,(member(X,LE),exclude(X,LE,LX),perm_echiV2(X,LX,LM1),
+member(M,LM1)),LM).
+ 
+perm_echiV3(E,LE,LM):- %E e o ct
+findall(Var,(member(Y,LE),Var1=[E,Y],sort(Var1,Var)),LM1),
+sort(LM1,LM).
+ 
+meci_grupa(G,L):-
+findall([E1,E2],(grupa(G,E1),grupa(G,E2),E1\=E2,E1@>=E2),L).

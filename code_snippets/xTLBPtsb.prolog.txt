@@ -1,0 +1,85 @@
+% Given a list L we want to find wether an element X is a member of that list or not.
+ 
+member(X, [X | _ ]).
+ 
+member(X, [Y | Rest]):-
+    member(X, Rest).
+ 
+% Concatenate list L1 and L2 to form list L3 
+ 
+concat([], L, L).
+ 
+concat([X|L1], L2, [X|L3]):-
+    concat(L1, L2, L3).
+ 
+member1(X, L):-
+    concat(L1, [X|L2], L).
+ 
+% adding an item X to the beginning of a list L
+ 
+add(X, L, [X|L]).
+ 
+%delete the first occurence of the element X of a list L
+del(X, [X|L], L).
+del(X, [Y|Rest], [Y|L1]):-
+    del(X, Rest, L1).
+ 
+del_all(X, [], []).
+del_all(X, [X|L], L1):-
+    del_all(X, L, L1).
+del_all(X, [Y|L], L1):-
+    del_all(X, L, L2),
+    concat([Y], L2, L1).
+ 
+%find out the last member of a list.
+lastmember([X], X).
+lastmember([_|L], X):-
+    lastmember(L, X).
+ 
+%find the reverse of a list
+reverselist([], []).
+reverselist([X], [X]).
+reverselist([X | L], L1):-
+    reverselist(L, L2),
+    concat(L2, [X], L1).
+ 
+%check palindrome of a list
+palindrome(L):-
+    reverselist(L, L).
+ 
+%insert in X in all possible positions
+insert_all_pos(X, [], [X]).
+insert_all_pos(X, [Y|T], [X,Y|T1]):-
+    insert_all_pos(X, T, T1).
+ 
+%check palindrome using concatenate
+palindrome1([]).
+palindrome1([_]).
+palindrome1([H|T]):-
+    concat(L, [H], T),
+    palindrome1(L).
+ 
+%check whether a list is of odd length
+even([]).
+odd([_]).
+even([H|T]):-
+    odd(T).
+odd([H|T]):-
+    even(T).
+ 
+%find out the length of a list
+length([], 0).
+length([X|Y], N):-
+    length(Y, N1),
+    N1 is N-1.
+ 
+%find all prefixes and suffixes of a list
+prefix([], L).
+prefix([X|Y], [X|Y1]):-
+    prefix(Y, Y1).
+ 
+suffix(L, L).
+suffix(L1, [_|L2]):-
+    suffix(L1, L2).
+ 
+%find all permutations of a list

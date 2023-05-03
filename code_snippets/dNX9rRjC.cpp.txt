@@ -1,0 +1,69 @@
+/// In the name of ALLAH ///
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define endl '\n'
+typedef unsigned long long int llu;
+const int inf = 2000000000;
+ 
+ 
+#define mx 100
+ 
+typedef struct 
+{
+   int top;
+   int data[mx];
+}Stack;
+ 
+void push(Stack *s, int item)
+{
+    if(s->top< mx)
+    {
+       s->data[s->top]=item;
+       s->top++;
+    }
+    else 
+    {
+         cout<<" stack is full"<<endl;
+    }
+}
+ 
+int pop(Stack *s)
+{
+    int item;
+    if(s->top==0)
+    {
+        cout<<" stack is empty"<<endl;
+        return -1;
+    }
+    else{
+        s->top--;
+        item=s->data[s->top];
+    }
+    return item;
+}
+int main()
+{
+   Stack st;
+   int item;
+   st.top=0;
+   push(&st, 1);
+   push(&st, 4);
+   push(&st, 7);
+   push(&st, 2);
+ 
+//    cout<<st.top<<endl;
+//    cout<<st.data[--st.top]<<endl;
+//    cout<<st.top<<endl;
+   item=pop(&st);
+   cout<<item<<endl;
+   item=pop(&st);
+   cout<<item<<endl;
+   item=pop(&st);
+   cout<<item<<endl;
+   item=pop(&st);
+   cout<<item<<endl;
+   item=pop(&st);
+   cout<<item<<endl;
+   
+}

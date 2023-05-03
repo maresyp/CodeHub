@@ -1,0 +1,213 @@
+BEGIN
+    SET @hdc = '';
+    SET @vh  = 0;
+    SET @gen = NEW.Sexo;
+    SET @usu = NEW.IdUsuario;
+    
+    #Validar si hay torneo Copa IngramMicro 2023
+    SET @torINGRAM = (SELECT COALESCE(registrostorneos.Torneo,'') AS Torneo FROM registrostorneos WHERE registrostorneos.IDUsuarios = @usu AND registrostorneos.Torneo = 'Copa IngramMicro 2023');
+    
+    #Si hay torneo, actualizar
+    IF @torINGRAM = 'Copa IngramMicro 2023' THEN
+        SET @hmod = (SELECT registrostorneos.HCPModif FROM registrostorneos WHERE registrostorneos.IDUsuarios = @usu AND registrostorneos.Torneo = 'Copa IngramMicro 2023');
+        SET @jven = '[';
+        SET @v = 0;        
+        IF @gen = 'Masculino' THEN
+        SET @con = (SELECT 
+                        GROUP_CONCAT(CONCAT_WS(',',
+                                       C.H1HcpB,
+                                       C.H2HcpB,
+                                       C.H3HcpB,
+                                       C.H4HcpB,
+                                       C.H5HcpB,
+                                       C.H6HcpB,
+                                       C.H7HcpB,
+                                       C.H8HcpB,
+                                       C.H9HcpB,
+                                       C.H10HcpB,
+                                       C.H11HcpB,
+                                       C.H12HcpB,
+                                       C.H13HcpB,
+                                       C.H14HcpB,
+                                       C.H15HcpB,
+                                       C.H16HcpB,
+                                       C.H17HcpB,
+                                       C.H18HcpB
+                                      ) 
+                        SEPARATOR '') 
+                    FROM torneos T 
+                    INNER JOIN campos C ON (T.Campo = C.Campo) 
+                    INNER JOIN variables V ON (T.Torneo = V.Torneo) 
+                    WHERE T.Torneo = 'Copa IngramMicro 2023' LIMIT 1); 
+        
+        SET @Tv = CONCAT('[',@con,']');
+ELSEIF @gen = 'Femenino' THEN
+SET @con = (SELECT 
+                  GROUP_CONCAT(CONCAT_WS(',',
+                                       C.H1HcpR,
+                                       C.H2HcpR,
+                                       C.H3HcpR,
+                                       C.H4HcpR,
+                                       C.H5HcpR,
+                                       C.H6HcpR,
+                                       C.H7HcpR,
+                                       C.H8HcpR,
+                                       C.H9HcpR,
+                                       C.H10HcpR,
+                                       C.H11HcpR,
+                                       C.H12HcpR,
+                                       C.H13HcpR,
+                                       C.H14HcpR,
+                                       C.H15HcpR,
+                                       C.H16HcpR,
+                                       C.H17HcpR,
+                                       C.H18HcpR
+                                      ) 
+                        SEPARATOR '') 
+                    FROM torneos T 
+                    INNER JOIN campos C ON (T.Campo = C.Campo) 
+                    INNER JOIN variables V ON (T.Torneo = V.Torneo) 
+                    WHERE T.Torneo = 'Copa IngramMicro 2023' LIMIT 1);      
+           
+        SET @Tv = CONCAT('[',@con,']');
+    END IF;
+    #FIN Validacion sexo
+    IF @hmod < 18 THEN
+    
+        lme18 : LOOP
+            IF @v = 0 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[0]');
+            ELSEIF @v = 1 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[1]');
+            ELSEIF @v = 2 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[2]');
+            ELSEIF @v = 3 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[3]');
+            ELSEIF @v = 4 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[4]');
+            ELSEIF @v = 5 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[5]');
+            ELSEIF @v = 6 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[6]');
+            ELSEIF @v = 7 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[7]');
+            ELSEIF @v = 8 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[8]');
+            ELSEIF @v = 9 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[9]');
+            ELSEIF @v = 10 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[10]');
+            ELSEIF @v = 11 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[11]');
+            ELSEIF @v = 12 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[12]');
+            ELSEIF @v = 13 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[13]');
+            ELSEIF @v = 14 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[14]');
+            ELSEIF @v = 15 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[15]');
+            ELSEIF @v = 16 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[16]');
+            ELSEIF @v = 17 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[17]');                
+            END IF;
+            
+            IF @vc <= @hmod THEN
+                SET @jven = CONCAT(@jven,1);
+            ELSE
+                SET @jven = CONCAT(@jven,0);
+            END IF;
+            SET @v = @v + 1;
+            IF @v > 17 THEN
+                LEAVE lme18;
+            ELSE
+                SET @jven = CONCAT(@jven,',');
+            END IF;
+        END LOOP;
+        SET @jven = CONCAT(@jven,']');
+     ELSEIF @hmod = 18 THEN
+        SET @jven = '[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]';
+     ELSEIF @hmod > 18 THEN
+        lma18 : LOOP
+            SET @i = CONCAT('$[',@v,']');
+            #SET @vc = JSON_VALUE(@Tv, @i);
+            IF @v = 0 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[0]');
+            ELSEIF @v = 1 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[1]');
+            ELSEIF @v = 2 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[2]');
+            ELSEIF @v = 3 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[3]');
+            ELSEIF @v = 4 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[4]');
+            ELSEIF @v = 5 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[5]');
+            ELSEIF @v = 6 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[6]');
+            ELSEIF @v = 7 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[7]');
+            ELSEIF @v = 8 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[8]');
+            ELSEIF @v = 9 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[9]');
+            ELSEIF @v = 10 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[10]');
+            ELSEIF @v = 11 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[11]');
+            ELSEIF @v = 12 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[12]');
+            ELSEIF @v = 13 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[13]');
+            ELSEIF @v = 14 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[14]');
+            ELSEIF @v = 15 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[15]');
+            ELSEIF @v = 16 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[16]');
+            ELSEIF @v = 17 THEN
+                SET @vc = JSON_VALUE(@Tv, '$[17]');                
+            END IF;
+            SET @hmodr = @hmod - 18;
+            IF @vc <= @hmodr THEN
+                SET @jven = CONCAT(@jven,2);
+            ELSE
+                SET @jven = CONCAT(@jven,1);
+            END IF;
+            SET @v = @v + 1;
+            IF @v > 17 THEN
+                LEAVE lma18;
+            ELSE
+                SET @jven = CONCAT(@jven,',');
+            END IF;
+        END LOOP;
+        SET @jven = CONCAT(@jven,']'); 
+     END IF;#FIN validacion Hoyos
+     SIGNAL SQLSTATE '45000' SET message_text = @jven;
+UPDATE 
+            registrostorneos 
+        SET 
+            registrostorneos.VH1 = JSON_VALUE(@jven, '$[0]'),
+            registrostorneos.VH2 = JSON_VALUE(@jven, '$[1]'),
+            registrostorneos.VH3 = JSON_VALUE(@jven, '$[2]'),
+            registrostorneos.VH4 = JSON_VALUE(@jven, '$[3]'),
+            registrostorneos.VH5 = JSON_VALUE(@jven, '$[6]'),
+            registrostorneos.VH6 = JSON_VALUE(@jven, '$[5]'),
+            registrostorneos.VH7 = JSON_VALUE(@jven, '$[6]'),
+            registrostorneos.VH8 = JSON_VALUE(@jven, '$[7]'),
+            registrostorneos.VH9 = JSON_VALUE(@jven, '$[8]'),
+            registrostorneos.VH10 = JSON_VALUE(@jven, '$[9]'),
+            registrostorneos.VH11 = JSON_VALUE(@jven, '$[10]'),
+            registrostorneos.VH12 = JSON_VALUE(@jven, '$[11]'),
+            registrostorneos.VH13 = JSON_VALUE(@jven, '$[12]'),
+            registrostorneos.VH14 = JSON_VALUE(@jven, '$[13]'),
+            registrostorneos.VH15 = JSON_VALUE(@jven, '$[14]'),
+            registrostorneos.VH16 = JSON_VALUE(@jven, '$[15]'),
+            registrostorneos.VH17 = JSON_VALUE(@jven, '$[16]'),
+            registrostorneos.VH18 = JSON_VALUE(@jven, '$[17]')
+            
+        WHERE registrostorneos.Torneo = 'Copa IngramMicro 2023' AND registrostorneos.IDUsuarios = @usu LIMIT 1;      
+     
+    END IF;#FIN Validación torneo ingram
+END

@@ -1,0 +1,78 @@
+#include a_samp
+ 
+new LastDamaeTime[MAX_PLAYERS], lastdamager[MAX_PLAYERS char], LastPCarDamage[MAX_PLAYERS];
+ 
+stock SetPlayerPosX(playerid, Float:X, Float:Y, Float:Z)
+{
+    new timez = gettime();
+    if(( timez - LastDamaeTime[playerid] ) < 4)
+    {
+        new string[150];
+        if(IsPlayerConnected(lastdamager{playerid}))
+        {
+            new pnamez[MAX_PLAYER_NAME];
+            GetPlayerName(lastdamager{playerid}, pnamez, sizeof pnamez);
+            format(string, sizeof string,"System tried to teleport to you to another area, while you've just took damage from %s(%d) and we prevent that.",
+            pnamez, lastdamager{playerid});
+        }
+        else
+        {
+            format(string, sizeof string,"System tried to teleport to you to another area, while you've just took damage from Unknown(idk) and we prevent that.");
+        }
+        SendClientMessage(playerid, -1, string);
+    }
+    else if(( timez - LastPCarDamage[playerid] ) < 4)
+    {
+        new string[150];
+        if(IsPlayerConnected(lastdamager{playerid}))
+        {
+            new pnamez[MAX_PLAYER_NAME];
+            GetPlayerName(lastdamager{playerid}, pnamez, sizeof pnamez);
+            format(string, sizeof string,"System tried to teleport to you to another area, while your vehicle just took damage from %s(%d) and we prevent that.",
+            pnamez, lastdamager{playerid});
+        }
+        else
+        {
+            format(string, sizeof string,"System tried to teleport to you to another area, while your vehicle just took damage from Unknown(idk) and we prevent that.");
+        }
+        SendClientMessage(playerid, -1, string);
+    }
+    else
+    {
+        SetPlayerPos(playerid, X, Y, Z);
+    }
+    return 1;
+}
+ 
+#define SetPlayerPos SetPlayerPosX
+ 
+public OnPlayerConnect(playerid)
+{
+    LastDamaeTime[playerid] = 0;
+    lastdamager{playerid} = INVALID_PLAYER_ID;
+    LastPCarDamage[playerid] = 0;
+}
+ 
+ 
+public OnPlayerTakeDamage(playerid, issuerid, Float: amount, weaponid, bodypart)
+{
+    if(issuerid != INVALID_PLAYER_ID) // If not self-inflicted
+    {
+        LastDamaeTime[playerid] = gettime();
+        lastdamager{playerid} = issuerid;
+    }
+    return 1;
+}
+ 
+public OnVehicleDamageStatusUpdate(vehicleid, playerid)
+{
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(IsPlayerConnected(i) && GetPlayerVehicleID(i) == vehicleid)
+        {
+            LastPCarDamage[i] = gettime();
+            lastdamager{i} = playerid;
+        }
+    }
+    return 1;
+}

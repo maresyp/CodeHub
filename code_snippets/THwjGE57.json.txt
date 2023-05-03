@@ -1,0 +1,8 @@
+{
+    "downloadLink":"",
+    "title":"",
+    "isForce":false,
+    "desc":"",
+    "size":"",
+    "versionNumber":1
+}

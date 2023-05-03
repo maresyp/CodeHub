@@ -1,0 +1,96 @@
+#wc_prot on
+#wc_prot end
+ 
+alias -l wc_bantime { return 3600 } ; 3600 = 1 hour , 0 = never expire
+alias -l wc_bantype { return 4 } ; 4 = bantype, use /help $mask to change it
+alias -l wc_kickreason { return [WC]: You are NOT using a SSL/TLS or WEBIRC to stay here } ; kick reason
+alias -l wc_chans { return #trivia,#ilusion } ; channels , use comma to add more
+alias -l wc_exempt_nicks { return westor } ; add nicks, use space (example: nick1 nick2) to add more nicks
+ 
+ON !*:JOIN:$($wc_chans): {
+  if ($group(#wc_prot).status !== on) { return }
+  if ($istok($wc_exempt_nicks,$nick,32)) { return }
+  if (*irccloud.com* iswm $ial($nick).host) || (*mibbit.com* iswm $ial($nick).host) { return }
+ 
+  .timer[WC_ $+ $nick $+ _NOW] 1 2 wc_do_whois $nick
+}
+ 
+raw *:*: {
+  if (!$hget(WC,$2)) { return }
+ 
+  if ($numeric == 671) && (*using a Secure Connection* iswm $1-) { hinc -mu10 WC $2 1 }
+  if ($numeric == 320) && (*connecting via WEBIRC* iswm $1-) { hinc -mu10 WC $2 1 }
+  if ($numeric == 320) && (*connecting via IRCCloud* iswm $1-) { hinc -mu10 WC $2 1 }
+  if ($numeric == 318) {
+    if ($hget(WC,$2) == 1) { wc_do_ban $2 }
+ 
+    hdel WC $2
+  }
+}
+ 
+alias wc_prot {
+  if (!$1) { echo 4 -at [WC]: Error, Use an option ON or OFF and try again! | return }
+  if (!$istok(on off,$1,32)) { echo 4 -at [WC]: Error, use ON or OFF options! | return }
+ 
+  var %s = $group(#wc_prot).status
+ 
+  if ($1 == ON) { 
+    if (%s == on) { echo 4 -at [WC]: Error, Already enabled! }
+    else { .enable #wc_prot | echo -at [WC]: Allow SSL/TLS or WEBIRC users only protection enabled! - Channels: $wc_chans }
+  }
+ 
+  if ($1 == OFF) {
+    if (%s == off) { echo 4 -at [WC]: Error, Already disabled! }
+    else { .disable #wc_prot | echo -at [WC]: Allow SSL/TLS or WEBIRC users only protection disabled! }
+  }
+ 
+}
+ 
+alias wc_do_whois {
+  ; $1 = nick
+ 
+  if (!$1) { return }
+  if ($wc_check_is_not_regular($nick)) { echo -a lol | return }
+ 
+  hadd -mu10 WC $1 1
+ 
+  whois $1 $1
+}
+ 
+alias -l wc_do_ban {
+  ; $1 = nick
+ 
+  if (!$1) { return }
+ 
+  var %h = $ial($1).host
+  var %t = $numtok($wc_chans,44)
+  var %i = 1
+ 
+  while (%i <= %t) { 
+    var %c = $gettok($wc_chans,%i,44)
+ 
+    if ($me ison %c) && ($me isop %c) && ($1 ison %c) {
+      if (*.IP iswm %h) { ban $+(-u,$wc_bantime) %c *!*@*. $+ $gettok(%h,3-,46) | kick %c $1 $wc_kickreason }
+      else { ban $+(-ku,$wc_bantime) %c $1 $wc_bantype $wc_kickreason }
+    }
+ 
+    inc %i
+  }
+}
+ 
+alias -l wc_check_is_not_regular {
+  ; $1 = nick
+ 
+  var %t = $numtok($wc_chans,44)
+  var %i = 1
+ 
+  while (%i <= %t) { 
+    var %c = $gettok($wc_chans,%i,44)
+ 
+    if ($me ison %c) && ($1 ison %c) && ($1 isreg %c) { return 1 }
+ 
+    inc %i
+  }
+ 
+  return 0
+}ty file douelvi mia xara ama exis xrono mbeis sto serv gia ligo se thelo

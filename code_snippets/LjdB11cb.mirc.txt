@@ -1,0 +1,196 @@
+ON *:TEXT:*:#: {
+  if ($strip($1) == $+($pref,peticiones)) { 
+    if (!%database) || (%database == $null) { error No existe conexión con la base de datos MySQL }
+ 
+    if ($strip($2) == $null) { msg # Sintaxis: $sintaxis(peticiones) | msg # $sintaxis(peticiones,error) | halt }
+ 
+    if ($strip($2) == ON) { 
+ 
+      set %PETICIONES.tabla modulos
+      set %PETICIONES.item estado 
+      set %PETICIONES.dato 1
+      set %PETICIONES.is =
+      set %PETICIONES.s $chr(9)
+ 
+      if ($dbGet(%PETICIONES.tabla)) { 
+ 
+        if ($dbResults) { 
+ 
+          set %PETICIONES.id_modulo $hget(db_results,id_modulo)
+          set %PETICIONES.modulo $hget(db_results,modulo)
+          set %PETICIONES.estado $hget(db_results,estado) 
+ 
+          if (%PETICIONES.modulo == peticiones) && (%PETICIONES.estado == %PETICIONES.dato) { 
+ 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Lo siento $theme(&primary;,$nick) pero las $theme(&underline;,peticiones) ya están $+($theme(&success;,abiertas),$chr(46))
+            halt
+ 
+          }
+ 
+ 
+          if ($dbUpdate(%PETICIONES.tabla,%PETICIONES.item,%PETICIONES.dato,id_modulo = %PETICIONES.id_modulo)) {
+ 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) $theme(&primary;,%locutor) Se han abierto las $theme(&underline;,peticiones) a petición de $theme(&primary;,$nick)
+            amsg $theme([&warning;]:,PETICIONES) Desde este momento puedes solicitar tu tema/dedicatoria escribiendo $theme(&primary;,$+($pref,$upper(peticion)) <artista> <canción> <dedicada a "usuario(s)"> <mensaje de dedicatoria>)
+ 
+          }
+        }
+      }
+    }
+    if ($strip($2) == OFF) {
+      set %PETICIONES.tabla modulos
+      set %PETICIONES.item estado
+      set %PETICIONES.dato 0
+      set %PETICIONES.is =
+      set %s $chr(9)
+      if ($dbGet(%PETICIONES.tabla)) { 
+        if ($dbResults) { 
+          set %PETICIONES.id_modulo $hget(db_results,id_modulo)
+          set %PETICIONES.modulo $hget(db_results,modulo)
+          set %PETICIONES.estado $hget(db_results,estado)
+          if (%PETICIONES.modulo == peticiones) && (%PETICIONES.estado == %PETICIONES.dato) { 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Lo siento $theme(&primary;,$nick) pero las $theme(&underline;,peticiones) ya están cerradas.
+            halt
+          }
+          if ($dbUpdate(%PETICIONES.tabla,%PETICIONES.item,%PETICIONES.dato,id_modulo = %PETICIONES.id_modulo)) {
+            ;success Desde este momento las peticiones están cerradas. 
+            amsg $theme([&warning;]:,PETICIONES) Desde este momento las $theme(&underline;,peticiones) están $+($theme(&danger;,cerradas),$chr(46))
+            unset %PETICIONES.*
+          }
+        }
+      }
+      $mysql_free(%database)
+    }
+ 
+    if ($strip($2) == INFO) { 
+      if (!$3) { 
+        msg # Sintaxis: $sintaxis(peticiones,info) 
+        msg # $sintaxis(peticiones,error) 
+        halt 
+      }
+      if ($3 !isnum) {
+        msg # Lo siento $nick pero debes escribir un ID válido para poder procesar la información.
+        halt
+      }
+      else { 
+        set %PETICIONES.tabla peticiones
+        set %PETICIONES.radio $isStationID
+        if ($dbGet(%PETICIONES.tabla)) { 
+          if ($dbResults) { 
+ 
+            set %PETICIONES.id_peticion $hget(db_results,id_peticion)
+            set %PETICIONES.radio $hget(db_results,radio)
+            set %PETICIONES.locutor $hget(db_results,locutor)
+            set %PETICIONES.locutor_transferido $hget(db_results,locutor_transferido)
+            set %PETICIONES.artista $hget(db_results,artista)
+            set %PETICIONES.cancion $hget(db_results,cancion)
+            set %PETICIONES.solicitado $hget(db_results,solicitado)
+            set %PETICIONES.DATE $hget(db_results,DATE)
+            set %PETICIONES.TIME $hget(db_results,TIME)
+            set %PETICIONES.mensaje $hget(db_results,mensaje)
+            set %PETICIONES.estado $hget(db_results,estado)
+            set %PETICIONES.serial $hget(db_results,serial)
+ 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Mostrando información de la petición con ID: %PETICIONES.id_peticion $+($chr(123)Serial:,%PETICIONES.serial,$chr(125)) 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Locutor $isUSER(%PETICIONES.locutor)
+ 
+            if (%PETICIONES.locutor_transferido) { 
+              msg %lc_locutores $theme([&warning;]:,PETICIONES) Petición transferida a $isUSER(%PETICIONES.locutor_transferido)
+            }
+ 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Fecha: $theme(&primary;,%PETICIONES.DATE) Hora: $theme(&primary;,%PETICIONES.TIME)
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Artista: $theme(&primary;,%PETICIONES.artista) - $theme(&primary;,%PETICIONES.cancion)
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Solicitada por: $theme(&primary;,%PETICIONES.solicitado)
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Mensaje de solicitud: %PETICIONES.mensaje
+ 
+            if (%PETICIONES.estado == realizada) { set %PETICIONES.estado $theme(&success;,$hget(db_results,estado)) }
+            elseif (%PETICIONES.estado == pendiente) { set %PETICIONES.estado $theme(&danger;,$hget(db_results,estado)) } 
+            elseif (%PETICIONES.estado == ignorada) { }
+ 
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) Estado de la solicitud: %PETICIONES.estado
+            msg %lc_locutores $theme([&warning;]:,PETICIONES)
+            msg %lc_locutores $theme([&warning;]:,PETICIONES) - Fin de la información - 
+ 
+          }
+        }
+      }
+    }
+  }
+  if ($strip($2) == TRANSFER) { 
+    if (!$3) { msg # Sintaxis: $sintaxis(peticiones,transfer) | msg # $sintaxis(peticiones,error) | halt }
+    if ($strip($3)) {
+ 
+      set %m.sql $mysql_connect($config(mysql,hostname), $config(mysql,username), $config(mysql,password))
+ 
+      else if ($mysql_select_db(%m.sql, $config(mysql,database))) {
+ 
+        var %sql = SELECT * FROM `peticiones` WHERE `radio` = $m.sqlq($radio) AND `locutor` = $m.sqlq($nick)
+        var %res = $mysql_query(%m.sql, %sql)
+        if (%res) { 
+          while ($mysql_fetch_row(%res, row, $mysql_assoc)) { 
+            set %id_peticion $hget(row, id_peticion)
+            set %locutor $hget(row, locutor)
+            set %locutor_transferido $hget(row, locutor_transferido) 
+            set %estado $hget(row, estado)
+            set %transferida $hget(row, transferida)
+            if (%estado == pendiente) { }
+            if (%estado == ignorada) { }
+            if (%estado == realizada) { }
+            if ($3 == %id_peticion) {  
+              if ($4 == %locutor) { msg # Lo siento, pero la petición con ID 10 $+ $3 $+  ya pertenece al locutor 12 $+ %locutor  $+  | halt }     
+ 
+              if (%transferida == SI) { 
+                msg # Lo siento pero la peticion con ID 10 $+ $3 $+  ya había sido transferida a 12 $+ %locutor_transferido $+  $+ .
+              }
+ 
+              if (%transferida == NO) { 
+                var %sql = UPDATE `peticiones` SET `locutor_transferido` = $m.sqlq($4) $+ , `transferida` = 'SI' $+ , `estado` = 'pendiente' WHERE `peticiones`.`id_peticion` = $m.sqlq($3)
+                noop $mysql_query(%m.sql, %sql)
+                msg %config.debug Petición con ID 10 $+ $3 $+  transferida correctamente al locutor 12 $+ $4 $+  $+ .
+              }
+            }
+          }
+        }
+        $mysql_free(%m.sql)
+      }
+    }
+    if ($strip($2) == COUNT) {
+      if (!$3) { 
+        set %m.sql $mysql_connect($config(mysql,hostname), $config(mysql,username), $config(mysql,password))
+        if ($mysql_select_db(%m.sql, $config(mysql,database))) {
+          var %sql = SELECT COUNT(*) AS `Filas` FROM `peticiones` WHERE radio = $isStationID AND `DATE` = $+($chr(39),$asctime(yyyy-mm-dd),$chr(39))
+          var %res = $mysql_query(%m.sql, %sql) 
+          if (%res) { 
+            while ($mysql_fetch_row(%res, row, $mysql_assoc)) { 
+              set %filas $hget(row, filas)
+            }
+            $mysql_free(%m.sql)
+          }
+          if (%filas == 0) { msg # $bold(PETICIONES COUNT:) 12 $+ $nick $+  Perfecto! No hay peticiones pendientes. }
+          else { 
+            msg # $bold(PETICIONES COUNT:) Han solicitado un total de4 %filas $+  dedicatorias el día de hoy. 
+            $mysql_close(%m.sql)  
+          }
+        }
+      }
+    }
+    else { 
+      set %m.sql $mysql_connect($config(mysql,hostname), $config(mysql,username), $config(mysql,password))
+      if ($mysql_select_db(%m.sql, $config(mysql,database))) {
+ 
+        var %sql = SELECT COUNT(*) AS `Filas` FROM `peticiones` WHERE radio = $isStationID AND `DATE` = $+($chr(39),$asctime(yyyy-mm-dd),$chr(39)) AND `locutor` = $+($chr(39),%locutor,$chr(39))
+        var %res = $mysql_query(%m.sql, %sql) 
+        if (%res) { 
+          while ($mysql_fetch_row(%res, row, $mysql_assoc)) { 
+            set %filas $hget(row, filas)
+          }
+          $mysql_free(%m.sql)
+        }
+        msg # $bold(PETICIONES COUNT:) Han solicitado un total de4 %filas $+  dedicatorias el día de hoy. 
+        $mysql_close(%m.sql)  
+      }
+    }
+  }
+  if ($strip($2) == RECORD) { msg # Recolectando datos... RECORD: <datos> }
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Simple Web Layout</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">About Me</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section>
+            <article>
+                <h2>Learh HTML</h2>
+                <p>HTML is the standard markup language for Web pages. With HTML you can create your own Website.</p>
+            </article>
+            <article>
+                <h2>Learn CSS</h2>
+                <p>CSS is the language we use to style an HTML document. CSS describes how HTML elements should be displayed.</p>
+            </article>
+        </section>
+        <footer>
+            <p>Author: Jaka Antara</p>
+            <p>
+                <a href="mailto:jaka@website.com">
+                    jaka@website.com
+                </a>
+            </p>
+        </footer>
+    </body>
+</html>

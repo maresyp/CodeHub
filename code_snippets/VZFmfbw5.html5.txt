@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Simple Web Layout</title>
+        <style type="text/css">
+            body{
+                font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+            }
+ 
+            header{
+                background-color: #AA77FF;
+                padding: 10px;
+            }
+ 
+            li a{
+                color: white;
+                text-decoration: none;
+            }
+ 
+            li a:hover{
+                background-color: white;
+                color: black;
+            }
+ 
+            #content{
+                background-color: #C9EEFF;
+                padding: 10px;
+            }
+ 
+            .article-title{
+                color: #AA77FF;
+            }
+ 
+            footer{
+                background-color: #62CDFF;
+                padding: 10px;
+            }
+ 
+            #author{
+                font-size: 35px;
+            }
+ 
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">About Me</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section id="content">
+            <article>
+                <h2 class="article-title">Learh HTML</h2>
+                <p>HTML is the standard markup language for Web pages. With HTML you can create your own Website.</p>
+                <iframe src="https://id.wikipedia.org/wiki/HTML" frameborder="1"></iframe>
+            </article>
+            <article>
+                <h2 class="article-title">Learn CSS</h2>
+                <p>CSS is the language we use to style an HTML document. CSS describes how HTML elements should be displayed.</p>
+            </article>
+        </section>
+        <footer>
+            <p id="author">Author: Jaka Antara</p>
+            <p>
+                <a href="mailto:jaka@website.com">
+                    jaka@website.com
+                </a>
+            </p>
+        </footer>
+    </body>
+</html>

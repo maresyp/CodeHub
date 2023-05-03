@@ -1,0 +1,38 @@
+_list = [[3, 7, 9, 5, 1], [2, 6, 10, 8, 14]]
+store = []
+store2 = []
+store3 = [store, store2]
+ 
+for number in _list:
+    for item in number:
+        if item == 9:
+            store.append(item)
+            for item in number:
+                if item == 7:
+                    store.append(item)
+                    for item in number:
+                        if item == 5:
+                            store.append(item)          
+                            for item in number:
+                                if item == 3:
+                                    store.append(item)
+                                    for item in number:
+                                        if item == 1:
+                                            store.append(item)
+for number in _list:
+    for item in number:
+        if item == 14:
+            store2.append(item)
+            for item in number:
+                if item == 10:
+                    store2.append(item)
+                    for item in number:
+                        if item == 8:
+                            store2.append(item)         
+                            for item in number:
+                                if item == 6:
+                                    store2.append(item)
+                                    for item in number:
+                                        if item == 2:
+                                            store2.append(item)
+print(store3)

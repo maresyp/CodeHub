@@ -1,0 +1,160 @@
+-- "Librerie"
+local term = require("term")
+ 
+-- Tempo del timer (secondi)
+local clock = 20
+-- Debug timer
+local debug = false
+-- Codice d'innesco
+local piss = 7355608
+-- Grandezza codice (cifre)
+local n = string.len(tostring(piss))
+ 
+local v = {}
+local key = 0
+local ciclo = false
+ 
+-- Frasi della morte
+local frasi = {
+    "BOOOM!",
+    "C4 go brrrrrr",
+    "Detonato",
+    "morte.",
+    "Skibidi bop mm dada"
+}
+ 
+local c_frasi = #frasi
+ 
+ 
+-- Carica il vettore in sequenza + stampa
+--[[
+    input -> 1 2 3
+    vettore:
+    0 0 0 0 0 0 0 <- NaN
+    0 0 0 0 0 0 1 <- 1
+    0 0 0 0 0 1 2 <- 2
+    0 0 0 0 1 2 3 <- 3
+]]
+local function caricavet(a, l)
+    local x, y = term.getCursor()
+    local i = 1
+    local j = 1
+    local val = 0
+ 
+    -- Stampa il vettore
+    term.setCursor(1, y+1)
+    term.write("> ")
+    -- Stampa "*" per tutti gli zeri e si ferma alla prima occorrenza
+    while a[j]==0 and j<l+1 do
+        term.write("*")
+        j = j + 1
+    end
+    -- Stampa il resto
+    while j<l+1 do
+        term.write(a[j])
+        j = j + 1
+    end
+    term.write(" <")
+    print()
+ 
+    while i<l+1 do
+        -- Sposta i valori di un posto verso sinistra
+        for t=1,l do
+            a[t] = a[t+1]
+        end
+        
+        -- Chiede ed inserisce un valore all'ultima posizione
+        val = tonumber(io.read())
+        a[l] = val
+        
+        -- Stampa il vettore
+        term.setCursor(1, y+1)
+        term.write("> ")
+        -- Stampa "*" per tutti gli zeri e si ferma alla prima occorrenza
+        j = 1
+        while a[j]==0 and j<l+1 do
+            term.write("*")
+            j = j + 1
+        end
+        -- Stampa il resto
+        while j<l+1 do
+            term.write(a[j])
+            j = j + 1
+        end
+        term.write(" <")
+        print()
+        i = i + 1
+    end
+    print()
+end
+ 
+ 
+-- Resetta il vettore (a[] -> 0)
+local function resetvet(a, l)
+    for i=1,l do
+        a[i] = 0
+    end
+end
+ 
+ 
+-- Caricamento da vettore a cifra singola
+local function vetint(a, l)
+    local g = 1
+    local k = 0
+ 
+    for i=1,l do
+        k = k + (a[l-i+1] * g)
+        g = g * 10
+    end
+ 
+    return k
+end
+ 
+ 
+-- Timer
+local function timer(t)
+    local i = t * 10
+    local s = 0
+    local m = 0
+    local h = 0
+    local x, y = term.getCursor()
+ 
+    while i > 0 do
+        s = math.floor(i / 10)
+        m = s / 60
+        s = math.floor(s % 60)
+        h = math.floor(m / 60)
+        m = math.floor(m % 60)
+        term.setCursor(1, y+1)
+        print(h .. ":" .. m .. ":" .. s .. "." .. i-math.floor(i/10)*10)
+        i = i - 1
+        os.sleep(0.1)
+    end
+end
+ 
+ 
+-- Main
+-- Ciclo (nel caso la password dovesse essere sbagliata)
+repeat
+    -- Resetta
+    resetvet(v, n)
+    -- Carica la password
+    caricavet(v, n)
+    -- Assegna la password alla variabile
+    key = vetint(v, n)
+ 
+    -- Controllo password inserita
+    if key == piss then
+        -- Password corretta
+        print("! - Bomba armata - !")
+        ciclo = false
+        if not debug then
+            timer(clock)
+        end
+        print(frasi[math.random(1, c_frasi)])
+    else
+        -- Password errata
+        print(": - Password errata - :")
+        ciclo = true
+    end
+until (not ciclo)

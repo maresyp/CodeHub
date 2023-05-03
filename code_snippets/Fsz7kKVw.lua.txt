@@ -1,0 +1,76 @@
+creditLimit = 0
+ 
+function mainLoop()
+    print('entering main loop')
+    while (not (disk.isPresent('top') and disk.hasData('top'))) 
+    do
+        sleep(1)
+    end
+end
+ 
+function drawMainScreen(monitor)
+    monitor.clear()
+    monitor.setCursorPos(1,1)
+    monitor.write('Cash-o-matic 3000')
+end
+ 
+function createDebitFile(fsroot)
+    local debitFile = fs.open(fsroot .. '/debit', 'w')
+    debitFile.writeLine('1000')
+    debitFile.flush()
+    debitFile.close()
+    return getDebitFile(fsroot)
+end
+ 
+function getDebitFile(fsroot)
+    return fs.open(fsroot .. '/debit', 'r')
+end
+ 
+ 
+function drawDebitScreen(monitor)
+    local fsroot = disk.getMountPath('top')
+    if (not fs.exists(fsroot .. '/debit')) then
+        -- create debit file
+        debitFile = createDebitFile(fsroot)
+    else
+        debitFile = getDebitFile(fsroot)
+    end
+ 
+    creditLimit = debitFile.readLine()
+    debitFile.close()
+    
+    -- actually draw the screen
+    monitor.clear()
+    monitor.setCursorPos(1,1)
+    monitor.write('Current Balance: ' .. creditLimit)
+ 
+    monitor.setCursorPos(1,10)
+    monitor.write('Cancel')
+ 
+    -- monitor.setCursorPos(1,15)
+    -- monitor.write('Buy')
+ 
+    waiting = true
+    while (waiting and disk.isPresent("top"))
+    do
+        local event, button, x, y = os.pullEvent("monitor_touch")
+        print("Button", button, "was clicked at", x, "/", y)
+ 
+        if (x >= 1 and x <= 6 and y >= 10 and y <= 12) then
+            disk.eject("top")
+            waiting = false
+        end
+    end
+end
+ 
+local monitor = peripheral.wrap('left')
+monitor.setTextScale(0.5)
+monitor.setBackgroundColor(colors.yellow)
+monitor.setTextColor(colors.black)
+ 
+while (true) do
+    drawMainScreen(monitor)
+    mainLoop()
+    
+    drawDebitScreen(monitor)
+end

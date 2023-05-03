@@ -1,0 +1,8 @@
+SELECT c.CategoryName, c.CategoryID, SUM(od.Quantity) as TotalQuantity
+FROM Categories c
+JOIN Products p ON c.CategoryID = p.CategoryID
+JOIN OrderDetails od ON p.ProductID = od.ProductID
+JOIN Orders o ON od.OrderID = o.OrderID
+WHERE o.OrderDate LIKE "1997%"
+GROUP BY c.CategoryID
+ORDER BY TotalQuantity DESC

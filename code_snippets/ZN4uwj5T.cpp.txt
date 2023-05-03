@@ -1,0 +1,491 @@
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <cassert>
+#include <string>
+#include <random>
+#include <vector>
+#include <chrono>
+#include <ctime>
+#include <cmath>
+using namespace std;
+using namespace chrono;
+ 
+/// <summary>
+/// Формальная бесконечность
+/// </summary>
+const int INF = 1e9 + 7;
+ 
+int choices[52];
+double cdf[53];
+ 
+/// <summary>
+/// Генератор псевдослучайных чисел
+/// </summary>
+mt19937 gen(time(NULL));
+ 
+/// <summary>
+/// Класс граф
+/// </summary>
+class Graph
+{
+    /// <summary>
+    /// Число вершин в графе
+    /// </summary>
+    int _N;
+ 
+    /// <summary>
+    /// Матрица смежности графа
+    /// </summary>
+    int** _adjMat;
+ 
+public:
+ 
+    /// <summary>
+    /// Конструктор: считываем матрицу смежности
+    /// из файла
+    /// </summary>
+    /// <param name="filePath"> путь к файлу </param>
+    Graph(string filePath)
+    {
+        ifstream fin(filePath);
+        assert(fin.is_open());
+ 
+        fin >> _N;
+ 
+        _adjMat = new int* [_N];
+ 
+        for (int i = 0; i < _N; ++i)
+            _adjMat[i] = new int [_N];
+ 
+        for (int i = 0; i < _N; ++i)
+            for (int j = 0; j < _N; ++j)
+                fin >> _adjMat[i][j];
+ 
+        fin.close();
+    }
+ 
+    /// <summary>
+    /// Число вершин в графе
+    /// </summary>
+    /// <returns> число вершин в графе </returns>
+    int n() { return _N; }
+ 
+    /// <summary>
+    /// Перегрузка операции адресации
+    /// </summary>
+    /// <param name="i"> индекс </param>
+    /// <returns> строка матрицы смежности, соответствующая вершине с индексом i </returns>
+    int*& operator [] (int i) { return _adjMat[i]; }
+};
+ 
+/// <summary>
+/// Абстрактный класс - алгоритм,
+/// разрешающий задачу коммивояжера
+/// </summary>
+class TSPSolver
+{
+    protected:
+ 
+    /// <summary>
+    /// Решение
+    /// </summary>
+    int* _solution;
+ 
+    /// <summary>
+    /// Длина (стоимость) решения
+    /// </summary>
+    int _len;
+ 
+    int _size;
+ 
+    public:
+ 
+    /// <summary>
+    /// Выводим решение на экран
+    /// </summary>
+    virtual void print() = 0;
+ 
+    /// <summary>
+    /// Само решение
+    /// </summary>
+    /// <returns> само решение (путь) </returns>
+    int* solution() { return _solution; }
+ 
+    /// <summary>
+    /// Длина (стоимость) решения
+    /// </summary>
+    /// <returns> длина (стоимость) решения </returns>
+    int len() { return _len; }
+};
+ 
+/// <summary>
+/// Жадный алгоритм решения задачи
+/// коммивояжера: метод ближайшего соседа
+/// </summary>
+class NNSolver : public TSPSolver
+{
+    public:
+ 
+    /// <summary>
+    /// Решаем задачу
+    /// </summary>
+    void solve(Graph &g)
+    {
+        system_clock::time_point start = system_clock::now();
+ 
+        _size = g.n();
+ 
+        // visited[i] = 0 <=> вершина i НЕ посещена
+        // visited[i] = 1 <=> вершина i посещена
+        int* visited = new int[_size];
+ 
+        for (int i = 0; i < _size; ++i)
+            visited[i] = 0;
+ 
+        // генерируем первую вершину случайно
+        uniform_int_distribution <int> interval_int(0,  _size - 1);
+        int cur = interval_int(gen);
+ 
+        // путь: cur -> ... 
+        _solution = new int[_size + 1];
+ 
+        for (int i = 0; i <= _size; ++i)
+            _solution[i] = 0;
+ 
+        _solution[0] = cur; _len = 0;
+        visited[cur] = 1;
+ 
+        // достраиваем путь до конца
+        for (int i = 1; i < _size; ++i)
+        {
+            // ищем вершину next
+            int next = cur, dist = INF;
+ 
+            // проходимся по всем НЕ посещенным вершинам j 
+            // и ещем наиболее близкую к вершине cur
+            for (int j = 0; j < _size; ++j)
+                if (!visited[j] && g[cur][j] < dist)
+                {
+                    next = j;
+                    dist = g[cur][j];
+                }
+ 
+            // путь: ... -> cur -> next -> ...
+            _solution[i] = next; _len += dist;
+            visited[next] = 1;
+ 
+            cur = next;
+        }
+ 
+        // путь: s -> ... -> t -> s
+        int s = _solution[0], t = _solution[_size - 1];
+        _solution[_size] = s; _len += g[s][t];
+ 
+        system_clock::time_point end = system_clock::now();
+        duration <double> delta = end - start;
+ 
+        cout << "NNSolver (затраченное время): " << delta.count() << "\n";
+        delete[] visited;
+    }
+ 
+    /// <summary>
+    /// Выводим решение на экран
+    /// </summary>
+    void print()
+    {
+        cout << "NNSolver (найденное решение): ";
+ 
+        for (int i = 0; i < _size; ++i)
+            cout << _solution[i] << " - ";
+ 
+        cout << _solution[_size] << ", длина пути = " << _len << "\n";
+    }
+};
+ 
+/// <summary>
+/// Класс муравей
+/// </summary>
+class Ant : public TSPSolver
+{
+    /// <summary>
+    /// Муравей выбирает следуюшую вершину
+    /// </summary>
+    /// <param name="visited"> массив с флагом посещена/не посещена для каждой вершмны </param>
+    /// <param name="tau_alpha"> концентрация феромонов, уже возведенная в степень alpha </param>
+    /// <param name="eta"> привлекательность ребер в степени beta </param>
+    /// <returns> следующая вершина </returns>
+    int next(int it, int*& visited, double*& weights)
+    {
+        // строим функцию распределения вероятностей
+        for (int i = 0; i < _size - it; ++i)
+            choices[i] = 0;
+        
+        for (int i = 0; i <= _size - it; ++i)
+            cdf[i] = 0;
+ 
+        int pos = 0;
+ 
+        for (int i = 0; i < _size; ++i)
+            if (!visited[i])
+            {
+                choices[pos] = i;
+                cdf[pos + 1] = weights[i] + cdf[pos]; ++pos;
+            }
+ 
+        for (int i = 1; i <= pos; ++i)
+            cdf[i] /= cdf[pos];
+ 
+        // генерируем случайную величину 
+        uniform_real_distribution <double> interval_double(0, 1);
+        int ind = lower_bound(cdf, cdf + pos + 1, interval_double(gen)) - cdf - 1;
+ 
+        return choices[ind];
+    }
+ 
+public:
+ 
+    Ant() {}
+ 
+    /// <summary>
+    /// Муравей прокладывает свой путь
+    /// </summary>
+    /// <param name="tau_alpha"> матрица концентраций феромонов (в степени alpha) </param>
+    /// <param name="eta_beta"> матрица привлекательности ребер (в степени beta) </param>
+    void solve(Graph& g, int s, double**& weights)
+    {
+        _size = g.n();
+ 
+        // visited[i] = 0 <=> вершина i НЕ посещена
+        // visited[i] = 1 <=> вершина i посещена
+        int* visited = new int[_size];
+ 
+        for (int i = 0; i < _size; ++i)
+            visited[i] = 0;
+ 
+        // путь: s -> ...
+        _solution = new int[_size + 1];
+ 
+        for (int i = 0; i <= _size; ++i)
+            _solution[i] = 0;
+ 
+        _solution[0] = s; _len = 0;
+        visited[s] = 1;
+ 
+        for (int i = 1; i < _size; ++i)
+        {
+            int from = _solution[i - 1];
+ 
+            // выбираем следующую вершину
+            int to = next(i, visited, weights[from]);
+ 
+            // путь: ... -> from -> to -> ...
+            _solution[i] = to; _len += g[from][to];
+            visited[to] = 1;
+        }
+ 
+        // путь: s -> ... -> t -> s
+        int t = _solution[_size - 1];
+        _solution[_size] = s; _len += g[s][t];
+ 
+        delete[] visited;
+    }
+ 
+    /// <summary>
+    /// Выводим решение на экран
+    /// </summary>
+    void print()
+    {
+        cout << "Ant (найденное решение): ";
+ 
+        for (int i = 0; i < _size; ++i)
+            cout << _solution[i] << " - ";
+ 
+        cout << _solution[_size] << ", длина пути = " << _len << "\n";
+    }
+};
+ 
+/// <summary>
+/// Муравьиный алгоритм решения 
+/// задачи коммивояжера
+/// </summary>
+class ACOSolver : public TSPSolver
+{
+public:
+ 
+    /// <summary>
+    /// Гиперпараметры
+    /// </summary>
+    double _alpha, _beta, _rho, _m, _tau0, _max_iter;
+ 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="g"> граф </param>
+    /// <param name="alpha"> альфа </param>
+    /// <param name="beta"> бета </param>
+    /// <param name="rho"> ро </param>
+    /// <param name="m"> число мурвьев </param>
+    /// <param name="tau0"> начальное число феромонов </param>
+    /// <param name="max_iter"> число поколений </param>
+    ACOSolver(double alpha, double beta, double rho, double m, double tau0, int max_iter) :
+        _alpha(alpha), _beta(beta), _rho(rho), _m(m), _tau0(tau0), _max_iter(max_iter) {}
+ 
+    /// <summary>
+    /// Решаем задачу
+    /// </summary>
+    /// <param name="g"> граф </param>
+    void solve(Graph& g)
+    {
+        system_clock::time_point start = system_clock::now();
+ 
+        _len = INF;
+        _size = g.n();
+ 
+        // матрица концентрации феромонов на ребрах графа
+        double** tau = new double* [_size];
+ 
+        for (int i = 0; i < _size; ++i)
+        {
+            tau[i] = new double [_size];
+ 
+            for (int j = 0; j < _size; ++j)
+                tau[i][j] = _tau0;
+        }
+ 
+        // матрица привлекательности ребер графа 
+        double** eta_beta = new double* [_size];
+ 
+        for (int i = 0; i < _size; ++i)
+        {
+            eta_beta[i] = new double [_size];
+ 
+            for (int j = 0; j < _size; ++j)
+                eta_beta[i][j] = 1.0 / pow(g[i][j], _beta);
+        }
+            
+        for (int it = 0; it < _max_iter; ++it)
+        {
+            // матрица концентрации феромонов на ребрах графа (степени alpha)
+            double** weights = new double* [_size];
+ 
+            for (int i = 0; i < _size; ++i)
+            {
+                weights[i] = new double [_size];
+ 
+                for (int j = 0; j < _size; ++j)
+                    weights[i][j] = pow(tau[i][j], _alpha) * eta_beta[i][j];
+            }       
+ 
+            int* vertices = new int[_size];
+ 
+            for (int i = 0; i < _size; ++i)
+                vertices[i] = i;
+ 
+            // перемешиваем вершины графа
+            shuffle(vertices, vertices + _size, gen);
+ 
+            // генерируем муравьев 
+            Ant* ants = new Ant[_m];
+ 
+            // муравей ищет решение
+            for (int i = 0; i < _m; ++i)
+                ants[i].solve(g, vertices[i], weights);
+ 
+            for (int i = 0; i < _size; ++i)
+                delete[] weights[i];
+ 
+            delete[] weights;
+            delete[] vertices;
+ 
+            // выводим лучшее найденное решение на экран 
+            Ant best_ant = ants[0];
+ 
+            for (int i = 1; i < _m; ++i)
+                if (ants[i].len() < best_ant.len()) best_ant = ants[i];
+ 
+            // сохраняем решение
+            if (best_ant.len() < _len)
+            {
+                _solution = best_ant.solution();
+                _len = best_ant.len();
+            }
+ 
+            // феромоны испряются 
+            for (int i = 0; i < _size; ++i)
+                for (int j = 0; j < _size; ++j)
+                    tau[i][j] *= _rho;
+ 
+            // оставляем след феромонов на ребрах 
+            for (int i = 0; i < _m; ++i)
+            {
+                int* solution = ants[i].solution();
+                double w = 1.0 / ants[i].len();
+ 
+                for (int j = 0; j < _size; ++j)
+                    tau[solution[j]][solution[j + 1]] += w;
+            }
+ 
+            delete[] ants;
+        }
+ 
+        system_clock::time_point end = system_clock::now();
+        duration <double> delta = end - start;
+ 
+        cout << "ACOSolver (затраченное время): " << delta.count() << "\n";
+ 
+        for (int i = 0; i < _size; ++i)
+            delete[] tau[i];
+ 
+        delete[] tau;
+ 
+        for (int i = 0; i < _size; ++i)
+            delete[] eta_beta[i];
+ 
+        delete[] eta_beta;
+    }
+ 
+    void print()
+    {
+        cout << "ACOSolver (найденное решение): ";
+ 
+        for (int i = 0; i < _size; ++i)
+            cout << _solution[i] << " - ";
+ 
+        cout << _solution[_size] << ", длина пути = " << _len << "\n";
+    }
+};
+ 
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+    cout << fixed << setprecision(6);
+ 
+    Graph g("ft53.txt");
+ 
+    NNSolver alg1;
+    alg1.solve(g);
+    alg1.print();
+ 
+    /*
+    vector<double> strategy(10);
+    double sum = 0;
+ 
+    for (int i = 0; i < 10; ++i)
+    {
+        ACOSolver alg2(1, 4, 0.9, g.n(), (double)g.n() / alg1.len(), 1000, 1);
+        alg2.solve(g, 0);
+ 
+        strategy[i] = alg2.len();
+        sum += strategy[i];
+        alg2.print();
+    }
+ 
+    cout << "AVG: " << sum / 10 << "\n"; */
+ 
+    ACOSolver alg2(1, 4, 0.5, g.n(), (double)g.n() / alg1.len(), 1000);
+    alg2.solve(g);
+    alg2.print();
+    return 0;
+}

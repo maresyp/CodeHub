@@ -1,0 +1,160 @@
+reactorPrefix = "BiggerReactors_"
+ 
+function tableSize(dictionary)
+    local size = 0
+    for _ in pairs(dictionary) do
+        size = size + 1
+    end
+    return (size)
+end
+ 
+function string.startsWith(str, prefix)
+   return string.sub(str, 1, string.len(prefix)) == prefix
+end
+ 
+function isCapacitorTypeA(capacitorName)
+    return string.startsWith(capacitorName, "capacitor_bank") or string.startsWith(capacitorName, "draconic_storage")
+end
+ 
+function isCapacitorTypeB(capacitorName)
+    return string.startsWith(capacitorName, "advancedEnergyCube")
+end
+ 
+function getCapacitorEnergyLevel(capacitorName)
+    if isCapacitorTypeA(capacitorName) then
+        return capacitors[capacitorName].getEnergyStored()
+    elseif isCapacitorTypeB(capacitorName) then
+        return capacitors[capacitorName].getEnergy()
+    else
+        print("PANIC! UNKNOWN STORAGE UNIT!")
+        nil.panic();
+    end
+end
+ 
+function getCapacitorMaxEnergyLevel(capacitorName)
+    if capacitorName == "capacitor_bank" or capacitorName == "draconic_storage" then
+        return capacitors[capacitorName].getMaxEnergyStored()
+    elseif capacitorName == "advancedEnergyCube" then
+        return capacitors[capacitorName].getMaxEnergy()
+    end
+end
+ 
+print("Starting reactor control")
+print("")
+print("Detecting connected reactors, turbines and capacitors...")
+ 
+sleepTime = 30
+capacitorsFull = false
+systemActive = false
+triggeringCapacitorName = "none"
+capacitors = {}
+reactors = {}
+turbines = {}
+for _, connectedPeripheral in pairs(peripheral.getNames()) do
+    print(connectedPeripheral)
+    if string.sub(connectedPeripheral, 1, string.len(reactorPrefix)) == reactorPrefix then
+        local peripheralType = peripheral.getType(connectedPeripheral)
+ 
+        if peripheralType == reactorPrefix .. "Turbine" then
+            local peripheralName = string.sub(connectedPeripheral, 13)
+            write("Detected " .. peripheralName .. " ")
+            write("wrapping... ")
+            turbines[connectedPeripheral] = peripheral.wrap(connectedPeripheral)
+ 
+            turbines[connectedPeripheral].setInductorEngaged(false)
+            if turbines[connectedPeripheral].getConnected() then
+                print("done.")
+            else
+                turbines[connectedPeripheral] = nil
+                print("error.")
+                sleep(1)
+            end
+        elseif peripheralType == reactorPrefix .. "Reactor" then
+            local peripheralName = string.sub(connectedPeripheral, 13)
+            write("Detected " .. peripheralName .. " ")
+            write("wrapping... ")
+            reactors[connectedPeripheral] = peripheral.wrap(connectedPeripheral)
+ 
+            reactors[connectedPeripheral].setActive(false)
+            if reactors[connectedPeripheral].getConnected() then
+                print("done.")
+            else
+                reactors[connectedPeripheral] = nil
+                print("error.")
+                sleep(1)
+            end
+        end
+    elseif string.sub(connectedPeripheral, 1, 14) == "capacitor_bank" or string.sub(connectedPeripheral, 1, 16) == "draconic_storage" or string.sub(connectedPeripheral, 1, 18) == "advancedEnergyCube" then
+        local peripheralType = peripheral.getType(connectedPeripheral)
+ 
+        if peripheralType == "capacitor_bank" or peripheralType == "draconic_storage" then
+            write("Detected " .. connectedPeripheral .. " ")
+            write("wrapping... ")
+            capacitors[connectedPeripheral] = peripheral.wrap(connectedPeripheral)
+ 
+            if getCapacitorEnergyLevel(connectedPeripheral) then
+                print("done.")
+            end
+        end
+    end
+end
+ 
+numReactors = tableSize(reactors)
+if numReactors == 0 then
+    print("No reactors detected. Terminating program!")
+    os.sleep(1)
+end
+numTurbines = tableSize(turbines)
+numCapacitors = tableSize(capacitors)
+ 
+print("")
+print("Detected " .. numReactors .. " reactors, " .. numTurbines .. " turbines and " .. numCapacitors .. " capacitors.")
+print("")
+print("Initializing reactor controller...")
+print("Controller started in deep sleep mode.")
+print("")
+while true do
+    capacitorsFull = true
+    for capacitorName, capacitor in pairs(capacitors) do
+        if systemActive and getCapacitorEnergyLevel(capacitorName) / getCapacitorMaxEnergyLevel(capacitorName) < 0.95 or not systemActive and getCapacitorEnergyLevel(capacitorName) / getCapacitorMaxEnergyLevel(capacitorName) < 0.3 then
+            capacitorsFull = false;
+            triggeringCapacitorName = capacitorName
+            break;
+        end
+    end
+ 
+    if not capacitorsFull and not systemActive then
+        print("Waking from deep sleep.")
+        sleepTime = 1
+        systemActive = true
+        print(triggeringCapacitorName .. " is not full. Activating reactors...")
+        for _, reactor in pairs(reactors) do
+            reactor.setActive(true)
+        end
+ 
+        print("Reactors activated. Giving time for the reactors to heat...")
+        sleep(5)
+        print("Engaging Inductors...")
+        for _, turbine in pairs(turbines) do
+            turbine.setInductorEngaged(true)
+        end
+ 
+        print("Inductors engaged.")
+    elseif capacitorsFull and systemActive then
+        systemActive = false
+        print("All capacitors are full. Disengaging inductors...")
+        for _, turbine in pairs(turbines) do
+            turbine.setInductorEngaged(false)
+        end
+ 
+        print("Inductors disengaged. Deactivating reactors...")
+        for _, reactor in pairs(reactors) do
+            reactor.setActive(false)
+        end
+ 
+        print("Reactors deactivated.")
+        print("Entering deep sleep mode.")
+        sleepTime = 30
+    end
+    sleep(sleepTime)
+end

@@ -1,0 +1,13 @@
+/**
+ * @param array $fields
+ * @return array
+ */
+add_filter('site-reviews/review-form/fields', function ($fields) {
+    foreach ($fields as $key => &$field) {
+        $name = $field['name'] ?? '';
+        if ('terms' === $key || 'terms' === $name) {
+            $field['checked'] = true;
+        }
+    }
+    return $fields;
+}, 20);

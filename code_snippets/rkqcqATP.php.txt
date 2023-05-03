@@ -1,0 +1,19 @@
+// Enquiry button color change
+add_filter('wcfmmp_store_color_setting_options', function ($color_options) {
+    if (isset($color_options['wcfmmp_button_bg_color'])) {
+        $color_options['wcfmmp_button_bg_color']['element'] .= ', #wcfm_enquiry_submit_button';
+        $color_options['wcfmmp_button_bg_color']['element3'] .= ', #wcfm_enquiry_submit_button';
+    }
+    if (isset($color_options['wcfmmp_button_text_color'])) {
+        $color_options['wcfmmp_button_text_color']['element'] .= ', #wcfm_enquiry_submit_button';
+    }
+    if (isset($color_options['wcfmmp_button_active_bg_color'])) {
+        $color_options['wcfmmp_button_active_bg_color']['element'] .= ', #wcfm_enquiry_submit_button:hover';
+        $color_options['wcfmmp_button_active_bg_color']['element2'] .= ', #wcfm_enquiry_submit_button:hover';
+    }
+    if (isset($color_options['wcfmmp_button_active_text_color'])) {
+        $color_options['wcfmmp_button_active_text_color']['element'] .= ', #wcfm_enquiry_submit_button:hover';
+    }
+ 
+    return $color_options;
+});

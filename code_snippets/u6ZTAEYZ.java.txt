@@ -1,0 +1,43 @@
+package br.com.casadocodigo.impossible;
+import android.content.Context;
+import android.view.SurfaceView;
+ 
+public class Impossible extends SurfaceView implements  Runnable{
+    boolean running = false;
+    Thread renderThread = null;
+    public Impossible(Context context){
+        super(context);
+    }
+    @Override
+    public void run(){
+        //Todo Auto-generated method stub
+        while(running){
+            System.out.println("Impossible Running!");
+        }
+    }
+    public void resume(){
+        running = true;
+        renderThread = new Thread(this);
+        renderThread.start();
+    }
+}
+***
+package br.com.casadocodigo.impossible;
+import android.app.Activity;
+import android.os.Bundle;
+public class ActivityGame extends Activity{
+    Impossible view;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+ 
+        // Logica do jogo
+        view = new Impossible(this);
+        // Configura view
+        setContentView(view);
+        }
+    protected void onResume() {
+        super.onResume();
+        view.resume();
+    }
+}

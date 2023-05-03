@@ -1,0 +1,4 @@
+export DISPLAY=:0
+export DISPLAY=localhost:0.0
+#resolve display issue on sudo mode in host: https://unix.stackexchange.com/a/162675
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0

@@ -1,0 +1,398 @@
+/*------------------------------------------------------------------------------
+Разработчик - DeimoS
+----------------------------------=[ Инклюды ]=-------------------------------*/
+#include <a_samp>
+#include <a_mysql>
+  
+/*------------------------------=[ Данные MySQL ]=----------------------------*/
+#define MYSQL_HOST                "localhost"//Адрес, по которому расположен MySQL-Сервер
+#define MYSQL_USER                "root"//Имя пользователя, на которого была создана база данных
+#define MYSQL_DATABASE            "sa-mp"// Имя базы данных
+#define MYSQL_PASSWORD            ""//Пароль для доступа к серверу MySQL
+ 
+/*-------------------------------=[ Переменные ]=-----------------------------*/
+new mysql_connect_id;
+new player_is_authorized[MAX_PLAYERS char];
+/*--------------------------------=[ Enum's ]=--------------------------------*/
+enum e_PLAYER_INFO
+{
+    pID,
+    pName[MAX_PLAYER_NAME],
+    pPassword[31]
+};
+new pInfo[MAX_PLAYERS][e_PLAYER_INFO];
+enum e_DIALOG_IDs
+{
+    dKickMessage,//Автоматически займёт ID 0
+    dRegister,//ID 1
+    dLogin//ID 2
+};
+/*--------------------------------=[ Прочее ]=--------------------------------*/
+main()
+{
+    print("\n -----------------------   ");
+    print("      Автор - DeimoS         ");
+    print("  Специально для Pro-Pawn.Ru ");
+    print(" -----------------------   \n");
+}
+/*-------------------------------=[ Public's ]=-------------------------------*/
+public OnGameModeInit()
+{
+    mysql_connect_id = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_DATABASE, MYSQL_PASSWORD);
+    switch(mysql_errno())
+    {
+    case 0: print("Подключение к базе данных удалось");
+    case 1044: print("Подключение к базе данных не удалось [Указано неизвестное имя пользователя]");
+    case 1045: print("Подключение к базе данных не удалось [Указан неизвестный пароль]");
+    case 1049: print("Подключение к базе данных не удалось [Указана неизвестная база данных]");
+    case 2003: print("Подключение к базе данных не удалось [Хостинг с базой данных недоступен]");
+    case 2005: print("Подключение к базе данных не удалось [Указан неизвестный адрес хостинга]");
+    default: printf("Подключение к базе данных не удалось [Неизвестная ошибка. Код ошибки: %d]", mysql_errno());
+    }
+    mysql_function_query(mysql_connect_id, !"SET CHARACTER SET 'utf8'", false, "", "");
+    mysql_function_query(mysql_connect_id, !"SET NAMES 'utf8'", false, "", "");
+    mysql_function_query(mysql_connect_id, !"SET character_set_client = 'cp1251'", false, "", "");
+    mysql_function_query(mysql_connect_id, !"SET character_set_connection = 'cp1251'", false, "", "");
+    mysql_function_query(mysql_connect_id, !"SET character_set_results = 'cp1251'", false, "", "");
+    mysql_function_query(mysql_connect_id, !"SET SESSION collation_connection = 'utf8_general_ci'", false, "", "");
+    SetGameModeText("new.pwn v.0.1");
+    AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
+    return 1;
+}
+ 
+public OnGameModeExit()
+{
+    mysql_close(mysql_connect_id);
+    return 1;
+}
+ 
+public OnPlayerRequestClass(playerid, classid)
+{
+    SetPlayerPos(playerid, 1958.3783, 1343.1572, 15.3746);
+    SetPlayerCameraPos(playerid, 1958.3783, 1343.1572, 15.3746);
+    SetPlayerCameraLookAt(playerid, 1958.3783, 1343.1572, 15.3746);
+    return 1;
+}
+ 
+public OnPlayerConnect(playerid)
+{
+    GetPlayerName(playerid, pInfo[playerid][pName], MAX_PLAYER_NAME);
+    new query_string[49+MAX_PLAYER_NAME-4+1];
+    format(query_string, sizeof(query_string), "SELECT * FROM `accounts` WHERE `player_name` = '%s'", pInfo[playerid][pName]);
+    mysql_function_query(mysql_connect_id, query_string, true, "FindPlayerInTable","i", playerid);
+    return 1;
+}
+ 
+public OnPlayerDisconnect(playerid, reason)
+{
+    SaveAccount(playerid);
+    RemovePlayerInfo(playerid);
+    return 1;
+}
+ 
+public OnPlayerSpawn(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerDeath(playerid, killerid, reason)
+{
+    return 1;
+}
+ 
+public OnVehicleSpawn(vehicleid)
+{
+    return 1;
+}
+ 
+public OnVehicleDeath(vehicleid, killerid)
+{
+    return 1;
+}
+ 
+public OnPlayerText(playerid, text[])
+{
+    if(!player_is_authorized{playerid})
+    {
+    SendClientMessage(playerid, -1, "Вы не авторизировались и не можете писать в чат!");
+    return 0;
+}
+    return 1;
+}
+ 
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+    if(!player_is_authorized{playerid}) return SendClientMessage(playerid, -1, "Вы не авторизировались и не можете использовать команды!");
+    if (strcmp("/mycommand", cmdtext, true, 10) == 0)
+    {
+        // Do something here
+        return 1;
+    }
+    return 0;
+}
+ 
+public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
+{
+    return 1;
+}
+ 
+public OnPlayerExitVehicle(playerid, vehicleid)
+{
+    return 1;
+}
+ 
+public OnPlayerStateChange(playerid, newstate, oldstate)
+{
+    return 1;
+}
+ 
+public OnPlayerEnterCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerLeaveCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerEnterRaceCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerLeaveRaceCheckpoint(playerid)
+{
+    return 1;
+}
+ 
+public OnRconCommand(cmd[])
+{
+    return 1;
+}
+ 
+public OnPlayerRequestSpawn(playerid)
+{
+    return 1;
+}
+ 
+public OnObjectMoved(objectid)
+{
+    return 1;
+}
+ 
+public OnPlayerObjectMoved(playerid, objectid)
+{
+    return 1;
+}
+ 
+public OnPlayerPickUpPickup(playerid, pickupid)
+{
+    return 1;
+}
+ 
+public OnVehicleMod(playerid, vehicleid, componentid)
+{
+    return 1;
+}
+ 
+public OnVehiclePaintjob(playerid, vehicleid, paintjobid)
+{
+    return 1;
+}
+ 
+public OnVehicleRespray(playerid, vehicleid, color1, color2)
+{
+    return 1;
+}
+ 
+public OnPlayerSelectedMenuRow(playerid, row)
+{
+    return 1;
+}
+ 
+public OnPlayerExitedMenu(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
+{
+    return 1;
+}
+ 
+public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+    return 1;
+}
+ 
+public OnRconLoginAttempt(ip[], password[], success)
+{
+    return 1;
+}
+ 
+public OnPlayerUpdate(playerid)
+{
+    return 1;
+}
+ 
+public OnPlayerStreamIn(playerid, forplayerid)
+{
+    return 1;
+}
+ 
+public OnPlayerStreamOut(playerid, forplayerid)
+{
+    return 1;
+}
+ 
+public OnVehicleStreamIn(vehicleid, forplayerid)
+{
+    return 1;
+}                                                                                                             
+ 
+public OnVehicleStreamOut(vehicleid, forplayerid)
+{
+    return 1;
+}
+ 
+public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+{
+    switch(dialogid)
+{
+    case dRegister:
+    {
+        if(!response)
+        {
+            ShowPlayerDialog(playerid, dKickMessage, DIALOG_STYLE_MSGBOX, "Оповещение", "{FFFFFF}Вы были кикнуты с сервера.\n{FF0000}Причина: Отказ от регистрации.\n{FFFFFF}Для выхода с сервера введите \"/q\" в чат", "Выход", "");
+            return Kick(playerid);
+        }
+        if(!strlen(inputtext)) return ShowPlayerDialog(playerid, dRegister, DIALOG_STYLE_INPUT, "Регистрация нового пользователя", "{FF0000}Ошибка: {FFFFFF}Вы не можете продолжить регистрацию не введя пароль!\nВведите пароль для регистрации нового аккаунта:\n{C0C0C0}Примечание:\n{666666}- Пароль чувствителен к регистру.\n- Пароль должен содержать от 4 до 30 символов.\n- Пароль может содержать латинские/кириллические символы и цифры (aA-zZ, аА-яЯ, 0-9).", "Регистрация", "Выход");
+        else if(strlen(inputtext) < 4) return ShowPlayerDialog(playerid, dRegister, DIALOG_STYLE_INPUT, "Регистрация нового пользователя", "{FF0000}Ошибка: {FFFFFF}Пароль слишком короткий!\nВведите пароль для регистрации нового аккаунта:\n{C0C0C0}Примечание:\n{666666}- Пароль чувствителен к регистру.\n- Пароль должен содержать от 4 до 30 символов.\n- Пароль может содержать латинские/кириллические символы и цифры (aA-zZ, аА-яЯ, 0-9).", "Регистрация", "Выход");
+        else if(strlen(inputtext) > 30) return ShowPlayerDialog(playerid, dRegister, DIALOG_STYLE_INPUT, "Регистрация нового пользователя", "{FF0000}Ошибка: {FFFFFF}Пароль слишком длинный!\nВведите пароль для регистрации нового аккаунта:\n{C0C0C0}Примечание:\n{666666}- Пароль чувствителен к регистру.\n- Пароль должен содержать от 4 до 30 символов.\n- Пароль может содержать латинские/кириллические символы и цифры (aA-zZ, аА-яЯ, 0-9).", "Регистрация", "Выход");
+        for(new i = strlen(inputtext)-1; i != -1; i--)
+        {
+            switch(inputtext[i])
+            {
+                case '0'..'9', 'а'..'я', 'a'..'z', 'А'..'Я', 'A'..'Z': continue;
+                default: return ShowPlayerDialog(playerid, dRegister, DIALOG_STYLE_INPUT, "Регистрация нового пользователя", "{FF0000}Ошибка: {FFFFFF}Пароль содержит запрещённые символы!\nВведите пароль для регистрации нового аккаунта:\n{C0C0C0}Примечание:\n{666666}- Пароль чувствителен к регистру.\n- Пароль должен содержать от 4 до 30 символов.\n- Пароль может содержать латинские/кириллические символы и цифры (aA-zZ, аА-яЯ, 0-9).", "Регистрация", "Выход");
+            }
+        }
+        pInfo[playerid][pPassword][0] = EOS;
+        strins(pInfo[playerid][pPassword], inputtext, 0);
+        CreateNewAccount(playerid, pInfo[playerid][pPassword]);
+        return 1;
+    }
+    case dLogin:
+    {
+        if(!response)
+        {
+            ShowPlayerDialog(playerid, dKickMessage, DIALOG_STYLE_MSGBOX, "Оповещение", "{FFFFFF}Вы были кикнуты с сервера.\n{FF0000}Причина: Отказ от авторизации.\n{FFFFFF}Для выхода с сервера введите \"/q\" в чат", "Выход", "");
+            return Kick(playerid);
+        }
+        if(!strlen(inputtext)) return ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_INPUT, "Авторизация", "{FF0000}Ошибка: {FFFFFF}Вы не можете продолжить авторизацию не введя пароль!\nВведите пароль от аккаунта для входа на сервер:", "Вход", "Выход");
+        for(new i = strlen(inputtext)-1; i != -1; i--)
+        {
+            switch(inputtext[i])
+            {
+                case '0'..'9', 'а'..'я', 'a'..'z', 'А'..'Я', 'A'..'Z': continue;
+                default: return ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_INPUT, "Авторизация", "{FF0000}Ошибка: {FFFFFF}Введённый пароль содержит запрещённые символы!\nВведите пароль от аккаунта для входа на сервер:", "Вход", "Выход");
+            }
+        }
+        if(!strcmp(pInfo[playerid][pPassword], inputtext))
+        {
+            new query_string[49+MAX_PLAYER_NAME];
+            format(query_string, sizeof(query_string), "SELECT * FROM `accounts` WHERE `player_name` = '%s'", pInfo[playerid][pName]);
+            mysql_function_query(mysql_connect_id, query_string, true, "UploadPlayerAccount","i", playerid);
+        }
+        else
+        {
+            switch(GetPVarInt(playerid, "WrongPassword"))
+            {
+                case 0: ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_INPUT, "Авторизация", "{FF0000}Ошибка: {FFFFFF}Вы ввели неверный пароль! У Вас осталось 3 попытки.\nВведите пароль от аккаунта для входа на сервер:", "Вход", "Выход");
+                case 1: ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_INPUT, "Авторизация", "{FF0000}Ошибка: {FFFFFF}Вы ввели неверный пароль! У Вас осталось 2 попытки.\nВведите пароль от аккаунта для входа на сервер:", "Вход", "Выход");
+                case 2: ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_INPUT, "Авторизация", "{FF0000}Ошибка: {FFFFFF}Вы ввели неверный пароль! У Вас осталось 1 попытка.\nВведите пароль от аккаунта для входа на сервер:", "Вход", "Выход");
+                case 3: ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_INPUT, "Авторизация", "{FF0000}Ошибка: {FFFFFF}Вы ввели неверный пароль! У Вас осталась последняя попытка, после чего Вас кикнет.\nВведите пароль от аккаунта для входа на сервер:", "Вход", "Выход");
+                default:
+                {
+                    ShowPlayerDialog(playerid, dKickMessage, DIALOG_STYLE_MSGBOX, "Оповещение", "{FFFFFF}Вы были кикнуты с сервера.\n{FF0000}Причина: Превышен лимит попыток на ввод пароля.\n{FFFFFF}Для выхода с сервера введите \"/q\" в чат", "Выход", "");
+                    return Kick(playerid);
+                }
+            }
+            SetPVarInt(playerid, "WrongPassword", GetPVarInt(playerid, "WrongPassword")+1);
+        }
+        return 1;
+    }
+}
+    return 1;
+}
+ 
+public OnPlayerClickPlayer(playerid, clickedplayerid, source)
+{
+    return 1;
+}
+ 
+forward FindPlayerInTable(playerid);
+public FindPlayerInTable(playerid)
+{
+    new rows, fields;
+    cache_get_data(rows, fields);
+    if(!rows)
+    {
+        ShowPlayerDialog(playerid, dRegister, DIALOG_STYLE_INPUT, "Регистрация нового пользователя", "Введите пароль для регистрации нового аккаунта:", "Регистрация", "Выход");
+    }
+    else
+    {
+        ShowPlayerDialog(playerid, dLogin, DIALOG_STYLE_INPUT, "Авторизация", "Введите пароль от аккаунта для того, чтоб продолжить игру:", "Вход", "Выход");
+        cache_get_field_content(0, "password", pInfo[playerid][pPassword], mysql_connect_id, 31);
+    }
+    return 1;
+}
+ 
+stock CreateNewAccount(playerid, password[])
+{
+    new query_string[66+MAX_PLAYER_NAME-4+30+1];
+    format(query_string, sizeof(query_string), "INSERT INTO `accounts` (`player_name`, `password`) VALUES ('%s', '%s')", pInfo[playerid][pName], password);
+    mysql_function_query(mysql_connect_id, query_string, true, "UploadPlayerAccountNumber", "i", playerid);
+ 
+ 
+    format(query_string, sizeof(query_string), "Аккаунт %s успешно зарегистрирован. Администрация желает Вам приятной игры!", pInfo[playerid][pName]);
+    SendClientMessage(playerid, 0xFFFFFF00, query_string);
+    player_is_authorized{playerid} = 1;
+    SpawnPlayer(playerid);
+    return 1;
+}
+ 
+forward UploadPlayerAccountNumber(playerid);
+public UploadPlayerAccountNumber(playerid) pInfo[playerid][pID] = cache_insert_id(mysql_connect_id);
+ 
+forward UploadPlayerAccount(playerid);
+public UploadPlayerAccount(playerid)
+{
+    pInfo[playerid][pID] = cache_get_field_content_int(0, "id", mysql_connect_id);
+    SendClientMessage(playerid, 0xFFFFFF00, "Вы успешно авторизировались!");
+    player_is_authorized{playerid} = 1;
+    SpawnPlayer(playerid);
+    return 1;
+}
+ 
+stock SaveAccount(playerid)
+{
+    new query_string[(21)+(16+11)+(20+MAX_PLAYER_NAME)+(16+30)] = "UPDATE `accounts` SET";
+ 
+    format(query_string, sizeof(query_string), "%s `player_name` = '%s',", query_string, pInfo[playerid][pName]);
+    format(query_string, sizeof(query_string), "%s `password` = '%s'", query_string, pInfo[playerid][pPassword]);
+ 
+    format(query_string, sizeof(query_string), "%s WHERE `id` = '%d'", query_string, pInfo[playerid][pID]);
+    mysql_function_query(mysql_connect_id, query_string, false, "", "");
+    return 1;
+}
+stock RemovePlayerInfo(playerid)
+{
+    pInfo[playerid][pID] = 0;
+    pInfo[playerid][pName][0] = EOS;
+    pInfo[playerid][pPassword][0] = EOS;
+    player_is_authorized{playerid} = 0;
+    return 1;
+}
+/*----------------------------------------------------------------------------*/

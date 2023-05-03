@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+ 
+""" 
+Soy un comentario
+de varias lineas, a veces
+me llaman comentario multilinea
+"""
+'''
+Soy otro comentario
+multilinea
+'''
+# yo tengo una sola linea
+ 
+a = 1
+b = 2
+c = 3
+ 
+print("a =", a, "b =", b, "c =", c)
+ 
+print("a + b + c =", a + b +c)

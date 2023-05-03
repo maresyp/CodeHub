@@ -1,0 +1,170 @@
+print("Booting...")
+Log = {}
+PreviusRenderData = {}
+function Clear()
+    if HasMonitor then
+        Monitor.setBackgroundColor(colors.black)
+        Monitor.clear()
+    end
+    term.setBackgroundColor(colors.black)
+    term.clear()
+    PreviusRenderData = {}
+end
+function Render(renderData,color) --renderData is packaged as a list of lines to print
+    if HasMonitor then
+        Monitor.clear()
+        Monitor.setTextColor(colors.gray)
+        for i=1,#PreviusRenderData do
+            local cx,cy = Monitor.getCursorPos()
+            Monitor.setCursorPos(cx,cy+1)
+            Monitor.write(PreviusRenderData[i])
+        end
+        Monitor.setCursorPos(1,1)
+        Monitor.setTextColor(color)
+        for i=1,#renderData do
+            local cx,cy = Monitor.getCursorPos()
+            Monitor.setCursorPos(cx,cy+1)
+            Monitor.write(renderData[i])
+        end
+    else
+        term.clear()
+        term.setTextColor(color.gray)
+        for i=1,#PreviusRenderData do
+            local cx,cy = term.getCursorPos()
+            term.setCursorPos(cx,cy+1)
+            term.write(PreviusRenderData[i])
+        end
+        term.setCursorPos(1,1)
+        term.setTextColor(color)
+        for i=1,#renderData do
+            local cx,cy = term.getCursorPos()
+            term.setCursorPos(cx,cy+1)
+            term.write(renderData[i])
+        end
+    end
+end
+function log(level,additional)
+    Log[#Log+1] = level
+    Log[#Log+1] = additional
+end
+HasMonitor = false
+HasSpeaker = false
+function DetectHardware()
+    Speaker = peripheral.find("speaker")
+    Monitor = peripheral.find("monitor")
+    if Speaker == nil then
+    else
+        HasSpeaker = true
+        log(1,"DetectHardware:Speaker_detected")
+    end
+    if Monitor == nil then
+    else
+        HasMonitor = true
+        log(1,"DetectHardware:Monitor_detected")
+    end
+end
+function ShowAlert(type,text,noText,yesText,noFunc,yesFunc)
+    if type == "warning" then
+        Render({"---",text},colors.yellow)
+    elseif type == "question" then
+        Render({"---",text,"Y>",yesText,"N>",noText,"?"},colors.blue)
+        local cx,cy = term.getCursorPos()
+        while true do
+            term.setCursorPos(cx,cy)
+            local inp = read()
+            if string.upper(inp) == "Y" then
+                yesFunc()
+            elseif string.upper(inp) == "N" then
+                noFunc()
+            end
+        end
+    elseif type == "input" then
+        Render({"---",text},colors.blue)
+        return read()
+    else
+        log(2,"ShowAlert:type_is_unknown")
+    end
+end
+function DrawImage(filePath,x,y,hasBorder,imageWidth,borderColor)
+    if hasBorder then
+        paintutils.drawBox(x-imageWidth,y-imageWidth,x+imageWidth,y+imageWidth,borderColor)
+    end
+    if fs.exists(filePath) then
+        paintutils.drawImage(paintutils.loadImage(filePath),x,y)
+    else
+        log(2,"DrawImage:file_does_not_exist")
+    end
+end
+function ShowLog(asWarnings,lowestLevel)
+    local display = true
+    if asWarnings then
+        for i=1,#Log do
+            if tonumber(Log[i]) == nil then
+                if display then
+                    ShowAlert("warning",Log[i-1])
+                    ShowAlert("warning",Log[i])
+                end
+            else
+                if tonumber(Log[i]) < lowestLevel then
+                    display = false
+                else
+                    display = true
+                end
+            end
+        end
+    else
+        log(1,"ShowLog:textmode_enabled_will_dump_info_on_monitor")
+        for i=1,#Log do
+            if tonumber(Log[i]) == nil then
+                if display then
+                    print(Log[i-1])
+                    print(Log[i])
+                    sleep(0.25)
+                end
+            else
+                if tonumber(Log[i]) < lowestLevel then
+                    display = false
+                else
+                    display = true
+                end
+            end
+        end
+    end 
+end
+log(1,"All base functions loaded")
+ShowLog(false,1)
+Clear()
+DetectHardware()
+DrawImage("./bootImage",1,1,false)
+if fs.exists("./autoboot/") then
+    local i = fs.list("./autoboot/")
+    for j=1,#i do
+        shell.run("fg ./autoboot/"..i[j])
+        sleep(0.25)
+        multishell.setFocus(1)
+    end
+end
+if fs.exists("APM") then
+    shell.run("bg APM update")
+else
+    log(2,"APM is missing")
+    local function yes()
+        shell.run("bg wget https://raw.githubusercontent.com/TheAio/CC-APM/main/APM APM")
+        if fs.exists("APM") then
+            ShowAlert("warning","Install complete")
+        else
+            ShowAlert("warning","Install failed")
+        end
+    end
+    local function no()
+        log(0,"user refused install")
+    end
+    --ShowAlert("question","APM is missing, install it?","no","yes",no,yes)
+    Clear()
+end
+Render({"Starting!"},colors.pink)
+sleep(1)
+Render({"Aios CCS version",Version},colors.yellow)
+sleep(1)
+Render({"was made in 2023"},colors.blue)
+ShowLog(true,3)

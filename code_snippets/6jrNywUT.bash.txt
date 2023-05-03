@@ -1,0 +1,26 @@
+#!/bin/bash
+ 
+CLOCK_DIAM=64
+H_HAND_D=$[ $( date "+%-I" ) * 30 + $( date "+%-M" ) / 2 ]
+M_HAND_D=$[ $( date "+%-M" ) * 6                         ]
+M_HAND="path 'M 0,0 L 0,-4 M -1,-4 L 0,$[${CLOCK_DIAM} * -9 / 10] L 1,-4'"
+H_HAND="path 'M 0,0 L 0,-4 M -1,-4 L 0,$[${CLOCK_DIAM} / -2     ] L 1,-4'"
+H_MARK="path 'M 0,$[${CLOCK_DIAM} * -95 / 100 ] L 0,$[${CLOCK_DIAM} * -75 / 100 ]  
+              M 0,$[${CLOCK_DIAM} *  95 / 100 ] L 0,$[${CLOCK_DIAM} *  75 / 100 ]'"
+ 
+convert                                                                             \
+    -size "$[${CLOCK_DIAM} * 2]x$[${CLOCK_DIAM} * 2]" xc:transparent                \
+    -fill "#0c8cfd80"                                                               \
+    -stroke "#101010"                                                               \
+    -strokewidth "2"                                                                \
+    -draw "translate ${CLOCK_DIAM},${CLOCK_DIAM} circle 0,0 0,$[${CLOCK_DIAM} - 1]" \
+    -draw "rotate ${M_HAND_D} translate ${CLOCK_DIAM},${CLOCK_DIAM} ${M_HAND}"      \
+    -draw "rotate ${H_HAND_D} translate ${CLOCK_DIAM},${CLOCK_DIAM} ${H_HAND}"      \
+    -strokewidth "1"                                                                \
+    -draw "           translate ${CLOCK_DIAM},${CLOCK_DIAM} ${H_MARK}"              \
+    -draw "rotate 30  translate ${CLOCK_DIAM},${CLOCK_DIAM} ${H_MARK}"              \
+    -draw "rotate 60  translate ${CLOCK_DIAM},${CLOCK_DIAM} ${H_MARK}"              \
+    -draw "rotate 90  translate ${CLOCK_DIAM},${CLOCK_DIAM} ${H_MARK}"              \
+    -draw "rotate 120 translate ${CLOCK_DIAM},${CLOCK_DIAM} ${H_MARK}"              \
+    -draw "rotate 150 translate ${CLOCK_DIAM},${CLOCK_DIAM} ${H_MARK}"              \
+    clock.png

@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+ 
+using namespace std;
+ 
+using ll = long long;
+ 
+vector<ll> max_t;
+ 
+ll MAX(ll l, ll r, int n) {
+    l += n; r += n;
+    ll res = 0;
+ 
+    while (l <= r) {
+        if (l % 2 == 1) { res = max(res, max_t[l++]); }
+        if (r % 2 == 0) { res = max(res, max_t[r--]); }
+        l /= 2; r /= 2;
+    }
+ 
+    return res;
+}
+ 
+int main() {
+    std::cin.tie(0);
+    ios_base::sync_with_stdio(false);
+ 
+ 
+    int N; cin >> N;
+ 
+    int p = 1;
+    while (p < N) { p <<= 1; }
+ 
+    max_t.resize(p << 1);
+ 
+    for (int i = 0; i < N; ++i) { cin >> max_t[i + p]; }
+ 
+    for (int i = p - 1; i > 0; --i) {
+        max_t[i] = max(max_t[i << 1], max_t[(i << 1) ^ 1]);
+    }
+ 
+    int K; cin >> K;
+ 
+    while (K--) {
+        ll Left, Right; cin >> Left >> Right;
+ 
+        cout << MAX(Left-1 , Right, N) << '\n';
+    }
+}

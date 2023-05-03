@@ -1,0 +1,28 @@
+public with sharing class TempConverterWithConstructor {
+    private Decimal celsius;
+    
+    public TempConverterWithConstructor(){
+        System.debug('Olá Mundo');
+    }
+    
+    public TempConverterWithConstructor(String msg){
+        System.debug(msg);
+    }
+    
+    public TempConverterWithConstructor(Decimal temp){
+        this.celsius = temp;
+    }
+    
+    
+    public Decimal converteTemp(){
+        return this.celsius*1.8 + 32;
+    }
+    
+}
+ 
+//ANONYMOUS
+/*
+ * TempConverterWithConstructor tcwc = new TempConverterWithConstructor(22);
+ 
+System.debug(tcwc.converteTemp());
+*/

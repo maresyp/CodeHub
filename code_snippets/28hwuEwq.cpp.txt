@@ -1,0 +1,28 @@
+#include <algorithm>
+#include <execution>
+#include <mutex>
+#include <vector>
+ 
+using namespace std;
+ 
+template <typename Container, typename Predicate>
+vector<typename Container::value_type> CopyIfUnordered(const Container& container,
+    Predicate predicate) {
+    vector<typename Container::value_type> result;
+result.reserve(container.size());
+    mutex m;
+ 
+    for_each(execution::par, container.begin(), container.end(), [&](const typename Container::value_type& elem) {
+        if (predicate(elem))
+        {
+            typename Container::value_type* var;
+            {
+                lock_guard lock(m);
+                var = &result.emplace_back();
+            }
+            *var = move(elem);
+        }
+    });
+ 
+    return result;
+}

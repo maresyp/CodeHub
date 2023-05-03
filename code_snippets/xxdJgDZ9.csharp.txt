@@ -1,0 +1,15 @@
+Thread.CurrentThread.Name = "main-thread-hh";
+ 
+// await Task.Run(() => Console.WriteLine("t5 = {0}", Thread.CurrentThread.Name));
+Task.Run(() => Console.WriteLine("t4 = {0}", Thread.CurrentThread.Name));
+// await Task.Run(() => Console.WriteLine("t5 = {0}", Thread.CurrentThread.Name));
+foo();
+await bar();
+ 
+async Task foo() {
+    Console.WriteLine("foo = {0}", Thread.CurrentThread.Name);
+}
+ 
+async Task bar() {
+    Console.WriteLine("bar = {0}", Thread.CurrentThread.Name);
+}

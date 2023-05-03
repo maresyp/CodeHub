@@ -1,0 +1,224 @@
+Write a progarm to demonstrate the implementation of ActionListener.
+ 
+ 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+ 
+public class ActionListenerDemo implements ActionListener {
+    JFrame frame;
+    JButton button;
+ 
+    public ActionListenerDemo() {
+        frame = new JFrame("ActionListener Demo");
+        button = new JButton("Click me!");
+        button.addActionListener(this);
+ 
+        frame.add(button, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+    }
+ 
+    public void actionPerformed(ActionEvent event) {
+        JOptionPane.showMessageDialog(frame, "Button clicked!");
+    }
+ 
+    public static void main(String[] args) {
+        new ActionListenerDemo();
+    }
+}
+ 
+ 
+Write a program to demonstrate the use of Adapter Classes.
+ 
+ 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+ 
+public class AdapterDemo extends WindowAdapter {
+    JFrame frame;
+ 
+    public AdapterDemo() {
+        frame = new JFrame("Adapter Demo");
+        frame.addWindowListener(this);
+        frame.pack();
+        frame.setVisible(true);
+    }
+ 
+    public void windowClosing(WindowEvent event) {
+        JOptionPane.showMessageDialog(frame, "Closing window...");
+        System.exit(0);
+    }
+ 
+    public static void main(String[] args) {
+        new AdapterDemo();
+    }
+}
+ 
+ 
+Write a program to demonstrate implementation of KeyListener.
+ 
+ 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+ 
+public class KeyListenerDemo implements KeyListener {
+    JFrame frame;
+    JLabel label;
+ 
+    public KeyListenerDemo() {
+        frame = new JFrame("KeyListener Demo");
+        label = new JLabel("Type something...");
+ 
+        frame.add(label, BorderLayout.CENTER);
+        frame.addKeyListener(this);
+ 
+        frame.pack();
+        frame.setVisible(true);
+    }
+ 
+    public void keyTyped(KeyEvent event) {
+        label.setText("Typed: " + event.getKeyChar());
+    }
+ 
+    public void keyPressed(KeyEvent event) {
+        label.setText("Pressed: " + event.getKeyChar());
+    }
+ 
+    public void keyReleased(KeyEvent event) {
+        label.setText("Released: " + event.getKeyChar());
+    }
+ 
+    public static void main(String[] args) {
+        new KeyListenerDemo();
+    }
+}
+ 
+ 
+Write a program to demonstrate the control of Mouse events.
+ 
+ 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+ 
+public class MouseDemo implements MouseListener {
+    JFrame frame;
+    JLabel label;
+ 
+    public MouseDemo() {
+        frame = new JFrame("Mouse Demo");
+        label = new JLabel("No mouse event");
+ 
+        frame.add(label, BorderLayout.CENTER);
+        frame.addMouseListener(this);
+ 
+        frame.pack();
+        frame.setVisible(true);
+    }
+ 
+    public void mouseClicked(MouseEvent event) {
+        label.setText("Mouse clicked at (" + event.getX() + ", " + event.getY() + ")");
+    }
+ 
+    public void mouseEntered(MouseEvent event) {
+        label.setText("Mouse entered at (" + event.getX() + ", " + event.getY() + ")");
+    }
+ 
+    public void mouseExited(MouseEvent event) {
+        label.setText("Mouse exited at (" + event.getX() + ", " + event.getY() + ")");
+    }
+ 
+    public void mousePressed(MouseEvent event) {
+        label.setText("Mouse pressed at (" + event.getX() + ", " + event.getY() + ")");
+    }
+ 
+    public void mouseReleased(MouseEvent event) {
+        label.setText("Mouse released at (" + event.getX() + ", " + event.getY() + ")");
+    }
+ 
+    public static void main(String[] args) {
+        new MouseDemo();
+    }
+}
+ 
+ 
+Write a program to demonstrate the control of Window events.
+ 
+ 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+ 
+public class WindowDemo implements WindowListener {
+    JFrame frame;
+ 
+    public WindowDemo() {
+        frame = new JFrame("Window Demo");
+        frame.addWindowListener(this);
+        frame.pack();
+        frame.setVisible(true);
+    }
+ 
+    public void windowActivated(WindowEvent event) {
+ 
+ 
+Write a program to demonstrate the control of Item events.
+ 
+ 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+ 
+public class ItemEventDemo implements ItemListener {
+    private JLabel label;
+    private JCheckBox checkbox1, checkbox2, checkbox3;
+ 
+    public ItemEventDemo() {
+        JFrame frame = new JFrame("Item Event Demo");
+        frame.setLayout(new FlowLayout());
+        frame.setSize(300, 150);
+ 
+        label = new JLabel("Select options:");
+        frame.add(label);
+ 
+        checkbox1 = new JCheckBox("Option 1");
+        checkbox1.addItemListener(this);
+        frame.add(checkbox1);
+ 
+        checkbox2 = new JCheckBox("Option 2");
+        checkbox2.addItemListener(this);
+        frame.add(checkbox2);
+ 
+        checkbox3 = new JCheckBox("Option 3");
+        checkbox3.addItemListener(this);
+        frame.add(checkbox3);
+ 
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+ 
+    public void itemStateChanged(ItemEvent e) {
+        String options = "";
+ 
+        if (checkbox1.isSelected()) {
+            options += "Option 1 ";
+        }
+ 
+        if (checkbox2.isSelected()) {
+            options += "Option 2 ";
+        }
+ 
+        if (checkbox3.isSelected()) {
+            options += "Option 3 ";
+        }
+ 
+        label.setText("Selected options: " + options);
+    }
+ 
+    public static void main(String[] args) {
+        new ItemEventDemo();
+    }
+}

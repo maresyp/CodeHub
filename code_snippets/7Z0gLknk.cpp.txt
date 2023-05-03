@@ -1,0 +1,90 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <conio.h>
+ 
+using namespace std;
+ 
+const short ROZMIAR = 30;
+const short W = 10;
+ 
+enum class Pole
+{
+    pustka, mur, poszukiwacz, wrog, skarb
+};
+ 
+Pole tablica[ROZMIAR][ROZMIAR];
+ 
+struct Wspolrzedne
+{
+    short x;
+    short y;
+};
+ 
+Wspolrzedne poszukiwacz;
+Wspolrzedne skarb;
+Wspolrzedne wrogowie[W];
+ 
+void wypisz_pole(Pole pole)
+{
+    switch(pole)
+    {
+    case Pole::pustka:
+        cout << ' ';
+        break;
+    case Pole::mur:
+        cout << '#';
+        break;
+    case Pole::poszukiwacz:
+        cout << 'O';
+        break;
+    case Pole::wrog:
+        cout << '@';
+        break;
+    case Pole::skarb:
+        cout << '!';
+    }
+}
+ 
+void wypelnanie_tablic()
+{
+ 
+ 
+    for(short i = 0; i < ROZMIAR; ++i)
+    {
+        for(short j = 0; j < ROZMIAR; ++j)
+        {
+            if(i== 0 || i==ROZMIAR-1 || j==0 || j==ROZMIAR-1)
+                tablica[i][j] = Pole::mur;
+            else
+                tablica[i][j] = Pole::pustka;
+ 
+        }
+ 
+    }
+ 
+    tablica[poszukiwacz.x][poszukiwacz.y] = Pole::poszukiwacz;
+}
+ 
+void wypisywanie_planszy_na_ekran()
+{
+    for(short i = 0; i < ROZMIAR; ++i)
+    {
+        for(short j = 0; j < ROZMIAR; ++j)
+        {
+            wypisz_pole(tablica[i][j]);
+        }
+        cout << endl;
+    }
+}
+ 
+int main()
+{
+    poszukiwacz.x = 5;
+    poszukiwacz.y = 10;
+ 
+    wypelnanie_tablic();
+    wypisywanie_planszy_na_ekran();
+ 
+    return 0;
+}

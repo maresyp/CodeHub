@@ -1,0 +1,24 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text;
+ 
+namespace AsciiSumator
+{
+ 
+    class Program
+    {
+        static void Main()
+        {
+            char first = char.Parse(Console.ReadLine());
+            char last = char.Parse(Console.ReadLine());
+ 
+            var sum = Console.ReadLine()
+                .ToCharArray()
+                .Where(x => x > first && x < last)
+                .Sum(x => x);
+ 
+            Console.WriteLine(sum);
+        }
+    }
+}

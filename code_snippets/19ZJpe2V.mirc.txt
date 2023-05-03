@@ -1,0 +1,27 @@
+ON *:INPUT:#: {
+  if (!$inpaste) && (!$ctrlenter) && ($comchar !== $left($1,1)) {
+    .msg $chan $1-
+ 
+    echo -t $chan $col_prefix($nick($chan,$me).cmode) $+ 1 $+ $me $+ : $1-
+ 
+    halt
+  }
+}
+ 
+ON ^*:TEXT:*:#: { 
+  haltdef
+ 
+  window -g1 $chan
+ 
+  echo -t $chan $col_prefix($nick($chan,$nick).cmode) $+ 1 $+ $nick $+ : $1-
+}
+ 
+alias -l col_prefix {
+  if (!$1) { return }
+ 
+  if ($1 == ~) { var %c = $rgb( [ $readini($adiircini,n,colors,color_96) ] ).hex | return $+($chr(4),%c,~,$chr(4)) } ; color_96
+  if ($1 == &) { var %c = $rgb( [ $readini($adiircini,n,colors,color_95) ] ).hex | return $+($chr(4),%c,&,$chr(4)) } ; color_95
+  if ($1 == @) { var %c = $rgb( [ $readini($adiircini,n,colors,color_9) ] ).hex | return $+($chr(4),%c,@,$chr(4)) } ; color_9
+  if ($1 == %) { var %c = $rgb( [ $readini($adiircini,n,colors,color_41) ] ).hex | return $+($chr(4),%c,%,$chr(4)) } ; color_41
+  if ($1 == +) { var %c = $rgb( [ $readini($adiircini,n,colors,color_12) ] ).hex | return $+($chr(4),%c,+,$chr(4)) } ; color_12
+}

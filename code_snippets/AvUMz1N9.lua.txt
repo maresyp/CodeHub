@@ -1,0 +1,166 @@
+getgenv().H = false;
+getgenv().E = false;
+ 
+function H(E)
+    spawn(function ()
+        while getgenv().H do
+local args = {[1] = E,[2] = "Single"}game:GetService("ReplicatedStorage").Remotes.EggOpened:InvokeServer(unpack(args)) wait()
+        end
+    end)
+end
+function B()
+    spawn(function ()
+        while getgenv().E do
+local args = {[1] = "Equip Best"} game:GetService("ReplicatedStorage").Remotes.PetActionRequest:InvokeServer(unpack(args)) wait(60)
+        end
+    end)
+end
+ 
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
+ 
+local w = library:CreateWindow("Pet Rift")
+ 
+local b = w:CreateFolder("Main")
+ 
+b:Toggle("Equip Best",function(val)
+getgenv().E = val
+B()
+end)
+ 
+b:Toggle("Auto Hatch",function(val)
+getgenv().H = val
+H(E)
+end)
+ 
+b:Box("Select Egg","fuc you",function(val)
+E = val
+end)
+ 
+b:Dropdown("Select Zone",{"Spawn","Spring","Fantasy Nature","Dead Nature","Lava","Zombie","Witch","Skeletons","Hell","Magma","Lava Matter","Void","Ocean","Atlantis","Deep Ocean","Beach","Pre-Dwarf","Dwarf","Orc","Troll","Azard City","Moon Base","Break City","War City"},true,function(val)
+TPV = val
+end)
+ 
+b:Button("Teleport",function()
+if TPV == "Spawn" then TPCFrame(CFrame.new(-53, 6, -544)) end
+if TPV == "Spring" then TPCFrame(CFrame.new(-433, 6, -548)) end
+if TPV == "Fantasy Nature" then TPCFrame(CFrame.new(-737.814, 6.02235, -556.517)) end
+if TPV == "Dead Nature" then TPCFrame(CFrame.new(-1086.49, 6.02235, -557.089)) end
+if TPV == "Lava" then TPCFrame(CFrame.new(239.486, 5.02187, 1142.63)) end
+if TPV == "Zombie" then TPCFrame(CFrame.new(-121.853, 5.52803, 1145.16)) end
+if TPV == "Witch" then TPCFrame(CFrame.new(-513.992, 5.02187, 1145.15)) end
+if TPV == "Skeletons" then TPCFrame(CFrame.new(-873.117, 5.02187, 1145.14)) end
+if TPV == "Hell" then TPCFrame(CFrame.new(183.787, 5.02187, 3138.48)) end
+if TPV == "Magma" then TPCFrame(CFrame.new(-137.875, 5.02187, 3160.62)) end
+if TPV == "Lava Matter" then TPCFrame(CFrame.new(-422.821, 5.02187, 3163.08)) end
+if TPV == "Void" then TPCFrame(CFrame.new(-773.717, 4.91605, 3123.19)) end
+if TPV == "Ocean" then TPCFrame(CFrame.new(201.73, 34.9989, 5295.03)) end
+if TPV == "Atlantis" then TPCFrame(CFrame.new(-185.423, 34.9993, 5270.31)) end
+if TPV == "Deep Ocean" then TPCFrame(CFrame.new(-645.338, 34.9993, 5259.71)) end
+if TPV == "Beach" then TPCFrame(CFrame.new(-1104.03, 34.9993, 5276.34)) end
+if TPV == "Pre-Dwarf" then TPCFrame(CFrame.new(403.101, 41.2454, 6164.78)) end
+if TPV == "Dwarf" then TPCFrame(CFrame.new(97.6503, 41.2454, 6161.82)) end
+if TPV == "Orc" then TPCFrame(CFrame.new(-221.78, 40.3454, 6153.26)) end
+if TPV == "Troll" then TPCFrame(CFrame.new(-503.974, 40.2454, 6124.31)) end
+if TPV == "Azard City" then TPCFrame(CFrame.new(360.813, 49.1342, 6966.28)) end
+if TPV == "Moon Base" then TPCFrame(CFrame.new(0.196938, 49.1342, 6965.01)) end
+if TPV == "Break City" then TPCFrame(CFrame.new(-219.335, 49.1342, 6964.68)) end
+if TPV == "War City" then TPCFrame(CFrame.new(-599.834, 49.1342, 6956.55)) end
+end)
+ 
+b:Label("Made by X_LuaF#0705",{TextSize = 21; TextColor = Color3.fromRGB(255,255,255); BgColor = Color3.fromRGB(69,69,69);})
+ 
+local w = library:CreateWindow("LocalPlayer")
+ 
+local b = w:CreateFolder("LP")
+ 
+b:DestroyGui()
+ 
+b:Button("Copy Discord Invite",function() setclipboard("discord.gg/8tRb8MQcW5") end)
+b:Button("Full Version",function() loadstring(game:HttpGet("https://pastebin.com/raw/GphZf9Xe", true))() end)
+b:Button("Rejoin",function() loadstring(game:HttpGet("https://pastebin.com/raw/mM7JBG5h", true))() end)
+b:Button("Reset",function() loadstring(game:HttpGet("https://pastebin.com/raw/EEY6SATj", true))() end)
+ 
+local S
+local J
+local H
+local G
+ 
+b:Box("Speed","number",function(val) S = val end)
+b:Box("Jump","number",function(val) J = val end)
+b:Box("Hip Height","number",function(val) H = val end)
+b:Box("Gravity","number",function(val) G = val end)
+ 
+b:Toggle("Speed",function(bool) getgenv().Speed = bool Speed(S) end)
+b:Toggle("Jump",function(bool) getgenv().Jump = bool Jump(J) end)
+b:Toggle("Hip Height",function(bool) getgenv().Hip = bool Hip(H) end)
+b:Toggle("Gravity",function(bool) getgenv().Grav = bool Grav(G) end)
+ 
+b:Slider("FOV (Default is 70)",{min = 0;max = 120;precise = true;},function(val) game.workspace.CurrentCamera.FieldOfView = val end)
+ 
+getgenv().Speed = false;
+getgenv().Jump = false;
+getgenv().Hip = false;
+getgenv().Chat = false;
+getgenv().Grav = false;
+ 
+function TPCFrame(Player_CFrame) game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Player_CFrame end
+function TPVector3(Player_Position) game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Player_Position end
+function PHP(Player_HP) game.Players.LocalPlayer.Character.Humanoid.Health = Player_HP end
+ 
+function Chat(Mes, Freq)
+    spawn(function ()
+        while getgenv().Chat == true do
+local args = {[1] = Mes,[2] = "All"} game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+wait(Freq)
+        end
+    end)
+end
+ 
+function Speed(Nume)
+    spawn(function ()
+        if getgenv().Speed == true then
+            while getgenv().Speed == true do
+                game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Nume
+                wait()
+            end
+        elseif getgenv().Speed == false then
+            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        end
+    end)
+end
+function Jump(Nume)
+    spawn(function ()
+        if getgenv().Jump == true then
+            while getgenv().Jump == true do
+                game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Nume
+                wait()
+        end
+    elseif getgenv().Jump == false then
+            game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = 50
+        end
+    end)
+end
+function Hip(Nume)
+    spawn(function ()
+        if getgenv().Hip == true then
+            while getgenv().Hip == true do
+            game:GetService("Players").LocalPlayer.Character.Humanoid.HipHeight = Nume
+            wait()
+        end
+    elseif getgenv().Hip == false then
+            game:GetService("Players").LocalPlayer.Character.Humanoid.HipHeight = 0.1
+        end
+    end)
+end
+function Grav(Nume)
+    spawn(function ()
+        if getgenv().Grav == true then
+            while getgenv().Grav == true do
+                game:GetService("Workspace").Gravity = Nume
+            wait()
+        end
+    elseif getgenv().Grav == false then
+        game:GetService("Workspace").Gravity = 196.2
+        end
+    end)
+end

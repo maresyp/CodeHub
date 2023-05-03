@@ -1,0 +1,51 @@
+<template>
+    <form class="filter-stats-form">
+        <select id="players-stats" v-model="players">
+            <option disabled value="">Что будем смотреть?</option>
+            <option value="best">Лучшие игроки</option>
+            <option value="pvp">Дуэлянты</option>
+            <option value="pk">Убийцы</option>
+            <option value="hp">Толстокожие</option>
+            <option value="rich">Богатые</option>
+            <option value="hero">Герои</option>
+            <option value="baron" >Дворяне</option>
+        </select>
+        <button type="button" @click="buttonPlayers()" class="btn btnCard">Выбрать</button>
+    </form>
+ 
+    <best-players v-if="players == 'best'" @messageFromChild="bestPlayers" />
+ 
+    <welcome v-if="players == 'pvp'"></welcome>
+</template>
+ 
+<script>
+import BestPlayers from './BestPlayers.vue'
+import {template} from "lodash";
+ 
+export default {
+    name: 'players',
+    components: {
+        BestPlayers
+    },
+    data() {
+        return {
+            players: ''
+        };
+    },
+    methods: {
+        buttonPlayers: function () {
+            if (this.players == 'pvp') {
+                здесь хочу загружать компонент vue
+            }
+            else if (this.players == 'pk') {
+                alert(this.players)
+            }
+        },
+        bestPlayers(message) {
+            console.log(message)
+        }
+    }
+}
+ 
+ 
+</script>

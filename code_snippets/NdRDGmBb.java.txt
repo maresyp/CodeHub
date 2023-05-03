@@ -1,0 +1,70 @@
+import java.util.HashSet;
+import java.util.Scanner;
+ 
+public class LicensePlates {
+ 
+    public static void main(String[] args) {
+        // Create a scanner object to read input
+        Scanner scanner = new Scanner(System.in);
+ 
+        // Read the allowed letters and split them by comma
+        String[] allowedLetters = scanner.nextLine().split(",");
+ 
+        // Create a hash set to store the allowed letters for faster lookup
+        HashSet<Character> allowedSet = new HashSet<>();
+ 
+        // Loop through the allowed letters and add them to the hash set
+        for (String letter : allowedLetters) {
+            allowedSet.add(letter.charAt(0));
+        }
+ 
+        // Read the number of license plates N
+        int N = scanner.nextInt();
+ 
+        // Consume the remaining newline
+        scanner.nextLine();
+ 
+        // Loop through the license plates
+        for (int i = 0; i < N; i++) {
+            // Read the next license plate
+            String plate = scanner.nextLine();
+ 
+            // Check if the license plate is valid
+            if (isValid(plate, allowedSet)) {
+                // Print the license plate
+                System.out.println(plate);
+            }
+        }
+ 
+        // Close the scanner
+        scanner.close();
+    }
+ 
+    // A helper method to check if a license plate is valid
+    public static boolean isValid(String plate, HashSet<Character> allowedSet) {
+        // Check if the plate has 8 characters
+        if (plate.length() != 8) {
+            return false;
+        }
+ 
+        // Check if the first and second characters are in the allowed set
+        if (!allowedSet.contains(plate.charAt(0)) || !allowedSet.contains(plate.charAt(1))) {
+            return false;
+        }
+ 
+        // Check if the third, fourth, fifth and sixth characters are digits
+        for (int i = 2; i <= 5; i++) {
+            if (!Character.isDigit(plate.charAt(i))) {
+                return false;
+            }
+        }
+ 
+        // Check if the seventh and eighth characters are in the allowed set
+        if (!allowedSet.contains(plate.charAt(6)) || !allowedSet.contains(plate.charAt(7))) {
+            return false;
+        }
+ 
+        // If all checks pass, return true
+        return true;
+    }
+}

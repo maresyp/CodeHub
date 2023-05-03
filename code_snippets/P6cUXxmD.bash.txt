@@ -1,0 +1,29 @@
+#Установите сертификат:
+ 
+sudo mkdir --parents /usr/local/share/ca-certificates/Yandex && \
+sudo wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" \
+  --output-document /usr/local/share/ca-certificates/Yandex/YandexInternalRootCA.crt && \
+sudo chmod 655 /usr/local/share/ca-certificates/Yandex/YandexInternalRootCA.crt
+ 
+#Подключите DEB-репозиторий ClickHouse:
+sudo apt update && sudo apt install --yes apt-transport-https ca-certificates dirmngr && \
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E0C56BD4 && \
+echo "deb https://repo.clickhouse.com/deb/stable/ main/" | sudo tee \
+/etc/apt/sources.list.d/clickhouse.list
+ 
+#Установите зависимости:
+sudo apt update && sudo apt install --yes clickhouse-client
+Загрузите файл конфигурации для clickhouse-client:
+ 
+mkdir --parents ~/.clickhouse-client && \
+wget "https://storage.yandexcloud.net/doc-files/clickhouse-client.conf.example" \
+  --output-document ~/.clickhouse-client/config.xml
+ 
+#Пример строки подключения:
+ 
+clickhouse-client --host rc1a-7ut3ob6t69958voj.mdb.yandexcloud.net \
+                  --secure \
+                  --user user \
+                  --database db \
+                  --port 9440 \
+                  --ask-password

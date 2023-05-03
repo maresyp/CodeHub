@@ -1,0 +1,56 @@
+func (i *InFiles) Delete(ctx context.Context, u *entity.User) error {
+    sh := entity.Shorturl{}
+    var shorts, shorts2 []entity.Shorturl
+    size := i.r.reader.Size()
+    if size < 1 {
+        return ErrNotFound
+    }
+    for j := 0; j < size; j++ {
+        data, err := i.r.reader.ReadBytes('\n')
+        if err != nil {
+            break
+        }
+        err = json.Unmarshal(data, &sh)
+        if err != nil {
+            i.r.file.Seek(0, 0)
+        }
+        // собирает все строки файла
+        shorts = append(shorts, sh)
+    }
+ 
+    for _, v := range shorts {
+        // изменяет флаг del на true, в результате url становиться недоступным для пользователя
+        for _, g := range u.DelLink {
+            if v.Slug == g && v.UserID == u.UserID {
+                v.Del = true
+            }
+        }
+        // обновлённый слайс данных, с флагом del=true
+        shorts2 = append(shorts2, v)
+    }
+    // переводит курсор в начало файла
+    _, err := i.w.file.Seek(0, io.SeekStart)
+    if err != nil {
+        return err
+    }
+    // очищает файл
+    err = i.w.file.Truncate(0)
+    if err != nil {
+        return err
+    }
+    for _, short := range shorts2 {
+        data, err := json.Marshal(&short)
+        if err != nil {
+            return err
+        }
+        if _, err = i.w.writer.Write(data); err != nil {
+            return err
+        }
+        if err = i.w.writer.WriteByte('\n'); err != nil {
+            return err
+        }
+    }
+    i.r.file.Seek(0, 0)
+    t := i.w.writer.Flush()
+    return t
+}

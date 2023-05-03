@@ -1,0 +1,68 @@
+add_action('wp_ajax_wcfmu_vendors_followers_update', function() {
+    global $WCFM, $WCFMu, $wpdb, $_POST;
+    
+    remove_action('wp_ajax_wcfmu_vendors_followers_update', [ $WCFMu->wcfmu_vendor_followers, 'wcfmu_vendors_followers_update' ]);
+ 
+    $user_id   = absint($_POST['user_id']);
+    $vendor_id = absint($_POST['vendor_id']);
+    $count     = absint($_POST['count']);
+ 
+    if ($user_id && $vendor_id) {
+        if (!apply_filters('wcfm_validate_user_can_follow_vendor', true, $user_id, $vendor_id)) {
+            echo 'fail';
+            die;
+        }
+ 
+        $user_data   = get_userdata($user_id);
+        $vendor_data = get_userdata($vendor_id);
+ 
+        // Update Vendor Followers List
+        $followers_arr = get_user_meta($vendor_id, '_wcfm_followers_list', true);
+        if ($followers_arr && is_array($followers_arr)) {
+            $followers_arr[] = $user_id;
+        } else {
+            $followers_arr = [$user_id];
+        }
+ 
+        update_user_meta($vendor_id, '_wcfm_followers_list', $followers_arr);
+ 
+        // Update User Following List
+        $user_following_arr = get_user_meta($user_id, '_wcfm_following_list', true);
+        if ($user_following_arr && is_array($user_following_arr)) {
+            $user_following_arr[] = $vendor_id;
+        } else {
+            $user_following_arr = [$vendor_id];
+        }
+ 
+        update_user_meta($user_id, '_wcfm_following_list', $user_following_arr);
+ 
+        $vendor_display_name = esc_sql($vendor_data->display_name);
+        $user_display_name   = esc_sql($user_data->display_name);
+ 
+        // Update WCfM Followers Table
+        $wcfm_add_follower = "INSERT into {$wpdb->prefix}wcfm_following_followers 
+                                                                ( `user_id`, `user_name`, `user_email`, `follower_id`, `follower_name`, `follower_email`, `notify` )
+                                                                VALUES
+                                                                ( {$vendor_id}, '{$vendor_display_name}', '{$vendor_data->user_email}', {$user_id}, '{$user_display_name}', '{$user_data->user_email}', 1 )";
+        $wpdb->query($wcfm_add_follower);
+ 
+        // Direct message
+        $wcfm_messages = apply_filters('wcfm_vendor_new_follower_message', __('Congrats! Recently you got a new follower.', 'wc-frontend-manager-ultimate'), $user_id, $vendor_id);
+ 
+        $raw_message = [
+            'hook'    => [
+                'name'  => 'wcfm_vendor_new_follower_message',
+                'args'  => array($user_id, $vendor_id)
+            ],
+            'l10n'    => [
+                'text'         => 'Congrats! Recently you got a new follower.',
+                'domain'    => 'wc-frontend-manager-ultimate'
+            ]
+        ];
+ 
+        $WCFM->wcfm_notification->wcfm_send_direct_message(-1, $vendor_id, 1, 0, $wcfm_messages, 'new_follower', true, $raw_message);
+    } //end if
+ 
+    echo 'done';
+    die;
+}, 9);

@@ -1,0 +1,13 @@
+if (O seu nick foi desconectado. iswm $1-) || (Your nick has been logged out. iswm $1-) {
+ var %c = $chan(0)
+ while (%c) {
+  if ($me isop $chan(%c)) || ($me ishop $chan(%c)) {
+   if ($pt.net) && ($nick($chan(%c),$me,o)) echo -s mode $chan(%c) -ov $me $me
+    elseif ($nick($chan(%c),$me,q)) echo -s mode $chan(%c) -qaohv $me $me $me $me $me
+    elseif ($nick($chan(%c),$me,a)) echo -s mode $chan(%c) -aohv $me $me $me $me
+    elseif ($nick($chan(%c),$me,o)) echo -s mode $chan(%c) -ohv $me $me $me
+    elseif ($nick($chan(%c),$me,h)) echo -s mode $chan(%c) -hv $me $me
+   }
+  dec %c
+ }
+}

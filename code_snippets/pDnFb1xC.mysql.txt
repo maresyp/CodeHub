@@ -1,0 +1,102 @@
+#Aufgabe 3.1.1
+ 
+mysql> SELECT * FROM person;
++----------------+---------------+---------+--------------------+----------------+-------+-------------+--------------+
+| personennummer | nachname      | vorname | strasse            | ort            | plz   | land        | geburtsdatum |
++----------------+---------------+---------+--------------------+----------------+-------+-------------+--------------+
+|              1 | Blotzek       | Ulrich  | Großkopf 4         | Arnsberg       | 59823 | Deutschland | 1960-10-05   |
+|              2 | Schatter      | Peter   | Försterstrasse 56  | Augsburg       | 86179 | Deutschland | 1980-01-01   |
+|              3 | Wojack        | Albert  | Westendstrasse 92  | Berlin         | 12234 | Deutschland | 1955-06-15   |
+|              4 | Virtanen      | Veera   | Oyi Keilasatama 21 | Espoo          |  2150 | Finnland    | 1992-12-30   |
+|              5 | Hämäläinen    | Ahvo    | Tapulikuja 56      | Forssa         | 30100 | Finnland    | 1977-04-23   |
+|              6 | Huisman       | Fenna   | Spoordreef 87      | Almere         |  1315 | Niederlande | 1971-08-17   |
+|              7 | Prins         | Lieke   | Noordgeest 21      | Bergen op Zoom |  4600 | Niederlande | 1987-05-08   |
+|              8 | David         | Paula   | Murielstrasse 47   | Klagenfurt     |  9020 | Österreich  | 1970-01-21   |
+|              9 | Hardiff       | Joseph  | Bischofstrasse 139 | Klagenfurt     |  9200 | Österreich  | 1962-08-09   |
++----------------+---------------+---------+--------------------+----------------+-------+-------------+--------------+
+9 rows in set (0.04 sec)
+ 
+mysql> NOTEE;
+ 
+ 
+#Aufgabe 3.1.2
+ 
+mysql> SELECT vorname, nachname, geburtsdatum, ort FROM person;
++---------+---------------+--------------+----------------+
+| vorname | nachname      | geburtsdatum | ort            |
++---------+---------------+--------------+----------------+
+| Ulrich  | Blotzek       | 1960-10-05   | Arnsberg       |
+| Peter   | Schatter      | 1980-01-01   | Augsburg       |
+| Albert  | Wojack        | 1955-06-15   | Berlin         |
+| Veera   | Virtanen      | 1992-12-30   | Espoo          |
+| Ahvo    | Hämäläinen    | 1977-04-23   | Forssa         |
+| Fenna   | Huisman       | 1971-08-17   | Almere         |
+| Lieke   | Prins         | 1987-05-08   | Bergen op Zoom |
+| Paula   | David         | 1970-01-21   | Klagenfurt     |
+| Joseph  | Hardiff       | 1962-08-09   | Klagenfurt     |
++---------+---------------+--------------+----------------+
+9 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.1.3
+ 
+mysql> SELECT DISTINCT ort FROM person;
++----------------+
+| ort            |
++----------------+
+| Arnsberg       |
+| Augsburg       |
+| Berlin         |
+| Espoo          |
+| Forssa         |
+| Almere         |
+| Bergen op Zoom |
+| Klagenfurt     |
++----------------+
+8 rows in set (0.01 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.1.4
+ 
+mysql> SELECT vorname, nachname, plz, land FROM person ORDER BY nachname, vorname ASC;
++---------+---------------+-------+-------------+
+| vorname | nachname      | plz   | land        |
++---------+---------------+-------+-------------+
+| Ulrich  | Blotzek       | 59823 | Deutschland |
+| Paula   | David         |  9020 | Österreich  |
+| Ahvo    | Hämäläinen    | 30100 | Finnland    |
+| Joseph  | Hardiff       |  9200 | Österreich  |
+| Fenna   | Huisman       |  1315 | Niederlande |
+| Lieke   | Prins         |  4600 | Niederlande |
+| Peter   | Schatter      | 86179 | Deutschland |
+| Veera   | Virtanen      |  2150 | Finnland    |
+| Albert  | Wojack        | 12234 | Deutschland |
++---------+---------------+-------+-------------+
+9 rows in set (0.03 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.1.5
+ 
+mysql> SELECT nachname AS Name, ort AS Wohnort, plz AS Postleitzahl, land FROM person; 
++---------------+----------------+--------------+-------------+
+| Name          | Wohnort        | Postleitzahl | land        |
++---------------+----------------+--------------+-------------+
+| Blotzek       | Arnsberg       |        59823 | Deutschland |
+| David         | Klagenfurt     |         9020 | Österreich  |
+| Hämäläinen    | Forssa         |        30100 | Finnland    |
+| Hardiff       | Klagenfurt     |         9200 | Österreich  |
+| Huisman       | Almere         |         1315 | Niederlande |
+| Prins         | Bergen op Zoom |         4600 | Niederlande |
+| Schatter      | Augsburg       |        86179 | Deutschland |
+| Virtanen      | Espoo          |         2150 | Finnland    |
+| Wojack        | Berlin         |        12234 | Deutschland |
++---------------+----------------+--------------+-------------+
+9 rows in set (0.00 sec)
+ 
+mysql> NOTEE

@@ -1,0 +1,17 @@
+Hello, ACCOUNT_MANAGER_NAME!
+ 
+We will need additional access to proceed with this security patch.
+ 
+<b>ACTION NEEDED FROM YOU:</b>
+Would you please reach out to the client for the following credentials?
+<ul><li>cPanel (DEV_TO_FILL_IN_HERE__URL_OR_OTHER_HELPFUL_INFO_TO_HELP_CLIENT_FIND_LOGIN)
+      -- We need this access because DEV_TO_FILL_IN_HERE</li><li>FTP Info (DEV_TO_FILL_IN_HERE__URL_OR_OTHER_HELPFUL_INFO_TO_HELP_CLIENT_FIND_LOGIN)
+      -- We need this access because DEV_TO_FILL_IN_HERE</li></ul>
+Since we are not able to proceed with the patch until the additional information is received, I have assigned this to-do to you to mark it as "on hold".
+ 
+After those credentials have been added to Keeper, please comment here and assign this to-do back to me - we will get this project re-prioritized right away.
+ 
+We have spent DEV_TO_FILL_IN_HERE hours so far.
+We estimate there are DEV_TO_FILL_IN_HERE hours remaining on the project and have updated the estimate in the title accordingly.
+ 
+Thanks!

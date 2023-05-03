@@ -1,0 +1,31 @@
+import java.sql.*;
+/**
+ *
+ * @author user
+ */
+public class firsttest {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException{
+        try{
+  Class.forName("com.mysql.cj.jdbc.Driver");
+  Connection con=DriverManager.getConnection("jdbc:mysql://localhost/db1","root","");
+  
+//  PreparedStatement st= con.prepareStatement("Update username set FirstName = 'Sijan'  where FirstName= 'Subham' ");
+//   PreparedStatement ins= con.prepareStatement("Insert into username (FirstName,LastName)"+" values ('AAyush','Rajthala')");
+   
+  Statement sta= con.createStatement();
+ ResultSet rs= sta.executeQuery("select *  from username where FirstName='Sijan' ");
+ while(rs.next()){
+     System.out.println(rs.getString("FirstName")+" "+rs.getString("LastName"));
+ }
+ 
+//ins.execute();
+//st.excuteUpdate();
+con.close();
+        }
+        catch(SQLException e){
+            System.out.println("Error while connecting to database");
+        }
+  
+    }    
+    
+}

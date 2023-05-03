@@ -1,0 +1,4 @@
+SELECT p.ProductName, Quantity, OrderID, c.CategoryName
+FROM OrderDetails o
+  JOIN Products p ON o.ProductID = p.ProductID
+  JOIN Categories c ON p.CategoryID = c.CategoryID

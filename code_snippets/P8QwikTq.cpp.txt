@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+ 
+void fast(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif // ONLINE_JUDGE
+}
+ 
+ 
+int n;
+vector<int>dist[12];
+int dp[1 << 12][12];
+ 
+ 
+ 
+int func(int mask , int pos){
+ 
+    int& ret = dp[mask][pos];
+ 
+    if(ret != -1)
+        return ret;
+ 
+    ret = 1e9;
+ 
+    for(int i=0 ; i<n ; i++){
+        if(!(mask & (1 << i))){
+            ret = min(ret , func((mask | (1 << i)) , i) + dist[pos][i]);
+        }
+    }
+ 
+    return ret;
+ 
+}
+ 
+ 
+ 
+void solve(){
+    cin>>n;
+    for(int i=0 ; i<n ; i++){
+        for(int j=0 ; j<n ; j++){
+            int x;
+            cin>>x;
+            dist[i].push_back(x);
+        }
+    }
+    // for(int i=0 ; i<n ; i++){
+    //  for(int j=0 ; j<n ; j++){
+    //      cout<<dist[i][j]<<" ";
+    //  }
+    //  cout<<endl;
+    // }
+ 
+    for(int i=0 ; i< (1 << n) ; i++){
+        for(int j=0 ; j<n ; j++){
+            dp[i][j] = -1;
+        }
+    }
+ 
+    for(int i=0 ; i< (1 << n) ; i++){
+        for(int j=0 ; j<n ; j++){
+            cout<<dp[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+ 
+    cout<<func(0 , 0)<<endl;
+ 
+ 
+    for(int i=0 ; i<12 ; i++){
+        dist[i].clear();
+    }
+ 
+ 
+    
+}
+ 
+signed main(){
+    fast();
+    int t;
+    cin>>t;
+    while(t--){
+        solve();
+    }
+}

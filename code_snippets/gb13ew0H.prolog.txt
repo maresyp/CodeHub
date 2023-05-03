@@ -1,0 +1,129 @@
+sits_right_of(cersei, twin).
+sits_right_of(janos, cersei).
+sits_right_of(tyron, janos).
+sits_right_of(pycelle, tyron).
+sits_right_of(varys, pycelle).
+sits_right_of(baelish, varys).
+sits_right_of(twin, baelish).
+ 
+sits_left_of(X, Y) :- sits_right_of(Y, X).
+ 
+are_neighbours_of(X, Y, Z) :- sits_left_of(X, Z), sits_right_of(Y, Z).
+ 
+next_to_each_other(X, Y) :- sits_right_of(X, Y); sits_right_of(Y, X).
+ 
+%---------------------------------
+% Jon Snow and Daenerys Targaryen
+%---------------------------------
+ 
+male(rickardStark).
+male(eddardStark).
+male(brandonStark).
+male(benjenStark).
+male(robbStark).
+male(aerysTargaryen).
+male(rhaegarTargaryen).
+ 
+ 
+%---------------------------
+ 
+female(lyarraStark).
+female(catelynStark).
+female(lyannaStark).
+female(sansaStark).
+female(aryaStark).
+female(rhaellaTargaryen).
+female(eliaTargaryen).
+ 
+%------------------------
+ 
+parent_of(rickardStark,eddardStark).
+parent_of(rickardStark,brandonStark).
+parent_of(rickardStark,benjenStark).
+parent_of(rickardStark,lyannaStark).
+parent_of(lyarraStark,eddardStark).
+parent_of(lyarraStark,brandonStark).
+parent_of(lyarraStark,benjenStark).
+parent_of(lyarraStark,lyannaStark).
+ 
+parent_of(eddardStark,robbStark).
+parent_of(eddardStark,sansaStark).
+parent_of(eddardStark,aryaStark).
+parent_of(eddardStark,branStark).
+parent_of(eddardStark,rickonStark).
+parent_of(catelynStark,robbStark).
+parent_of(catelynStark,sansaStark).
+parent_of(catelynStark,aryaStark).
+parent_of(catelynStark,branStark).
+parent_of(catelynStark,rickonStark).
+ 
+parent_of(aerysTargaryen,rhaegarTargaryen).
+parent_of(aerysTargaryen,viserysTargaryen).
+parent_of(aerysTargaryen,daenerysTargaryen).
+ 
+parent_of(rhaellaTargaryen,rhaegarTargaryen).
+parent_of(rhaellaTargaryen,viserysTargaryen).
+parent_of(rhaellaTargaryen,daenerysTargaryen).
+ 
+parent_of(rhaegarTargaryen,jonSnow).
+parent_of(lyannaStark,jonSnow).
+ 
+parent_of(rhaegarTargaryen,aegonTargaryen).
+parent_of(rhaegarTargaryen,rhaenysTargaryen).
+ 
+parent_of(eliaTargaryen,aegonTargaryen).
+parent_of(eliaTargaryen,rhaenysTargaryen).
+ 
+father_of(Father, Child) :- male(Father), parent_of(Father, Child).
+ 
+mother_of(Mother, Child) :- female(Mother), parent_of(Mother, Child).
+grandfather_of(Grandfather, Child) :- father_of(Grandfather, X), parent_of(X, Child).
+grandmother_of(Grandmother, Child) :- mother_of(Grandmother, X), parent_of(X, Child).
+ 
+sibling_of(Person1, Person2) :- parent_of(X, Person1), parent_of(X, Person2), Person1 \= Person2.
+ 
+sister_of(Sister,Person) :- female(Sister), sibling_of(Sister, Person).    
+    
+brother_of(Brother,Person)  :- male(Brother), sibling_of(Brother, Person).
+ 
+aunt_of(Aunt,Person) :- parent_of(X, Person), sister_of(Aunt, X).
+    
+uncle_of(Uncle,Person)  :- parent_of(X, Person), brother_of(Uncle, X).
+    
+ancestor_of(X, Y) :- parent_of(X, Y).
+ancestor_of(X, Y) :- ancestor_of(X, Z), parent_of(Z, Y).
+ 
+human(X) :- male(X); female(X).
+not_parent_of(X, Y) :- human(X), human(Y), not(parent_of(X, Y)).
+ 
+x(A, B) :- A = x(B), B = x(A).
+ 
+ancestor_not_parent(X,Y) :- ancestor_of(X, Y),  not(parent_of(X, Y)).
+ 
+/** GOT riddle 
+Varys - "Power is a curious thing, my lord. Are you fond of riddles?" 
+Tyrion - "Why? Am I about to hear one?" 
+Varys - "Three great men sit in a room, a king, a priest and the rich man. 
+         Between them stands a common sellsword. 
+         Each great man bids the sellsword kill the other two. 
+         Who lives? Who dies?" 
+Tyrion - "Depends on the sellsword" 
+*/
+ 
+ 
+char(king).
+ 
+ 
+choice(god,priest). 
+ 
+optiune(vrea_credinta).
+optiune(vrea_bani).
+optiune(vrea_autoritate).
+ 
+religios(vrea_credinta).
+mercantil(vrea_bani).
+parvenit(vrea_autoritate).
+ 
+is_killed(preot, Mercenar) :- optiune(Mercenar), \+ religios(Mercenar).
+is_killed(rege, Mercenar) :- optiune(Mercenar), \+ parvenit(Mercenar).
+is_killed(bogat, Mercenar) :- optiune(Mercenar), \+ mercantil(Mercenar).

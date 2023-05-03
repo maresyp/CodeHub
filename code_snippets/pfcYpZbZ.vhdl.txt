@@ -1,0 +1,56 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+ 
+entity instruction_memory is
+    generic (
+        IM_Register_Count : integer := 1024  -- Number of instructions in memory
+    );
+    port (
+        address_input : in std_logic_vector(63 downto 0);
+            instruction_output : out std_logic_vector(31 downto 0)
+    );
+end entity instruction_memory;
+ 
+architecture Behavioral of instruction_memory is
+ 
+    type register_file is array (0 to IM_Register_Count-1) of std_logic_vector(31 downto 0);
+    
+    constant instructions : register_file := (
+        -- Example instructions:
+        0 => "110100101"&"00"&"0000000000000010"&"00000",  -- D2800040 -- MOVZ X0, #2
+        1 => "110100101"&"00"&"0000000000000101"&"00001", -- D28000A1 -- MOVZ X1, #5
+        2 => "110100101"&"00"&"0000000000000001"&"00010", -- D2800022 -- MOVZ X2, #1
+        3 => "1001000100"&"000000000001"&"00000"&"11110", -- 9100041E -- ADDI X30, X0, #1 = 3
+        4 => "10001011000"&"00001"&"000000"&"00000"&"11101", -- 8B01001D -- ADD X29, X0, X1 = 7
+        5 => "10001011000"&"00001"&"000000"&"00000"&"11100", -- CB01001C -- SUB X29, X0, X1 = -3
+        6 => "11010011011"&"00000"&"000001"&"00010"&"11011", -- D360045B -- LSL X27, X2, #1 = 2
+        7 => "10001010000"&"00010"&"000000"&"00000"&"11010", -- 8A02001A -- AND X26, X0, X2 = 0
+        8 => "10101010000"&"00010"&"000000"&"00000"&"11001", -- AA020019 -- OR X25, X0, X2 = 3
+        9 => "11111000000"&"000000000"&"01"&"11111"&"00001", -- F80007E1 -- STUR X1, [XZR, #0] = 5
+        10 => "11111000000"&"000000100"&"01"&"11111"&"00001", -- F80047E1 -- STUR X1, [XZR, #4] = 5
+        11 => "11111000010"&"000000100"&"01"&"11111"&"11000", -- F84047F8 -- LDUR X24, [XZR, #4] = 5
+        others=>x"00000000"
+    );
+    
+begin
+ 
+    process(address_input)
+        variable register_index : integer range 0 to IM_Register_Count-1;
+    begin
+        -- Convert address input to desired instruction index
+        if to_integer(unsigned(address_input)) > 0 or to_integer(unsigned(address_input)) < 0 then
+            register_index := (to_integer(unsigned(address_input)) + 1) / 4;  -- Divide by 4 to get instruction index
+        else
+            register_index := 0;
+        end if;
+        
+        -- Output Instruction
+        if register_index >= IM_Register_Count then  -- Check for out-of-bounds address
+            instruction_output <= (others => '0');  -- Default to all zeros
+        else
+            instruction_output  <= instructions(register_index);
+        end if;
+    end process;
+    
+end Behavioral;

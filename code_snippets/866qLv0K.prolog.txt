@@ -1,0 +1,468 @@
+Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException Object
+(
+    [transbankErrorMessage:protected] => Unexpected error
+    [httpCode:protected] => 500
+    [response:protected] => 
+    [failedRequest:protected] => Transbank\Webpay\Exceptions\TransbankApiRequest Object
+        (
+            [method] => POST
+            [baseUrl] => https://webpay3gint.transbank.cl/
+            [endpoint] => rswebpaytransaction/api/oneclick/v1.2/transactions
+            [payload] => Array
+                (
+                    [username] => TEST TEST Yankor TEST TEST Hernandez 
+                    [tbk_user] => 946dcfcd-af1f-4d7e-bb1a-584261f4b297
+                    [buy_order] => 587210525
+                    [details] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [commerce_code] => 597055555542
+                                    [buy_order] => child-515712464
+                                    [amount] => 1000
+                                )
+ 
+                        )
+ 
+                )
+ 
+            [headers] => Array
+                (
+                    [Tbk-Api-Key-Id] => 597055555541
+                    [Tbk-Api-Key-Secret] => 579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C
+                )
+ 
+        )
+ 
+    [message:protected] => API Response: "Unexpected error" [500] - An error has happened on the request
+    [string:Exception:private] => 
+    [code:protected] => 500
+    [file:protected] => /var/www/html/tastypay/vendor/transbank/transbank-sdk/src/Webpay/Exceptions/WebpayRequestException.php
+    [line:protected] => 76
+    [trace:Exception:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/transbank/transbank-sdk/src/Webpay/Oneclick/MallTransaction.php
+                    [line] => 46
+                    [function] => raise
+                    [class] => Transbank\Webpay\Exceptions\WebpayRequestException
+                    [type] => ::
+                )
+ 
+            [1] => Array
+                (
+                    [file] => /var/www/html/tastypay/app/Repositories/OneClick.php
+                    [line] => 92
+                    [function] => authorize
+                    [class] => Transbank\Webpay\Oneclick\MallTransaction
+                    [type] => ->
+                )
+ 
+            [2] => Array
+                (
+                    [file] => /var/www/html/tastypay/app/Repositories/OneClick.php
+                    [line] => 29
+                    [function] => authorize
+                    [class] => App\Repositories\OneClick
+                    [type] => ->
+                )
+ 
+            [3] => Array
+                (
+                    [file] => /var/www/html/tastypay/app/Repositories/Checkout.php
+                    [line] => 121
+                    [function] => capture
+                    [class] => App\Repositories\OneClick
+                    [type] => ->
+                )
+ 
+            [4] => Array
+                (
+                    [file] => /var/www/html/tastypay/app/Http/Controllers/CheckoutController.php
+                    [line] => 25
+                    [function] => capture
+                    [class] => App\Repositories\Checkout
+                    [type] => ->
+                )
+ 
+            [5] => Array
+                (
+                    [function] => capture
+                    [class] => App\Http\Controllers\CheckoutController
+                    [type] => ->
+                )
+ 
+            [6] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Controller.php
+                    [line] => 54
+                    [function] => call_user_func_array
+                )
+ 
+            [7] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php
+                    [line] => 45
+                    [function] => callAction
+                    [class] => Illuminate\Routing\Controller
+                    [type] => ->
+                )
+ 
+            [8] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Route.php
+                    [line] => 219
+                    [function] => dispatch
+                    [class] => Illuminate\Routing\ControllerDispatcher
+                    [type] => ->
+                )
+ 
+            [9] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Route.php
+                    [line] => 176
+                    [function] => runController
+                    [class] => Illuminate\Routing\Route
+                    [type] => ->
+                )
+ 
+            [10] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Router.php
+                    [line] => 682
+                    [function] => run
+                    [class] => Illuminate\Routing\Route
+                    [type] => ->
+                )
+ 
+            [11] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 30
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Router
+                    [type] => ->
+                )
+ 
+            [12] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/passport/src/Http/Middleware/CheckClientCredentials.php
+                    [line] => 53
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [13] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Laravel\Passport\Http\Middleware\CheckClientCredentials
+                    [type] => ->
+                )
+ 
+            [14] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [15] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php
+                    [line] => 41
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [16] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Illuminate\Routing\Middleware\SubstituteBindings
+                    [type] => ->
+                )
+ 
+            [17] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [18] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php
+                    [line] => 58
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [19] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Illuminate\Routing\Middleware\ThrottleRequests
+                    [type] => ->
+                )
+ 
+            [20] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [21] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 104
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [22] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Router.php
+                    [line] => 684
+                    [function] => then
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [23] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Router.php
+                    [line] => 659
+                    [function] => runRouteWithinStack
+                    [class] => Illuminate\Routing\Router
+                    [type] => ->
+                )
+ 
+            [24] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Router.php
+                    [line] => 625
+                    [function] => runRoute
+                    [class] => Illuminate\Routing\Router
+                    [type] => ->
+                )
+ 
+            [25] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Router.php
+                    [line] => 614
+                    [function] => dispatchToRoute
+                    [class] => Illuminate\Routing\Router
+                    [type] => ->
+                )
+ 
+            [26] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php
+                    [line] => 176
+                    [function] => dispatch
+                    [class] => Illuminate\Routing\Router
+                    [type] => ->
+                )
+ 
+            [27] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 30
+                    [function] => Illuminate\Foundation\Http\{closure}
+                    [class] => Illuminate\Foundation\Http\Kernel
+                    [type] => ->
+                )
+ 
+            [28] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/fideloper/proxy/src/TrustProxies.php
+                    [line] => 57
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [29] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Fideloper\Proxy\TrustProxies
+                    [type] => ->
+                )
+ 
+            [30] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [31] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php
+                    [line] => 31
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [32] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Illuminate\Foundation\Http\Middleware\TransformsRequest
+                    [type] => ->
+                )
+ 
+            [33] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [34] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php
+                    [line] => 31
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [35] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Illuminate\Foundation\Http\Middleware\TransformsRequest
+                    [type] => ->
+                )
+ 
+            [36] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [37] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php
+                    [line] => 27
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [38] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Illuminate\Foundation\Http\Middleware\ValidatePostSize
+                    [type] => ->
+                )
+ 
+            [39] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [40] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php
+                    [line] => 62
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [41] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 163
+                    [function] => handle
+                    [class] => Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode
+                    [type] => ->
+                )
+ 
+            [42] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php
+                    [line] => 53
+                    [function] => Illuminate\Pipeline\{closure}
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [43] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                    [line] => 104
+                    [function] => Illuminate\Routing\{closure}
+                    [class] => Illuminate\Routing\Pipeline
+                    [type] => ->
+                )
+ 
+            [44] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php
+                    [line] => 151
+                    [function] => then
+                    [class] => Illuminate\Pipeline\Pipeline
+                    [type] => ->
+                )
+ 
+            [45] => Array
+                (
+                    [file] => /var/www/html/tastypay/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php
+                    [line] => 116
+                    [function] => sendRequestThroughRouter
+                    [class] => Illuminate\Foundation\Http\Kernel
+                    [type] => ->
+                )
+ 
+            [46] => Array
+                (
+                    [file] => /var/www/html/tastypay/public/index.php
+                    [line] => 55
+                    [function] => handle
+                    [class] => Illuminate\Foundation\Http\Kernel
+                    [type] => ->
+                )
+ 
+        )
+ 
+    [previous:Exception:private] => 
+)
+ 
+{"order_id":34237,"oneclick":true,"gateway":null}

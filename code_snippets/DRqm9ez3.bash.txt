@@ -1,0 +1,25 @@
+#!/bin/bash
+# ------------------------------------------ #
+DATE=$(date +%Y-%m-%d-%H%M%S)
+BACKUP_DIR="/root/backup/influxdb/sicherungen"
+SOURCE="/root/backup/influxdb/"
+# ------------------------------------------ #
+ 
+echo "####################################"
+echo "Datenbank wird gesichert"
+echo "####################################"
+ 
+influxd backup -portable /root/backup/influxdb/
+ 
+echo "####################################"
+echo "Daten werden gepackt..."
+echo "####################################"
+ 
+tar --exclude "$BACKUP_DIR" -cvzpf "$BACKUP_DIR/influx-backup-$DATE.tar.gz" "$SOURCE"
+ 
+echo "#############################################"
+echo "einzelne Sicherungsdateien werden gelöscht..."
+echo "#############################################"
+ 
+rm $SOURCE/*.gz $SOURCE/*.meta $SOURCE/*.manifest
+echo "####################################"

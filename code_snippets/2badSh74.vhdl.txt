@@ -1,0 +1,84 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 03.09.2021 10:45:57
+-- Design Name: 
+-- Module Name: labs - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+ 
+ 
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.all;
+use IEEE.std_logic_unsigned.all;
+ 
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+ 
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+ 
+entity labs is
+--  Port ( );
+Port(
+    a: in std_logic_vector(3 downto 0);
+    b: in std_logic_vector(3 downto 0)
+);
+end labs;
+ 
+ 
+architecture Behavioral of labs is
+--Componentes: 
+ 
+component MUXdos is --Mux 2 a 1 (16bits)
+Port(
+    a: in std_logic_vector(15 downto 0);
+    b: in std_logic_vector(15 downto 0);
+    Selector: in std_logic;
+    Salida: out std_logic_vector(15 downto 0)
+);
+end component;
+ 
+-- Señales:
+signal Verificacion: std_logic;
+signal Comprueba: std_logic_vector(1 downto 0);
+signal Error: std_logic_vector(15 downto 0);
+signal suma: std_logic_vector(15 downto 0);
+signal salidaMuxdos: std_logic_vector(15 downto 0);
+signal BCD: std_logic_vector(7 downto 0);
+signal BIN: std_logic_vector(7 downto 0);
+begin
+ 
+u1: MUXdos port map (a => suma, b =>Error, Selector =>Verificacion , Salida =>salidaMuxdos);
+ 
+process(a,b)
+begin
+if a > "1010"
+    then 
+     Comprueba(0) <= '1';
+elsif b > "1010" 
+        then  
+          Comprueba(1) <= '1';
+else
+    Verificacion <= '0';
+end if;
+end process;
+ 
+Verificacion <= Comprueba(0) or Comprueba(1);
+BCD <= SalidaMuxdos(7 downto 0);

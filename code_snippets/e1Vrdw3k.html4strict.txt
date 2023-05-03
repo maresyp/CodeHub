@@ -1,0 +1,420 @@
+<!--===================
+text: #492024
+background: #fff
+light pink:: #fef1f2
+dark pink: #f4737b
+===================-->
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<div class="mx-auto my-5 col-xl-6 col-lg-10 card p-4" style="background:#fff; border-radius:80px 0px 80px 0px; color:#492024"><div class="row no-gutters">
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+        <!--==========
+        TOP LEFT BOX
+        ==========-->
+        <div class="col-2">
+        <div class="card rounded-0 justify-content-center text-center"
+        style="height:100%; font-size:3rem; border-radius:80px 0px 0px 0px; color:#fff;
+        background:#f4737b; background-size:250px; border:double #fff">
+           
+           
+<!--BEATING ICON==========-->
+<i class="fad fa-lemon fa-beat"></i>
+       
+       
+        </div></div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+        <!--==========
+        TOP RIGHT BOX
+        ==========-->
+        <div class="col-10">
+        <div class="card p-2 ml-3"
+        style="background:#f4737b; background-size:250px; border:double #fff">
+            <div class="mx-1 mb-1 px-2 text-right" style="z-index:100; font-size:2.5rem; background:#fff; border:double #f4737b; color:#f4737b">
+ 
+<!--NAME==========-->
+NAME
+           
+            </div>
+ 
+ 
+ 
+ 
+ 
+        <!--=====TOP BUTTONS=====--><ul class="nav nav-tabs card-header-tabs flex-row m-0">
+   
+                <!--BUTTON 1--><li class="w-100 mx-1"><a class="btn w-100 rounded-0" style="font-size:25px; background:#f4737b; color:#fff; border:#f4737b" data-toggle="tab" href="#basic">
+                <i class="fas fa-book-open"></i>
+                </a></li>
+       
+                <!--BUTTON 2--><li class="w-100 mx-1"><a class="btn w-100 rounded-0" style="font-size:25px; background:#f4737b; color:#fff; border:#f4737b" data-toggle="tab" href="#personality">
+                <i class="fas fa-book"></i>
+                </a></li>
+       
+                <!--BUTTON 3--><li class="w-100 mx-1"><a class="btn w-100 rounded-0" style="font-size:25px; background:#f4737b; color:#fff; border:#f4737b" data-toggle="tab" href="#lifestyle">
+                <i class="fas fa-books"></i>
+                </a></li>
+   
+        </ul>
+   
+        </div></div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    <!--==========
+    MAIN BOX
+    ==========-->
+    <div class="col-12 my-3 card" style="background:#f4737b"><div class="row no-gutters">
+ 
+ 
+ 
+ 
+ 
+    <!--==========
+    LEFT TABS
+    ==========-->
+    <div class="col-lg-6"><div class="card pl-3" style="background:#fff; border:double #f4737b; height:310px; overflow-y:auto"><div class="tab-content">
+           
+           
+           
+    <!--==========
+    BASIC
+    ==========-->
+            <div class="tab-pane fade active show" id="basic">
+                <div style="color:#f4737b; font-size:1rem; position:absolute; transform:rotate(270deg); left:-20px; top:11px; padding:0px 5px">BASIC</div>
+                    <div class="p-2" style="font-size:1rem">
+                   
+                   
+                   
+                    <div style="background:#fef1f2; padding-left:5px; margin:5px -5px">
+                        <i class="fad fa-quotes mr-1" style="color:#f4737b; font-size:1.4rem; width:30px"></i>
+<!--NICKNAME==========-->
+nickname
+                    </div>
+                   
+                   
+                   
+                    <div style="padding-left:25px; margin:5px -5px">
+                        <i class="fad fa-hourglass-half mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--AGE==========-->
+age
+                    </div>
+                   
+                   
+                   
+                    <div style="background:#fef1f2; padding-left:5px; margin:5px -5px">
+                        <i class="fad fa-calendar mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--BIRTHDAY==========-->
+birthday
+                    </div>
+                   
+                   
+                   
+                    <div style="padding-left:25px; margin:5px -5px">
+                        <i class="fad fa-venus-mars mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--GENDER==========-->
+gender
+                    </div>
+                   
+                   
+                   
+                    <div style="background:#fef1f2; padding-left:5px; margin:5px -5px">
+                        <i class="fad fa-comments mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--PRONOUNS==========-->
+pronouns
+                    </div>
+                   
+                   
+                   
+                    <div style="padding-left:25px; margin:5px -5px">
+                        <i class="fad fa-hand-heart mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--ORIENTATION==========-->
+orientation
+                    </div>
+                   
+                   
+                   
+                    <div style="background:#fef1f2; padding-left:5px; margin:5px -5px">
+                        <i class="fad fa-dna mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--SPECIES==========-->
+species
+                    </div>
+                   
+                   
+                   
+                    <div style="padding-left:25px; margin:5px -5px">
+                        <i class="fad fa-ruler mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--HEIGHT==========-->
+height
+                    </div>
+                   
+                   
+                   
+                    <div style="background:#fef1f2; padding-left:5px; margin:5px -5px">
+                        <i class="fad fa-dumbbell mr-1" style="color:#f4737b; font-size:1.5rem; width:30px"></i>
+<!--BODY TYPE==========-->
+body type
+                    </div>
+                   
+                   
+                   
+                </div>
+            </div>
+ 
+ 
+ 
+    <!--==========
+    PERSONALITY
+    ==========-->
+            <div class="tab-pane fade" id="personality">
+                <div style="color:#f4737b; font-size:1rem; position:absolute; transform:rotate(270deg); left:-48px; top:40px; padding:0px 5px; z-index:100">PERSONALITY</div>
+                    <div class="p-2" style="font-size:.7rem">
+                       
+                   
+                   
+                    <div class="mb-2" style="height:95px; overflow-y:auto; font-size:.9rem; line-height:1.3">
+<!--PERSONALITY==========-->
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip  consequat ayyy macarena
+                    </div>
+ 
+ 
+ 
+                    <div class="justify-content-between"><span>INTROVERTED</span><span>EXTROVERTED</span></div>
+                        <span class="progress mb-1 rounded-0" style="height:16px; padding:3px; background:#fef1f2; border:1px #f4737b solid">
+                            <span class="progress-bar justify-content-end" role="progressbar" aria-valuenow="50" aria-valuemin ="0" aria-valuemax="100" style="height:8px; background:#f4737b;
+<!--INTROVERTED-EXTROVERTED==========-->;
+width:50%;"></span></span>
+                   
+                   
+                   
+                    <div class="justify-content-between"><span>STOIC</span><span>EMOTIONAL</span></div>
+                        <span class="progress mb-1 rounded-0" style="height:16px; padding:3px; background:#fef1f2; border:1px #f4737b solid">
+                            <span class="progress-bar justify-content-end" role="progressbar" aria-valuenow="50" aria-valuemin ="0" aria-valuemax="100" style="height:8px; background:#f4737b;
+<!--STOIC-EMOTIONAL==========-->;
+width:50%;"></span></span>
+                   
+                   
+                   
+                    <div class="justify-content-between"><span>SECRETIVE</span><span>HONEST</span></div>
+                        <span class="progress mb-1 rounded-0" style="height:16px; padding:3px; background:#fef1f2; border:1px #f4737b solid">
+                            <span class="progress-bar justify-content-end" role="progressbar" aria-valuenow="50" aria-valuemin ="0" aria-valuemax="100" style="height:8px; background:#f4737b;
+<!--SECRETIVE-HONEST==========-->;
+width:50%;"></span></span>
+                   
+                   
+                   
+                    <div class="justify-content-between"><span>PUSHOVER</span><span>STUBBORN</span></div>
+                        <span class="progress mb-1 rounded-0" style="height:16px; padding:3px; background:#fef1f2; border:1px #f4737b solid">
+                            <span class="progress-bar justify-content-end" role="progressbar" aria-valuenow="50" aria-valuemin ="0" aria-valuemax="100" style="height:8px; background:#f4737b;
+<!--PUSHOVER-STUBBORN==========-->;
+width:50%;"></span></span>
+                   
+                   
+                   
+                    <div class="justify-content-between"><span>STERN</span><span>PLAYFUL</span></div>
+                        <span class="progress mb-1 rounded-0" style="height:16px; padding:3px; background:#fef1f2; border:1px #f4737b solid">
+                            <span class="progress-bar justify-content-end" role="progressbar" aria-valuenow="50" aria-valuemin ="0" aria-valuemax="100" style="height:8px; background:#f4737b;
+<!--STERN-PLAYFUL==========-->;
+width:50%;"></span></span>
+ 
+ 
+ 
+                </div>
+            </div>
+ 
+ 
+ 
+    <!--==========
+    LIFESTYLE
+    ==========-->
+            <div class="tab-pane fade" id="lifestyle">
+                <div style="color:#f4737b; font-size:1rem; position:absolute; transform:rotate(270deg); left:-34px; top:25px; padding:0px 5px">LIFESTYLE</div>
+                    <div class="p-2" style="font-size:1rem">
+ 
+ 
+ 
+                    <div class="justify-content-between" style="background:#fef1f2; padding:0px 5px; margin:5px -5px">
+                        <span style="color:#f4737b">OCCUPATION</span>
+<!--OCCUPATION==========-->
+content
+                    </div>
+                   
+                   
+                   
+                    <div class="justify-content-between" style="background:#fef1f2; padding:0px 5px; margin:5px -5px">
+                        <span style="color:#f4737b">ALIGNMENT</span>
+<!--ALIGNMENT==========-->
+content
+                    </div>
+                   
+                   
+                   
+                    <div class="justify-content-between" style="background:#fef1f2; padding:0px 5px; margin:5px -5px">
+                        <span style="color:#f4737b">STATUS</span>
+<!--STATUS==========-->
+content
+                    </div>
+                   
+                   
+                   
+                   
+                    <div style="height:195px; overflow-y:auto;">
+                   
+                        <div style="color:#f4737b; font-size:.9rem;"><i class="fad fa-circle-heart mr-1"></i>LIKES</div><div class="mb-1">
+<!--LIKES==========-->
+like, like, another like
+                        </div>
+   
+   
+                        <div style="color:#f4737b; font-size:.9rem;"><i class="fad fa-circle-x mr-1"></i>DISLIKES</div><div class="mb-1">
+<!--DISLIKES==========-->
+dislike, dislike, another dislike
+                        </div>
+                       
+ 
+ 
+                        <div style="color:#f4737b; font-size:.9rem;"><i class="fad fa-pen-circle mr-1"></i>HOBBIES</div><div class="mb-1">
+<!--HOBBIES==========-->
+hobby, hobby, another hobby
+                        </div>
+                       
+   
+   
+                        <div style="color:#f4737b; font-size:.9rem;"><i class="fad fa-circle-trash mr-1"></i>FEARS</div><div class="mb-1">
+<!--FEARS==========-->
+fear, fear, another fear
+                        </div>
+                       
+ 
+ 
+                    </div>
+                   
+                   
+                </div>
+            </div>
+       
+       
+       
+        </div></div></div>
+       
+       
+       
+       
+       
+    <!--==========
+    IMAGES
+    ==========-->
+   
+            <div class="col-lg-3">
+                    <div class="card w-100" style="background:#fff; border:double #f4737b; height:310px;
+<!--IMAGE 1==========-->;  
+background-image:url(https://f2.toyhou.se/file/f2-toyhou-se/images/60471825_auJ44YdBPrPc6qP.png);
+ 
+                    background-size:cover; background-position:center;"></div>
+            </div>
+   
+ 
+   
+                <div class="col-lg-3">
+                    <div class="card w-100" style="background:#fff; border:double #f4737b; height:155px;
+<!--IMAGE 2==========-->;  
+background-image:url(https://cdn.discordapp.com/attachments/1029517729503391744/1092947279100526612/image.png);
+ 
+                    background-size:cover; background-position:center;"></div>
+                   
+                   
+                   
+                    <div class="card w-100" style="background:#fff; border:double #f4737b; height:155px;
+<!--IMAGE 3==========-->;  
+background-image:url(https://cdn.discordapp.com/attachments/1029517729503391744/1092944546515656805/image.png);
+ 
+                    background-size:cover; background-position:center;"></div>
+                    </div>
+                </div>
+                   
+                   
+                   
+                   
+ 
+ 
+    </div></div>
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+        <!--==========
+        BOTTOM BOX
+        ==========--><div class="col-12 p-0">
+        <div class="card py-2 px-5 text-center" style="border-radius:0px 0px 80px 0px; background:#f4737b; border:double #fff; color:#fff; font-size:1.2rem; font-style:italic">
+            <i class="fas fa-quote-left" style="position:absolute; bottom:2px; left:5px"></i>
+            <i class="fas fa-quote-right" style="position:absolute; top:2px; right:5px"></i>
+ 
+ 
+ 
+<!--QUOTE==========-->
+some sort of sample quote would look pretty neat-o here, i'll bet
+ 
+ 
+ 
+        </div></div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!--==========
+CREDIT-DON'T REMOVE!
+==========!-->
+<a href="ghoulipede"><i class="fas fa-code" style="color:#f4737b; position:absolute; right:-5px; bottom:5px;"></i></a>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+</div>

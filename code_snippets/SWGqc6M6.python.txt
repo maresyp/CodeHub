@@ -1,0 +1,131 @@
+import requests
+import json
+import html
+import os
+import getpass
+from cryptography.fernet import Fernet
+ 
+# Define the name of the file that stores the encryption key
+KEY_FILENAME = 'encryption_key.txt'
+ 
+def encrypt_token(token, key):
+    f = Fernet(key)
+    encrypted_token = f.encrypt(token.encode())
+    with open('encrypted_token.txt', 'wb') as file:
+        file.write(encrypted_token)
+ 
+def decrypt_token(key):
+    with open('encrypted_token.txt', 'rb') as file:
+        encrypted_token = file.read()
+    f = Fernet(key)
+    auth_token = f.decrypt(encrypted_token).decode()
+    return auth_token
+ 
+# Check if the encryption key file exists, and create it if it doesn't
+if not os.path.exists(KEY_FILENAME):
+    key = Fernet.generate_key()
+    with open(KEY_FILENAME, 'wb') as key_file:
+        key_file.write(key)
+else:
+    with open(KEY_FILENAME, 'rb') as key_file:
+        key = key_file.read()
+ 
+# Check if the encrypted token file exists, and prompt the user to enter the auth token if it doesn't
+if not os.path.exists('encrypted_token.txt'):
+    auth_token = getpass.getpass('Enter authentication token: ')
+    encrypt_token(auth_token, key)
+else:
+    auth_token = decrypt_token(key)
+ 
+url = 'https://zeevest.000webhostapp.com/authenticate.php'
+payload = {'authentication_token': auth_token}
+response = requests.post(url, data=payload)
+ 
+# Check if the authentication succeeded
+if response.text == 'Authentication succeeded.':
+    # Perform your desired action here
+    print('Authentication succeeded.')
+    url2 = 'https://zeevest.000webhostapp.com/get-api.php'
+    response = requests.get(url2)
+ 
+    if response.status_code == 200:
+        # Store the response in a variable named api
+        api_key = response.text
+    else:
+        # Print an error message if the request failed
+        print('Error: Unable to get Api Keys')
+        api_key = input("Enter your Sendinblue API key: ")
+ 
+ 
+    # Prompt the user to enter the email content
+    sender_name = input("Enter the sender name: ")
+    sender_email = input("Enter the sender email: ")
+    subject = input("Enter the email subject: ")
+    message = input("""Enter the email message: """)
+ 
+    # Format the message as HTML
+    html_message = f"<html><body>{html.escape(message)}</body></html>"
+ 
+    # Read the list of email addresses from the file
+    with open('email_list.txt') as f:
+        recipient_emails = [line.strip() for line in f]
+ 
+    # Loop over the recipient email addresses and send the email to each address
+    for email in recipient_emails:
+        # Check if the email address already exists in the sent_emails.txt file
+        with open('sent_emails.txt', 'r') as sent_emails_file:
+            if email in sent_emails_file.read():
+                print(f'{email} has already been sent an email.')
+                continue
+ 
+        # Define the email data
+        email_data = {
+            "sender": {"name": sender_name, "email": sender_email},
+            "to": [{"email": email}],
+            "subject": subject,
+            "htmlContent": html_message
+        }
+ 
+        # Convert the email data to JSON format
+        email_json = json.dumps(email_data)
+ 
+        # Set the request headers
+    headers = {
+        'Content-Type': 'application/json',
+        'api-key': api_key
+    }
+ 
+    # Define the Sendinblue API endpoint URL
+    SENDINBLUE_API_ENDPOINT = 'https://api.sendinblue.com/v3/smtp/email'
+ 
+    # Send the email
+    response = requests.post(SENDINBLUE_API_ENDPOINT, headers=headers, data=email_json)
+ 
+    # Check the response status
+    if response.status_code == 201:
+        print(f'Email sent successfully to {email}!')
+        # Append the email address to the sent_emails.txt file
+        with open('sent_emails.txt', 'a') as sent_emails_file:
+            sent_emails_file.write(email + '\n')
+    else:
+        print(f'Failed to send email to {email}:', response.json())
+ 
+else:
+    # Authentication failed, print an error message
+    print('Authentication failed.')
+    if os.path.exists('encrypted_token.txt'):
+        os.remove('encrypted_token.txt')
+    if os.path.exists('encryption_key.txt'):
+        os.remove('encryption_key.txt')
+    # Prompt the user to enter a new authentication token
+    auth_token = getpass.getpass('Enter new authentication token: ')
+    key = encrypt_token(auth_token)
+    url = 'https://zeevest.000webhostapp.com/authenticate.php'
+    payload = {'authentication_token': auth_token}
+    response = requests.post(url, data=payload)
+    if response.text == 'Authentication succeeded.':
+        print('Authentication succeeded.')
+        with open('encryption_key.txt', 'wb') as file:
+            file.write(key)
+    else:
+        print('Authentication failed again. Please check your authentication token and try again later.')

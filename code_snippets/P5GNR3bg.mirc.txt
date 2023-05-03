@@ -1,0 +1,41 @@
+alias xact {
+  ; /xact <nick> <#chan> <kick|ban|kb|kickban> [ban-time] [ban-type] [kick-reason]
+ 
+  if ($0 < 3) { echo 4 -gste [/XACT]: Error, Not enough parameters! | return }
+  if (!$istok(kick ban kb kickban,$3,32)) { echo 4 -gste [/XACT]: Error, Incorrect action! | return }
+  if ($me !ison $2) { echo 4 -gste [/XACT]: Error, You are NOT on $2 channel! | return }
+  if ($me !isop $2) { echo 4 -gste [/XACT]: Error, You are NOT a channel operator on $2 channel! | return }
+  if ($1 !ison $2) { echo 4 -gste [/XACT]: Error, User $1 is NOT on $2 channel! | return }
+  if ($1 !isreg $2) { echo 4 -gste [/XACT]: Error, User $1 is NOT a regular user on $2 channel! | return }
+ 
+  var %host = $ial($1).host
+  var %ident = $ial($1).user
+ 
+  if ($4 !== $null) && ($isnum($4)) { var %ban_secs = $4 }
+  else { var %secs = 3600 }
+ 
+  if ($5 !== $null) && ($isnum($5)) && ($5 isnum 0-9) { var %type = $5 }
+  else { var %type = 4 }
+ 
+  if ($6 == $null) { var %reason = [Banned]: Requested! }
+  else { var %reason = $6- }
+ 
+  if ($3 == ban) { var %ban = 1 }
+  if ($3 == kick) { var %kick = 1 }
+  if ($3 == kb) || ($3 == kickban) { var %ban = 1 | var %kick = 1 }
+ 
+  if (*.irccloud.com iswm %host) || (*.mibbit.com iswm %host) || (*.kiwiirc.com iswm %host) {
+    if (%ban) { ban $+(-u,%secs) $2 *! $+ %ident $+ @* }
+    if (%kick) { kick $2 $1 %reason }
+  }
+ 
+  elseif (*.IP iswm %host) { 
+    if (%ban) { ban $+(-u,%secs) $2 *!*@*. $+ $gettok(%host,3-,46) }
+    if (%kick) { kick $2 $1 %reason }
+  }
+ 
+  else { 
+    if (%ban) { ban $+(-u,%secs) $2 $1 %type }
+    if (%kick) { kick $2 $1 %reason }
+  }
+}

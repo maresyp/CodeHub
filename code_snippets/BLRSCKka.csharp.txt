@@ -1,0 +1,65 @@
+using System;
+using System.Net;
+ 
+namespace GladiatorFight
+{
+    public class Fighter
+    {
+        public string Name { get; }
+        public int Health { get; private set; }
+        protected int Damage { get;}
+        private int _armor;
+        
+        public Fighter(string name, int health, int damage, int armor)
+        {
+            Name = name;
+            Health = health;
+            Damage = damage;
+            _armor = armor;
+        }
+ 
+        public bool IsDead
+        {
+            get
+            {
+                return Health <= 0;
+            }
+        }
+ 
+        public int GetDamage()
+        {
+            Console.Write("\nОбычная атака.");
+            return Damage;
+        }
+ 
+        public void ShowFightersInfo()
+        {
+            Console.WriteLine($"Имя - {Name} | Здоровье - {Health} | Урон - {Damage} | Защита - {_armor}");
+        }
+ 
+        public void ShowFightersHealthInfo()
+        {
+            if (IsDead == false)
+            {
+                Console.WriteLine($"У воина {Name} здоровье стало - {Health}.");
+            }
+            else
+            {
+                Console.WriteLine($"У воина {Name} здоровье стало - 0");        
+            }
+        }
+ 
+        public void TakeDamage(int damage)
+        {
+            Health -= damage - _armor;
+            Console.WriteLine();
+            Console.WriteLine($"{Name} получил {damage - _armor} ед. урона ({damage} - {_armor}).");
+        }
+ 
+        public virtual int GetSkillDamage(int roundCount)
+        {
+            int skillDamage = 0;
+            return skillDamage;
+        }
+    }
+}

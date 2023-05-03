@@ -1,0 +1,70 @@
+/// In the name of ALLAH ///
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define endl '\n'
+ 
+ 
+const int mx = 100;
+#define size 5
+ 
+typedef struct
+{
+    int data[size+1];
+    int head, tail;
+}Queue;
+ 
+void enqueue(Queue *q, int item)
+{
+   if((q->tail+1)%(size+1)== q->head)
+   {
+    cout<<" queue is full"<<endl;
+    return;
+   }
+   q->data[q->tail]=item;
+   q->tail=(q->tail+1)%(size+1);
+}
+ 
+int dequeue(Queue *q)
+{
+    if(q->tail==q->head)
+    {
+        cout<<" queue is empty"<<endl;
+        return -1;
+    }
+    int item = q->data[q->head];
+    q->head=(q->head+1)%(size+1);
+    return item;
+}
+int main()
+{
+  int item;
+  Queue myq;
+  myq.head=0, myq.tail=0;
+  enqueue(&myq, 2);
+  cout<<myq.tail<<endl;
+  enqueue(&myq,7);
+  cout<<myq.tail<<endl;
+  enqueue(&myq, 1);
+  cout<<myq.tail<<endl;
+  enqueue(&myq, 5);
+  cout<<myq.tail<<endl;
+  enqueue(&myq, 3);
+  cout<<myq.tail<<endl;
+  
+  cout<<" begining of the head = "<<myq.head<<endl;
+  item=dequeue(&myq);
+  cout<<" item = "<<item<<",  head = "<<myq.head<<endl;
+  item=dequeue(&myq);
+  cout<<" item = "<<item<<",  head = "<<myq.head<<endl;
+  item=dequeue(&myq);
+  cout<<" item = "<<item<<",  head = "<<myq.head<<endl;
+  item=dequeue(&myq);
+  cout<<" item = "<<item<<",  head = "<<myq.head<<endl;
+  item=dequeue(&myq);
+  cout<<" item = "<<item<<",  head = "<<myq.head<<endl;
+  item=dequeue(&myq);
+  cout<<" item = "<<item<<",  head = "<<myq.head<<endl;
+ 
+  
+}

@@ -1,0 +1,14 @@
+add_filter( 'body_class','new_body' );
+function new_body( $classes ) {
+    global $post;
+ 
+    if ( is_user_logged_in() ) {
+    }
+    else{
+        $classes[] = ' logget-out ';    
+    }
+ 
+    $classes[] = $post->post_name;
+ 
+    return $classes;
+}

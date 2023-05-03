@@ -1,0 +1,322 @@
+################
+##### EX01 #####
+################
+#!/usr/bin/python3
+ 
+import sys,io
+ 
+# Fonction donnée du TP
+def initialiser_tableau_orig(taille,valeur_defaut):
+    ...
+ 
+# Fonction corrigée du TP
+def initialiser_tableau(taille,valeur_defaut):
+    return [valeur_defaut]*taille
+ 
+ 
+def test_initialiser_tableau():
+    print('Test de la fonction initialiser_tableau')
+    assert initialiser_tableau(2,0)==[0,0]
+    assert initialiser_tableau(5,0)==[0,0,0,0,0]
+    assert initialiser_tableau(3,False)==[False,False,False]
+    assert initialiser_tableau(4,1.0)==[1.0,1.0,1.0,1.0]
+    assert initialiser_tableau(6,'a')==['a','a','a','a','a','a']
+    print('  OK')
+ 
+# Fonction donnée du TP
+def saisir_valeurs_orig(tableau):
+    ...
+ 
+# Fonction corrigée du TP
+def saisir_valeurs(tableau):
+    for i in range(len(tableau)):
+        tableau[i] = int(input())
+ 
+def test_saisir_valeurs():
+    print('Test de la fonction saisir_valeurs')
+    sauvegarde_std = sys.stdin,sys.stdout
+    sys.stdout = io.StringIO() # empêche les affichage de la fonction
+    tableau = [0,0,0]
+    sys.stdin = io.StringIO('4\n5\n-1') # simule la saisie successive de 4, 5 et -1 
+    assert saisir_valeurs(tableau)==None and tableau==[4,5,-1]
+    sys.stdin,sys.stdout = sauvegarde_std
+    print('  OK')
+ 
+# Fonction donnée du TP
+def calculer_somme_orig(tableau):
+    ...
+ 
+# Fonction corrigée du TP
+def calculer_somme(tableau):
+    somme = 0
+    for el in tableau:
+        somme += el
+    return somme
+ 
+def test_calculer_somme():
+    print('Test de la fonction calculer_somme')
+    assert calculer_somme([0,0,0,0,0])==0
+    assert calculer_somme([0,0,0,1,0])==1
+    assert calculer_somme([0,0,0,1,0,1])==2
+    assert calculer_somme([12,-10])==2
+    print('  OK')
+ 
+# Fonction donnée du TP
+def calculer_moyenne_orig(tableau):
+    ...
+ 
+# Fonction corrigée du TP
+def calculer_moyenne(tableau):
+    if len(tableau)==0:
+        return 0
+    return calculer_somme(tableau)/len(tableau)
+ 
+def test_calculer_moyenne():
+    print('Test de la fonction calculer_moyenne')
+    assert calculer_moyenne([0,0,0,0,0])==0
+    assert calculer_moyenne([10,10,10,10,10])==10
+    assert calculer_moyenne([0, 20, 10])==10
+    print('  OK')
+ 
+test_initialiser_tableau()
+test_saisir_valeurs()
+test_calculer_somme()
+test_calculer_moyenne()
+ 
+################
+##### EX02 #####
+################
+#!/usr/bin/python3
+ 
+# Fonction donnée du TP
+def rechercher(valeur, tableau):
+    ...
+ 
+# Fonction corrigée du TP
+def rechercher(valeur, tableau):
+    FOUND = False
+    i = 0
+    while i < len(tableau) and not(FOUND):
+        if tableau[i] == valeur:
+            FOUND=True
+        else:
+            i+=1
+    if FOUND:
+        return i
+    else:
+        return -1
+ 
+# pour validation, ne pas modifier
+def test_rechercher():
+    print('Test de la fonction rechercher')
+    assert rechercher(1, [1]) == 0
+    assert rechercher(1, [5,4,3,2,1]) == 4
+    assert rechercher(1, [0,4,3,2,1]) == 4
+    assert rechercher(1, [1,4,3,2,1]) == 0
+    assert rechercher(1, [5,4,3,2,4]) == -1
+ 
+    assert rechercher('charizard', ['snorlax', 'charizard', 'mewtwo','bulbizare']) == 1
+    assert rechercher('kirby', ['snorlax', 'charizard', 'mewtwo','bulbizare']) == -1 # kirby n'est PAS un pokemon...
+    assert rechercher('c', ['snorlax', 'charizard', 'mewtwo','bulbizare']) == -1
+ 
+    assert rechercher(1, []) == -1
+    assert rechercher([1,2,3], [[1], [1,2] , [1,2,3], [1,2,3,4]]) == 2
+    print('  OK')
+ 
+test_rechercher()
+ 
+################
+##### EX03 #####
+################
+#!/usr/bin/python3
+ 
+# Fonction donnée du TP
+def calculer_etendue(tableau):
+    ...
+ 
+# Fonction corrigée du TP
+def calculer_etendue(tableau):
+    if len(tableau) <= 1:
+        return 0
+    min_value = tableau[0]
+    max_value = tableau[0]
+    for val in tableau[1:]:
+        if val < min_value:
+            min_value = val
+        if val > max_value:
+            max_value = val
+    return max_value - min_value
+ 
+ 
+def test_calculer_etendue():
+    print('Test de la fonction calculer_etendue')
+    assert calculer_etendue([1]) == 0
+    assert calculer_etendue([5,4,3,2,1]) == 4
+    assert calculer_etendue([0,4,3,2,1]) == 4
+    assert calculer_etendue([1,4,3,2,1]) == 3
+    assert calculer_etendue([-5,-4,-3,-2,-4]) == 3
+ 
+    assert calculer_etendue([]) == 0
+    assert calculer_etendue([1,1,1,1,1,1,1]) == 0
+    assert calculer_etendue([-1, -1, -1, -1]) == 0
+    print('  OK')
+ 
+test_calculer_etendue()
+ 
+################
+##### EX04 #####
+################
+#!/usr/bin/python3
+MAX_CAT_LEAP = 5
+ 
+# Fonction donnée du TP
+def chat_attrape_souris_1_orig(chaine):
+    ...
+ 
+# Fonction corrigée du TP
+def chat_attrape_souris_1(chaine):
+    i = 0
+    while i < len(chaine) and chaine[i] not in ["C", "s"]:
+        i += 1
+    first_animal_position = i
+    i+=1
+    while i < len(chaine) and chaine[i] not in ["C", "s"]:
+        i += 1
+    if i>=len(chaine):
+        return False
+    return i-first_animal_position < MAX_CAT_LEAP
+ 
+def test_chat_attrape_souris_1():
+    print('Test de la fonction chat_attrape_souris_1')
+    assert chat_attrape_souris_1('C....s')==False
+    assert chat_attrape_souris_1('C..s')==True
+    assert chat_attrape_souris_1('C.....s')==False
+    assert chat_attrape_souris_1('C.s')==True
+    assert chat_attrape_souris_1('s...C')==True 
+    assert chat_attrape_souris_1('s..........C')==False
+    assert chat_attrape_souris_1('........s..........C....')==False
+    assert chat_attrape_souris_1('.......C.s............')==True
+    print('  OK')
+ 
+ 
+# Fonction donnée du TP
+def chat_attrape_souris_2_orig(chaine,saut):
+    ...
+ 
+# Fonction corrigée du TP
+def chat_attrape_souris_2(chaine,saut):
+    i = 0
+    while i < len(chaine) and chaine[i] not in ["C", "s"]:
+        i+=1
+    first_animal_position = i
+    i += 1
+    while i < len(chaine) and i < first_animal_position + saut and chaine[i] not in ["C", "s"]:
+        i+=1
+    if i>=len(chaine):
+        return False
+    return chaine[i] in ["C", "s"]
+ 
+def test_chat_attrape_souris_2():
+    print('Test de la fonction chat_attrape_souris_2')
+    assert chat_attrape_souris_2('C....s',4)==False
+    assert chat_attrape_souris_2('C....s',5)==True
+    assert chat_attrape_souris_2('C....s',6)==True
+    assert chat_attrape_souris_2('C..s',2)==False
+    assert chat_attrape_souris_2('C..s',3)==True
+    assert chat_attrape_souris_2('C..s',4)==True
+    assert chat_attrape_souris_2('...C...s....',3)==False
+    assert chat_attrape_souris_2('....C..s....',3)==True
+    assert chat_attrape_souris_2('.....C.s....',3)==True
+    assert chat_attrape_souris_2('...s...C....',3)==False
+    assert chat_attrape_souris_2('...s..C.....',3)==True
+    assert chat_attrape_souris_2('...s.C......',3)==True
+    assert chat_attrape_souris_2('...................C....',1)==False
+    assert chat_attrape_souris_2('...........s............',1)==False
+    assert chat_attrape_souris_2('........................',1)==False
+    print('  OK')
+ 
+test_chat_attrape_souris_1()
+test_chat_attrape_souris_2()
+ 
+################
+##### EX05 #####
+################
+#!/usr/bin/python3
+ 
+# Fonction donnée du TP
+def somme_deux_a_deux_orig(tableau):
+    ...
+ 
+# Fonction corrigée du TP
+def somme_deux_a_deux(tableau):
+    res = [0]*(len(tableau)-1)
+    for i in range(len(res)):
+        res[i] = tableau[i] + tableau[i+1]
+    return res
+ 
+def test_somme_deux_a_deux():
+  print('Test de la fonction somme_deux_a_deux')
+  assert somme_deux_a_deux([1,2,3,4])==[3,5,7]
+  assert somme_deux_a_deux([3,1])==[4]
+  assert somme_deux_a_deux([4,7,3,-8,2])==[11,10,-5,-6]
+  assert somme_deux_a_deux([7,-3,2,9,11,-6])==[4,-1,11,20,5]
+  assert somme_deux_a_deux([-5,3,0,0,-1,5,-5,7])==[-2,3,0,-1,4,0,2]
+  print('  OK')
+ 
+# Fonction donnée du TP
+def somme_glissante_orig(tableau,n):
+    ...
+ 
+# Fonction corrigée du TP
+def somme_glissante(tableau,n):
+    res = [0] * (len(tableau) - (n-1))
+    for i in range(n):
+        res[0] += tableau[i]
+    for i in range(1, len(res)):
+        res[i] = res[i-1] - tableau[i-1] + tableau[i+n-1]
+    return res
+ 
+ 
+def test_somme_glissante():
+  print('Test de la fonction somme_glissante Q2')
+  assert somme_glissante([1,7,8,-2],1)==[1,7,8,-2]
+  assert somme_glissante([1,7,8,-2],2)==[8,15,6]
+  assert somme_glissante([1,7,8,-2],3)==[16,13]
+  assert somme_glissante([1,7,8,-2],4)==[14]
+  print('  OK')
+  print('Test de la fonction somme_glissante optimisée Q3')
+  assert somme_glissante([1]*199999,100000)==[100000]*100000
+  print('  OK')
+ 
+test_somme_deux_a_deux()
+test_somme_glissante()
+ 
+################
+##### EX06 #####
+################
+#!/usr/bin/python3
+ 
+# Fonction donnée du TP
+def appliquer_cycle_orig(tableau,cycle):
+    ...
+ 
+# Fonction corrigée du TP
+def appliquer_cycle(tableau,cycle):
+    res = [0]*len(tableau)
+    for i in range(len(tableau)):
+        res[i] = tableau[i]
+    for i in range(len(cycle)):
+        fro = cycle[i]
+        to = cycle[(i+1)%len(cycle)]
+        res[to] = tableau[fro]
+    return res
+ 
+def test_appliquer_cycle():
+  print('Test de la fonction appliquer_cycle')
+  assert appliquer_cycle([11,12,13],[])==[11,12,13]
+  assert appliquer_cycle([11,12,13,14],[2])==[11,12,13,14]
+  assert appliquer_cycle([11,12,13,14,15,16],[2,5,1])==[11,16,12,14,15,13]
+  assert appliquer_cycle([11,12,13,14,15,16],[4,3,1,2,0,5])==[13,14,12,15,16,11]
+  print('  OK')
+ 
+test_appliquer_cycle()

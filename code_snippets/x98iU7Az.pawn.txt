@@ -1,0 +1,12 @@
+#include <amxmodx>
+ 
+public plugin_init()
+{
+    // Examples
+    register_clcmd( "vote", "block" )
+    register_clcmd( "votemap", "block" )
+    register_clcmd( "jointeam", "block" )
+    register_clcmd( "chooseteam", "block" )
+}
+ 
+public block() return 2

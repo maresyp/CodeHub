@@ -1,0 +1,54 @@
+import java.io.IOException;
+import java.util.Scanner;
+ 
+import static java.lang.Math.min;
+ 
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner in = new Scanner(System.in);
+        int size = in.nextInt();
+        int[][] graph = new int[size][size];
+        int k = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                graph[i][j] = in.nextInt();
+                if (graph[i][j] != 0) {
+                    k = k+1;
+                }
+            }
+        }
+ 
+        int s = in.nextInt();
+        int[] d = new int[size];
+        for (int i = 0; i < size; i++) {
+                d[i] = 100500;
+        }
+        d[s-1] = 0;
+ 
+ 
+        for (int i = 0; i < size-1; i++) {
+            // for edge u-v in E
+            for (int v= 0; v < size; v++) {
+                if (v!=s-1) {
+                    for (int u = 0; u < size; u++) {
+                        if (graph[u][v] != 0) {
+                            d[v] = min(d[v], d[u] + graph[u][v]);
+                        }
+                    }
+                }
+            }
+        }
+ 
+ 
+ 
+ 
+        for (int i = 0; i < size; i++) {
+            if (d[i] == 100500) {
+                System.out.print('x');
+            } else {
+                System.out.print(d[i]);
+            }
+            System.out.print(' ');
+        }
+    }
+}

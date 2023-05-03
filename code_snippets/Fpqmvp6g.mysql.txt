@@ -1,0 +1,3 @@
+change the password of the Mysql
+ALTER USER 'userName'@'localhost' IDENTIFIED BY 'New-Password-Here';
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'New-Password-Here';

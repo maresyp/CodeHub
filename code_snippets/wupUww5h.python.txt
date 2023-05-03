@@ -1,0 +1,31 @@
+if start_loc not in locates_dict.keys():
+        print(colored("Adding new key from row: ","green")+ str(row))
+        print(colored("Location:","green")+colored(start_loc,"blue"))
+        url = "https://www.google.pl/maps/place/" + start_loc.replace("/","%2F")
+        print(colored(url,"blue"))
+        url = url.replace("+","%2B")
+        url = url.replace(",","")
+ 
+        print(colored(url,"blue"))
+ 
+        r = requests.get(url, headers=headers, cookies=cookies)
+        result = re.search('@(-?\d+\.\d+),(-?\d+\.\d+),', str(r.content))
+        try:
+            coord = result.group(1) + "," + result.group(2)
+        except:
+            print(colored("Cannot get coordinates line: ","red"),colored(str(row)))
+            locates_dict[start_loc] = "TODO"
+            continue
+        
+        print(colored("location: " + result.group(1) +
+              "," + result.group(2) + " [lat,lon]","magenta"))
+        # get location from openstreetmaps
+        address = result.group(1) + "," + result.group(2)
+        location = geolocator.geocode(address, addressdetails=True)
+        print(colored(location.address,"magenta"))
+        locates_dict[start_loc] = location.address
+        #locates_dict = dict(sorted(locates_dict.items()))
+        with open("locates_dict.json", "w",encoding='utf8') as fp:
+            json.dump(locates_dict, fp,ensure_ascii=False)  # encode dict into JSON
+    else :
+         print(colored("Key exist: ","green") + colored(str(row) ,"green") +" "+ colored(start_loc, "yellow") +" - " + colored(locates_dict[start_loc],"blue"))

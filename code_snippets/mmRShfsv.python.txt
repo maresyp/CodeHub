@@ -1,0 +1,17 @@
+with open('/Users/alex26/Downloads/26.txt', 'r') as f:
+    x = [[int(i.split()[0]), int(i.split()[1])] for i in f.read().strip().split('\n')]
+    x.sort() #почему если заменить x.sort() на x.sort(key=lambda x: x[0]) будет не правильный ответ
+M = 100
+ 
+cells = [0 for i in range(M)]
+ 
+k = 0
+for i in x:
+    for cell_index in range(len(cells)):
+        if i[0] > cells[cell_index]:
+            cells[cell_index] = i[1]
+            k += 1
+            last_index = cell_index
+            break
+ 
+print(k, last_index + 1)

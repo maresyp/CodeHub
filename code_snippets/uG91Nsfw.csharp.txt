@@ -1,0 +1,36 @@
+public CountryModel CreateCountry(string name, string countryName, Shared.Culture cultureCode, string flagResource)
+{
+    return new CountryModel
+    {
+        Name = name,
+        CultureCode = cultureCode,
+        Flag = ImageSource.FromResource($"Memos.Einhell.EinhellConnect.Mobile.Images.Flags.{flagResource}.png"),
+        CountryName = countryName
+    };
+}
+ 
+List<CountryModel> countries = new List<CountryModel>
+{
+    CreateCountry("BG", Shared.LocalResources.Country.BG, Shared.Culture.Bulgarian, "bulgarian_64"),
+    CreateCountry("CZ", Shared.LocalResources.Country.CZ, Shared.Culture.Czech, "czech_64"),
+    CreateCountry("DK", Shared.LocalResources.Country.DK, Shared.Culture.Danish, "danish_64"),
+    CreateCountry("DE", Shared.LocalResources.Country.DE, Shared.Culture.German, "german_64"),
+    CreateCountry("ES", Shared.LocalResources.Country.ES, Shared.Culture.Spanish, "spanish_64"),
+    CreateCountry("SE", Shared.LocalResources.Country.SE, Shared.Culture.Swedish, "swedish_64"),
+    CreateCountry("FI", Shared.LocalResources.Country.FI, Shared.Culture.Finnish, "finnish_64"),
+    CreateCountry("FR", Shared.LocalResources.Country.FR, Shared.Culture.French, "french_64"),
+    CreateCountry("HU", Shared.LocalResources.Country.HU, Shared.Culture.Hungarian, "hungarian_64"),
+    CreateCountry("IT", Shared.LocalResources.Country.IT, Shared.Culture.Italian, "italian_64"),
+    CreateCountry("LT", Shared.LocalResources.Country.LT, Shared.Culture.Lithuanian, "lithuanian_64"),
+    CreateCountry("NO", Shared.LocalResources.Country.NO, Shared.Culture.Norway, "norway_64"),
+    CreateCountry("NL", Shared.LocalResources.Country.NL, Shared.Culture.Dutch, "dutch_64"),
+    CreateCountry("PL", Shared.LocalResources.Country.PL, Shared.Culture.Poland, "poland_64"),
+    CreateCountry("PT", Shared.LocalResources.Country.PT, Shared.Culture.Portuguese, "portuguese_64"),
+    CreateCountry("GB", Shared.LocalResources.Country.GB, Shared.Culture.English, "english_64"),
+    CreateCountry("RO", Shared.LocalResources.Country.RO, Shared.Culture.Romanian, "romanian_64"),
+    CreateCountry("RU", Shared.LocalResources.Country.RU, Shared.Culture.Russian, "russian_64"),
+    CreateCountry("SK", Shared.LocalResources.Country.SK, Shared.Culture.Slovak, "slovak_64"),
+    CreateCountry("EE", Shared.LocalResources.Country.EE, Shared.Culture.Estonian, "estonian_64"),
+    CreateCountry("SI", Shared.LocalResources.Country.SI, Shared.Culture.Slovenian, "slovenian_64"),
+    CreateCountry("HR", Shared.LocalResources.Country.HR, Shared.Culture.Croatian, "croatian_64")
+};

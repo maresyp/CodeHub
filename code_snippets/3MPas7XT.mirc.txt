@@ -1,0 +1,27 @@
+alias hlist {
+  echo -aic info -
+  if ($1 == $null) {
+    var %i = 1, %n = $hget(0)
+    echo -aic info * /HLIST: Hay un total de $theme(&primary;,%n) item(s).
+    while (%i <= %n) {
+      echo -aic info * %i $+ : $hget(%i) ( $+ $hget(%i,0).item $+ / $+ $hget(%i).size $+ )
+      inc %i
+      if (%i > %n) {  
+        echo -aic info * INFO: Para obtener más información acerca de un item, escriba $theme(&primary;,/HLIST <item>)  
+        halt
+      }
+    }
+  } 
+  else {
+    var %t = $hget($1), %i = 1, %n = $hget(%t,0).item
+    echo -aic info * /HLIST: Hay un total de $theme(&primary;,%n) item(s) para $theme(&primary;,$1) $+ .
+    while (%i <= %n) {
+      var %item = $hget(%t,%i).item
+      var %data = $hget(%t,%item)
+      var %unset = $hget(%t,%item).unset
+      echo -aic info * $base(%i,10,10,3) $+ : %t $+ : $iif(%unset,[[ $+ %unset $+ s]) %item = %data
+      inc %i
+    } 
+  }
+  echo -aic info - Fin de la lista - 
+}

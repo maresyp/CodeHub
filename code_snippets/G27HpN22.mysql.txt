@@ -1,0 +1,28 @@
+#https://dev.mysql.com/doc/refman/8.0/en/create-event.html
+CREATE SCHEMA `jf` DEFAULT CHARACTER SET utf8mb4 ;
+use jf;
+DROP TABLE IF EXISTS jf.pantera;
+CREATE TABLE IF NOT EXISTS jf.pantera(dahora timestamp);
+ 
+SELECT now();
+ 
+DELIMITER @
+DROP EVENT IF EXISTS jf.event_atack;
+CREATE EVENT IF NOT EXISTS jf.event_atack
+    ON SCHEDULE # AT '2023-03-23 09:40:00'
+        EVERY 10 SECOND
+        STARTS '2023-03-23 09:58:00'
+        ENDS '2023-03-23 09:59:00'
+    ON COMPLETION NOT PRESERVE
+    COMMENT 'O Ataque será a cada 10s durante o intervalo de 60s.'
+    DO
+        BEGIN
+            INSERT INTO jf.pantera VALUES (NOW());
+        END @
+delimiter ;    
+ 
+SHOW WARNINGS;
+ 
+SELECT * FROM jf.pantera;
+ 
+SELECT * FROM INFORMATION_SCHEMA.EVENTS

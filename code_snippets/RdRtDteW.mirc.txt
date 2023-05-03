@@ -1,0 +1,16 @@
+alias hlist {
+  var %i = $hget(0)
+  if %i { echo $color(info text) -at Hay un total de %i tablas hash | echo -a $chr(160) }
+  else { echo $color(info text) -at ¡No hay tablas hash! | halt }
+  while %i {
+    var %x = $hget(%i,0).item
+    echo $color(info2 text) -at $hget(%i) $iif($regex($1,^-i$),Tamaño $hget(%i).size usado: %x)
+    while %x {
+      echo $color(info2 text) -at $str($chr(160),3) $hget(%i,%x).item = $hget(%i,%x).data
+      dec %x 1
+    }
+    echo -a $chr(160)
+    dec %i 1
+  }
+  echo $color(info text) -at Fin de Hlist   
+}

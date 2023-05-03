@@ -1,0 +1,58 @@
+internal sealed class DelegatingComparer<TSource, TField> : IEqualityComparer<TSource> where TField : class 
+{
+    private readonly Func<TSource, TField> _getField;
+ 
+    internal DelegatingComparer(Func<TSource, TField> getField)
+    {
+        if (null == getField)
+        {
+            throw new ArgumentNullException("getField");
+        }
+ 
+        _getField = getField;
+    }
+ 
+    public bool Equals(TSource x, TSource y)
+    {
+        var a = _getField(x);
+        var b = _getField(y);
+ 
+        if (null == a)
+        {
+            return null == b;
+        }
+ 
+        return a.Equals(b);
+    }
+ 
+    public int GetHashCode(TSource @object)
+    {
+        var fieldValue = _getField(@object);
+        return null == fieldValue ? 0 : fieldValue.GetHashCode();
+    }
+}
+ 
+internal static class DelegatingExtensions
+{
+    internal static IEnumerable<T> MyDistinct<T, TField>(this IEnumerable<T> source, Func<T, TField> getField) where TField : class 
+    {
+        if (null == source)
+        {
+            throw new ArgumentNullException("source");
+        }
+ 
+        if (null == getField)
+        {
+            throw new ArgumentNullException("getField");
+        }
+ 
+        return source.Distinct(new DelegatingComparer<T, TField>(getField));
+    }
+}
+ 
+//usage
+ 
+var names = new [] { "Петя", "Вася", "Вася", "Коля", "Пахом" };
+var original = names.Select(n => new { Name = n, n.Length }); // how to call Enumerable.Distinct?
+ 
+var filtered = original.MyDistinct(v => v.Name);

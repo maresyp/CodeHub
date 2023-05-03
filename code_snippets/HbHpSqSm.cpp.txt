@@ -1,0 +1,179 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <iomanip>
+#include <random>
+#include <chrono>
+ 
+double MinX, MaxX;
+double MinY, MaxY;
+double MinZ, MaxZ;
+ 
+int N = 1000000;
+double VolumeCube;
+ 
+float determinant(float A[4][4]) {
+    float det = 0;
+    float submatrix[3][3];
+    int sign = 1;
+ 
+    for (int i = 0; i < 4; i++) {
+        int sub_i = 0;
+        for (int j = 1; j < 4; j++) {
+            int sub_j = 0;
+            for (int k = 0; k < 4; k++) {
+                if (k != i) {
+                    submatrix[sub_i][sub_j] = A[j][k];
+                    sub_j++;
+                }
+            }
+            sub_i++;
+        }
+        det = det + sign * A[0][i] * (
+                submatrix[0][0] * (submatrix[1][1] * submatrix[2][2] - submatrix[2][1] * submatrix[1][2])
+                - submatrix[0][1] * (submatrix[1][0] * submatrix[2][2] - submatrix[2][0] * submatrix[1][2])
+                + submatrix[0][2] * (submatrix[1][0] * submatrix[2][1] - submatrix[2][0] * submatrix[1][1]));
+        sign = -sign;
+    }
+ 
+    return det;
+}
+ 
+// float tetrahedron_volume(float x1, float y1,float z1,float x2,float y2,float z2,float x3,float y3,float z3, float x4,float y4,float z4) {
+//     float s1 = (x1 * (y2 * z3 - y3 * z2) + x2 * (y3 * z1 - a.y * z3) + c.x * (a.y * z2 - y2 * a.z));
+//     float s2 = (x1 * (y2 * d.z - d.y * z2) + x2 * (d.y * a.z - a.y * d.z) + d.x * (a.y * z2 - y2 * a.z));
+//     float s3 = (x1 * (y3 * d.z - d.y * z3) + c.x * (d.y * a.z - a.y * d.z) + d.x * (a.y * z3 - y3 * a.z));
+//     float s4 = (x2* (y3 * d.z - d.y * z3) + c.x * (d.y * z2 - y2 * d.z) + d.x * (y2 * z3 - y3 * z2));
+//    return std::abs((s1 - s2 + s3 - s4) / 6.0);
+//}
+ 
+float tetrahedron_volume(float x1, float y1,float z1,float x2,float y2,float z2,float x3,float y3,float z3, float x4,float y4,float z4) {
+    float s1 = (x1 * (y2 * z3 - y3 * z2) + x2 * (y3 * z1 - y1 * z3) + x3 * (y1 * z2 - y2 * z1));
+    float s2 = (x1 * (y2 * z4 - y4 * z2) + x2 * (y4 * z1 - y1 * z4) + x4 * (y1 * z2 - y2 * z1));
+    float s3 = (x1 * (y3 * z4 - y4 * z3) + x3 * (y4 * z1 - y1 * z4) + x4 * (y1 * z3 - y3 * z1));
+    float s4 = (x2 * (y3 * z4 - y4 * z3) + x3 * (y4 * z2 - y2 * z4) + x4 * (y2 * z3 - y3 * z2));
+    return std::abs((s1 - s2 + s3 - s4) / 6.0);
+}
+//
+//double tetrahedron_volume2(Vector3 a, Vector3 b, Vector3 c, Vector3 d) {
+//    // Вычисляем вектора из вершины a в остальные вершины
+//    Vector3 ab(b.x - a.x, b.y - a.y, b.z - a.z);
+//    Vector3 ac(c.x - a.x, c.y - a.y, c.z - a.z);
+//    Vector3 ad(d.x - a.x, d.y - a.y, d.z - a.z);
+//
+//    // Вычисляем определитель матрицы из этих векторов
+//    double det = ab.dot(ac.cross(ad));
+//
+//    // Вычисляем объем тетраэдра
+//    double volume = std::abs(det) / 6.0;
+//
+//    return volume;
+//}
+ 
+    bool isPointInsideTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2,
+                                  float x3, float y3, float z3, float x4, float y4, float z4,
+                                  float xp, float yp, float zp) {
+        // Calculate the determinants of the four submatrices formed by replacing the
+        // x, y, z coordinates of the tetrahedron vertices with those of the point
+        float A1[4][4] = {{x1, y1, z1, 1},
+                          {x2, y2, z2, 1},
+                          {x3, y3, z3, 1},
+                          {x4, y4, z4, 1}};
+ 
+        float A2[4][4] = {{xp, yp, zp, 1},
+                          {x2, y2, z2, 1},
+                          {x3, y3, z3, 1},
+                          {x4, y4, z4, 1}};
+ 
+        float A3[4][4] = {{x1, y1, z1, 1},
+                          {xp, yp, zp, 1},
+                          {x3, y3, z3, 1},
+                          {x4, y4, z4, 1}};
+ 
+        float A4[4][4] =
+                {{x1, y1, z1, 1},
+                 {x2, y2, z2, 1},
+                 {xp, yp, zp, 1},
+                 {x4, y4, z4, 1}};
+ 
+        float A5[4][4] = {{x1, y1, z1, 1},
+                          {x2, y2, z2, 1},
+                          {x3, y3, z3, 1},
+                          {xp, yp, zp, 1}};
+ 
+        float det1 = determinant(A1);
+        float det2 = determinant(A2);
+        float det3 = determinant(A3);
+        float det4 = determinant(A4);
+        float det5 = determinant(A5);
+ 
+        // The point is inside the tetrahedron if and only if all four determinants have the same sign
+        if ((det1 > 0 && det2 > 0 && det3 > 0 && det4 > 0 && det5 > 0) ||
+            (det1 < 0 && det2 < 0 && det3 < 0 && det4 < 0 && det5 < 0)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+ 
+    int main() {
+ 
+        float time = 0;
+// Define the tetrahedron vertices and the test point
+        float x1 = 0, y1 = 0, z1 = -0.7;
+        float x2 = -1.5, y2 = 0, z2 = 0;
+        float x3 = 0, y3 = -0.2, z3 = 0;
+        float x4 = 0.3, y4 = 0.4, z4 = 0.5;
+        float xp = 0, yp = 0, zp = 0;
+ 
+// Check if the point is inside the tetrahedron
+ 
+        MinX = std::min({x1, x2, x3, x4});
+        MaxX = std::max({x1, x2, x3, x4});
+ 
+        MinY = std::min({y1, y2, y3, y4});
+        MaxY = std::max({y1, y2, y3, y4});
+ 
+        MinZ = std::min({z1, z2, z3, z4});
+        MaxZ = std::max({z1, z2, z3, z4});
+        VolumeCube = (MaxX - MinX) * (MaxY - MinY) * (MaxZ - MinZ);
+ 
+        std::random_device random;
+ 
+        std::uniform_real_distribution<float> distX(MinX, MaxX);
+        std::uniform_real_distribution<float> distY(MinY, MaxY);
+        std::uniform_real_distribution<float> distZ(MinZ, MaxZ);
+ 
+        auto start = std::chrono::high_resolution_clock::now();
+ 
+        int counter = 0;
+ 
+        for (int i = 0; i < N; i++) {
+            xp = distX(random);
+            yp = distY(random);
+            zp = distZ(random);
+ 
+            if (isPointInsideTetrahedron(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, xp, yp, zp)) {
+                counter++;
+            }
+ 
+        }
+ 
+ 
+        auto end = std::chrono::high_resolution_clock::now();
+ 
+        time = std::chrono::duration<double>(end - start).count();
+ 
+        double result = VolumeCube * (double) counter / (double) N;
+ 
+ 
+        std::cout << "result: " << result << std::endl;
+        std::cout << "Volume cube: " << VolumeCube << std::endl;
+        std::cout << "counter: " << counter << std::endl;
+        std::cout << "CPU time: " << time << std::endl;
+        std::cout << "Tetra volume chatgpt : " << tetrahedron_volume(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4) << std::endl;
+    
+ 
+        return 0;
+    }

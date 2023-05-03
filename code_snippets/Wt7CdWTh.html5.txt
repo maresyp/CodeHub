@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>시계</title>
+    <style>
+        * { box-sizing: border-box; }
+        #digital {
+            width: 500px;
+            padding: 10px;
+            background-color: #222;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+        }
+        canvas {
+            width: 500px;
+            height: 500px;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="digital"></div>
+    <canvas id="clock"></canvas>
+    <script>
+        let digital = document.getElementById("digital");
+        let clock = document.getElementById("clock"); 
+        let weeks = ["일","월","화","수","목","금","토"];
+        const showDigital = () => {
+            let now = new Date();
+            let year = now.getFullYear(); //연도
+            let month = now.getMonth() + 1; //월(0~11)
+            let today = now.getDate(); //날짜
+            let week = now.getDay(); //요일
+            let hour = now.getHours();
+            let min = now.getMinutes();
+            let sec = now.getSeconds();
+            let mil = now.getMilliseconds();
+            if( month < 10 ) month = "0" + month;
+            if( min < 10 ) min = "0" + min;
+            if( sec < 10 ) sec = "0" + sec;
+            if( mil < 10 ) mil = "00" + mil;
+            if( mil >= 10 && mil < 100 ) mil = "0" + mil;
+            let time = year + "-" + month + "-" + today + " ";
+            time += hour + ":" + min + ":" + sec + "." + mil;
+            time += " " + weeks[week] + "요일";
+            digital.innerHTML = time;
+        }
+        
+        let canvas = document.getElementById("clock");
+        canvas.width = 500;
+        canvas.height = 500;
+        let ctx = canvas.getContext("2d");
+        let r = canvas.width / 2; //반지름
+        ctx.translate(r,r); //그리기 시작점을 가운데로 이동
+        r = r * 0.9;
+ 
+        const drawBg = () => {
+            let grad; //그라데이션용 변수 선언
+            ctx.beginPath(); //새로그리기 시작
+            ctx.arc(0, 0, r, 0, 2*Math.PI);
+            ctx.fillStyle = "white";
+            ctx.fill();
+            grad = ctx.createRadialGradient(0,0,r*0.95,0,0,r*1.05);
+            grad.addColorStop(0,"#333");
+            grad.addColorStop(0.5,"white");
+            grad.addColorStop(1,"#333");
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = r*0.1;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0,0,r*0.1,0,2*Math.PI);
+            ctx.fillStyle = "#333";
+            ctx.fill();
+            let ang;
+            ctx.beginPath();
+            ctx.font = r*0.15 + "px arial";
+            ctx.textBaseline = "middle"; //위아래 정렬
+            ctx.textAlign = "center";//좌우 정렬
+            for(num = 1; num<=12; num++) {
+                ang = num * Math.PI / 6;
+                ctx.rotate(ang);
+                ctx.translate(0,-r*0.85);
+                ctx.rotate(-ang);
+                ctx.fillText(num.toString(), 0,0);
+                ctx.rotate(ang);
+                ctx.translate(0, r*0.85);
+                ctx.rotate(-ang);
+            }
+        }
+ 
+        const drawFace = () => {
+            drawBg();
+            let now = new Date();
+            let h = now.getHours();
+            let m = now.getMinutes();
+            let s = now.getSeconds();
+            let ms = now.getUTCMilliseconds();
+            s += ms/1000;
+            h = h % 12; //24시간을 12시간으로 변환
+            h = h*Math.PI/6;
+            h += m*Math.PI/(6*60);
+            h += s*Math.PI/(360*60);
+            m = m*Math.PI/30;
+            m += s*Math.PI/(30*60);
+            s = s*Math.PI/30;
+            drawHand(h, r*0.5, r*0.07, "black"); //시침
+            drawHand(m, r*0.8, r*0.07 ,"red"); //분침
+            drawHand(s, r*0.9, r*0.02, "green"); //초침
+        }
+ 
+        const drawHand = (pos, l, w, c) => {
+            ctx.beginPath();
+            ctx.strokeStyle = c || "black";
+            ctx.lineWidth = w;
+            ctx.lineCap = "round";
+            ctx.moveTo(0,0);
+            ctx.rotate(pos);
+            ctx.lineTo(0, -l);
+            ctx.stroke();
+            ctx.rotate(-pos);
+        }
+ 
+        drawFace();
+        showDigital();
+        let timer = setInterval(function(){
+            showDigital();
+            drawFace();
+        },1);
+    </script>
+</body>
+</html>
+<!-- reference : https://www.w3schools.com/graphics/tryit.asp?filename=trycanvas_clock_start -->

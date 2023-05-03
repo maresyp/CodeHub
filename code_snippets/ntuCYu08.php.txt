@@ -1,0 +1,64 @@
+<?php
+ 
+function ParseParcelResponse($rawSoap) {
+    // Parse this outdated pos
+    $xml = new SimpleXMLElement($rawSoap);
+ 
+    $xml->registerXPathNamespace('d', 'urn:schemas-microsoft-com:xml-diffgram-v1');
+    $updates = $xml->xpath('//TableName');
+ 
+    return $updates;
+}
+ 
+function FetchParcelResponse($trackingNumber) {
+    // SOAP xml request
+    $xml = <<<EOT
+    <?xml version="1.0" encoding="utf-8"?>
+    <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+        <InformacijaOPosiljci xmlns="http://TrackTrace.com">
+            <strPrijemniBroj>{$trackingNumber}</strPrijemniBroj>
+        </InformacijaOPosiljci>
+        </soap:Body>
+    </soap:Envelope>
+    EOT;
+ 
+    // curl headers
+    $headers = [
+        "Content-Type: text/xml; charset=utf-8",
+        "Cache-Control: no-cache",
+        "Pragma: no-cache",
+        "Content-Length: ".strlen($xml)
+    ];
+ 
+    // curl request
+    $curlh = curl_init();
+ 
+    curl_setopt($curlh, CURLOPT_URL, 'https://e-racuni.postacg.me/TTService/Service1.asmx');
+    curl_setopt($curlh, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curlh, CURLOPT_TIMEOUT, 5);
+    curl_setopt($curlh, CURLOPT_POST, true);
+    curl_setopt($curlh, CURLOPT_POSTFIELDS, $xml);
+    curl_setopt($curlh, CURLOPT_HTTPHEADER, $headers);
+ 
+    $resp = curl_exec($curlh);
+ 
+    curl_close($curlh);
+ 
+    return $resp;
+}
+ 
+ 
+ 
+ 
+ 
+/*
+debug stuff
+*/
+//$updates = ParseParcelResponse(FetchParcelResponse("CH176197243US"));
+ 
+//var_dump(json_decode($updates));
+ 
+$asdf = FetchParcelResponse("aSDASD");
+ 
+var_dump(ParseParcelResponse($asdf));

@@ -1,0 +1,8 @@
+SELECT CustomerName
+FROM Customers
+WHERE EXISTS (
+    SELECT OrderId
+    FROM Orders
+    WHERE Customers.CustomerID = Orders.CustomerID
+    AND OrderDate NOT LIKE "1997%"
+)

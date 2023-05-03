@@ -1,0 +1,100 @@
+{
+  "users": [
+    {
+      "username": "Joh122n",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "johndoe@example.com",
+      "age": 28,
+      "gender": "male",
+      "interests": [
+        "hiking",
+        "reading",
+        "traveling"
+      ],
+      "location": {
+        "city": "New York",
+        "state": "NY",
+        "country": "USA"
+      },
+      "education": {
+        "degree": "Bachelor's",
+        "major": "Computer Science",
+        "school": "NYU"
+      },
+      "occupation": "Software Engineer"
+    },
+    {
+      "username": "Seb1391",
+      "first_name": "Sebastian",
+      "last_name": "Smith",
+      "email": "sebsmith@example.com",
+      "age": 33,
+      "gender": "male",
+      "interests": [
+        "running",
+        "cooking",
+        "music"
+      ],
+      "location": {
+        "city": "Los Angeles",
+        "state": "CA",
+        "country": "USA"
+      },
+      "education": {
+        "degree": "Master's",
+        "major": "Business Administration",
+        "school": "UCLA"
+      },
+      "occupation": "Marketing Manager"
+    },
+    {
+      "username": "MeGirl12233",
+      "first_name": "Megan",
+      "last_name": "Jones",
+      "email": "megjones@example.com",
+      "age": 25,
+      "gender": "female",
+      "interests": [
+        "painting",
+        "yoga",
+        "traveling"
+      ],
+      "location": {
+        "city": "Chicago",
+        "state": "IL",
+        "country": "USA"
+      },
+      "education": {
+        "degree": "Bachelor's",
+        "major": "Art History",
+        "school": "University of Chicago"
+      },
+      "occupation": "Artist"
+    },
+    {
+      "username": "Noob1101",
+      "first_name": "Josh",
+      "last_name": "Johnson",
+      "email": "joshjohnson@example.com",
+      "age": 19,
+      "gender": "male",
+      "interests": [
+        "gaming",
+        "music",
+        "hiking"
+      ],
+      "location": {
+        "city": "Austin",
+        "state": "TX",
+        "country": "USA"
+      },
+      "education": {
+        "degree": "High School Diploma",
+        "major": null,
+        "school": "Austin High School"
+      },
+      "occupation": "Student"
+    }
+  ]
+}

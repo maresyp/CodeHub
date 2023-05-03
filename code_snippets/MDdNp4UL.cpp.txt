@@ -1,0 +1,36 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/*
+operatory arytmetyczne
+    +   dodawanie
+    -   odejmowanie
+    *   mnożenie
+    /   dzielenie
+    %   modulo (reszta z dzielenia)
+*/
+ 
+int main()
+{
+    int a, b;   // deklaracja dwóch zmiennych tego samego typu
+    a = 11;
+    b = 7;
+ 
+    // wypisanie działań arytmetycznych na zmiennych:
+    cout << a << " + " << b << " = " << a + b << endl;  // 11 + 7 = 18
+    cout << a << " - " << b << " = " << a - b << endl;
+    cout << a << " * " << b << " = " << a * b << endl;
+    cout << a << " / " << b << " = " << 1.0 * a / b << endl;
+    // uwaga: dzielenie przez siebie dwóch liczb całkowitych (np. typu int) daje zawsze wynik całkowity!
+    cout << a << " % " << b << " = " << a % b << endl;
+ 
+    int c = a * b;      // przypisanie do zmiennej wartości z działania matematycznego (w tym wypadku 77)
+    cout << c << endl;  // 77
+    ++c;        // zwiększenie wartości zmiennej c o 1
+    cout << c << endl;  // 78
+ 
+    --a;        // zmniejszenie wartości zmiennej a o 1
+    cout << a << endl;  // 10
+    return 0;
+}

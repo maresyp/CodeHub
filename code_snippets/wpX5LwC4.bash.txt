@@ -1,0 +1,7 @@
+#!/bin/sh
+chmod +x ledger*.AppImage
+wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
+sudo add-apt-repository universe
+sudo apt install libfuse2
+sudo apt install libfuse3-3
+./ledger-live-desktop-*.AppImage

@@ -1,0 +1,177 @@
+Создание симулятора кейсов на Android Studio требует определенных навыков в программировании на Java или Kotlin. Вам необходимо разработать пользовательский интерфейс, логику открытия кейсов, систему продажи оружия и покупки кейсов. В качестве примера, я предоставлю базовую структуру проекта на Java. Вам потребуется доработать и адаптировать этот код под ваши требования и дизайн.
+ 
+    Создайте новый проект в Android Studio с пустой активностью.
+    Вам потребуется создать несколько файлов и классов для реализации функционала. Начните с создания классов Weapon и Case:
+ 
+Weapon.java
+public class Weapon {
+    private String name;
+    private double price;
+ 
+    public Weapon(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public double getPrice() {
+        return price;
+    }
+}
+ 
+Case.java
+ 
+import java.util.ArrayList;
+ 
+public class Case {
+    private String name;
+    private double price;
+    private ArrayList<Weapon> weapons;
+ 
+    public Case(String name, double price, ArrayList<Weapon> weapons) {
+        this.name = name;
+        this.price = price;
+        this.weapons = weapons;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public double getPrice() {
+        return price;
+    }
+ 
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+}
+ 
+    Теперь добавьте основную логику открытия кейсов, покупки кейсов и продажи оружия в классе MainActivity:
+ 
+MainActivity.java
+ 
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.Random;
+ 
+public class MainActivity extends AppCompatActivity {
+ 
+    private double balance = 100.0;
+    private ArrayList<Case> cases;
+    private ArrayList<Weapon> inventory;
+ 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+ 
+        cases = new ArrayList<>();
+        inventory = new ArrayList<>();
+        initCases();
+ 
+        Button openCaseButton = findViewById(R.id.open_case_button);
+        Button buyCaseButton = findViewById(R.id.buy_case_button);
+        Button sellWeaponButton = findViewById(R.id.sell_weapon_button);
+        TextView balanceTextView = findViewById(R.id.balance_textview);
+        balanceTextView.setText("Баланс: " + balance);
+ 
+        openCaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Открываем кейс (например, первый кейс в списке)
+                Case caseToOpen = cases.get(0);
+                Weapon receivedWeapon = openCase(caseToOpen);
+                inventory.add(receivedWeapon);
+                // Обновите UI, чтобы показать полученное оружие
+            }
+        });
+ 
+        buyCaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Покупаем кейс (например, первый кейс
+Case caseToBuy = cases.get(0);
+                if (buyCase(caseToBuy)) {
+                    balanceTextView.setText("Баланс: " + balance);
+                    // Обновите UI, чтобы показать, что кейс был куплен
+                } else {
+                    // Показать сообщение об ошибке (недостаточно средств)
+                }
+            }
+        });
+ 
+        sellWeaponButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Продаем оружие (например, первое оружие в инвентаре)
+                if (inventory.size() > 0) {
+                    Weapon weaponToSell = inventory.get(0);
+                    sellWeapon(weaponToSell);
+                    inventory.remove(0);
+                    balanceTextView.setText("Баланс: " + balance);
+                    // Обновите UI, чтобы показать, что оружие было продано
+                } else {
+                    // Показать сообщение об ошибке (нет оружия для продажи)
+                }
+            }
+        });
+    }
+ 
+    private void initCases() {
+        // Заполните список доступных кейсов и их содержимого
+        ArrayList<Weapon> caseWeapons = new ArrayList<>();
+        caseWeapons.add(new Weapon("AK-47 | Redline", 15.0));
+        caseWeapons.add(new Weapon("M4A1-S | Hyper Beast", 20.0));
+        caseWeapons.add(new Weapon("AWP | Asiimov", 25.0));
+ 
+        cases.add(new Case("Оружейный кейс #1", 5.0, caseWeapons));
+    }
+ 
+    private Weapon openCase(Case openedCase) {
+        // Открываем кейс и получаем случайное оружие
+        ArrayList<Weapon> caseWeapons = openedCase.getWeapons();
+        Random random = new Random();
+        int randomIndex = random.nextInt(caseWeapons.size());
+        return caseWeapons.get(randomIndex);
+    }
+ 
+    private boolean buyCase(Case caseToBuy) {
+        if (balance >= caseToBuy.getPrice()) {
+            balance -= caseToBuy.getPrice();
+            return true;
+        } else {
+            return false;
+        }
+    }
+ 
+    private void sellWeapon(Weapon weaponToSell) {
+        balance += weaponToSell.getPrice();
+    }
+}
+ 
+    Теперь вы можете создать пользовательский интерфейс в файле activity_main.xml. Здесь пример простого интерфейса:
+ 
+activity_main.xml
+ 
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+ 
+    <TextView
+        android:id="@+id/balance_textview"
+        android:layout_width="wrap_content"
+        android:layout

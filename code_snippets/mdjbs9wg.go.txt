@@ -1,0 +1,37 @@
+// Test types génériques en go goland A.Villanueva
+package main
+ 
+import "fmt"
+ 
+func Swap[T any](a *T, b *T) {
+    /*Fonction générique pour effectuer un Swap
+    *Peut travailler avec différents types de données
+     */
+    temp := *a
+    *a = *b
+    *b = temp
+}
+ 
+func PrintDeux[T any](a *T, b *T) {
+    /*Fonction générique pour effectuer un Print double
+    *Peut travailler avec différents types de données
+     */
+    fmt.Println(*a, ",", *b)
+}
+ 
+func main() {
+    a := 1 //Int
+    b := 2
+ 
+    PrintDeux(&a, &b)
+    Swap(&a, &b)
+    PrintDeux(&a, &b)
+ 
+    c := "one" //String
+    d := "two"
+ 
+    PrintDeux(&c, &d)
+    Swap(&c, &d)
+    PrintDeux(&c, &d)
+ 
+}

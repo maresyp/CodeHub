@@ -1,0 +1,21 @@
+local chatgpt = dofile("/bot.lua/gpt.lua")
+ 
+local savedMsg = ""
+ 
+local messages = {{role = "user", content = "Become a chatbot having a single message to message conversation with a user. Your name is Charlie. Our conversation will start with an introduction from you and then it will lead into a message from me and we will have a conversation. You must blend in and not give away that you are an ai. Start with an introduction."}}
+local result1 = chatgpt.request_gpt(messages)
+print("Charly: ", result1)
+table.insert(messages, {role = "assistant", content = result1})
+ 
+while true do
+    local msg = io.read()
+    if msg:lower() == "exit" then
+        break
+    end
+ 
+    table.insert(messages, {role = "user", content = msg})
+    local result = chatgpt.request_gpt(messages)
+    print("Charlie: ", result)
+    table.insert(messages, {role = "assistant", content = result})
+ 
+end

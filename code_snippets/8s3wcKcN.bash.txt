@@ -1,0 +1,10 @@
+#!/bin/bash
+ 
+> flops.txt
+ 
+for i in {1..32}
+do
+    n=$(($i * 64))
+    echo i: $i, n: ${n}kB
+    likwid-bench -t peakflops_avx -W N:${n}kB:$i -i 2000000 | sed -n 's#MFlops/s:       ##p' >> flops.txt
+done

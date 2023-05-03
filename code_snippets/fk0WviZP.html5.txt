@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            
+        }
+        #wordspace {
+            width: 100%;
+            height: 100%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background-color: black;
+            color: white;
+            padding: 0 50px;
+        }
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            align-items: stretch;
+        }
+        #footer > div {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;               
+        }
+        #footer .btns {
+            justify-content: start;
+        }
+        #footer .typeinput input {
+            width: 100%;
+            font-size: 1.2rem;
+        }
+        #footer .score {
+            justify-content: end;
+            line-height: 50px;
+            padding-right: 20px;
+            color: yellow;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="wordspace"></div>
+    <div id="footer">
+        <div class="btns">      
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+        </div>
+        <div class="typeinput">
+            <input type="text" id="typeinput" autofocus>
+        </div>
+        <div class="score">
+            <span>Score: </span>
+            <span id="score">0</span>
+        </div>
+    </div>
+    <script>
+        let timer4words = null;
+        let timer4drop = null;
+        document.getElementById('start').addEventListener('click', () => {
+            showWords();
+            timer4words = setInterval(() => {
+                showWords();
+            }, 4000);
+            timer4drop = setInterval(() => {
+                moveWords();
+            }, 1000);
+            document.getElementById('typeinput').focus();
+        });
+        document.getElementById('stop').addEventListener('click', () => {
+            clearInterval(timer4words);
+            clearInterval(timer4drop);
+        });
+ 
+        document.getElementById('typeinput').addEventListener('keyup', (e) => {
+            if (e.keyCode === 13) {
+                let words = document.getElementsByClassName('word');
+                for (let i = 0; i < words.length; i++) {
+                    let word = words[i];
+                    if (word.innerText === e.target.value) {
+                        word.remove();
+                        document.getElementById('score').innerText = parseInt(document.getElementById('score').innerText) + 1;
+                    }
+                    if( word.style.top >= window.innerHeight-50) {
+                        word.remove();
+                    }
+                }
+                e.target.value = '';
+                console.log(e.target.value);
+            }
+        });
+ 
+        const getWords = async () => {
+            const response = await fetch('https://random-word-api.herokuapp.com/word?number=1');
+            const words = await response.json();
+            return words;
+        }
+        const showWords = async () => {
+            const words = await getWords();
+            let span = document.createElement('span');
+            span.classList.add('word');
+            span.style.position = 'absolute';
+            span.style.left = Math.floor(((window.innerWidth-200) - 200) * Math.random() + 200)  + "px"; 
+            span.style.top = 0;
+            span.style.color = "white";
+            span.innerText = words;
+            document.getElementById('wordspace').appendChild(span);
+        }
+        const moveWords = () => {
+            let words = document.getElementsByClassName('word');
+            for (let i = 0; i < words.length; i++) {
+                let word = words[i];
+                let top = parseInt(word.style.top);
+                word.style.top = `${top + 10}px`;
+            }
+        }
+        
+    </script>
+</body>
+</html>

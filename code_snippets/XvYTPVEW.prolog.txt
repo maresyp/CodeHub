@@ -1,0 +1,1 @@
+[2021-10-12 17:47:10] local.DEBUG: Error Authorization {"error":"API Response: \"Unexpected error\" [500] - An error has happened on the request","code":500}

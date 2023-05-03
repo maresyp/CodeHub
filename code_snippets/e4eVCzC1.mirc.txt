@@ -1,0 +1,36 @@
+Alias -l giris54on { .enable #giris54 | echo -tca info2 Ip Göster  00,03AÇILDI  | halt }
+Alias -l giris54off { .disable #giris54 | echo -tca info2 Ip Göster  00,04KAPATILDI  | halt }
+ 
+menu channel,status,menubar,query {
+  -
+  $iif(o !isincs $usermode,$style(2)) Oper
+  .$iif($group(#giris54) == on,$style(1) Ip Göster (Açık),Ip Göster (Kapalı)): if $group(#giris54) == on giris54off | else giris54on
+  .-
+}
+ 
+#giris54 on
+alias _tr return $replace($1-,Ã–,ö,Ã‡,ç,Ä°,i,Ã¶,ö,Ã§,ç,Ã¼,ü,ÅŸ,ş,Ä±,ı,Å,ş,ÄŸ,ğ,Ãœ,ü,Ä,ğ,$chr(39),`)
+on *:snotice:*Client connecting on port*:who +I $9
+raw 352:*:var %:r $r(1000,99999) | sockopen $+(pro,%:r) ipinfo.io 80 | sockmark $+(pro,%:r) $+($4,¿,$6)
+on *:sockopen:pro*:{ 
+  sockwrite -n $sockname GET $+(/,$token($sock($sockname).mark,1,191),/json?token=bdbdb82ae05b96) HTTP/1.1 
+  sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7) Gecko/20040614 Firefox/0.8
+  sockwrite -n $sockname Connection: keep-alive
+  sockwrite -n $sockname Host: ipinfo.io
+  sockwrite -n $sockname  $crlf 
+}
+on *:sockread:pro*:{ 
+  var %:pro | sockread %:pro | tokenize 32 %:pro
+  if region isin %:pro { .hadd -m $token($sock($sockname).mark,2,191) Sehir $remove($gettok(%:pro,2-,58),$chr(44),") }
+  if city isin %:pro { .hadd -m $token($sock($sockname).mark,2,191) City $remove($gettok(%:pro,2-,58),$chr(44),") }
+  if country isin %:pro { .hadd -m $token($sock($sockname).mark,2,191) Ülke $remove($gettok(%:pro,2-,58),$chr(44),") }
+  if "org isin %:pro { 
+    var %:isp $remove($gettok(%:pro,2-,58),$chr(44),") 
+    var %:n $token($sock($sockname).mark,2,191), %ip $token($sock($sockname).mark,1,191), %ülke $hget(%:n,Ülke), %sehir $hget(%:n,Sehir)  $hget(%:n,City)
+    if !$window(@Giris) { window -ez @Giris }
+    echo -t @Giris Nick:4 $_tr(%:n) - IP:4 %ip - Ulke:4 $_tr(%ülke) - Sehir:4 $_tr(%sehir) - ISP:4 $_tr(%:isp)
+    ;echo $chan Nick:4 $_tr(%:n) - IP:4 %ip - Ulke:4 $_tr(%ülke) - Sehir:4 $_tr(%sehir) - ISP:4 $_tr(%:isp) 
+    .hfree -w %:n | sockclose $sockname
+  } 
+}
+#giris54 end

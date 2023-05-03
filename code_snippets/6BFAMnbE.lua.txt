@@ -1,0 +1,26 @@
+require "Quests/Quest"
+ 
+local function quest_complete = Quest.complete;
+local function quest_fail = Quest.fail;
+ 
+function Quest:complete()
+    if not self.completed then
+        if self.daily or self.weekly then -- save unlock date for recurring quests
+            local tm = GetCurrentTime();
+            local tm_wday = tm.tm_wday == 0 and 7 or tm.tm_wday;
+            self.date = tostring(tm.tm_year).."-"..tostring(tm.tm_mon).."-"..tostring(tm.tm_mday).."-"..tostring(tm.tm_yday+(7-tm_wday));
+        end
+    end
+    quest_complete(self);
+end
+ 
+function Quest:fail()
+    if not self.failed then
+        if self.daily or self.weekly then -- save unlock date for recurring quests
+            local tm = GetCurrentTime();
+            local tm_wday = tm.tm_wday == 0 and 7 or tm.tm_wday;
+            self.date = tostring(tm.tm_year).."-"..tostring(tm.tm_mon).."-"..tostring(tm.tm_mday).."-"..tostring(tm.tm_yday+(7-tm_wday));
+        end
+    end
+    quest_fail(self);
+end

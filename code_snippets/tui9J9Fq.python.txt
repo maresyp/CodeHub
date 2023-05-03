@@ -1,0 +1,51 @@
+import logging
+import requests
+from datetime import datetime as dt
+import xml.etree.ElementTree as ET
+from typing import Union
+ 
+ 
+logger = logging.getLogger(__name__)
+ 
+ 
+API = 'http://www.cbr.ru/scripts/XML_daily.asp?date_req='
+EUR = 'EUR'
+USD = 'USD'
+DATE_FORMAT = '%d/%m/%Y'
+ 
+ 
+def get_value(code: str, date: Union[str, None] = None) -> float:
+    """По введённым коду валюты и дате выводит значение валюты"""
+    date = date or today_str()
+    xml_string = _get_xml_string_from_cbrf(date)
+    return _get_valute_value(code, xml_string)
+ 
+ 
+def _get_xml_string_from_cbrf(date: str, api_url=API) -> str:
+    """
+    Получает XML с сайта ЦБ РФ
+ 
+    :param date: дата, на которую нужен курс. Формат даты: ДД/ММ/ГГГГ или ДД.ММ.ГГГГ
+    :param api_url: Адрес API
+    :return: строка XML
+    """
+    try:
+        response = requests.get(api_url + date)
+    except requests.exceptions.HTTPError as he:
+        logger.error(f'Ошибка соединения с API сервером: {he}')
+        raise requests.exceptions.HTTPError
+    return response.text
+ 
+ 
+def _get_valute_value(code: str, xml_string: str) -> float:
+    """Возвращает значение валюты по введённому коду"""
+    root = ET.fromstring(xml_string)
+    valute_obj = root.find(f'./Valute/[CharCode="{code}"]')
+    value = valute_obj.find('Value').text
+    nominal = valute_obj.find('Nominal').text
+    return float(value.replace(',', '.')) if value else None
+ 
+ 
+def today_str() -> str:
+    """Возвращает текущую дату в строке в формате ДД/ММ/ГГГГ"""
+    return dt.strftime(dt.today(), DATE_FORMAT)

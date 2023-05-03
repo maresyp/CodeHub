@@ -1,0 +1,29 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/*
+zmienna - zarezerwowana przestrzeń w pamięci komputera, która posiada typ, nazwę, wartość i adres
+ 
+typ zmiennej określa jakiego rodzaju dane przechowujemy w danej zmiennej:
+    int - liczby całkowite
+    double - liczby zmiennoprzecinkowe
+    char - znaki (cyfry, litery, znaki interpunkcyjne)
+    bool - prawda lub fałsz
+    String - łańcuchy znaków
+*/
+ 
+int main()
+{
+    int liczba;     // zadeklarowanie zmiennej
+    liczba = 10;    // przypisanie wartości do zmiennej liczba
+    cout << liczba << endl;     // wypisanie na ekran wartości zmiennej liczba (10)
+ 
+    char znak = 'x';        // deklaracja zmiennej wraz z podaniem jej wartości
+ 
+    cout << znak << endl;
+ 
+    liczba = 20;    // zmiana wartości zmiennej liczba
+    cout << liczba << endl;     // wypisanie nowej wartości na ekran
+    return 0;
+}

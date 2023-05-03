@@ -1,0 +1,25 @@
+dict1 = []
+_list = [
+    {'name': 'JOE', 'details' : {'age':19, 'brgy': 'Fairview'}, 'subject': {'DATASTRUC' : [1.0, 4.0]}},
+    {'name': 'CHA', 'details' : {'age':20, 'brgy': 'Maligaya'}, 'subject': {'DATASTRUC' : [2.0, 4.0]}},
+    {'name': 'AI', 'details' : {'age':21, 'brgy': 'Lagro'}, 'subject': {'DATASTRUC' : [3.0, 3.0]}}
+    ]
+ 
+for x in _list:
+    
+    for OuterKey, OuterValue in x.items():
+        if OuterKey == 'name':
+            print("My name is",OuterValue, end=" ")
+        if OuterKey == 'details':
+            for details, detailsValue in OuterValue.items():
+                if details == 'age':
+                    print("with an age of {test} years old".format(test=detailsValue), end= " ")
+                if details == 'brgy':
+                    print("and living at Barangay", detailsValue, end= " ")
+        if OuterKey == 'subject':
+            for subjectKey, subjectValue in OuterValue.items():
+                    for incrementGrade in range (2):
+                        if incrementGrade == 0:
+                            print("has a DATASTRUC grade of", subjectValue[incrementGrade], "in midterms and", end=" ")
+                        else:
+                            print("and", subjectValue[incrementGrade], "in finals")

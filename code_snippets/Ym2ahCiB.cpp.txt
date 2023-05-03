@@ -1,0 +1,27 @@
+#include "stdafx.h"
+ 
+template<typename T>
+struct Length final
+{
+    static const int value = sizeof(T) / sizeof(std::remove_extent<T>::type);
+ 
+    static_assert ( std::is_array<T>::value, "can evaluate size only for arrays" );
+ 
+    Length() = delete;
+    Length(const Length&) = delete;
+    Length& operator=(const Length&) = delete;
+};
+ 
+int _tmain(int, _TCHAR*)
+{   
+    const int a[] = { 1, 2, 3, 4 };
+ 
+    std::cout << Length<decltype(a)>::value << std::endl;
+ 
+    for (auto i = 0; i < Length<decltype(a)>::value; ++i)
+    {
+        std::cout << a[i] << std::endl;
+    }
+ 
+    return 0;
+}

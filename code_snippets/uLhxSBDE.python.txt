@@ -1,0 +1,86 @@
+import regex
+import openai
+import os
+import tiktoken
+ 
+openai.api_key = os.getenv("OPENAI_API_KEY")
+SEP = ' ->'
+ 
+ 
+def num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301"):
+    """Returns the number of tokens used by a list of messages."""
+    try:
+        encoding = tiktoken.encoding_for_model(model)
+    except KeyError:
+        print("Warning: model not found. Using cl100k_base encoding.")
+        encoding = tiktoken.get_encoding("cl100k_base")
+    if model == "gpt-3.5-turbo":
+        print("Warning: gpt-3.5-turbo may change over time. Returning num tokens assuming gpt-3.5-turbo-0301.")
+        return num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301")
+    elif model == "gpt-4":
+        print("Warning: gpt-4 may change over time. Returning num tokens assuming gpt-4-0314.")
+        return num_tokens_from_messages(messages, model="gpt-4-0314")
+    elif model == "gpt-3.5-turbo-0301":
+        tokens_per_message = 4  # every message follows <|start|>{role/name}\n{content}<|end|>\n
+        tokens_per_name = -1  # if there's a name, the role is omitted
+    elif model == "gpt-4-0314":
+        tokens_per_message = 3
+        tokens_per_name = 1
+    elif model == "gpt2":
+        tokens_per_message = 0
+        tokens_per_name = 0
+    else:
+        raise NotImplementedError(f"""num_tokens_from_messages() is not implemented for model {model}. See https://github.com/openai/openai-python/blob/main/chatml.md for information on how messages are converted to tokens.""")
+    num_tokens = 0
+    for message in messages:
+        num_tokens += tokens_per_message
+        for key, value in message.items():
+            num_tokens += len(encoding.encode(value))
+            if key == "name":
+                num_tokens += tokens_per_name
+    num_tokens += 3  # every reply is primed with <|start|>assistant<|message|>
+    return num_tokens
+ 
+ 
+def binsearch(arr: Sequence, condition: Callable[[Sequence, int], bool]):
+    l, r = 0, len(arr)
+    while l < r:
+        m = (l + r + 1) // 2
+        if condition(arr, m):
+            l = m
+        else:
+            r = m - 1
+    return l
+ 
+ 
+def preprocess_text(text, max_tokens: int = 2000):
+    text = regex.sub('[^\p{L}\p{N}_\-\'\d]', ' ', text).lower()
+    
+    max_words_num = binsearch(text.split(' '),
+                              lambda words, max_num: num_tokens_from_messages([{'role': 'system',
+                                                                                'content' : ' '.join(text.split(' ')[-max_num:])}],
+                                                                             model='gpt2') < max_tokens)
+    return ' '.join(text.split(' ')[-max_words_num:])
+ 
+ 
+LABELS = ['android developer', 'c#', 'c/c++', 'cto/architect',
+       'data scientist', 'design & ux', 'devops', 'frontend', 'golang',
+       'ios', 'it hr', 'java', 'node.js', 'other', 'php',
+       'product analyst', 'product manager', 'project manager', 'python',
+       'qa auto', 'qa manual', 'ruby', 'system analyst']
+ 
+ 
+def classify_job_message(chat_text: str, model_name='ada:ft-personal-2023-04-18-11-19-57'):
+    prompt = preprocess_text(chat_text).lower() + SEP
+    response_category = openai.Completion.create(
+        model=model_name,
+        prompt=prompt,
+        max_tokens=1)["choices"][0]["text"]
+    return LABELS[int(response_category.strip())]
+ 
+text = \
+"""
+#vacancy #вакансия #удаленка #релокация #грузия #android #senior #java #kotlin #релокейт #fulltime #remote\n\nsenior android developer в arrival \n\n▪️удаленно или релокация в тбилиси\n▪️занятость: полная\n▪️зарплатная вилка: от 2500 до 5000 usd на руки\n\narrival – электрический транспорт нового поколения, технологии и пользовательский опыт премиального уровня по цене привычного транспорта. штаб квартира в великобритании, более 1000 сотрудников работают в офисах в россии, германии, нидерландах, израиле, сша и люксембурге.\n\nмы ищем опытных android разработчиков в команду human machine interface (hmi) для работы над системой взаимодействия водителя и автомобиля. \n\nпримеры задач:\n• разработка интерфейса приборной панели,\n• разработка навигатора,\n• разработка мультимедийной системы,\n• идентификация водителя,\n• распознавание голосовых команд \nи многое другое\n\nмы ожидаем от кандидата:\n• отличное знание java, kotlin (coroutines, flow) и android sdk\n• опыт создания кастомных ui, widgets и program flow\n• понимание android ux и их оптимизация под требования automotive\n• опыт создания сложных, многокомпонентных и многопоточных систем на android os\n• умение и желание тестировать и документировать свой код, писать надежный и понятный код\n• английский на уровне чтения документации\n\nхорошим дополнением будет:\n• опыт разработки на c/c++\n• понимание и умение использовать ndk/ jni\n• наличие проектов с использованием opengl\n• опыт в создании навигационных решений\n• опыт работы над проектами, схожими с нашим, работа в автомобильной индустрии\n• понимание работы android на системном уровне, опыт настройки и конфигурации или желание разобраться с этим\n\nконтакты: @adivak
+"""
+ 
+classify_job_message(text)

@@ -1,0 +1,118 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <string>
+#include <deque>
+ 
+struct elem {
+    int f;
+    int s;
+    char c;
+    std::vector<std::pair<int, int>> ns;
+};
+ 
+bool operator == (elem& a, elem& b) {
+    return (a.f == b.f && a.s == b.s);
+}
+ 
+typedef std::vector<elem> my_graph;
+std::vector<elem> special;
+ 
+// 0 - белый, 1 - серый, 2 - черный
+ 
+void input(int n, int m, my_graph& graph) {
+    std::string str_temp;
+    std::getline(std::cin, str_temp);
+ 
+    for (int i = 0; i < n; ++i) {
+        std::getline(std::cin, str_temp);
+        for (int j = 0; j < m; ++j) {
+            elem temp_elem;
+            temp_elem.f = i;
+            temp_elem.s = j;
+            temp_elem.c = 0;
+            if (j != 0)
+                temp_elem.ns.push_back(std::pair<int, int>(i, j - 1));
+            if(j != m - 1)
+                temp_elem.ns.push_back(std::pair<int, int>(i, j + 1));
+            if (str_temp[j] == '1')
+                special.emplace_back(std::move(temp_elem));
+            
+            graph.emplace_back(std::move(temp_elem));
+        }
+    }
+    
+    int i = 0, j = 0;
+    auto special_it = special.begin();
+ 
+    for (auto it = graph.begin(); it != graph.end(); ++it) {
+        if (i != 0) {
+            (*it).ns.push_back(std::pair<int, int>(i - 1, j));
+        }
+        if (i != n - 1) {
+            (*it).ns.push_back(std::pair<int, int>(i + 1, j));
+        }
+ 
+        if (special_it != special.end() && (*it).f == (*special_it).f && (*it).s == (*special_it).s) {
+            if (i != 0) {
+                (*special_it).ns.push_back(std::pair<int, int>(i - 1, j));
+            }
+            if (i != n - 1) {
+                (*special_it).ns.push_back(std::pair<int, int>(i + 1, j));
+            }
+            ++special_it;
+        }
+ 
+        ++j;
+        if (j == m) {
+            j = 0;
+            ++i;
+        }
+    }
+}
+ 
+int bfs(my_graph& graph, int n, my_graph::iterator &it) {
+    std::vector<std::vector<int>> dist (n, std::vector<int>(n, INT_MAX));
+ 
+    dist[(*it).f][(*it).s] = 0;
+    for (auto another_it = special.begin(); another_it != special.end(); ++another_it) {
+        dist[(*another_it).f][(*another_it).s] = 0;
+    }
+ 
+    std::deque<std::pair<int, int>>adjacency;
+    adjacency.push_back(std::pair<int, int>((*it).f, (*it).s));
+ 
+    int maxx = 0;
+ 
+    while (!adjacency.empty()) {
+        std::pair<int, int> v = adjacency.front();
+        adjacency.pop_front();
+ 
+        for (auto j = graph[v.first * n + v.second].ns.begin(); j != graph[v.first * n + v.second].ns.end(); ++j) {
+            if (dist[(*j).first][(*j).second] == INT_MAX || dist[(*j).first][(*j).second] == 0) {
+                dist[(*j).first][(*j).second] = std::min(dist[v.first][v.second] + 1, dist[(*j).first][(*j).second]);
+                adjacency.push_back(*j);
+                if (dist[(*j).first][(*j).second] > maxx && dist[(*j).first][(*j).second] != INT_MAX)
+                    maxx = dist[(*j).first][(*j).second];
+            }
+        }
+    }
+    return maxx;
+}
+ 
+int main()
+{
+    std::ios::sync_with_stdio(0);
+    std::cin.tie(0);
+    int n, m;
+    std::cin >> n >> m;
+    my_graph graph;
+    input(n, m, graph);
+    
+    auto it = special.begin();
+    bfs(graph, n, it);
+ 
+    std::cout << bfs(graph, n, it) - 1;
+ 
+    return 0;
+}

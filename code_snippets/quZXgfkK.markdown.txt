@@ -1,0 +1,212 @@
+DiscoDude: ---BEGIN SESSION---
+DiscoDude: Session logging commenced
+GM: > EXCHANGE #3
+<@!Andie>, you're still on your back under Haffner. What do you do? Try to get up? Attack from below? Something else?
+Harry: "Don't you lay one finger on her, punk!"
+Andie: Andie's definitely most interested in making some distance between herself and him, so she's going to try and get up.
+GM: (Roll the appropriate approach.)
+Andie: !f 1 (Careful)
+DiscoDude: <@Andie> rolled 4dF+1 for 2 [4dF = [ ][+][+][-]]
+GM: (That'll do it. Forgot to mention difficulty was Average (+1). Describe it!)
+Andie: Despite her nerves being shot to hell, she's able to roll to the side and get to her feet.
+GM: "'Should be worried about yerself!"
+Haffner lunges at you, <@!Harry>, throwing fists - and his weight - forward!
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 3 [4dF = [-][+][ ][+]]
+Harry: Harry throws himself forward, headfirst, aiming to interrupt Haffner's lunge with a headbutt!
+Harry: !f 2 (Forceful)
+DiscoDude: <@Harry> rolled 4dF+2 for 3 [4dF = [ ][ ][ ][+]]
+Harry: (we can all agree that's a way a Forceful defense could work, right? XD)
+GM: (Yeah, but that's a tie. Gonna boost? Remember that you have 4 fate points right now.)
+Harry: (...sure, can i spend a FATE Point on Grizzled Veteran Cop to keep him from getting a boost here?)
+GM: (Sure.)
+Harry: ("I've butted heads - literally and figuratively - with worse than you!")
+GM: (Describe it! I'm debating whether that should double as your Attack, despite Haffner still having his bonus Attack from Versus the World available...)
+Harry: -CRACK.- The noise reverberates through the Hot Flamingo. Harry is grinning like a madman, blood streaming from his forehead; Heffner flinches from the force of the blow. "I've butted heads with far worse than you in my time on the force, little man," he says.
+GM: "Grrrngh, try glass, then!" Haffner leaps to side and elbow-drops... a table! The glass pints are launched at you, <@!Harry>!
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 3 [4dF = [+][+][-][ ]]
+Harry: "Dammit!" Harry doesn't intend to try and headbutt that. He dodges!
+Harry: !f 1 (Quick)
+DiscoDude: <@Harry> rolled 4dF+1 for 0 [4dF = [-][+][-][ ]]
+GM: (Oof. Want to invoke anything?)
+Harry: (we're using single-stress boxes, right?)
+GM: (Yeah.)
+Harry: (right, can I spend a second FATE on Grizzled Veteran Cop to reroll?)
+GM: (Sure.)
+Harry: !f 1 (Quick)
+DiscoDude: <@Harry> rolled 4dF+1 for 3 [4dF = [ ][+][ ][+]]
+Harry: (PHEW. I'll take the tie on that)
+GM: You mostly dodge the barrage of mugs, but end up blocking one, resulting in getting yourself ^Drenched In Booze^. You kinda smell like a liquor store at this point.
+Harry: grimaces, but says nothing. He's honestly used to the smell at this point.
+GM: (Of course, now it's time for Harry to swing back.)
+GM: (<@!Harry>?)
+Harry: (thinking)
+Harry: Harry looks around. This punk is giving him and his team way too much trouble. He eyes the surrounding furniture; a precise movement and one of the stools will likely trip him up...
+Harry: (aiming to Carefully Create Advantage)
+Harry: !f 3 (Careful)
+DiscoDude: <@Harry> rolled 4dF+3 for 5 [4dF = [-][+][+][+]]
+GM: !f -2 (THINKING AHEAD)
+DiscoDude: <@GM> rolled 4dF-2 for -1 [4dF = [ ][ ][ ][+]]
+GM: (Describe the devastating way you subtly trip him up! XD)
+Harry: Sparing only the briefest of downward glances, he kicks one of the stools with bullet-like accuracy right into Heff's shins; he's [Dropped to One Knee][!!].
+Harry: "Your move, kid!" Harry calls out.
+GM: (Full aspect, not a boost (and it has 2 invokes). :3)
+Harry: (oh whoop, thx~)
+GM: (Though I do think it's a little underwhelming for a SWS. Maybe the bonus effect is losing the invoke on Waving the Gun Around [?]?)
+Harry: (maybe, you're the GM)
+GM: (Yeah, let's clear the aspect, then. Makes sense that you'd stop with the wild flailing by now. XD)
+Norwick: Norwick looks at Harry, "Like what!? I'm not a good fighter!" He yells out.
+GM: (Gonna respond to that, <@!Harry>?)
+Harry: "For heaven's sake, kid! You're gonna let the girl get in more kicks here than you?"
+Norwick: "I'm the face and the talker! I don't want to get it ruined in some scuffle!" He pulls out a taser, "But I can still use these right?"
+Harry: Harry gives Norwick his most exasperated look yet. He tries to say "YES!" but it comes out as a pained "NNNGH!"
+Norwick: (Can I roll careful to properly aim and shoot the taser into the big guy?)
+GM: (That counts as a CAREFUL attack, I'd say!)
+Norwick: !f 2
+DiscoDude: <@Norwick> rolled 4dF+2 for 5 [4dF = [+][+][ ][+]]
+Norwick: ( 👀 )
+GM: !f 0 (DODGING)
+DiscoDude: <@GM> rolled 4dF+0 for -2 [4dF = [-][-][ ][ ]]
+Norwick: ( XD )
+GM: (O-O-O-OOF.)
+Andie: (yikes on bikes)
+Harry: (side note, is this a clean win? 'cause bear in mind i still got that aspect and i don't mind Nor invoking it)
+GM: (... Yeah, I think if you boost it with that free invoke Harry made, as it stands, he's uh-oh-KO'd. (I'll probably do some invoking of my own, of course.))
+Norwick: ( Y E S )
+GM: (I'll invoke Thuggish Gaoran Loan-Shark to counteract the boost (he needs more voltage than that to go down), then Punch-Drunk Temper to reduce it by 2 more (he "ignores the pain").)
+GM: (I'd be tapped out of fate points for this scene, and he's looking at just 5 stress... but that would still require me to mark his Moderate Consequence, and I wanted to save that for the interrogation later... Decisions, decisions...)
+GM: (Yeah, marking his Moderate Consequence and 1 stress box, plus my remaining fate points. Describe it (unless you want to boost some more)!)
+GM: (<@!Norwick>?)
+GM: (<@!Norwick>.)
+Norwick: ( what happened, sorry, there's so much going on in the house that I'm doing )
+Norwick: ( Oh, I see, humm )
+Norwick: ( nah, I can't boost with anything I have )
+GM: (Describe it, then~)
+GM: (And don't forget to name the Moderate Consequence he takes.)
+GM: (Oh, almost forgot; since it's still a SWS attack, you can choose to reduce the damage by 1 in exchange for creating a boost, if you want.)
+Norwick: (What's is the naming convention for consequence? like [???][?] )
+GM: (Bad Aspect [?].)
+GM: ((Though if you do, I'll be switching it to 2 boxes and the Mild instead.))
+Norwick: Norwick lands all the taser prongs into Haffner and sets the voltage to the highest setting before letting loose with the volts. "He's a big guy, maximum volts is fine, I think?" He says as he watches the taser take effect. He can see Haffner have major Muscle Spasms [?] with all of these volts going through 'em.
+GM: "Bbbbbbghgjgfjmgfbnb-!" Haffner collapses... but beats a fist against his thigh and stands up, clutching a table for support. "Oh... Ohohohohoh..."
+GM: (Your turn, <@!Andie>!)
+> EXCHANGE #4
+Andie: Seeing the state Haffner's in, Andie pulls out her handcuffs and tries to get them on without him looking!
+Andie: !f 0 (Sneaky)
+DiscoDude: <@Andie> rolled 4dF+0 for 1 [4dF = [ ][+][-][+]]
+GM: (Creating advantage?)
+Andie: (Yes)
+GM: (Alright, I'll defend, then.)
+GM: !f 0 (CATCHING SNEAKS)
+DiscoDude: <@GM> rolled 4dF+0 for 0 [4dF = [ ][+][-][ ]]
+Andie: (Amazing)
+GM: (Success, it seems. A SWS would have his hands behind him, but I guess you aren't so lucky (so he can still use his hands to some degree). XD)
+GM: (Describe it!)
+Andie: Her hands are shaky and her aim is off, but luckily that doesn't matter when her target's wrists are trunks like Haffner's. She would've rather gotten the cuffs behind his back, but beggars can't be choosers. He's now Somewhat Restrained!
+GM: (Forgot to name your aspect, there.)
+GM: (<@!Andie>?)
+Andie: (Does that work? I'm bad at names XP)
+GM: (It works, yeah. XD)
+GM: (Is it fair to say that it doesn't take an action just for him to stand up and clear the invoke-less Dropped to One Knee aspect?)
+Andie: (I'm good with that)
+GM: Haffner stands to full height, though he's a little twitchy, and he's just now noticing the handcuffs on him.
+"Sonuva- Oh, now you're in fer it, buckos!" He steps back and looks around. He notices an autographed baseball bat mounted on the wall. "Mine now!"
+"No!" The bartender jolts up from behind the counter. "That was signed by Richie Artemis herself!"
+(Creating advantage here.)
+GM: !f 2 (IMPROVISED WEAPONS)
+DiscoDude: <@GM> rolled 4dF+2 for 0 [4dF = [-][-][ ][ ]]
+GM: (Oof. Kinda puts a damper on the cool idea I had. Ah well, gonna succeed at a cost here. XD)
+GM: Unfortunately for both Haffner and the bartender, his handcuffs prevent him from gripping both ends of the bat. Pulling on just the handle end causes it to *snap off of the rest, leaving a Broken Bat Handle [?] in his hands, with some of the business end still mounted to the wall.
+"NO! That's a lifetime ban for you, Heffa!"
+"Oh, shut up, old man!"
+GM: He does a little mock-windup with the bat like he's standing on the diamond, stopping to make a rude gesture at you, <@!Norwick>!
+"What's that rule again? 'No hitting back at the pitcher?'" He scoffs. "I don't see a ball, but guess that means I should IMPROVISE HERE, FUCKER!" He swings the bat, only instead of hitting a ball that doesn't exist, he releases his grip at the apex, launching the broken bat across the room at you!
+GM: (Attacking, of course.)
+GM: !f 2 (IMPROVISED WEAPONS)
+DiscoDude: <@GM> rolled 4dF+2 for 2 [4dF = [-][+][ ][ ]]
+Norwick: (I'm gonna quickly dodge)
+Norwick: !f 1
+DiscoDude: <@Norwick> rolled 4dF+1 for 2 [4dF = [+][-][ ][+]]
+GM: (A tie! You wanna boost?)
+Norwick: (What can I boost with? )
+GM: (Nothing on your character, but Haffner has Muscle Spasms [?], Somewhat Restrained [!] (if Andie lets you use it), and Broken Bat Handle [?] stacked against him.)
+Norwick: (I think I'll use Muscle Spasms, since that seems the most thematic thing that can work here)
+GM: (A'ight. Describe your victory, then!)
+GM: (Oh, the broken bat clears since it's left his possession so quickly. Though I guess the negative invoke applies to anyone who tries to use it, so maybe I'll keep it in the scene. XD)
+Norwick: Norwick narrowly dodges the bat, due to some muscle twitch Haffner had making the bat fly a bit higher than what he aimed for intentionally. "Hey! You nearly ruined my face!"
+GM: (Your turn, <@!Harry>!)
+Harry: "Stop grousing and focus more on flattening this bastard!" Harry lunges at Heff, trying to slam him backwards over the bar counter.
+Harry: (Forceful Attack)
+Harry: !f 2 (Forceful)
+DiscoDude: <@Harry> rolled 4dF+2 for 3 [4dF = [+][-][+][ ]]
+GM: "I'm ready for yeh this time!"
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 3 [4dF = [ ][+][-][+]]
+GM: (Gonna boost, I assume? XD)
+GM: (There's two aspects with free invokes on him right now (assuming Andie lets you use hers).)
+Harry: ( <@!Andie>, you okay with that?)
+Andie: (Yep!)
+GM: (Actually, wait, there's only one - he launched the broken bat. XD)
+GM: (But there's several you can spend fate points on, effectively ending the fight; you need to win by 4 to make him Taken Out.)
+Harry: (fair enough. so, this and one FATE Point invoke should finish him?)
+GM: (Yeah, unless I can find some way to leverage ^Drenched In Booze^ here.)
+Harry: (gonna leverage [Somewhat Restrained][!] then, and drop an extra FATE Point on it for the win)
+GM: (So you're spending the free invoke and a fate point on that, while I'll counter with ^Drenched In Booze^ to make your advance slippery. (Does that work?))
+GM: (So you'll need to throw a fate point at something else for the knockout.)
+Harry: (well. again, i marked off a FATE Point previously, so i'm pretty sure i'm only at three)
+Harry: (so i'll leave the finisher to Nor)
+GM: (Alright, but you do still hit him for 2; describe your victory and the minor consequence you create.)
+Harry: "You have the right...to remain silent!" Harry says, punctuating each emphasized word with a fist to Heff's face, leaving him [Slightly Dazed][?]. "Anything you say can...and will be used against you...in a court...of law!"
+Harry: He looks over his shoulder at Nor. "Now'd be a good time for that taser again!"
+GM: (You're up, <@!Norwick>!)
+Norwick: (alright, another Careful!)
+Norwick: !f 2
+DiscoDude: <@Norwick> rolled 4dF+2 for 4 [4dF = [ ][ ][+][+]]
+GM: !f 0 (DODGE)
+DiscoDude: <@GM> rolled 4dF+0 for -1 [4dF = [ ][ ][-][ ]]
+GM: (Man, it ain't even a contest. Describe it!)
+Norwick: Norwick lines up their shot, shoots the prongs, and does another max voltage shock on Haffner. "Stay down! Just, stay down damn it!" Norwick yells.
+GM: "BBBBBLLLAGAHGHJGHSGHGHGHGHG-!"
+(Was Harry able to get clear first? XD)
+Harry: (is it okay if i do something cool?)
+GM: (Flavor-wise? Go for it.)
+Harry: Harry swings Heff around so he takes the prongs in the back. No escape this time.
+GM: When the sparks die down, Haffner is stock-still... before falling away from Harry, straight onto his back! He's down!
+GM: - CONFLICT: VICTORY -
+Harry: Harry is panting for breath. "Good aim, kid." His expression turns stern: "Need to work on that initiative a bit."
+Andie: "Wahhh." she says before finally catching her breath properly.
+GM: Just then, two slightly chubby police officers force their way into the bar.
+"FREEZE! You have... Uh..."
+"I think we're late."
+A grey alien woman in a white coat pushes past around them and moves towards the back silently.
+Norwick: "I was making calls okay." Norwick pouts, "Backup y'know."
+GM: (Super sorry; I should have had them appear in the previous Exchange turnover. Glad it worked out, though.)
+Harry: Harry says nothing; he just sighs exasperatedly.
+Harry: He turns to the two cops who just arrived. "Book 'im," he says, indicating Heff's still-twitching body with his thumb. He then looks at the grey: "You're a doctor, right? Take a look at him; make sure there's no brain damage. He's got a lot of questions to answer." He adds in a low voice: "Also make sure the girl's okay."
+GM: "Don't answer to you," she says, "and especially don't need a cop telling me how to do my job." She quickly gets to work on Holepunch.
+Norwick: "What about that man that Haffner nearly killed? Don't you think he needs the medical attention the most?"
+Norwick: Norwick also looks at Haffner, "Besides, he just got shocked with electricity, I don't think his brain is damaged."
+Harry: Harry frowns. "Yeah, probably should see if he's still alive, too."
+GM: "Okay, booking him!" The fatter of the two salutes immediately, and the two get to trying to drag the big limp canine between them to the door. "Um... *Urf What are the changes on him?"
+Norwick: "Attempted Murder," He fingers to the Holepunch. "And he's a suspect in a murder."
+Harry: "Resisting arrest. Obstruction of justice. Pissing me off." He looks at Nor. "And all the things he said."
+GM: "O-kay, then!" They get on with dragging the guy out.
+Harry: He finally turns his attention back to Andie. "You all right, there? Bastard wasn't too rough with you, now, was he?" His expression turns to that of a concerned father: "That was a reckless move there, going in swinging against a killer like that."
+Andie: She waves Harry off and shakes her head before saying, "Nope, I'm so good right now." She'll probably sleep off the soreness, definitely.
+GM: (You guys want to check up on anything before ending the scene?)
+Andie: (I can't think of anything)
+Harry: Harry shrugs, then walks up to the bar. "Hey, bartender. Can I bother you for a whiskey on the rocks?"
+Harry: (and i'm good XD)
+GM: "We'll... *huff We'll make sure this guy's ready for questioning when you get back!"
+Norwick: Norwick wanders off to the Holepunch and the woman, "So, you think he's going to be fine?" Norwick asks the woman.
+GM: "Yeah, just knocked out and bloodied. That guy must've been tough, but fists will only do so much against a stone-skin no matter who you are..." She gives you a meaningful look before wispering: "Also, between your task getting our guy hurt, and* making me come out here, D'walla says your favor's gonna be a bit more than the usual this time."
+Norwick: Norwick rubs the back of his head, "Yeah, I know, oh well." He whispers back, "Didn't know it would turn out like this, oh well, hopefully he doesn't ask too much, I do gotta keep appearances."
+GM: "Yeah, yeah..." She turns back to her work.
+(We good for last lines?)
+Norwick: ( I am )
+Andie: (mhm)
+GM: (<@!Harry>?)
+Harry: (yeah)
+GM: (Then let us...)
+GM: !end

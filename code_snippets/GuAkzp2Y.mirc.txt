@@ -1,0 +1,43 @@
+menu nicklist {
+scoutlink english modding
+.Engage:/say $* $read(ice-breaker-en.txt)
+.Swear
+..Warn:/say $* - Please avoid using offensive language and/or swearing while on ScoutLink. See https://www.scoutlink.net/rules/
+..kick: /kick # $* offensive language and/or swearing. See https://www.scoutlink.net/rules/
+..Ban, Kick:/tban # $$?="Duration of ban" $$1 6 | /kick # $$1 Offensive language and/or swearing. https://www.scoutlink.net/rules/
+..kill:/kill $1 offensive language and/or swearing. See https://www.scoutlink.net/rules/
+..gline 15min:/gline $1 15m  :you were removed from network for offensive language and/or swearing. banned 15 minutes by $me - See https://www.scoutlink.net/rules/
+.Flood
+..Warn:/say $* - Please avoid flooding/spamming the channel  (massive useless text  and/or  repeat the same over and over). See https://www.scoutlink.net/rules/
+..kick: /kick # $* Flooding/spamming  (massive useless text  and/or  repeat the same over and over) See https://www.scoutlink.net/rules/
+..Ban, Kick:/tban # $$?="Duration of ban" $$1 6 | /kick # $$1 Flooding/Spamming  (massive useless text and/or repeat the same over and over). See https://www.scoutlink.net/rules/
+..kill:/kill $1 Flooding/spamming See https://www.scoutlink.net/rules/
+..gline 15min:/gline $1 15m :you were removed from network for flooding/spamming  (massive useless text  and/or  repeat the same over and over. banned 15 minutes by $me - See https://www.scoutlink.net/rules/
+.Caps
+..Warn:/say $* - Please don't abuse of caps (CAPS = shouting). See https://www.scoutlink.net/rules/
+..kick: /kick # $* abuse of caps (CAPS = shouting) See https://www.scoutlink.net/rules/
+..Ban, Kick:/tban # $$?="Duration of ban" $$1 6 | /kick # $$1 abuse of caps (CAPS = shouting). See https://www.scoutlink.net/rules/
+..kill:/kill $1 abuse of caps (CAPS = shouting) See https://www.scoutlink.net/rules/
+..gline 15min:/gline $1 15m :you were removed from network for abusing of caps (CAPS = shouting) See https://www.scoutlink.net/rules/
+.Info
+..Warn:/say $* - Please avoid sharing or asking for personal information and/or social medias. See https://www.scoutlink.net/rules/
+..kick:/kick # $* Sharing or asking personal informations and/or social medias. See https://www.scoutlink.net/rules/
+..Ban, Kick:/tban # $$?="Duration of ban" $$1 6 | /kick # $$1 Requesting or sharing personal informations and/or social medias. See https://www.scoutlink.net/rules/
+..kill:/kill $1 Sharing or asking personal informations and/or social medias. See https://www.scoutlink.net/rules/
+..gline 15min:/gline $1 15m :you were removed from network for sharing or asking for personal information and/or social medias. banned 15 minutes by $me - See https://www.scoutlink.net/rules/
+.Not using English
+..warn:msg # $1 $+ , the only language allowed on English channels is English. You can type /list for see our other language channels. www.scoutlink.net/channels/
+..kick:/kick # $* Please speak English on English channels. Type /list or see www.scoutlink.net/channels/ for other languages
+..Ban, Kick:/tban # $$?="Duration of ban" $$1 6 | /kick # $$1 Please speak only English on english channels. Type /list or see www.scoutlink.net/channels/ for other languages
+..Move channel:/samove $1 # $$?="chan to join"
+.Inappropriate username
+..sanick:/SANICK $$1 Scout_ $+ $r(00000-99999)
+..remove caps from username:/sanick $$1 $lower($$1)
+..gline 15min:/gline $1 15m :you were removed from network for using bad usernames. banned 15 minutes by $me - See https://www.scoutlink.net/rules/
+.Other
+..Warn:/say $* - $$?="Please enter a reason" See https://www.scoutlink.net/rules/
+..kick:/kick # $* $$?="Please enter a reason" See https://www.scoutlink.net/rules/n
+..Ban, Kick:/tban # $$?="Duration of ban" $$1 6 | /kick # $$1 $$?="Please enter a reason" https://www.scoutlink.net/rules/
+..kill:/kill $1 $$?="Please enter a reason" See https://www.scoutlink.net/rules/
+..gline 15min:/gline $1 15m :you were removed from network for $$?="Please enter a reason" . banned 15 minutes by $me - See https://www.scoutlink.net/rules/
+}

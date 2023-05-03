@@ -1,0 +1,171 @@
+Library IEEE;
+Use IEEE.STD_LOGIC_1164.All;
+Use IEEE.STD_LOGIC_ARITH.All;
+Use IEEE.STD_LOGIC_UNSIGNED.All;
+ 
+Entity DocesMachineFSM Is
+    Port(
+          clk            : In STD_LOGIC := '0';
+          reset          : In STD_LOGIC := '0';
+          Nickel         : In STD_LOGIC := '0';
+          Dime           : In STD_LOGIC := '0';
+          Quarter        : In STD_LOGIC := '0';
+          Dispense       : Out STD_LOGIC := '0';
+          ReturnNickel   : Out STD_LOGIC := '0';
+          ReturnDime     : Out STD_LOGIC := '0';
+          ReturnTwoDimes : Out STD_LOGIC := '0'
+        );
+End DocesMachineFSM;
+ 
+Architecture Behavioral Of DocesMachineFSM Is
+    Type state_type Is (S0, S5, S10, S15, S20);
+    Signal current_state : state_type;
+    Signal next_state : state_type := S0;
+Begin
+    Process (clk, reset)
+    Begin
+        If reset = '1' Then
+            current_state <= S0;
+        Elsif rising_edge(clk) Then
+            current_state <= next_state;
+        End If;
+    End Process;
+ 
+    Process (current_state, next_state, Nickel, Dime, Quarter)
+        Begin
+            Case current_state Is
+                When S0 => 
+                    Dispense       <= '0';
+                    ReturnNickel   <= '0';
+                    ReturnDime     <= '0';
+                    ReturnTwoDimes <= '0';
+                    
+                    If Nickel = '1' Then
+                        next_state <= S5;
+                    Elsif Dime = '1' Then
+                        next_state <= S10;
+                    Elsif Quarter = '1' Then
+                        next_state <= S0;
+                        Dispense   <= '1';
+                    End If;
+                When S5 => 
+                    If Nickel = '1' Then
+                        next_state <= S10;
+                    Elsif Dime = '1' Then
+                        next_state <= S15;
+                    Elsif Quarter = '1' Then
+                        next_state   <= S0;
+                        Dispense     <= '1';
+                        ReturnNickel <= '1';
+                    End If;
+                When S10 => 
+                    If Nickel = '1' Then
+                        next_state <= S15;
+                    Elsif Dime = '1' Then
+                        next_state <= S20;
+                    Elsif Quarter = '1' Then
+                        next_state <= S0;
+                        Dispense   <= '1';
+                        ReturnDime <= '1';
+                    End If;
+                When S15 => 
+                    If Nickel = '1' Then
+                        next_state   <= S20;
+                    Elsif Dime = '1' Then
+                        next_state   <= S0;
+                        Dispense     <= '1';
+                        ReturnNickel <= '1';
+                    Elsif Quarter = '1' Then
+                        next_state     <= S0;
+                        Dispense       <= '1';
+                        ReturnTwoDimes <= '1';
+                    End If;
+                When S20 => 
+                    If Nickel = '1' Then
+                        next_state <= S0;
+                        Dispense   <= '1';
+                    Elsif Dime = '1' Then
+                        next_state   <= S0;
+                        Dispense     <= '1';
+                        ReturnNickel <= '1';
+                    Elsif Quarter = '1' Then
+                        next_state   <= S0;
+                        Dispense     <= '1';
+                        ReturnDime   <= '1';
+                        ReturnNickel <= '1';
+                    End If;
+                When Others => 
+                    next_state <= S0;
+            End Case;
+        End Process;
+End Behavioral;
+ 
+Library IEEE;
+Use IEEE.STD_LOGIC_1164.All;
+Use IEEE.STD_LOGIC_ARITH.All;
+Use IEEE.STD_LOGIC_UNSIGNED.All;
+ 
+ENTITY SwitchDebounce IS
+    PORT 
+    (
+        clk        : IN STD_LOGIC;
+        switch_in  : IN STD_LOGIC;
+        switch_out : OUT STD_LOGIC
+    );
+END SwitchDebounce;
+ 
+ARCHITECTURE Behavioral OF SwitchDebounce IS
+    CONSTANT debounce_count : INTEGER := 50000;
+    SIGNAL counter          : INTEGER RANGE 0 TO debounce_count := 0;
+    SIGNAL switch_state     : STD_LOGIC := '0';
+BEGIN
+    PROCESS (clk)
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF switch_in = switch_state THEN
+                IF counter < debounce_count THEN
+                    counter <= counter + 1;
+                ELSE
+                    switch_out <= switch_state;
+                END IF;
+            ELSE
+                counter      <= 0;
+                switch_state <= switch_in;
+            END IF;
+        END IF;
+    END PROCESS;
+END Behavioral;
+ 
+Library IEEE;
+Use IEEE.STD_LOGIC_1164.All;
+Use IEEE.STD_LOGIC_ARITH.All;
+Use IEEE.STD_LOGIC_UNSIGNED.All;
+ 
+Entity Main Is
+    Port(
+          clk            : In STD_LOGIC;
+          reset          : In STD_LOGIC;
+          btnNickel     : In STD_LOGIC;
+          btnDime       : In STD_LOGIC;
+          btnQuarter    : In STD_LOGIC;
+          Dispense       : Out STD_LOGIC;
+          ReturnNickel   : Out STD_LOGIC;
+          ReturnDime     : Out STD_LOGIC;
+          ReturnTwoDimes : Out STD_LOGIC
+        );
+End Main;
+ 
+Architecture Behavioral Of Main Is
+    Signal debouncedSwitch : STD_LOGIC;
+Begin
+    Switch_debounce : Entity work.SwitchDebounce
+    Port Map(clk => clk, switch_in => reset, switch_out => debouncedSwitch);
+ 
+    DocesMachine : Entity work.DocesMachineFSM
+    Port Map(
+             clk      => clk, reset => debouncedSwitch, 
+             Nickel   => not btnNickel, Dime => not btnDime, Quarter => not btnQuarter, 
+             Dispense => Dispense, ReturnNickel => ReturnNickel, ReturnDime => ReturnDime, ReturnTwoDimes => ReturnTwoDimes
+            );
+ 
+End Behavioral;

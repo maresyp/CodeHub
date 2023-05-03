@@ -1,0 +1,34 @@
+import java.io.IOException;
+import java.util.Scanner;
+ 
+import static java.lang.Math.min;
+ 
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner in = new Scanner(System.in);
+        int size = in.nextInt();
+        int[][] graph = new int[size][size];
+ 
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                graph[i][j] = in.nextInt();
+            }
+        }
+ 
+        int[][] d = graph;
+        for (int i = 0; i < size; i++) {
+            for (int u = 0; u < size; u++) {
+                for (int v = 0; v < size; v++) {
+                    d[u][v] = min(d[u][v], d[u][i] + d[i][v]);
+                }
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(d[i][j]);
+                System.out.print(' ');
+            }
+            System.out.println();
+        }
+    }
+}

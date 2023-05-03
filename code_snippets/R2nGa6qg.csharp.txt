@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Immutable;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Running;
+ 
+namespace Benchmark
+{
+    [SimpleJob(RuntimeMoniker.CoreRt50)]
+    public class Md5VsSha256
+    {
+        readonly struct Heavy
+        {
+            public double A { init; get; }
+            public double B { init; get; }
+            public double C { init; get; }
+            public double D { init; get; }
+            public double E { init; get; }
+        }
+ 
+        private Heavy data;
+ 
+        [GlobalSetup]
+        public void Setup()
+        {
+            var random = new Random();
+ 
+            data = new Heavy
+            {
+                A = random.NextDouble(),
+                B = random.NextDouble(),
+                C = random.NextDouble(),
+                D = random.NextDouble(),
+                E = random.NextDouble(),
+            };
+        }
+ 
+        static double ViaRef(in Heavy array)
+        {
+            double  sum 
+                = array.A + 
+                  array.B + 
+                  array.C + 
+                  array.D + 
+                  array.E
+                  ;
+            return sum;
+        }
+ 
+        static double ViaValue(Heavy array)
+        {
+            double  sum 
+                    = array.A + 
+                      array.B + 
+                      array.C + 
+                      array.D + 
+                      array.E
+                ;
+            return sum;
+        }
+ 
+        [Benchmark]
+        public double Ref()
+        {
+            return ViaRef(data);
+        }
+ 
+        [Benchmark]
+        public double Value()
+        {
+            return ViaValue(data);
+        }
+    }
+ 
+    public static class Program
+    {
+        public static void Main()
+        {
+            BenchmarkRunner.Run<Md5VsSha256>();
+        }
+    }
+}

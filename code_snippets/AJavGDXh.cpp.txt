@@ -1,0 +1,218 @@
+/*
+В файле files.csv (файл загружен в Учебные материалы в команде Teams
+ТП_Першагин_МЮ_ЛР_05-208) записаны сведения о файлах. Всего в списке 280
+записей, каждая из которых содержит
+·
+имя файла;
+·
+размер файла в Кбайтах;
+·
+тип файла (аудио, видео, изображение, презентация, текстовый,
+электронная таблица);
+·
+дату создания файла;
+·
+дату последнего изменения файла;
+·
+и уровень доступа.
+Все элементы в каждой строке разделены запятыми.
+Напишите программу, которая читает данные из файла в массив структур
+(записей) и выводит на экран (или в файл):
+1
+количество файлов каждого типа;
+2
+список 10 самых больших файлов, отсортированный по именам файлов
+(для каждого вывести имя файла и размер);
+3
+список презентаций ограниченного доступа, которые изменялись в 2012
+году; для каждого файла вывести его имя, тип, доступ и дату изменения;
+список нужно отсортировать в алфавитном порядке по именам файлов;
+4
+список видео размером больше 100 Мбайт, созданных во второй половине
+2011 года; для каждого файла вывести его имя, тип, размер и дату
+создания; список нужно отсортировать по убыванию размеров файлов.
+*/
+ 
+#include<iostream>
+#include<sstream>
+#include<fstream>
+ 
+using namespace std;
+ 
+struct FileData
+{
+    public:
+        string FileName;
+        int Weight;
+        string FileType;
+        string CreationDate;
+        string EditDate;
+        string AccesLevel;
+ 
+        FileData(){}
+        FileData(string data)
+        {
+            stringstream ss(data);
+            string weightStr;
+            if(ss.good())
+            {
+                getline(ss,FileName,',');
+                getline(ss,weightStr,',');
+                Weight = stoi(weightStr);
+                getline(ss,FileType,',');
+                getline(ss,CreationDate,',');
+                getline(ss,EditDate,',');
+                getline(ss,AccesLevel,',');
+            }
+            AccesLevel.erase(prev(AccesLevel.end()));
+        }
+};
+ 
+struct Pair
+{
+    public:
+        string Name;
+        int Count;
+        Pair(){}
+        Pair(string type, int count)
+        {
+            this->Name = type;
+            this->Count = count;
+        }
+};
+ 
+ 
+void PrintAllTypesCount(FileData *list, int len)
+{
+    Pair *pairList = new Pair[6];
+    int cntDetected = 0;
+    for(int i = 0; i < len; i++)
+    {
+        bool isDetected = false;
+        for(int j = 0; j < 6; j++)
+        {
+            if(list[i].FileType == pairList[j].Name)
+            {
+                pairList[j].Count += 1;
+                isDetected = true;
+            }
+        }
+        if(!isDetected)
+        {
+            pairList[cntDetected] = Pair(list[i].FileType, 1); cntDetected++;
+        }
+    }
+ 
+    for(int i = 0; i < 6; i++)
+    {
+        cout << pairList[i].Name << " " << pairList[i].Count << endl;
+    }
+}
+ 
+void swap(FileData &a, FileData &b)
+{
+    auto tmp = a;
+    a = b;
+    b = tmp;
+}
+ 
+void SortByWeight(FileData *list, int len, bool reverse = true)
+{
+    auto comp = [reverse](int a, int b) 
+    {
+        if (reverse)
+        {
+            return a > b;
+        }
+        return a < b;
+    };
+ 
+    for(int i = 0; i< len-1; i++)
+    {
+        for(int j = 0; j < len - i - 1; j++)
+        {
+            if(comp(list[j+1].Weight, list[j].Weight))
+            {
+                swap(list[j], list[j+1]);
+            }
+        }
+    }
+}
+ 
+void SortByFilename(FileData *list, int len)
+{
+    for(int i = 0; i< len-1; i++)
+    {
+        for(int j = 0; j < len - i - 1; j++)
+        {
+            if(list[j+1].FileName < list[j].FileName)
+            {
+                swap(list[j], list[j+1]);
+            }
+        }
+    }
+}
+ 
+FileData *Clone(FileData *list, int len)
+{
+    FileData *clone = new FileData[len+1];
+    for (int i = 0; i < len; i++)
+    {
+        clone[i] = list[i];
+    }
+    return clone;
+}
+ 
+void PrintBiggestFiles(FileData *list, int len)
+{
+    FileData *clone = Clone(list,len);
+    SortByWeight(clone, len);
+    FileData* tenBiggest = new FileData[10];
+    for (int i = 0; i < 10; i++)
+    {
+        tenBiggest[i] = clone[i];
+    }
+    SortByFilename(tenBiggest, 10);
+    cout << "  10 biggest files: " << endl;
+    for (int i = 0; i < 10; i++)
+    {
+        cout << "weight: " << tenBiggest[i].Weight << " filename: " << tenBiggest[i].FileName << endl;
+    }
+    delete[] clone;
+    delete[] tenBiggest;
+}
+ 
+void PrintPPTX(FileData *list, int len)
+{
+    FileData *clone = Clone(list, len);
+    SortByFilename(clone, len);
+    cout << "  presentation files: " << endl;
+    for(int i = 0; i < len; i++)
+    {
+        FileData el = clone[i];
+        if(el.FileType == "презентация" && el.AccesLevel == "ограничен" && el.EditDate.substr(6,4) == "2012")
+        {
+            cout << "filename: " << el.FileName << " type: " << el.FileType
+                << " acces: " << el.AccesLevel << " edit: " << el.EditDate << endl;
+        }
+    }
+}
+ 
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+    FileData *files = new FileData[280]; int cnt = 0;
+    ifstream reader("files.csv");
+    while(reader.good())
+    {
+        string tmp;
+        getline(reader, tmp);
+        files[cnt] = FileData(tmp); cnt++;
+    }
+    
+    PrintAllTypesCount(files,280);
+    PrintBiggestFiles(files,280);
+    PrintPPTX(files,280);
+ 
+    return 0;
+}

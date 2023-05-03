@@ -1,0 +1,130 @@
+#include <iostream>
+#include <Windows.h>
+#include <conio.h>
+#include <tchar.h>
+using namespace std;
+bool bState{ false };
+ 
+void menu(bool bState)
+{
+    // Clears and prints to the console
+    system("cls");
+ 
+    std::cout << "autobasket\n";
+ 
+    if (bState)
+    {
+        std::cout << "Status: ON\n";
+    }
+    else
+    {
+        std::cout << "Status: OFF\n";
+    }
+}
+double traectory(int x) {
+    double distance = x - 334;
+    double coef = distance / (1450 - 334);
+    return coef;
+}
+int main()
+ 
+{
+    
+    menu(bState);
+    while (true) {
+ 
+        // Check if 'X' is pressed
+        if (GetAsyncKeyState(0x58) & 1)
+        {
+            
+            // Switch bState value
+            bState = !bState;
+            // Print menu to console
+            menu(bState);
+        }
+        setlocale(LC_CTYPE, "Russian"); //Руссификатор
+        POINT cursor;
+        
+        HWND Handle;
+        
+       
+        
+        pair<int, int> ring;
+        pair<int, int> ball;
+        ball.first = 334;
+        
+       
+        if(bState){
+            
+            for (int i = 337; i < 1700; i +=2)
+            {
+                ring.second = 0;
+                HDC hdc = GetDC(0);
+                GetCursorPos(&cursor);
+ 
+                Handle = WindowFromPoint(cursor);
+ 
+                SetCursorPos(i,1000);
+                COLORREF  c = GetPixel(hdc, i, 1000);
+ 
+                int iRed = GetRValue(c);
+                int iBlue = GetBValue(c);
+                int iGreen = GetGValue(c);
+               
+                if ((c == RGB(114, 70, 70))|| (c == RGB(156, 109, 109))) {
+                    ring.first = i;
+                    
+                   
+                    
+                    for (int j = 1000; j > 40; j -=5)
+                    {
+                        HDC hdc = GetDC(0);
+                        GetCursorPos(&cursor);
+ 
+                        Handle = WindowFromPoint(cursor);
+ 
+                        SetCursorPos(ring.first, j);
+                        COLORREF  c = GetPixel(hdc, ring.first, j);
+                        if (c == RGB(73, 37, 37)) {
+                            ring.second = j;
+                            ReleaseDC(Handle, hdc);
+                         
+                            break;
+                        }
+ 
+                    }
+                }
+                if (ring.second != 0)break;
+            }
+            cout << "coef is " << traectory(ring.first) << endl;
+            SetCursorPos(ball.first, ring.second/traectory(ring.first));
+                while (true) {
+ 
+                    HDC hdc = GetDC(0);
+                    GetCursorPos(&cursor);
+ 
+                    Handle = WindowFromPoint(cursor);
+                    COLORREF  c = GetPixel(hdc, cursor.x, cursor.y);
+                    if (c == RGB(255, 168, 61)) {
+                        mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                        mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                        ReleaseDC(Handle, hdc);
+                        break;
+                    }
+ 
+            }
+            
+        }
+ 
+        /* if (c ==RGB(255,255,255) )
+         {
+             cout << "Ok";
+         }
+         else
+         {
+             cout << "Not";
+         }
+         */
+    }
+    
+}

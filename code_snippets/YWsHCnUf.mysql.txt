@@ -1,0 +1,5 @@
+SELECT ProductName, OrderDate
+FROM Products
+JOIN OrderDetails ON Products.ProductID = OrderDetails.ProductID
+JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
+WHERE OrderDate = (SELECT MIN(OrderDate) FROM Orders WHERE OrderDate > '1996-12-31');

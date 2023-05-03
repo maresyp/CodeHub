@@ -1,0 +1,21 @@
+function verify_wpf_auto_login( $end, $contact_data ) {
+ 
+    if ( isset( $_GET['cid'] ) ) {
+ 
+        // If there's no &d= parameter in the URL, or the date doesn't match today's date
+        // end the auto login session
+ 
+        if ( ! isset( $_GET['d'] ) ) {
+            return true;
+        }
+ 
+        if ( urldecode( $_GET['d'] ) != date('Ymd') ) {
+            return true;
+        }
+    }
+ 
+    return $end;
+ 
+}
+ 
+add_filter( 'wpf_end_auto_login', 'verify_wpf_auto_login', 10, 2 );

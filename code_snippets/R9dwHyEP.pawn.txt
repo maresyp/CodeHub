@@ -1,0 +1,78 @@
+/************* Includes *************/
+#include < amxmodx >
+#include < colorchat >
+ 
+/************* Defines *************/
+#define Prefix          "AMXX"
+ 
+#define StoryFile       "addons/amxmodx/configs/Story.ini"
+ 
+/************* Story *************/
+enum _:Properties
+{
+    name[ 31 ]
+}
+ 
+new Storys[ 120 ][ Properties ], StoryLoaded = 0, StoryID[ 33 ] = 0
+ 
+public plugin_init()
+{
+    register_plugin( "Story", "v1.0", "RanAway`" )
+    
+    /************* command *************/
+    register_clcmd( "say /story", "Story" )
+    
+    /*********** Load story **************/
+    LoadStory()
+}
+ 
+/************* Story *************/
+public Story( id )
+{
+    if( StoryLoaded == 0 )
+    {
+        ColorChat( id, NORMAL, "^3[^1 %s ^3]^1 There is not ^3storys^1 yet.", Prefix )
+        return 1
+    }
+    
+    if( StoryID[ id ] != sizeof StoryLoaded )
+        StoryID[ id ]++
+    
+    ColorChat( id, NORMAL, "^3[^1 %s ^3]^1 %s.", Prefix, Storys[ StoryID[ id ] ][ name ] )
+    return 1
+}
+ 
+/*********** Load story **************/
+LoadStory()
+{
+    if( !file_exists( StoryFile ) )
+    {
+        write_file( StoryFile, "; Just add your story" )
+        write_file( StoryFile, "; Each line is Sentence^n" )
+        write_file( StoryFile, "; Each line must be in ^"^"" )
+        pause( "a" )
+        return 1
+    }
+    
+    new text[ 500 ]
+    if( file_exists( StoryFile ) )
+    {
+        new file = fopen( StoryFile, "rt" )
+        
+        while( !feof( file ) )
+        {
+            fgets( file, text, charsmax( text ) )
+            trim( text )
+            
+            if( text[ 0 ] == ';' || !text[ 0 ] )
+                continue
+            
+            parse( text, Storys[ StoryLoaded ][ name ], 31 )
+            
+            StoryLoaded++
+        }
+        fclose( file )
+    }
+    
+    return 1
+}

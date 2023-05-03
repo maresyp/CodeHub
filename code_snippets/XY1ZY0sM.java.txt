@@ -1,0 +1,46 @@
+public final class Latch
+{
+    private final Object monitor = new Object();
+    
+    private int counter = 0;
+    private boolean canStart = true;
+ 
+    public boolean tryStart()
+    {
+        synchronized (monitor)
+        {
+            if (canStart)
+            {
+                counter++;
+                return true;
+            }
+ 
+            return false;
+        }
+    }
+ 
+    public void finish()
+    {
+        synchronized (monitor) 
+        {
+            counter--;
+            if (0 == counter)
+            {
+                monitor.notifyAll();
+            }
+        }
+    }
+ 
+    public void waitForZero() throws InterruptedException
+    {
+        synchronized (monitor)
+        {
+            canStart = false;
+ 
+            while (0 != counter)
+            {
+                monitor.wait();
+            }
+        }
+    }
+}

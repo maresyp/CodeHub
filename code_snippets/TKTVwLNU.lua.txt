@@ -1,0 +1,39 @@
+--code that will always run and allows for the following functions be be accessed remotely via typing commands in chat
+-- "$totem" Toggles the totem of undying machine (right)
+-- "$swap" Swaps between chestplates (bottom)
+ 
+local box = peripheral.find("chatBox")                      -- check for the chatbox
+local integrator = peripheral.find("redstoneIntegrator")    -- check for the redstoneintegrator
+ 
+--error messages
+if box == nil then error("chatBox not found") end
+if integrator == nil then error("redstoneIntegrator not found") end
+ 
+local totem = integrator.getOutput("right") -- variable for it the undying machine is activated
+ 
+ 
+while true do
+ 
+local event, param1, param2 = os.pullEvent("chat") -- the chunk of the chat box needs to be loaded
+    if(param1 == "GDragonArcher") then
+        
+        if(param2 == "totem") then -- param2 is the message and param1 is the player's name
+            
+            if(totem == false) then
+                integrator.setOutput("right", true) -- Sets the redstone level to 15 for the right side
+                box.sendMessageToPlayer("Activated", "GDragonArcher", "ChatCommands") 
+                totem = true
+            else
+                integrator.setOutput("right", false) -- Sets the redstone level to 0 for the right side
+                box.sendMessageToPlayer("Deactivated","GDragonArcher", "ChatCommands")
+                totem = false
+             end
+            
+            
+        elseif(param2 == "swap") then
+            integrator.setOutput("bottom", true) -- Sets the redstone level to 15 for the bottom
+            integrator.setOutput("bottom", false) -- Sets the redstone level to 0 for the bottom
+            
+        end
+    end
+end

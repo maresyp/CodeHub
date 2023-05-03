@@ -1,0 +1,31 @@
+/*
+https://gocoding.org/es/ejercicios-de-pr%C3%A1ctica-de-golang/
+5. Cree un programa que genere una contraseña aleatoria para el usuario con una longitud y un conjunto de caracteres específicos
+*/
+ 
+package main
+ 
+import (
+    "fmt"
+    "math/rand"
+)
+ 
+func randomAscii() int {
+    ascii_min := 0x41 //Point d'exclamation
+    ascii_max := 0x7A //Tilde
+    return rand.Intn((ascii_max - ascii_min) + ascii_min)
+ 
+}
+ 
+func main() {
+    usuario := "icaro"
+    pwd := ""
+    longitud := len(usuario)
+ 
+    for i := 0; i < longitud; i++ {
+        //pwd += string(rune(randomAscii()))
+        pwd += string(byte(randomAscii()))
+    }
+ 
+    fmt.Printf("usuario = %v , longitud %v ,pwd =%v ", usuario, longitud, pwd)
+}

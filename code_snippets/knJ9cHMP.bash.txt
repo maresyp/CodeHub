@@ -1,0 +1,66 @@
+echo /home/ffilz/bin/chkpt >t
+echo ======================================== >>t
+echo "use  of PTHREAD...INITIALIZER" >>t
+echo ---------------------------------------- >>t
+grep -n 'PTHREAD.*INITIALIZER' `find . -name '*.[ch]' | egrep -v 'multilock'` \
+| egrep -v '\#define|\#undef|static inline|winpthreads' \
+>>t
+echo ======================================== >>t
+echo "unmatched mutex definition and init" >>t
+echo ---------------------------------------- >>t
+egrep -n 'pthread_mutex_t |PTHREAD_MUTEX_init' `find . -name '*.[ch]' | egrep -v 'libntirpc|multilock'` | egrep -v '\#define|pthread_mutex_t \*' \
+| sed -e 's@./\([a-zA-Z_/0-9\.]*:[0-9][0-9]*:\)\(.*\)@\1 \2@' | sed -e 's@\(.*\)extern\(.*\)@\1\2@' | sed -e 's@\(.*\)/\*.*\*\/\(.*\)@\1\2@' \
+| sed -e 's@\(.*\)/\*.*$@\1@' | sed -e 's@\(.*PTHREAD_MUTEX_init\)..\([^,]*\).*@\1 \2@' | sed -e 's@\(.*\);.*$@\1@' \
+| sed -e 's@\([a-zA-Z_0-9:]*:\)[^pP][^pP]*\([pP][a-zA-Z_]*\)[^a-zA-Z_]\(.*\)@\1 \2 \3@' \
+| sed -e 's@\(.*PTHREAD_MUTEX_init\) \([^\.]*\)\([\.\>]\)\([^\.\>]*\)@\1=\2\3 \4@' \
+| sort -k3 \
+| egrep -v 'admin_control_mtx|all_locks_mutex|blocked_locks_mutex|cached_open_owners_lock|dbus_bcast_lock|enforcing_mutex|export_admin_mutex|fsal_fd_mutex|fsal_lock|grace_mutex|grace_op_lock|granted_mutex|init_mtx|rpcLock' \
+| egrep -v 'cb_mutex|cid_mutex|context_lock|cr_mutex|init_mutex|iolock|listlock|nlm_async_resp_mutex|norefs_mutex|nsm_mutex|pool_mutex|proxyv4_clientid_mutex|queues_mutex' \
+| egrep -v 'sle_mutex|so_mutex|ssc_mutex|state_mutex|st_lock|up_mutex|up_mutex|work_mutex|mutex_localtime|9p_dispatcher.c.*mutex|dm_tx|ql_mtx' \
+| egrep -v 'chan_mtx|dle_mtx|dm_mtx|drc_mtx|drc_st_mtx|dre_mtx|fre_mtx|frt_mtx|fsc_mtx|flb_lock|glfs_lock|upvector_mutex|wq_mtx|sock_lock|gd_lock|oq_lock|slot_lock' \
+| egrep -v 'all_state_owners_mutex|all_state_v4_mutex|ple_mtx' \
+>>t
+echo ======================================== >>t
+echo "unmatched condition definition and init" >>t
+echo ---------------------------------------- >>t
+egrep -n 'pthread_cond_t |PTHREAD_COND_init' `find . -name '*.[ch]' | egrep -v 'libntirpc|multilock'` | egrep -v '\#define|pthread_cond_t \*' \
+| sed -e 's@./\([a-zA-Z_/0-9\.]*:[0-9][0-9]*:\)\(.*\)@\1 \2@' | sed -e 's@\(.*\)extern\(.*\)@\1\2@' | sed -e 's@\(.*\)/\*.*\*\/\(.*\)@\1\2@' \
+| sed -e 's@\(.*\)/\*.*$@\1@' | sed -e 's@\(.*PTHREAD_COND_init\)..\([^,]*\).*@\1 \2@' | sed -e 's@\(.*\);.*$@\1@' \
+| sed -e 's@\([a-zA-Z_0-9:]*:\)[^pP][^pP]*\([pP][a-zA-Z_]*\)[^a-zA-Z_]\(.*\)@\1 \2 \3@' \
+| sed -e 's@\(.*PTHREAD_COND_init\) \([^\.]*\)\([\.\>]\)\([^\.\>]*\)@\1=\2\3 \4@' \
+| egrep -v '_9pw_cond|admin_control_cv|cb_cond|cond_sessionid|dle_cv|enforcing_cond|fre_cv|fre_cv|fsal_fd_cond|fsc_cv|init_cond|iowait|need_context' \
+| egrep -v 'nlm_async_resp_cond|norefs_cond|oq_cond|sockless|up_cond|work_avail_condition|work_cond|work_done_condition|wq_cv|flc_condition' \
+| sort -k3 \
+>>t
+echo ======================================== >>t
+echo "unmatched init/destroy" >>t
+echo ---------------------------------------- >>t
+egrep -n 'PTHREAD_[A-Z]*_init|PTHREAD_[A-Z]*_destroy' `find . -name '*.[ch]' | egrep -v 'libntirpc|multilock'` \
+| egrep -v '\#define PTHREAD.*_init|\#define PTHREAD.*_destroy' \
+| sed -e 's@./\([a-zA-Z_/0-9\.]*:[0-9][0-9]*:\)\(.*\)@\1 \2@' \
+| sed -e 's@\(.*\)/\*.*\*\/\(.*\)@\1\2@' \
+| sed -e 's@\(.*\)/\*.*$@\1@' | sed -e 's@\(.*PTHREAD.*_init\).\([^,]*\).*@\1 \2@' | sed -e 's@\(.*\);.*$@\1@' \
+| sed -e 's@\(.*\)/\*.*$@\1@' | sed -e 's@\(.*PTHREAD.*_init\)..\([^\)]*\).*@\1 \2@' | sed -e 's@\(.*\);.*$@\1@' \
+| sed -e 's@\(.*\)/\*.*$@\1@' | sed -e 's@\(.*PTHREAD.*_destroy\)..\([^\)]*\).*@\1 \2@' | sed -e 's@\(.*\);.*$@\1@' \
+| sed -e 's@\([a-zA-Z_0-9:]*:\)[^pP][^pP]*\([pP][a-zA-Z_]*\)[^a-zA-Z_]\(.*\)@\1 \2 \3@' \
+| sed -e 's@\(.*PTHREAD.*_init\) \([^\.]*\)\([\.\>]\)\([^\.\>]*\)@\1=\2\3 \4@' \
+| sed -e 's@\(.*PTHREAD.*_destroy\) \(.*\)\([\.\>]\)\([^\.\>]*\)@\1=\2\3 \4@' \
+| sort -k3 -k2r \
+| grep -v 'PTHREAD.*ATTR' \
+| egrep -v '_9pw_cond|_9pw_mutex|acl_lock|admin_control_cv|admin_control_mtx|all_locks_mutex|all_state_owners_mutex|all_state_v4_mutex|attr_lock|blocked_locks_mutex' \
+| egrep -v 'cb_cond|cb_mutex|chan_mtx|cid_mutex|cih_lock|cip_lock|client_lock|cond_sessionid|conn_lock|content_lock|context_lock|cached_open_owners_lock' \
+| egrep -v 'cr_mutex|dbus_bcast_lock|dle_cv|dle_mtx|dm_mtx|dns_auth_lock|dre_mtx|eid_lock|enforcing_cond|enforcing_mutex|exp_lock|export_admin_mutex' \
+| egrep -v 'export_opt_lock|flb_lock|flc_condition|fsal_fd_cond|fsal_fd_mutex|fsal_lock|fsc_cv|fsc_mtx|fsloc_lock|fsm_lock|gc_auth_lock|gd_lock' \
+| egrep -v 'glfs_lock|grace_mutex|grace_op_lock|granted_mutex|ht_lock|idmapper_group_lock|idmapper_user_lock|init_mtx|jct_lock|listlock|log_rwlock|mutex_localtime' \
+| egrep -v 'need_context|nit_cond|nit_mutex|ng_lock|nlm_async_resp_cond|nlm_async_resp_mutex|norefs_cond|norefs_mutex|nsm_mutex|obj_lock|ple_mtx|proxyv4_clientid_mutex' \
+| egrep -v 'ql_mtx|sid_lock|sle_mutex|slot_lock|sockless|sock_lock|ssc_mutex|st_lock|uid2grp_user_lock|up_cond|up_mutex|upvector_mutex|url_rwlock|work_cond' \
+| egrep -v 'work_mutex|wq_cv|drc_mtx|fre_cv|fre_mtx|frt_mtx|state_mutex|so_mutex|iolock|iowait|drc_st_mtx|wq_mtx|oq_cond|oq_lock|winbind_auth_lock' \
+| egrep -v '_9p_rq_st_spinlock|_9p_rq_spinlock|fsd_spin|fs_lock' \
+>>t
+echo ======================================== >>t
+echo "unmatched init/destroy in libntirpc" >>t
+echo ---------------------------------------- >>t
+egrep -n 'pthread_[a-z]*_init|pthread_[a-z]*_destroy|mutex_init|mutex_destroy|cond_init|cond_destroy|spin_init|spin_destroy' \
+`find libntirpc -name '*.[ch]' | egrep -v 'multilock'` \
+| egrep -v '\#define|\#undef|static inline|winpthreads' \
+>>t

@@ -1,0 +1,215 @@
+DiscoDude: ---BEGIN SESSION---
+DiscoDude: Session logging commenced
+GM: > Loca Shopping Plaza, Lowtide, 09:22am
+It's a warm, breezy morning in Lowtide. Where Paradisio above caters to the 'upper crust' of extragalactic tourists to the tropical ocean planet of the same name, Lowtide below caters to the tourists that are just 'crusty.' It's better at looking nice than most other colony cities around this world with its Open Streets and Plazas and surf-town aesthetic, anyway.
+GM: "Nonononono!" Slippery Stevens, a Geckoan in a tacky Hawaiian shirt, scrambles down the shop-lined street in a mad dash. He makes a sharp turn and hops the dividing fence into the Loca Plaza food court. There are Tourists and Tables Everywhere outside various eateries, so the guy's antics draw a bit of attention.
+GM: Even more eye-catching is the patrol van that skids to a halt outside on the street. A side door slides open to reveal a faded-periwinkle Chater.
+(<@!Harry>, it's time to introduce yourself! Describe how you give chase!)
+Harry: Despite being in his sixties, Harry retains some of his youthful spryness as he leaps from the van. "I've got this lowlife," he growls to himself as his feet hit the ground and he starts running. "Stop in the name of the law!" he shouts.
+GM: The van is already peeling off down the street when you hit the ground, Harry. Glancing back only to spot you going after him on foot, Stevens yelps and starts to make a mad dash around (and under, and over) tables towards the Brief Alleys Between Shops, hoping to lose you around a corner or three!
+(Since this is a Contest, you're going to make opposing Overcome rolls! Name your approach, add more description if you need to justify it, and roll! Stevens is Skilled At RUNNING, so make it a good one!)
+GM: !f 2 (RUNNING)
+DiscoDude: <@GM> rolled 4dF+2 for 0 [4dF = [-][-][+][-]]
+Harry: !f 1 (Quick)
+DiscoDude: <@Harry> rolled 4dF+1 for 2 [4dF = [ ][ ][+][ ]]
+GM: (Describe how you start to gain on him!)
+Harry: Harry loosens his collar and takes off after Stevens at full tilt. He tries to hide every sign of the effort it takes to make his aging body go this fast. To an outside perspective - Stevens, particularly - he looks every bit the trained marathon runner.
+GM: Stevens makes the mistake of looking back, and trips over! He rolls forward as a ring for a few rotations before righting himself.
+"Ack- Bit my tail!"
+DETECTIVES:    [X]  [  ]  [  ]
+STEVENS:           [  ]  [  ]  [  ]
+GM: He reaches the entrance of the alley, but at the other end, the same police van skids into view with a screeching drift! He can see a human girl in a lab coat in the driver's seat.
+(<@!Andie>, your turn!)
+Harry: Harry doesn't say anything, but the look on his face speaks volumes: "a little help here?"
+GM: (<@!Andie>?)
+Andie: Andie has a steel grip on the wheel from excitement. She's certain a game of chicken is all Stevens needs to turn back towards Harry and so she barrels down the alley!
+GM: (FLASHY? FORCEFUL? QUICK?)
+GM: (Name your Approach!)
+GM: !f 2 (RUNNING)
+DiscoDude: <@GM> rolled 4dF+2 for 1 [4dF = [ ][ ][ ][-]]
+Andie: !f 2 (Quick)
+DiscoDude: <@Andie> rolled 4dF+2 for 1 [4dF = [-][-][+][ ]]
+GM: (That's a 2, if Harry's assisting!)
+Harry: (how's that work, again?)
+GM: (You grant +1 to the primary roller if you spend your action that exchange, describe how you do so, and have that Approach at at least Average (+1).)
+GM: (Also, since it's a little niche, I'll say Andie's The Need for Speed stunt applies here!)
+GM: (<@!Harry>, were you assisting?)
+Harry: (sure XD)
+Harry: doesn't let up his pursuit. Stevens doesn't have many options!
+GM: (<@!Andie>, I assume you use your The Need for Speed stunt?)
+GM: (<@!Andie>?)
+GM: (<@!Andie>, do you use your stunt?)
+Andie: (Yes)
+GM: (That's a SWS, which I'll negate with an invoke - we still have another character to introduce! I'll use... Slippery Slimeball - Stevens isn't completely trapped yet!)
+GM: (No objections, I assume?)
+Andie: (all good)
+GM: Stevens yelps, skidding to a halt near the middle of the alley as you bear down on him from both sides! He looks around frantically for a crucial few seconds like a deer in headlights before noticing a branch to the alley that leads to a third exit!
+DETECTIVES:  [X]  [X]  [  ]
+STEVENS:        [  ]  [  ]  [  ]
+GM: He's on all fours half the time, now - if only he can reach open air again, he might be able to lose these guys!
+Unbeknownst to him, unfortunately, a rather androgynous looking human(?) with horns and a tail is waiting around the corner of that exit...
+(<@!Norwick>, your time to shine!)
+Norwick: Norwick checks their nails and looks around, "No where have Harry and Andie gone? I thought they were coming to me and picking me up with the Van?" They say, sighing a bit before checking their phone and sending a text to Harry, "Where u at? :c"
+GM: Just then, you hear frantic scrambling coming from down the alley.
+"You'll never take me alive, you... you mall-cops!"
+Harry: Harry angrily hammers out a response: "CATCH HIM!"
+GM: Of course, Stevens is so preoccupied, he likely isn't paying attention to where he's headed!
+Norwick: Norwick turns and looks down the alleyway, "Oh, okay I'll guess I'm doing this now?" Norwick gets ready to tackle-hug the person that Harry said to catch. "Well, it's kinda dark Harry! I can't really see that well, y'know, but I'm ready!"
+GM: (Which Approach? Also, how loud are you saying this?)
+Norwick: ( Yes )
+Norwick: ( Oh, like normal talking volume )
+GM: (Alright, which approach?)
+Norwick: ( And it's gonna be careful, making sure it's not Harry or anything before making the leap )
+GM: (Hmm, not sure how the others can assist you CAREFULLY here. You cool with that (assuming the others can't think of how to pull that off)?)
+Norwick: ( Yeah, I'm totally fine. )
+GM: (Roll it!)
+Norwick: !f 2 (Careful)
+DiscoDude: <@Norwick> rolled 4dF+2 for 3 [4dF = [+][ ][+][-]]
+GM: (Doing this CAREFULLY, are you blocking the path or planning to leap out at him?)
+Norwick: ( Leap out at him )
+GM: (That might actually be SNEAKY, but with Nor's stats, it's the same difference.)
+GM: "You... You'll-" Stevens isn't even looking where he's going at this point!
+GM: !f -2 (WATCHING OUT)
+DiscoDude: <@GM> rolled 4dF-2 for -1 [4dF = [+][-][ ][+]]
+GM: (SWS! Not that it does anything extra when you already had just one Victory to go. Describe it! XD)
+Norwick: Norwick makes sure the figure he sees running towards him is not either Harry or Andie, and takes a leap at them, wrapping their arms around Stevens as they tumbled towards the ground. "Hey buddy, nice weather down here, huh?" Norwick says, face to face inches apart from one another, with Norwick smiling down at them.
+GM: "Ah! Er..." The Gekoan hisses at you... uselessly. You've got him at this point; even with the trace amounts of mucus his scales excrete, you're able to maintain a good enough grip on him until Harry shows up to cuff him.
+GM: Meanwhile, Andie, you have to take a moment to back out of the alley and drive around to meet the others outside.
+(Now's the time for banter, establishing why you're arresting him, reading rights, etc.)
+Harry: "Almost thought you were going to just stand there gawking while the perp ran past you," Harry mutters. "You're under arrest, slimeball," he says, whipping out his cuffs and arresting the perp.
+Norwick: "I mean I probably would have if you didn't yell at me like that..." He mutters, still wrapped around Stevens, not letting go until explicitly told otherwise. "So uh, what did this guy do again? Besides be slimy...Take a shower dude."
+Harry: "Right, right." Harry clears his throat. "Algernon 'Slippery' Stevens, you're under arrest for 15 counts of forgery, two of lewd and lascivious conduct in public, another three of dining and dashing, and one of pissing me the hell off. Anything you say can and will be, blah, blah, blah. You know the rest. Andie?"
+Andie: Andie steps out of the van and trots up to the three, but is obviously most interested in Stevens. She drags a finger across his head.
+"Amazing," she mutters to herself, squishing her index and thumb together, "Almost no friction at all!"
+Harry: Harry sighs. "You can research the perp after we've booked him. Mind giving me a hand getting him into the van?"
+Norwick: ( brb for a moment, litter box time )
+GM: "Depictions of the body deserve to be free! You're gonna hear from my lawyer... as soon as I find out which one the courts are assigning me!"
+GM: (Once Norwick gets back, shall we transition scenes?)
+Harry: (sure)
+Harry: "Fine with me, so long as this is the last time I see your mug on the streets," Harry quips.
+Andie: (also good with that)
+Norwick: ( And back )
+GM: (Anything to say before we transition, Nor?)
+GM: (<@!Norwick>?)
+Norwick: ( Oh uh, no )
+GM: (Alrighty.)
+GM: Paradisio. The jewel of the Andromeda frontier. One of them, anyway, according to the brochures. A resort city of the highest caliber is its claim to renown, on a circular platform the size of a large island nation, suspended above the coast of an actual island colony.
+GM: Your destination is not there.
+GM: Rather, the Paradisio P.D. is located halfway up one of the many highway ramps that spiral up to Paradisio from below, part of neither the lowly masses below, nor quite belonging to the upper crust above, either. The access ramp leading to your private little sub-platform has one hell of a view, though. Even still, that and the way the public space, office, and dorms look like they're designed like a resort in turn are just about the only nice things one can say about the facility.
+GM: Eventually, you manage to get Slippery Stevens in a holding cell for processing; Harry, it can be assumed that you're glad the cells didn't get the same "resort aesthetic" treatment as the rest of the facility - that'd just be silly.
+GM: Soon, the three of you happen to be helping put together a report when you're called over by one of your phone operators, a human named Chip.
+"Ah, hey; you guys free?"
+Norwick: "Depends on the context of free." Norwick says.
+Harry: "What is it, Chip?" His tone is businesslike, even; if he's intruding on anything, Harry makes no indication of it.
+Andie: Andie just narrows her eyes, but doesn't object since Harry doesn't.
+GM: "Okay, so these guys, from like..." Chip twiddles the slinky phone-cord between his fingers, clearly still in conversation. "A limo depot- did I hear that right? Naval militia from like Lowtide or whatever agreed to intercept an AWOL... limo." He's trying not to crack up here, but then turns serious. "Oh, and they found a stiff; asking for someone from up here to take a look. This is looking to be a 'weird one.'"
+GM: He says 'weird one,' but literally every 'case' you've had on this planet up to this point has been incredibly mundane.
+GM: (No response?)
+Harry: frowns. "Did they say what the connection was between the missing limo and the victim? On that subject, any info on the victim?" He grabs a pad and starts taking notes.
+GM: "... Hang on, lemme ask." He turns to the phone in a low voice: "Did they say what the connection was between the missing limo and the victim? On, uh..." He turns to you. "What was the second question?"
+Harry: "What info is there on the victim?" Harry repeats, exasperation seeping into his voice.
+GM: "A'ight. What info is there on the victim?" After some chatter: "'K, so they found our guy dead in the passenger's compartment of the limo. No driver. They didn't bother to try IDing the guy until I ask - supposed to be our job, they says - but they're looking for a wallet now. Guy does look dressed enough to be from up top, if that'll 'motivate all you coppers.' Says they'll be dropping it all back up at Lang Limo Depot. I'll text you an address."
+Harry: "So a John Doe for now." Harry finishes writing, then checks his phone for the message. "All right. Andie, kid, we're going to Lang Limo."
+Harry: He has yet to use Norwick's name.
+GM: (How does <@!Norwick> respond to that?)
+Norwick: "So there's a dead guy? Are we solving a murder now? Also, when's lunch?" Norwick says, looking at the group, "I missed breakfast today, slept in."
+Andie: Andie is, at first, incredulous about this case. Sure it sounds interesting, but... her daydreaming of possible (cooler) futures gets the better her and she enthusiastically nods by the time Harry speaks to her.
+"Mmm, lunch..." she says, rubbing her chin and thinking of possible meals now.
+Harry: "...We can go get lunch on the way," Harry says. "You're driving, so it's your choice."
+Norwick: "Can we go to McKane's? I just want to get some cheap credit stuff, oh and a Soda. I'll transfer my credits as soon as we get food there." He says, thinking about fast food now.
+GM: (Shall we transition again, and get into the real meat of the game?)
+Norwick: (Sure)
+Harry: (sure)
+Andie: (same)
+GM: A quick detour to McKane's later, your van pulls up to Lang's Limo Depot on a small midway platform - similarly to your own shelf. You're guided into the depot lot, where a regular squad car that got sent ahead has already cordoned off a haphazardly parked limo behind a holographic barrier. As you get out, Andie seems to get stuck in the van door by her backpack; only for a moment, however.
+"Look, I drove this puppy back here, I don't see why I gotta stick around! What more do you want?" A rather large and furry Garoan (dressed in what you think is a naval militia outfit) seems to be growling at some beat cops, while a human looks rather uncomfortably on from the side in his very prim and very purple suit.
+Harry: gets out of the van and approaches the Garoan. "Detective Hazuth. We're here to investigate a murder." He flashes his badge.
+GM: "Well, the dead guy's stinking up the back compartment, if you wanna take a look." Another beat cop - a Grey - opens the passenger compartment door, only to recoil, gagging. The Garoan snorts derisively. "Can I go now?"
+Harry: "Few questions first. Name and occupation?" He whips out his trusty notepad again.
+GM: (I guess this is a good time to announce:)
+GM: - BEGIN INVESTIGATION -
+GM: "Mmf, name's Ozzy Prowler; buds call me Fangs." He flashes his fangs in a toothy grin, causing the purple-suited human to shy further away. "I'm with the naval militia, if you couldn't tell. Was with the guys that recovered this hunk'a metal."
+Harry: "I see. Are you local, or offworld?" He nods at the limo. "Also, where was the vehicle found?"
+GM: "The fuck? Only locals are those big fuck-off bird people, right?" He shrugs, seeming to recover his train of thought. "Anyway, ain't much to tell. We get a call from these fuckers saying some kinda alarm went off, and we gotta go chase down a runaway hover-limo or some nonsense. We eventually caught up to it on its way across the surface of the gods-damned ocean - thing was on autopilot, goin' full speed ahead for the last who-knows-how-long.
+GM: "Are we done now?"
+GM: New Clue: Prowler's Testimony
+"Limo Was On Steady Autopilot" | ???
+Harry: "I meant if you're stationed here locally or if you're just here temporarily, but I suppose that's a digression." He turns the page. "I think we're done here, but I'd like some contact info just in case we have further questions later."
+Andie: "Actually! I have one question; when did you find out about the limo in the first place?" Andie finally chimes in.
+Harry: Harry nods. "Sharp detective work." He turns to Norwick: "Watch her closely, kid."
+GM: "I dunno what the fuck else there is to tell, but sure, knock yourself out. It's uh..." He takes time to fish out a notecard and recites the number on it. "That's the chapter I'm in; just call them if you wanna annoy me further. Hmm?" He turns to you, <@!Andie>. "Fuck if I know the specifics, but I already told you these guys called us about some alarm that went off or... something. It was a couple hours ago, I think?"
+GM: (Got nothing to say to the witness, <@!Norwick>?)
+Harry: "Trail should still be fresh, then." He heads over to the limo and waves Andie to follow him.
+GM: (Hmm, I wonder if I should wait for <@!Norwick> to return before posting the response that threatens to walk one of the two witnesses out of this scene.)
+Norwick: (Oh whoops, was afk for a bit)
+GM: (Yeah, letting a questioning start and end without your character's involvement might be bad. XD)
+GM: (You good to play?)
+Norwick: "Watch Andie? I mean, okay I guess." He stares at Andie, "How long do I have to watch, Sir?" He says, completely not in the zone for detective work at the moment
+Norwick: ( yeah I'm good )
+GM: "Well, if that's all, Ima bounce. Peace." The Garoan turns and moves to vacate the premises.
+(For the record, I leave a Hidden Aspect open on most new Clues that appear, even if I myself don't know what's yet to be discovered. If you think Fangs' testimony isn't hiding anything worthwhile, however, that's fine; I don't expect you to reveal every Hidden aspect in the entire case.)
+Harry: Harry sighs and slaps his forehead. "I mean take after her example. For instance." He points at Ozzy, like a parent trying to teach something to a child. "You could ask the witness a question I didn't think to."
+GM: "Wazzat?"
+Harry: "And make it quick, because you're taking up this man's valuable time."
+Harry: He doesn't make it clear whether by "this man" he means Ozzy, or himself.
+Norwick: "Oh, okay. Well, I can't really think of much I could ask. Maybe how fast the response time was to track down this Limo, but that's all really."
+Harry: "That's good. That's quite good." He restates the question: "How long did it take after the alarms for the vehicle to be recovered?"
+GM: "Look, just cut it with the stupid questions already and let me get out of here, okay?" He's looking real annoyed at this point.
+Harry: He taps his notepad with his pen, as if contemplating to use it in some unpleasant fashion. "It's a simple question, and I promise the last one for now."
+Harry: He says it in a way that suggests the man may find himself inconvenienced in much worse fashion if he doesn't comply.
+GM: "That's what you said about the last few..."
+(Alright, if you want to get anything else useful out of him, someone's gonna have to pick an approach to oppose his INTIMIDATING.)
+Harry: "You can be on your way with a few words, or you can answer our question at the station," Harry says, raising his eyes from his notepad at the last word, giving the man an intense glare.
+Harry: !f 2 (Forceful)
+DiscoDude: <@Harry> rolled 4dF+2 for 0 [4dF = [ ][ ][-][-]]
+Harry: (damn XD)
+GM: !f 2 (INTIMIDATING)
+DiscoDude: <@GM> rolled 4dF+2 for 4 [4dF = [+][+][-][+]]
+Harry: (man, i blew this one pretty hard XD)
+Andie: (oof xD)
+Harry: (i'ma just take the L here)
+GM: (I suppose Harry doesn't automatically know that letting <@!Norwick> do all the talking in trickier situations will make things go smoother? XD)
+Norwick: (Oh yeah that's my stunt)
+Harry: (well, if Norwick won't step up... ^_^; )
+Harry: (plus Harry is going to just do things on his own without being prompted)
+GM: (Ah well, the opportunity for this hidden aspect has passed; swing-and-a-miss.)
+Norwick: ( I just think Norwick didn't want to get punched by this dude, even though that won't happen, but he's afraid of the probability aha )
+GM: "If you want your answer so bad, come down to our dock and ask again. Bet the boys will love you." He flashes another toothy grin before turning and sauntering off.
+GM: The man in a purple suit sighs from relief when he's finally gone.
+Norwick: Norwick turns to the purple suited man and asks, "What your connection with that guy?" He asks.
+Harry: Harry gives Norwick a suspicious look, then shrugs and turns his attention back to the limo. "Andie, any observations?"
+GM: (Oh, I suppose I should describe the limo now. I'll get right back to you, Nor.)
+GM: <@!Andie>, it's a rather gruesome sight inside; the victim - human male, well-dressed - is sprawled out in a small mess of blood on the cushions, that mess's epicenter being one of his eyes. His body fell in a way that left his right hand concealed behind him. There's a bucket of ice and Champaign on the compartment's table. This is all just what's obvious at a glance, of course.
+GM: New Clue: Blood-Splatters
+???
+GM: New Clue: ???'s Body
+??? | ??? | ???
+GM: <@!Norwick>: "Oh, no, nothing. Hello, officer," he says. His nervousness having evaporated, he takes and pumps your hand up and down. "My name is Xiaoping Lang, owner and manager of the Lang Limo Depot. Dreadfully sorry for inconveniencing everyone with this terrible occurrence."
+Norwick: "You sure? You seemed pretty nervous when he was around Mr. Lang." He said, "Why is that?" He asked, pressuring them a bit more, their interrogating skills coming out from their usual aloof personality.
+GM: "Were you not scared? I don't mean to sound offensive, but I find it hard to be comfortable around someone of such a... physically intimidating species."
+Andie: Andie first attempts to sus out how long this person's been dead. Then she looks around the compartment, wondering if what caused... this is still around.
+GM: (Sussing out the time of death qualifies as trying to discover an aspect, I'd say. Go ahead and roll to Create Advantage; versus Average (+1) since this is a fairly standard clue.)
+Norwick: "Yeah he was pretty scary, but you weren't really confronting them or being confronted by them, were you?" He says, "I have a question, do you know who rented this Limo out, Mr. Lang? I'm sure you would know who rents these out, considering you're the manager and would have access to that sort of stuff, right?"
+Andie: !f 3 (Clever)
+DiscoDude: <@Andie> rolled 4dF+3 for 1 [4dF = [-][-][ ][ ]]
+GM: (Uh... Lemme look up what a tie means when discovering aspects.)
+Harry: (in this case it's the same as a win, IIRC)
+GM: (Just no free invoke.)
+GM: "I'm afraid I tend to get uncomfortable a bit easier than I'd like; I've been trying to work on it. As for the limo, I believe that around 6:45 this morning, one Jonah Wheeler called for a limo up in Paradisio; it was the only limo call at the time, which is understandable. What a strange hour for one of our mobile luxury cabins... Oh, and it was a business number for Wheeler Construction - they have an office in Paradisio, I think." He quickly writes down the number. "Anything else, officer?"
+GM: New Clue: Lang's Testimony
+"Jonah Called for a Limo at 6:45am" | ???
+Norwick: "Why do you think this Jonah Wheeler rented this Limo out, and not just another transportation company? What do your Limos provide that, say, another transport companies vehicle does not?" He asks. He then sends a text over to Harry. "Look up a Jonah Wheeler, they rented out the Limo of the victim."
+GM: <@!Andie>, after running a few tests with the fact that you're Lugging a Whole Lab on Your Back - careful not to move the body too much, of course - your hypersensitive tests were able to reveal that the approximate Time of Death Was Between 8:00 and 8:30 am.
+Meanwhile, what do you do to search for a weapon? Are you just assuming the stab wound to the eye is what did it?
+GM: <@!Norwick>: "Oh! I am so glad you asked!" Lang clasps his hands together. "What our limos can provide is a luxury travel experience, unlike any other! Why, I'd say that..." It is at this point that you realize that the conversation is starting to get away from you.
+(It'd be an opposed roll to get him to focus on the important parts.)
+Norwick: (  Does my Silver Tongue Stunt apply here? )
+GM: (If you approach him in a way that lets you use CAREFUL, then yeah.)
+Andie: Andie considers searching more closely for a weapon, but thinks about the fact that the limo was rushing out over the ocean before it was recovered. While a weapon could be here, she figures it might more useful to search around for traces of someone who is not the deceased since she has A Keen Eye for Residue.
+Harry: "Got a theory, Andie?"
+Andie: "Unless he did this to himself, I think the actual culprit might've left some evidence behind..."
+Norwick: ( I was thinking about, y'know, carefully going around the fact that he wants info, not a selling speech )
+GM: (<@!Andie>: Looking to discover an aspect of a clue then? Which one? The blood? The body? <@!Norwick>: Describe it, then.)
+Norwick: "Mr. Lang, maybe we could talk about what your services provide, rather than trying to sell me the product?" He asks, looking at them.
+Harry: "I don't doubt it. Whoever did this thought dumping the car would be enough to cover their tracks. He wasn't counting on the alarms." He cocks his head as he studies the mess, though he leaves Andie to make sense of the details. "Implies the killing was spur-of-the-moment, at a glance. If the murder was premeditated, the killer might've done a bit more homework. Though we can't rule out the possibility they were just dumb."
+GM: !end

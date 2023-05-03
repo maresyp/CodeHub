@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+ 
+namespace PierwszaKlasa {
+    internal class Student {
+        //pola klasy (zmienne w klasie)
+        //modyfikatorami dostępu: public, private
+        public string imie;
+        public string nazwisko;
+        private int numerIndeksu;
+        public double sredniaOcen;
+ 
+        private double temperatura;
+ 
+        public double TemperaturaC {
+            get { return temperatura; }
+            set {
+                if (value < 34 || value > 42)
+                    temperatura = 36.6;
+                else
+                    temperatura = value; 
+                }
+        }
+        public double TemperaturaK {
+            get { return temperatura + 273; }
+            set {
+                if (value < 307 || value > 315)
+                    temperatura = 36.6;
+                else
+                    temperatura = value - 273;
+            }
+        }
+ 
+ 
+ 
+        //właściwości
+ 
+        public string Imie { get { return imie; } set { imie = value; } }
+ 
+        public int NumerIndeksu {
+            get {
+                return numerIndeksu;
+            }
+            set {
+                if (value <= 0)
+                    numerIndeksu = 1000;
+                else
+                    numerIndeksu = value;
+            } }
+ 
+ 
+ 
+ 
+        public void SetNumerIndeksu(int indeks) {
+            if (indeks <= 0)
+                numerIndeksu = 1000;
+            else
+                numerIndeksu = indeks;
+        }
+        public int GetNumerIndeksu() {  return numerIndeksu; }
+ 
+ 
+        //metody (funkcje w klasie)
+ 
+        public void PrzedstawSie() {
+            //Console.WriteLine("Nazywam się " + imie + " " + nazwisko + ".");
+            //Console.WriteLine("Nazywam się {0} {1}.", imie, nazwisko);
+            Console.WriteLine($"Nazywam się {imie} {nazwisko}, mój numer indeku: {numerIndeksu}.");
+        }
+        public void ZdajEgzamin(string przedmiot, double ocena = 3) {
+            Console.WriteLine($"Student {imie} {nazwisko} zdał egzamin z " +
+                $"{przedmiot} na ocenę: {ocena}");
+        }
+ 
+    }
+}

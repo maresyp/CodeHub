@@ -1,0 +1,22 @@
+using System;
+ 
+namespace GladiatorFight
+{
+    public class BountyHunter : Fighter
+    {
+        private int _criticalDamage;
+ 
+        public BountyHunter(string name, int health, int damage, int armor, int criticalDamage) : base(name, health, damage, armor)
+        {
+            _criticalDamage = criticalDamage;
+        }
+ 
+        public override int GetSkillDamage(int roundCount)
+        {
+            int skillDamage = Damage + _criticalDamage;
+            Console.Write($"\nИспользован скилл Баунти Хантера! *К обычному урону добавлен парамент Крит урона {_criticalDamage}.");
+            
+            return skillDamage;
+        }
+    }
+}

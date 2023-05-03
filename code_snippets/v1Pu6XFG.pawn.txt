@@ -1,0 +1,61 @@
+public CreateTempVehicle(playerid, vehicle_id, vehcol1, vehcol2, dispz)
+{
+    if(GetPlayerVehicleID(playerid) == _plrTemp[playerid][sAttachedCar] && _plrTemp[playerid][sAttachedCar] != 0)
+    {
+        new Float:i_gx, Float:i_gy, Float:i_gz;
+        foreach(Player, i)
+        {
+            if(GetPlayerVehicleID(i) == _plrTemp[playerid][sAttachedCar] && playerid != i)
+            {
+                GetPlayerPos(i, i_gx, i_gy, i_gz);
+                SetPlayerPos(i, i_gx+3, i_gy+3, i_gz);
+            
+            }
+        }
+    }
+    if(GetPlayerVehicleID(playerid) != _plrTemp[playerid][sAttachedCar] && IsPlayerInAnyVehicle(playerid))
+    {
+        new Float:i_gx, Float:i_gy, Float:i_gz;
+        GetPlayerPos(playerid, i_gx, i_gy, i_gz);
+        SetPlayerPos(playerid, i_gx+3, i_gy+3, i_gz);
+    }
+ 
+    new Float:x, Float:y, Float:z, Float:Angle;
+    new engine, lights, alarm, doors, bonnet, boot, objective;
+ 
+    GetPlayerPos(playerid, x, y, z);
+    if (GetPlayerState(playerid) == 2 || GetPlayerState(playerid) == 3) GetVehicleZAngle(GetPlayerVehicleID(playerid), Angle);
+    else GetPlayerFacingAngle(playerid, Angle);
+    
+    if(_plrTemp[playerid][sAttachedCar] == -1)
+    {
+        
+        _plrTemp[playerid][sAttachedCar] = CreateVehicle(vehicle_id, x, y, z+dispz, Angle, vehcol1, vehcol2, 90000);
+ 
+        LinkVehicleToInterior(_plrTemp[playerid][sAttachedCar], GetPlayerInterior(playerid));
+        SetVehicleVirtualWorld(_plrTemp[playerid][sAttachedCar], GetPlayerVirtualWorld(playerid));
+        PutPlayerInVehicle(playerid, _plrTemp[playerid][sAttachedCar], 0);  
+        GetVehicleParamsEx(_plrTemp[playerid][sAttachedCar], engine, lights, alarm, doors, bonnet, boot, objective);
+        SetVehicleParamsEx(_plrTemp[playerid][sAttachedCar], true, true, alarm, doors, bonnet, boot, objective);
+        
+    }
+    else
+    {
+        
+        DestroyVehicle(_plrTemp[playerid][sAttachedCar]);
+        
+        _plrTemp[playerid][sAttachedCar] = CreateVehicle(vehicle_id, x, y, z+dispz, Angle, vehcol1, vehcol2, 90000);
+        
+        LinkVehicleToInterior(_plrTemp[playerid][sAttachedCar], GetPlayerInterior(playerid));
+        SetVehicleVirtualWorld(_plrTemp[playerid][sAttachedCar], GetPlayerVirtualWorld(playerid));  
+        PutPlayerInVehicle(playerid, _plrTemp[playerid][sAttachedCar], 0);  
+        GetVehicleParamsEx(_plrTemp[playerid][sAttachedCar], engine, lights, alarm, doors, bonnet, boot, objective);
+        SetVehicleParamsEx(_plrTemp[playerid][sAttachedCar], true, true, alarm, doors, bonnet, boot, objective);
+        
+    }
+    //foreach(Player, i)
+    //{ 
+    //  if(_plrTemp[i][pSpec] == playerid && _plrTemp[i][PlayerSpectaing]) UpdateSpectatingStatus(i, playerid); 
+    //} 
+    return true;
+}

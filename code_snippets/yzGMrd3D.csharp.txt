@@ -1,0 +1,22 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text;
+ 
+namespace ExtractFile
+{
+ 
+    class Program
+    {
+        static void Main()
+        {
+            string filePath = Console.ReadLine();
+ 
+            var fileInfo = filePath
+                .Substring(filePath.LastIndexOf("\\") + 1)
+                .Split('.');
+ 
+            Console.WriteLine($"File name: {fileInfo[0]}\nFile extension: {fileInfo[1]}");
+        }
+    }
+}

@@ -1,0 +1,659 @@
+/************** Include **************/
+#include < amxmodx >
+#include < cstrike >
+ 
+/************** Define **************/
+#define Prefix          "AMXX"
+#define ADMIN_ACCESS        ADMIN_IMMUNITY
+ 
+/************** Commands **************/
+enum _: command
+{
+    cmdname[ 37 ],
+    cmdinfo[ 37 ],
+    cmdcommand[ 37 ]
+}
+ 
+new const commandmenu[][ command ] =
+{
+    // { "Command view in menu", "info about command", "the command itself" }
+    
+    { "cd eject", "open drive", "cd eject" },
+    { "cd close", "close drive", "cd close" },
+    { "saying", "say instead", "say" },
+    { "rate", "control rate", "rate" },
+    { "fps_max", "change fps", "fps_max" },
+    
+    { "disconnect", "disconnect player", "disconnect" },
+    { "clear", "clear console", "clear" },
+    
+    { "+ voicerecord", "open mic", "+voicerecord" },
+    { "- voicerecord", "close mic", "-voicerecord" },
+    
+    { "+ lookup", "look up", "+lookup" },
+    { "- lookup", "stop look up", "-lookup" },
+    
+    { "+ attack", "attack", "+attack" },
+    { "- attack", "stop attack", "-attack" },
+    
+    { "+ attack2", "attack2", "+attack2" },
+    { "- attack2", "stop attack2", "-attack2" },
+    
+    { "+ reload", "reload", "+reload" },
+    { "- reload", "stop reload", "-reload" },
+    
+    { "+ duck", "duck", "+duck" },
+    { "- duck", "stop duck", "-duck" }
+}
+ 
+/************** Team command **************/
+new const teamname[][] =
+{
+    "counter-terrorist",
+    "terrorist",
+    "spectators"
+}
+ 
+/************** Sub commands **************/
+enum _: commandview
+{
+    cmdnameview,
+    cmdtarget,
+    cmdteam,
+    cmdblock
+}
+ 
+new cmditem[ 33 ][ commandview ]
+ 
+/************** Saying **************/
+new saymsg[ 33 ][ 30 ], sayingmsg[ 33 ]
+ 
+/************** Rate **************/
+new ratenum[ 33 ], ratenumber[ 33 ]
+ 
+/************** Fps **************/
+new fpsnum[ 33 ], fpsnumber[ 33 ]
+ 
+/************** News **************/
+new playerselected[ 30 ][ 30 ]
+new MenuPage[ 33 ]
+ 
+/************** Plugin_init **************/
+public plugin_init()
+{
+    register_plugin( "Execute menu API", "v1.0", "RanAway`" )
+    
+    /******** Command ********/
+    register_clcmd( "say !exec", "exectionmenu" )
+    
+    /******** messagemode ********/
+    register_clcmd( "_say", "saying" )
+    register_clcmd( "_rate", "rating" )
+    register_clcmd( "_fps", "fpsmax" )
+    
+    /******** console commands ********/
+    register_clcmd( "amx_execall","amx_exec" )
+    register_clcmd( "amx_execteam","amx_exec" )
+    register_clcmd( "amx_execclient","amx_exec" )
+    
+    /******** server commands ********/
+    register_srvcmd( "amx_execall","amx_exec" )
+    register_srvcmd( "amx_execteam","amx_exec" )
+    register_srvcmd( "amx_execclient","amx_exec" )
+}
+ 
+/************** Connect **************/
+public client_connect( id ) reset( id )
+ 
+/************** Exec menu **************/
+public exectionmenu( id )
+{
+    if( !( get_user_flags( id ) & ADMIN_ACCESS ) ) return 0
+    
+    new szMenu[ 250 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Execute menu", Prefix )
+    new menu = menu_create( szMenu, "sub_menu" )
+    
+    /**** target = all players online ****/
+    if( cmditem[ id ][ cmdtarget ] == 0 ) formatex( szMenu, charsmax( szMenu ), "target: \yall players online" )
+    
+    /**** target = team ****/
+    else if( cmditem[ id ][ cmdtarget ] == 1 ) formatex( szMenu, charsmax( szMenu ), "target: \y%s", teamname[ cmditem[ id ][ cmdteam ] ] )
+    
+    /**** target = specific player ****/
+    else if( cmditem[ id ][ cmdtarget ] == 2 )
+    {
+        if( playerselected[ id ] [ id ] == 0 )
+            formatex( szMenu, charsmax( szMenu ), "target: \rno one selected" )
+        else
+            formatex( szMenu, charsmax( szMenu ), "target: \y%s", szName( playerselected[ id ][ id ] ) )
+    }
+    menu_additem( menu, szMenu )
+    
+    /**** command = all the normal commands ****/
+    if( sayingmsg[ id ] == 0 && ratenumber[ id ] == 0 && fpsnumber[ id ] == 0 ) formatex( szMenu, charsmax( szMenu ), "command: \y%s^n", commandmenu[ cmditem[ id ][ cmdnameview ] ][ cmdname ] )
+    
+    /**** command = saying ****/
+    else if( sayingmsg[ id ] == 1 ) formatex( szMenu, charsmax( szMenu ), "saying: \r%s^n", saymsg[ id ] )
+    
+    /**** command = rate ****/
+    else if( ratenumber[ id ] == 1 ) formatex( szMenu, charsmax( szMenu ), "rate: \r%d^n", ratenum[ id ] )
+    
+    /**** command = fps ****/
+    else if( fpsnumber[ id ] == 1 ) formatex( szMenu, charsmax( szMenu ), "fps: \r%d^n", fpsnum[ id ] )
+    
+    menu_additem( menu, szMenu )
+    
+    formatex( szMenu, charsmax( szMenu ), "\w%s^n^n", cmditem[ id ][ cmdblock ] ? "Please fill the lines" : "exec")
+    menu_additem( menu, szMenu, _,_, menu_makecallback( "BlockCmd" ) )
+    
+    menu_additem( menu, "reset" )
+    
+    menu_display( id, menu )
+    return 1
+}
+ 
+/************** Block cmd **************/
+public BlockCmd( id, menu, item ) 
+{
+    if( cmditem[ id ][ cmdtarget ] == 2 && playerselected[ id ][ id ] == 0 )
+        return ITEM_DISABLED
+    
+    return 1
+}
+ 
+public sub_menu( id, menu, item )
+{
+    if( item == MENU_EXIT ) return menu_destroy( menu )
+    
+    new _command = cmditem[ id ][ cmdnameview ]
+    
+    if( item == 0 ) return choosetarget( id )
+    if( item == 1 ) return choosecommand( id, MenuPage[ id ] )
+    if( item == 2 )
+    {
+        /**** target = spesific player ****/
+        if( cmditem[ id ][ cmdtarget ] == 2 )
+        {
+            new cid = find_player( "lb", szName( playerselected[ id ][ id ] ) )
+            
+            if ( !cid ) return PLUGIN_HANDLED
+            
+            /**** command = saying ****/
+            if( cmditem[ id ][ cmdnameview ] == 2 ) client_cmd( cid, "say %s", saymsg[ id ] )
+            
+            /**** command = rate ****/
+            else if( cmditem[ id ][ cmdnameview ] == 3 ) client_cmd( cid, "rate %d", ratenum[ id ] )
+            
+            /**** command = fps ****/
+            else if( cmditem[ id ][ cmdnameview ] == 4 ) client_cmd( cid, "fps_max %d", fpsnum[ id ] )
+            else
+                /**** command = all the normal commands ****/
+                client_cmd( cid, "%s" , commandmenu[ _command ][ cmdcommand ] )
+        }
+        
+        if( cmditem[ id ][ cmdtarget ] == 1 )
+        {
+            /**** team = counter-terrorist ****/
+            if( cmditem[ id ][ cmdteam ] == 0 )
+            {
+                for( new i; i < get_maxplayers(); i++ )
+                {
+                    if( !is_user_connected( i ) || get_user_flags( i ) & ADMIN_ACCESS ) continue
+                    
+                    if( cs_get_user_team( i ) == CS_TEAM_CT )
+                    {
+                        /**** command = saying ****/
+                        if( cmditem[ id ][ cmdnameview ] == 2 ) client_cmd( i, "say %s" , saymsg[ id ] )
+                        
+                        /**** command = rate ****/
+                        else if( cmditem[ id ][ cmdnameview ] == 3 ) client_cmd( i, "rate %d" , ratenum[ id ] )
+                        
+                        /**** command = fps ****/
+                        else if( cmditem[ id ][ cmdnameview ] == 4 ) client_cmd( i, "fps_max %d", fpsnum[ id ] )
+                        else
+                            /**** command = all the normal commands ****/
+                            client_cmd( i, "%s" , commandmenu[ _command ][ cmdcommand ] )
+                    }
+                }
+            }
+            
+            /**** team = terrorist ****/
+            if( cmditem[ id ][ cmdteam ] == 1 )
+            {
+                for( new i; i < get_maxplayers(); i++ )
+                {
+                    if( !is_user_connected( i ) || get_user_flags( i ) & ADMIN_ACCESS ) continue
+                    
+                    if( cs_get_user_team( i ) == CS_TEAM_T )
+                    {
+                        /**** command = saying ****/
+                        if( cmditem[ id ][ cmdnameview ] == 2 ) client_cmd( i, "say %s" , saymsg[ id ] )
+                        
+                        /**** command = rate ****/
+                        else if( cmditem[ id ][ cmdnameview ] == 3 ) client_cmd( i, "rate %d" , ratenum[ id ] )
+                        
+                        /**** command = fps ****/
+                        else if( cmditem[ id ][ cmdnameview ] == 4 ) client_cmd( i, "fps_max %d", fpsnum[ id ] )
+                        else
+                            /**** command = all the normal commands ****/
+                            client_cmd( i, "%s" , commandmenu[ _command ][ cmdcommand ] )
+                    }
+                }
+            }
+            
+            /**** team = spectator ****/
+            if( cmditem[ id ][ cmdteam ] == 2 )
+            {
+                for( new i; i < get_maxplayers(); i++ )
+                {
+                    if( !is_user_connected( i ) || get_user_flags( i ) & ADMIN_ACCESS ) continue
+                    
+                    if( cs_get_user_team( i ) == CS_TEAM_SPECTATOR )
+                    {
+                        /**** command = saying ****/
+                        if( cmditem[ id ][ cmdnameview ] == 2 ) client_cmd( i, "say %s" , saymsg[ id ] )
+                        
+                        /**** command = rate ****/
+                        else if( cmditem[ id ][ cmdnameview ] == 3 ) client_cmd( i, "rate %d" , ratenum[ id ] )
+                        
+                        /**** command = fps ****/
+                        else if( cmditem[ id ][ cmdnameview ] == 4 ) client_cmd( i, "fps_max %d", fpsnum[ id ] )
+                        else
+                            /**** command = all the normal commands ****/
+                            client_cmd( i, "%s" , commandmenu[ _command ][ cmdcommand ] )
+                    }
+                }
+            }
+        }
+        
+        /**** target = all players online ****/
+        if( cmditem[ id ][ cmdtarget ] == 0 )
+        {
+            for( new i; i < get_maxplayers(); i++ )
+            {
+                if( !is_user_connected( i ) || get_user_flags( i ) & ADMIN_ACCESS ) continue
+                
+                /**** command = saying ****/
+                if( cmditem[ id ][ cmdnameview ] == 2 ) client_cmd( i, "say %s" , saymsg[ id ] )
+                
+                /**** command = rate ****/
+                else if( cmditem[ id ][ cmdnameview ] == 3 ) client_cmd( i, "rate %d" , ratenum[ id ] )
+                
+                /**** command = fps ****/
+                else if( cmditem[ id ][ cmdnameview ] == 4 ) client_cmd( i, "fps_max %d", fpsnum[ id ] )
+                else
+                    /**** command = all the normal commands ****/
+                    client_cmd( i, "%s" , commandmenu[ _command ][ cmdcommand ] )
+            }
+        }
+    }
+    
+    if( item == 3 ) reset( id )
+    
+    return exectionmenu( id )
+}
+ 
+/************** Choose target **************/
+public choosetarget( id )
+{
+    new szMenu[ 250 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Choose target", Prefix )
+    new menu = menu_create( szMenu, "sub_target" )
+    
+    menu_additem( menu, "select player" )
+    menu_additem( menu, "team" )
+    menu_additem( menu, "all players online" )
+    
+    menu_setprop( menu, MPROP_EXITNAME, "Back")
+    menu_display( id, menu )
+    
+    return 1
+}
+ 
+public sub_target( id, menu, item )
+{
+    if( item == MENU_EXIT ) return exectionmenu( id )
+    if( item == 0 ) chooseplayer( id )
+    if( item == 1 ) chooseteam( id )
+    if( item == 2 ) cmditem[ id ][ cmdtarget ] = 0, cmditem[ id ][ cmdblock ] = 0, exectionmenu( id )
+    
+    return 1
+}
+ 
+/************** Choose player **************/
+public chooseplayer( id )
+{   
+    new szMenu[ 250 ], szTempid[ 10 ]
+    
+    formatex( szMenu, charsmax( szMenu ),  "\r[ \w%s\r ]\w Choose player", Prefix )
+    new menu = menu_create( szMenu, "sub_player" )
+    
+    for( new i; i < get_maxplayers(); i++ )
+    {
+        if( !is_user_connected( i ) || get_user_flags( i ) & ADMIN_ACCESS ) continue
+        
+        num_to_str( i, szTempid, charsmax( szTempid ) )
+        menu_additem( menu, szName( i ), szTempid )
+    }
+    
+    menu_setprop( menu, MPROP_EXITNAME, "Back")
+    menu_display( id, menu )
+    
+    return 1
+}
+ 
+public sub_player( id, menu, item )
+{   
+    if( item == MENU_EXIT ) return exectionmenu( id )
+    
+    static mData[ 6 ], Trash, mName[ 32 ]
+    menu_item_getinfo( menu, item, Trash, mData, charsmax( mData ), mName, charsmax( mName ), Trash )
+    
+    new iPlayer = str_to_num( mData )
+    
+    if( !is_user_connected( iPlayer ) || get_user_flags( iPlayer ) & ADMIN_ACCESS )
+        return chooseplayer( id )
+    
+    cmditem[ id ][ cmdblock ] = 0
+    cmditem[ id ][ cmdtarget ] = 2
+    
+    playerselected[ id ] [ id ] = str_to_num( mData )
+    mName = szName( playerselected[ id ] [ id ] )
+    
+    return exectionmenu( id )
+}
+ 
+/************** Choose team **************/
+public chooseteam( id )
+{
+    new szMenu[ 250 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Choose team", Prefix )
+    new menu = menu_create( szMenu, "sub_team" )
+    
+    for( new i; i < sizeof teamname; i++ )
+    {
+        formatex( szMenu, charsmax( szMenu ), "%s", teamname[ i ] )
+        menu_additem( menu, szMenu )
+    }
+    
+    menu_setprop( menu, MPROP_EXITNAME, "Back")
+    menu_display( id, menu )
+    
+    return 1
+}
+ 
+public sub_team( id, menu, item )
+{
+    if( item == MENU_EXIT ) return choosetarget( id )
+    if( item == 0 ) cmditem[ id ][ cmdteam ] = 0
+    if( item == 1 ) cmditem[ id ][ cmdteam ] = 1
+    if( item == 2 ) cmditem[ id ][ cmdteam ] = 2
+    
+    cmditem[ id ][ cmdtarget ] = 1
+    cmditem[ id ][ cmdblock ] = 0
+    
+    return exectionmenu( id )
+}
+ 
+/************** Choose command **************/
+public choosecommand( id, page )
+{
+    new szMenu[ 250 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Choose command", Prefix )
+    new menu = menu_create( szMenu, "sub_choose" )
+    
+    for( new i; i < sizeof commandmenu; i++ )
+    {
+        formatex( szMenu, charsmax( szMenu ), "\w%s \r- \w%s", commandmenu[ i ][ cmdname ], commandmenu[ i ][ cmdinfo ] )
+        menu_additem( menu, szMenu )
+    }
+    
+    menu_setprop( menu, MPROP_EXITNAME, "Back" )
+    menu_display( id, menu, page )
+    
+    return 1
+}
+ 
+public sub_choose( id, menu, item )
+{
+    player_menu_info( id, menu, menu, MenuPage[ id ] )
+    
+    if( item == MENU_EXIT ) return exectionmenu( id )
+    
+    cmditem[ id ][ cmdnameview ] = item
+    
+    sayingmsg[ id ] = 0
+    ratenumber[ id ] = 0
+    fpsnumber[ id ] = 0
+    
+    if( cmditem[ id ][ cmdnameview ] == 2 )
+    {
+        sayingmsg[ id ] = 1
+        
+        client_cmd( id, "messagemode _say" )
+        return 1
+    }
+    
+    if( cmditem[ id ][ cmdnameview ] == 3 )
+    {
+        ratenumber[ id ] = 1
+        
+        client_cmd( id, "messagemode _rate" )
+        return 1
+    }
+    
+    if( cmditem[ id ][ cmdnameview ] == 4 )
+    {
+        fpsnumber[ id ] = 1
+        
+        client_cmd( id, "messagemode _fps" )
+        return 1
+    }
+    
+    return exectionmenu( id )
+}
+ 
+/************** saying **************/
+public saying( id )
+{
+    sayingmsg[ id ] = 1
+    
+    read_argv( 1, saymsg[ id ], charsmax( saymsg ) )
+    
+    new letters = strlen( saymsg[ id ] )
+    if( letters < 1 )
+    {
+        sayingmsg[ id ] = 0
+        cmditem[ id ][ cmdnameview ] = 0
+        
+        formatex( saymsg[ id ], charsmax( saymsg[ ] ), "hey" )
+        
+        client_cmd( id, "messagemode _say" )
+        return ColorChat( id, "the ^3msg^1 must to be longer" )
+    }
+    
+    return exectionmenu( id )
+}
+ 
+/************** rating **************/
+public rating( id )
+{
+    ratenumber[ id ] = 1
+    
+    static szArgs[ 128 ], amount[ 21 ]
+    
+    read_args( szArgs, charsmax( szArgs ) )
+    remove_quotes( szArgs )
+    read_argv( 1, amount, charsmax( amount ) )
+    
+    new pointnum = str_to_num( amount )
+    ratenum[ id ] = pointnum
+    
+    if( !is_str_num( szArgs ) )
+    {
+        ratenumber[ id ] = 0
+        cmditem[ id ][ cmdnameview ] = 0
+        
+        client_cmd( id, "messagemode _rate" )
+        return ColorChat( id, "you must used ^3numbers^1." )
+    }
+    
+    if( pointnum == 0 || pointnum > 30000 )
+    {
+        ratenumber[ id ] = 0
+        cmditem[ id ][ cmdnameview ] = 0
+        
+        client_cmd( id, "messagemode _rate" )
+        return ColorChat( id, "you can only use^3 1 - 25000 ^1rate." )
+    }
+    
+    return exectionmenu( id )
+}
+ 
+/************** fpsmax **************/
+public fpsmax( id )
+{
+    fpsnumber[ id ] = 1
+    
+    static szArgs[ 128 ], amount[ 21 ]
+    
+    read_args( szArgs, charsmax( szArgs ) )
+    remove_quotes( szArgs )
+    read_argv( 1, amount, charsmax( amount ) )
+    
+    new pointnum = str_to_num( amount )
+    fpsnum[ id ] = pointnum
+    
+    if( !is_str_num( szArgs ) )
+    {
+        fpsnumber[ id ] = 0
+        cmditem[ id ][ cmdnameview ] = 0
+        
+        client_cmd( id, "messagemode _fps" )
+        return ColorChat( id, "you must used ^3numbers^1." )
+    }
+    
+    if( pointnum < 20 || pointnum > 1000 )
+    {
+        fpsnumber[ id ] = 0
+        cmditem[ id ][ cmdnameview ] = 0
+        
+        client_cmd( id, "messagemode _fps" )
+        return ColorChat( id, "you can only use^3 20 - 1000 ^1fps." )
+    }
+    
+    return exectionmenu( id )
+}
+ 
+/************** reset **************/
+public reset( id )
+{
+    sayingmsg[ id ] = 0
+    ratenumber[ id ] = 0
+    fpsnumber[ id ] = 0
+    playerselected[ id ][ id ] = 0
+    cmditem[ id ][ cmdnameview ] = 0
+    cmditem[ id ][ cmdtarget ] = 2
+    cmditem[ id ][ cmdteam ] = 0
+    cmditem[ id ][ cmdblock ] = 1
+    
+    MenuPage[ id ] = 0
+    
+    return 1
+}
+ 
+/************** console commands **************/
+public amx_exec( id )
+{
+    if( !( get_user_flags( id ) & ADMIN_ACCESS ) ) return 0
+    
+    new cmd[ 32 ]
+    read_argv( 0, cmd, charsmax( cmd ) )
+    
+    replace( cmd, 32, "amx_exec", "" )
+    
+    /**** target = all ****/
+    if( equal( cmd, "all" ) )
+    {
+        new toexec[ 32 ]
+        read_args( toexec, charsmax( toexec ) )
+        client_cmd( 0, toexec )
+    }
+    
+    /**** target = spezific player ****/
+    else if( equal( cmd, "client" ) )
+    {
+        new text[ 64 ], name[ 32 ]
+        read_args( text, charsmax( text ) )
+        parse( text, name, charsmax( name ) )
+        
+        new cid = find_player( "lb" ,name )
+        if( !cid )
+        {
+            id ? client_print( id, print_console, "Client with that part of name not found" ) : server_print( "Client with that part of name not found" )
+            return 1
+        }
+        
+        new length = strlen( name )
+        new message[ 64 ]
+        read_args( message, charsmax( message ) )
+        client_cmd( cid, message[ length ] )
+    }
+    
+    /**** target = team ****/
+    else if( equal( cmd, "team" ) )
+    {
+        new text[ 64 ], tname[ 32 ]
+        read_args( text, charsmax( text ) )
+        parse( text, tname, charsmax( tname ) )
+        
+        new players[ 32 ], pNum
+        get_players( players, pNum, "e", tname )
+        
+        new length = strlen( tname )
+        new message[ 64 ]
+        read_args( message, charsmax( message ) )
+        
+        for( new i; i < pNum; i++ ) client_cmd( players[ i ], message[ length ] )
+    }
+    
+    return PLUGIN_HANDLED
+}
+ 
+/************** Stocks **************/
+stock szName( id )
+{
+    new name[ 32 ]
+    get_user_name( id, name, charsmax( name ) )
+    return name
+}
+ 
+stock ColorChat( const client, const string[ ], { Float, Sql, Resul,_ }:... )
+{
+    new msg[ 191 ], players[ 32 ], count = 1
+    
+    static len; len = formatex( msg, charsmax( msg ), "^3[^1 %s ^3]^1 ", Prefix )
+    vformat( msg[ len ], charsmax( msg ) - len, string, 3 )
+    
+    if( client )
+        players[ 0 ] = client
+    else
+        get_players( players, count, "ch" )
+    
+    for( new i; i < count; i++ )
+    {
+        if( is_user_connected( players[ i ] ) )
+        {
+            message_begin( MSG_ONE_UNRELIABLE, get_user_msgid( "SayText" ), _, players[ i ] )
+            write_byte( players[ i ] )
+            write_string( msg )
+            message_end()
+        }
+    }
+    return 1
+}

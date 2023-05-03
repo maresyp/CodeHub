@@ -1,0 +1,7 @@
+#!/bin/bash
+# Sets DWM status
+# To be executed from .xinitrc
+while true; do
+    xsetroot -name "  $(/home/tomo/./battery.sh)% | $(printf '%(%a %d/%m/%Y %H:%M)T\n' -1)"
+    sleep 5
+done

@@ -1,0 +1,155 @@
+#include <iostream>
+ 
+using namespace std;
+class DoublyLinkedList {
+    struct Node
+    {
+        int data;
+        Node* next;
+        Node* prev;
+ 
+        Node (int Data) {
+            this->data = Data;
+            this->next = NULL;
+            this->prev = NULL;
+        }
+    };
+ 
+ 
+private:
+    Node* head;
+    Node* tail;
+    int size;
+ 
+    void empty(Node* curr) {
+        if (curr != NULL)
+            empty(curr->next);
+        delete curr;
+    }
+public:
+    DoublyLinkedList() {
+        head = NULL;
+        tail = NULL;
+        size = 0;
+    }
+ 
+    void insert_front(int data){
+        Node* newNode = new Node(data);
+        if (head == NULL)
+        {
+            head = newNode;
+            tail = newNode;
+        }
+        else
+        {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+        size++;
+    }
+    void insert_back(int data){
+        Node* newNode = new Node(data);
+        if (head == NULL)
+        {
+            head = newNode;
+            tail = newNode;
+        }
+        else
+        {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+        size++;
+    }
+ 
+    void print()
+    {
+        Node* curr = head;
+        while (curr != NULL)
+        {
+            cout << curr->data << " ";
+            curr = curr->next;
+        }
+        cout << '\n';
+    }
+ 
+    void pop_front()
+    {
+        if (head == NULL)
+            return void(cout << "Empty List\n");
+        else if (head == tail)
+        {
+            delete head;
+            head = NULL;
+            tail = NULL;
+        }
+        else
+        {
+            Node* temp = head;
+            head = head->next;
+            head->prev = NULL;
+            delete temp;
+        }
+    }
+    void pop_back()
+    {
+        if (head == NULL)
+            return void(cout << "Empty List\n");
+        else if (head == tail)
+        {
+            delete head;
+            head = NULL;
+            tail = NULL;
+        }
+        else
+        {
+            Node* temp = tail;
+            tail = tail->prev;
+            tail->next = NULL;
+            delete temp;
+        }
+    }
+ 
+    void remove(int pos)
+    {
+        if (pos < 0 || pos >= size)
+            return void(cout << "Invalid Position\n");
+        else if (pos == 0)
+            pop_front();
+        else if (pos == size - 1)
+            pop_back();
+        else
+        {
+            Node* curr = head;
+            for (int i = 0; i < pos; i++)
+                curr = curr->next;
+ 
+            Node* p = curr->prev;
+            Node* n = curr->next;
+            p->next = n;
+            n->prev = p;
+            delete curr;
+        }
+        size--;
+    }
+    int search(int data)
+    {
+        Node* curr = head;
+        int pos = 0;
+        while (curr != NULL)
+        {
+            if (curr->data == data)
+                return pos;
+            curr = curr->next;
+            pos++;
+        }
+        return -1;
+    }
+ 
+ 
+    ~DoublyLinkedList() {
+        empty(head);
+    }
+};

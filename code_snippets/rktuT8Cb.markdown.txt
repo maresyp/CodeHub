@@ -1,0 +1,194 @@
+DiscoDude: ---BEGIN SESSION---
+DiscoDude: Session logging commenced
+GM: > Hot Flamingos Bar, Lowtide, 8:30 p.m.
+You're outside of the Hot Flamingos Bar for the second time today, at Norwick's call. It's clear that in contrast to daylight, the place is Rowdy at Night just by the sounds you can hear coming from inside - crashing and shouting, but also cheering.
+Harry, Andie, it may or may not occur to each of you that you don't know how Norwick would know if Haffner Heffa, your current prime suspect, was here.
+(What do you all do?)
+Harry: Harry doesn't make a fuss about it. He's not about to question results if the kid can get them.
+Harry: "So how do you wanna play this, kid?" he says, nodding to <@!Norwick>. "Subtlety, charm, or force?" He gestures at each of the three members of the team in turn; he's asking whether Nor wants to take point on this, or whether one of the others ought to.
+Andie: The thought of how Norwick came across this info never really crosses her mind. She's more focused on hopefully apprehending (or otherwise getting more information out of) Haffner.
+Norwick: He looks at Harry and takes a moment to ponder the decision, "I mean, subtlety to get inside, and maybe forceful if Haffner resists?" He says, looking at the two.
+Andie: "Whatever we do, we should decide fast."
+Harry: Harry clenches his jaw a little. "I mean. If you think flashing badges is the way to go, I'll take point. If you think we should talk it out first, or even misdirect them, that'd be a job for you or Andie."
+GM: (<@!Norwick>?)
+Norwick: "I mean, we can try, flashing badges should be the last thing to do for this guy."
+Harry: "Right." He steps back and gestures towards the door. "After you, then."
+GM: (Safe to assume <@!Norwick> leads the way into the bar, then?)
+Norwick: (Yeah)
+GM: It gets much louder when you enter the place. There's definitely some violence happening towards the back of the barroom, though you can't quite make out who's beating who past all the hollering patrons in the way.
+The grey barman is hunkered down behind the counter, and notices you when he peeks out. He seems to wear a pleading expression as he nudges his head back in acknowledgement.
+GM: (What do you do?)
+Harry: Harry gives a subtle nod to the barman, and steps closer to Norwick, nudging him gently towards the violence in the back.
+GM: (I assume <@!Norwick> is okay with this?)
+Norwick: (Yeah)
+Norwick: Norwick moves towards the violence to see what is happening.
+Andie: Andie sticks close to Harry as they make their approach.
+Norwick: (Oh uh, I'll be getting food rn)
+Norwick: (getting dragged away, I'll be on mobile)
+GM: As you get closer, the fight is starting to sound a bit one-sided.
+"THOUGHT- *heff" The sound of kicking punctuates every syllable or two: "YOU COULD... GET IN, MY, WAY, YOU, MOTH-ER, FUCK-ER, DID YA?!"
+You push past the bar's whooping patrons, only to see a tall yet stout Gaoran man slowly but repeatedly kicking and stomping a bloody and unconscious Stonwellian, slumped against the wall with blood trickling down from cracks in his stone skin. <@!Norwick>, you recognize his collapsed form as belonging to the man they call "the Holepunch."
+"HA! CAN-DY, PUT, YOU, UP TO THIS," the Gaoran shouts, landing one more kick, "DIDN'T SHE! Hah..."
+Norwick: Norwick looks on in shocked horror as he clearly sees the Holepunch bloodied and beaten. "Jesus, Marry, and Joseph..." he says under his breath.
+Andie: (Do I just roll Forceful if I want Andie to attempt to tackle [what's probaby] Heffner?)
+Harry: (holy shit the guy is beating the fuck out of your informant, Nor)
+GM: (Just the guy his informant sent, but yeah.)
+Harry: (Harry ought to be the first to try but let's see what happens when Andie does <3)
+GM: (What kind of roll is this?)
+GM: (Overcome? Create Advantage?)
+Andie: (Uh, forget the tackle. I think she'll just try to punch him instead. She's really just aiming to get this guy to stop kicking the stranger)
+GM: (Attack, then.)
+GM: (Her FORCEFUL is just Average (+1). Go ahead and roll it.)
+Andie: !f 1 (Forceful)
+DiscoDude: <@Andie> rolled 4dF+1 for 1 [4dF = [+][+][-][-]]
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 2 [4dF = [-][+][-][+]]
+Andie: ( \:') )
+GM: (Want me to narrate it, or would you rather describe how she fails yourself?)
+Andie: Andie runs up to the Gaoran, winding up to throw the strongest punch she can imagine. Too bad it lands against his body uselessly. Maybe she should have thought this through.
+GM: "Hah?" The Gaoran seems to notice all of you. He shoves Andie back towards you effortlessly. "An' what're you lookin' at, eh? You want some, too?"
+Harry: Harry is too shocked by Andie leaping into the fight to react with anything more than a wide-mouthed expression for a moment.
+Andie: Andie's too flustered by her ginormous blunder to think clearly, "We're Andromeda Police telling you to put your hands up!"
+Norwick: Norwick looks completely baffled and stricken white by what Andie just did.
+GM: (This sequence of events has got to count as a self-compel of something. Unfortunately, none of your aspects seem to apply. XD)
+GM: "Huh?" The Gaoran looks back and forth between you, realization dawning as he notices the similar uniforms. "Ah... Ahaha, I knew it! I knew that bitch must have barked to someone!" He enters a hopping stance, cracking his neck back and forth as he does. "Well... since you're too rude to even ask my name before trying some mall-cop bullcrap like 'arrest' me, I'll take some initiative, eh papi?"
+Harry: "A-Andie, get back!" Harry barks.
+GM: CONFLICT: Harry, Andie, Norwick > VS. < Haffner Heffa
+> EXCHANGE 1
+He suddenly lunges toward you, <@!Andie>, rearing up for a side-swiping kick!
+"Haffner Heffa's the name you should give 'em when I SEND YOU TO THE HOSPITAAAAAAL!"
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 1 [4dF = [+][ ][-][-]]
+Andie: !f 2 (Quick)
+DiscoDude: <@Andie> rolled 4dF+2 for 0 [4dF = [-][ ][-][ ]]
+GM: (Boost, or take the ding?)
+Andie: (Take it)
+GM: Haffner knocks you to the side, Andie, and you slam into the side of the bar!
+(Mark 1 physical stress.)
+He glances at you next, <@!Harry>, and reaches towards a glass. "What're you looking at?!" And he tries to swing it up at your head!
+(Versus The World: Because he gets a rush from facing multiple opponents, Haffner may use his Move to perform an Attack on top of his regular Action each Exchange. He may only do this when physically fighting several opponents alone.)
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 1 [4dF = [-][ ][ ][ ]]
+Harry: Harry tries to dodge out of the way!
+Harry: !f 1 (Quick)
+DiscoDude: <@Harry> rolled 4dF+1 for 1 [4dF = [ ][ ][ ][ ]]
+GM: (He gets a boost this way. Will you boost or allow it?)
+GM: (<@!Harry>?)
+Harry: (i'll let him have it)
+GM: You stumble back; the glass doesn't connect, but the swing empties its contents - Harry gets a Face Full of Booze! (Hope you had your eyes, mouth, and nose shut for that. >:D)
+GM: (Now it's your guys' turns.)
+Harry: "Dammit!" Harry reels, wiping the booze from his eyes. His mouth isn't so lucky - whatever this guy drinks, it'd probably kill a rat.
+GM: (Shall we say that <@!Andie> already acted this exchange, BTW? XD)
+Andie: (Ye lmao)
+Harry: He whips out his sidearm and points it at Heff. "That's two counts of assaulting an officer, punk!"
+Harry: (trying to Create Advantage here, intimidate the sucker~)
+Harry: !f 2 (Forceful)
+DiscoDude: <@Harry> rolled 4dF+2 for 2 [4dF = [ ][ ][ ][ ]]
+GM: !f 2 (BARING FANGS)
+DiscoDude: <@GM> rolled 4dF+2 for 6 [4dF = [+][+][+][+]]
+DiscoDude: <@GM> rolled 4dF+2 for 6 [4dF = [+][+][+][+]]
+Harry: (does my stunt help, BTW?)
+Norwick: (Jesus)
+Harry: (...dammit, i'm just gonna let this one slide, actually ^^;)
+GM: (No aspect, or success at a cost? XD)
+GM: (<@!Harry>?)
+Harry: (he got an eclipse, so idk, maybe he knocks the gun out of my hand? ^^;)
+Harry: (so an aspect, but a negative one)
+GM: (A'ight. XD)
+His only response is to hock and spit in your face; this one also lands in your mouth. You end up Wildly Waving the Gun Around [?] during your flustered response.
+Harry: Harry is doubled over retching. There's no way he can aim straight like this.
+Harry: (i liked the other one better)
+GM: (Well, a "negative" aspect is still a Success, even at a cost - I felt this was better for "failing forward." Yes, it has an invoke against you, but you can also manually invoke it, in theory.)
+Harry: (fair enough)
+Harry: (<@!Norwick>!)
+GM: (That leaves- Yeah, him.)
+Norwick: Norwick looks around and ponders the thought of calling back up. "Uhhh..."
+GM: (I'll have you know that calling in your guy was not for naught - Haffner starts with his stress track reduced by 2, and Candy has safely escaped.)
+GM: (Is that what <@!Norwick> does here?)
+Norwick: (Yeah, Norwick is unsure what to do)
+GM: (What is this, mechanically? Overcoming to call delayed backup from the precinct? Using the Black Hand stunt again for another ally? Create Advantage to turn the crowd against Haffner?)
+Norwick: ( Yeah, probably backup from the precinct )
+GM: (That'll be against just Mediocre (+0) passive opposition, but arrival will be delayed until 2 Exchanges later.)
+GM: (That'll be against just Mediocre (+0) passive opposition, but arrival will be delayed until 2 Exchanges later.)
+Norwick: (so I'll do a quick)
+Norwick: !f 1
+DiscoDude: <@Norwick> rolled 4dF+1 for 3 [4dF = [ ][+][ ][+]]
+GM: (Describe how you belt it all out fast, convey urgency, etc.)
+Norwick: Norwick quickly pulls out their phone, and dials in the number as fast as he could with no mistakes. Nervously awaiting a response before quickly, and concisely asking for backup, when, where, and all the other details.
+GM: Maybe it's something about the rapid-fire urgency in your voice, but it translates across to the operator taking you deadly seriously.
+(I don't think they can get here faster if they wanted - 2 exchanges is already pushing it for that distance - but I'll go ahead and say more than one cop will show up. 😉 )
+GM: > EXCHANGE 2
+Andie: (It's Andie's turn, right?)
+GM: (Yeah, assuming we want a set order.)
+Andie: Andie wants to Create an Advantage for Harry, so she goes back in and feints at Haffner. (Does Flashy work here?)
+GM: (FLASHY to distract? Very good idea; roll it!)
+Andie: !f 2 (Flashy)
+DiscoDude: <@Andie> rolled 4dF+2 for 2 [4dF = [-][ ][+][ ]]
+GM: !f -2 (THINKING AHEAD)
+DiscoDude: <@GM> rolled 4dF-2 for -1 [4dF = [ ][-][+][+]]
+GM: (SWS!)
+GM: (Simply feinting to make him flinch would be more SNEAKY, but I think I know how to describe the result in a FLASHY way. XD)
+GM: (Or would you rather have a shot at it?)
+Andie: (You can go for it since you already have an idea)
+GM: Haffner hears yelling from behind, only to feel an ineffectual slap across the back of the head. You're already retreating around the table, but Haffner's locked into a fierce enough tunnel-vision that he can't help but be Led On a Wild Goose Chase [!!] around the tables.
+Harry: "Careful, Andie!" Harry spits out, still trying to get the filth out of his mouth.
+GM: Haffner chases you around, <@!Andie>, hoping to close the distance!
+(Attempting to Overcome Led On a Wild Goose Chase [!!] (or at least mitigate it a bit) with his main action.)
+GM: !f 0 (CHASING)
+DiscoDude: <@GM> rolled 4dF+0 for 1 [4dF = [ ][+][ ][ ]]
+Andie: !f 2 (Quick)
+DiscoDude: <@Andie> rolled 4dF+2 for 1 [4dF = [-][ ][ ][ ]]
+GM: (I'd say a tie's enough to eliminate a free invoke.)
+GM: (However, I want to spend a Fate point to invoke Punch-Drunk Temper to make him mad enough to blow right through tables and patrons - you made him maaaaaad. XD)
+GM: (Gonna invoke anything, <@!Andie>?)
+Andie: (Uhh, would Need for Speed be a stretch here? It isn't a car chase, but)
+GM: (You aren't driving, so no, it doesn't count. You have 2 free invokes on Led On a Wild Goose Chase [!!] though, if you wanna argue that his time is still being wasted something fierce. XD)
+Andie: (I think I'll just take the hit in that case lmao)
+GM: (No hit; he was trying to Overcome that same aspect. If he succeeds, the aspect is erased.)
+Andie: (Yeah, whoops, I meant it figuratively. Bye aspect)
+GM: Haffner's mad enough to shove aside patrons you had to squeeze through, <@!Andie>. Before you know it, you're facing each other on a clear stretch of barroom floor.
+"Now, I have you... *heff" He catches his breath for a split second before grabbing a barstool, pointing its legs forward... "You ready for this, bitch?!" and does a bull-rush at you with the stool's legs out in front of him!
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 3 [4dF = [+][+][ ][-]]
+Andie: !f 2 (Quick)
+DiscoDude: <@Andie> rolled 4dF+2 for 3 [4dF = [ ][ ][+][ ]]
+GM: (Enough for him to get a boost, unless you boost.)
+Andie: (I don't *see any way to get her a boost, so I won't.)
+GM: He manages to catch Andie between the stool's legs and continues charging; she has to stumble backwards very quickly to keep up with his charge! However, Andie falls *On Her Back* right before they hit the wall. The legs break apart from the impact not two feet above where Andie's head is now, and that probably would have hurt had she not fallen!
+Andie: Andie lets out the biggest sigh of relief in her entire life.
+GM: (<@!Harry>'s turn! Will he try to fight Haffner through all the punishment he's received already, or will he take a moment to clear it out?)
+Harry: "I'm gonna knock your teeth out!" Harry yells, lashing out with his gun hand, aiming to pistol-whip Heff before he can do anything to Andie.
+Harry: (attack)
+Harry: !f 2 (Forceful)
+DiscoDude: <@Harry> rolled 4dF+2 for 3 [4dF = [+][+][-][ ]]
+GM: !f 2 (BARFIGHTING)
+DiscoDude: <@GM> rolled 4dF+2 for 2 [4dF = [-][-][+][+]]
+GM: (Wanna boost it for a bigger win?)
+Harry: (hell yes, can i spend a FATE Point on that [?] aspect? XD)
+GM: (Actually, I'll be invoking ^Face Full of Booze^ against you. (And yes, you can.))
+GM: (Will you be doing that to counteract the boost?)
+Harry: (sure!)
+GM: "Ah!" Haffner is knocked back, and he drops the now-disembodied stool-top, growling. He's nursing his jaw now. That isn't enough for Andie to immediately get off her back on her own, of course, what with her excessive backpack.
+GM: (Your turn, <@!Norwick>!)
+Norwick: (Gotcha)
+Norwick: Norwick looks at what's happening and lays back, just watching and not really wanting to take part of the fight, instead he makes a text to his criminal boss telling him that the Holepunch needs medical assistance.
+GM: (MOAR backup? XD)
+GM: ((I assume this is this scene's use of the Black Hand stunt, BTW?))
+Norwick: (I guess aha)
+Harry: "A little help here, kid?" Harry snaps, exasperated.
+GM: "Wait... for reeeaaal...? M'kay, I'll send..." Stone D'walla seems to deliberate for a bit.
+(Forgot to let you do this last time, but you get to describe who's going to answer the call. Keep your own "medical aid" prompt in mind this time around.)
+GM: (Of course, if you aren't up for some creativity, I can do it for you.)
+Norwick: (Yeah, I'll let you do it for me)
+GM: "How aboouut... Laika...?" She was the dishonorably discharged Grey combat medic, you think. "You're gonna owe us mooooore than the usualllll after this, thooouuugh, I swear..."
+GM: (You'll have to wait one (1) exchange for her to show up - the crime boys are based down here, so they're slightly faster. That means she'll arrive after the next exchange... right at the same time as the police backup. XD)
+Norwick: "Yeah yeah, didn't know this Haffner guy was this strong." He sends the text back.
+GM: (Oh, that was text. Looks like that inflection was 100% unnecessary. XD)
+Norwick: (It's fine aha )
+GM: (Well, does the <@&730993990769573898> have last lines before we pause this scene?)
+Harry: Harry wipes his mouth with the back of his free hand. "Gonna...lock you away 'n' throw away the jail for this," he growls at Heff.
+Norwick: Norwick looks at Harry and gives a meek reply, "I'm getting backup...!"
+Andie: (Nah, Andie's a little preoccupied for that)
+GM: "Not if I... put you six feet under, first!"
+GM: (With that, let us...)
+GM: !end

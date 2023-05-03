@@ -1,0 +1,23 @@
+#!/bin/bash
+# Increments or decrements current output volume based on uint input parameter $1 (% volume)
+# Each % increase in volume is a 655 units increase in the unitless volume value informed by pactl get-sink-volume
+change_vol() {
+    local rel_inc=$1 # Relative increment (input, can be negative)
+    local abs_inc=$((rel_inc * 655)) # Absolute increment
+    local max_vol=65536 # Exact 100%
+    local min_vol=0
+    local cur_vol=$(pactl get-sink-volume @DEFAULT_SINK@)
+    cur_vol=${cur_vol##*left: } #
+    cur_vol=${cur_vol%% /*}     # Pattern-matching to get the current volume value
+    local new_vol=$((cur_vol + abs_inc))
+ 
+    if   [ "$new_vol" -gt "$max_vol" ]; then
+        pactl set-sink-volume @DEFAULT_SINK@ $max_vol
+    elif [ "$new_vol" -lt "$min_vol" ]; then
+        pactl set-sink-volume @DEFAULT_SINK@ $min_vol 
+    else
+        pactl set-sink-volume @DEFAULT_SINK@ $new_vol
+    fi
+}
+ 
+change_vol $1

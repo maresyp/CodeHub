@@ -1,0 +1,30 @@
+import java.util.Scanner;
+ 
+public class elfWords {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        System.out.print("Enter the first word: ");
+        String first = scanner.nextLine();
+        System.out.print("Enter the second word: ");
+        String second = scanner.nextLine();
+        String copy = second;
+ 
+        StringBuilder result = new StringBuilder();
+        int removed = 0;
+        for (int i = 0; i < first.length(); i++) {
+            char c = first.charAt(i);
+            int index = copy.indexOf(c);
+            if (index >= 0) {
+                result.append(c);
+                copy = copy.substring(0, index) + copy.substring(index + 1);
+            } else {
+                removed++;
+            }
+        }
+        removed += copy.length(); 
+ 
+        System.out.println("The common letters are: " + result);
+        System.out.println("Total letters removed: " + removed);
+    }
+}

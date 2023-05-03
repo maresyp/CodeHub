@@ -1,0 +1,76 @@
+import 'dart:convert';
+ 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
+import 'package:tunepass/services/logger.dart';
+ 
+class StemAPI {
+  String apiKey = '09479ec1-14fd-4c23-b193-9d5fcc754228';
+  String url = 'https://developer-api.moises.ai/api/job';
+ 
+  Future<String> uploadFile(String songID, String filePath) async {
+    filePath = '${filePath.split('?alt=media').first}?alt=media';
+ 
+    LoggerFunc().logInfo(filePath);
+    var request = http.Request('POST', Uri.parse(url));
+    request.headers
+        .addAll({'Content-Type': 'application/json', 'Authorization': apiKey});
+    request.body = jsonEncode({
+      'params': {'inputUrl': filePath},
+      'workflow': 'moises/stems-vocals-drums-bass-other',
+      'name': songID
+    });
+    var res = await request.send();
+    LoggerFunc().logInfo(res.statusCode.toString());
+    String response = await res.stream.bytesToString();
+    LoggerFunc().logInfo(response);
+ 
+    return response;
+  }
+ 
+  Future<Map<String, dynamic>> checkResults(String id) async {
+    var request = http.Request('GET', Uri.parse('$url/$id'));
+    request.headers.addAll({'Authorization': apiKey});
+    var res = await request.send();
+    LoggerFunc().logInfo(res.statusCode.toString());
+    String response = await res.stream.bytesToString();
+    LoggerFunc().logInfo(response);
+    return json.decode(response);
+  }
+ 
+  Future<Map<String, dynamic>> getResults(String id) async {
+    var result = await checkResults(id);
+    if (result['status'] == 'SUCCEEDED') {
+      return result['result'];
+    } else {
+      Future.delayed(const Duration(seconds: 20), () => getResults(id));
+    }
+    return {};
+  }
+ 
+  Future<bool> doesDocExist(String songID) async {
+    var test =
+        await FirebaseFirestore.instance.collection('stems').doc(songID).get();
+    return test.exists;
+  }
+ 
+  Future<Map<String, dynamic>?> getStems(String songID, String filePath) async {
+    if (await doesDocExist(songID)) {
+      return (await FirebaseFirestore.instance
+              .collection('stems')
+              .doc(songID)
+              .get())
+          .data();
+    }
+    while (await doesDocExist(songID) == false) {
+      var result = await getResults(songID);
+      if (result.isNotEmpty) {
+        await FirebaseFirestore.instance
+            .collection('stems')
+            .doc(songID)
+            .set(result);
+        return result;
+      }
+    }
+  }
+}

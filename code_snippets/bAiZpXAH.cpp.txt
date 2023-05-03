@@ -1,0 +1,108 @@
+#include <iostream>
+#include <thread>
+#include <future>
+#include <ctime>
+#include <cstdlib>
+#include <cmath>
+ 
+using namespace std;
+ 
+typedef promise<int> MyPromise;
+typedef future<int>  MyFuture;
+ 
+promise <long> max_Promise;
+ 
+int minNum(int* a, int s, int f) {
+    int m = INT_MAX;
+    for (int i = s; i <= f; i++) {
+        if (a[i] < m) m = a[i];
+    }
+    return(m);
+}
+ 
+int maxNum(int* a, int s, int f) {
+    int m = INT_MIN;
+    for (int i = s; i <= f; i++) {
+        if (a[i] > m) m = a[i];
+    }
+    return(m);
+}
+ 
+int main() {
+ 
+    int* a, num, i, t;
+ 
+    thread* minSearch;
+    thread* maxSearch;
+    MyPromise* minPromise;
+    MyFuture* minFuture;
+    MyPromise* maxPromise;
+    MyFuture* maxFuture;
+ 
+    // Get the number of data and task
+    cout << "Number of data : ";
+    cin >> num;
+    cout << "Number of task : ";
+    cin >> t;
+ 
+    if (t > num) t = num;                          // Task must be less than or equal to number of data
+ 
+    a = new int(num);                           // Create array for data
+    srand(time(0));                             // Seed for random generator
+ 
+    // Populate data with random number greater than 100000
+    for (i = 0; i < num; i++) a[i] = rand() + 100000;
+ 
+    // Create array for task
+    minSearch = new thread[t];
+    maxSearch = new thread[t];
+ 
+    // Create array for promise
+    minPromise = new MyPromise[t];
+    maxPromise = new MyPromise[t];
+ 
+    // Create array for future
+    minFuture = new MyFuture[t];
+    maxFuture = new MyFuture[t];
+ 
+    // Calculate segmnent per task
+    int part = floor(num / t);
+ 
+    // Create  task t-1 times
+    for (i = 0; i < t - 1; i++) {
+        minSearch[i] = thread([&] {
+            minPromise[i].set_value(minNum(a, i * part, (i * part) + (part - 1)));
+            });
+        minSearch[i].join();
+        maxSearch[i] = thread([&] {
+            maxPromise[i].set_value(maxNum(a, i * part, (i * part) + (part - 1)));
+            });
+        maxSearch[i].join();
+    }
+ 
+    // Create last task
+    minSearch[t - 1] = thread([&] {
+        minPromise[t - 1].set_value(minNum(a, (t - 1) * part, num - 1));
+        });
+    minSearch[t - 1].join();
+    maxSearch[t - 1] = thread([&] {
+        maxPromise[t - 1].set_value(maxNum(a, (t - 1) * part, num - 1));
+        });
+    maxSearch[t - 1].join();
+ 
+ 
+    int u = INT_MAX;
+    int v = INT_MIN;
+    int x, y;
+ 
+    for (i = 0; i < t; i++) {
+        minFuture[i] = minPromise[i].get_future();
+        maxFuture[i] = maxPromise[i].get_future();
+        x = minFuture[i].get();
+        y = maxFuture[i].get();
+        if (x < u) u = x;
+        if (y > v) v = y;
+    }
+ 
+    cout << "Minimum value : " << u << "\nMaximum value : " << v;
+}

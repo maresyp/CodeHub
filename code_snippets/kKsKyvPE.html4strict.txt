@@ -1,0 +1,25 @@
+<size=50><align=center><b><color=#6C36F0> | </color></b><color=#0370ff>█</color><color=#ffffff>█</color><color=#ff0303>█</color><b> <color=#6C36F0> | </color> </size>
+    <size=70><color=#783CF3>P</color><color=#7239F1>u</color><color=#6C36F0>r</color><color=#6633EF>p</color><color=#6030EE>l</color><color=#5A2DEC>e</color> <color=#4E28EA>S</color><color=#4825E9>i</color><color=#4222E8>d</color><color=#3C1FE6>e RP</color></b></size></align>
+ 
+<align=center><color=#ff1100><u>⚠Ce serveur n'est accessible qu'aux joueurs réguliers et aux Patreons ayant rempli un formulaire disponible sur notre serveur Discord. Pour le rejoindre, veuillez faire une candidature sur notre serveur Discord afin d'y accéder.⚠</u></color></align>     
+ 
+    <align=center><color=#2e0fff><u>🍬 Bienvenue sur Purple Side ! Un serveur SCP: Secret Laboratory français ! Nous espérons que vous passerez un bon moment sur nos serveurs ! Nous sommes impatient de vous recevoir sur nos serveurs ! 🍬</u></color></align>
+ 
+ 
+     
+    <align=center><size=20><color=#4c1aff><link="https://discord.gg/KwQnnQctfz">◉ Cliquer ici pour rejoindre notre serveur Discord (discord.gg/KwQnnQctfz). ◉</link></color>
+     
+     
+    <color=#6b24ff><link="https://www.patreon.com/purpleside">📙 Pour aider à financer le serveur, nous avons ouvert un Patreon. Vous pouvez avoir plein d'avantages ! Cliquer Ici pour voir la page (patreon.com/purpleside). 📙</link></color></size></align>
+     
+     
+     
+    <align=center><size=27><color=#8a2eff><u><link="https://purpleside.fr/scp-sl.html">📝 Cliquer ici pour avoir accès aux règles ! 📝</link></u></color></size></align>
+     
+     
+     
+<color=#9933ff>⚠ Les staffs ont le dernier mot. Si vous jugez que la sanction est "trop lourde", contactez un administrateur ou Yukzo ou faite une demande sur notre serveur Discord. ⚠</color>
+     
+     
+     
+<color=#9933ff><u>En jouant sur nos serveurs, nous jugeons que toutes les règles sont comprises, si vous avez des questions, rejoignez le serveur Discord.</u></color></size>

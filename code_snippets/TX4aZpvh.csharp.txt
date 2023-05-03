@@ -1,0 +1,22 @@
+using System;
+ 
+namespace GladiatorFight
+{
+    public class Sagittarius : Fighter
+    {
+        private int _additionalDamage;
+        
+        public Sagittarius(string name, int health, int damage, int armor) : base (name, health, damage, armor)
+        {
+            Random rand = new Random();
+            _additionalDamage = rand.Next(10, 1001);
+        }
+        
+        public override int GetSkillDamage(int roundCount)
+        {
+            int skillDamage = Damage + _additionalDamage;
+            Console.Write("\nИспользован скилл Сагитариуса! #К обычному урону добавлено рандомное значение урона (от 10 до 1000");
+            return skillDamage;
+        }
+    }
+}

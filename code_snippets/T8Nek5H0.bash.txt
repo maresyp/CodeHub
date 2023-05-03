@@ -1,0 +1,60 @@
+[wisher@arch-server Linux]$ make
+make -j4 -C /lib/modules/6.2.10-arch1-1/build M="/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux" modules
+  CC [M]  /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_pci_func.o
+  CC [M]  /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_vec.o
+  CC [M]  /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ptp.o
+  CC [M]  /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.o
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_vec.c: In function ‘aq_vec_alloc’:
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_vec.c:126:9: error: too many arguments to function ‘netif_napi_add’
+  126 |         netif_napi_add(aq_nic_get_ndev(aq_nic), &self->napi,
+      |         ^~~~~~~~~~~~~~
+In file included from ./include/linux/etherdevice.h:21,
+                 from /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_common.h:14,
+                 from /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_vec.h:15,
+                 from /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_vec.c:12:
+./include/linux/netdevice.h:2588:1: note: declared here
+ 2588 | netif_napi_add(struct net_device *dev, struct napi_struct *napi,
+      | ^~~~~~~~~~~~~~
+make[2]: *** [scripts/Makefile.build:252: /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_vec.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1438:32: error: initialization of ‘void (*)(struct net_device *, struct ethtool_ringparam *, struct kernel_ethtool_ringparam *, struct netlink_ext_ack *)’ from incompatible pointer type ‘void (*)(struct net_device *, struct ethtool_ringparam *)’ [-Werror=incompatible-pointer-types]
+ 1438 |         .get_ringparam       = aq_get_ringparam,
+      |                                ^~~~~~~~~~~~~~~~
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1438:32: note: (near initialization for ‘aq_ethtool_ops.get_ringparam’)
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1439:32: error: initialization of ‘int (*)(struct net_device *, struct ethtool_ringparam *, struct kernel_ethtool_ringparam *, struct netlink_ext_ack *)’ from incompatible pointer type ‘int (*)(struct net_device *, struct ethtool_ringparam *)’ [-Werror=incompatible-pointer-types]
+ 1439 |         .set_ringparam       = aq_set_ringparam,
+      |                                ^~~~~~~~~~~~~~~~
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1439:32: note: (near initialization for ‘aq_ethtool_ops.set_ringparam’)
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1473:32: error: initialization of ‘int (*)(struct net_device *, struct ethtool_coalesce *, struct kernel_ethtool_coalesce *, struct netlink_ext_ack *)’ from incompatible pointer type ‘int (*)(struct net_device *, struct ethtool_coalesce *)’ [-Werror=incompatible-pointer-types]
+ 1473 |         .get_coalesce        = aq_ethtool_get_coalesce,
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1473:32: note: (near initialization for ‘aq_ethtool_ops.get_coalesce’)
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1474:32: error: initialization of ‘int (*)(struct net_device *, struct ethtool_coalesce *, struct kernel_ethtool_coalesce *, struct netlink_ext_ack *)’ from incompatible pointer type ‘int (*)(struct net_device *, struct ethtool_coalesce *)’ [-Werror=incompatible-pointer-types]
+ 1474 |         .set_coalesce        = aq_ethtool_set_coalesce,
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.c:1474:32: note: (near initialization for ‘aq_ethtool_ops.set_coalesce’)
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ptp.c: In function ‘aq_ptp_init’:
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ptp.c:2120:9: error: too many arguments to function ‘netif_napi_add’
+ 2120 |         netif_napi_add(aq_nic_get_ndev(aq_nic), &aq_ptp->napi,
+      |         ^~~~~~~~~~~~~~
+In file included from ./include/linux/etherdevice.h:21,
+                 from /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_common.h:14,
+                 from /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_hw_utils.h:15,
+                 from /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ptp.c:19:
+./include/linux/netdevice.h:2588:1: note: declared here
+ 2588 | netif_napi_add(struct net_device *dev, struct napi_struct *napi,
+      | ^~~~~~~~~~~~~~
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_pci_func.c: In function ‘aq_pci_func_init’:
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_pci_func.c:133:15: error: implicit declaration of function ‘pci_set_dma_mask’ [-Werror=implicit-function-declaration]
+  133 |         err = pci_set_dma_mask(pdev, DMA_BIT_MASK(64));
+      |               ^~~~~~~~~~~~~~~~
+make[2]: *** [scripts/Makefile.build:252: /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ptp.o] Error 1
+/_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_pci_func.c:135:23: error: implicit declaration of function ‘pci_set_consistent_dma_mask’ [-Werror=implicit-function-declaration]
+  135 |                 err = pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(64));
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:252: /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_pci_func.o] Error 1
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:252: /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux/aq_ethtool.o] Error 1
+make[1]: *** [Makefile:2021: /_make/AQC_Linux_Driver_2.4.14.0/atlantic/Linux] Error 2
+make: *** [Makefile:36: all] Error 2

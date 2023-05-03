@@ -1,0 +1,41 @@
+public class RabbitCarrots {
+ 
+    /*
+    Once upon a time there was a rabbit who loved to steal carrots from the gardens of
+    the good software developers. Every time he leaped in a garden,
+    he wanted to collect all the carrots. Can you help the rabbit find how many times he has to jump
+    to eat all the carrots? The gardens are always square,
+    he always enters from the top left corner, and he has to jump once for one group of carrots
+    that have no space between each other vertically or horizontally.
+     */
+    public static int collectCarrots(int[][] garden) {
+        return collectCarrots(garden, 0, 0);
+    }
+ 
+    private static int collectCarrots(int[][] garden, int row, int col) {
+        if (row >= garden.length || col >= garden[0].length) {
+            return 0;
+        }
+ 
+        int carrots = garden[row][col];
+        garden[row][col] = 0;
+ 
+        int right = collectCarrots(garden, row, col + 1);
+        int down = collectCarrots(garden, row + 1, col);
+ 
+        garden[row][col] = carrots;
+ 
+        return carrots + Math.max(right, down);
+    }
+ 
+    public static void main(String[] args) {
+        int[][] garden = {
+                {2, 3, 1},
+                {1, 7, 1},
+                {4, 6, 1}
+        };
+        int numJumps = RabbitCarrots.collectCarrots(garden);
+        System.out.println("The rabbit needs to jump " + numJumps + " times to collect all the carrots.");
+ 
+    }
+}

@@ -1,0 +1,24 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/*
+bufor wejścia (cin) służy do pobierania wartości zmiennych od użytkownika w trakcie działania programu
+*/
+ 
+int main()
+{
+    int a, b;   // deklaracja dwóch zmiennych tego samego typu
+ 
+    cout << "Podaj dwie liczby calkowite: ";
+    cin >> a >> b;      // pobranie dwóch wartości do buforu wejścia i przypisanie ich do zmiennych a i b
+ 
+    // wypisanie działań arytmetycznych na zmiennych:
+    cout << a << " + " << b << " = " << a + b << endl;  // 11 + 7 = 18
+    cout << a << " - " << b << " = " << a - b << endl;
+    cout << a << " * " << b << " = " << a * b << endl;
+    cout << a << " / " << b << " = " << 1.0 * a / b << endl;
+    // uwaga: dzielenie przez siebie dwóch liczb całkowitych (np. typu int) daje zawsze wynik całkowity!
+    cout << a << " % " << b << " = " << a % b << endl;
+    return 0;
+}

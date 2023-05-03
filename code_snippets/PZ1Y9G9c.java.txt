@@ -1,0 +1,30 @@
+public void register(final Player player, final Block block, final String type, final String uniqueID) { // TODO register and create file
+        Valid.checkBoolean(!loadedFiles.isItemLoaded(uniqueID), Lang.of("Tool.Already_Registered", "{location}", Common.shortLocation(block.getLocation())));
+ 
+        this.setLocation(block.getLocation());
+        this.setMaterial(CompMaterial.fromMaterial(block.getType()));
+        this.setType(type);
+        this.setOwner(player.getUniqueId());
+        this.setId(uniqueID);
+        this.setCurrentLevel(1);
+ 
+        final TurretSettings turretSettings = TurretSettings.findByName(type);
+ 
+        this.setMobBlacklist(turretSettings.getMobList());
+        this.setPlayerBlacklist(turretSettings.getPlayerList());
+        this.setPlayerWhitelistEnabled(turretSettings.isEnablePlayerWhitelist());
+        this.setMobWhitelistEnabled(turretSettings.isEnableMobWhitelist());
+ 
+        if (!this.isPlayerWhitelistEnabled())
+            this.playerBlacklist.add(player.getUniqueId());
+ 
+        for (final TurretSettings.LevelData levelData : turretSettings.getLevels()) {
+            final TurretData.TurretLevel level = addLevel();
+            levelData.setLevelData(level);
+        }
+ 
+        this.setCurrentHealth(this.getLevel(1).getMaxHealth());
+        this.setHologram(createHologram());
+ 
+        this.save();
+    }

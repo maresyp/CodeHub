@@ -1,0 +1,24 @@
+a = [ int (x) for x in open('17_7717.txt')]
+ 
+b = []
+chetnie = 0
+nechetnie = 0
+for i in range( len(a) - 1):
+    c = a[i]
+    chetnie = 0
+    nechetnie = 0
+    while (c > 0):
+        if ((c % 10)%2 == 0):
+            chetnie +=1
+        else:
+            nechetnie +=1
+        c = (c - c%10)//10
+    if  (chetnie ==   nechetnie):
+        b.append(a[i])
+M = max(b)
+pairs = []
+for i in range (len(a)-1):
+    if all( int(x)>int(j) for x in str(a[i]) for j in str(a[i+1]) ):
+        if a[i]+a[i+1] <= M:
+            pairs.append(a[i]+a[i+1])
+print(len(pairs),max(pairs))

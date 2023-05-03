@@ -1,0 +1,169 @@
+8367 info run bcrypt@3.0.7 install node_modules/bcrypt node-pre-gyp install --fallback-to-build
+8368 info run bufferutil@4.0.1 install node_modules/bufferutil node-gyp-build
+8369 info run node-sass@4.13.1 install node_modules/node-sass node scripts/install.js
+8370 info run sharp@0.23.4 install node_modules/sharp (node install/libvips && node install/dll-copy && prebuild-install) || (node-gyp rebuild && node install/dll-copy)
+8371 info run bufferutil@4.0.1 install { code: 0, signal: null }
+8372 timing build:run:install:node_modules/bufferutil Completed in 229ms
+8373 info run node-sass@4.13.1 install { code: 0, signal: null }
+8374 timing build:run:install:node_modules/node-sass Completed in 1534ms
+8375 info run bcrypt@3.0.7 install { code: 1, signal: null }
+8376 timing reify:rollback:createSparse Completed in 1677ms
+8377 timing reify:rollback:retireShallow Completed in 0ms
+8378 timing command:install Completed in 72866ms
+8379 verbose stack Error: command failed
+8379 verbose stack     at ChildProcess.<anonymous> (/usr/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/lib/index.js:53:27)
+8379 verbose stack     at ChildProcess.emit (node:events:513:28)
+8379 verbose stack     at maybeClose (node:internal/child_process:1091:16)
+8379 verbose stack     at ChildProcess._handle.onexit (node:internal/child_process:302:5)
+8380 verbose pkgid bcrypt@3.0.7
+8381 verbose cwd /home/ilyabot/pixelplanet
+8382 verbose Linux 5.15.0-69-generic
+8383 verbose node v18.14.0
+8384 verbose npm  v9.6.4
+8385 error code 1
+8386 error path /home/ilyabot/pixelplanet/node_modules/bcrypt
+8387 error command failed
+8388 error command sh -c node-pre-gyp install --fallback-to-build
+8389 error make: Entering directory '/home/ilyabot/pixelplanet/node_modules/bcrypt/build'
+8389 error   CXX(target) Release/obj.target/bcrypt_lib/src/blowfish.o
+8389 error   CXX(target) Release/obj.target/bcrypt_lib/src/bcrypt.o
+8389 error   CXX(target) Release/obj.target/bcrypt_lib/src/bcrypt_node.o
+8389 error make: Leaving directory '/home/ilyabot/pixelplanet/node_modules/bcrypt/build'
+8389 error Failed to execute '/usr/bin/node /usr/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js build --fallback-to-build --module=/home/ilyabot/pixelplanet/node_modules/bcrypt/lib/binding/bcrypt_lib.node --module_name=bcrypt_lib --module_path=/home/ilyabot/pixelplanet/node_modules/bcrypt/lib/binding --napi_version=8 --node_abi_napi=napi --napi_build_version=0 --node_napi_label=node-v108' (1)
+8390 error node-pre-gyp info it worked if it ends with ok
+8390 error node-pre-gyp info using node-pre-gyp@0.13.0
+8390 error node-pre-gyp info using node@18.14.0 | linux | x64
+8390 error node-pre-gyp WARN Using request for node-pre-gyp https download 
+8390 error node-pre-gyp info check checked for "/home/ilyabot/pixelplanet/node_modules/bcrypt/lib/binding/bcrypt_lib.node" (not found)
+8390 error node-pre-gyp http GET https://github.com/kelektiv/node.bcrypt.js/releases/download/v3.0.7/bcrypt_lib-v3.0.7-node-v108-linux-x64-glibc.tar.gz
+8390 error node-pre-gyp http 404 https://github.com/kelektiv/node.bcrypt.js/releases/download/v3.0.7/bcrypt_lib-v3.0.7-node-v108-linux-x64-glibc.tar.gz
+8390 error node-pre-gyp WARN Tried to download(404): https://github.com/kelektiv/node.bcrypt.js/releases/download/v3.0.7/bcrypt_lib-v3.0.7-node-v108-linux-x64-glibc.tar.gz 
+8390 error node-pre-gyp WARN Pre-built binaries not found for bcrypt@3.0.7 and node@18.14.0 (node-v108 ABI, glibc) (falling back to source compile with node-gyp) 
+8390 error node-pre-gyp http 404 status code downloading tarball https://github.com/kelektiv/node.bcrypt.js/releases/download/v3.0.7/bcrypt_lib-v3.0.7-node-v108-linux-x64-glibc.tar.gz 
+8390 error gyp info it worked if it ends with ok
+8390 error gyp info using node-gyp@9.3.1
+8390 error gyp info using node@18.14.0 | linux | x64
+8390 error gyp info ok 
+8390 error gyp info it worked if it ends with ok
+8390 error gyp info using node-gyp@9.3.1
+8390 error gyp info using node@18.14.0 | linux | x64
+8390 error gyp info find Python using Python version 3.10.6 found at "/usr/bin/python3"
+8390 error gyp http GET https://nodejs.org/download/release/v18.14.0/node-v18.14.0-headers.tar.gz
+8390 error gyp http 200 https://nodejs.org/download/release/v18.14.0/node-v18.14.0-headers.tar.gz
+8390 error gyp http GET https://nodejs.org/download/release/v18.14.0/SHASUMS256.txt
+8390 error gyp http 200 https://nodejs.org/download/release/v18.14.0/SHASUMS256.txt
+8390 error gyp info spawn /usr/bin/python3
+8390 error gyp info spawn args [
+8390 error gyp info spawn args   '/usr/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py',
+8390 error gyp info spawn args   'binding.gyp',
+8390 error gyp info spawn args   '-f',
+8390 error gyp info spawn args   'make',
+8390 error gyp info spawn args   '-I',
+8390 error gyp info spawn args   '/home/ilyabot/pixelplanet/node_modules/bcrypt/build/config.gypi',
+8390 error gyp info spawn args   '-I',
+8390 error gyp info spawn args   '/usr/lib/node_modules/npm/node_modules/node-gyp/addon.gypi',
+8390 error gyp info spawn args   '-I',
+8390 error gyp info spawn args   '/root/.cache/node-gyp/18.14.0/include/node/common.gypi',
+8390 error gyp info spawn args   '-Dlibrary=shared_library',
+8390 error gyp info spawn args   '-Dvisibility=default',
+8390 error gyp info spawn args   '-Dnode_root_dir=/root/.cache/node-gyp/18.14.0',
+8390 error gyp info spawn args   '-Dnode_gyp_dir=/usr/lib/node_modules/npm/node_modules/node-gyp',
+8390 error gyp info spawn args   '-Dnode_lib_file=/root/.cache/node-gyp/18.14.0/<(target_arch)/node.lib',
+8390 error gyp info spawn args   '-Dmodule_root_dir=/home/ilyabot/pixelplanet/node_modules/bcrypt',
+8390 error gyp info spawn args   '-Dnode_engine=v8',
+8390 error gyp info spawn args   '--depth=.',
+8390 error gyp info spawn args   '--no-parallel',
+8390 error gyp info spawn args   '--generator-output',
+8390 error gyp info spawn args   'build',
+8390 error gyp info spawn args   '-Goutput_dir=.'
+8390 error gyp info spawn args ]
+8390 error gyp info ok 
+8390 error gyp info it worked if it ends with ok
+8390 error gyp info using node-gyp@9.3.1
+8390 error gyp info using node@18.14.0 | linux | x64
+8390 error gyp info spawn make
+8390 error gyp info spawn args [ 'BUILDTYPE=Release', '-C', 'build' ]
+8390 error In file included from ../src/bcrypt_node.cc:1:
+8390 error ../../nan/nan.h: In function â€˜void Nan::AsyncQueueWorker(Nan::AsyncWorker*)â€™:
+8390 error ../../nan/nan.h:2298:7: warning: cast between incompatible function types from â€˜void (*)(uv_work_t*)â€™ {aka â€˜void (*)(uv_work_s*)â€™} to â€˜uv_after_work_cbâ€™ {aka â€˜void (*)(uv_work_s*, int)â€™} [-Wcast-function-type]
+8390 error  2298 |     , reinterpret_cast<uv_after_work_cb>(AsyncExecuteComplete)
+8390 error       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8390 error ../../nan/nan.h: In function â€˜void Nan::SetAccessor(v8::Local<v8::ObjectTemplate>, v8::Local<v8::String>, Nan::GetterCallback, Nan::SetterCallback, v8::Local<v8::Value>, v8::AccessControl, v8::PropertyAttribute, Nan::imp::Sig)â€™:
+8390 error ../../nan/nan.h:2536:19: warning: â€˜void v8::ObjectTemplate::SetAccessor(v8::Local<v8::Name>, v8::AccessorNameGetterCallback, v8::AccessorNameSetterCallback, v8::Local<v8::Value>, v8::AccessControl, v8::PropertyAttribute, v8::Local<v8::AccessorSignature>, v8::SideEffectType, v8::SideEffectType)â€™ is deprecated: Do signature check in accessor [-Wdeprecated-declarations]
+8390 error  2536 |   tpl->SetAccessor(
+8390 error       |   ~~~~~~~~~~~~~~~~^
+8390 error  2537 |       name
+8390 error       |       ~~~~         
+8390 error  2538 |     , getter_
+8390 error       |     ~~~~~~~~~      
+8390 error  2539 |     , setter_
+8390 error       |     ~~~~~~~~~      
+8390 error  2540 |     , obj
+8390 error       |     ~~~~~          
+8390 error  2541 |     , settings
+8390 error       |     ~~~~~~~~~~     
+8390 error  2542 |     , attribute
+8390 error       |     ~~~~~~~~~~~    
+8390 error  2543 |     , signature);
+8390 error       |     ~~~~~~~~~~~~   
+8390 error In file included from /root/.cache/node-gyp/18.14.0/include/node/v8-function.h:15,
+8390 error                  from /root/.cache/node-gyp/18.14.0/include/node/v8.h:33,
+8390 error                  from /root/.cache/node-gyp/18.14.0/include/node/node.h:73,
+8390 error                  from ../../nan/nan.h:54,
+8390 error                  from ../src/bcrypt_node.cc:1:
+8390 error /root/.cache/node-gyp/18.14.0/include/node/v8-template.h:838:8: note: declared here
+8390 error   838 |   void SetAccessor(
+8390 error       |        ^~~~~~~~~~~
+8390 error In file included from ../../nan/nan.h:2884,
+8390 error                  from ../src/bcrypt_node.cc:1:
+8390 error ../../nan/nan_typedarray_contents.h: In constructor â€˜Nan::TypedArrayContents<T>::TypedArrayContents(v8::Local<v8::Value>)â€™:
+8390 error ../../nan/nan_typedarray_contents.h:34:43: error: â€˜class v8::ArrayBufferâ€™ has no member named â€˜GetContentsâ€™
+8390 error    34 |       data   = static_cast<char*>(buffer->GetContents().Data()) + byte_offset;
+8390 error       |                                           ^~~~~~~~~~~
+8390 error In file included from ../../nan/nan.h:54,
+8390 error                  from ../src/bcrypt_node.cc:1:
+8390 error ../src/bcrypt_node.cc: At global scope:
+8390 error /root/.cache/node-gyp/18.14.0/include/node/node.h:978:7: warning: cast between incompatible function types from â€˜void (*)(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE)â€™ {aka â€˜void (*)(v8::Local<v8::Object>)â€™} to â€˜node::addon_register_funcâ€™ {aka â€˜void (*)(v8::Local<v8::Object>, v8::Local<v8::Value>, void*)â€™} [-Wcast-function-type]
+8390 error   978 |       (node::addon_register_func) (regfunc),                          \
+8390 error       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8390 error /root/.cache/node-gyp/18.14.0/include/node/node.h:1012:3: note: in expansion of macro â€˜NODE_MODULE_Xâ€™
+8390 error  1012 |   NODE_MODULE_X(modname, regfunc, NULL, 0)  // NOLINT (readability/null_usage)
+8390 error       |   ^~~~~~~~~~~~~
+8390 error ../src/bcrypt_node.cc:378:1: note: in expansion of macro â€˜NODE_MODULEâ€™
+8390 error   378 | NODE_MODULE(bcrypt_lib, init);
+8390 error       | ^~~~~~~~~~~
+8390 error make: *** [bcrypt_lib.target.mk:115: Release/obj.target/bcrypt_lib/src/bcrypt_node.o] Error 1
+8390 error gyp ERR! build error 
+8390 error gyp ERR! stack Error: `make` failed with exit code: 2
+8390 error gyp ERR! stack     at ChildProcess.onExit (/usr/lib/node_modules/npm/node_modules/node-gyp/lib/build.js:203:23)
+8390 error gyp ERR! stack     at ChildProcess.emit (node:events:513:28)
+8390 error gyp ERR! stack     at ChildProcess._handle.onexit (node:internal/child_process:291:12)
+8390 error gyp ERR! System Linux 5.15.0-69-generic
+8390 error gyp ERR! command "/usr/bin/node" "/usr/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "build" "--fallback-to-build" "--module=/home/ilyabot/pixelplanet/node_modules/bcrypt/lib/binding/bcrypt_lib.node" "--module_name=bcrypt_lib" "--module_path=/home/ilyabot/pixelplanet/node_modules/bcrypt/lib/binding" "--napi_version=8" "--node_abi_napi=napi" "--napi_build_version=0" "--node_napi_label=node-v108"
+8390 error gyp ERR! cwd /home/ilyabot/pixelplanet/node_modules/bcrypt
+8390 error gyp ERR! node -v v18.14.0
+8390 error gyp ERR! node-gyp -v v9.3.1
+8390 error gyp ERR! not ok 
+8390 error node-pre-gyp ERR! build error 
+8390 error node-pre-gyp ERR! stack Error: Failed to execute '/usr/bin/node /usr/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js build --fallback-to-build --module=/home/ilyabot/pixelplanet/node_modules/bcrypt/lib/binding/bcrypt_lib.node --module_name=bcrypt_lib --module_path=/home/ilyabot/pixelplanet/node_modules/bcrypt/lib/binding --napi_version=8 --node_abi_napi=napi --napi_build_version=0 --node_napi_label=node-v108' (1)
+8390 error node-pre-gyp ERR! stack     at ChildProcess.<anonymous> (/home/ilyabot/pixelplanet/node_modules/node-pre-gyp/lib/util/compile.js:83:29)
+8390 error node-pre-gyp ERR! stack     at ChildProcess.emit (node:events:513:28)
+8390 error node-pre-gyp ERR! stack     at maybeClose (node:internal/child_process:1091:16)
+8390 error node-pre-gyp ERR! stack     at ChildProcess._handle.onexit (node:internal/child_process:302:5)
+8390 error node-pre-gyp ERR! System Linux 5.15.0-69-generic
+8390 error node-pre-gyp ERR! command "/usr/bin/node" "/home/ilyabot/pixelplanet/node_modules/.bin/node-pre-gyp" "install" "--fallback-to-build"
+8390 error node-pre-gyp ERR! cwd /home/ilyabot/pixelplanet/node_modules/bcrypt
+8390 error node-pre-gyp ERR! node -v v18.14.0
+8390 error node-pre-gyp ERR! node-pre-gyp -v v0.13.0
+8390 error node-pre-gyp ERR! not ok
+8391 verbose exit 1
+8392 timing npm Completed in 72950ms
+8393 verbose unfinished npm timer reify 1681820759074
+8394 verbose unfinished npm timer reify:build 1681820822966
+8395 verbose unfinished npm timer build 1681820822971
+8396 verbose unfinished npm timer build:deps 1681820822971
+8397 verbose unfinished npm timer build:run:install 1681820823062
+8398 verbose unfinished npm timer build:run:install:node_modules/bcrypt 1681820823063
+8399 verbose unfinished npm timer build:run:install:node_modules/sharp 1681820823205
+8400 verbose code 1
+8401 error A complete log of this run can be found in: /root/.npm/_logs/2023-04-18T12_25_59_005Z-debug-0.log

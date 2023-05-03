@@ -1,0 +1,113 @@
+// Funktion zum Zählen der Häufigkeit jedes Symbols in der Eingabe
+function countFrequencies(str) {
+  let freq = {};
+ 
+  for (let i = 0; i < str.length; i++) {
+    let char = str[i];
+    if (freq[char]) {
+      freq[char]++;
+    } else {
+      freq[char] = 1;
+    }
+  }
+ 
+  return freq;
+}
+ 
+// Klasse, die einen Huffman-Knoten darstellt
+class HuffmanNode {
+  constructor(symbol, frequency) {
+    this.symbol = symbol;
+    this.frequency = frequency;
+    this.left = null;
+    this.right = null;
+  }
+}
+ 
+// Funktion zum Erstellen des Huffman-Baums aus einer Häufigkeitstabelle
+function buildHuffmanTree(freq) {
+  let nodes = [];
+ 
+  // Erstelle ein Blatt für jedes Symbol
+  for (let symbol in freq) {
+    nodes.push(new HuffmanNode(symbol, freq[symbol]));
+  }
+ 
+  // Baue den Huffman-Baum, indem die Knoten mit den geringsten Häufigkeiten kombiniert werden
+  while (nodes.length > 1) {
+    nodes.sort((a, b) => a.frequency - b.frequency);
+ 
+    let left = nodes.shift();
+    let right = nodes.shift();
+ 
+    let parent = new HuffmanNode(null, left.frequency + right.frequency);
+    parent.left = left;
+    parent.right = right;
+ 
+    nodes.push(parent);
+  }
+ 
+  return nodes[0];
+}
+ 
+// Funktion zum Erstellen einer Huffman-Tabelle aus dem Huffman-Baum
+function buildHuffmanTable(node, prefix, table) {
+  table = table || {};
+ 
+  if (node.symbol) {
+    table[node.symbol] = prefix;
+  } else {
+    buildHuffmanTable(node.left, prefix + "0", table);
+    buildHuffmanTable(node.right, prefix + "1", table);
+  }
+ 
+  return table;
+}
+ 
+// Funktion zum Codieren eines Strings mit einem Huffman-Code
+function encode(str, table) {
+  let output = "";
+ 
+  for (let i = 0; i < str.length; i++) {
+    let char = str[i];
+    output += table[char];
+  }
+ 
+  return output;
+}
+ 
+// Beispielanwendung
+let input = "abracadabra";
+let freq = countFrequencies(input);
+let tree = buildHuffmanTree(freq);
+let table = buildHuffmanTable(tree, "", {});
+let encoded = encode(input, table);
+ 
+console.log("Input: ", input);
+console.log("Encoded: ", encoded);
+console.log("Huffman-Table: ", table);
+ 
+// Funktion zum Decodieren eines Huffman-Codes mit einer Huffman-Tabelle
+function decode(encoded, table) {
+  let output = "";
+  let code = "";
+ 
+  for (let i = 0; i < encoded.length; i++) {
+    code += encoded[i];
+ 
+    for (let symbol in table) {
+      if (table[symbol] === code) {
+        output += symbol;
+        code = "";
+        break;
+      }
+    }
+  }
+ 
+  return output;
+}
+ 
+// Beispielanwendung
+let decoded = decode(encoded, table);
+ 
+console.log("Decoded: ", decoded);

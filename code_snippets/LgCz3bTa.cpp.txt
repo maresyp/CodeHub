@@ -1,0 +1,13 @@
+#include <iostream>
+#include <iomanip>
+ 
+using namespace std;
+ 
+int main()
+{
+    double liczba = 1.23445667;
+    cout << setprecision(7) << liczba << endl;
+    cout << 10*liczba << endl;
+    cout << setprecision(3) << liczba / 3 << endl;
+    return 0;
+}

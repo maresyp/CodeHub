@@ -1,0 +1,20 @@
+public class Main {
+    public static void main(String[] args) {
+        int[] number = new int[10];
+ 
+        for (int x = 0; x <= 9; x++){
+            number[x] = -113;
+            System.out.println("slot " + x + " contains a " + number[x]);
+        }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    }
+}

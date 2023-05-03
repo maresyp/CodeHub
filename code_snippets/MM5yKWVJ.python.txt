@@ -1,0 +1,36 @@
+#Activity2
+_list = [
+    {'name': 'JOE', 'details' : {'age':19, 'brgy': 'Fairview'}, 'subject': {'DATASTRUC' : [1.0, 4.0]}},
+    {'name': 'CHA', 'details' : {'age':20, 'brgy': 'Maligaya'}, 'subject': {'DATASTRUC' : [2.0, 4.0]}},
+    {'name': 'AI', 'details' : {'age':21, 'brgy': 'Lagro'}, 'subject': {'DATASTRUC' : [3.0, 3.0]}}
+    ]
+ 
+for x in _list:
+    name = x['name']
+    age = x['details']['age']
+    brgy = x['details']['brgy']
+    grade1 = x["subject"]["DATASTRUC"][0] 
+    grade2 = x["subject"]["DATASTRUC"][1] 
+    print("My name is", name, "with an age of", age, "years old and living at Barangay", brgy, "has a DATASTRUC grade of", grade1, "in midterms and", grade2, "in finals")
+    
+    
+#Activity1
+_list = [[3, 7, 9, 5, 1], [2, 6, 10, 8, 14]]
+_list1 = _list[0]
+_list2 = _list[1]
+_list3=[_list1, _list2]
+ 
+for sort in range(len(_list1)-1,0,-1):
+    for innerLoop in range (sort):
+        if _list1[innerLoop] < _list1[innerLoop+1]:
+             tempValue=_list1[innerLoop]
+             _list1[innerLoop]=_list1[innerLoop+1]
+             _list1[innerLoop+1]=tempValue
+             
+for sort in range(len(_list2)-1,0,-1):
+    for innerLoop in range (sort):
+        if _list2[innerLoop] < _list2[innerLoop+1]:
+             tempValue=_list2[innerLoop]
+             _list2[innerLoop]=_list2[innerLoop+1]
+             _list2[innerLoop+1]=tempValue
+print(_list3)

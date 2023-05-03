@@ -1,0 +1,10 @@
+add_filter( 'streamtube/core/user/profile/menu/items', function( $menu_items ){
+ 
+    $menu_items['events']['priority']  = -1;
+ 
+    uasort( $menu_items, function( $item1, $item2 ){
+        return $item1['priority'] <=> $item2['priority'];
+    } );
+ 
+    return $menu_items;
+}, 10, 1 );

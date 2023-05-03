@@ -1,0 +1,20 @@
+public class Main {
+    public static void main(String[] args) {
+        int[] number = new int[]{100, 20, 30, 56, 60, 64, 34, 10, 5, 6};
+ 
+        for (int x = 0; x <= 9; x++){
+ 
+            System.out.println("slot " + x + " contains a " + number[x]);
+        }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    }
+}

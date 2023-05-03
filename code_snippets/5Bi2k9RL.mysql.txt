@@ -1,0 +1,17 @@
+SELECT om.*, eo.id AS marketplace_id, 
+                sm.marketplace AS marketplace_name, 
+                  eo.order_id AS order_number
+                    FROM order_movement AS om
+                    LEFT JOIN external_order AS eo ON eo.erp_order_id = om.order_id 
+                    LEFT JOIN `order` AS o ON o.id = om.`order_id`
+                    AND eo.marketplace_id != 0 
+                    AND eo.erp_order_id IS NOT null
+                    AND eo.marketplace_status != 1
+                    AND o.status_id = 8
+                    LEFT JOIN storage_address AS sa ON o.storage_address_id = sa.id
+                    LEFT JOIN sites_marketplace AS sm ON sm.id = eo.marketplace_id
+                    LEFT JOIN delivery AS d ON d.order_id = o.id
+                    WHERE om.movement = 0 
+                     AND (om.date_considered IS NULL OR sa.`storage_address_group_id` IN (42, 43))
+                       AND (COALESCE(eo.id, 0) != 0 OR d.tk_id = 207)    
+                    GROUP BY `om`.`order_id`

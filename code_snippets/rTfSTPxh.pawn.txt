@@ -1,0 +1,42 @@
+#include <a_samp>
+#include <pawn.cmd>
+ 
+/*
+ 
+    * O sistema não foi testado, é apenas uma ideia para se usar com a public "OnVehicleHealthChange".
+    * O sistema usa uma public adaptada quando o veículo toma algum dano:
+ 
+        - Link: https://pastebin.com/BgLJFBhg
+ 
+*/
+ 
+new bool:playerUsingSeatBelt[MAX_PLAYERS];
+ 
+main(){}
+ 
+public OnVehicleTakeDamage(vehicleid, playerid, Float:newhealth, Float:oldhealth)
+{
+    if(!playerUsingSeatBelt[playerid] && (oldhealth - newhealth) >= 150.0)
+    {
+        SetPlayerHealth(playerid, 0.0);
+        SendClientMessage(playerid, -1, "* Você morreu com uma batida muito forte e não estava com o cinto de segurança.");
+    }
+    return 1;
+}
+ 
+CMD:cinto(playerid)
+{
+    /*
+ 
+    if(GetVehicleModelType(GetPlayerVehicleID(playerid)) != VEHICLE_TYPE_CAR)
+        return SendClientMessage(playerid, -1, "* Você não está em um carro.");
+ 
+    */
+ 
+    if(!IsPlayerInAnyVehicle(playerid))
+        return SendClientMessage(playerid, -1, "* Você não está em nenhum veículo.");
+ 
+    playerUsingSeatBelt[playerid] = ((playerUsingSeatBelt[playerid]) ? (false) : (true));
+    SendClientMessage(playerid, -1, ((playerUsingSeatBelt[playerid]) ? ("* Você tirou o cinto de segurança.") : ("* Você colocou o cinto de segurança.")));
+    return 1;
+}

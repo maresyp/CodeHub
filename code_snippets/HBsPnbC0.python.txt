@@ -1,0 +1,182 @@
+# Метод сопряженных градиентов
+ 
+import numpy as np
+import math as mt
+ 
+H = 1e-15
+ 
+def Norma(_x : np.array) -> float:
+    return mt.sqrt(_x[0] ** 2 + _x[1] ** 2)
+ 
+def Grad(_f, _x : np.array) -> np.array:
+    return ((_f((_x[0] + H, _x[1])) - _f((_x[0], _x[1]))) / H, (_f((_x[0], _x[1] + H)) - _f((_x[0], _x[1]))) / H)
+ 
+def FindMinimum(_f, _x : np.array, _s : np.array, _lamb0 = 0.0):
+    h = 0
+    lamb = _lamb0
+    delt = 1e-8
+    if _f(_x + _lamb0 * _s) > _f(_x + (_lamb0 + delt) * _s):
+        lamb = _lamb0 + delt
+        h = delt
+    elif _f(_x + _lamb0 * _s) < _f(_x + (_lamb0 + delt) * _s):
+        lamb = _lamb0 + delt
+        h = -delt
+        
+    while True:
+        h *= 2
+        lamb += h
+        if _f(_x + (lamb - h) * _s) <= _f(_x + lamb * _s):
+            return np.array([min(_lamb0, lamb), max(_lamb0, lamb)])
+ 
+ 
+def DichotomyMethod(_f, _interval, _x, _s, eps = 1e-7):
+    _a = _interval[0]
+    _b = _interval[1]
+    _x1 = (_a + _b - 0.5 * eps) / 2
+    _x2 = (_a + _b + 0.5 * eps) / 2
+    while abs(_b - _a) > eps:
+        if _f(_x + _x1 * _s) <= _f(_x + _x2 * _s):
+            _b = _x2
+        else:
+            _a = _x1
+        _x1 = (_a + _b - 0.5 * eps) / 2
+        _x2 = (_a + _b + 0.5 * eps) / 2
+    return 0.5 * (_x1 + _x2)
+ 
+ 
+def FindMinLambd(_f, _x0, _s):
+    return DichotomyMethod(_f, FindMinimum(_f, _x0, _s), _x0, _s)
+ 
+ 
+def Method(_f, _x0 : np.array, eps = 1e-3):
+ 
+    k = 0
+    x_curr = np.array(_x0)
+    maxIter = 1000
+    _s = np.zeros(2)
+ 
+    while k < maxIter:
+ 
+        # step 1
+        if k % 3 == 0:
+            _s = -1 * np.array(Grad(_f, x_curr))
+        
+        # step 2
+        lambd = FindMinLambd(_f, x_curr, _s)
+        x_next = x_curr + lambd * _s
+        
+        # step 3, 4
+        w = (Norma(Grad(_f, x_next))) ** 2 / (Norma(Grad(_f, x_curr))) ** 2
+        _s = -1 * np.array(Grad(_f, x_next)) + w * _s
+        
+        if Norma(_s) < eps:
+            print (str(k) + " MCG answer: ({:9e}; {:9e}), {:9e}".format(x_next[0], x_next[1], _f(x_next)))
+            break
+        
+        x_curr = x_next
+        k += 1
+        
+        
+# Метод крутящихся жоп
+ 
+import math as mt
+import numpy as np
+ 
+D1 = lambda t = 1, n = 2: t / (n * mt.sqrt(2)) * (mt.sqrt(n + 1) + n - 1)
+D2 = lambda t = 1, n = 2: t / (n * mt.sqrt(2) * (mt.sqrt(n + 1) - 1))
+ 
+def SortByAscending(_f, _x1 : np.array, _x2 : np.array, _x3 : np.array):
+    fMax = max(_f(_x1), _f(_x2), _f(_x3))
+    fMin = min(_f(_x1), _f(_x2), _f(_x3))
+ 
+    xl, xs, xh = np.array([]), np.array([]), np.array([])
+    arr = [_x1, _x2, _x3]
+    
+    for vector in arr:
+        if _f(vector) == fMin:
+            xl = vector
+        elif _f(vector) == fMax:
+            xh = vector
+        else:
+            xs = vector
+    
+    return xl, xs, xh
+ 
+ 
+# Отражение
+def Reflection(_xMass : np.array, _xh : np.array, _alpha : float) -> np.array:
+    return _xMass + _alpha * (_xMass - _xh)
+ 
+ 
+# Растяжение
+def Stretch(_xMass : np.array, _xRefl : np.array, _gamma : float) -> np.array:
+    return _xMass + _gamma * (_xRefl - _xMass)
+ 
+# Сжатие
+def Compression(_xMass : np.array, _xh : np.array, _beta : float) -> np.array:
+    return _xMass + _beta * (_xh - _xMass)
+ 
+# Редукция
+def Reduction(_xl : np.array, _x1 : np.array, _x2 : np.array, _x3 : np.array):
+    return np.array(_xl + 0.5 * (_x1 - _xl)), np.array(_xl + 0.5 * (_x2 - _xl)), np.array(_xl + 0.5 * (_x3 - _xl))
+ 
+ 
+# 0 < alpha
+# 0 < beta < 1
+# 0 < gamma
+def Method(f, _x0 : np.array, eps = 1e-3, alph = 1.0, beta = 0.5, gamm = 2.5):
+ 
+    # step 1
+    k = 0
+    x1 = _x0
+    x2 = np.array([D1(), D2()])
+    x3 = np.array([D2(), D1()])
+    f_count = 0
+ 
+    while True:
+        
+        # step 2
+ 
+        x1, x2, x3 = SortByAscending(f, x1, x2, x3)
+        xh = np.array(x3)
+        xl = np.array(x1)
+        xs = np.array(x2)
+        xl1 = np.zeros(2)
+ 
+        # step 3
+        xMass = 0.5 * np.array((xl + xs)) # x_{n + 2}
+        fxh, fxs, fxl, fxmass = f(xh), f(xs), f(xl), f(xMass)
+ 
+        # step 4
+        delt = mt.sqrt(((fxh - fxmass) ** 2 + (fxs - fxmass) ** 2 + (fxl - fxmass) ** 2) / 3.0)
+        if delt <= eps:
+            print (str(k) + ' DPM answer: ({:8e}; {:8e}), f = {:8e}'.format(xl[0], xl[1], f(xl)))
+            break
+ 
+        # step 5
+        xRefl = np.array(Reflection(xMass, xh, alph)) # x_{n + 3}
+        fxrefl = f(xRefl)
+        xStrt = np.array([]) # x_{n + 4}
+        xComp = np.array([]) # x_{n + 5}
+    
+        # step 6
+        if fxrefl <= fxl:
+            xStrt = Stretch(xMass, xRefl, gamm)
+            fxstrt = f(xStrt)
+            if fxstrt < fxl:
+                xh = xStrt
+                x3 = xh
+            else:
+                xh = xRefl
+                x3 = xh
+        elif fxs < fxrefl and fxrefl <= fxh:
+            xComp = Compression(xMass, xh, beta)
+            xh = xComp
+            x3 = xh
+        elif fxl < fxrefl and fxrefl <= fxs:
+            xh = xRefl
+            x3 = xh
+        elif fxrefl > fxh:
+            x1, x2, x3 = Reduction(xl, x1, x2, x3)
+ 
+        k += 1

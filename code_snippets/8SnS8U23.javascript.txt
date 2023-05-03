@@ -1,0 +1,49 @@
+const dictItemSize = 3;
+const originalText = 'YouTube is an American global online video sharing and social media platform headquartered in San Bruno, California, United States. It was launched on February 14, 2005, by Steve Chen, Chad Hurley, and Jawed Karim. It is owned by Google and is the second most visited website, after Google Search. YouTube has more than 2.5 billion monthly users, who collectively watch more than one billion hours of videos each day. As of May 2019, videos were being uploaded at a rate of more than 500 hours of content per minute.';
+ 
+function compress(text) {
+    const dictionary = {};
+    let compressed = '';
+    let index = 97;
+    for(let i = 0; i < text.length; i += dictItemSize) {
+        const block = text.substring(i, i + dictItemSize);
+        if(!(block in dictionary)) {
+            if(index === 123) {
+                index = 124;
+            };
+            dictionary[block] = String.fromCharCode(index);
+            index += 1;
+        };
+        compressed += dictionary[block];
+    };
+    return {
+        dictionary: dictionary,
+        compressed: compressed
+    };
+};
+ 
+function decompress(data) {
+    const dictionary = data.dictionary;
+    const compressed = data.compressed;
+    let text = '';
+    for(let i = 0; i < compressed.length; i++) {
+        const symbol = compressed[i];
+        for(const block in dictionary) {
+            if(dictionary[block] === symbol) {
+                text += block;
+            };
+        };
+    };
+    return text;
+};
+ 
+const result = compress(originalText);
+const dictionary = result.dictionary;
+const compressed = result.compressed;
+const decompressedText = decompress(result);
+console.log(`Original text: ${originalText}`);
+console.log(`Compressed text: ${compressed}`);
+console.log(`Dictionary: ${JSON.stringify(dictionary)}`);
+console.log(`Decompressed text: ${decompressedText}`);
+console.log(`Original size: ${originalText.length} bytes`);
+console.log(`Decompressed size: ${compressed.length} bytes`);

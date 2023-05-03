@@ -1,0 +1,77 @@
+import java.util.ArrayList;
+ 
+class ProductReview {
+    private String name;
+    private String review;
+ 
+    public ProductReview(String pName, String pReview) {
+        name = pName;
+        review = pReview;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public String getReview() {
+        return review;
+    }
+ 
+    @Override
+    public String toString() {
+        return name + " - " + review;
+    }
+}
+ 
+class ReviewCollector {
+    private ArrayList<ProductReview> reviewList;
+    private ArrayList<String> productList;
+ 
+    public ReviewCollector() {
+        reviewList = new ArrayList<ProductReview>();
+        productList = new ArrayList<String>();
+    }
+ 
+    public void addReview(ProductReview prodReview) {
+        reviewList.add(prodReview);
+ 
+        if (!(productList.contains(prodReview.getName()))) productList.add(prodReview.getName());
+    }
+ 
+    public int getNumGoodReviews(String prodName) {
+        int count = 0;
+ 
+        for (ProductReview review : reviewList) {
+            if (review.getName().equals(prodName)) {
+                if (review.getReview().contains("best"))
+                    count++;
+            }
+        }
+        return count;
+    }
+ 
+    @Override
+    public String toString() {
+        return "Review List::" + reviewList + "\n\nProduct List::" + productList + "\n\n";
+    }
+}
+ 
+public class Review {
+    public static void main(String[] args) {
+        ReviewCollector test = new ReviewCollector();
+        test.addReview(new ProductReview("veggie taco", "best"));
+        test.addReview(new ProductReview("chicken taco", "best"));
+        test.addReview(new ProductReview("beef taco", "Best"));
+        test.addReview(new ProductReview("chicken taco", "bad"));
+        test.addReview(new ProductReview("shrimp taco", "BEST"));
+        test.addReview(new ProductReview("chicken taco", "best"));
+        test.addReview(new ProductReview("veggie taco", "asbestos"));
+ 
+        System.out.print(test);
+ 
+        System.out.println("chicken taco good reviews :: " + test.getNumGoodReviews("chicken taco"));
+        System.out.println("beef taco good reviews :: " + test.getNumGoodReviews("beef taco"));
+        System.out.println("shrimp taco good reviews :: " + test.getNumGoodReviews("shrimp taco"));
+        System.out.println("veggie taco good reviews :: " + test.getNumGoodReviews("veggie taco"));
+    }
+}

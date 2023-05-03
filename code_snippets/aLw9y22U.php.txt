@@ -1,0 +1,56 @@
+add_shortcode( 'wcfm_vendor_list_pending_withdrawal', function() {
+    global $wpdb, $WCFMmp;
+    $vendors = get_users([
+        'role' => apply_filters( 'wcfm_vendor_user_role', 'wcfm_vendor' ),
+        'fields' => [ 'ID', 'user_nicename' ]
+    ]);
+ 
+    $vendors = wp_list_pluck( $vendors, 'user_nicename', 'ID' );
+ 
+    $sql = 'SELECT created, total_commission, vendor_id FROM ' . $wpdb->prefix . 'wcfm_marketplace_orders AS commission';
+    $sql .= ' WHERE 1=1';
+    $sql .= " AND `vendor_id` IN ('" . implode( "','", array_keys( $vendors ) ) . "')";
+    $sql .= apply_filters( 'wcfm_order_status_condition', '', 'commission' );
+    $sql .= " AND commission.withdraw_status IN ('pending', 'cancelled')";
+    $sql .= " AND commission.refund_status != 'requested'";
+    $sql .= ' AND `is_withdrawable` = 1 AND `is_auto_withdrawal` = 0 AND `is_refunded` = 0 AND `is_trashed` = 0';
+ 
+    $results = $wpdb->get_results( $sql );
+ 
+    $total_commission = [];
+    foreach( $results as $result ) {
+        $withdrawal_thresold = strtotime( current_time('mysql') . "-" .(int) $WCFMmp->wcfmmp_withdraw->get_withdrawal_thresold( $result->vendor_id ) ." day");
+        $created = strtotime( $result->created );
+ 
+        if ( $created <= $withdrawal_thresold ) {
+            if ( !isset( $total_commission[$result->vendor_id] ) ) {
+                $total_commission[$result->vendor_id] = 0;
+            }
+ 
+            $total_commission[$result->vendor_id] += $result->total_commission;
+        }
+    }
+ 
+    $table_start = '<table>
+    <thead>
+        <th>ID</th>
+        <th>Vendor name</th>
+        <th>Pending amount</th>
+    </thead>
+    <tbody>';
+ 
+    $table_body = '';
+    foreach( $total_commission as $id => $pending_withdrawal ) {
+        if ( $pending_withdrawal > 0 ) {
+            $table_body .= '<tr>';
+            $table_body .= '<td>' . $id . '</td>';
+            $table_body .= '<td>' . $vendors[$id] . '</td>';
+            $table_body .= '<td>' . $pending_withdrawal . '</td>';
+            $table_body .= '</tr>';
+        }
+    }
+ 
+    $table_end = '</tbody></table>';
+ 
+    echo $table_start . $table_body . $table_end;
+} );

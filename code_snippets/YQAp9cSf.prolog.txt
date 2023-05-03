@@ -1,0 +1,29 @@
+// Powered by Infostretch 
+ 
+timestamps {
+ 
+node () {
+ 
+    stage ('logicmoo_master - Checkout') {
+     checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7a3dc8f8-8666-4c78-8526-d25d0c136b01', url: 'https://github.com/logicmoo/logicmoo_workspace.git']]]) 
+    }
+    stage ('logicmoo_master - Build') {
+    
+// Unable to convert a build step referring to "hudson.plugins.timestamper.TimestamperBuildWrapper". Please verify and convert manually if required.
+// Unable to convert a build step referring to "hudson.plugins.ansicolor.AnsiColorBuildWrapper". Please verify and convert manually if required.
+// Unable to convert a build step referring to "org.jenkinsci.plugins.testinprogress.TestInProgressBuildWrapper". Please verify and convert manually if required.
+        // Shell build step
+        sh '''
+echo "About to run Groovy Script" 
+'''
+// Unable to convert a build step referring to "org.jenkinsci.plugins.github.pullrequest.builders.GitHubPRStatusBuilder". Please verify and convert manually if required.
+// Unable to convert a build step referring to "hudson.plugins.groovy.SystemGroovy". Please verify and convert manually if required.
+        // Shell build step
+        sh '''
+./test_on_release.sh 
+'''
+        // JUnit Results
+        junit 'test_results/jenkins/*-junit.xml' 
+    }
+}
+}

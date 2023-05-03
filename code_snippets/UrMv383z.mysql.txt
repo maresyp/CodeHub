@@ -1,0 +1,61 @@
+#Aufgabe 3.3.1
+ 
+mysql> SELECT * FROM person WHERE ort = 'Berlin';
++----------------+----------+---------+-------------------+--------+-------+-------------+--------------+
+| personennummer | nachname | vorname | strasse           | ort    | plz   | land        | geburtsdatum |
++----------------+----------+---------+-------------------+--------+-------+-------------+--------------+
+|              3 | Wojack   | Albert  | Westendstrasse 92 | Berlin | 12234 | Deutschland | 1955-06-15   |
++----------------+----------+---------+-------------------+--------+-------+-------------+--------------+
+1 row in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.3.2
+ 
+mysql> SELECT vorname, nachname, ort FROM person WHERE ort = 'Berlin' OR ort = 'Klagenfurt';
++---------+----------+------------+
+| vorname | nachname | ort        |
++---------+----------+------------+
+| Albert  | Wojack   | Berlin     |
+| Paula   | David    | Klagenfurt |
+| Joseph  | Hardiff  | Klagenfurt |
++---------+----------+------------+
+3 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.3.3
+ 
+mysql> SELECT vorname, nachname, ort FROM person WHERE NOT ort = 'Berlin';
++---------+---------------+----------------+
+| vorname | nachname      | ort            |
++---------+---------------+----------------+
+| Ulrich  | Blotzek       | Arnsberg       |
+| Peter   | Schatter      | Augsburg       |
+| Veera   | Virtanen      | Espoo          |
+| Ahvo    | Hämäläinen    | Forssa         |
+| Fenna   | Huisman       | Almere         |
+| Lieke   | Prins         | Bergen op Zoom |
+| Paula   | David         | Klagenfurt     |
+| Joseph  | Hardiff       | Klagenfurt     |
++---------+---------------+----------------+
+8 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#Aufgabe 3.3.4
+ 
+mysql> SELECT nachname, ort, geburtsdatum FROM person WHERE land = 'Deutschland' ORDER BY geburtsdatum > 1960-06-01;
++----------+----------+--------------+
+| nachname | ort      | geburtsdatum |
++----------+----------+--------------+
+| Blotzek  | Arnsberg | 1960-10-05   |
+| Schatter | Augsburg | 1980-01-01   |
+| Wojack   | Berlin   | 1955-06-15   |
++----------+----------+--------------+
+3 rows in set, 1 warning (0.00 sec)
+ 
+mysql> NOTEE

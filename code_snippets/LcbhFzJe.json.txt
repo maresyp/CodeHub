@@ -1,0 +1,8 @@
+[
+  {
+    "VersionCode": "2",
+    "VersionName": "2.0",
+    "UrlAppIcon": "https://www.citypng.com/public/uploads/preview/-516152113562so49oz2tn.png",
+    "UrlApp": "https://play.google.com/store/apps/details?id=com.facebook.katana"
+  }
+]

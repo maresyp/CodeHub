@@ -1,0 +1,234 @@
+<!-- PLEASE SEE HERE FOR MY CODE RULES: https://toyhou.se/12931952.bonus-content/17036656.-06-code-rules --
+ 
+Version: 2.0
+ 
+Default Colours
+-Important White: #FFFFFF
+-Important Black: #000000
+-Default Font: 'comic sans ms'
+-Default Font-Awesome: fas fa-star
+ 
+Scroll To The Bottom for every single "Find & Replace" Variable! (Feel free to move to the top when you turn this into a personal template, I just keep it at the bottom for organisation.)
+ 
+Thank you for reading!
+Crispin
+ 
+-->
+ 
+<!------------------------------- START ACTUAL CODE -------------------------------->
+<div class="col-10 p-0 mx-auto border-0 rounded-0" style="font-size:1rem; font-family:'comic sans ms';">
+  
+  <!------------------------------- START HEADER -------------------------------->
+  <div id="CloseThis" class="collapse show card bg-light rounded-0" style="border-width:1px;">
+    
+    <div class="col-lg-12 bg-primary p-2 border-0 rounded-0" style="position:relative;">
+      
+      <!-- Start Faves Star -->
+      <a href="https://toyhou.se/13860369.windows-xp-directory">
+      <img src="https://images-ext-1.discordapp.net/external/fHASVcBjQ0HzGjmm5HSfelwAMPx9tty3AaKQBdINIJA/%3Fu%3Dhttp%253A%252F%252Ficons.iconarchive.com%252Ficons%252Froyalflushxx%252Fsystematrix%252F256%252FFavorites-icon.png%26f%3D1%26nofb%3D1/https/external-content.duckduckgo.com/iu/" class="tooltipster" width="25" height="25" data-placement="bottom" title="Code By: TomcatCodes / CrispinAsheYA"></a>
+      <!-- End Faves Star -->
+      
+      <!-- Start Minimise/Minus Square -->
+      <span class="btn-primary pull-right" style="position:absolute; top:7px; right:65px;"><a href="[LINKSECRET]" data-toggle="tooltip" title="Secret Link!">
+        <i class="fas fa-minus p-1 justify-content-center rounded-0 text-white" style="width:25px; height:25px; border:#FFFFFF 1px solid; "></i>
+      </a></span>
+      <!-- End Minimise/Minus Square -->
+      
+      <!-- Start Maximise/Squares Square -->
+      <span class="btn-primary pull-right" style="position:absolute; top:7px; right:35px;"><a href="[LINKSECRET]" data-toggle="tooltip" title="Secret Link!">
+        <i class="far fa-window-maximize p-1 justify-content-center rounded-0 text-white" style="width:25px; height:25px; border:#FFFFFF 1px solid;"></i>
+      </a></span>
+      <!-- End Maximise/Squares Square -->
+      
+      <!-- Start Close/X Square -->
+      <span class="btn-danger pull-right" style="position:absolute; top:7px; right:5px;">
+        <a href="#CloseThis" data-toggle="collapse">
+        <i class="fas fa-times p-1 justify-content-center rounded-0 text-white" style="width:25px; height:25px; border:#FFFFFF 1px solid;"></i>
+      </span>
+      <!-- Start Close/X Square -->
+      
+    </div> <!--- END HEADER --->
+    <!------------------------------- END HEADER -------------------------------->
+    
+    <div class="col-12 card bg-secondary p-0 m-0 rounded-0" style="border-width:4px; border-bottom-width:none;">
+      <div class="col-12 row no-gutters p-0 m-0 rounded-0">
+    
+        <!------------------------------- START LEFT & RIGHT BUTTONS -------------------------------->
+        <div class="col-12 col-lg-6 card bg-secondary p-0 m-0 rounded-0" style="border-width:4px;">
+          
+          <div class="card bg-secondary p-0 m-0 rounded-0" style="border-bottom-width:8px;">
+            <a class="btn btn-block bg-primary text-white border-0 rounded-0" href="[LINKBUTTON]">[TEXTBUTTON]</a>
+          </div>
+          
+          <div class="card bg-secondary p-0 m-0 rounded-0" style="border-bottom-width:8px;">
+            <a class="btn btn-block bg-primary text-white border-0 rounded-0" href="[LINKBUTTON]">[TEXTBUTTON]</a>
+          </div>
+          
+          <div class="card bg-secondary p-0 m-0 rounded-0" style="border-bottom-width:none;">
+            <a class="btn btn-block bg-primary text-white border-0 rounded-0" href="[LINKBUTTON]">[TEXTBUTTON]</a>
+          </div>
+        
+        </div>
+        
+        <div class="col-12 col-lg-6 card bg-secondary p-0 m-0 rounded-0" style="border-width:4px;">
+          
+          <div class="card bg-secondary p-0 m-0 rounded-0" style="border-bottom-width:8px;">
+            <a class="btn btn-block bg-primary text-white border-0 rounded-0" href="[LINKBUTTON]">[TEXTBUTTON]</a>
+          </div>
+          
+          <div class="card bg-secondary p-0 m-0 rounded-0" style="border-bottom-width:8px;">
+            <a class="btn btn-block bg-primary text-white border-0 rounded-0" href="[LINKBUTTON]">[TEXTBUTTON]</a>
+          </div>
+          
+          <div class="card bg-secondary p-0 m-0 rounded-0" style="border-bottom-width:none;">
+            <a class="btn btn-block bg-primary text-white border-0 rounded-0" href="[LINKBUTTON]">[TEXTBUTTON]</a>
+          </div>
+      
+        </div>
+        <!------------------------------- END LEFT & RIGHT BUTTONS -------------------------------->
+        
+        <!------------------------------- START FOLDERS -------------------------------->
+        <div class="col-12 bg-light row p-0 m-0 text-center" style="border:none;">
+          
+          <!------------------------------- START ROW 1 -------------------------------->
+          
+          <!----- Start Folder ------>
+          <div class="col-12 col-lg-3 card bg-secondary m-0 p-0 rounded-0 text-center" style="border-width:4px;">
+            <div class="bg-light py-2 px-3 m-0 rounded-0">
+              <div class="card bg-secondary m-0 p-0 rounded-0" style="border-width:4px;">
+                <a class="col-12 btn btn-primary m-0 py-3 rounded-0" href="[LINKFOLDER]">
+                  <i class="fas fa-star text-white" style="font-size:5rem;">
+                </a>
+              </div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1.4rem;"><div class="border-0 rounded-0">[TEXTSERIES]</div></div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1rem;"><div class="border-0 rounded-0">[TEXTSHORTDESC]</div></div>
+            </div>
+          </div>
+          <!----- End Folder ------>
+          
+          <!----- Start Folder ------>
+          <div class="col-12 col-lg-3 card bg-secondary m-0 p-0 rounded-0 text-center" style="border-width:4px;">
+            <div class="bg-light py-2 px-3 m-0 rounded-0">
+              <div class="card bg-secondary m-0 p-0 rounded-0" style="border-width:4px;">
+                <a class="col-12 btn btn-primary m-0 py-3 rounded-0" href="[LINKFOLDER]">
+                  <i class="fas fa-star text-white" style="font-size:5rem;">
+                </a>
+              </div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1.4rem;"><div class="border-0 rounded-0">[TEXTSERIES]</div></div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1rem;"><div class="border-0 rounded-0">[TEXTSHORTDESC]</div></div>
+            </div>
+          </div>
+          <!----- End Folder ------>
+          
+          <!----- Start Folder ------>
+          <div class="col-12 col-lg-3 card bg-secondary m-0 p-0 rounded-0 text-center" style="border-width:4px;">
+            <div class="bg-light py-2 px-3 m-0 rounded-0">
+              <div class="card bg-secondary m-0 p-0 rounded-0" style="border-width:4px;">
+                <a class="col-12 btn btn-primary m-0 py-3 rounded-0" href="[LINKFOLDER]">
+                  <i class="fas fa-star text-white" style="font-size:5rem;">
+                </a>
+              </div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1.4rem;"><div class="border-0 rounded-0">[TEXTSERIES]</div></div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1rem;"><div class="border-0 rounded-0">[TEXTSHORTDESC]</div></div>
+            </div>
+          </div>
+          <!----- End Folder ------>
+          
+          <!----- Start Folder ------>
+          <div class="col-12 col-lg-3 card bg-secondary m-0 p-0 rounded-0 text-center" style="border-width:4px;">
+            <div class="bg-light py-2 px-3 m-0 rounded-0">
+              <div class="card bg-secondary m-0 p-0 rounded-0" style="border-width:4px;">
+                <a class="col-12 btn btn-primary m-0 py-3 rounded-0" href="[LINKFOLDER]">
+                  <i class="fas fa-star text-white" style="font-size:5rem;">
+                </a>
+              </div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1.4rem;"><div class="border-0 rounded-0">[TEXTSERIES]</div></div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1rem;"><div class="border-0 rounded-0">[TEXTSHORTDESC]</div></div>
+            </div>
+          </div>
+          <!----- End Folder ------>
+          
+          <!------------------------------- END ROW 1 -------------------------------->
+          
+          <!------------------------------- START ROW 2 -------------------------------->
+           <!-- To get 2 per row (such as the above), you must write "col-lg-6" in the row below. -->
+           <!-- 3 per row would be col-lg-4, 4 per row is col-lg-3, etc. -->
+           
+          <!----- Start Folder ------>
+          <div class="col-12 col-lg-4 card bg-secondary m-0 p-0 rounded-0 text-center" style="border-width:4px;">
+            <div class="bg-light py-2 px-3 m-0 rounded-0">
+              <div class="card bg-secondary m-0 p-0 rounded-0" style="border-width:4px;">
+                <a class="col-12 btn btn-primary m-0 py-3 rounded-0" href="[LINKFOLDER]">
+                  <i class="fas fa-star text-white" style="font-size:5rem;">
+                </a>
+              </div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1.4rem;"><div class="border-0 rounded-0">[TEXTSERIES]</div></div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1rem;"><div class="border-0 rounded-0">[TEXTSHORTDESC]</div></div>
+            </div>
+          </div>
+          <!----- End Folder ------>
+          
+          <!----- Start Folder ------>
+          <div class="col-12 col-lg-4 card bg-secondary m-0 p-0 rounded-0 text-center" style="border-width:4px;">
+            <div class="bg-light py-2 px-3 m-0 rounded-0">
+              <div class="card bg-secondary m-0 p-0 rounded-0" style="border-width:4px;">
+                <a class="col-12 btn btn-primary m-0 py-3 rounded-0" href="[LINKFOLDER]">
+                  <i class="fas fa-star text-white" style="font-size:5rem;">
+                </a>
+              </div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1.4rem;"><div class="border-0 rounded-0">[TEXTSERIES]</div></div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1rem;"><div class="border-0 rounded-0">[TEXTSHORTDESC]</div></div>
+            </div>
+          </div>
+          <!----- End Folder ------>
+          
+          <!----- Start Folder ------>
+          <div class="col-12 col-lg-4 card bg-secondary m-0 p-0 rounded-0 text-center" style="border-width:4px;">
+            <div class="bg-light py-2 px-3 m-0 rounded-0">
+              <div class="card bg-secondary m-0 p-0 rounded-0" style="border-width:4px;">
+                <a class="col-12 btn btn-primary m-0 py-3 rounded-0" href="[LINKFOLDER]">
+                  <i class="fas fa-star text-white" style="font-size:5rem;">
+                </a>
+              </div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1.4rem;"><div class="border-0 rounded-0">[TEXTSERIES]</div></div>
+              <div class="col-12 m-0 py-1" style="color:#000000; font-size:1rem;"><div class="border-0 rounded-0">[TEXTSHORTDESC]</div></div>
+            </div>
+          </div>
+          <!----- End Folder ------>
+      
+          <!------------------------------- START ROW 2 -------------------------------->
+          
+        </div>
+        <!------------------------------- END FOLDERS -------------------------------->
+        
+      </div>
+      
+    </div>
+  
+    <!------------------------------- START BOTTOM BUTTONS -------------------------------->
+    <div class="col-12 card bg-secondary p-0 m-0 rounded-0" style="border-width:4px;">
+      <div class="col-12 row p-0 m-0 rounded-0">
+      
+        <div class="col-12 col-lg-6 card bg-secondary p-0 m-0 rounded-0" style="border-width:4px; border-top:none;">
+          <a class="btn btn-block btn-primary text-white border-0 rounded-0" href="[LINKALLCHARACTERS]">All-Characters</a>
+        </span></div>
+          
+        <div class="col-12 col-lg-6 card bg-secondary p-0 m-0 rounded-0" style="border-width:4px; border-top:none;">
+          <a class="btn btn-block bg-primary text-white border-0 rounded-0" href="[LINKUNSORTEDCHARACTERS]">Unsorted</a>
+        </div>
+      
+      </div>
+    </div>
+    <!------------------------------- END BOTTOM BUTTONS -------------------------------->
+    
+  </div>
+  
+</div>
+ 
+<!-- To quick-sort, all links begin with [L and all editable text begins with [T -->
+<!--
+[LINKSECRET] | [TEXTSECRET]
+[LINKBUTTON] | [TEXTBUTTON]
+[LINKFOLDER] | [TEXTSERIES] | [TEXTSHORTDESC]
+[LINKALLCHARACTERS] | [LINKUNSORTEDCHARACTERS]
+-->

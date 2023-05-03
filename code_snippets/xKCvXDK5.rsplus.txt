@@ -1,0 +1,58 @@
+# importing libraries 
+library (factoextra)
+library (cluster)
+library("ggpubr")
+ 
+# importing data
+data <- read.csv("C:\\Users\\ramta\\Desktop\\Kvartiry_Ufa.csv")
+ 
+# viewing head of data
+head(data)
+ 
+# droping X column, cuz it is repeating index, which needless
+data = subset(data, select = -c(X))
+ 
+#checking head of data again
+head(data)
+ 
+# removing rows with missing values to performance clustering
+data <- na.omit(data)
+ 
+# plotting data to see the spread and correlation
+plot(data)
+ 
+# data is too big, plotting specific columns
+plot(data$total_area, data$last_price)
+points(data$citycenter_near, data$last_price, col="red")
+points(data$parks_around3, data$last_price, col="green")
+points(data$living_area, data$last_price, col="blue")
+ 
+# take a closer look to column citycenter_near
+plot(data$citycenter_near, data$last_price, col="red")
+ 
+# scale each variable to have a mean of 0 and sd of 1
+data <- scale(data) 
+ 
+# view head of scaled data
+head(data)
+ 
+#make this example reproducible
+set.seed(1)
+ 
+# figuring out optimal numbers of clusters
+fviz_nbclust(data, kmeans, nstart=10, method = "wss")
+ 
+# distortion decreasing at point 8
+# perform k-means clustering with k = 8 clusters
+km <- kmeans(data, centers = 4, nstart = 25)
+ 
+# view results
+print(km)
+ 
+#plot results of final k-means model
+fviz_cluster(km, data = data)
+ 
+km$centers
+ 
+plot(data, col=km$cluster)
+points(km$centers, col=1:4, pch=8)

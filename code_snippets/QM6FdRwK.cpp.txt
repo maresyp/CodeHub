@@ -1,0 +1,48 @@
+#include <iostream>
+#include <deque>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+ 
+class BoundedBuffer {
+public:
+    BoundedBuffer(size_t capacity) : capacity_(capacity) {}
+ 
+    void put(int item) {
+        // TODO: Implement put method
+    }
+ 
+    int get() {
+        // TODO: Implement get method
+    }
+ 
+private:
+    std::deque<int> buffer_;
+    const size_t capacity_;
+    std::mutex mutex_;
+    std::condition_variable not_full_cv_;
+    std::condition_variable not_empty_cv_;
+};
+ 
+void producer(BoundedBuffer& buffer, int num_items) {
+    // TODO: Implement producer thread
+}
+ 
+void consumer(BoundedBuffer& buffer, int num_items) {
+    // TODO: Implement consumer thread
+}
+ 
+int main() {
+    const int capacity = 10;
+    const int num_items = 20;
+ 
+    BoundedBuffer buffer(capacity);
+ 
+    std::thread producer_thread(producer, std::ref(buffer), num_items);
+    std::thread consumer_thread(consumer, std::ref(buffer), num_items);
+ 
+    producer_thread.join();
+    consumer_thread.join();
+ 
+    return 0;
+}

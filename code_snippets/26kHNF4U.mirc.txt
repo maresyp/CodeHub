@@ -1,0 +1,23 @@
+menu channel {
+  .$iif($status !== connected,$style(2)) *OnJoin Greet*
+  ..$iif($istok(%ch. [ $+ [ $network ] ] ,$chan,44),$style(2)) Add Channel: { set %ch. $+ $network $addtok(%ch. [ $+ [ $network ] ] ,$chan,44) | echo -a 40* OnJoin Channel Greet Added to Channel $chan in $network Network }
+  ..$iif(!$istok(%ch. [ $+ [ $network ] ] ,$chan,44),$style(2)) Del Channel: { set %ch. $+ $network $remtok(%ch. [ $+ [ $network ] ] ,$chan,1,44) | echo -a 40* OnJoin Channel Greet Removed from to Channel $chan in $network Network }
+  ..-
+  ..$iif(%greet. [ $+ [ $network ] ] ,$style(2)) Enable: { set %greet. $+ $network on | echo -a 40* OnJoin Channel Greet is Enabled for $network Network }
+  ..$iif(!%greet. [ $+ [ $network ] ] ,$style(2)) Disable: { unset %greet. $+ $network | echo -a 40* OnJoin Channel Greet is Disabled for $network Network }
+  ..-
+  ..Status { echo -a 4Auto Greet for $network is $iif(%greet. [ $+ [ $network ] ] ,ON,OFF) }
+  ..Channel List {
+    if (%greet. [ $+ [ $network ] ] ) { echo -a 4List of active channel %ch. [ $+ [ $network ] ] ! }
+    else { echo -a 4Auto Greet is inactive in this Network. }
+  }
+}
+ 
+ON ME:*:JOIN:#: {
+  if (!$istok(%ch. [ $+ [ $network ] ] ,$chan,44)) || (!%greet. [ $+ [ $network ] ] ) { return }
+ 
+  if ($time >= 05:00:00) && ($time <= 11:59:59) { .timer 1 2 msg $chan Good Morning everyone :) }
+  if ($time >= 12:00:00) && ($time <= 16:59:59) { .timer 1 2 msg $chan Good Afternoon everyone :) }
+  if ($time >= 17:00:00) && ($time <= 23:59:59) { .timer 1 2 msg $chan Good Evening everyone :) }
+  if ($time >= 00:00:00) && ($time <= 04:59:59) { .timer 1 2 msg $chan Good Evening everyone :) } 
+}

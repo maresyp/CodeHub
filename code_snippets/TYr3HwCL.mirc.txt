@@ -1,0 +1,14 @@
+;First set the event
+on ^*:text:*:#: {
+  ;Now set the network, channel and nick to use
+  if (($network == network.here) && ($chan == #services) && ($nick == HostServ)) {
+    ;Now start the event
+    if (*request* iswm $1-) {
+      echo -s $gettok($2,1,33) - $5 $8 $9 - $10 --first echo working
+      ;only uncomment this when confirmed no errors
+      ;this is the action to take on a postive match
+      ;message the channel for action
+      /msg #mastercontrol 1,10VHOST user $gettok($2,1,33) requested $10  .Check /hs waiting 1st
+    }
+  }
+}

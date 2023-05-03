@@ -1,0 +1,36 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+ 
+entity DCto7seg is
+    port (
+        DC: in std_logic_vector (3 downto 0);
+      DCseg: out std_logic_vector (6 downto 0)
+    );
+end DCto7seg;
+ 
+architecture dataflow of DCto7seg is
+ 
+begin
+ 
+    process (DC) is
+    
+     begin
+ 
+        case DC is
+            when "0000" => DCseg <= "1111110";
+            when "0001" => DCseg <= "0110000";
+            when "0010" => DCseg <= "1101101";
+            when "0011" => DCseg <= "1111001";
+            when "0100" => DCseg <= "0110011";
+            when "0101" => DCseg <= "1011011";
+            when "0110" => DCseg <= "1011111";
+            when "0111" => DCseg <= "1110000";
+            when "1000" => DCseg <= "1111111";
+            when "1001" => DCseg <= "1111011";
+            when others => DCseg <= "XXXXXXX";
+        end case;
+        
+    end process;
+    
+end dataflow;

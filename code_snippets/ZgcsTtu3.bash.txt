@@ -1,0 +1,66 @@
+#!/bin/bash
+###################################################################### 
+#Copyright (C) 2023  Kris Occhipinti
+#https://filmsbykris.com
+ 
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation version 3 of the License.
+ 
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+ 
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###################################################################### 
+# Movie/TV Search
+ 
+tmdb="https://www.themoviedb.org/search?language=en-US&query="
+vid_url="https://www.2embed.to/embed/tmdb/"
+ 
+[[ $1 ]] && q="$*" || read -p "Enter Movie or TV Show: " q
+[[ $q ]] || exit
+ 
+function get_list(){
+  wget "${tmdb}${q}" -qO-|
+    grep 'class="result"'|
+    grep '</a>'|
+    cut -d\" -f 10,11|
+    grep '<h2>'|
+    sed 's/?language=en-US"><h2>/|/g'|
+    cut -d\< -f1|
+    recode html..ascii
+}
+ 
+function get_episode(){
+  read -p "Which Season [example: 1]: " season
+  [[ $season ]] || season="1"
+  [[ $season =~ $re ]] || season="1"
+  
+  read -p "Which Episode [example: 1]: " episode
+  [[ $episode ]] || episode="1"
+  [[ $episode =~ $re ]] || episode="1"
+ 
+  echo "tv?id=${id}&s=${season}&e=${episode}"
+}
+ 
+result="$(get_list|fzf --prompt "Search for match: ")"
+[[ $result ]] || exit 
+ 
+type="$(echo $result|cut -d\/ -f2)"
+id="$(echo $result|cut -d\/ -f3|cut -d\| -f1)"
+title="$(echo $result|cut -d\| -f2)"
+ 
+echo "Loading $type $title with id of $id"
+ 
+if [[ "$type" == "tv" ]]
+then
+  url="${vid_url}$(get_episode)"
+  echo "$url" 
+  open "$url"
+else
+  echo "${vid_url}movie?id=${id}" 
+  xdg-open "${vid_url}movie?id=${id}"
+fi

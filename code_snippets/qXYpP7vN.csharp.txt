@@ -1,0 +1,23 @@
+class Program
+{
+    static async Task Foo()
+    {
+        Console.Out.WriteLine("Foo before");
+        await Task.Delay(TimeSpan.FromSeconds(20));
+        Console.Out.WriteLine("Foo after");
+    }
+ 
+    static async void Bar()
+    {
+        Console.Out.WriteLine("Bar before");
+        await Foo();
+        Console.Out.WriteLine("Bar after");
+    }
+ 
+    static void Main(string[] args)
+    {
+        Bar();
+        Console.Out.WriteLine("Main after Bar");
+        Thread.Sleep(30 * 1000);
+    }
+}

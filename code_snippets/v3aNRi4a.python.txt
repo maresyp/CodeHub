@@ -1,0 +1,27 @@
+def roundk(value: float | int, digits: int | None = None) -> float | int:
+    if not isinstance(value, (float, int)):
+        raise NotImplementedError("Only float is implemented")
+ 
+    def iceil():
+        return (value // 10 + 1) * 10
+ 
+    def ifloor():
+        return (value // 10) * 10
+ 
+    def do_iceil():
+        return (value % 10) >= 5
+ 
+    return_type = int if digits is None or isinstance(value, int) else float
+    digits = digits or 0
+ 
+    to_int = 10 ** (digits + 1)
+    to_float = 10 ** (-digits - 1)
+    value = int(value * to_int)
+ 
+    if do_iceil():
+        return return_type(iceil() * to_float)
+    else:
+        return return_type(ifloor() * to_float)
+ 
+ 
+roundk(155.4, -1)

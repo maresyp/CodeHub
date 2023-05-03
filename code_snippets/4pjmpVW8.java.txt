@@ -1,0 +1,41 @@
+import java.util.Scanner;
+ 
+public class CinemaTickets {
+    public static void main(String[] args) {
+        Scanner myScan = new Scanner(System.in);
+        int studentTickets=0;
+        int standardTickets=0;
+        int kidTickets=0;
+        String name = myScan.nextLine();
+        while (!name.equals("Finish")) {
+            int capacity=Integer.parseInt(myScan.nextLine());
+            int tickets=0;
+            String type=myScan.nextLine();
+            while (!type.equals("End")) {
+                switch (type){
+                    case "student":
+                        studentTickets++;
+                        break;
+                    case "standard":
+                        standardTickets++;
+                        break;
+                    case "kid":
+                        kidTickets++;
+                        break;
+                }
+                tickets++;
+                if (tickets==capacity){
+                    break;
+                }
+                type=myScan.nextLine();
+            }
+            System.out.printf("%s - %.2f%% full.\n",name,tickets*100.0/capacity);
+            name = myScan.nextLine();
+        }
+        int totalTickets=standardTickets+studentTickets+kidTickets;
+        System.out.printf("Total tickets: %d\n",totalTickets);
+        System.out.printf("%.2f%% student tickets.\n",studentTickets*100.0/totalTickets);
+        System.out.printf("%.2f%% standard tickets.\n",standardTickets*100.0/totalTickets);
+        System.out.printf("%.2f%% kids tickets.",kidTickets*100.0/totalTickets);
+    }
+}

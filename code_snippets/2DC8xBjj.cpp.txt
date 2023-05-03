@@ -1,0 +1,39 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+/*
+ 
+pętla for - składnia:
+ 
+for(A; B; C)
+    D;
+ 
+A - przypisanie pierwotnej wartości iteratorowi
+B - warunek kontynuacji pętli
+C - komenda do wykonania na końcu każdego kroku pętli
+D - pozostałe komendy do wykonania w każdym kroku pętli
+ 
+*/
+ 
+int main()
+{
+    int liczba;
+    cin >> liczba;
+ 
+    int najwieksza = liczba, najmniejsza = liczba;
+ 
+    for(int licznik = 1; licznik < 10; ++licznik)
+    {
+        if(liczba > najwieksza)
+            najwieksza = liczba;
+        else if(liczba < najmniejsza)
+            najmniejsza = liczba;
+    }
+ 
+    cout << "Najwieksza wczytana liczba: " << najwieksza << endl;
+    cout << "Najmniejsza wczytana liczba: " << najmniejsza << endl;
+    cout << "Roznica miedzy nimi: " << najwieksza - najmniejsza << endl;
+ 
+    return 0;
+}

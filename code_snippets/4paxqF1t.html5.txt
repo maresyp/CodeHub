@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade CSS</title>
+    <style>
+        /* 
+        Insira o estilo CSS aqui: 
+        */
+    </style>
+</head>
+ 
+<body>
+    <h1 id="titulosite">Portal de Notícias</h1>
+    <p>Seu portal de notícias furiosas.</p>
+ 
+    <hr>
+    <h2>Últimas notícias:</h2>
+    <h1 class="titulonoticia">TensorFlow Lite agora suporta modelos de detecção de objetos 3D</h1>
+    <p class="corponoticia">A equipe do TensorFlow anunciou que o TensorFlow Lite, uma versão leve da biblioteca, agora
+        suporta modelos de
+        detecção de objetos 3D, permitindo a criação de aplicativos de realidade aumentada e virtual com maior precisão.
+    </p>
+    <p><a href="#" class="btn-leiamais">Leia mais...</a></p>
+    <hr>
+    <h1 class="titulonoticia">Google anuncia a criação do TensorFlow Quantum</h1>
+    <p class="corponoticia">O Google anunciou a criação do TensorFlow Quantum, uma extensão da biblioteca TensorFlow que
+        permite a simulação de algoritmos quânticos. O TensorFlow Quantum é destinado a pesquisadores e desenvolvedores
+        que trabalham em computação quântica.
+    </p>
+    <p><a href="#" class="btn-leiamais">Leia mais...</a></p>
+    <hr>
+    <h1 class="titulonoticia">TensorFlow agora suporta a criação de modelos de geração de linguagem natural</h1>
+    <p class="corponoticia">O TensorFlow agora suporta a criação de modelos de geração de linguagem natural, permitindo
+        a criação de chatbots e assistentes virtuais mais sofisticados e precisos.
+    </p>
+    <p><a href="#" class="btn-leiamais">Leia mais...</a></p>
+    <hr>
+    <h1 class="titulonoticia">TensorFlow fornece modelos pré-treinados para classificação de imagens médicas</h1>
+    <p class="corponoticia">O TensorFlow fornece modelos pré-treinados para classificação de imagens médicas, permitindo
+        que os médicos possam identificar rapidamente anomalias em imagens de raios-X, ressonância magnética e outros
+        exames, facilitando o diagnóstico e tratamento de doenças.
+    </p>
+    <p><a href="#" class="btn-leiamais">Leia mais...</a></p>
+</body>
+ 
+</html>

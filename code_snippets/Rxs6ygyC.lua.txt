@@ -1,0 +1,152 @@
+getgenv().Collect = true;
+getgenv().Dunk = false;
+ 
+function Orb()
+    spawn(function ()
+        while getgenv().Collect == true do
+            for _, v in pairs(game:GetService("Workspace").Collectibles:GetChildren()) do
+                TPCFrame(v.CFrame) wait()
+            end
+        end
+    end)
+end
+function Jordans(W)
+    spawn(function ()
+        while getgenv().Dunk == true do
+if W > "0" then
+TPCFrame(CFrame.new(9.67851353, 4.1077776, 51.0310287)) wait()
+TPCFrame(game:GetService("Workspace").Walls[W].Hoop.Rim.CFrame) wait()
+Humanoid = game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState("Jumping") wait()
+            end
+        end
+    end)
+end
+ 
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
+ 
+local w = library:CreateWindow("Super Dunk")
+ 
+local b = w:CreateFolder("Main")
+ 
+b:Button("Collect Chests",function()
+local args = {[1] = "Earth"} game:GetService("ReplicatedStorage").Communication.Functions:FindFirstChild(""):InvokeServer(unpack(args)) wait()
+local args = {[1] = "Clouds"} game:GetService("ReplicatedStorage").Communication.Functions:FindFirstChild(""):InvokeServer(unpack(args)) wait()
+local args = {[1] = "Space"} game:GetService("ReplicatedStorage").Communication.Functions:FindFirstChild(""):InvokeServer(unpack(args)) wait()
+local args = {[1] = "Heaven"} game:GetService("ReplicatedStorage").Communication.Functions:FindFirstChild(""):InvokeServer(unpack(args)) wait()
+end)
+ 
+b:Toggle("Collect Orbs",function(val)
+getgenv().Collect = val
+Orb()
+end)
+ 
+b:Toggle("Dunk",function(val)
+getgenv().Dunk = val
+Jordans(W)
+end)
+ 
+b:Dropdown("Choose Level",{"25","50","75","100","125","150","175","200","250","300","350","400","450","500","550","600","650","700","750","800","850","900","950","1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200","2300","2400","2500","2600","2850","3100","3350","3600","3850","4100","4350","4600","4850","5100","5350","5600","5850","6100","6350","6600","7100","7600","8100","8600","9100","9600","10100","10600"},true,function(val)
+W = val
+end)
+ 
+b:Box("Custom Level","number",function(val)
+W = val
+end)
+ 
+b:Label("Made by X_LuaF#0705",{TextSize = 21; TextColor = Color3.fromRGB(255,255,255); BgColor = Color3.fromRGB(69,69,69);})
+ 
+local w = library:CreateWindow("LocalPlayer")
+ 
+local b = w:CreateFolder("LP")
+ 
+b:DestroyGui()
+ 
+b:Button("Copy Discord Invite",function() setclipboard("discord.gg/8tRb8MQcW5") end)
+b:Button("Full Version",function() loadstring(game:HttpGet("https://pastebin.com/raw/GphZf9Xe", true))() end)
+b:Button("Rejoin",function() loadstring(game:HttpGet("https://pastebin.com/raw/mM7JBG5h", true))() end)
+b:Button("Reset",function() loadstring(game:HttpGet("https://pastebin.com/raw/EEY6SATj", true))() end)
+ 
+local S
+local J
+local H
+local G
+ 
+b:Box("Speed","number",function(val) S = val end)
+b:Box("Jump","number",function(val) J = val end)
+b:Box("Hip Height","number",function(val) H = val end)
+b:Box("Gravity","number",function(val) G = val end)
+ 
+b:Toggle("Speed",function(bool) getgenv().Speed = bool Speed(S) end)
+b:Toggle("Jump",function(bool) getgenv().Jump = bool Jump(J) end)
+b:Toggle("Hip Height",function(bool) getgenv().Hip = bool Hip(H) end)
+b:Toggle("Gravity",function(bool) getgenv().Grav = bool Grav(G) end)
+ 
+b:Slider("FOV (Default is 70)",{min = 0;max = 120;precise = true;},function(val) game.workspace.CurrentCamera.FieldOfView = val end)
+ 
+getgenv().Speed = false;
+getgenv().Jump = false;
+getgenv().Hip = false;
+getgenv().Chat = false;
+getgenv().Grav = false;
+ 
+function TPCFrame(Player_CFrame) game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Player_CFrame end
+function TPVector3(Player_Position) game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Player_Position end
+function PHP(Player_HP) game.Players.LocalPlayer.Character.Humanoid.Health = Player_HP end
+ 
+function Chat(Mes, Freq)
+    spawn(function ()
+        while getgenv().Chat == true do
+local args = {[1] = Mes,[2] = "All"} game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+wait(Freq)
+        end
+    end)
+end
+ 
+function Speed(Nume)
+    spawn(function ()
+        if getgenv().Speed == true then
+            while getgenv().Speed == true do
+                game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Nume
+                wait()
+            end
+        elseif getgenv().Speed == false then
+            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        end
+    end)
+end
+function Jump(Nume)
+    spawn(function ()
+        if getgenv().Jump == true then
+            while getgenv().Jump == true do
+                game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Nume
+                wait()
+        end
+    elseif getgenv().Jump == false then
+            game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = 50
+        end
+    end)
+end
+function Hip(Nume)
+    spawn(function ()
+        if getgenv().Hip == true then
+            while getgenv().Hip == true do
+            game:GetService("Players").LocalPlayer.Character.Humanoid.HipHeight = Nume
+            wait()
+        end
+    elseif getgenv().Hip == false then
+            game:GetService("Players").LocalPlayer.Character.Humanoid.HipHeight = 0.1
+        end
+    end)
+end
+function Grav(Nume)
+    spawn(function ()
+        if getgenv().Grav == true then
+            while getgenv().Grav == true do
+                game:GetService("Workspace").Gravity = Nume
+            wait()
+        end
+    elseif getgenv().Grav == false then
+        game:GetService("Workspace").Gravity = 196.2
+        end
+    end)
+end

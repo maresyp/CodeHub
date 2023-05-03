@@ -1,0 +1,41 @@
+DROP database MovieTesting;
+CREATE DATABASE MovieTesting;
+USE MovieTesting;
+ 
+CREATE TABLE movies (
+  movie_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  release_date DATE NOT NULL,
+  runtime TIME NOT NULL,
+  plot TEXT NOT NULL,
+  rating DECIMAL(3,1) NOT NULL,
+  genre ENUM('action', 'comedy', 'drama', 'sci-fi', 'horror') NOT NULL,
+  mpaa_rating ENUM('G', 'PG', 'PG-13', 'R', 'NC-17') NOT NULL,
+  PRIMARY KEY (movie_id)
+);
+ 
+CREATE TABLE directors (
+  director_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  birthdate DATE NOT NULL,
+  PRIMARY KEY (director_id)
+);
+ 
+CREATE TABLE actors (
+  actor_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  birthdate DATE NOT NULL,
+  gender ENUM('male', 'female') NOT NULL,
+  PRIMARY KEY (actor_id)
+);
+ 
+CREATE TABLE movie_cast (
+  movie_id INT UNSIGNED NOT NULL,
+  actor_id INT UNSIGNED NOT NULL,
+  character_name VARCHAR(255) NOT NULL,
+  INDEX (movie_id),
+  INDEX (actor_id),
+  FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+  FOREIGN KEY (actor_id) REFERENCES actors(actor_id),
+  PRIMARY KEY (movie_id, actor_id)
+);

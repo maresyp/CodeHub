@@ -1,0 +1,86 @@
+//https://pastebin.com/Pge0WJck
+    Double LastTurnDir;
+    //Originally written by Custodian. Modified by me (inkoalawetrust).
+    //Makes the actor move towards the specified actor.
+    //Other: The actor to move to.
+    //DetourFactor: How long the actor is allowed to move in a direction after hitting an obstacle, before heading straight for the target again.
+    //AngleLimit: How much the actor can turn per detour. Used to not have it snap back 180 or anything like that.
+    void MVP_MoveTowards (Actor Other, Double DetourFactor = 1.0, Double AngleLimit = 20)
+    {
+        If (!Other) Return;
+        double LastAngle = angle;
+        double NextAngle = LastAngle;
+ 
+        //MoveCount is greater than 0 when avoiding an obstacle
+        if (MoveCount)
+        {
+            MoveCount--;
+        }
+        else 
+        {
+            lastturndir = 0;
+            //move directly towards Other
+            if (Other) NextAngle = MVP_GetAngleTo(Other,AngleLimit);
+        }
+ 
+        //absolute position of next movement
+        vector2 NextPos = Vec2Angle(speed, NextAngle);
+        bool moved = TryMove(NextPos, 0, false);
+ 
+        //if I hit an obstacle while avoiding another, try moving straight towards Other
+        if (!moved && MoveCount)
+        {
+            MoveCount = Int(random(16,32)*DetourFactor);
+            if (Other) NextAngle = MVP_GetAngleTo(Other,AngleLimit);
+            NextPos = Vec2Angle(speed, NextAngle);
+            moved = TryMove(NextPos, 0, false);
+        }
+ 
+        //test movement angles until I find one that works, avoid that obstacle for MoveCount tics
+        if (!moved)
+        {
+            MoveCount = Int(random(16,32)*DetourFactor);
+ 
+            //try moving the same relative direction as last time
+            if (lastturndir == 0) lastTurnDir = random(0,1) ? 1.0 : -1.0;
+            
+            //find viable movement direction
+            for (double i = 1; i < 6; i++)
+            {
+                NextAngle = LastAngle + (i * 30 * lastturndir);
+                NextPos = Vec2Angle(speed, NextAngle);
+                moved = TryMove(NextPos, 0, false);
+                if (moved) break;
+ 
+                lastTurnDir *= -1.0;
+ 
+                NextAngle = LastAngle + (i * 30 * lastturndir);
+                NextPos = Vec2Angle(speed, NextAngle);
+                moved = TryMove(NextPos, 0, false);
+                if (moved) break;
+            }
+        }
+ 
+        //face movement direction
+        angle = Normalize180(NextAngle);
+    }
+    
+    //Gets the angle to the other actor, and also has a limit that can be used to get the angle to the other actor up to a certain point.
+    //Basically this is what A_Face()'s max_turn property does, sans the actual angle change on the caller.
+    Double MVP_GetAngleTo (Actor Other, Double AngleLimit = 20)
+    {
+        If (!Other) Return 0;
+        If (AngleLimit == 0) Return AngleTo (Other);
+        Double AngleTo = AngleTo (Other);
+        Double Delta = -DeltaAngle (Angle,AngleTo);
+        
+        If (AngleLimit != 0)
+        {
+            If (Delta > 0)
+                Return Angle - AngleLimit;
+            Else
+                Return Angle + AngleLimit;
+        }
+        
+        Return 0;
+    }

@@ -1,0 +1,50 @@
+/*
+https://gocoding.org/es/ejercicios-de-pr%C3%A1ctica-de-golang/
+6. Escriba un programa que tome una entrada de cadena del usuario
+y determine si es un palíndromo (una palabra o frase que se lee igual hacia atrás que hacia adelante).
+*/
+ 
+package main
+ 
+import (
+    "fmt"
+    "strings"
+)
+ 
+func palindromo(palabra string) bool {
+ 
+    palabra = strings.ToLower(palabra) //Evita encontrar una mayuscula
+    final := len(palabra) - 1
+    if final <= 0 { //palabra vacia
+        return false
+    }
+ 
+    inicio := 0
+ 
+    for { //While
+        //Si las letras no son iguales retorna falso
+        if palabra[inicio] != palabra[final] {
+            return false
+        }
+ 
+        final--
+        inicio++
+        if final <= inicio { //Condicion de salida del bucle
+            break
+        }
+    }
+    return true
+}
+ 
+func main() {
+    //Varias palabras a probar
+    palabras := []string{"tata", "aba", "alababa", "acurruca", "asa", "sedes", "sometemos", "icaro"}
+ 
+    for _, v := range palabras {
+        fmt.Print(v)
+        if !palindromo(v) { //Si no es palindromo imprimo no
+            fmt.Print(" no")
+        }
+        fmt.Println(" es palindromo ")
+    }
+}

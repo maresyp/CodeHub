@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servers>
+<server name=" RADIO HT BACKUP1" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="radioht.ddns.net" port="64740" region="ID" url="https://radioht.ddns.net" token="null"/>
+<server name=" 🇮🇩 RADIO HT BACKUP2" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="radiohtls.ddns.net" port="64738" region="ID" url="https://radioht.ddns.net" token="null"/>
+<server name=" 🇮🇩 RADIO HT RU" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mumble-ru.cleanvoice.com" port="18957" region="ID" url="https://radioht.ddns.net" token="null"/>
+<server name=" 🇮🇩 RADIO HT DE" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mumble-de.cleanvoice.com" port="38090" region="ID" url="https://radioht.ddns.net" token="null"/>
+<server name=" 🇮🇩 DRN LOKAL" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="192.168.1.192" port="64738" region="ID" url="https://radioht.ddns.net" token="null"/>
+<!--   <server name=" 🇮🇩 RADIO DIGITAL LINUS" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="drnlinus.my.id" port="64738" region="ID" url="https://drnlinus.my.id" token="null"/>
+<server name=" 🇮🇩 H A L O" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="halo.nasional.online" port="64780" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" 🇮🇩 GALAXY" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="103.157.26.201" port="12345" region="ID"  token="null"/>
+<server name=" 🇮🇩 RMB" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mumble-ru.cleanvoice.com" port="19226" region="ID" url="https://cleanvoice.com" token="null"/>
+<server name=" 🇮🇩 KORAMIL 1208-01/SAMBAS" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="103.157.26.171" port="64788" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© SERVER Pol-PP" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="103.30.246.75" port="64738" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© RKI" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mb.puma-network.net" port="53733" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name="GALAXY" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="103.157.26.201" port="12345" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© TIK BANTEN" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mumble-de.cleanvoice.ru" port="38581" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© MASTER INDONESIA" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="103.102.153.198" port="47777" region="ID" url="https://radio.nasional.online" token="null"/>
+    <server name=" ðŸ‡®ðŸ‡© CIRCLE" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="kh.nasional.online" port="64742" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© STAR DRN" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="202.157.187.112" port="64567" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© DRN BACKUP" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="202.157.187.112" port="64738" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© K H U S U S" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="202.157.187.112" port="64739" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© DRN SERVER LAMAâ€‹" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="202.157.186.91" port="64738" region="ID" url="https://radio.nasional.online" token="null"/> 
+<server name=" ðŸ‡®ðŸ‡© DIGITAL RADIO NASIONAL" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mumble.nasional.online" port="64738" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© ADMIN DRNâ€‹" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mumble.nasional.online" port="65432" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© RKI" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="mb.puma-network.net" port="53733" region="ID" url="https://radio.nasional.online" token="null"/>
+<server name=" ðŸ‡®ðŸ‡© DRN SEKOLAHâ€‹" ca="0" continent_code="MY" country="INDONESIA" country_code="ID" ip="202.157.186.91" port="64780" region="ID" url="https://radio.nasional.online" token="null"/>  -->
+</servers>

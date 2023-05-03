@@ -1,0 +1,26 @@
+{
+    "local_base_dir": "launcher/OldMemory/",
+    "ftp_base_dir": "/public/launcherV5/ModpackSync/OldMemory",
+    "rules": {
+        "directories": [
+            {
+                "path": "config/*",
+                "mode": ["push", "no_check"]
+            },
+            {
+                "path": "mods/*",
+                "mode": "mirror"
+            },
+            {
+                "path": "scripts/*",
+                "mode": "mirror"
+            }
+        ],
+        "files": [
+            {
+                "path": "version.txt",
+                "mode": "no_check"
+            }
+        ]
+    }
+}

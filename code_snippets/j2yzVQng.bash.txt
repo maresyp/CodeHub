@@ -1,0 +1,249 @@
+vladislav@vladislav:~/projects/whisperfish$ ~/AuroraOS/bin/sfdk config --push target AuroraOS-4.1.0.27-base-armv7hl
+vladislav@vladislav:~/projects/whisperfish$ ~/AuroraOS/bin/sfdk build
+NOTICE: Using the 'AuroraOS-4.1.0.27-base-armv7hl.default' snapshot of the build target
+Setting version: 0.6.0.beta.16+master.20230411085444.7951d9de
+sh: release: command not found
+Loading repository data...
+Reading installed packages...
+'cargo = 1.52.1+git3-1' is already installed.
+There is an update candidate 'cargo-1.61.0+git1-1.armv7hl' for 'cargo-1.52.1+git3-1.armv7hl', but it does not match the specified version, architecture, or repository.
+'rust = 1.52.1+git3-1' is already installed.
+There is an update candidate 'rust-1.61.0+git1-1.armv7hl' for 'rust-1.52.1+git3-1.armv7hl', but it does not match the specified version, architecture, or repository.
+'rust-std-static = 1.52.1+git3-1' not found in package names. Trying capabilities.
+'rust-std-static-armv7-unknown-linux-gnueabihf' providing 'rust-std-static = 1.52.1+git3-1' is already installed.
+'coreutils' not found in package names. Trying capabilities.
+'gnu-coreutils' providing 'coreutils' is already installed.
+'git' is already installed.
+No update candidate for 'git-2.26.2+git1-1.1.6.omp.armv7hl'. The highest available version is already installed.
+'zlib-devel' is already installed.
+No update candidate for 'zlib-devel-1.2.12-1.1.3.omp.armv7hl'. The highest available version is already installed.
+'automake' is already installed.
+No update candidate for 'automake-1.16.1+git1-1.1.3.omp.noarch'. The highest available version is already installed.
+'gcc-c++' is already installed.
+No update candidate for 'gcc-c++-8.3.0-1.2.3.omp.armv7hl'. The highest available version is already installed.
+'openssl-devel' not found in package names. Trying capabilities.
+'libopenssl-devel' providing 'openssl-devel' is already installed.
+'tcl' is already installed.
+No update candidate for 'tcl-8.5.8-1.1.2.omp.armv7hl'. The highest available version is already installed.
+'qtmozembed-qt5-devel' is already installed.
+No update candidate for 'qtmozembed-qt5-devel-1.53.22+git8-1.2.10.omp.armv7hl'. The highest available version is already installed.
+'dbus-devel' is already installed.
+No update candidate for 'dbus-devel-1.13.12+git6-1.1.6.omp.armv7hl'. The highest available version is already installed.
+'meego-rpm-config' is already installed.
+No update candidate for 'meego-rpm-config-0.19.2-1.1.3.omp.noarch'. The highest available version is already installed.
+'nemo-qml-plugin-notifications-qt5-devel' is already installed.
+No update candidate for 'nemo-qml-plugin-notifications-qt5-devel-1.2.16-1.1.2.omp.armv7hl'. The highest available version is already installed.
+'protobuf-compiler' is already installed.
+No update candidate for 'protobuf-compiler-3.18.0+git1-1.2.2.omp.armv7hl'. The highest available version is already installed.
+'qt5-qtwebsockets-devel' is already installed.
+No update candidate for 'qt5-qtwebsockets-devel-5.5.1-1.1.2.omp.armv7hl'. The highest available version is already installed.
+Resolving package dependencies...
+ 
+Nothing to do.
+sh: release: command not found
+Building target platforms: armv7hl-meego-linux
+Building for target armv7hl-meego-linux
+sh: release: command not found
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.31cN6S
++ umask 022
++ cd /home/vladislav/projects/whisperfish
++ LANG=C
++ export LANG
++ unset DISPLAY
++ CFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -fmessage-length=0 -march=armv7-a -mfloat-abi=hard -mfpu=neon -mthumb -Wno-psabi'
++ export CFLAGS
++ CXXFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -fmessage-length=0 -march=armv7-a -mfloat-abi=hard -mfpu=neon -mthumb -Wno-psabi'
++ export CXXFLAGS
++ FFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -fmessage-length=0 -march=armv7-a -mfloat-abi=hard -mfpu=neon -mthumb -Wno-psabi -I/usr/lib/gfortran/modules'
++ export FFLAGS
++ LD_AS_NEEDED=1
++ export LD_AS_NEEDED
++ rustc --version
+This is the stub rustc. If you see this, scratchbox2 is not working. Called as
+/usr/bin/rustc --version
++ cargo --version
+This is the stub cargo. If you see this, scratchbox2 is not working. Called as
+/usr/bin/cargo --version
++ export SB2_RUST_TARGET_TRIPLE=armv7-unknown-linux-gnueabihf
++ SB2_RUST_TARGET_TRIPLE=armv7-unknown-linux-gnueabihf
++ export 'CFLAGS_armv7_unknown_linux_gnueabihf=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -fmessage-length=0 -march=armv7-a -mfloat-abi=hard -mfpu=neon -mthumb -Wno-psabi'
++ CFLAGS_armv7_unknown_linux_gnueabihf='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -fmessage-length=0 -march=armv7-a -mfloat-abi=hard -mfpu=neon -mthumb -Wno-psabi'
++ export 'CXXFLAGS_armv7_unknown_linux_gnueabihf=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -fmessage-length=0 -march=armv7-a -mfloat-abi=hard -mfpu=neon -mthumb -Wno-psabi'
++ CXXFLAGS_armv7_unknown_linux_gnueabihf='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wl,-z,relro,-z,now -fmessage-length=0 -march=armv7-a -mfloat-abi=hard -mfpu=neon -mthumb -Wno-psabi'
++ export 'CFLAGS=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ CFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ export 'CXXFLAGS=-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ CXXFLAGS='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -fmessage-length=0'
++ export HOST_CC=host-cc
++ HOST_CC=host-cc
++ export HOST_CXX=host-cxx
++ HOST_CXX=host-cxx
++ export CC_i686_unknown_linux_gnu=host-cc
++ CC_i686_unknown_linux_gnu=host-cc
++ export CXX_i686_unknown_linux_gnu=host-cxx
++ CXX_i686_unknown_linux_gnu=host-cxx
++ export PATH=/opt/cross/bin/:/home/mersdk/.mb2/wrappers/projects/whisperfish:/home/mersdk/.mb2/user-wrappers/projects/whisperfish:/usr/local/bin:/bin:/usr/bin
++ PATH=/opt/cross/bin/:/home/mersdk/.mb2/wrappers/projects/whisperfish:/home/mersdk/.mb2/user-wrappers/projects/whisperfish:/usr/local/bin:/bin:/usr/bin
++ export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=armv7hl-meego-linux-gnueabi-gcc
++ CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=armv7hl-meego-linux-gnueabi-gcc
++ export CC_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-gcc
++ CC_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-gcc
++ export CXX_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-g++
++ CXX_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-g++
++ export AR_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-ar
++ AR_armv7_unknown_linux_gnueabihf=armv7hl-meego-linux-gnueabi-ar
++ export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-meego-linux-gnu-gcc
++ CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-meego-linux-gnu-gcc
++ export CC_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-gcc
++ CC_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-gcc
++ export CXX_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-g++
++ CXX_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-g++
++ export AR_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-ar
++ AR_aarch64_unknown_linux_gnu=aarch64-meego-linux-gnu-ar
++ export PKG_CONFIG_ALLOW_CROSS_i686_unknown_linux_gnu=1
++ PKG_CONFIG_ALLOW_CROSS_i686_unknown_linux_gnu=1
++ export PKG_CONFIG_ALLOW_CROSS_armv7_unknown_linux_gnueabihf=1
++ PKG_CONFIG_ALLOW_CROSS_armv7_unknown_linux_gnueabihf=1
++ export PKG_CONFIG_ALLOW_CROSS_aarch64_unknown_linux_gnu=1
++ PKG_CONFIG_ALLOW_CROSS_aarch64_unknown_linux_gnu=1
++ FEATURES=sailfish
++ export RUSTFLAGS=
++ RUSTFLAGS=
+++ git describe --exclude release,tag --dirty=-dirty
++ export GIT_VERSION=v0.6.0-beta.16-72-gaed4e196-dirty
++ GIT_VERSION=v0.6.0-beta.16-72-gaed4e196-dirty
++ cat /home/vladislav/projects/whisperfish/rpm/../Cargo.toml
+[workspace]
+members = [
+    "create-store",
+    "fetch-signal-attachment",
+    "harbour-whisperfish",
+    "whisperfish",
+    "whisperfish-migration-dry-run"
+]
+ 
+[patch."https://github.com/signalapp/libsignal"]
+libsignal-protocol = { git = "https://gitlab.com/whisperfish/libsignal-client", branch = "whisperfork" }
+zkgroup = { git = "https://gitlab.com/whisperfish/libsignal-client", branch = "whisperfork" }
+ 
+# [patch.crates-io]
+# qmetaobject = { path="../qmetaobject-rs/qmetaobject" }
+ 
+[patch.crates-io]
+curve25519-dalek = { git = 'https://github.com/signalapp/curve25519-dalek', branch = 'lizard2' }
+ 
+qmetaobject = { git = "https://github.com/whisperfish/qmetaobject-rs", branch = "whisperfork" }
+qttypes = { git = "https://github.com/whisperfish/qmetaobject-rs", branch = "whisperfork" }
+ 
+# [patch."https://github.com/whisperfish/libsignal-service-rs"]
+# libsignal-service = { path = "/home/rsmet/src/libsignal-service-rs/libsignal-service" }
+# libsignal-service-actix = { path = "/home/rsmet/src/libsignal-service-rs/libsignal-service-actix/" }
+ 
+# Smart dev mode: Compile most stuff in release mode, except for the things
+# that are actually maintained by our community
+[profile.dev.package."*"]
+opt-level = 3
+ 
+[profile.dev.package.libsignal-protocol]
+opt-level = 0
+ 
+[profile.dev.package.libsignal-service]
+opt-level = 0
+ 
+[profile.dev.package.libsignal-service-actix]
+opt-level = 0
+ 
+[profile.dev.package.qmetaobject]
+opt-level = 0
+ 
+[profile.release]
+# This flag is set in CI using CARGO_PROFILE_RELEASE_LTO=thin
+# lto = "thin"
+debug = true
+ 
+ 
++ BINS='--bin harbour-whisperfish'
++ '[' -z '' ']'
+++ grep VERSION_ID /etc/sailfish-release
+++ cut -d = -f2
+grep: /etc/sailfish-release: No such file or directory
++ TARGET_VERSION=
+++ echo
+++ awk -F. '{print $1 FS $2}'
++ MAJOR_VERSION=.
++ cargo build -j 1 -vv --release --no-default-features --bin harbour-whisperfish --features sailfish --manifest-path /home/vladislav/projects/whisperfish/rpm/../Cargo.toml
+This is the stub cargo. If you see this, scratchbox2 is not working. Called as
+/usr/bin/cargo build -j 1 -vv --release --no-default-features --bin harbour-whisperfish --features sailfish --manifest-path /home/vladislav/projects/whisperfish/rpm/../Cargo.toml
++ lrelease -idbased /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ca.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-cs.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-de.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-el.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-es.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-eu.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-fi.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-fr.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-hu.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-it.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-lt.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nb_NO.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nl.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nl_BE.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pl.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pt_BR.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pt_PT.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ro.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ru.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-sl.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-sv.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-tr.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-zh_CN.ts /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish.ts
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ca.qm'...
+    Generated 275 translation(s) (68 finished and 207 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-cs.qm'...
+    Generated 275 translation(s) (191 finished and 84 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-de.qm'...
+    Generated 275 translation(s) (275 finished and 0 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-el.qm'...
+    Generated 275 translation(s) (254 finished and 21 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-es.qm'...
+    Generated 275 translation(s) (275 finished and 0 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-eu.qm'...
+    Generated 275 translation(s) (4 finished and 271 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-fi.qm'...
+    Generated 275 translation(s) (275 finished and 0 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-fr.qm'...
+    Generated 275 translation(s) (275 finished and 0 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-hu.qm'...
+    Generated 275 translation(s) (233 finished and 42 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-it.qm'...
+    Generated 275 translation(s) (275 finished and 0 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-lt.qm'...
+    Generated 275 translation(s) (247 finished and 28 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nb_NO.qm'...
+    Generated 275 translation(s) (70 finished and 205 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nl.qm'...
+    Generated 275 translation(s) (275 finished and 0 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nl_BE.qm'...
+    Generated 275 translation(s) (254 finished and 21 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pl.qm'...
+    Generated 275 translation(s) (247 finished and 28 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pt_BR.qm'...
+    Generated 275 translation(s) (221 finished and 54 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pt_PT.qm'...
+    Generated 275 translation(s) (222 finished and 53 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ro.qm'...
+    Generated 275 translation(s) (19 finished and 256 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ru.qm'...
+    Generated 275 translation(s) (0 finished and 275 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-sl.qm'...
+    Generated 275 translation(s) (96 finished and 179 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-sv.qm'...
+    Generated 275 translation(s) (254 finished and 21 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-tr.qm'...
+    Generated 275 translation(s) (275 finished and 0 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-zh_CN.qm'...
+    Generated 275 translation(s) (196 finished and 79 unfinished)
+Updating '/home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish.qm'...
+    Generated 275 translation(s) (0 finished and 275 unfinished)
++ RPM_EC=0
+++ jobs -p
++ exit 0
+Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.gOP4qP
++ umask 022
++ cd /home/vladislav/projects/whisperfish
++ flock /home/mersdk/.mb2.lock.lock flock /home/mersdk/.mb2.lock ln -f /home/mersdk/.mb2.lock.BQW /home/mersdk/.mb2.lock
++ '[' /home/deploy/installroot '!=' / ']'
++ rm -rf /home/deploy/installroot
+++ dirname /home/deploy/installroot
++ mkdir -p /home/deploy
++ mkdir /home/deploy/installroot
++ LANG=C
++ export LANG
++ unset DISPLAY
++ install -d /home/deploy/installroot/usr/share/harbour-whisperfish/translations
++ install -Dm 644 /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ca.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-cs.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-de.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-el.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-es.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-eu.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-fi.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-fr.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-hu.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-it.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-lt.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nb_NO.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nl.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-nl_BE.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pl.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pt_BR.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-pt_PT.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ro.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-ru.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-sl.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-sv.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-tr.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish-zh_CN.qm /home/vladislav/projects/whisperfish/rpm/../translations/harbour-whisperfish.qm /home/deploy/installroot/usr/share/harbour-whisperfish/translations
++ install -D /home/vladislav/projects/whisperfish/rpm/../target/armv7-unknown-linux-gnueabihf/release/harbour-whisperfish /home/deploy/installroot/usr/bin/harbour-whisperfish
+install: cannot stat '/home/vladislav/projects/whisperfish/rpm/../target/armv7-unknown-linux-gnueabihf/release/harbour-whisperfish': No such file or directory
+error: Bad exit status from /var/tmp/rpm-tmp.gOP4qP (%install)
+ 
+ 
+RPM build errors:
+    Bad exit status from /var/tmp/rpm-tmp.gOP4qP (%install)

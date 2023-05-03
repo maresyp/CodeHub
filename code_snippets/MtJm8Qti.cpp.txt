@@ -1,0 +1,39 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <cstring>
+#include <queue>
+#include <algorithm>
+//#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 22;
+int n;
+char mat[maxn][maxn];
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin >> n;
+    vector<int> v;
+    for(int i = 0; i < n; i++) {
+        v.push_back(i);
+        for(int j = 0; j < n; j++) {
+            cin >> mat[i][j];
+        }
+    }
+    int res = 2e9;
+    
+    do {
+        int switched = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < i; j++) {
+                if(mat[v[i]][v[j]] == 'D') {
+                    switched++;
+                }
+            }
+        }
+        res = min(res, switched);
+    } while(next_permutation(v.begin(), v.end()));
+ 
+    cout << res << endl;
+    return 0;
+}

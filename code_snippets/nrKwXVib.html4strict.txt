@@ -1,0 +1,23 @@
+<div class="contents">
+<div id="hideit" class="hide app-only">
+ 
+<div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">
+<img width="300px" height="32px" src="https://d3dygw8n5l4bbu.cloudfront.net/app-marketing/flags/en-mobile-friendly-mobile.jpg">
+</div>
+</div><ul>
+<li>FLASH SALE Alert! Make your Ramadan memorable with an elaborate Iftar buffet spread of Arabic and international delicacies at Ramada by Wyndham Downtown Dubai for AED 89 only!</li>
+<li><strong>Choose from the options below:</strong><br>
+<strong>Option 1: </strong>Iftar in Downtown Dubai for 1 adult for AED 89<br>
+<strong>Option 2: </strong>Iftar in Downtown Dubai for 1 child for AED 55</li>
+<li><strong>Cuisine: </strong>Arabic and International</li>
+<li><strong>Deal inclusions:</strong><br>
+- Lamb Ouzi with Arabic grills<br>
+- Extensive hot and cold mezze selection<br>
+- Handmade desserts including Arabic sweets, cakes, and more<br>
+- Unlimited Ramadan beverages and Arabic coffee</li>
+<li>Indoor seating (with Ramadan vibe)</li>
+<li>Access to viewing deck for Burj Khalifa Dubai Fountain shows</li>
+<li>Free Wi-Fi access and valet parking available</li>
+<li>Walking distance to The Dubai Mall, Souq Al Bahar, and Burj Park</li>
+</ul>
+</div>

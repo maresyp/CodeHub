@@ -1,0 +1,19 @@
+SELECT
+    otdels.idOtdel as id,
+    otdels.NameOtdel as name,
+    sotr2.number_employyes as numEmpl
+FROM
+    otdels
+LEFT JOIN(
+    SELECT
+        Otdel,
+        COUNT(sotr.Otdel) AS number_employyes
+    FROM
+        sotr
+    GROUP BY
+        sotr.Otdel
+) AS sotr2
+ON
+    sotr2.otdel = otdels.idOtdel
+ORDER BY 
+    name;

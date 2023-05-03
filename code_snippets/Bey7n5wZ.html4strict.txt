@@ -1,0 +1,277 @@
+<!--==========
+Background: #faa5a4
+Accent: #f27f76
+Text: White
+Icons: fa-paw
+==========-->
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<div class="card col-xl-6 col-lg-10 mx-auto my-4 p-0" style="border:5px #f27f76 double"><div style="background-image:url(https://cdn.discordapp.com/attachments/1029517729503391744/1095923270445961257/tumblr_dd6000ffd66d408dc6b36cc4ff3023fc_2d66f469_1280.jpg); background-size:cover;
+padding: 100px 25px 50px 25px; height:600px; color:white; border:solid white 3px; font-family: Lucida Console, monospace; overflow-y:auto">
+    <div class="row no-gutters">
+   
+   
+   
+   
+   
+   
+   
+    <!--==========
+    COLUMN 1
+    ==========-->
+    <div class="col-lg-7" style="margin-top:65px">
+        <div style="position:absolute; max-width:130px; left:0px; z-index:100; top:-25px">
+ 
+<!--WAVING PAGEDOLL------------>
+<img src="https://cdn.discordapp.com/attachments/1030572589501911080/1030573321026277458/lpsdoll5.gif"></div>
+       
+       
+       
+       
+       
+       
+       
+   
+        <!--==========
+        NAME BOX
+        ==========-->
+        <div class="card" style="padding: 2% 2% 2% 120px; background:#faa5a4; border:5px double #f27f76; height:101px; overflow-y:auto; overflow-x:hidden">
+       
+       
+            <div style="position:absolute; left:0; top:18px; ;background-color:#f27f76; height:27px; width:100%"></div>
+            <div style="font-size:2rem; font-weight:bold; text-shadow:-2px 0px #f27f76; z-index:10">
+               
+<!--NAME------------>
+NAME
+ 
+            </div>
+       
+       
+       
+           
+            <div class="mt-n1" style="font-size:1.3rem; border-radius: 5px; margin-left:10px; text-shadow:-2px 0px #f27f76">
+               
+<!--EXTRA INFO------------>
+AGE <i class="fas fa-paw mx-1" style="font-size:1.2rem"></i>
+PR/NS <i class="fas fa-paw mx-1" style="font-size:1.2rem"></i>
+ETC
+ 
+            </div>
+       
+       
+       
+       
+        </div>
+       
+       
+       
+       
+       
+       
+       
+       
+        <!--==========
+        ABOUT BOX
+        ==========-->
+        <div class="card mt-4" style="padding: 2%; background:#faa5a4; border:5px double #f27f76;">
+       
+       
+       
+            <div class="text-center" style="font-size:1.7rem; font-weight:bold; text-shadow:-2px 0px #f27f76">
+                ABOUT ME
+            </div>
+       
+       
+       
+       
+            <div class="mt-n1" style="font-size:1rem; height:75px; overflow-y:auto; line-height:1.2">
+               
+<!--ABOUT ME------------>
+not to be a littlest pet shop purist, but era two was the absolute peak of their model design. blue magnet pets just hit different than all the other ones. i'm allowed to say so because i have the mail-in sticker platypus and thus am a true connoisseur of the littlest pet shops.
+               
+            </div>
+       
+       
+       
+       
+        </div>
+   
+   
+   
+   
+   
+   
+   
+   
+    </div>
+   
+   
+   
+   
+   
+   
+   
+   
+    <!--==========
+    COLUMN 2
+    ==========-->
+    <div class="col-lg-5 pl-lg-4">
+       
+       
+       
+       
+       
+       
+       
+       
+        <!--==========
+        ART STATUS
+        ==========-->
+        <div class="card mt-2" style="padding:2%; background:#faa5a4; border:5px double #f27f76; height:115px; overflow-y:auto">
+       
+       
+       
+            <div style="font-size:1.5rem; font-weight:bold; text-shadow:-2px 0px #f27f76; margin-bottom:8px">
+                <i class="fas fa-palette"></i> ART STATUS
+            </div>
+       
+       
+       
+       
+            <div class="mt-n2" style="font-size:1.2rem; line-height:1">
+               
+<!--ART STATUS------------>
+COMMS: OPEN<br>
+TRADES: MUTUALS<br>
+REQUESTS: CLOSED
+ 
+            </div>
+       
+       
+       
+       
+        </div>
+       
+       
+       
+       
+       
+       
+       
+       
+        <!--==========
+        SOCIALS
+        ==========-->
+        <div class="card mt-2" style="padding:2%; background:#faa5a4; border:5px double #f27f76; height:85px; overflow-y:auto">
+       
+       
+       
+            <div style="font-size:1.5rem; font-weight:bold; text-shadow:-2px 0px #f27f76; margin-bottom:8px">
+                <i class="fas fa-comments"></i> SOCIALS
+            </div>
+       
+       
+       
+       
+            <div class="mt-n1" style="font-size:1.2rem; line-height:1">
+               
+<!--INSTAGRAM------------>
+<a href="SOCIAL_LINK"
+        style="color:white"><i class="fab fa-instagram mx-1"></i></a>
+       
+<!--TWITTER------------>
+<a href="SOCIAL_LINK"
+        style="color:white"><i class="fab fa-twitter mx-1"></i></a>
+       
+<!--DEVIANTART------------>
+<a href="SOCIAL_LINK"
+        style="color:white"><i class="fab fa-deviantart mx-1"></i></a>
+       
+<!--TIKTOK------------>
+<a href="SOCIAL_LINK"
+        style="color:white"><i class="fab fa-tiktok mx-1"></i></a>
+       
+<!--ARTFIGHT------------>
+<a href="SOCIAL_LINK"
+        style="color:white"><i class="fas fa-pen-paintbrush mx-1"></i></a>
+ 
+            </div>
+       
+       
+       
+       
+        </div>
+       
+       
+       
+       
+       
+       
+       
+        <!--==========
+        BUDDIES
+        ==========-->
+        <div class="card mt-2" style="padding:2%; background:#faa5a4; border:5px double #f27f76; height:104px; overflow-y:auto">
+       
+       
+       
+            <div style="font-size:1.5rem; font-weight:bold; text-shadow:-2px 0px #f27f76; margin-bottom:8px">
+                <i class="fas fa-users"></i> BUDDIES
+            </div>
+       
+       
+       
+       
+            <div class="mt-n1" style="font-size:1.2rem; line-height:1">
+               
+<!--FRIEND 1------------>
+<a href="BUDDY_USERNAME">
+<img src="https://f2.toyhou.se/file/f2-toyhou-se/characters/18387792?1665630889" style="height:40px; margin:1px 0px"></a>
+ 
+<!--FRIEND 2------------>
+<a href="BUDDY_USERNAME">
+<img src="https://f2.toyhou.se/file/f2-toyhou-se/characters/18387792?1665630889" style="height:40px; margin:1px 0px"></a>
+ 
+<!--FRIEND 3------------>
+<a href="BUDDY_USERNAME">
+<img src="https://f2.toyhou.se/file/f2-toyhou-se/characters/18387792?1665630889" style="height:40px; margin:1px 0px"></a>
+ 
+<!--FRIEND 4------------>
+<a href="BUDDY_USERNAME">
+<img src="https://f2.toyhou.se/file/f2-toyhou-se/characters/18387792?1665630889" style="height:40px; margin:1px 0px"></a>
+ 
+<!--FRIEND 5------------>
+<a href="BUDDY_USERNAME">
+<img src="https://f2.toyhou.se/file/f2-toyhou-se/characters/18387792?1665630889" style="height:40px; margin:1px 0px"></a>
+ 
+            </div>
+       
+       
+       
+       
+        </div>
+   
+   
+   
+   
+   
+   
+   
+   
+    </div>
+   
+   
+   
+   
+   
+   
+   
+    <div style="position:absolute; bottom:15px; right:15px"><a href="https://toyhou.se/ghoulipede" style="color:#faa5a4" class="tooltipster" title="code by ghoulipede"><i class="fas fa-code"></i></a></div>
+    </div>
+</div></div>

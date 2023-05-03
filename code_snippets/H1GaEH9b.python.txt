@@ -1,0 +1,45 @@
+import sys
+import traceback
+class ExceptionInterceptor:
+    def __init__(self, *exceptions):
+        self.exceptions = exceptions
+ 
+    def __enter__(self):
+        pass
+ 
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type in self.exceptions:
+            return True
+        else:
+            return False
+ 
+ 
+ 
+class Dumper:
+    def __init__(self, stream):
+        self.stream = stream
+ 
+    def __enter__(self):
+        return self
+ 
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is not None:
+            self.stream.write(f"{exc_val}\\n")
+            self.stream.write(''.join(traceback.format_tb(exc_tb)))
+class retyper:
+    def __init__(self, type_from, type_to):
+        self.type_from = type_from
+        self.type_to = type_to
+ 
+    def __enter__(self):
+        pass
+ 
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type == self.type_from:
+            raise self.type_to(*exc_value.args) from exc_value
+def foo():
+    i = 1 / 0
+ 
+ 
+with Dumper(sys.stderr):
+    foo()

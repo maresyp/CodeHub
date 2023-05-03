@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Event</title>
+    <style>
+        #myButton{
+            text-decoration: none;
+            background-color: blue;
+            padding: 5px;
+            margin: 10px;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <button
+        href=""
+        id="myButton"
+        onmouseover = mouseOver(this)
+        onmousedown = mouseDown(this)
+        onmouseup = mouseUp(this)
+        onclick = mouseClick()
+    >Not clicked
+    </button>
+    <h1 id="result"></h1>
+ 
+    <script>
+        function mouseOver(obj){
+            obj.innerHTML = "Mouse over me"
+        }
+ 
+        function mouseDown(obj){
+            obj.style.backgroundColor = 'grey'
+            obj.innerHTML = "Mouse click me, release"
+            
+        }
+ 
+        function mouseUp(obj){
+            obj.style.backgroundColor = 'blue'
+            obj.innerHTML = "I am clicked"
+        }
+ 
+        function mouseClick(){
+            document.getElementById('result').innerHTML = "It's all done"
+        }
+    </script>
+</body>
+</html>very nice

@@ -1,0 +1,145 @@
+import collections
+import random
+import timeit
+ 
+pop = [
+    (b := random.randint(1900, 2000), random.randint(b + 1, b + 100))
+    for _ in range(10000)
+]
+ 
+ 
+# 5.049 s (with 10000 people [1,100] years old)
+def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
+    living_per_year = {}
+    for birth, death in population:
+        for year in range(birth, death + 1):
+            if year in living_per_year:
+                living_per_year[year] += 1
+            else:
+                living_per_year[year] = 1
+    return living_per_year
+ 
+ 
+print(
+    timeit.timeit(
+        "count_living_per_year(pop)",
+        globals=globals(),
+        number=100,
+    )
+)
+ 
+ 
+# 3.697 s (with 10000 people [1,100] years old)
+def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
+    living_per_year = {}
+    for birth, death in population:
+        for year in range(birth, death + 1):
+            living_per_year[year] = living_per_year.get(year, 0) + 1
+    return living_per_year
+ 
+ 
+print(
+    timeit.timeit(
+        "count_living_per_year(pop)",
+        globals=globals(),
+        number=100,
+    )
+)
+ 
+ 
+# 3.929 s (with 10000 people [1,100] years old)
+def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
+    living_per_year = collections.defaultdict(int)
+    for birth, death in population:
+        for year in range(birth, death + 1):
+            living_per_year[year] += 1
+    return living_per_year
+ 
+ 
+print(
+    timeit.timeit(
+        "count_living_per_year(pop)",
+        globals=globals(),
+        number=100,
+    )
+)
+ 
+ 
+# 4.084 s (with 10000 people [1,100] years old)
+def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
+    return collections.Counter(
+        year for birth, death in population for year in range(birth, death + 1)
+    )
+ 
+ 
+print(sorted(tuple(count_living_per_year(pop).items())))
+ 
+print(
+    timeit.timeit(
+        "count_living_per_year(pop)",
+        globals=globals(),
+        number=100,
+    )
+)
+ 
+ 
+# 0.145 s (with 10000 people [1,100] years old)
+def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
+    births = collections.Counter(birth for birth, _ in population)
+    deaths = collections.Counter(death for _, death in population)
+    living_per_year = births.copy()
+    for year in range(min(births), max(deaths) + 1):
+        living_per_year[year] += living_per_year[year - 1] - deaths[year - 1]
+    return living_per_year
+ 
+ 
+print(sorted(tuple(count_living_per_year(pop).items())))
+print(
+    timeit.timeit(
+        "count_living_per_year(pop)",
+        globals=globals(),
+        number=100,
+    )
+)
+ 
+# 0.152 s (with 10000 people [1,100] years old)
+def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
+    living_per_year = collections.defaultdict(int)
+    for birth, death in population:
+        living_per_year[birth] += 1
+        living_per_year[death + 1] -= 1
+    min_, max_ = min(living_per_year), max(living_per_year)
+    for year in range(min_ + 1, max_ + 1):
+        living_per_year[year] += living_per_year[year - 1]
+    del living_per_year[max_]
+    return living_per_year
+ 
+ 
+print(sorted(tuple(count_living_per_year(pop).items())))
+print(
+    timeit.timeit(
+        "count_living_per_year(pop)",
+        globals=globals(),
+        number=100,
+    )
+)
+ 
+# 0.146 s (with 10000 people [1,100] years old)
+def count_living_per_year(population: list[tuple[int, int]]) -> dict[int, int]:
+    births = collections.Counter(birth for birth, _ in population)
+    deaths = collections.Counter(death for _, death in population)
+    (delta_per_year := births).subtract(deaths)
+    living_per_year = collections.Counter()
+    for year in range(min(delta_per_year), max(delta_per_year) + 1):
+        living_per_year[year] = living_per_year[year - 1] + delta_per_year[year]
+    return living_per_year
+ 
+ 
+print(sorted(tuple(count_living_per_year(pop).items())))
+print(
+    timeit.timeit(
+        "count_living_per_year(pop)",
+        globals=globals(),
+        number=100,
+    )
+)

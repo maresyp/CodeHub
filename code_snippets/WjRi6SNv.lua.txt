@@ -1,0 +1,983 @@
+-- Updated April 15 2023 Added better function for JA equipping.
+-- Initialization function for this job file.
+function get_sets()
+    mote_include_version = 2
+ 
+    -- Load and initialize the include file.
+    include('Mote-Include.lua')
+end
+ 
+-- Setup vars that are user-independent.  state.Buff vars initialized here will automatically be tracked.
+function job_setup()
+    state.Buff['Burst Affinity'] = buffactive['Burst Affinity'] or false
+    state.Buff['Chain Affinity'] = buffactive['Chain Affinity'] or false
+    state.Buff['Azure Lore'] = buffactive['Azure Lore'] or false
+    state.Buff.Diffusion = buffactive.Diffusion or false
+    state.Buff.Efflux = buffactive.Efflux or false
+    state.Buff.Doom = buffactive.Doom or false
+    blue_magic_maps = {}
+ 
+    -- Mappings for gear sets to use for various blue magic spells.
+    -- While Str isn't listed for each, it's generally assumed as being at least
+    -- moderately signficant, even for spells with other mods.
+    -- I have removed all the different stat mod sets for physical and magical spells. I don't see the need for it.
+    
+    -- Physical spells
+    blue_magic_maps.Physical = S{'Bilgestorm','Heavy Strike','Battle Dance','Bloodrake','Death Scissors','Dimensional Death',
+        'Empty Thrash','Quadrastrike','Saurian Slide','Sinker Drill','Spinal Cleave','Sweeping Gouge',
+        'Uppercut','Vertical Cleave','Amorphic Spikes','Asuran Claws','Barbed Crescent','Claw Cyclone',
+        'Disseverment','Foot Kick','Frenetic Rip','Goblin Rush','Hysteric Barrage','Paralyzing Triad',
+        'Seedspray','Sickle Slash','Smite of Rage','Terror Touch','Thrashing Assault','Vanity Dive','Body Slam',
+        'Cannonball','Delta Thrust','Glutinous Dart','Grand Slam','Power Attack','Quad. Continuum','Sprout Smack',
+        'Sub-zero Smash','Benthic Typhoon','Feather Storm','Helldive','Hydro Shot','Jet Stream',
+        'Pinecone Bomb','Spiral Spin','Wild Oats','Mandibular Bite','Queasyshroom','Ram Charge','Screwdriver','Tourbillion',
+        'Bludgeon','Final Sting'}
+ 
+    -- Magical spells
+    blue_magic_maps.Magical = S{'Anvil Lightning','Blastbomb','Blazing Bound','Bomb Toss','Crashing Thunder','Cursed Sphere',
+        'Droning Whirlwind','Embalming Earth','Entomb','Firespit','Foul Waters','Ice Break','Leafstorm',
+        'Maelstrom','Molting Plumage','Nectarous Deluge','Regurgitation','Rending Deluge','Scouring Spate',
+        'Silent Storm','Spectral Floe','Subduction','Tem. Upheaval','Water Bomb','Acrid Stream','Magic Hammer','Mind Blast',
+        'Mysterious Light','Thermal Pulse','Charged Whisker','Gates of Hades'}
+ 
+    blue_magic_maps.MagicalDark = S{'Dark Orb','Death Ray','Eyes On Me','Evryone. Grudge','Palling Salvo',
+        'Tenebral Crush'}
+ 
+    blue_magic_maps.MagicalLight = S{'Blinding Fulgor','Diffusion Ray','Radiant Breath','Rail Cannon',
+        'Retinal Glare'}
+ 
+    -- Magical spells (generally debuffs) that we want to focus on magic accuracy over damage.
+    -- Add Int for damage where available, though.
+    blue_magic_maps.MagicAccuracy = S{'1000 Needles','Absolute Terror','Actinic Burst','Atra. Libations',
+        'Auroral Drape','Awful Eye','Blank Gaze','Blistering Roar','Blood Saber','Cesspool','Chaotic Eye',
+        'Cimicine Discharge','Cold Wave','Corrosive Ooze','Cruel Joke','Demoralizing Roar','Digest','Dream Flower',
+        'Enervation','Feather Tickle','Filamented Hold','Frightful Roar','Geist Wall','Hecatomb Wave',
+        'Infrasonics','Jettatura','Light of Penance','Lowing','Mind Blast','Mortal Ray','MP Drainkiss',
+        'Osmosis','Reaving Wind','Sandspin','Sandspray','Sheep Song','Soporific','Sound Blast',
+        'Stinking Gas','Sub-zero Smash','Venom Shell','Voracious Trunk','Yawn'}
+ 
+    -- Breath-based spells
+    blue_magic_maps.Breath = S{'Bad Breath','Flying Hip Press','Frost Breath','Heat Breath','Hecatomb Wave',
+        'Magnetite Cloud','Poison Breath','Self-Destruct','Thunder Breath','Vapor Spray','Wind Breath'}
+ 
+    -- Stun spells
+    blue_magic_maps.StunPhysical = S{'Frypan','Head Butt','Sudden Lunge','Tail slap','Whirl of Rage'}
+    blue_magic_maps.StunMagical = S{'Blitzstrahl','Temporal Shift','Thunderbolt'}
+ 
+    -- Healing spells
+    blue_magic_maps.Healing = S{'Healing Breeze','Magic Fruit','Plenilune Embrace','Pollen','Restoral',
+        'Wild Carrot','White Wind'}
+ 
+    -- Buffs that depend on blue magic skill
+    blue_magic_maps.SkillBasedBuff = S{'Barrier Tusk','Diamondhide','Magic Barrier','Metallic Body',
+        'Plasma Charge','Pyric Bulwark','Reactor Cool','Occultation'}
+ 
+    -- Other general buffs
+    blue_magic_maps.Buff = S{'Amplification','Animating Wail','Carcharian Verve','Cocoon',
+        'Erratic Flutter','Exuviation','Fantod','Feather Barrier','Harden Shell','Memento Mori','Mighty Guard',
+        'Nat. Meditation','Orcish Counterstance','Refueling','Regeneration','Saline Coat','Triumphant Roar',
+        'Warm-Up','Winds of Promyvion','Zephyr Mantle'}
+ 
+    blue_magic_maps.Refresh = S{'Battery Charge'}
+ 
+ 
+    elemental_ws = S{'Sanguine Blade','Seraph Blade','Seraph Strike','Aeolian Edge'}
+ 
+    include('Mote-TreasureHunter')
+ 
+    -- For th_action_check():
+    -- JA IDs for actions that always have TH: Provoke, Animated Flourish
+    info.default_ja_ids = S{35, 204}
+    -- Unblinkable JA IDs for actions that always have TH: Quick/Box/Stutter Step, Desperate/Violent Flourish
+    info.default_u_ja_ids = S{201, 202, 203, 205, 207}
+ 
+end
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- User setup functions for this job.  Recommend that these be overridden in a sidecar file.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-- Setup vars that are user-dependent.  Can override this function in a sidecar file.
+function user_setup()
+    state.OffenseMode:options('Normal', 'Hybrid', 'Sortie', 'DT', 'Club')
+    state.IdleMode:options('Normal', 'Refresh')
+    state.CastingMode:options('Normal', 'Resistant')
+ 
+    send_command('bind f9 gs c cycle OffenseMode')
+    send_command('bind !f9 gs c cycleback OffenseMode')
+    send_command('bind f10 gs c cycle treasuremode')
+    send_command('bind f11 gs c cycle IdleMode')
+    send_command('bind f12 gs c update user')
+    send_command('bind !f12 gs c cycle CastingMode')
+end
+-- Called when this job file is unloaded (eg: job change)
+function user_unload()
+    send_command('unbind f9')
+    send_command('unbind f10')
+    send_command('unbind f11')
+    send_command('unbind !f9')
+    send_command('unbind f12')
+    send_command('unbind !f12')
+end
+ 
+-- Define sets and vars used by this job file.
+function init_gear_sets()
+ 
+    ------------------------------------------------------------------------------------------------
+    ---------------------------------------- Precast Sets ------------------------------------------
+    ------------------------------------------------------------------------------------------------
+ 
+    -- Precast sets to enhance JAs
+ 
+    sets.buff['Burst Affinity'] = {feet="Hashi. Basmak +3"}
+    sets.precast.JA['Chain Affinity'] = {head="Hashishin Kavuk +3"}
+    sets.precast.JA['Azure Lore'] = {hands="Luh. Bazubands +3"}
+    
+    sets.buff.Diffusion = {feet="Luhlaza Charuqs +3"}
+    sets.buff.Efflux = {legs="Hashishin Tayt +3"}
+ 
+    -- 81% Fast Cast
+    sets.precast.FC = {
+        ammo="Impatiens",
+        head={ name="Carmine Mask +1",priority=38}, --14
+        body={ name="Pinga Tunic +1",priority=101}, --15
+        hands={ name="Leyline Gloves",priority=25}, --8
+        legs={ name="Pinga Pants +1",priority=84}, --13
+        feet={ name="Carmine Greaves +1",priority=95}, --8
+        neck={ name="Unmoving Collar +1",priority=200},
+        waist={ name="Witful Belt",priority=3}, --3
+        left_ear={ name="Loquac. Earring",priority=30}, --2
+        right_ear={ name="Etiolation Earring",priority=100}, --1
+        left_ring={ name="Kishar Ring",priority=5}, --4
+        right_ring={ name="Prolix Ring",priority=4}, --3
+        back={ name="Rosmerta's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','"Regen"+5',},priority=60} --10
+    }
+    --80% Fast Cast
+    sets.precast.FC['Blue Magic'] = set_combine(sets.precast.FC, {
+        body="Hashishin Mintan +3", --16
+        hands="Hashi. Bazu. +3",
+        neck="Voltsurge Torque" --4
+    })
+    sets.precast.FC.Resistant = set_combine(sets.precast.FC, {
+        main="Maxentius",
+        sub="Sakpata's Sword"})
+    sets.precast.FC['Enhancing Magic'] = sets.precast.FC
+    sets.precast.FC.Cure = sets.precast.FC
+ 
+    sets.precast.FC.Utsusemi = set_combine(sets.precast.FC, {
+        body="Passion Jacket",
+        neck="Magoraga Beads",
+    })
+ 
+    ------------------------------------------------------------------------------------------------
+    ------------------------------------- Weapon Skill Sets ----------------------------------------
+    ------------------------------------------------------------------------------------------------
+ 
+    sets.precast.WS = {     
+        ammo="Oshasha's Treatise",
+        head="Hashishin Kavuk +3",
+        body="Assim. Jubbah +3",
+        hands="Jhakri Cuffs +2",
+        legs="Luhlaza Shalwar +3",
+        feet="Nyame Sollerets",
+        neck="Mirage Stole +2",
+        waist="Sailfi Belt +1",
+        left_ear="Telos Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Sroda Ring",
+        back={ name="Rosmerta's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Chant du Cygne'] = {
+        ammo="Aurgelmir Orb +1",
+        head="Hashishin Kavuk +3",
+        body="Assim. Jubbah +3",
+        hands="Jhakri Cuffs +2",
+        legs="Luhlaza Shalwar +3",
+        feet="Nyame Sollerets",
+        neck="Fotia Gorget",
+        waist="Fotia Belt",
+        left_ear="Ishvara Earring",
+        right_ear="Telos Earring",
+        left_ring="Ilabrat Ring",
+        right_ring="Regal Ring",
+        back={ name="Rosmerta's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Savage Blade'] = {
+        ammo="Oshasha's Treatise",
+        head="Hashishin Kavuk +3",
+        body="Assim. Jubbah +3",
+        hands="Jhakri Cuffs +2",
+        legs="Luhlaza Shalwar +3",
+        feet="Nyame Sollerets",
+        neck="Mirage Stole +2",
+        waist="Sailfi Belt +1",
+        left_ear="Telos Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Sroda Ring",
+        back={ name="Rosmerta's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Requiescat'] = {
+        ammo="Aurgelmir Orb +1",
+        head="Hashishin Kavuk +3",
+        body="Assim. Jubbah +3",
+        hands="Jhakri Cuffs +2",
+        legs="Luhlaza Shalwar +3",
+        feet="Nyame Sollerets",
+        neck="Mirage Stole +2",
+        waist="Sailfi Belt +1",
+        left_ear="Telos Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Sroda Ring",
+        back={ name="Rosmerta's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Expiacion'] = {
+        ammo="Oshasha's Treatise",
+        head="Hashishin Kavuk +3",
+        body="Assim. Jubbah +3",
+        hands="Jhakri Cuffs +2",
+        legs="Luhlaza Shalwar +3",
+        feet="Nyame Sollerets",
+        neck="Mirage Stole +2",
+        waist="Sailfi Belt +1",
+        left_ear="Telos Earring",
+        right_ear="Moonshade Earring",
+        left_ring="Epaminondas's Ring",
+        right_ring="Sroda Ring",
+        back={ name="Rosmerta's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.precast.WS['Sanguine Blade'] = {
+        ammo="Pemphredo Tathlum",
+        head="Pixie Hairpin +1",
+        body="Nyame Mail",
+        hands="Jhakri Cuffs +2",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Sanctity Necklace",
+        waist="Eschan Stone",
+        left_ear="Friomisi Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring="Archon Ring",
+        right_ring="Acumen Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+ 
+ 
+    ------------------------------------------------------------------------------------------------
+    ---------------------------------------- Midcast Sets ------------------------------------------
+    ------------------------------------------------------------------------------------------------
+ 
+ 
+    sets.midcast['Blue Magic'] = {}
+        
+    sets.midcast['Blue Magic'].Physical = {
+        ammo="Pemphredo Tathlum",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Mirage Stole +2",
+        waist="Eschan Stone",
+        left_ear="Crep. Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={name="Stikini Ring +1",bag="wardrobe"},
+        right_ring={name="Stikini Ring +1",bag="wardrobe2"},
+        back="Aurist's Cape +1"
+    }
+ 
+    sets.midcast['Blue Magic'].Magical = {
+        ammo="Ghastly Tathlum +1",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Sacro Cord",
+        left_ear="Friomisi Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring="Acumen Ring",
+        right_ring="Defending Ring",
+        back="Aurist's Cape +1"
+    }
+    sets.midcast['Blue Magic'].Magical.Resistant = {
+        main="Maxentius",
+        sub="Bunzi's Rod",
+        ammo="Ghastly Tathlum +1",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Sacro Cord",
+        left_ear="Friomisi Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring="Acumen Ring",
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    sets.midcast['Blue Magic'].MagicalDark = {
+        ammo="Ghastly Tathlum +1",
+        head="Pixie Hairpin +1",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Sacro Cord",
+        left_ear="Friomisi Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring="Acumen Ring",
+        right_ring="Archon Ring",
+        back="Aurist's Cape +1"
+    }
+    sets.midcast['Blue Magic'].MagicalDark.Resistant = {
+        main="Maxentius",
+        sub="Bunzi's Rod",
+        ammo="Ghastly Tathlum +1",
+        head="Pixie Hairpin +1",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Sacro Cord",
+        left_ear="Friomisi Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring="Acumen Ring",
+        right_ring="Archon Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    sets.midcast['Blue Magic'].MagicalLight = {
+        ammo="Ghastly Tathlum +1",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Sacro Cord",
+        left_ear="Friomisi Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring="Acumen Ring",
+        right_ring="Defending Ring",
+        back="Aurist's Cape +1"
+    }
+    sets.midcast['Blue Magic'].MagicalLight.Resistant = {
+        main="Maxentius",
+        sub="Bunzi's Rod",
+        ammo="Ghastly Tathlum +1",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Sacro Cord",
+        left_ear="Friomisi Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring="Acumen Ring",
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    sets.midcast['Blue Magic'].MagicAccuracy = {
+        ammo="Pemphredo Tathlum",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Mirage Stole +2",
+        waist="Sacro Cord",
+        left_ear="Crep. Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={name="Stikini Ring +1",bag="wardrobe"},
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    sets.midcast['Blue Magic'].MagicAccuracy.Resistant = {
+        main="Maxentius",
+        sub="Bunzi's Rod",
+        ammo="Pemphredo Tathlum",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Mirage Stole +2",
+        waist="Sacro Cord",
+        left_ear="Crep. Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={name="Stikini Ring +1",bag="wardrobe"},
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    sets.midcast['Blue Magic'].StunPhysical = {
+        ammo="Pemphredo Tathlum",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Mirage Stole +2",
+        waist="Luminary Sash",
+        left_ear="Crep. Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={name="Stikini Ring +1",bag="wardrobe"},
+        right_ring={name="Stikini Ring +1",bag="wardrobe2"},
+        back="Aurist's Cape +1"
+    }
+    sets.midcast['Blue Magic'].StunMagical = sets.midcast['Blue Magic'].StunPhysical
+    
+    sets.midcast['Blue Magic'].Healing = {
+        ammo="Charitoni Sling",
+        head="Pinga Crown +1",
+        body="Pinga Tunic +1",
+        hands="Telchine Gloves",
+        legs="Pinga Pants +1",
+        feet="Medium's Sabots",
+        neck="Unmoving Collar +1",
+        waist="Plat. Mog. Belt",
+        left_ear="Mendi. Earring",
+        right_ear="Etiolation Earring",
+        left_ring="Kunaji Ring",
+        right_ring="Gelatinous Ring +1",
+        back="Moonlight Cape"
+    }
+    sets.midcast['Blue Magic'].HealingSelf = sets.midcast['Blue Magic'].Healing
+    
+    --601 Blue Magic skill, 12 shadows
+    sets.midcast['Blue Magic'].SkillBasedBuff = {
+        ammo="Sapience Orb",
+        head="Luh. Keffiyeh +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Luhlaza Charuqs +3",
+        neck="Mirage Stole +2",
+        waist="Witful Belt",
+        left_ear="Njordr Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={name="Stikini Ring +1",bag="wardrobe"},
+        right_ring={name="Stikini Ring +1",bag="wardrobe2"},
+        back="Cornflower Cape"
+    }
+    sets.midcast['Blue Magic'].Breath = sets.midcast['Blue Magic'].Magical
+ 
+    --50% Cure Potency 2941HP
+    sets.midcast['Blue Magic']['White Wind'] = {
+        ammo="Charitoni Sling",
+        head="Pinga Crown +1", --10
+        body="Pinga Tunic +1", --15
+        hands="Hashi. Bazu. +3",
+        legs="Pinga Pants +1", --13
+        feet="Medium's Sabots", --9
+        neck="Unmoving Collar +1",
+        waist="Plat. Mog. Belt",
+        left_ear="Mendi. Earring", --5
+        right_ear="Etiolation Earring",
+        left_ring="Kunaji Ring",
+        right_ring="Gelatinous Ring +1",
+        back="Moonlight Cape"
+    }
+    sets.midcast['Blue Magic']['Regeneration'] = set_combine(sets.midcast['Blue Magic'].SkillBasedBuff, {body="Telchine Chas."})
+    
+    sets.midcast['Blue Magic'].Buff = sets.precast.FC
+    sets.midcast['Blue Magic'].Refresh = {
+        head="Amalric Coif +1",
+        body={ name="Telchine Chas.", augments={'"Elemental Siphon"+35','Enh. Mag. eff. dur. +10',}},
+        hands={ name="Telchine Gloves", augments={'"Elemental Siphon"+35','Enh. Mag. eff. dur. +10',}},
+        legs={ name="Telchine Braconi", augments={'"Elemental Siphon"+30','Enh. Mag. eff. dur. +10',}},
+        feet={ name="Telchine Pigaches", augments={'Enh. Mag. eff. dur. +10',}},
+        neck="Incanter's Torque",
+        left_ring={ name="Stikini Ring +1",bag="wardrobe"},
+        right_ring={ name="Stikini Ring +1",bag="wardrobe2"}
+    }
+ 
+    sets.midcast['Warp'] = sets.precast.FC
+    sets.midcast['Warp II'] = sets.precast.FC
+    sets.midcast['Enhancing Magic'] = {
+        ammo="Sapience Orb",
+        head={ name="Telchine Cap", augments={'"Elemental Siphon"+35','Enh. Mag. eff. dur. +10',}},
+        body={ name="Telchine Chas.", augments={'"Elemental Siphon"+35','Enh. Mag. eff. dur. +10',}},
+        hands={ name="Telchine Gloves", augments={'"Elemental Siphon"+35','Enh. Mag. eff. dur. +10',}},
+        legs={ name="Telchine Braconi", augments={'"Elemental Siphon"+30','Enh. Mag. eff. dur. +10',}},
+        feet={ name="Telchine Pigaches", augments={'Enh. Mag. eff. dur. +10',}},
+        neck="Incanter's Torque",
+        left_ring={ name="Stikini Ring +1",bag="wardrobe"},
+        right_ring={ name="Stikini Ring +1",bag="wardrobe2"}
+    }
+    sets.midcast['Refresh'] = sets.midcast['Blue Magic'].Refresh
+    --Treasure Hunter
+    sets.midcast['Dia'] = {
+        head="Volte Cap",
+        hands="Volte Bracers",
+        legs="Volte Hose",
+        neck="Elite Royal Collar",
+        waist="Chaac Belt",
+        right_ring="Defending Ring"
+    }
+    sets.midcast['Dia II'] = sets.midcast['Dia']
+    sets.midcast['Diaga'] = sets.midcast['Dia']
+    sets.midcast['Bio'] = sets.midcast['Dia']
+    sets.midcast['Bio II'] = sets.midcast['Dia']
+    
+    sets.midcast['Enfeebling Magic'] = {
+        ammo="Pemphredo Tathlum",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Regal Cuffs",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Mirage Stole +2",
+        waist="Sacro Cord",
+        left_ear="Crep. Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={ name="Stikini Ring +1",bag="wardrobe"},
+        right_ring={ name="Stikini Ring +1",bag="wardrobe2"},
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.midcast['Elemental Magic'] = {
+        ammo="Ghastly Tathlum +1",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Orpheus's Sash",
+        left_ear="Friomisi Earring",
+        right_ear="Novio Earring",
+        left_ring="Acumen Ring",
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    sets.midcast['Elemental Magic'].Resistant = {
+        main="Maxentius",
+        sub="Bunzi's Rod",
+        ammo="Ghastly Tathlum +1",
+        head="Hashishin Kavuk +3",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Hashi. Basmak +3",
+        neck="Sibyl Scarf",
+        waist="Orpheus's Sash",
+        left_ear="Friomisi Earring",
+        right_ear="Novio Earring",
+        left_ring="Acumen Ring",
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','"Mag.Atk.Bns."+10','Phys. dmg. taken-10%',}}
+    }
+    ------------------------------------------------------------------------------------------------
+    ----------------------------------------- Idle Sets --------------------------------------------
+    ------------------------------------------------------------------------------------------------
+ 
+    -- Resting sets
+    sets.resting = {}
+ 
+ 
+    -- Idle sets (default idle set not needed since the other three are defined, but leaving for testing purposes)
+ 
+    sets.idle = {
+        ammo="Staunch Tathlum +1",
+        head="Malignance Chapeau",
+        body="Hashishin Mintan +3",
+        hands="Hashi. Bazu. +3",
+        legs="Hashishin Tayt +3",
+        feet="Malignance Boots",
+        neck="Elite Royal Collar",
+        waist="Carrier's Sash",
+        left_ear="Eabani Earring",
+        right_ear="Etiolation Earring",
+        left_ring="Shneddick Ring +1",
+        right_ring={ name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Rosmerta's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','"Regen"+5',}}
+    }
+ 
+    sets.idle.Refresh = {
+        ammo="Staunch Tathlum +1",
+        head={ name="Herculean Helm", augments={'"Mag.Atk.Bns."+11','"Refresh"+2','Mag. Acc.+19 "Mag.Atk.Bns."+19',}},
+        body="Hashishin Mintan +3",
+        hands={ name="Herculean Gloves", augments={'Pet: Accuracy+25 Pet: Rng. Acc.+25','CHR+7','"Refresh"+2','Mag. Acc.+11 "Mag.Atk.Bns."+11',}},
+        legs={ name="Herculean Trousers", augments={'Pet: Accuracy+6 Pet: Rng. Acc.+6','"Dual Wield"+2','"Refresh"+2',}},
+        feet={ name="Herculean Boots", augments={'"Drain" and "Aspir" potency +2','CHR+5','"Refresh"+2','Accuracy+1 Attack+1','Mag. Acc.+11 "Mag.Atk.Bns."+11',}},
+        neck="Elite Royal Collar",
+        waist="Carrier's Sash",
+        left_ear="Eabani Earring",
+        right_ear="Etiolation Earring",
+        left_ring="Shneddick Ring +1",
+        right_ring={ name="Stikini Ring +1",bag="wardrobe2"},
+        back={ name="Rosmerta's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','"Regen"+5',}}
+    }
+    sets.idle.Town = set_combine(sets.idle, {body="Shamash Robe"})
+    sets.idle.Weak = sets.idle
+ 
+    ------------------------------------------------------------------------------------------------
+    ---------------------------------------- Defense Sets ------------------------------------------
+    ------------------------------------------------------------------------------------------------
+ 
+    sets.defense.PDT = sets.idle
+    sets.defense.MDT = sets.idle
+ 
+    ------------------------------------------------------------------------------------------------
+    ---------------------------------------- Engaged Sets ------------------------------------------
+    ------------------------------------------------------------------------------------------------
+ 
+    -- Engaged sets
+ 
+    -- Variations for TP weapon and (optional) offense/defense modes.  Code will fall back on previous
+    -- sets if more refined versions aren't defined.
+    -- If you create a set with both offense and defense modes, the offense mode should be first.
+    -- EG: sets.engaged.Dagger.Accuracy.Evasion
+ 
+    sets.engaged = {
+        main="Tizona",
+        sub="Sakpata's Sword", -- "Thibron"
+        ammo="Aurgelmir Orb +1",
+        head={ name="Adhemar Bonnet +1", augments={'STR+12','DEX+12','Attack+20',}},
+        body={ name="Adhemar Jacket +1", augments={'DEX+12','AGI+12','Accuracy+20',}},
+        hands={ name="Adhemar Wrist. +1", augments={'DEX+12','AGI+12','Accuracy+20',}},
+        legs="Samnuha Tights",
+        feet={ name="Herculean Boots", augments={'Accuracy+25','"Triple Atk."+4','DEX+5',}},
+        neck="Mirage Stole +2",
+        waist="Windbuffet Belt +1",
+        left_ear="Suppanomimi",
+        right_ear="Hashi. Earring +1",
+        left_ring="Epona's Ring",
+        right_ring={ name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Rosmerta's Cape", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+    -- 37% DT 47% PDT
+    sets.engaged.Sortie = {
+        main="Tizona",
+        sub="Sakpata's Sword",
+        ammo="Aurgelmir Orb +1",
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
+        feet="Malignance Boots",
+        neck="Mirage Stole +2",
+        waist="Reiki Yotai",
+        left_ear="Eabani Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={ name="Chirich Ring +1",bag="wardrobe"},
+        right_ring={ name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Rosmerta's Cape", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+    ------------------------------------------------------------------------------------------------
+    ---------------------------------------- Hybrid Sets -------------------------------------------
+    ------------------------------------------------------------------------------------------------
+    -- 27% DT 37% PDT
+    sets.engaged.Hybrid = {
+        main="Tizona",
+        sub="Sakpata's Sword", -- "Thibron"
+        ammo="Aurgelmir Orb +1",
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
+        feet="Malignance Boots",
+        neck="Mirage Stole +2",
+        waist="Reiki Yotai",
+        left_ear="Eabani Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={ name="Chirich Ring +1",bag="wardrobe"},
+        right_ring={ name="Chirich Ring +1",bag="wardrobe2"},
+        back={ name="Rosmerta's Cape", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+ 
+    sets.engaged.DT = {     
+        main="Tizona",
+        sub="Sakpata's Sword",
+        ammo="Aurgelmir Orb +1",
+        head="Malignance Chapeau",
+        body="Malignance Tabard",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
+        feet="Malignance Boots",
+        neck="Mirage Stole +2",
+        waist="Reiki Yotai",
+        left_ear="Eabani Earring",
+        right_ear="Hashi. Earring +1",
+        left_ring={ name="Chirich Ring +1",bag="wardrobe"},
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+    
+    sets.engaged.Club = set_combine(sets.engaged.DT,{main="Maxentius",sub="Bunzi's Rod"})
+    ------------------------------------------------------------------------------------------------
+    ---------------------------------------- Special Sets ------------------------------------------
+    ------------------------------------------------------------------------------------------------
+ 
+    sets.Kiting = {left_ring="Shneddick Ring +1"}
+    sets.latent_refresh = {waist="Fucho-no-obi"}
+ 
+    sets.buff.Doom = {
+        neck="Nicander's Necklace",
+        left_ring="Purity Ring",
+        right_ring="Saida Ring",
+        waist="Gishdubar Sash"
+    }
+ 
+    sets.TreasureHunter = {
+        head="Volte Cap",
+        hands="Volte Bracers",
+        legs="Volte Hose",
+        neck="Elite Royal Collar",
+        waist="Chaac Belt",
+        left_ring="Shneddick Ring +1",
+        right_ring="Defending Ring",
+        back={ name="Rosmerta's Cape", augments={'DEX+20','Accuracy+20 Attack+20','"Store TP"+10','Phys. dmg. taken-10%',}}
+    }
+ 
+end
+ 
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- Job-specific hooks for standard casting events.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-- Set eventArgs.handled to true if we don't want any automatic gear equipping to be done.
+-- Set eventArgs.useMidcastGear to true if we want midcast gear equipped on precast.
+function job_precast(spell, action, spellMap, eventArgs)
+    if spellMap == 'Utsusemi' then
+        if buffactive['Copy Image (3)'] or buffactive['Copy Image (4+)'] then
+            cancel_spell()
+            add_to_chat(123, '**!! '..spell.english..' Canceled: [3+ IMAGES] !!**')
+            eventArgs.handled = true
+            return
+        elseif buffactive['Copy Image'] or buffactive['Copy Image (2)'] then
+            send_command('cancel 66; cancel 444; cancel Copy Image; cancel Copy Image (2)')
+        end
+    end
+    -- Safety checks for weaponskills 
+    if spell.type:lower() == 'weaponskill' then
+        if player.tp < 1000 then
+            eventArgs.cancel = true
+            return
+        end
+        if spell.target.distance >5 then
+            add_to_chat(122,"Outside WS Range! /Canceling")
+            eventArgs.cancel = true
+            return
+        end
+    end
+end
+ 
+function job_post_precast(spell, action, spellMap, eventArgs)
+    if spell.type == 'WeaponSkill' then
+        if elemental_ws:contains(spell.name) then
+            -- Matching double weather (w/o day conflict).
+            if spell.element == world.weather_element and (get_weather_intensity() == 2 and spell.element ~= elements.weak_to[world.day_element]) then
+                equip({waist="Hachirin-no-Obi"})
+            -- Target distance under 8 yalms.
+            elseif spell.target.distance < (5 + spell.target.model_size) then
+                equip({waist="Orpheus's Sash"})
+            -- Matching day and weather.
+            elseif spell.element == world.day_element and spell.element == world.weather_element then
+                equip({waist="Hachirin-no-Obi"})
+            -- Target distance under 8 yalms.
+            elseif spell.target.distance < (5 + spell.target.model_size) then
+                equip({waist="Orpheus's Sash"})
+            -- Match day or weather.
+            elseif spell.element == world.day_element or spell.element == world.weather_element then
+                equip({waist="Hachirin-no-Obi"})
+            end
+        end
+    end
+end
+ 
+-- Run after the default midcast() is done.
+-- eventArgs is the same one used in job_midcast, in case information needs to be persisted.
+function job_post_midcast(spell, action, spellMap, eventArgs)
+    -- Add enhancement gear for Chain Affinity, etc.
+    if spell.skill == 'Blue Magic' then
+        for buff,active in pairs(state.Buff) do
+            if active and sets.buff[buff] then
+                equip(sets.buff[buff])
+            end
+        end
+        if spellMap == 'Magical' or spellMap == 'MagicalDark' or spellMap == 'MagicalLight' then
+            if spell.element == world.weather_element and (get_weather_intensity() == 2 and spell.element ~= elements.weak_to[world.day_element]) then
+                equip({waist="Hachirin-no-Obi"})
+            -- Target distance under 1.7 yalms.
+            elseif spell.target.distance < (1.7 + spell.target.model_size) then
+                equip({waist="Orpheus's Sash"})
+            -- Matching day and weather.
+            elseif spell.element == world.day_element and spell.element == world.weather_element then
+                equip({waist="Hachirin-no-Obi"})
+            -- Target distance under 8 yalms.
+            elseif spell.target.distance < (8 + spell.target.model_size) then
+                equip({waist="Orpheus's Sash"})
+            -- Match day or weather.
+            elseif spell.element == world.day_element or spell.element == world.weather_element then
+                equip({waist="Hachirin-no-Obi"})
+            end
+        end
+        if spellMap == 'Healing' and spell.target.type == 'SELF' then
+            equip(sets.midcast['Blue Magic'].HealingSelf)
+        end
+    end
+ 
+    if spell.skill == 'Enhancing Magic' then
+        equip(sets.midcast.EnhancingDuration)
+        if spellMap == 'Refresh' then
+            equip(sets.midcast.Refresh)
+        end
+    end
+end
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- Job-specific hooks for non-casting events.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- User code that supplements standard library decisions.
+-------------------------------------------------------------------------------------------------------------------
+ 
+-- Called by the 'update' self-command, for common needs.
+-- Set eventArgs.handled to true if we don't want automatic equipping of gear.
+function job_handle_equipping_gear(playerStatus, eventArgs)
+    update_combat_form()
+end
+ 
+function job_update(cmdParams, eventArgs)
+    handle_equipping_gear(player.status)
+    th_update(cmdParams, eventArgs)
+end
+ 
+function update_combat_form()
+    if DW == true then
+        state.CombatForm:set('DW')
+    elseif DW == false then
+        state.CombatForm:reset()
+    end
+end
+ 
+-- Custom spell mapping.
+-- Return custom spellMap value that can override the default spell mapping.
+-- Don't return anything to allow default spell mapping to be used.
+function job_get_spell_map(spell, default_spell_map)
+    if spell.skill == 'Blue Magic' then
+        for category,spell_list in pairs(blue_magic_maps) do
+            if spell_list:contains(spell.english) then
+                return category
+            end
+        end
+    end
+end
+-- Called when a player gains or loses a buff.
+-- buff == buff gained or lost
+-- gain == true if the buff was gained, false if it was lost.
+function job_buff_change(buff, gain)
+    if state.Buff[buff] ~= nil then
+        if not midaction() then
+            handle_equipping_gear(player.status)
+        end
+    end
+end
+-- Modify the default idle set after it was constructed.
+function customize_idle_set(idleSet)
+    if state.Buff.Doom then
+        idleSet = set_combine(idleSet, sets.buff.Doom)
+    end
+    if player.mpp < 51 then
+        idleSet = set_combine(idleSet, sets.latent_refresh)
+    end
+ 
+    return idleSet
+end
+ 
+-- Modify the default melee set after it was constructed.
+function customize_melee_set(meleeSet)
+    if state.Buff.Doom then
+        meleeSet = set_combine(meleeSet, sets.buff.Doom)
+    end
+ 
+    return meleeSet
+end
+ 
+-- Function to display the current relevant user state when doing an update.
+-- Return true if display was handled, and you don't want the default info shown.
+function display_current_job_state(eventArgs)
+    local cf_msg = ''
+    if state.CombatForm.has_value then
+        cf_msg = ' (' ..state.CombatForm.value.. ')'
+    end
+ 
+    local m_msg = state.OffenseMode.value
+ 
+    local c_msg = state.CastingMode.value
+ 
+    local i_msg = state.IdleMode.value
+ 
+    local msg = ''
+    if state.TreasureMode.value == 'Tag' then
+        msg = msg .. ' TH: Tag |'
+    end
+    if state.Kiting.value then
+        msg = msg .. ' Kiting: On |'
+    end
+ 
+    add_to_chat(002, '| ' ..string.char(31,210).. 'Melee' ..cf_msg.. ': ' ..string.char(31,001)..m_msg.. string.char(31,002)..  ' |'
+        ..string.char(31,060).. ' Casting: ' ..string.char(31,001)..c_msg.. string.char(31,002)..  ' |'
+        ..string.char(31,008).. ' Idle: ' ..string.char(31,001)..i_msg.. string.char(31,002)..  ' |'
+        ..string.char(31,002)..msg)
+ 
+    eventArgs.handled = true
+end
+ 
+ 
+-------------------------------------------------------------------------------------------------------------------
+-- Utility functions specific to this job.
+-------------------------------------------------------------------------------------------------------------------
+ 
+function update_active_abilities()
+    state.Buff['Burst Affinity'] = buffactive['Burst Affinity'] or false
+    state.Buff['Chain Affinity'] = buffactive['Chain Affinity'] or false
+    state.Buff.Diffusion = buffactive.Diffusion or false
+    state.Buff.Efflux = buffactive.Efflux or false
+    state.Buff.Doom = buffactive.Doom or false
+end
+ 
+-- State buff checks that will equip buff gear and mark the event as handled.
+function apply_ability_bonuses(spell, action, spellMap)
+    if state.Buff['Burst Affinity'] and (spellMap == 'Magical' or spellMap == 'MagicalLight' or spellMap == 'MagicalDark' or spellMap == 'Breath') then
+        equip(sets.buff['Burst Affinity'])
+    end
+    if state.Buff.Efflux and spellMap == 'Physical' then
+        equip(sets.buff.Efflux)
+    end
+    if state.Buff.Diffusion and (spellMap == 'Buffs' or spellMap == 'BlueSkill') then
+        equip(sets.buff.Diffusion)
+    end
+ 
+    if state.Buff['Burst Affinity'] then equip (sets.buff['Burst Affinity']) end
+    if state.Buff.Efflux then equip (sets.buff.Efflux) end
+    if state.Buff.Diffusion then equip (sets.buff.Diffusion) end
+end
+ 
+-- Check for various actions that we've specified in user code as being used with TH gear.
+-- This will only ever be called if TreasureMode is not 'None'.
+-- Category and Param are as specified in the action event packet.
+function th_action_check(category, param)
+    if category == 2 or -- any ranged attack
+        --category == 4 or -- any magic action
+        --(category == 3 and param == 30) or -- Aeolian Edge
+        (category == 6 and info.default_ja_ids:contains(param)) or -- Provoke, Animated Flourish
+        (category == 14 and info.default_u_ja_ids:contains(param)) -- Quick/Box/Stutter Step, Desperate/Violent Flourish
+        then return true
+    end
+end

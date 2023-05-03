@@ -1,0 +1,33 @@
+<center>
+<table bgcolor="000000">
+<td bgcolor="000000"><center>
+<img src="#" width="714" height="100" /> 
+</center></td>
+</table>
+ 
+<table height="200" width="720" bgcolor="000000">
+ 
+<td bgcolor="FFCBAA"><center>
+<img src="#" height="200" width="200" />
+<img src="#" height="200" width="200" />
+</center></td>
+ 
+<td bgcolor="FFCBAA" height="200" width="520"><center>
+<p><b>INFO</b></p>
+<p>#</p>
+ 
+<img src="#" />
+ 
+<p><b>TRIVIA</b></p>
+<p>#</p>
+ 
+</center></td></table>
+ 
+<table bgcolor="000000">
+<td bgcolor="000000"><center>
+<img src="#" width="714" height="20" />
+</center></td>
+</table>
+ 
+</center>
+<p><a href="https://www.goatlings.com/forums/view_topic/64611/0">Code</a></p>

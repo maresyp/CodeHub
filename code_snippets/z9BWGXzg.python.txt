@@ -1,0 +1,60 @@
+from numpy import *
+ 
+ 
+def saisir():
+    n = int(input("Donner n : "))
+    while n < 3 or n > 20:
+        n = int(input("Donner n :"))
+    return n
+ 
+ 
+def remplir(t1, t2, n):
+    for i in range(n):
+        t1[i] = -1
+        while t1[i] <= 0:
+            t1[i] = int(input("Donner t1[" + str(i) + "] : "))
+        t2[i] = produit(t1[i])
+ 
+ 
+def produit(n):
+    p = 1
+    while n != 0:
+        r = n % 10
+        if r != 0:
+            p *= r
+        n = n // 10
+    return p
+ 
+ 
+def tri(t1, t2, n):
+    for i in range(1, n):
+        k2, k1 = t2[i], t1[i]
+        j = i - 1
+        while j >= 0 and t2[j] > k2:
+            t1[j+1] = t1[j]
+            t2[j+1] = t2[j]
+            j -= 1
+        t2[j+1], t1[j+1] = k2, k1
+ 
+ 
+def afficher(t1, t2, n):
+    j = 0
+    while j < n:
+        print()
+        print("Les cousins de", t1[j], "sont :", end=" ")
+        i = j + 1
+        if i < n and t2[i] == t2[j]:
+            while i < n and t2[i] == t2[j]:
+                print(t1[i], end=", ")
+                i += 1
+        else:
+            print("Aucun", end="")
+        j = i
+ 
+ 
+n = saisir()
+t1 = array([int()]*n)
+t2 = array([int()]*n)
+remplir(t1, t2, n)
+tri(t1, t2, n)
+afficher(t1, t2, n)

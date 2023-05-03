@@ -1,0 +1,20 @@
+{
+    "alt": "Keal's DevKit",
+    "version": "v0.0.1",
+    "authors": [
+        "Tim Keal"
+    ],
+    
+    "description": [
+        "a FOSS DevKit Engine"
+    ],
+ 
+    "inspiration": [
+        "BASCOM"
+    ],
+    
+    "includes": [
+    "{{ a_alt }} ({{ a_version }})",
+    "Keal's Storybook (v0.0.5a)"
+    ]
+}

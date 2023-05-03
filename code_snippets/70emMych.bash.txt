@@ -1,0 +1,9 @@
+# Typical Algorithm from what https://homes.cs.washington.edu/~todorov/courses/amath533/FeatherstoneOrin00.pdf says...
+# On w/ the typical algorithm
+ 
+for i = 1 to N do 
+    vi = vλ(i) +hi ˙qi; 
+    ai = aλ(i) + ˙hi ˙qi + hi ¨qi 
+end
+ 
+# Promising? Maybe...useful so far? Nope!

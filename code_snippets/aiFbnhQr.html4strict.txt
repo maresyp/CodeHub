@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Еволюційна модель</title>
+</head>
+<body>
+    <h1>Еволюційна модель</h1>
+    <h2>Поточне середовище: {{ environment }}</h2>
+    <div id="population-area" style="width: 500px; height: 500px; border: 1px solid black; display: flex; flex-wrap: wrap;"></div>
+    <form method="post">
+        <button type="submit">Наступне покоління</button>
+    </form>
+    <script>
+        // Define a function to generate the emoji for each individual in the population
+        function generateEmoji(individual) {
+            if (individual == 'A') {
+                return '🐀';
+            } else {
+                return '🐁';
+            }
+        }
+ 
+        // Get the population and population area elements from the HTML
+        var population = {{ population|tojson }};
+        var populationArea = document.getElementById("population-area");
+ 
+        // Loop through the population and add each individual to the population area as an emoji
+        for (var i = 0; i < population.length; i++) {
+            var emoji = generateEmoji(population[i]);
+            var square = document.createElement("div");
+            square.style.width = "50px";
+            square.style.height = "50px";
+            square.style.border = "1px solid black";
+            square.style.textAlign = "center";
+            square.style.fontSize = "40px";
+            square.style.lineHeight = "50px";
+            square.innerText = emoji;
+            if (i % Math.sqrt(population.length) == Math.floor(i / Math.sqrt(population.length))) {
+                square.style.borderLeft = "none";
+                square.style.borderTop = "none";
+            } else if (i % Math.sqrt(population.length) == Math.floor(i / Math.sqrt(population.length)) + 1) {
+                square.style.borderRight = "none";
+                square.style.borderBottom = "none";
+            } else {
+                square.style.border = "none";
+            }
+            populationArea.appendChild(square);
+        }
+    </script>
+</body>
+</html>

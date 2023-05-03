@@ -3,7 +3,7 @@ from faker import Faker
 from faker.providers import BaseProvider
 from typing import Iterable
 import random
-
+from pathlib import Path
 class Generator(ABC):
     """ Abstract class for generating mock users. """
 
@@ -22,7 +22,7 @@ class UserGenerator(Generator, BaseProvider):
         random.seed(2137)
 
         if available_tags is None:
-            self.__tags = ["Python", "C", "C++", "Java"]
+            self.__tags = ["Python", "C", "Cpp", "Java", "Javascript"]
         else:
             self.__tags: list[str] = available_tags # type: ignore
 
@@ -39,6 +39,7 @@ class UserGenerator(Generator, BaseProvider):
             data["pwd"] = self.generate_password()
             data["age"] = random.randint(18, 69)
             data["tags"] = random.sample(self.__tags, random.randint(1, len(self.__tags)))
+            data["code_snippets"] = {tag: [self.generate_code_snippet(tag) for tag in data["tags"]] for tag in data["tags"]}
             data["bio"] = self.generate_bio()
 
             yield data
@@ -60,6 +61,20 @@ class UserGenerator(Generator, BaseProvider):
     def generate_bio(self) -> str:
         """ Method for generating a random bio. """
         return self.__faker.text(max_nb_chars=150)
+
+    def generate_code_snippet(self, tag: str) -> str:
+        """ Method for acquiring code snippet with given tag """
+        file = None
+        try:
+            file = random.choice(list(Path("./code_snippets/").glob(f"*.{tag.lower()}.txt")))
+        except IndexError as e:
+            print(f"There are no {tag} files in code_snippets directory.")
+            print("Please run src/utils/async_crawler.py to download some.")
+            raise e
+
+        with file.open('r') as f:
+            return f.read()
+
 
 if __name__ == "__main__":
     user_generator = UserGenerator()

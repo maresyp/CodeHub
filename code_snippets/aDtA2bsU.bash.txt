@@ -1,0 +1,39 @@
+#!/bin/bash
+###################################################################### 
+#Copyright (C) 2023  Kris Occhipinti
+#https://filmsbykris.com
+ 
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation version 3 of the License.
+ 
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+ 
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###################################################################### 
+# Resets my kids password to a 4 char word and random number
+# for use with crontab
+# new passwords are sent to server for retrieval 
+ 
+user="kid"
+dir="/home/${user}/.fbk"
+word_file="${dir}/words"
+ 
+[[ -d $dir ]] || mkdir -p "$dir" || exit 1
+if [[ ! -f $word_file ]]
+then
+        grep -E '^[[:alpha:]]{4}$' /usr/share/dict/words|shuf|tr "[A-Z]" "[a-z]"|head -n25 > "$word_file"
+        cat "$word_file" || exit 1
+fi
+ 
+password="$(shuf $word_file|head -n1)$RANDOM"
+echo "$password"
+echo "$password" > /tmp/.p
+url="https://filmsbykris.com/passwordUpdate.php?device=${user}&p=${password}"
+wget -qO /dev/null "$url"
+#chpasswd <<< "$user:$password"
+echo -e "$password\n$password" | passwd $user

@@ -1,0 +1,45 @@
+BITS 64
+ 
+section .data
+    rows    db 2
+    cols    db 3
+    matrix:
+        dq 0xe9, 0x8e
+        dq 0xde, 0x5d
+        dq 0xaa, 0x19
+ 
+section .bss
+    min_array     resq 2
+ 
+section .text
+    global _start
+ 
+_start:
+ 
+main:
+    call    find_min
+ 
+; Finds the minimum elements in the columns and adds them to the min array
+find_min:
+    mov     rsi, matrix       ; load the address of the matrix
+    mov     rdi, min_array    ; load the address of the min_array
+    movzx   ecx, byte [cols] ; load the number of columns
+    .iterate_cols:
+        xor     rbx, rbx      ; reset the minimum value to 0
+        push    rcx           ; save the outer loop counter   
+        movzx   ecx, byte [rows] ; load the number of rows 
+        .iterate_rows:
+            mov    rax, qword [rsi]  ; load the current element
+            cmp    rax, rbx         ; compare it with the minimum value
+            jge    .skip_update     ; if greater or equal, skip updating the minimum value
+            mov    rbx, rax         ; otherwise, update the minimum value
+            .skip_update:
+            add     rsi, rows * 8        ; move to the next element in the column
+            loop    .iterate_rows    ; loop for all rows
+        pop     rcx                ; restore the outer loop counter    
+        mov     qword [rdi], rbx   ; store the minimum value in the min array
+        add     rdi, 8             ; move to the next element in the min array
+        mov     rsi, matrix       ; reset the matrix pointer to the beginning of the column
+        add     rsi, 8          ; move to the next column
+        loop    .iterate_cols      ; loop for all columns
+    ret

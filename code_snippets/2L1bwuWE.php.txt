@@ -1,0 +1,18 @@
+add_filter( 'wcfm_membership_registration_fields_address', function( $fields ) {
+    if ( isset( $fields['addr_1'] ) && isset( $fields['addr_1']['custom_attributes'] ) ) {
+        if (isset($fields['addr_1']['custom_attributes']['required']) ) {
+            unset( $fields['addr_1']['custom_attributes']['required'] );
+        }
+    }
+    if ( isset( $fields['country'] ) && isset( $fields['country']['custom_attributes'] ) ) {
+        if (isset($fields['country']['custom_attributes']['required']) ) {
+            unset( $fields['country']['custom_attributes']['required'] );
+        }
+    }
+    if ( isset( $fields['zip'] ) && isset( $fields['zip']['custom_attributes'] ) ) {
+        if (isset($fields['zip']['custom_attributes']['required']) ) {
+            unset( $fields['zip']['custom_attributes']['required'] );
+        }
+    }
+    return $fields;
+} );

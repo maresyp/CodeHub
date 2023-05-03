@@ -1,0 +1,72 @@
+a=0
+buraot=[]
+BURAOTPA=[]
+flg1 =True
+flg2=False
+flg3=False
+DATASTRUC = ""
+_list = [
+    {'name': 'JOE', 'details' : {'age':19, 'brgy': 'Fairview'}, 'subject': {'DATASTRUC' : [1.0, 4.0]}},
+    {'name': 'CHA', 'details' : {'age':20, 'brgy': 'Maligaya'}, 'subject': {'DATASTRUC' : [2.0, 4.0]}},
+    {'name': 'AI', 'details' : {'age':21, 'brgy': 'Lagro'}, 'subject': {'DATASTRUC' : [3.0, 3.0]}}
+    ]
+for z in _list:
+    PANGETMO = z['subject']
+if "DATASTRUC" in PANGETMO:
+    buraot.append(PANGETMO)
+    DATASTRUC = str(buraot)
+    DATASTRUC = DATASTRUC.replace("': [3.0, 3.0]}]", "")
+    DATASTRUC = DATASTRUC.replace("[{'", "")
+    
+ 
+ 
+for d in _list:
+    MAMAMO = d['details']['age']
+    MUKHAMO = d['details']['brgy']
+    AAA = d['subject']
+    AyosNa = d['subject']["DATASTRUC"]
+    name = d['name']
+    print("Hello my name is", end = " ")
+    
+   
+    print(name, end=" ")
+    if MAMAMO == 19:
+        print("with an age of", d['details']['age'], end = " ")
+        if MUKHAMO == "Fairview": 
+            print("and living at Barangay", d['details']['brgy'], "has a", DATASTRUC, "grade of", end = " ")
+                    
+            for ayokoNa in AyosNa:
+                        
+                if ayokoNa == 1:
+                    print(ayokoNa, "in midterms and", end=" ")
+                            
+                if ayokoNa == 4.0:
+                    print(ayokoNa, "in finals")
+                        
+    
+    if name == "CHA":
+        print("with an age of", d['details']['age'], end = " ")
+        if MUKHAMO == "Maligaya": 
+            print("and living at Barangay",  d['details']['brgy'], "has a", DATASTRUC, "grade of", end = " ")
+            
+            for ayokoNa in AyosNa:
+                        
+                if ayokoNa == 2.0:
+                    print(ayokoNa, "in midterms and", end=" ")
+                            
+                if ayokoNa == 4.0:
+                    print(ayokoNa, "in finals")
+                    
+    if name == "AI":
+        print("with an age of", d['details']['age'], end = " ")
+        if MUKHAMO == "Lagro": 
+            print("and living at Barangay",  d['details']['brgy'], "has a", DATASTRUC, "grade of", end = " ")
+            
+            for ayokoNa in AyosNa:
+                        
+                if ayokoNa == 3.0:
+                    print(ayokoNa, "in midterms and", end=" ")
+                            
+                if ayokoNa == 3.0:
+                    print(ayokoNa, "in finals")
+                    break

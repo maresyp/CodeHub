@@ -1,0 +1,252 @@
+const budget           = document.getElementById("budget");
+ 
+const modify           = document.getElementById("modify");
+const modifyInput      = document.getElementById("modify-input");
+const modifySave       = document.getElementById("modify-save");
+ 
+const bundles          = document.querySelectorAll(".bundle");
+const bundleWrapper    = document.getElementById("bundleWrapper");
+const bundleAction     = document.getElementById("bundleAction");
+const bundleDuplicate    = document.getElementById("bundle-duplicate");
+const bundleAddItem    = document.getElementById("bundle-addItem");
+const bundleAddSubItem = document.getElementById("bundle-addSubItem");
+ 
+const companyName      = document.querySelectorAll(".clients-company-name")[0];
+const companyNameSide  = document.getElementById("companyName");
+ 
+// Tracks the last target to use outside the event listener;
+let bundleTarget;
+// Safe storage in case user wants to undo;
+let trash = new Object();
+// Tracks the number of modifications
+let trashTracker = 0;
+// Tracks the last target to use outside the event listener;
+var modifyTarget;
+// Prevent multiple instances of the bundleActions;
+var modifyToggle = 0;
+var beingModified = false;
+ 
+budget.addEventListener('click', (event) => {
+    if (modifyToggle === 0) { showModify(event.target) }
+});
+ 
+// Modify the values on the fly
+modifyInput.addEventListener('focus', (event) =>{
+    beingModified = true;
+ 
+    let eventTarget = event.target;
+    console.log(eventTarget.value);
+ 
+    // TRASH recording STARTS ---
+    //If bundle target exists:
+    if (beingModified && eventTarget.value == "") {
+        console.log("test");
+        let elementClass = modifyTarget.className;
+        elementClass = '.' + elementClass.replace(/\s+/g, '.');
+        const query = document.querySelectorAll(elementClass);
+        const queryArray = [...query];
+        const queryIndex = queryArray.indexOf(modifyTarget);
+ 
+        trash[trashTracker] = {
+            action: "modify",
+            elementQueryIndex: queryIndex,
+            elementClassName: elementClass,
+            elementInnerText: modifyTarget.innerText
+        };
+    //Increments the trash count
+        trashTracker++;
+        beingModified = false;
+    }
+    // TRASH recording ENDS ---
+});
+modifyInput.addEventListener('input', (event) => {
+    modifyTarget.innerText = event.target.value;
+});
+ 
+bundleWrapper.addEventListener("mouseover", (event) => {
+    
+    bundleTarget = event.target;
+ 
+    if (bundleTarget.classList.contains("bundle-title")) {return;}
+    if (bundleTarget.classList.contains("price")) {return;}
+    if (bundleTarget.tagName == "SMALL") {return;}
+ 
+    const targetRect = event.target.getBoundingClientRect();
+    bundleAction.style.top = `${targetRect.top + targetRect.height + window.pageYOffset - 3}px`;
+    bundleAction.style.left = `${targetRect.left + window.pageXOffset - 5}px`;
+    bundleAction.style.visibility = "visible";
+ 
+    if (bundleTarget.classList.contains("bundle")) {
+        bundleAction.style.top = `${targetRect.top - 60 + window.pageYOffset - 2}px`;
+    }
+ 
+    if (bundleTarget.classList.contains("bundle-item") || bundleTarget.classList.contains("bundle-sub-item")) {
+        bundleAddItem.style.display = "inline-block";
+        bundleAddSubItem.style.display = "inline-block";
+    } else {
+        bundleAddItem.style.display = "none";
+        bundleAddSubItem.style.display = "none";
+    }
+    
+    if (bundleTarget.classList.contains("clients-name")) {
+        bundleDuplicate.style.display = "none";
+    } else {
+        bundleDuplicate.style.display = "inline-block";
+    }
+ 
+});
+ 
+document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key == "z") {
+        undo();
+    }
+    if (event.key == "Enter") {
+        hideModify();
+    }
+});
+ 
+// When a item is hovered it shows the possible options to modify
+const showModify = (targetElement) => {
+ 
+    //Prevent showing modifiers on the whole wrapper
+    if (targetElement.id === "mainBundle") {return}
+    
+    modifyInput.value = "";
+    modify.style.visibility = "visible";
+    
+    targetElement.style.opacity = ".2";
+    const targetRect = targetElement.getBoundingClientRect();
+    
+    if (targetElement.classList.contains('footer-date')) {
+        modify.style.top = "auto";
+        modify.style.bottom = `${targetRect.width}px`;
+        modify.style.left = `${targetRect.left}px`;
+    }
+ 
+    modify.style.top = `${targetRect.top + targetRect.height / 2  + window.pageYOffset - 30}px`;
+    modify.style.left = `${targetRect.left + window.pageXOffset}px`;
+ 
+    modifyTarget = targetElement;
+    modifyToggle++;
+ 
+    modifyInput.focus();
+}
+ 
+// Hides the input that changes the text
+const hideModify = () => {
+    if (modifyTarget === companyName) {
+        companyNameSide.textContent = companyName.textContent;
+    }
+    if (modifyTarget === companyNameSide) {
+        companyName.textContent = companyNameSide.textContent;
+    }
+    if (modifyTarget.innerText == "") {
+        modifyTarget.innerText = "...";
+    }
+    modify.style.visibility = "hidden";
+    modifyTarget.style.opacity = "1";
+    modifyToggle = 0;
+}
+ 
+const duplicateElement = () => {
+    const duplicate = bundleTarget.cloneNode(true);
+    bundleTarget.after(duplicate);
+}
+ 
+const deleteElement = () => {
+ 
+    // TRASH recording STARTS ---
+    //If bundle target exists:
+    if (bundleTarget) {
+        //Get the parent;
+        let elementParent = bundleTarget.parentElement;
+        //Get the position of the element
+        let elementIndex = Array.from(elementParent.children).indexOf(bundleTarget);
+        //Adds element to trash
+        trash[trashTracker] = {
+            action: "delete",
+            elementIndex: elementIndex,
+            elementParent: elementParent,
+            elementClassName: bundleTarget.className,
+            elementContent: bundleTarget.innerHTML
+        };
+        //Increments the trash count
+        trashTracker++;
+    }
+    // TRASH recording ENDS ---
+ 
+    bundleTarget.remove();
+}
+ 
+const addItem = (element) => {
+    let parent = bundleTarget.parentElement;
+    let child = document.createElement("div");
+    let childIndex = Array.from(parent.children).indexOf(bundleTarget);
+ 
+    child.className = "bundle-item modifiable";
+    child.textContent = "Lorem ipsum dolor sit amet";
+ 
+    if (element.id == "bundle-addSubItem") {
+        child.className = "bundle-sub-item modifiable";
+        child.textContent = "Lorem ipsum dolor sit amet"
+    }
+ 
+    parent.insertBefore(child, parent.children[childIndex+1]);
+}
+ 
+const undo = () => {
+    let trashLength = Object.keys(trash).length;
+ 
+    if (trashLength === 0) {
+        console.log("Nothing to undo");
+        return;
+    }
+ 
+    let i = trashLength-1;
+    // for (let i = trashLength-1; i >= 0; i--) {
+        
+    // If it was deleted
+    if (trash[i] && trash[i].action == "delete") {
+        // Recreat the element
+        let child = document.createElement("div");
+        let parent = trash[i].elementParent;
+        let childIndex = trash[i].elementIndex;
+        child.className = trash[i].elementClassName;
+        child.innerHTML = trash[i].elementContent;
+        // Insert the element in the right position
+        parent.insertBefore(child, parent.children[childIndex]);
+        // Delete the element that was stored in the object
+        delete trash[i];
+        // Decrements trash counter
+        trashTracker--;
+        console.log("undo deletion");
+        return;
+    }
+ 
+    // If it was modified
+    if (trash[i] && trash[i].action == "modify") {
+        console.log(i);
+        // Identify the element
+        let className = trash[i].elementClassName;
+        let queryIndex = trash[i].elementQueryIndex;
+        const element = document.querySelectorAll(className)[queryIndex];
+        const a = trash[i].elementInnerText;
+        console.log(element);
+        element.innerText = a;
+        
+        // Delete the element that was stored in the object
+        delete trash[i];
+        // Decrements trash counter
+        trashTracker--;
+        return;
+    }
+ 
+        // If it was added
+ 
+        
+ 
+        // console.log(trash[i]);
+    // }
+ 
+    // console.log("undo");
+}

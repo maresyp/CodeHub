@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+It's not a replace !!!!!
+Add content better types inside your types.xml or use Central Economy 
+https://community.bistudio.com/wiki/DayZ:Central_Economy_Configuration
+-->
+<types>
+  <type name="cereal_box_Stitch">
+    <nominal>1</nominal>
+    <lifetime>3600</lifetime>
+    <restock>1800</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="cereal_box_Toto">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="cereal_box_Trick">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="cereal_box_Widow">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_BlueMccoy">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_GreenMccoy">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_PinkHula">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_PurpleNik">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="PowderedMilk_MMBlue">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="PowderedMilk_MMBlueV">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="PowderedMilk_MMBrown">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="PowderedMilk_MMDarkBlue">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="PowderedMilk_MMPink">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="PowderedMilk_MMRed">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_Cannabis">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_Dew">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_DrPepper">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_Nano">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_SpinalFluid">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_Valhalla">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_SpriteCranberry">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="WaterBottle_SmoothieCoconut">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="WaterBottle_SmoothieGrape">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="WaterBottle_Orange">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="WaterBottle_SmoothieTropical">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="WaterBottle_Watermelon">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="WaterBottle_Dew">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="WaterBottle_Pepsi">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="sodacan_Heineken">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_HellokittyMelon">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_Hellokitty">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="ASwedishFish">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="cereal_box_MandoPuffs">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_OrangeNik">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_PurpleMonster">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_RedMonster">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_YellowMonster">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_RedSpace">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="Crackers_GreenSpace">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="cereal_box_Pred">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+  <type name="cereal_box_Among">
+    <nominal>1</nominal>
+    <lifetime>3400</lifetime>
+    <restock>1700</restock>
+    <min>0</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0" />
+    <category name="food" />
+    <usage name="Town" />
+    <usage name="Village" />
+    <usage name="Office" />
+  </type>
+</types>

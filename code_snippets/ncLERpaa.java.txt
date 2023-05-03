@@ -1,0 +1,30 @@
+class GameSpinner {
+    private int count = 0, last = 0, max = 0;
+ 
+    public GameSpinner(int num) {
+        max = num;
+    }
+ 
+    public int spin() {
+        int random = (int) (Math.random() * max) + 1;
+        if (random != last) count = 1;
+        else count++;
+        last = random;
+        return random;
+    }
+ 
+    public int currentRun() {
+        return count;
+    }
+}
+ 
+public class GameSpinnerRunner {
+    public static void main(String[] args) {
+        GameSpinner g = new GameSpinner(4);
+        System.out.println("run :: " + g.currentRun() + "\n");
+        for (int i = 1; i < 10; i++) {
+            System.out.println("spin :: " + g.spin());
+            System.out.println("run :: " + g.currentRun());
+        }
+    }
+}

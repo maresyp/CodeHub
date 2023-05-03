@@ -1,0 +1,65 @@
+36:38.98 /home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/widget/gtk/nsMenuObject.cpp:200:32: error: no member named 'mImageRegion' in 'nsStyleList'
+36:38.98             auto& rect = list->mImageRegion.AsRect();
+36:38.98                          ~~~~  ^
+36:38.98 /home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/widget/gtk/nsMenuObject.cpp:244:9: warning: ignoring return value of function declared with 'nodiscard' attribute [-Wunused-result]
+36:38.98         loader->LoadImage(uri, nullptr, nullptr,
+36:38.98         ^~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~
+36:39.20 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/media/libcubeb/gtest»
+36:39.24 gmake[6]: вход в каталог «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/memory/volatile/tests»
+36:39.24 memory/volatile/tests
+36:39.95 1 warning and 1 error generated.
+36:40.00 gmake[6]: *** [/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/config/rules.mk:670: nsMenuObject.o] Ошибка 1
+36:40.00 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/widget/gtk»
+36:40.01 gmake[5]: *** [/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/config/recurse.mk:72: widget/gtk/target-objects] Ошибка 2
+36:40.01 gmake[5]: *** Ожидание завершения заданий…
+36:40.05 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/xpcom/threads»
+36:42.14 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/memory/volatile/tests»
+36:43.11 In file included from Unified_cpp_xpcom_base2.cpp:47:
+36:43.11 /home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/xpcom/base/nsMemoryReporterManager.cpp:133:26: warning: 'mallinfo' is deprecated [-Wdeprecated-declarations]
+36:43.11   struct mallinfo info = mallinfo();
+36:43.11                          ^
+36:43.11 /usr/include/malloc.h:114:48: note: 'mallinfo' has been explicitly marked deprecated here
+36:43.11 extern struct mallinfo mallinfo (void) __THROW __MALLOC_DEPRECATED;
+36:43.11                                                ^
+36:43.11 /usr/include/malloc.h:32:30: note: expanded from macro '__MALLOC_DEPRECATED'
+36:43.11 # define __MALLOC_DEPRECATED __attribute_deprecated__
+36:43.11                              ^
+36:43.11 /usr/include/x86_64-linux-gnu/sys/cdefs.h:339:51: note: expanded from macro '__attribute_deprecated__'
+36:43.11 # define __attribute_deprecated__ __attribute__ ((__deprecated__))
+36:43.12                                                   ^
+36:43.50 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/memory/gtest»
+36:46.73 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/layout/base/gtest»
+36:54.86 1 warning generated.
+36:54.92 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/xpcom/base»
+36:59.76 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/media/ffvpx/libavcodec/x86»
+*** KEEP ALIVE MARKER ***ompile misc libs tools
+Total duration: 0:37:00.234668
+37:22.13 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/widget»
+37:26.61 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/media/webrtc/signaling/gtest»
+*** KEEP ALIVE MARKER ***ompile misc libs tools
+Total duration: 0:38:00.225480
+*** KEEP ALIVE MARKER ***
+Total duration: 0:39:00.226783
+*** KEEP ALIVE MARKER ***
+Total duration: 0:40:00.226779
+*** KEEP ALIVE MARKER ***
+Total duration: 0:41:00.230389
+*** KEEP ALIVE MARKER ***
+Total duration: 0:42:00.230787
+*** KEEP ALIVE MARKER ***
+Total duration: 0:43:00.230819
+43:06.28     Finished release [optimized] target(s) in 42m 31s
+43:13.34 gmake[6]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu/toolkit/library/rust»
+43:13.36 gmake[5]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu»
+43:13.37 gmake[4]: *** [/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/config/recurse.mk:34: compile] Ошибка 2
+43:13.39 gmake[4]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu»
+43:13.40 gmake[3]: *** [/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/config/rules.mk:361: default] Ошибка 2
+43:13.41 gmake[3]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1/obj-x86_64-linux-gnu»
+43:13.42 gmake[2]: *** [client.mk:60: build] Ошибка 2
+43:13.42 gmake[2]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1»
+43:13.44 169 compiler warnings present.
+43:15.13 /usr/bin/notify-send --app-name=Mozilla Build System Mozilla Build System Build failed
+make[1]: *** [GNUmakefile:9: build] Ошибка 2
+make[1]: выход из каталога «/home/nihi1ist/.src/firefox/112.0/firefox-112.0+build1»
+make: *** [/usr/share/cdbs/1/class/makefile.mk:77: debian/stamp-makefile-build] Ошибка 2
+dpkg-buildpackage: ошибка: debian/rules build subprocess returned exit status 2

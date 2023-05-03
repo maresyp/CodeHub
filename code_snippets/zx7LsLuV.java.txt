@@ -1,0 +1,17 @@
+// Use this map to send parameters to your Cloud Code function
+// Just push the parameters you want into it
+Map<String, String> parameters = new HashMap<String, String>();
+ 
+// This calls the function in the Cloud Code
+ParseCloud.callFunctionInBackground("test", parameters, new FunctionCallback<Map<String, Object>>() {
+    @Override
+    public void done(Map<String, Object> mapObject, ParseException e) {
+        if (e == null) {
+            // Everything is alright
+            Toast.makeText(MainActivity.this, "Answer = " + mapObject.get("answer").toString(), Toast.LENGTH_LONG).show();
+        }
+        else {
+            // Something went wrong
+        }
+    }
+});

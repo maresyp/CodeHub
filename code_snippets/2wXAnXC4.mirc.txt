@@ -1,0 +1,35 @@
+alias test_one { noop $urlget(https://www.mirc.com/versions.txt,gfik,test.txt,test_one_cb) }
+alias test_one_cb {
+  echo 3 -ag state: $urlget($1).state
+  echo 3 -ag size: $urlget($1).size
+  echo 3 -ag reply: $urlget($1).reply
+}
+ 
+; --------
+ 
+alias test_two {
+  sockclose test_two
+  sockopen -e test_two www.mirc.com 443
+}
+ 
+ON *:SOCKOPEN:test_two: {
+  if ($sockerr) { echo 4 -a Socket opening error! -> $sockerr -> $sock($sockname).wsmsg | return }
+ 
+  sockwrite -nt $sockname GET /versions.txt HTTP/1.1
+  sockwrite -nt $sockname Host: www.mirc.com
+  sockwrite -nt $sockname User-Agent: mIRC
+  sockwrite -nt $sockname $crlf
+}
+ 
+ON *:SOCKREAD:test_two: {
+  if ($sockerr) { echo 4 -a Socket reading error! -> $sockerr -> $sock($sock).wsmsg | return }
+ 
+  var %r
+  sockread %r 
+ 
+  if (!$sockbr) { return }
+ 
+  if (%r == $null) { sockclose $sockname | return }
+ 
+  echo 12 -ag headers: %r
+}

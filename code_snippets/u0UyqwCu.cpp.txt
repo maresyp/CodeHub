@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define T     \
+  ll rrr;     \
+  cin >> rrr; \
+  for (ll w1 = 0; w1 < rrr; w1++)
+#define cin(vec, a) for (ll i = 0; i < a && cin >> vec[i]; i++)
+#define cout(vec, a) for (ll i = 0; i < a && cout << vec[i] << " "; i++)
+#define MOD 1000000007
+#define PI 3.14159265
+#define ceil(a, b) ((a / b) + (a % b ? 1 : 0))
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#include <iostream>
+#define INF 1e9
+#define mod 1000000007
+#include <string>
+#define el '\n'
+#define sp ' '
+#define loop(n) for (int i = 0; i < n; i++)
+typedef long long ll;
+#define ordered_set tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
+#define multi_ordered_set tree<ll, null_type, greater_equal<ll>, rb_tree_tag, tree_order_statistics_node_update>
+template <typename O = int>
+istream &operator>>(istream &in, vector<O> &v)
+{
+  for (auto &x : v)
+    in >> x;
+  return in;
+}
+template <typename O = int>
+ostream &operator<<(ostream &out, const vector<O> &v)
+{
+  for (const O &x : v)
+    out << x << ' ';
+  return out;
+}
+void sasa()
+{
+  ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+#ifndef ONLINE_JUDGE
+  freopen("input4.txt", "r", stdin), freopen("output4.txt", "w", stdout);
+#endif
+}
+ 
+///////////////////////////////////////// code //////////////////////////////////////////////////////////////////////////
+bool isit(ll i)
+{
+  string s = to_string(i);
+  for (ll j = 0; j < s.size() - 1; j++)
+  {
+    if (abs(s[j] - s[j + 1]) > 1)
+      return false;
+  }
+  return true;
+}
+void solve()
+{
+  ll k, res = 0;
+  cin >> k;
+  for (ll i = 1; i < ll(1e5 + 1); i++)
+  {
+    ll temp = isit(i);
+    if (temp)
+      res++;
+    if (res == k)
+    {
+      cout << i << el;
+      return;
+    }
+  }
+}
+ 
+int main()
+{
+  sasa();
+ 
+  ll t = 1, i = 1;
+  // cin >> t;
+  while (t--)
+  {
+    // cout << "test #" << i << ":\n";
+    solve();
+    i++;
+    if (!t)
+      break;
+    // cout << "\n";
+  }
+ 
+  return 0;
+}

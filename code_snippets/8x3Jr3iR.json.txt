@@ -1,0 +1,144 @@
+{
+  "error": "none",
+  "data": {
+    "tanks": [
+      {
+        "id": 1016210,
+        "name": "11111",
+        "group_id": "2668",
+        "capacity": "25222",
+        "fuel_id": "1",
+        "status": "1"
+      },
+      {
+        "id": 1016214,
+        "name": "tank04.13.2023",
+        "group_id": "2668",
+        "capacity": "15005",
+        "fuel_id": "1",
+        "status": "1"
+      },
+      {
+        "id": 1016215,
+        "name": "tank2-13.04.2023",
+        "group_id": "2668",
+        "capacity": "13000",
+        "fuel_id": "1",
+        "status": "1"
+      },
+      {
+        "id": 1016216,
+        "name": "tank#2-13.04.2023",
+        "group_id": "2668",
+        "capacity": "25000",
+        "fuel_id": "1",
+        "status": "1"
+      }
+    ],
+    "dut": [
+      {
+        "id": 4195,
+        "group_id": "2668",
+        "name": "Dut #06.01.2023",
+        "serial": "046382",
+        "man": "ALISONIC",
+        "model": "Delphi RS",
+        "status": 1,
+        "port_num": 1,
+        "interval": 30,
+        "min_val": 170,
+        "low_alarm": 0,
+        "high_alarm": 0,
+        "tank_id": 1016102,
+        "fuel_id": 1,
+        "use_density": 1,
+        "water_level_thr": 30,
+        "fuel_min_level": 0
+      },
+      {
+        "id": 4195,
+        "group_id": "2668",
+        "name": "dut1",
+        "serial": "046572",
+        "man": "ALISONIC",
+        "model": "Delphi RS",
+        "status": 1,
+        "port_num": 1,
+        "interval": 30,
+        "min_val": 170,
+        "low_alarm": 0,
+        "high_alarm": 0,
+        "tank_id": 1016215,
+        "fuel_id": 1,
+        "use_density": 1,
+        "water_level_thr": 30,
+        "fuel_min_level": 0
+      },
+      {
+        "id": 4195,
+        "group_id": "2668",
+        "name": "222222",
+        "serial": "046879",
+        "man": "ALISONIC",
+        "model": "Delphi RS",
+        "status": 1,
+        "port_num": 1,
+        "interval": 30,
+        "min_val": 170,
+        "low_alarm": 0,
+        "high_alarm": 0,
+        "tank_id": 1016216,
+        "fuel_id": 1,
+        "use_density": 1,
+        "water_level_thr": 30,
+        "fuel_min_level": 0
+      }
+    ],
+    "trk": [
+      {
+        "id": 812,
+        "iface": "can0",
+        "addr": "05",
+        "model": "PL03",
+        "number": "17654110549471057540",
+        "dut_id": "4523",
+        "tank_id": "1016216",
+        "fuel_id": "1",
+        "status": "1",
+        "trk_type": "",
+        "pistol_number": "1"
+      },
+      {
+        "id": 812,
+        "iface": "can0",
+        "addr": "05",
+        "model": "PL03",
+        "number": "17654110549471057540",
+        "dut_id": "4523",
+        "tank_id": "1016216",
+        "fuel_id": "1",
+        "status": "1",
+        "trk_type": "",
+        "pistol_number": "1"
+      },
+      {
+        "id": 812,
+        "iface": "can0",
+        "addr": "05",
+        "model": "PL03",
+        "number": "17654110549471057540",
+        "dut_id": "4523",
+        "tank_id": "1016216",
+        "fuel_id": "1",
+        "status": "1",
+        "trk_type": "1",
+        "pistol_number": "1"
+      }
+    ],
+    "settings": [
+      {
+        "LIMITS_MODE": 1
+      }
+    ]
+  }
+}

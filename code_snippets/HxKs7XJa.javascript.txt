@@ -1,0 +1,29 @@
+const { initializeApp } = require("firebase/app");
+const { getFirestore, doc, getDoc, setDoc } = require("firebase/firestore");
+//* remove before deployment
+const { connectFirestoreEmulator } = require("firebase/firestore");
+ 
+const firebaseConfig = {
+  //private stuff; is defined
+}
+const firebaseApp = initializeApp(firebaseConfig);
+ 
+const db = getFirestore(firebaseApp);
+connectFirestoreEmulator(db, 'localhost', 8080)
+ 
+async function getRoute(id) {
+    let docRef = doc(db, "routes", id); 
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+            return docSnap.data();
+    } else {
+            console.log("No Document Found");
+            let route = await findRoute(id);
+            if (route == 404) {
+                    return 404;
+            } else {
+                    setDoc(doc(db, "routes", id), route);
+                    return route;
+            }
+    }
+}

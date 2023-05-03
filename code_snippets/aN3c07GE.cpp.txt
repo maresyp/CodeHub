@@ -1,0 +1,176 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+ 
+using namespace std;
+ 
+struct mineral
+{
+    double hardness_min;
+    double hardness_max;
+    string cleavage;
+    string color;
+    string luminescence;
+    string name;
+};
+ 
+vector<mineral> getFiltredMinerals(vector<mineral> inputMinerals, double hardness, string cleavage, string color, string luminescence)
+{
+    vector<mineral> filtredMinerals;
+    for (int i = 0; i < inputMinerals.size(); i++)
+    {
+        mineral currentMineral = inputMinerals[i];
+        bool sovpadaetHardness = inputMinerals[i].hardness_min <= hardness && hardness <= inputMinerals[i].hardness_max;
+        bool sovpadaetCleavage = inputMinerals[i].cleavage == cleavage;
+        bool sovpadaetColor = inputMinerals[i].color == color;
+        bool sovpadaetLuminescence = inputMinerals[i].luminescence == luminescence;
+        if (sovpadaetHardness && sovpadaetCleavage && sovpadaetColor && sovpadaetLuminescence)
+        {
+            filtredMinerals.push_back(currentMineral);
+        }
+    }
+    return filtredMinerals;
+}
+ 
+int main()
+{
+    //setlocale(LC_ALL, "Russian");//Чтоб работал русский язык в консоли
+    system("chcp 1251");//Чтоб работал русский язык в консоли
+ 
+    vector<mineral> minerals;
+    mineral diamond;
+    diamond.name = "Алмаз";
+    diamond.hardness_min = 10;
+    diamond.hardness_max = 10;
+    diamond.cleavage = "Совершенная";
+    diamond.color = "Бесцветный";
+    diamond.luminescence = "Алмазный";
+ 
+    mineral galena;
+    galena.name = "Галенит";
+    galena.hardness_min = 2;
+    galena.hardness_max = 3;
+    galena.cleavage = "Совершенная";
+    galena.color = "Свинцово-серый";
+    galena.luminescence = "Металлический";
+ 
+    mineral cinnabar;
+    cinnabar.name = "Киноварь";
+    cinnabar.hardness_min = 2;
+    cinnabar.hardness_max = 2.5;
+    cinnabar.cleavage = "Совершенная";
+    cinnabar.color = "Красный";
+    cinnabar.luminescence = "Полуметаллический";
+ 
+    mineral molibdenite;
+    molibdenite.name = "Молибденит";
+    molibdenite.hardness_min = 1;
+    molibdenite.hardness_max = 1;
+    molibdenite.cleavage = "Весьма совершенная";
+    molibdenite.color = "Свинцово-серый с голубым оттенком";
+    molibdenite.luminescence = "Металлический";
+ 
+    mineral realgar;
+    realgar.name = "Реальгар";
+    realgar.hardness_min = 1.5;
+    realgar.hardness_max = 2;
+    realgar.cleavage = "Совершенная";
+    realgar.color = "Оранжевый";
+    realgar.luminescence = "Алмазный";
+ 
+    mineral pyrite;
+    pyrite.name = "Пирит";
+    pyrite.hardness_min = 6;
+    pyrite.hardness_max = 6.5;
+    pyrite.cleavage = "Весьма несовершенная";
+    pyrite.color = "Латунно-желтый";
+    pyrite.luminescence = "Металлический";
+ 
+    mineral cassiterite;
+    cassiterite.name = "Касситерит";
+    cassiterite.hardness_min = 6;
+    cassiterite.hardness_max = 7;
+    cassiterite.cleavage = "Несовершенная";
+    cassiterite.color = "Черный";
+    cassiterite.luminescence = "Алмазный";
+ 
+    mineral brucite;
+    brucite.name = "Брусит";
+    brucite.hardness_min = 2.5;
+    brucite.hardness_max = 2.5;
+    brucite.cleavage = "Весьма совершенная";
+    brucite.color = "Бело-голубой";
+    brucite.luminescence = "Стеклянный";
+ 
+    mineral uvarovite;
+    uvarovite.name = "Уваровит";
+    uvarovite.hardness_min = 6.5;
+    uvarovite.hardness_max = 7.5;
+    uvarovite.cleavage = "Несовершенная";
+    uvarovite.color = "Изумрудно-зеленый";
+    uvarovite.luminescence = "Алмазный";
+ 
+    mineral morganite;
+    morganite.name = "Морганит";
+    morganite.hardness_min = 7.5;
+    morganite.hardness_max = 8;
+    morganite.cleavage = "Несовершенная";
+    morganite.color = "Розовый";
+    morganite.luminescence = "Стеклянный";
+ 
+    minerals.push_back(diamond);
+    minerals.push_back(galena);
+    minerals.push_back(cinnabar);
+    minerals.push_back(molibdenite);
+    minerals.push_back(realgar);
+    minerals.push_back(pyrite);
+    minerals.push_back(cassiterite);
+    minerals.push_back(brucite);
+    minerals.push_back(uvarovite);
+    minerals.push_back(morganite);
+ 
+    double userHardness;
+    string userCleavage;
+    string userColor;
+    string userLuminescence;
+ 
+    cout << "Введите твердость:";
+    cin >> userHardness;
+    cout << "Введите спайность:";
+    cin >> userCleavage;
+    cout << "Введите цвет:";
+    cin >> userColor;
+    cout << "Введите блеск:";
+    cin >> userLuminescence;
+ 
+    vector<mineral> filtredMinerals = getFiltredMinerals
+    (
+        minerals,
+        userHardness,
+        userCleavage,
+        userColor,
+        userLuminescence
+    );
+ 
+    //Пример ввода из скриншота
+    /*
+6.5
+Несовершенная
+Изумрудно-зеленый
+Алмазный
+    */
+ 
+    cout << "\n";
+    cout << "Найдены следующие минералы:\n";
+    for (int i = 0; i < filtredMinerals.size(); i++)
+    {
+        cout << "----------------" << endl;
+        cout << "name: " << filtredMinerals[i].name << endl;
+        cout << "hardness_min: " << filtredMinerals[i].hardness_min << endl;
+        cout << "hardness_max: " << filtredMinerals[i].hardness_max << endl;
+        cout << "cleavage: " << filtredMinerals[i].cleavage << endl;
+        cout << "color: " << filtredMinerals[i].color << endl;
+        cout << "luminescence: " << filtredMinerals[i].luminescence << endl;
+    }
+}

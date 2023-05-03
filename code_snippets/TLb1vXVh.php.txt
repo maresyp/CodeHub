@@ -1,0 +1,68 @@
+<?php
+    
+    require_once 'data.php';
+    $w = 3400;
+    $h = 1800;
+    
+    $img = imagecreatetruecolor($w, $h);
+    imagefill($img, 0, 0, 0xffffff);
+    imageantialias($img, true);
+    
+    function imagegradient($img, $x1, $y1, $x2, $y2, $startColor, $endColor) {
+        if ($x1 > $x2 || $y1 > $y1) return false;
+        
+        $steps = $y2 - $y1;
+        
+        for ($i = 0; $i < $steps; $i++) {
+            $r = ((($startColor >> 16) & 0xFF) - ((($startColor >> 16) & 0xFF) - ((($endColor >> 16) & 0xFF)) / $steps) * $i);
+            $g = ((($startColor >> 8) & 0xFF) - ((($startColor >> 8) & 0xFF) - ((($endColor >> 8) & 0xFF)) / $steps) * $i);
+            $b = (($startColor & 0xFF) - (($startColor & 0xFF) - ($endColor & 0xFF) / $steps) * $i);
+            $color = imagecolorallocate($img, $r, $g, $b);
+            imageline($img, $x1, ($i) + $y1, $x2, $i + $y1, $color);
+        }
+    }
+    
+    function imagelinebold($img, $x1, $y1, $x2, $y2, $tickness=2, $color) {
+        for ($i = 0; $i < $tickness; $i++) {
+            imageline($img, $x1 + $i, $y1 + $i, $x2 + $i, $y2 + $i, $color);
+        }
+    }
+    
+    imagegradient($img, 0, 0, $w, $h, 0x000000, 0x511F25);
+    
+    $min = min($data);
+    $max = max($data);
+    $len = count($data);
+    
+    $x1 = 0;
+    $y1 = 0;
+    $x2 = 0;
+    $y2 = 0;
+    
+    $xy = array();
+    
+    $dh = $h;//($h / 2);
+    
+    for ($i = 0; $i < $len; $i++) {
+        $val = $data[$i];
+        $x1 = (int)(($w / ($len -1)) * $i);
+        $y1 = (int)($dh) - (int)(($val - $min) * ($dh - 10) / ($max - $min) + 50);
+        
+        $points = array(
+            $x1, $y1+1,
+            $x2, $y2+1,
+            $x2, $dh,
+            $x1, $dh
+        );
+        imagefilledpolygon($img, $points, 4, 0x161818);
+        
+        imagelinebold($img, $x1, $y1, $x2, $y2, 2, 0xf74557);
+        $y2 = $y1;
+        $x2 = $x1;
+    }
+    
+    header('Content-Type: image/png');
+    imagepng($img);
+    imagedestroy($img);
+ 
+?>

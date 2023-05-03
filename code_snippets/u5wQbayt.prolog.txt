@@ -1,0 +1,35 @@
+implement main
+    open core, console
+ 
+class predicates
+    check : (integer*, integer, boolean [out]).
+clauses
+    check([], X, true) :-
+        !.
+    check([X | Xs], Prev, Flag) :-
+        check(Xs, X, Flag2),
+        if X > Prev and Flag2 = true then
+            Flag = true
+        else
+            Flag = false
+        end if.
+ 
+    run() :-
+        init(),
+        write("Введите список в квадратных скобках с запятыми"),
+        nl,
+        nl,
+        write("Список -> "),
+        List = read(),
+        nl, % Список чисел
+        _ = readchar(),
+        check(List, -10000, O),
+        write("Список сортирован: ", O),
+        nl,
+        write("Конец. Нажмите любую клавишу "),
+        _ = readchar().
+ 
+end implement main
+ 
+goal
+    mainExe::run(main::run).

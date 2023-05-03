@@ -1,0 +1,33 @@
+function solve(textId, nameCon) {
+  textId = document.querySelector('div #text').value.split(' ');
+  nameCon = document.querySelector('div #naming-convention').value;
+  let arry = [];
+  for (let i = 0; i < textId.length; i++) {
+ 
+    if (nameCon === "Camel Case") {
+      if (arry.length == 0) {
+        arry.push(textId[i])
+      } else {
+        let curent = textId[i]
+        let curentChar = textId[i][0]
+        let up = textId[i][0].toUpperCase()
+        let su = curent.replace(curentChar, up)
+        arry.push(su)
+      }
+    } else if (nameCon === "Pascal Case") {
+ 
+      let curent = textId[i].toLowerCase()
+      let curentChar = textId[i][0]
+      let up = textId[i][0].toUpperCase()
+      let su = curent.replace(curentChar, up)
+      arry.push(su)
+ 
+    } else {
+      arry.push('Error!')
+      break;
+    }
+ 
+  }
+  document.querySelector('#result').textContent = arry.join('')
+ 
+}

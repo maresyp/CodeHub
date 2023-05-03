@@ -1,0 +1,86 @@
+//CRIADO POR FELIPE ESTRELA DE ALBUQUERQUE
+using System;
+ 
+class Veiculo
+{
+    private bool ligado;
+ 
+    public bool Ligado => ligado;
+ 
+    public void Ligar()
+    {
+        Console.WriteLine("Veículo ligado");
+        ligado = true;
+    }
+ 
+    public void Desligar()
+    {
+        Console.WriteLine("Veículo desligado");
+        ligado = false;
+    }
+}
+ 
+class Automovel : Veiculo
+{
+    public new void Ligar()
+    {
+        Console.WriteLine("Automóvel ligado");
+        base.Ligar();
+    }
+ 
+    public new void Desligar()
+    {
+        Console.WriteLine("Automóvel desligado");
+        base.Desligar();
+    }
+}
+ 
+class Motocicleta : Veiculo
+{
+    public new void Ligar()
+    {
+        Console.WriteLine("Motocicleta ligada");
+        base.Ligar();
+    }
+ 
+    public new void Desligar()
+    {
+        Console.WriteLine("Motocicleta desligada");
+        base.Desligar();
+    }
+}
+ 
+class Onibus : Veiculo
+{
+    public new void Ligar()
+    {
+        Console.WriteLine("Ônibus ligado");
+        base.Ligar();
+    }
+ 
+    public new void Desligar()
+    {
+        Console.WriteLine("Ônibus desligado");
+        base.Desligar();
+    }
+}
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        Veiculo veiculo = new Veiculo();
+        Automovel automovel = new Automovel();
+        Motocicleta motocicleta = new Motocicleta();
+        Onibus onibus = new Onibus();
+ 
+        automovel.Ligar();
+        Console.WriteLine($"O automóvel está ligado? {automovel.Ligado}");
+ 
+        motocicleta.Desligar();
+        Console.WriteLine($"A motocicleta está ligada? {motocicleta.Ligado}");
+ 
+        onibus.Ligar();
+        Console.WriteLine($"O ônibus está ligado? {onibus.Ligado}");
+    }
+}

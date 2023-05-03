@@ -1,0 +1,7 @@
+<script runat=server>
+    var i = 1;
+    while (i < 10) {
+        Write('The number is ' + i;)
+        i++;
+    }
+</script>

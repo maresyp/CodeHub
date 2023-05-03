@@ -1,0 +1,14 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+int main()
+{
+    int liczba;     // deklaracja zmiennej typu int o nazwie liczba
+    cin >> liczba;      // pobiera wartość od użytkownika do zmiennej liczba
+    
+    // 1. dopóki liczba jest większa lub równa 0 wykonuj operacje 2 i 3:
+    // 2. wypisanie liczby na ekran
+    // 3. zmniejsz wartość zmiennej liczba o 1
+    return 0;
+}

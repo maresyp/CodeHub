@@ -1,0 +1,9 @@
+on *:TEXT:*:#:{
+  if ($me isin $1-) {
+    window -a @Highlights
+    echo @Highlights ‹ $time › ✸✸✸ User [22 $+ $nick $+ ] said your name in [69 $+ $chan $+ ] on [43 $+ $network $+ ]
+    echo @Highlights ‹ $time › ✸✸✸ Message: 94 $+ $1- $+     
+    echo @Highlights 8---------------------------------------------------------------------
+  }
+  else { halt }
+}

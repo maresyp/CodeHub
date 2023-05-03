@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/itsnoctural/Utilities/main/Closed/Wall%20Smash%20Simulator.lua"))()ayo why u smashing walls????

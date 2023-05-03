@@ -1,0 +1,4 @@
+add_action( 'end_wcfm_products_manage', function() {
+    global $WCFM;
+    remove_action( 'end_wcfm_products_manage', array( $WCFM->wcfm_integrations, 'wcfm_geomywp_products_manage_views' ), 100 );
+}, 99 );

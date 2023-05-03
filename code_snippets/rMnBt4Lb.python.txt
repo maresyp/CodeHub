@@ -1,0 +1,20 @@
+n, x = map(int, input().split())
+a = list(map(int, input().split()))
+ 
+flag = False
+k = 1
+i = 0
+while i < n and not flag:
+    summ1 = 0
+    summ2 = 0
+    k = 1
+    j = i
+    while j >= 0 and not flag:
+        summ1 += a[j] * k
+        summ2 += a[j] * k * -1
+        flag = True if summ1 == x and k == 1 or summ2 == x and k == -1 else flag
+        k *= -1
+        j -= 1
+    i += 1
+ 
+print("YES" if flag else "NO")

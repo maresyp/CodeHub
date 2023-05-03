@@ -1,0 +1,904 @@
+Aufgabe AE-DB-GR-2.1
+ 
+mysql> CREATE DATABASE dbBestellung CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci;
+Query OK, 1 row affected (0.06 sec)
+ 
+mysql> USE dbBestellung
+Database changed
+mysql> SHOW DATABASES
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| dbbestellung       |
+| dbfic24            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| sys                |
++--------------------+
+7 rows in set (0.09 sec)
+ 
+mysql> USE mysql;
+Database changed
+mysql> SELECT host, user from user;
++-----------+------------------+
+| host      | user             |
++-----------+------------------+
+| %         | dbuser02         |
+| localhost | dbuser01         |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | pma              |
+| localhost | root             |
++-----------+------------------+
+7 rows in set (0.00 sec)
+ 
+mysql> CREATE user dbbenutzer@localhost IDENTIFIED BY '4321';
+Query OK, 0 rows affected (0.05 sec)
+ 
+mysql> GRANT ALL ON dbbestellung.* TO dbbenutzer@localhost;
+Query OK, 0 rows affected (0.10 sec)
+ 
+mysql> FLUSH PRIVILEGES
+    -> ;
+Query OK, 0 rows affected (0.03 sec)
+ 
+mysql> DROP USER dbbenutzer@localhost;
+Query OK, 0 rows affected (0.10 sec)
+ 
+mysql> DROP DATABASE dbBestellung;
+Query OK, 0 rows affected (0.16 sec)
+ 
+mysql> NOTEE
+ 
+ 
+#AUFGABE AE-DB-GR-2.2
+ 
+mysql> CREATE DATABASE dbverkauf CHARACTER SET utf8mb4 COLLATE utf8mb4_german2_ci;
+Query OK, 1 row affected (0.13 sec)
+ 
+mysql> USE dbverkauf
+Database changed
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbverkauf          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| sys                |
++--------------------+
+6 rows in set (0.10 sec)
+ 
+mysql> USE mysql;
+Database changed
+mysql> SELECT host, user from user;
++-----------+------------------+
+| host      | user             |
++-----------+------------------+
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | pma              |
+| localhost | root             |
++-----------+------------------+
+5 rows in set (0.00 sec)
+ 
+mysql> CREATE USER dbkunde@localhost IDENTIFIED BY 'abcD123';
+Query OK, 0 rows affected (0.12 sec)
+ 
+mysql> SELECT host, user from user;
++-----------+------------------+
+| host      | user             |
++-----------+------------------+
+| localhost | dbkunde          |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | pma              |
+| localhost | root             |
++-----------+------------------+
+6 rows in set (0.00 sec)
+ 
+mysql> GRANT ALL ON dbverkauf.* TO dbkunde@localhost;
+Query OK, 0 rows affected (0.09 sec)
+ 
+mysql> FLUSH PRIVILEGES
+    -> ;
+Query OK, 0 rows affected (0.01 sec)
+ 
+mysql> SHOW GRANTS FOR 'dbkunde@localhost';
+ERROR 1141 (42000): There is no such grant defined for user 'dbkunde@localhost' on host '%'
+mysql> SHOW GRANTS FOR dbkunde@localhost,
+    -> ,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',
+,' at line 1
+mysql> SHOW GRANTS FOR dbkunde@localhost;
++----------------------------------------------------------------+
+| Grants for dbkunde@localhost                                   |
++----------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `dbkunde`@`localhost`                    |
+| GRANT ALL PRIVILEGES ON `dbverkauf`.* TO `dbkunde`@`localhost` |
++----------------------------------------------------------------+
+2 rows in set (0.07 sec)
+ 
+mysql> -u dbkunde -p
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-u dbkunde -p' at line 1
+mysql> exit
+#AUFGABE AE-DB-GR-2.2
+ 
+mysql> USE dbverkauf
+Database changed
+mysql> CREATE TABLE tblperson (
+    -> Personennummer INT NOT NULL
+    -> Nachname CHAR(45)
+    -> Nachname CHAR(45)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Nachname CHAR(45)
+Nachname CHAR(45)' at line 3
+mysql> CREATE TABLE tblperson (
+    -> Personennummer INT NOT NULL,
+    -> Nachname CHAR(45)
+    -> Vorname CHAR(45)
+    -> Strasse CHAR(45)
+    -> Ort CHAR(45)
+    -> Postleitzahl INT
+    -> Land CHAR(45)
+    -> Geburtsdatum DATE
+    -> )ENGINE = INNODB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Vorname CHAR(45)
+Strasse CHAR(45)
+Ort CHAR(45)
+Postleitzahl INT
+Land CHAR(45)
+Ge' at line 4
+mysql> CREATE TABLE tblperson (
+    -> Personennummer INT NOT NULL,
+    -> Nachname CHAR(45),
+    -> Vorname CHAR(45),
+    -> Strasse CHAR(45),
+    -> Ort CHAR(45),
+    -> Postleitzahl INT,
+    -> Land CHAR(45),
+    -> Geburtsdatum DATE
+    -> )ENGINE = INNODB;
+Query OK, 0 rows affected (0.41 sec)
+ 
+mysql> ALTER TABLE tblperson ADD PRIMARY KEY (Personennummer);
+Query OK, 0 rows affected (0.37 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> SHOW TABLES
+    -> ;
++---------------------+
+| Tables_in_dbverkauf |
++---------------------+
+| tblperson           |
++---------------------+
+1 row in set (0.12 sec)
+ 
+mysql> SHOW FIELDS FROM tblperson;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| Personennummer | int      | NO   | PRI | NULL    |       |
+| Nachname       | char(45) | YES  |     | NULL    |       |
+| Vorname        | char(45) | YES  |     | NULL    |       |
+| Strasse        | char(45) | YES  |     | NULL    |       |
+| Ort            | char(45) | YES  |     | NULL    |       |
+| Postleitzahl   | int      | YES  |     | NULL    |       |
+| Land           | char(45) | YES  |     | NULL    |       |
+| Geburtsdatum   | date     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.02 sec)
+ 
+mysql> Describe tblperson;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| Personennummer | int      | NO   | PRI | NULL    |       |
+| Nachname       | char(45) | YES  |     | NULL    |       |
+| Vorname        | char(45) | YES  |     | NULL    |       |
+| Strasse        | char(45) | YES  |     | NULL    |       |
+| Ort            | char(45) | YES  |     | NULL    |       |
+| Postleitzahl   | int      | YES  |     | NULL    |       |
+| Land           | char(45) | YES  |     | NULL    |       |
+| Geburtsdatum   | date     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+ 
+mysql> CREATE TABLE tblbestellung (
+    -> Bestellnummer,
+    -> Artikelnummer,
+    -> Kundennummer,
+    -> Artikelanzahl,
+    -> Bestellsumme
+    -> )EGINE = INNODB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',
+Artikelnummer,
+Kundennummer,
+Artikelanzahl,
+Bestellsumme
+)EGINE = INNODB' at line 2
+mysql> CREATE TABLE tblbestellung (
+    -> Bestellnummer,
+    -> Artikelnummer,
+    -> Kundennummer,
+    -> Artikelanzahl,
+    -> Bestellsumme
+    -> )ENGINE = INNODB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',
+Artikelnummer,
+Kundennummer,
+Artikelanzahl,
+Bestellsumme
+)ENGINE = INNODB' at line 2
+mysql> CREATE TABLE tblbestellung (
+    -> Bestellnummer INT,
+    -> Artikelnummer INT,
+    -> Kundennummer INT,
+    -> Artikelanzahl INT,
+    -> Bestellsumme DECIMAL(7,2)
+    -> )ENGINE = INNODB;
+Query OK, 0 rows affected (0.24 sec)
+ 
+mysql> CREATE ALTER TABLE tblbestellung ADD PRIMARY KEY (Bestellnummer);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ALTER TABLE tblbestellung ADD PRIMARY KEY (Bestellnummer)' at line 1
+mysql> ALTER TABLE tblperson ADD PRIMARY KEY (Bestellnummer);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> ALTER TABLE tblbestellung ADD PRIMARY KEY (Bestellnummer);
+Query OK, 0 rows affected (0.23 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> CREATE TABLE tblhersteller (
+    -> Herstellernummer INT NOT NULL,
+    -> Herstellername CHAR(30) INDEX(Herstellernummer),
+    -> Land CHAR(30)
+    -> )ENGINE = INNODB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INDEX(Herstellernummer),
+Land CHAR(30)
+)ENGINE = INNODB' at line 3
+mysql> CREATE TABLE tblhersteller (
+    -> Herstellernummer INT NOT NULL,
+    -> Herstellername CHAR(30) INDEX(Herstellername),
+    -> Land CHAR(30)
+    -> )ENGINE = INNODB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INDEX(Herstellername),
+Land CHAR(30)
+)ENGINE = INNODB' at line 3
+mysql> CREATE TABLE tblhersteller (
+    -> Herstellernummer INT NOT NULL,
+    -> Herstellername CHAR(30), INDEX(Herstellername),
+    -> Land CHAR(30)
+    -> )ENGINE = INNODB;
+Query OK, 0 rows affected (0.14 sec)
+ 
+mysql> DESCRIBE tblhersteller
+    -> ;
++------------------+----------+------+-----+---------+-------+
+| Field            | Type     | Null | Key | Default | Extra |
++------------------+----------+------+-----+---------+-------+
+| Herstellernummer | int      | NO   |     | NULL    |       |
+| Herstellername   | char(30) | YES  | MUL | NULL    |       |
+| Land             | char(30) | YES  |     | NULL    |       |
++------------------+----------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+ 
+mysql> ALTER TABLE tblhersteller ADD PRIMARY KEY (Herstellernummer);
+Query OK, 0 rows affected (0.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblhersteller
+    -> ;
++------------------+----------+------+-----+---------+-------+
+| Field            | Type     | Null | Key | Default | Extra |
++------------------+----------+------+-----+---------+-------+
+| Herstellernummer | int      | NO   | PRI | NULL    |       |
+| Herstellername   | char(30) | YES  | MUL | NULL    |       |
+| Land             | char(30) | YES  |     | NULL    |       |
++------------------+----------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+ 
+mysql> exit
+ 
+ 
+mysql> CREATE TABLE tblartikelliste (
+    -> artikelnummer INT(11) NOT NULL,
+    -> artikelname CHAR(20),
+    -> herstellername CHAR(30),
+    -> herstellungsdatum DATE
+    -> )ENGINE = INNODB;
+ERROR 1046 (3D000): No database selected
+mysql> USE dbverkauf
+Database changed
+mysql> CREATE TABLE tblartikelliste (
+    -> artikelnummer INT(11) NOT NULL,
+    -> artikelname CHAR(20),
+    -> herstellername CHAR(30),
+    -> herstellungsdatum DATE
+    -> )ENGINE = INNODB;
+Query OK, 0 rows affected, 1 warning (0.18 sec)
+ 
+mysql> RENAME TABLE tblartikelliste TO tblartikel;
+Query OK, 0 rows affected (0.17 sec)
+ 
+mysql> DESCRIBE tblartikel;
++-------------------+----------+------+-----+---------+-------+
+| Field             | Type     | Null | Key | Default | Extra |
++-------------------+----------+------+-----+---------+-------+
+| artikelnummer     | int      | NO   |     | NULL    |       |
+| artikelname       | char(20) | YES  |     | NULL    |       |
+| herstellername    | char(30) | YES  |     | NULL    |       |
+| herstellungsdatum | date     | YES  |     | NULL    |       |
++-------------------+----------+------+-----+---------+-------+
+4 rows in set (0.13 sec)
+ 
+mysql> ALTER TABLE tblartikel ADD COLUMN preis INT;
+Query OK, 0 rows affected (0.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblartikel
+    -> ;
++-------------------+----------+------+-----+---------+-------+
+| Field             | Type     | Null | Key | Default | Extra |
++-------------------+----------+------+-----+---------+-------+
+| artikelnummer     | int      | NO   |     | NULL    |       |
+| artikelname       | char(20) | YES  |     | NULL    |       |
+| herstellername    | char(30) | YES  |     | NULL    |       |
+| herstellungsdatum | date     | YES  |     | NULL    |       |
+| preis             | int      | YES  |     | NULL    |       |
++-------------------+----------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+ 
+mysql> DELETE FROM tblartikel WHERE name='herstellungsdatum';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> DELETE FROM tblartikel WHERE 'herstellungsdatum';
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: 'herstellungsdatum'
+mysql> DELETE FROM tblartikel WHERE herstellungsdatum;
+Query OK, 0 rows affected (0.13 sec)
+ 
+mysql> DESCRIBE tblartikel
+    -> ;
++-------------------+----------+------+-----+---------+-------+
+| Field             | Type     | Null | Key | Default | Extra |
++-------------------+----------+------+-----+---------+-------+
+| artikelnummer     | int      | NO   |     | NULL    |       |
+| artikelname       | char(20) | YES  |     | NULL    |       |
+| herstellername    | char(30) | YES  |     | NULL    |       |
+| herstellungsdatum | date     | YES  |     | NULL    |       |
+| preis             | int      | YES  |     | NULL    |       |
++-------------------+----------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+ 
+mysql> FLUSH TABLE tblartikel
+    -> ;
+ERROR 1227 (42000): Access denied; you need (at least one of) the RELOAD or FLUSH_TABLES privilege(s) for this operation
+mysql> DESCRIBE tblartikel;
++-------------------+----------+------+-----+---------+-------+
+| Field             | Type     | Null | Key | Default | Extra |
++-------------------+----------+------+-----+---------+-------+
+| artikelnummer     | int      | NO   |     | NULL    |       |
+| artikelname       | char(20) | YES  |     | NULL    |       |
+| herstellername    | char(30) | YES  |     | NULL    |       |
+| herstellungsdatum | date     | YES  |     | NULL    |       |
+| preis             | int      | YES  |     | NULL    |       |
++-------------------+----------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+ 
+ 
+mysql> DELETE FROM tblartikel WHERE date;
+ERROR 1054 (42S22): Unknown column 'date' in 'where clause'
+mysql> SHOW FIELDS FROM tblartikel;
++-------------------+----------+------+-----+---------+-------+
+| Field             | Type     | Null | Key | Default | Extra |
++-------------------+----------+------+-----+---------+-------+
+| artikelnummer     | int      | NO   |     | NULL    |       |
+| artikelname       | char(20) | YES  |     | NULL    |       |
+| herstellername    | char(30) | YES  |     | NULL    |       |
+| herstellungsdatum | date     | YES  |     | NULL    |       |
+| preis             | int      | YES  |     | NULL    |       |
++-------------------+----------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+ 
+mysql> ALTER TABLE tblartikel DROP herstellungsdatum;
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblartikel;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| artikelnummer  | int      | NO   |     | NULL    |       |
+| artikelname    | char(20) | YES  |     | NULL    |       |
+| herstellername | char(30) | YES  |     | NULL    |       |
+| preis          | int      | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+ 
+mysql> ALTER TABLE tblartikel CHANGE artikelname char(50);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'char(50)' at line 1
+mysql> ALTER TABLE tblartikel CHANGE artikelname CHAR(50);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CHAR(50)' at line 1
+mysql> ALTER TABLE tblartikel CHANGE artikelname artikelname CHAR(50);
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblartikel;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| artikelnummer  | int      | NO   |     | NULL    |       |
+| artikelname    | char(50) | YES  |     | NULL    |       |
+| herstellername | char(30) | YES  |     | NULL    |       |
+| preis          | int      | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+ 
+mysql> ALTER TABLE tblartikel herstellername herstellernummer INT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'herstellername herstellernummer INT' at line 1
+mysql> ALTER TABLE tblartikel CHANGE herstellername herstellernummer INT;
+Query OK, 0 rows affected (0.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblartikel;
++------------------+----------+------+-----+---------+-------+
+| Field            | Type     | Null | Key | Default | Extra |
++------------------+----------+------+-----+---------+-------+
+| artikelnummer    | int      | NO   |     | NULL    |       |
+| artikelname      | char(50) | YES  |     | NULL    |       |
+| herstellernummer | int      | YES  |     | NULL    |       |
+| preis            | int      | YES  |     | NULL    |       |
++------------------+----------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+ 
+mysql> ALTER TABLE tblartikel ADD PRIMARY KEY (artikelnummer);
+Query OK, 0 rows affected (0.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblartikel
+    -> ;
++------------------+----------+------+-----+---------+-------+
+| Field            | Type     | Null | Key | Default | Extra |
++------------------+----------+------+-----+---------+-------+
+| artikelnummer    | int      | NO   | PRI | NULL    |       |
+| artikelname      | char(50) | YES  |     | NULL    |       |
+| herstellernummer | int      | YES  |     | NULL    |       |
+| preis            | int      | YES  |     | NULL    |       |
++------------------+----------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+ 
+ 
+#AUFGABE AE-DB-GR-2.3
+ 
+ 
+mysql> DESCRIBE tblbestellung
+    -> ;
+ERROR 1046 (3D000): No database selected
+mysql> USE dbverkauf
+Database changed
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbverkauf          |
+| information_schema |
+| performance_schema |
++--------------------+
+3 rows in set (0.08 sec)
+ 
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_dbverkauf |
++---------------------+
+| tblartikel          |
+| tblbestellung       |
+| tblhersteller       |
+| tblperson           |
++---------------------+
+4 rows in set (0.01 sec)
+ 
+mysql> DESCRIBE tblbestellung
+    -> ;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| Bestellnummer | int          | NO   | PRI | NULL    |       |
+| Artikelnummer | int          | YES  |     | NULL    |       |
+| Kundennummer  | int          | YES  |     | NULL    |       |
+| Artikelanzahl | int          | YES  |     | NULL    |       |
+| Bestellsumme  | decimal(7,2) | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+ 
+mysql> ALTER TABLE tblbestellung ADD FOREIGN KEY (Artikelnummer) REFERENCES tblartikel (artikelnummer);
+Query OK, 0 rows affected (0.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblbestellung;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| Bestellnummer | int          | NO   | PRI | NULL    |       |
+| Artikelnummer | int          | YES  | MUL | NULL    |       |
+| Kundennummer  | int          | YES  |     | NULL    |       |
+| Artikelanzahl | int          | YES  |     | NULL    |       |
+| Bestellsumme  | decimal(7,2) | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+ 
+mysql> ALTER TABLE tblbestellung ADD FOREIGN KEY (Kundennummer) REFERENCES tblperson (Personennummer);
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+ 
+mysql> DESCRIBE tblbestellung;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| Bestellnummer | int          | NO   | PRI | NULL    |       |
+| Artikelnummer | int          | YES  | MUL | NULL    |       |
+| Kundennummer  | int          | YES  | MUL | NULL    |       |
+| Artikelanzahl | int          | YES  |     | NULL    |       |
+| Bestellsumme  | decimal(7,2) | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+ 
+ 
+mysql> exit
+ 
+ 
+ 
+#AUFGABE AE-DB-GR-2.4
+ 
+ 
+mysql> SHOW tablperson;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tablperson' at line 1
+mysql> DESCRIBE tblperson;
+ERROR 1046 (3D000): No database selected
+mysql> Use dbverkauf
+Database changed
+mysql> DESCRIBE tblperson
+    -> ;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| Personennummer | int      | NO   | PRI | NULL    |       |
+| Nachname       | char(45) | YES  | MUL | NULL    |       |
+| Vorname        | char(45) | YES  |     | NULL    |       |
+| Strasse        | char(45) | YES  |     | NULL    |       |
+| Ort            | char(45) | YES  |     | NULL    |       |
+| Postleitzahl   | int      | YES  |     | NULL    |       |
+| Land           | char(45) | YES  |     | NULL    |       |
+| Geburtsdatum   | date     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.20 sec)
+ 
+mysql> INSERT INTO tblperson (Nachname) VALUES (Blotzek);
+ERROR 1054 (42S22): Unknown column 'Blotzek' in 'field list'
+mysql> INSERT INTO tblperson (Nachname) VALUES ('Blotzek');
+ERROR 1364 (HY000): Field 'Personennummer' doesn't have a default value
+mysql> DESCRIBE tblperson;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| Personennummer | int      | NO   | PRI | NULL    |       |
+| Nachname       | char(45) | YES  | MUL | NULL    |       |
+| Vorname        | char(45) | YES  |     | NULL    |       |
+| Strasse        | char(45) | YES  |     | NULL    |       |
+| Ort            | char(45) | YES  |     | NULL    |       |
+| Postleitzahl   | int      | YES  |     | NULL    |       |
+| Land           | char(45) | YES  |     | NULL    |       |
+| Geburtsdatum   | date     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+ 
+mysql> INSERT INTO tblperson (Personennummer, Nachname, Vorname, Strasse, Ort, Postleitzahl, Land, Geburtsdatum) VALUES (01, 'Blotzek', 'Ulrich', 'Großkopf 4', 'Arnsberg', 59823, 'Deutschland', '1960-10-05');
+Query OK, 1 row affected (0.14 sec)
+ 
+mysql> Describe tblperson;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| Personennummer | int      | NO   | PRI | NULL    |       |
+| Nachname       | char(45) | YES  | MUL | NULL    |       |
+| Vorname        | char(45) | YES  |     | NULL    |       |
+| Strasse        | char(45) | YES  |     | NULL    |       |
+| Ort            | char(45) | YES  |     | NULL    |       |
+| Postleitzahl   | int      | YES  |     | NULL    |       |
+| Land           | char(45) | YES  |     | NULL    |       |
+| Geburtsdatum   | date     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (02, 'Schatter', 'Peter', 'Försterstrasse 2', 'Augsburg', 86179, 'Deutschland', '1980-01-01');
+Query OK, 1 row affected (0.13 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (03, 'Wojack', 'Albert', 'Westendstraße 92', 'Berlin', 12234, 'Deutschland', '1955-06-15');
+Query OK, 1 row affected (0.09 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (04, 'Virtanen', 'Veera', 'Oyi Keilasatama 21', 'Espoo', 02150, 'Finnland', '1992-12-30');
+Query OK, 1 row affected (0.12 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (05, 'Hämäläinen', 'Ahvo', 'Tapulikuja 56', 'Forssa', 30100, 'Finnland', '1977-04-23');
+Query OK, 1 row affected (0.13 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (06, 'Huismann', 'Fenna', 'Spoodreef 87', 'Almere', 1315, 'Niederlande', '1971-08-17');
+Query OK, 1 row affected (0.12 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (07, 'Prins', 'Lieke', 'Noordgeest 21', 'Bergen op Zoom', 4600, 'Niederlande', '1987-05-08');
+Query OK, 1 row affected (0.12 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (08, 'David', 'Paula', 'Murielstraße 47', 'Klagenfurt', 9020, 'Österreich', '1970-01-21');
+Query OK, 1 row affected (0.12 sec)
+ 
+mysql> INSERT INTO tblperson VALUES (09, 'Hardiff', 'Joseph', 'Bischofstrasse 139', 'Klagenfurt', 9200, 'Österreich', '1962-08-09');
+Query OK, 1 row affected (0.08 sec)
+ 
+mysql> DESCRIBE tblperson;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| Personennummer | int      | NO   | PRI | NULL    |       |
+| Nachname       | char(45) | YES  | MUL | NULL    |       |
+| Vorname        | char(45) | YES  |     | NULL    |       |
+| Strasse        | char(45) | YES  |     | NULL    |       |
+| Ort            | char(45) | YES  |     | NULL    |       |
+| Postleitzahl   | int      | YES  |     | NULL    |       |
+| Land           | char(45) | YES  |     | NULL    |       |
+| Geburtsdatum   | date     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+ 
+mysql> SELECT Nachname FROM tblperson WHERE Hardiff;
+ERROR 1054 (42S22): Unknown column 'Hardiff' in 'where clause'
+mysql> SELECT Nachname FROM tblperson WHERE 'Hardiff';
+Empty set, 1 warning (0.01 sec)
+ 
+mysql> SELECT Nachname FROM tblperson;
++---------------+
+| Nachname      |
++---------------+
+| Blotzek       |
+| David         |
+| Hämäläinen    |
+| Hardiff       |
+| Huismann      |
+| Prins         |
+| Schatter      |
+| Virtanen      |
+| Wojack        |
++---------------+
+9 rows in set (0.00 sec)
+ 
+mysql> SELECT Ort From tblperson;
++----------------+
+| Ort            |
++----------------+
+| Arnsberg       |
+| Augsburg       |
+| Berlin         |
+| Espoo          |
+| Forssa         |
+| Almere         |
+| Bergen op Zoom |
+| Klagenfurt     |
+| Klagenfurt     |
++----------------+
+9 rows in set (0.00 sec)
+ 
+mysql> SELECT Geburstdatum FROM tblperson;
+ERROR 1054 (42S22): Unknown column 'Geburstdatum' in 'field list'
+mysql> SELECT Geburtsdatum FROM tblperson;
++--------------+
+| Geburtsdatum |
++--------------+
+| 1960-10-05   |
+| 1980-01-01   |
+| 1955-06-15   |
+| 1992-12-30   |
+| 1977-04-23   |
+| 1971-08-17   |
+| 1987-05-08   |
+| 1970-01-21   |
+| 1962-08-09   |
++--------------+
+9 rows in set (0.00 sec)
+ 
+mysql> Show FIELDS From tblperson;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| Personennummer | int      | NO   | PRI | NULL    |       |
+| Nachname       | char(45) | YES  | MUL | NULL    |       |
+| Vorname        | char(45) | YES  |     | NULL    |       |
+| Strasse        | char(45) | YES  |     | NULL    |       |
+| Ort            | char(45) | YES  |     | NULL    |       |
+| Postleitzahl   | int      | YES  |     | NULL    |       |
+| Land           | char(45) | YES  |     | NULL    |       |
+| Geburtsdatum   | date     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.12 sec)
+ 
+mysql> UPDATE tblperson SET Ort = 'Lienz', Postleitzahl = 9900 WHERE Personennummer = 09;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+ 
+mysql> SELECT Ort From tblperson;
++----------------+
+| Ort            |
++----------------+
+| Arnsberg       |
+| Augsburg       |
+| Berlin         |
+| Espoo          |
+| Forssa         |
+| Almere         |
+| Bergen op Zoom |
+| Klagenfurt     |
+| Lienz          |
++----------------+
+9 rows in set (0.00 sec)
+ 
+mysql> UPDATE tblperson SET Postleitzahl = 12557 WHERE Personennummer = 03;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+ 
+mysql> SELECT Postleitzahl From tblperson;
++--------------+
+| Postleitzahl |
++--------------+
+|        59823 |
+|        86179 |
+|        12557 |
+|         2150 |
+|        30100 |
+|         1315 |
+|         4600 |
+|         9020 |
+|         9900 |
++--------------+
+9 rows in set (0.00 sec)
+ 
+mysql> DESCRIBE tblhersteller;
++------------------+----------+------+-----+---------+-------+
+| Field            | Type     | Null | Key | Default | Extra |
++------------------+----------+------+-----+---------+-------+
+| Herstellernummer | int      | NO   | PRI | NULL    |       |
+| Herstellername   | char(30) | YES  | MUL | NULL    |       |
+| Land             | char(30) | YES  |     | NULL    |       |
++------------------+----------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+ 
+mysql> INSERT INTO tbhersteller VALUES (10, 'Logitech', 'Schweiz');
+ERROR 1146 (42S02): Table 'dbverkauf.tbhersteller' doesn't exist
+mysql> INSERT INTO tblhersteller VALUES (10, 'Logitech', 'Schweiz');
+Query OK, 1 row affected (0.15 sec)
+ 
+mysql> INSERT INTO tblhersteller VALUES (20, 'SONY', 'Japan');
+Query OK, 1 row affected (0.15 sec)
+ 
+mysql> INSERT INTO tblhersteller VALUES (30, 'Maxtor', 'USA');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT INTO tblhersteller VALUES (40, 'Medion', 'Deutschland');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT INTO tblhersteller VALUES (50, 'Hewlett Packard', 'USA');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> Describe tblartikel;
++------------------+--------------+------+-----+---------+-------+
+| Field            | Type         | Null | Key | Default | Extra |
++------------------+--------------+------+-----+---------+-------+
+| artikelnummer    | int          | NO   | PRI | NULL    |       |
+| artikelname      | char(50)     | YES  | MUL | NULL    |       |
+| herstellernummer | int          | YES  | MUL | NULL    |       |
+| preis            | decimal(5,2) | YES  |     | NULL    |       |
++------------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+ 
+mysql> INSERT INTO tblartikel VALUES (01, 'Maus', 10, '10.00');
+Query OK, 1 row affected (0.15 sec)
+ 
+mysql> INSERT INTO tblartikel VALUES (02, 'Tastatur', 20, '20.00');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT INTO tblartikel VALUES (03, 'Drucker', 50, '300.00');
+Query OK, 1 row affected (0.13 sec)
+ 
+mysql> INSERT INTO tblartikel VALUES (02, 'Tastatur', 10, '20.00');
+ERROR 1062 (23000): Duplicate entry '2' for key 'tblartikel.PRIMARY'
+mysql> UPDATE tblartikel SET herstellernummer = 10 WHERE artikelnummer = 02;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+ 
+mysql> INSERT INTO tblartikel VALUES (04, 'Festplatte', 30, '400.00');
+Query OK, 1 row affected (0.14 sec)
+ 
+mysql> INSERT INTO tblartikel VALUES (05, 'Festplatte', 20, '500.00');
+Query OK, 1 row affected (0.02 sec)
+ 
+mysql> SELECT herstellernummer FROM tblartikel;
++------------------+
+| herstellernummer |
++------------------+
+|               10 |
+|               10 |
+|               20 |
+|               30 |
+|               50 |
++------------------+
+5 rows in set (0.00 sec)
+ 
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_dbverkauf |
++---------------------+
+| tblartikel          |
+| tblbestellung       |
+| tblhersteller       |
+| tblperson           |
++---------------------+
+4 rows in set (0.04 sec)
+ 
+mysql> DESCRIBE tblbestellung
+    -> ;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| Bestellnummer | int          | NO   | PRI | NULL    |       |
+| Artikelnummer | int          | YES  | MUL | NULL    |       |
+| Kundennummer  | int          | YES  | MUL | NULL    |       |
+| Artikelanzahl | int          | YES  |     | NULL    |       |
+| Bestellsumme  | decimal(7,2) | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+ 
+mysql> INSERT INTO tblbestellung VALUES (01, 01, 04, 2, '20.00');
+Query OK, 1 row affected (0.09 sec)
+ 
+mysql> INSERT INTO tblbestellung VALUES (02, 02, 01, 1, '20.00');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT INTO tblbestellung VALUES (03, 01, 02, 3, '30.00');
+Query OK, 1 row affected (0.02 sec)
+ 
+mysql> INSERT INTO tblbestellung VALUES (04, 03, 03, 1, '300.00');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> INSERT INTO tblbestellung VALUES (05, 05, 05, 5, '2500.00');
+Query OK, 1 row affected (0.01 sec)
+ 
+mysql> SELECT Bestellsummer FROM tblbestellung;
+ERROR 1054 (42S22): Unknown column 'Bestellsummer' in 'field list'
+mysql> SELECT Bestellnummer FROM tblbestellung;
++---------------+
+| Bestellnummer |
++---------------+
+|             1 |
+|             3 |
+|             2 |
+|             4 |
+|             5 |
++---------------+
+5 rows in set (0.00 sec)
+ 
+mysql> SELECT Bestellsumme FROM tblbestellung;
++--------------+
+| Bestellsumme |
++--------------+
+|        20.00 |
+|        20.00 |
+|        30.00 |
+|       300.00 |
+|      2500.00 |
++--------------+
+5 rows in set (0.00 sec)
+ 
+mysql> exit

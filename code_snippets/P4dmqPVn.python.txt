@@ -1,0 +1,43 @@
+import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+ 
+def apply_high_boost_filter(image, mask, A):
+    kernel = np.array(mask, dtype=np.float32)
+    kernel = kernel + A
+    filtered_image = cv.filter2D(image, -1, kernel)
+    return filtered_image
+ 
+def display_images(images, titles):
+    plt.figure(figsize=(12, 6))
+    for i, (image, title) in enumerate(zip(images, titles), start=1):
+        plt.subplot(1, len(images), i)
+        plt.imshow(cv.cvtColor(image, cv.COLOR_BGR2RGB))
+        plt.title(title)
+        plt.xticks([])
+        plt.yticks([])
+    plt.show()
+ 
+def main():
+    image = cv.imread("Electron_Microscope.jpg", cv.IMREAD_COLOR)
+ 
+    mask1 = [[0, -1, 0], [-1, 4, -1], [0, -1, 0]]
+    mask2 = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]
+ 
+    A_values = [0, 1]
+ 
+    for A in A_values:
+        filtered_image1 = apply_high_boost_filter(image, mask1, A)
+        filtered_image2 = apply_high_boost_filter(image, mask2, A)
+ 
+        display_images(
+            [image, filtered_image1, filtered_image2],
+            [
+                f"Original Image",
+                f"High Boost Filtered Image (A={A}, Mask1)",
+                f"High Boost Filtered Image (A={A}, Mask2)",
+            ],
+        )
+ 
+if __name__ == "__main__":
+    main()

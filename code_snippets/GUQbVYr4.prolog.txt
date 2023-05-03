@@ -1,0 +1,580 @@
+% -*- Prolog -*-
+ 
+% Advent of Code 2021, Day 8, part 2 (SWI Prolog Solution)
+% 
+% Example input
+%
+% acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab |
+% cdfeb fcadb cdfeb cdbaf
+ 
+% The main problem here is parsing the first part of the input and
+% using knowledge of how the 10 digits appear to determine:
+%
+% * which letters correspond to which segments; and
+% * which of the 10 readings correspond to which digits
+%
+% In part 1, it was pointed out for us that 'ab' above must refer to
+% the digit one, since that digit is the only one with exactly two
+% segments lit up.
+%
+% In this part, one problem is determining:
+%
+% * how the readings with 5 segments map to digits two, three and five
+% * how the readings with 6 segments map to digits zero, six and nine
+%
+% If we know that, then we can examine the second part of the input
+% and uniquely determine what digit that set of letters corresponds
+% to.
+ 
+ 
+% A simple (brute force) solution to the above would take all possible
+% permutations that assign letters to segments. We can then test those
+% assignments against what we know about what segments are in each
+% digit.
+%
+% It's not exactly trivial to code this in Prolog, but at least the
+% problem is decomposable into parts that can be worked on
+% individually.
+ 
+% Representation
+%
+% We have two immediate problems with representation:
+%
+% * representing segment arrangement within digits
+% * representing letters within readings (and readings in general)
+%
+% Both of these require us to work with sets or some similar
+% structure. This is because, while the order of letters in the input
+% may differ, they all refer to the same set of letters/segments.
+%
+% The first part above is easiest. We can name each segment and then
+% use a contains clause to indicate inclusion. Here, vertical segments
+% are assigned names based on diagonal compass directions, whereas
+% horizontal ones are named 'top', 'mid' and 'bot':
+ 
+% the order of clauses isn't important
+digit_lit(zero, top).
+digit_lit(zero, nw).
+digit_lit(zero, ne).
+digit_lit(zero, sw).
+digit_lit(zero, se).
+digit_lit(zero, bot).
+ 
+digit_lit(one, ne).
+digit_lit(one, se).
+ 
+digit_lit(two, top).
+digit_lit(two, ne).
+digit_lit(two, mid).
+digit_lit(two, sw).
+digit_lit(two, bot).
+ 
+digit_lit(three, top).
+digit_lit(three, ne).
+digit_lit(three, mid).
+digit_lit(three, se).
+digit_lit(three, bot).
+ 
+digit_lit(four, nw).
+digit_lit(four, ne).
+digit_lit(four, mid).
+digit_lit(four, se).
+ 
+digit_lit(five, top).
+digit_lit(five, nw).
+digit_lit(five, mid).
+digit_lit(five, se).
+digit_lit(five, bot).
+ 
+digit_lit(six, top).
+digit_lit(six, nw).
+digit_lit(six, mid).
+digit_lit(six, sw).
+digit_lit(six, se).
+digit_lit(six, bot).
+ 
+digit_lit(seven, top).
+digit_lit(seven, ne).
+digit_lit(seven, se).
+ 
+digit_lit(eight, top).
+digit_lit(eight, nw).
+digit_lit(eight, ne).
+digit_lit(eight, mid).
+digit_lit(eight, sw).
+digit_lit(eight, se).
+digit_lit(eight, bot).
+ 
+digit_lit(nine, top).
+digit_lit(nine, nw).
+digit_lit(nine, ne).
+digit_lit(nine, mid).
+digit_lit(nine, se).
+digit_lit(nine, bot).
+ 
+ 
+% we can also add a relation between a digit and the number of
+% segments it has
+digit_segments(zero,  6).
+digit_segments(one,   2).
+digit_segments(two,   5).
+digit_segments(three, 5).
+digit_segments(four,  4).
+digit_segments(five,  5).
+digit_segments(six,   6).
+digit_segments(seven, 3).
+digit_segments(eight, 7).
+digit_segments(nine,  6).
+ 
+% The above could also be calculated using findall (or setof, in case
+% we've accidentally listed a segment twice) on digit_lit and
+% counting the number of returned matches.
+ 
+% Note that this gives us set-like structure for working with known
+% segments within each digit. Another way to do this would be to
+% assign a 7-bit binary number to the arrangement of segments, eg,
+% numbering the segments as follows:
+%
+%          top = 1
+%
+% nw = 2              ne = 4
+%
+%          mid = 8
+%
+% sw = 16             se = 32
+%
+%          bot = 64
+ 
+ 
+% This lets us use an alternative definition involving:
+%
+% digit name
+% digit reading
+% number of segments
+% binary number representing arrangement
+digit_info(zero,   0, 6, Arr) :- Arr is 1 + 2 + 4 + 16 + 32 + 64.
+digit_info(one,    1, 2, Arr) :- Arr is 4 + 32.
+digit_info(two,    2, 5, Arr) :- Arr is 1 + 4 + 8 + 16 + 64.
+digit_info(three,  3, 5, Arr) :- Arr is 1 + 4 + 8 + 32 + 64.
+digit_info(four,   4, 4, Arr) :- Arr is 2 + 4 + 8 + 32.
+digit_info(five,   5, 5, Arr) :- Arr is 1 + 2 + 8 + 32 + 64.
+digit_info(six,    6, 6, Arr) :- Arr is 1 + 2 + 8 + 16 + 32 + 64.
+digit_info(seven,  7, 3, Arr) :- Arr is 1 + 4 + 32.
+digit_info(eight,  8, 7, Arr) :- Arr is 127.
+digit_info(nine,   9, 6, Arr) :- Arr is 1 + 2 + 4 + 8 + 32 + 64.
+ 
+% I'm not sure what sort of support this Prolog (SWI) has for bit
+% manipulation, but we may not need to use it explicitly. For example,
+% if our permutations mapping letters to segments represents segments
+% according to their binary encoding (2**something), then we might
+% only need to work in a forward direction (translating letters to
+% binary numbers, summing those, and comparing the result with the
+% known arrangements), and so won't have to ask questions like "is bit
+% x set" or perform manipulations like "flip bit x"
+ 
+% A quick look at permutation.
+ 
+% We want an input list and an output list. We also need a second
+% predicate that finds and removes the n'th value from the first list
+ 
+% remove([H], H, []) :- !. % not needed since T can be []
+remove([H|T], H, T).
+remove([H|T], L, [H|R]) :- remove(T, L, R).
+ 
+% The following fails on trying to permute an empty set, which is fine
+%
+% Satisfyingly, it works for ?- permute([a,b,c],[c,a,X]). (X = b)
+ 
+permute([Any], [Any]).
+permute(In, [Item|Out]) :-
+    remove(In, Item, Rest),
+    permute(Rest, Out).
+ 
+% This doesn't work, though:
+% ?- permute([a,b,c,c],[c,a,X,Y]).
+%
+% We get repeated output values because the input list has repeated
+% values. That's not a problem for our application, though.
+ 
+% (OMG... I'm writing correct Prolog code!)
+ 
+% A quick note about mapping readings to digits based on the above
+% segment permutations...
+%
+% You might think that you have to add extra logic to make sure that
+% once a digit is assigned to a reading, that that digit can't be used
+% again later. However, based on just general understanding of the
+% problem and the distinctness of the actual segment patterns, we can
+% actually combine validation of the input permutation with production
+% of the string (reading) to digit mapping.
+%
+% The two parts are:
+%
+% a) are letter to segment mappings correct for ...
+%    zero digit .. nine digit
+%
+% b) GIVEN that the above mappings are correct, create a list of
+%    reading to digit mappings
+%
+% Obviously, I am working under the assumption that only a single
+% permutation will satisfy the first part. If that is the case, then
+% the second part has to hold because the digit mappings all create
+% distinct binary representations...
+ 
+% (not used; just trying things out)
+% This basically only counts up Segment values, but it could be the
+% basis for creating Permutation (element) <-> Segment pairs as a side
+% effect. (hence the "zip" naming)
+zip([], [], X, X).
+zip([_PHead|Perm], [SHead|Segment], Isum, Sum) :-
+    NextSum is SHead + Isum,
+    zip(Perm, Segment, NextSum, Sum).
+ 
+% the name sum is taken by a predicate in the clpfd library and it
+% doesn't work the way you'd expect :(
+sum_list([], X, X).
+sum_list([SHead|Segment], Isum, Sum) :-
+    NextSum is SHead + Isum,
+    sum_list(Segment, NextSum, Sum).
+ 
+% The obvious usage of the above is something like:
+%
+% permute(Letters, Permutation),
+% ...
+ 
+% ah, not quite right... I need to translate letters in one step
+% (requiring an actual zip), then do the count in a separate step,
+% followed by something like:
+%
+% GIVEN this calculated arrangement for zero (...), does it have the
+% same stored arrangement for zero
+%
+% (and so on for one, two, three, ...)
+%
+% So we're reading the permutation, eg, [a,c,f,g,...] as
+% * a = 1
+% * c = 2
+% * f = 4
+% * g = 8
+% ...
+ 
+% Then we look at each *reading* and see if, after the translation
+% above, it maps to some (each) known digit.
+ 
+% Take a pair of translation lists (from, to), a symbol from the first
+% list, and output the corresponding symbol in the second list.
+%
+% eg translate([a,b,c,d], [1,2,4,8], c, Val). (Val = 4)
+translate([S|_Symbols], [V|_Values], S, V) :- !.
+translate([_|Syms], [_|Vals], S, V) :- translate(Syms,Vals,S,V).
+ 
+% the above would actually have to be applied to all letters of the
+% permutation. Here's how to do that:
+ 
+translate_all([], _From, _To, []).
+translate_all([I|In], From, To, [O|Out]) :-
+    translate(From, To, I, O),
+    translate_all(In, From, To, Out).
+ 
+% Before I go further, I think I should write a pretty printer. There
+% are two ways to consider:
+%
+% * using # for lit segments, . for unlit ones
+% * as above, but with letters replacing #'s
+%
+% In order to avoiding writing two sets of predicates, we should
+% probably have a pair of inputs:
+%
+% * a set of canonically-named segments (eg, 7 = [top, ne, se])
+% * a "palette" used for painting that segment (eg, [b, c, a])
+%
+ 
+pp(Segments, Palette) :-
+    write(" "),
+    (
+    translate(Segments, Palette, top, Top),
+    write(Top),
+    write(Top),
+    writeln(Top), !;
+    writeln("...")
+    ),
+ 
+    % write two lines for each vertical segment
+    (
+    translate(Segments, Palette, nw, NW), !;
+    NW = "."
+    ),
+    (
+    translate(Segments, Palette, ne, NE), !;
+    NE = "."
+    ),
+    write(NW),
+    write("   "),
+    writeln(NE),
+    write(NW),
+    write("   "),
+    writeln(NE),
+ 
+    write(" "),
+    (
+    translate(Segments, Palette, mid, Mid),
+    write(Mid),
+    write(Mid),
+    writeln(Mid), !;
+    writeln("...")
+    ),
+ 
+    % write two lines for each vertical segment
+    (
+    translate(Segments, Palette, sw, SW), !;
+    SW = "."
+    ),
+    (
+    translate(Segments, Palette, se, SE), !;
+    SE = "."
+    ),
+    write(SW),
+    write("   "),
+    writeln(SE),
+    write(SW),
+    write("   "),
+    writeln(SE),
+ 
+    write(" "),
+    (
+    translate(Segments, Palette, bot, Bot),
+    write(Bot),
+    write(Bot),
+    writeln(Bot), !;
+    writeln("...")
+    ).
+ 
+% The above is fine, but there's a bit of preprocessing work needed
+% for giving segment names a canonical colour when printing known
+% digits. Of course, you can just print them using the hash palette.
+%
+ 
+% pretty print a digit based on the digit_lit rules and # palette
+pp_digit_hash(Name) :-
+    % using findall returns Segs = [] if the predicate fails, but
+    % using setof causes unknown digit Name to fail
+    setof(Seg, digit_lit(Name, Seg), Segs),
+    
+    % Palette can be larger than segment list
+    pp(Segs, [ "#", "#", "#", "#", "#", "#", "#", "#", "#"]).
+ 
+% As above, but using a canonical palette (top -> a, nw -> b, ...):
+pp_digit_canonical(Name) :-
+    setof(Seg, digit_lit(Name, Seg), Segs),
+    translate_all(Segs, [top, nw, ne, mid, sw, se, bot],
+          [a,b,c,d,e,f,g],
+          Palette),
+    pp(Segs,Palette).    
+ 
+ 
+% I have two different ways of representing digits, so let's make sure
+% that they agree
+ 
+validate_digit_list([]).
+validate_digit_list([Name|T]) :-
+    digit_info(Name, _, _, Expect), % expected arrangement (binary number)
+    % !,
+ 
+    setof(Seg, digit_lit(Name, Seg), Segs),
+    translate_all(Segs, [top, nw, ne, mid, sw, se, bot],
+          [1,2,4,8,16,32,64],
+          Digits),
+ 
+    sum_list(Digits, Sum),
+ 
+    write(Name),
+    write(" has digits: "),
+    write(Digits),
+    write(" (sum = "),
+    write(Sum),
+    writeln(")"),
+ 
+    Sum == Expect,
+    % write("digit "),
+    write(Name),
+    writeln(" is OK"),
+    validate_digit_list(T).
+ 
+ 
+% There's something wrong with the following ... it calls
+% validate_digit_list too many times... calling validate_digit_list
+% manually works without repeating itself...
+validate_digits() :-
+    setof(Name, Seg^digit_lit(Name, Seg), Names),
+ 
+    write("Testing digits: "),
+    writeln(Names),
+ 
+    
+    % OK. So apparently setof was the culprit?
+    % findall(Name, digit_info(Name, _, _, _Arr), Names),
+    % findall(Name, digit_lit(Name, _Which), Names), % many duplicates!
+    % !,
+    validate_digit_list(Names).
+ 
+% I changed Sum = Expect in validate_digit_list to Sum is Expect and
+% the strange behaviour went away. However, there were still problems.
+%
+% I had to change to eliminate relevance of the Seg variable...
+ 
+ 
+% another unused predicate. Succeeds when a list has no duplicates
+% (ie, all elements are distinct).
+distinct(Xs) :-
+    msort(Xs, Sorted),      % sort removes duplicates, msort doesn't.
+    sorted_distinct(Sorted).
+ 
+% it was tricky to get this right (pairwise comparison, except at end)
+sorted_distinct([_]).       % [_] rather than []
+sorted_distinct([A,A|_]) :-
+    !, fail.                    % cut first! (alt A == B, !, fail.)
+sorted_distinct([_,B|T]) :-
+    sorted_distinct([B|T]).
+ 
+ 
+% Towards a solution
+%
+% Most of the pieces are written, but there's the thorny issue of
+% converting the text-based readings into lists or atoms.
+%
+% Ignoring that, the solution needs to:
+%
+% * start with a permutation of letters
+%
+% * pair up letters with segment names based on that permutation
+%
+% * translate segment names into numeric arrangement and sum
+%
+% * find the name (a digit) of the unique arrangement
+%
+% The last three steps are done for each reading.
+%
+% We can go directly from letters to the powers-of-two encodings of
+% the segments. So the permutation can be from letters in a canonical
+% order (a,b,c...) to the powers of two (1,2,4, etc.). That way, we
+% only have a single translate_all step
+ 
+pp_string_as_ordinals([]) :- writeln("").
+pp_string_as_ordinals([H|T]) :- write(H), write(","), pp_string_as_ordinals(T).
+ 
+% OK. The above doesn't work if you pass in a string (it's not
+% automatically treated as a list). We need to use string_codes/2, eg:
+%
+% ?- string_codes("foo", S), pp_string_as_ordinals(S).
+% 102,111,111,
+% S = [102, 111, 111].
+ 
+% LHS is the calibration readings on the left, RHS is what we want to
+% find values for, then read them as a 4-digit decimal number
+solve_line(LHS, RHS, Total) :-
+    % convert letters to ascii codes
+    string_codes("abcdefg", Canonical),
+    % rather than use Digit mappings, use winning permutation
+    % (this enables us to reuse the pair_readings code in 2nd part)
+    solve_readings(LHS, Canonical, Permutation, _Digits),
+    pp_string_as_ordinals(Permutation),
+    % solve RHS using winning permutation, this time save Digits
+ 
+    % Note that the following could be replaced with a call to:
+    %   pair_readings(RHS, Permutation, Digits)
+    %
+    % I'm calling solve_readings instead just to show that the same
+    % predicate can be used to solve both the left hand side and the
+    % right hand side. The difference between the calls is that
+    % Permutation is unbound on the first call, but bound on the
+    % second (so the call to permute simply verifies that Permutation
+    % is a permutation of Canonical)
+    solve_readings(RHS, Canonical, Permutation, Digits),
+ 
+    sum_digits(Digits, 0, Total).
+ 
+solve_readings(Readings, Canonical, Permutation, Digits) :-
+    permute(Canonical, Permutation),
+    pair_readings(Readings, Permutation, Digits).
+ 
+ 
+% convert ["one", "two", "three","four"] to decimal 1234. Call with
+% initial accumulator of 0. Example:
+%
+% ?- sum_digits([one,two,three], 0, T).
+% T = 123 ;
+% false.
+ 
+% at bottom, instantiate final Total == Accumulator
+sum_digits([], Acc, Acc).
+ 
+% Above could also have been written to terminate at [D]:
+% sum_digits([D], Acc, Total) :-
+%     digit_info(D, Val, _, _),
+%     Total is Acc * 10 + Val.
+ 
+% Accumulate high digits on the way down, passing Total back up unchanged
+sum_digits([D|Ds], Acc, Total) :-
+    digit_info(D, Val, _, _),
+    Acc2 is Acc * 10 + Val, % Acc is initially zero
+    sum_digits(Ds, Acc2, Total).
+ 
+% Letters comes from a reading
+% Permute is a permutation of [a, b, c, ...]
+%
+% eg, with canonical naming, no permutation:
+%
+% ?- pair_reading([c,f], [a,b,c,d,e,f,g], D).
+% D = one ;
+%
+% Also works with ascii codes, if both Letters and Permute follow the
+% same encoding:
+%
+% ?- pair_reading([97,99,102], [97,98,99,100,101,102,103], D).
+% D = seven ;
+ 
+pair_reading(Letters, Permute, Digit) :-
+    translate_all(Letters, Permute, [1,2,4,8,16,32,64], Segments),
+    sum_list(Segments, 0, Arrangement),
+    digit_info(Digit, _, _, Arrangement).
+ 
+pair_readings([],_,[]).
+pair_readings([H|T], P, [D|Ds]) :-
+    % convert letters to ascii codes
+    string_codes(H, HC),
+    pair_reading(HC, P, D),
+    pair_readings(T, P, Ds).
+ 
+% OK. Fixed a typo, and I have a solution!
+% solve_line(["acedgfb", "cdfbe", "gcdfa", "fbcad", "dab", "cefabd", "cdfgeb",
+%     "eafb", "cagedb", "ab"],_,Digits).
+% 100,101,97,102,103,98,99,
+% Digits = [eight, five, two, three, seven, nine, six, four, zero|...] ;
+% false.
+%
+% Checking against example output...
+%
+% acedgfb: 8
+% cdfbe: 5
+% gcdfa: 2
+% fbcad: 3
+% dab: 7
+% cefabd: 9
+% cdfgeb: 6
+% eafb: 4
+% cagedb: 0
+% ab: 1
+%
+% Correct!
+ 
+% Adding code (and new parameters) to solve the RHS:
+%
+% ?- solve_line(["acedgfb", "cdfbe", "gcdfa", "fbcad", "dab", "cefabd", "cdfgeb",
+% "eafb", "cagedb", "ab"],["cdfeb", "fcadb", "cdfeb", "cdbaf"],Digits).
+% 100,101,97,102,103,98,99,
+% Digits = 5353 
+%
+% Also correct!
+ 
+% To Do: write a parser to read the actual input and output the
+% solution, which is the sum of all the per-line Digits outputs above.

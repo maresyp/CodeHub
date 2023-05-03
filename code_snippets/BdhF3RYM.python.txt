@@ -1,0 +1,61 @@
+from kivy.app import App
+from kivy.clock import Clock
+from kivy.lang import Builder
+from kivy.properties import NumericProperty
+from kivy.uix.screenmanager import Screen
+ 
+kv = """
+<SplashScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Splash Screen'
+        ProgressBar:
+            value: root.progress_count
+            max: 100
+        
+<MainScreen@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Main Screen'
+        Button:
+            size_hint_y: None
+            height: dp(48)
+            text: 'To Splash'
+            on_release: root.manager.current = 'splash'
+ 
+ScreenManager:
+    SplashScreen:
+        name: 'splash'
+    MainScreen:
+        name: 'main'
+    
+ 
+"""
+ 
+ 
+class SplashScreen(Screen):
+    progress_count = NumericProperty(0)
+ 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.schedule = None  # used to hold the schedule to update the progressbar
+ 
+    def on_enter(self, *args):
+        self.schedule = Clock.schedule_interval(self._track_progress, 0.5)
+ 
+    def _track_progress(self, _):
+        self.progress_count += 5
+        if self.progress_count >= 100:
+            self.schedule.cancel()
+            self.manager.current = 'main'
+            self.progress_count = 0
+ 
+ 
+class MockSplashScreenApp(App):
+    def build(self):
+        return Builder.load_string(kv)
+ 
+ 
+MockSplashScreenApp().run()

@@ -1,0 +1,19 @@
+using System;
+ 
+namespace GladiatorFight
+{
+    public class Warlord : Fighter
+    {
+        public Warlord(string name, int health, int damage, int armor) : base (name, health, damage, armor)
+        {
+            
+        }
+        
+        public override int GetSkillDamage(int roundCount)
+        {
+            int skillDamage = Damage * 3;
+            Console.Write("\nИспользован скилл Варлорда! #Тройной урон#.");
+            return skillDamage;
+        }
+    }
+}

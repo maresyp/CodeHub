@@ -1,0 +1,200 @@
+library ieee;
+use ieee.std_logic_1164.all;
+ 
+entity ms_p4 is
+    port (
+        FIRST, KEY0, FOURS, KEY1, Clk : in std_logic;
+        Actual, Suma, R, Uno, Dos, Tres, Cuatro, light, blink : out std_logic); 
+end ms_P4;
+ 
+architecture behavioural of ms_p4 is
+ 
+    type state is (E0, E1, E2, E3, E4, E5, E6, E7, E8, E9, E10, E11, E12, E13, E14, E15, E16, E17);
+    signal state_reg, state_next : state; 
+    
+begin
+ 
+    process(Clk, KEY1) is
+    begin
+        if KEY1 = '1' then
+            state_reg <= E0;
+        elsif (Clk'event and Clk = '1') then
+            state_reg <= state_next;
+        end if;
+    end process;
+ 
+    process(state_reg, FIRST) is
+    begin 
+        case state_reg is 
+            when E0 => 
+                if FIRST = '1' then
+                state_next <= E1;
+                else
+                    state_next <= E0;
+                end if;
+            when E1 => 
+                if KEY0 = '1' then
+                    state_next <= E2;
+                else
+                    state_next <= E1;
+                end if;
+            when E2 => 
+                if FIRST = '0' then
+                    state_next <= E3;
+                else
+                    state_next <= E2;
+                end if;
+            when E3 => 
+                if FOURS = '1' then
+                    state_next <= E4;
+                else
+                    state_next <= E3;
+                end if;
+            when E4 => 
+                if FOURS = '1' then
+                    state_next <= E5;
+                else
+                    state_next <= E4;
+                end if;
+            when E5 => 
+                if FOURS = '1' then
+                    state_next <= E6;
+                else
+                    state_next <= E5;
+                end if;
+            when E6 => 
+                if FOURS = '1' then
+                    state_next <= E7;
+                else
+                    state_next <= E6;
+                end if;
+            when E7 => 
+                if FOURS = '1' then
+                    state_next <= E8;
+                else
+                    state_next <= E7;
+                end if;
+            when E8 => 
+                if FOURS = '1' then
+                    state_next <= E9;
+                else
+                    state_next <= E8;
+                end if;
+            when E9 => 
+                if FOURS = '1' then
+                    state_next <= E10;
+                else
+                    state_next <= E9;
+                end if;
+            when E10 => 
+                if FOURS = '1' then
+                    state_next <= E11;
+                else
+                    state_next <= E10;
+                end if;
+            when E11 => 
+                if FOURS = '1' then
+                    state_next <= E12;
+                else
+                    state_next <= E11;
+                end if;
+            when E12 => 
+                if FOURS = '1' then
+                    state_next <= E13;
+                else
+                    state_next <= E12;
+                end if;
+            when E13 => 
+                if FOURS = '1' then
+                    state_next <= E14;
+                else
+                    state_next <= E13;
+                end if;
+            when E14 => 
+                if FOURS = '1' then
+                    state_next <= E15;
+                else
+                    state_next <= E14;
+                end if;
+            when E15 => 
+                if FOURS = '1' then
+                    state_next <= E16;
+                else
+                    state_next <= E15;
+                end if;
+            when E16 => 
+                if FOURS = '1' then
+                    state_next <= E16;
+                else
+                    state_next <= E15;
+                end if;
+            when E17 => 
+                if KEY1 = '1' then
+                    state_next <= E0;
+                else
+                    state_next <= E16;
+                end if;
+        end case;
+    end process;
+ 
+    process (state_reg) is 
+ 
+    begin
+        Actual <= '0';
+        Suma <= '0';
+        R <= '0';
+        Uno <= '0';
+        Dos <= '0';
+        Tres <= '0';
+        Cuatro <= '0';
+        light <= '0';
+        blink <= '0';
+        
+        case state_reg is
+            when E0 => 
+                Actual <= '1';
+            when E1 => 
+                Actual <= '1';
+                Suma <= '1';
+            when E2 => 
+                R <= '1';
+            when E3 =>
+            when E4 => 
+                Uno <= '1';
+                blink <= '1';
+            when E5 => 
+                Uno <= '1';
+                light <= '1';
+            when E6 => 
+                Uno <= '1';
+                blink <= '1';
+            when E7 => 
+            when E8 => 
+                Dos <= '1';
+                blink <= '1';
+            when E9 => 
+                Dos <= '1';
+                light <= '1';
+            when E10 => 
+                Dos <= '1';
+                blink <= '1';
+            when E11 =>
+            when E12 => 
+                Tres <= '1';
+                blink <= '1';
+            when E13 => 
+                Tres <= '1';
+                light <= '1';
+            when E14 => 
+                Tres <= '1';
+                blink <= '1';
+            when E15 => 
+            when E16 => 
+                Cuatro <= '1';
+                blink <= '1';
+            when E17 => 
+                Cuatro <= '1';
+                light <= '1';
+        end case;
+    end process;
+end behavioural;

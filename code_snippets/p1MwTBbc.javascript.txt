@@ -1,0 +1,26 @@
+nst lampa = require('lampa');
+ 
+// Функція для додавання фільму до програми Lampa
+function addMovieToLampa(movie) {
+  const options = {
+    path: '/api/v1/movies',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer <LAMPA_ACCESS_TOKEN>'
+    },
+    body: JSON.stringify(movie)
+  };
+  lampa.request(options, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      console.log('Фільм успішно додано до програми Lampa.');
+    } else {
+      console.log('Помилка при додаванні фільму до програми Lampa:', error);
+    }
+  });
+}
+ 
+// Функція для відображення результатів пошуку в програмі Lampa
+function displayResultsInLampa(results) {
+  console.log('Результати пошуку:', results);
+  results.forEach(function(result) {

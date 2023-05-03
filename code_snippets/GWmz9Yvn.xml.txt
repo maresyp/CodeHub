@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+ 
+<AnchorPane prefWidth="0.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kbjavafxproject.TileHexController">
+   <children>
+      <ImageView fitHeight="50.0" fitWidth="43.25">
+         <image>
+            <Image url="@assets/hex.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="button" layoutX="4.0" layoutY="13.0" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="25.0" prefWidth="36.0" text="Button" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,179 @@
+Star Citizen Patch 3.10.0
+Alpha Patch 3.10.0 has been released and is now available! Patch should now show: VERSION 3.10.0-LIVE.5789362.
+It is strongly recommended that players delete their USER folder for the Public client after patching, particularly if you start encountering any odd character graphical issues or crash on loading. The USER folder can be found (in default installations) at C:\Program Files\Roberts Space Industries\StarCitizen\LIVE.
+Database Reset: YES
+Long Term Persistence: Enabled
+Starting aUEC: 20,000
+Known Issues
+Players appear offline on the Front End instead of 'In-menus' until that Player has been in-game
+Close range FoIP animations are not transmitting to remote clients
+Comm call screen is extremely translucent while viewing through the HUD
+Both FPS and Ship Mining methods produce UI stalls resulting in the user overcharging their targeted deposit.
+Delivery missions with multiple pick-up locations can result in only two drop-off points or a 3rd drop off point that doesn't work if the delivery location is an Aid Shelter, preventing delivery of the third box. (Workaround: Avoid multiple delivery drop off missions to aid shelters)
+Using the tractor beam on the Greycat ROC to pick up multiple gems at once will cause a significant portion of the gems to vanish
+Private Arena Commander matches are temporarily disabled due to an issue with the updated group system
+The player that made the personal transport / escort beacon will not be able to see marker on player that accepted
+Global chat is unavailable in the visor HUD
+Planetary ambiances can be heard at various locations in New Babbage
+Player character can clip through the external doors of certain outpost buildings and Aid shelter buildings' airlocks when entering
+Hangar Doors can remain closed when the Hangar is assigned to a Landing Players Ship.
+When firing at AI ships they will appear to Desync and have high packet loss
+Ships can be displayed as 'unknown' after destruction and be available to spawn again, but will not appear on their specified landing pad.
+Landing gear will take multiple presses of the keybind to activate.
+Crystals and large surface rock deposits don't settle properly after fracturing causing them to vibrate and shake
+The Greycat ROC cannot extract all of the child crystals, some are left behind
+Hammerhead atmo entry effects clipping through interior of the ship
+The Ship Hologram / 3D Model will take over 20 seconds to load the first time the Player views one in VMA or the Arena Commander Menus
+The Area18 nav marker will appear at the central plaza, not the spaceport.
+Legally landed ships may be impounded
+If the player exits to menu/disconnects/crashes during the prison load screen transition their load-out will not be changed
+When going into ADS and crouching / prone you will be unable to see through the optics scope on the Arrowhead or P6-LR
+Freelook does not always work properly in turrets
+Shots from remote turrets may appear desyned but still connect with the target.
+New Features
+Characters
+mobiGlas Variants
+Adding the initial implementation of mobiGlas Variants which gives the player the ability to switch out their mobiGlas for another one with various colors. Players will be able to purchase these in-game at the new Factory Line shop in New Babbage on microTech.
+Added Helmet Visor Wiping
+Action that lets the player wipe their visor clear when it has become too obstructed by snow/rain/moisture. This action is available through the default keybind of ALT+X or through the Inner Thought menu.
+Locations
+Added SDF atmospheric entry effects
+Updating all ships to use the new SDF (Signed Distance Field) tech to greatly improve the visuals of atmospheric entry. This allows for dynamically changing effects that change based on ship shape, size, and orientation when entering atmosphere and allow for other players to see the ship effect from far away.
+AI
+NPC Improvements: Bartender
+With this addition of Bartenders to the Persistent Universe, we are introducing the standard that all future vendors will be built from. The job of a Bartender is to serve drinks to the many bar patron's of the Persistent Universe. They can take orders from players and serve anything from bottled beer from the fridges or draught beer from the tap, to making a hand-crafted whiskey and cola in front of their customer. When not serving drinks, Bartenders will be seen keeping their work environment tidy by wiping down counters, disposing of bottles, and polishing glasses, and chatting with patrons dynamically. This includes an overhaul to bars with more NPCs ordering drinks, using tables, and drinking. These improved bartenders will be serving up drinks in Wally's bar in New Babbage, G-Loc bar in Area18, Cafe Musain in Levski, Old 38 in Grim HEX, and M&V Bar in Lorville.
+Cover Usage V1
+Expanding the tactic selection of Combat AI to analyze the environment and detect, in absence of full cover, possible positions where they can engage enemies without being fully exposed to them. This includes objects such as small crates, which could potentially provide partial cover.
+Shotgun Assault Tactic
+Added the ability for combat AI to engage the player using a wider variety of weaponry, react dynamically to both player behavior and the environment, and engage strategically and realistically.
+Gameplay
+Player Trading App
+We are introducing the first iteration of the player trading app, called mo.Trader, onto the mobiGlas. This first implementation will allow players to immediately send in-game aUEC and merits to another player regardless if they are on or offline, or on a different server. Transfers will be charged a percentage tax to complete the transaction.
+Body Dragging
+Adding the initial functionality to allow players to interact with dead and unconscious characters, and move them. Whilst an actor is dragging they can equip, use and holster 1-handed weapons, i.e. pistols and knives (the dragging character holds onto the victim with their left hand, leaving the right hand free).
+Thruster Efficiency Curves, Jerk, and Aerodynamics
+Thruster efficiency curves drastically change the way thrusters work in differing atmospheres. In atmosphere thrusters now lose efficiency and become much weaker. This is dependent on the ship and the thruster type to some degree, but ships are now much weaker when in atmospheres and cannot fly in the maneuverable way they used to.
+Aerodynamics - Ships now have individually simulated aerodynamics surfaces that contribute various little forces to the motion of the ship. The result is both much more realistic and enjoyable to fly, and a significantly more detailed simulation. Expect lots of subtle, unique flight characteristics per ship that give them a lot more character. Ships with wings are now able to stall, do level turns, lose speed in tight turns, and various fancy aerodynamic features. The aerodynamic interaction with wind is now more detailed and expect wind to push and pull on ships in more complex ways. Ship aerodynamics will now change as you switch between configurations. Breakable parts now affect the aerodynamics, so break off a wing and the ship will not fly straight anymore.
+Jerk - This is a core change to how ships move, both in space and in atmosphere that makes them much smoother and feel more weighty. Jerk is a measure how quickly the ship’s acceleration changes, and previously it was infinite. Now it’s a finite quantity that means thrusters do not respond immediately to changes in acceleration. Expect weightier feeling ships but with similar levels of maneuverability.
+High Speed Combat
+Ship systems will now suffer some consequences traveling at high speed, restricting some of the options that players will have which will encourage engagement at lower speeds. When flying above SCM speeds, weapon accuracy, gimbal assist speed, and missile lock speed will be negatively affected.
+ New Targeting Method
+Fundamental changes to how targets are tracked on and off your screen with UI updates to improve the visibility of locked, tracked, and pinned targets which includes: New UI for the TVI, PIP, indicator, range indication, firing indication, assisted gimbals, and fixed gunsight. New UI for targets including the return of orientation style brackets, orientation arrows, and motion ribbons, many of which are able to be turned on or off in the game options. We have also added more comprehensive target pinning and the sharing of pins within the same ship channel for better target communication for crewed vessels. Targeting keybinds have been completely redone to allow for maximum customizability which includes the ability to cycle and target nearest for friendlies, hostiles, attackers (those who have you targeted), as well as all available targets. There is an automatic selection of "best" target system, based on your view cone. Once selected, a target can be locked or pinned. Locked targets display additional targeting information (distance, ribbon trail, direction). Unlocked targets that move offscreen/outside the cone lose the selection and a new target is selected. Hostile, friendly, and all targets within the forward cone can be cycled as well. Locked targets that move offscreen/outside the cone retain their selection.
+NOTE: These changes involve a significant keybind rework and it is strongly advisable that you go through your keybinds in detail, rebinding where appropriate or re-familiarizing with the default setup. More information on the specific keybind changes can be found here:
+https://robertsspaceindustries.com/spectrum/community/SC/forum/1/thread/star-citizen-alpha-3-10-keybinding-changes-additio
+Electron Damage
+Electron is a new FPS damage type that consists of energy, distortion, and stun. When a target is hit with electron damage they become charged and if the target receives a secondary hit while charged it will create an electron detonation that can chain to nearby targets. The size of this detonation is dependent on the initial and subsequent damage values on the target.
+Added Prison Repair Mission
+New mission added into Klescher Rehabilitation Facility for prisoners to earn merits by repairing oxygen dispensers that can randomly malfunction in the mines.
+Ships and Vehicles
+Added: Greycat Industrial ROC Mining Vehicle
+By focusing on the essentials of terrestrial-based mining, Greycat Industrial designed their hardworking, no-nonsense ROC (Remote Ore Collector) to complement the miners who use it. From its precision gimbaled mining arm to its all-terrain wheels, this solo-operated vehicle shows how important it is to have the right tool for the job.
+The Greycat Industrial ROC is a ground vehicle designed to mine larger crystalline mineral nodes that are just beyond the reach of a hand tool. This single seat vehicle is small enough to be transported in ships such as the Cutlass Black, Freelancer and Valkyrie allowing you to take it to the newly added mineables that are scattered around planet and moon surfaces in the PU.
+Added: KRIG P72 Archimedes Emerald
+Added ship paints to in-game shops
+Adding the initial in-game purchasable ship paints to shops in the 'verse. These are purchased with in-game aUEC from Dumper's Depot and Omega Pro shops and can be applied using the ship loadout manager in your mobiGlas.
+Weapons and Items
+New FPS Weapon: LBCO Atzkav Sniper rifle
+The Atzkav is a unique precision sniper rifle from Lightning Bolt Co. Once the charging handle is engaged, it accurately fires a charged electron to deal significant energy damage that spreads to nearby conductive targets. This special pulse effect also leaves a residual charge in the strike area that increases damage delivered by subsequent electron shots. Alongside the rifle's special firing capabilities, the Atzkav is best known for its distinct barrel that crackles with energy when powering its next shot. Currently, this can be acquired at Skutters in Grim HEX.
+New FPS Weapon: Lightning Bolt Co. Yubarev Electron Pistol
+Engineering excellence only scratches the surface of the distinct Yubarev pistol. Former merc turned weapon manufacturing mogul Irina Arkadova oversaw every aspect of the weapon, imbuing it with power, practicality, and panache. Featuring a classic woodgrain grip and cutting edge barrel design, the Yubarev fires a charged electron shot that impacts not only your target, amplifying the charge with each hit, but can spread to additional conductive targets in range.
+New FPS Weapon: Gemini C54 Ballistic SMG
+Easy to handle and a beauty to behold with its purple accented styling, the C54 is a sleek and precisely balanced SMG from Gemini. Its lightweight polymer frame and ergonomic design makes it ideal for close quarter engagements. The C54 is capable of firing 10mm rounds on full auto to provide maximum support and target saturation to ensure that any engagement ends quick.
+Core Tech
+Day/Night temperature changes on planets
+We are introducing a new mechanic to planets that causes the temperature to rise and fall with the day and night cycle. This means that planets should be warmer during the day and cooler during the night.
+Feature Updates
+Locations
+Grim HEX Updates
+These updates are to make Grim HEX a complete landing zone. The main changes include new location-branded utilitarian hangars accessible by the main hub with 2 large and 1 extra-large hangar to allow larger ships to land.
+High Tech Hangars 
+Full replacement of the current New Babbage Hangars to the new High Tech Hangars.
+New Babbage Shop Additions 
+Introducing new shops to New Babbage such as a novelty Kiosk in the New Babbage spaceport interior which will sell souvenirs and knick-knacks such as Pico the Penguin plushies. Also coming to New Babbage is The Factory Line, a flagship store for microTech, which sells their top of the line products, such as mobiGlas case variants, simpods, a new microTech cryptokey, and other various pieces of tech.
+Planet Re-Drop - height maps quality update 
+Updates made to all the height maps used on planets and moons to fully take advantage of their higher resolution. This will mean more detail can be utilized during the painting process.
+Planet Re-Drop of Landing zones 
+Planet location re-drop following the Height maps quality update to make sure all landing zones, derelicts, underground facilities, and outposts are set correctly into the updated environments.
+Ocean Shader Improvements 
+Added support for in-game oceans to react to flares and local lights using screen-space and cubemap reflection. Upgraded shading to include a Fresnel component and Sub-surface scattering term, and new shader features, to enhance the realism of oceans with improved refraction and additional detail layers. Added ability for ocean to react to wind conditions to increase or decrease wave turbulence.
+Quantanium mineable unique visual material 
+This is a visual change to Quantanium nodes to give it a new, unique material that will differentiate it from other mineables.
+Added additional LODs to Port Olisar landing pads and rings to help with assets popping in and out at a distance
+Added commodity inventory to outposts around microTech
+Added new ships to inventories at Astro Armada, New Deal, and Teach's Ship shop
+Gameplay
+ Delivery Mission Improvements 
+Delivery Missions have been overhauled, including creating new multi-drop off delivery missions and drug running missions.
+   Law System - Impounding Improvements 
+We are introducing changes to the Impounding mechanics currently present in the game. When blocking a landing pad on a vehicle without permission, a message will appear on the visor UI of all players aboard it which includes a timer that will count down until the vehicle is impounded. Different actions that cause a ship impounding, such as pad obstruction or reckless operation of vehicle, can now have different impounding times and fines.
+  Restricted Areas V2 
+We've reworked restricted areas around spaceports so they now have landing and take-off splines to guide you into, and out of, the allowed area of where you can land your ship. When requesting landing or taking off you will be required to fly down an assigned tunnel, which will show up as an AR 3D path in your HUD. Along with this, the distance at which restricted area warnings are displays on the ship HUD will now scale based on ship speed and direction of travel.
+   Ship HUD Rework 
+Rebuilding of our ship HUDs to use the new building blocks UI system. This includes updates to the design of TVI (Total Velocity Indicator) and reworked center targeting UI. Note: This change is currently not for ground vehicles and will be addressed in a future update.
+ Turret Usability Improvements 
+Turrets have undergone a slew of changes to increase their usability. Turrets now have a fixed assist system, using weapon convergence to nudge weapons toward the target, while still rewarding precise aim and area targeting. In addition, we added a modifier for how much target acceleration is taken into account for PIP prediction. We now update the PIP purely on the velocity which gives us a much more stable firing solution and decreases the effects of network jitter of juking behavior.
+NOTE: These turret usability improvements involve a significant keybind rework and it is strongly advisable that you go through your keybinds in detail, rebinding where appropriate or re-familiarizing with the default setup. More information on the specific keybind changes can be found here:
+https://robertsspaceindustries.com/spectrum/community/SC/forum/1/thread/star-citizen-alpha-3-10-keybinding-changes-additio
+   Updated ship control settings
+We have made updates to the default ESP settings. ESP radius and dampening effect is also now customizable in the options menu. We have added additional VJoy visibility and functionality settings to the option menu.
+   Updates to Star Marine scoring and REC conversion 
+Score for kills in Star Marine has been doubled to 200. Increased score limit for Elimination to 5000 (up from 3000), and adjusted the score to REC conversion due to these changes.
+Moved the Personal Inner Thought back and page arrows to the middle of the menu and added a dark background behind the wheel
+Greatly increased the reward payouts for doing Twitch Pacheco missions
+ECN, Bounty Hunter, and Escort mission rewards should now scale better based on difficulty
+Added Underground Facilities Missions around microTech and its moons
+Jettison Mineable Cargo keybind moved from LAlt+t to LAlt+J to avoid a conflict with the new targeting keybinds
+Temporarily updated Pro Trem Missions to not spawn around Delemar to avoid an issue with the target not spawning
+Increased the signature range for scanned mineables
+Ships and Vehicles
+Origin Jumpworks M50 Improvements
+Updates to the Origin M50 to improve the player experience. This includes making the landing gear compressible, updates to bring it to the new damage system, cockpit art improvements, and updating UI metrics.
+Variable armor values have returned to ships
+We have setup some minor armor variation to ships. Ships designed to take punishment will now have slightly higher damage resistance (ex. Cutlass Blue). Stealthier ships will have signature reduction in armor, at the cost of some damage resistances.
+Drake Buccaneer QoL Update
+Intake/Fuel tanks no longer fall off randomly with sing/engine detachment. Missile Pylon/S3 gun mounts swapped around to provide firepower when a wing is detached. Changed default missiles to a mix of standard IR/CS. Glass dirt/wear pass to help with pilot visibility.
+Drake Caterpillar QoL Update
+Weapons changed from 4x size 2 (with size 1 installed) to 2x size 3 (with size 2 installed). Turrets updated to be 2x size 4 (manned) and 1x size 3 (remote). Glass dirt/wear pass to help with pilot visibility.
+Anvil Gladiator QoL Update 
+Increased turret from size 2 to 3, increased turret weapons from size 2 to size 3, default weapons changed from gimbaled size 2 to fixed size 3.
+Xian Scout QoL Update
+Updated flight performance. Weapon hardpoints increased in size from size 3 to size 4. Default equipped weapons changed from fixed size 2 to gimbaled size 3.
+Polish pass on Dragonfly and Nox handling and increased speed
+Added rear side thrusters onto the Sabre Raven
+Repositioned and Increased the amount of retro thrusters to 4 on the Aegis Freelancer Variants
+Added a weapon rack onto the exterior of the Aegis Gladius
+Temporarily changed the Banu Defender loadout to use fixed S2 Tachyons to prevent the singes from being swapped to other ships
+Weapons and Items
+Klaus & Werner Mass Driver Mass Driver S1-3 Ship Weapons Rework
+Visual rework of the original Sledge Series Mass Driver ship weapons. Players can buy these in-game at various shops in the PU.
+Increased overheat threshold for Size 5 and larger Behring M7A Laser Cannons
+Reduced the damage and speed of S2 and S3 MassDrivers.
+Reduced Tachyon cannon damage
+Core Tech
+Increase ship cull distance to help with ships visually popping in/out
+Weapon Impact sparks will now be affected by wind
+Updated the error messaging received upon server disconnect
+Updated login queue messaging
+Major Bug Fixes
+Authorized Execution Warrant missions from Hurston should no longer award the player with a Homicide crimestat.
+After the first wave of enemies the patrol beacon should now consistently move to the next patrol area during a patrol mission.
+Fixed an issue that was causing NPCs to stand in place on seats around the PU.
+Glass in the Aeroview hangar should no longer be heavily obscured by scratches when looking out of the upper room.
+Fixed Mustangs being able to equip S2 quantum drives.
+Fixed audio element of Carrack thrusters so it should no longer be excessively loud to players inside the ship.
+AI should no longer regularly go into a "relaxed" aim stance during combat.
+Fixed ADS positions on FPS weapons to be centered so that crosshairs line up to bullet firing.
+Fixed an issue causing some mission descriptions to display locations as "Destination", "LocationAddress' or 'Pickup/DropoffAddrees' in the description.
+Ships and Vehicles will no longer hurt themselves when firing their EMP Weapons.
+Weapon lockers on the 890j, Constellations, Vanguard Sentinel, and Carrack should now persist weapons when the ship is stored and retrieved.
+Fixed an issue that caused Physicalised bottles to spam audio effects in players habs.
+Hangar 02 in CRU-L4 rest stop should now be accessible via elevator.
+Starfarer Gemini should no longer spawn the interior damage state active while the ship is at full health.
+There should no longer be a 5-7 second delay when firing the torpedoes on the Aegis Eclipse.
+Players will no longer become trapped in the Origin 600i kitchen table after sitting down and standing up from one of the kitchen chairs.
+Fixed missing areas of gravity on the surface of Delamar.
+Planetary effects weather should no longer clip through MFD's in ship / vehicle cockpits.
+Captain's Bed in the Aegis Reclaimer should now have proper interaction.
+Technical
+Fixed 5 Client crashes
+Fixed 2 Server crashes

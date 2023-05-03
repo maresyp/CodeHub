@@ -1,0 +1,31 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text;
+ 
+namespace ExtractPersonInformation
+{
+ 
+    class Program
+    {
+        static string SubFinder(string str, char start, char end)
+        {
+            int startIndex = str.IndexOf(start) + 1;
+            int endIndex = str.IndexOf(end);
+            int length = endIndex - startIndex;
+ 
+            return str.Substring(startIndex, length);
+        }
+ 
+        static void Main()
+        {
+            int n = int.Parse(Console.ReadLine());
+ 
+            for (int i = 0; i < n; i++)
+            {
+                string text = Console.ReadLine();
+                Console.WriteLine($"{SubFinder(text, '@', '|')} is {SubFinder(text, '#', '*')} years old.");
+            }
+        }
+    }
+}

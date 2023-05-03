@@ -1,0 +1,129 @@
+var Cryptr = require("cryptr");
+cryptr = new Cryptr("mdp");
+const fs = require('fs-extra')
+ 
+ 
+ 
+btn = document.getElementById("submitLogin")
+btn.addEventListener('click', async () => {
+        unameField = document.getElementById("Username").value
+        pswdField = document.getElementById("Pswd").value
+        pswdAlert = document.getElementById("alert-password")
+        unameAlert = document.getElementById("alert-username")
+        
+ 
+        await Users.findOne({Username: `${unameField}`}, async(err, data) => {
+            if(err)
+                throw err;
+            if(data) {
+                if(data.firstlogin == false){
+                        var decmdp = cryptr.decrypt(data.password);
+                        if(pswdField == decmdp){
+ 
+                                let languageEN = editJsonFile('../db,json');
+                                let languageFR = editJsonFile(`../db.json`);
+                                languageEN.set("usernameInfo", `${data.Username}`)
+                                languageEN.set("fullNameInfo", (`${data.Name} ` + `${data.Lastname}`))
+                                languageEN.set("nameInfo", `${data.Name}`)
+                                languageEN.set("lastNameInfo", `${data.Lastname}`)
+                                languageEN.set("emailInfo", `${data.Email}`)
+                                languageEN.set("phoneInfo", `${data.Phone}`)
+                                languageEN.set("adressInfo", `${data.Adress}`)
+                                languageEN.set("profileWebsite", `${data.Website}`)
+                                languageEN.set("profileGithub", `${data.Github}`)
+                                languageEN.set("profileTwitter", `${data.Twitter}`)
+                                languageEN.set("profileInstagram", `${data.Instagram}`)
+                                languageEN.set("profileFacebook", `${data.Facebook}`)
+                                await languageEN.save();
+ 
+                                languageFR.set("usernameInfo", `${data.Username}`)
+                                languageFR.set("fullNameInfo", (`${data.Name} ` + `${data.Lastname}`))
+                                languageFR.set("nameInfo", `${data.Name}`)
+                                languageFR.set("lastNameInfo", `${data.Lastname}`)
+                                languageFR.set("emailInfo", `${data.Email}`)
+                                languageFR.set("phoneInfo", `${data.Phone}`)
+                                languageFR.set("adressInfo", `${data.Adress}`)
+                                languageFR.set("profileWebsite", `${data.Website}`)
+                                languageFR.set("profileGithub", `${data.Github}`)
+                                languageFR.set("profileTwitter", `${data.Twitter}`)
+                                languageFR.set("profileInstagram", `${data.Instagram}`)
+                                languageFR.set("profileFacebook", `${data.Facebook}`)
+                                await languageFR.save()
+ 
+                                let file = editJsonFile(`../db.json`);
+                                file.set("Username", `${unameField}`);
+                                file.set("Email", `${data.Email}`);
+                                file.set("Name", `${data.Name}`)
+                                file.set("Lastname", `${data.Lastname}`)
+                                file.set("Password", `${data.password}`)
+                                file.set("pictureProfile", `${data.ProfilePicture}`);
+                                await file.save();
+                                if(document.getElementById("rememberMeChecked").checked == true){
+                                        data.rememberMe = true;
+                                }
+                                ipcr.send('login1');
+                        }else {
+                                pswdAlert.style.display = 'block'
+                                setTimeout(() => pswdAlert.style.display = 'none', 5000)
+                        }
+                } else {
+                        var decmdp = cryptr.decrypt(data.password);
+                        if(pswdField == decmdp){
+ 
+                                let languageEN = editJsonFile(`../db.json`);
+                                let languageFR = editJsonFile(`../db.json`);
+                                languageEN.set("usernameInfo", `${data.Username}`)
+                                languageEN.set("fullNameInfo", (`${data.Name} ` + `${data.Lastname}`))
+                                languageEN.set("nameInfo", `${data.Name}`)
+                                languageEN.set("lastNameInfo", `${data.Lastname}`)
+                                languageEN.set("emailInfo", `${data.Email}`)
+                                languageEN.set("phoneInfo", `${data.Phone}`)
+                                languageEN.set("adressInfo", `${data.Adress}`)
+                                languageEN.set("profileWebsite", `${data.Website}`)
+                                languageEN.set("profileGithub", `${data.Github}`)
+                                languageEN.set("profileTwitter", `${data.Twitter}`)
+                                languageEN.set("profileInstagram", `${data.Instagram}`)
+                                languageEN.set("profileFacebook", `${data.Facebook}`)
+                                languageEN.save();
+ 
+                                languageFR.set("usernameInfo", `${data.Username}`)
+                                languageFR.set("fullNameInfo", (`${data.Name} ` + `${data.Lastname}`))
+                                languageFR.set("nameInfo", `${data.Name}`)
+                                languageFR.set("lastNameInfo", `${data.Lastname}`)
+                                languageFR.set("emailInfo", `${data.Email}`)
+                                languageFR.set("phoneInfo", `${data.Phone}`)
+                                languageFR.set("adressInfo", `${data.Adress}`)
+                                languageFR.set("profileWebsite", `${data.Website}`)
+                                languageFR.set("profileGithub", `${data.Github}`)
+                                languageFR.set("profileTwitter", `${data.Twitter}`)
+                                languageFR.set("profileInstagram", `${data.Instagram}`)
+                                languageFR.set("profileFacebook", `${data.Facebook}`)
+                                languageFR.save();
+ 
+                                let file = editJsonFile(`../db.json`);
+                                file.set("Username", `${unameField}`);
+                                file.set("Email", `${data.Email}`);
+                                file.set("Name", `${data.Name}`)
+                                file.set("Lastname", `${data.Lastname}`)
+                                file.set("Password", `${data.password}`)
+                                file.set("pictureProfile", `${data.ProfilePicture}`);
+                                file.save();
+                                ipcr.send('firstLogin');
+ 
+                        }else {
+                                console.log("Invalid Password")
+                        }
+                }
+                data.save()
+            } else {
+                unameAlert.style.display = 'block'
+                setTimeout(() => unameAlert.style.display = 'none', 5000)
+            }
+            
+        })
+ 
+ 
+ 
+ 
+ 
+});

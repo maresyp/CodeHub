@@ -1,0 +1,67 @@
+print("\033[1;31;40m ¡Importante! \033[0;0m \n")
+print("\033[1m Antes de continuar, asegúrate de que estás utilizando este proyecto con fines éticos y legales. Clonar la voz de alguien sin su consentimiento puede ser ilegal y/o inmoral. Por favor, lee y acepta los términos y condiciones de uso antes de continuar. \033[0;0m \n")
+ 
+while True:
+    disclaimer_accepted = input("Por favor, ingresa 'acepto' o 'accept' para aceptar los términos y condiciones de uso: ")
+    if disclaimer_accepted.lower() in ["acepto", "accept"]:
+        break
+    else:
+        print("Debes aceptar los términos y condiciones de uso para continuar.")
+ 
+!pip install tqdm
+!pip install numba==0.48
+!pip install librosa==0.7.2
+!pip install unidecode==1.1.1
+!pip install scipy==1.2.1
+!pip install pillow==8.3.1
+!pip install PyQt5==5.15.4
+!pip install webrtcvad==2.0.10
+!pip install multiprocess==0.70.12.2
+!pip install matplotlib==3.4.2
+!pip install plotly==4.4.1
+!pip install PyYAML==5.4.1
+!pip install soundfile==0.10.3.post1
+ 
+import os
+import sys
+import json
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras import backend as K
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import (Input, Lambda, Conv1D, Conv2D, MaxPooling1D, MaxPooling2D,
+                                     Activation, BatchNormalization, Bidirectional, GRU, Dense, 
+                                     Reshape, Permute, Dropout, SpatialDropout1D, Add, Flatten)
+from numba import jit
+import librosa
+import librosa.display
+import soundfile as sf
+from scipy.spatial.distance import cdist
+from scipy.io.wavfile import write
+from scipy.io import wavfile
+from scipy import signal
+import matplotlib.pyplot as plt
+import matplotlib.style as ms
+import plotly.express as px
+import plotly.graph_objects as go
+import IPython.display as ipd
+import webrtcvad
+from collections import deque
+from multiprocessing import Process, Queue
+from datetime import datetime
+from unidecode import unidecode
+import yaml
+import io
+ 
+!pip install paquete==1.0.0
+ 
+import paquete
+ 
+try:
+    # Código que utiliza el paquete instalado
+    ...
+    print('\x1b[32m' + 'Paquete instalado correctamente. Proceda con el siguiente paso.' + '\x1b[0m')
+except:
+    print('\x1b[31m' + 'Error: No se ha podido utilizar el paquete instalado. Por favor, resuelva el problema antes de proceder.' + '\x1b[0m')

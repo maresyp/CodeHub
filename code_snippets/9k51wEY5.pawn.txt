@@ -1,0 +1,100 @@
+#define INVALID_MAP_CITY_ID (MapCity:-1)
+#define MAX_MAP_CITY_NAME (16)
+ 
+ 
+enum MapCity
+{
+    CITY_LOS_SANTOS,
+    CITY_LAS_VENTURAS,
+    CITY_BONE_COUNTY,
+    CITY_TIERRA_ROBADA,
+    CITY_SAN_FIERRO,
+    CITY_RED_COUNTY,
+    CITY_FLINT_COUNTY,
+    CITY_WHETSTONE,
+ 
+    MAX_MAP_CITIES
+};
+ 
+static const g_s_MapCityData[][] =
+{
+    !"Los Santos",
+    !"Las Venturas",
+    !"Bone County",
+    !"Tierra Robada",
+    !"San Fierro",
+    !"Red County",
+    !"Flint County",
+    !"Whetstone"
+};
+ 
+static enum E_MAP_CITY_AREA_DATA
+{
+    MapCity:E_MAP_CITY_AREA_ID,
+ 
+    Float:E_MAP_CITY_AREA_MIN_X,
+    Float:E_MAP_CITY_AREA_MIN_Y,
+    Float:E_MAP_CITY_AREA_MIN_Z,
+ 
+    Float:E_MAP_CITY_AREA_MAX_X,
+    Float:E_MAP_CITY_AREA_MAX_Y,
+    Float:E_MAP_CITY_AREA_MAX_Z
+};
+ 
+static const Float:g_s_MapCityAreaData[][E_MAP_CITY_AREA_DATA] = 
+{
+    {CITY_SAN_FIERRO, -2997.469970, -1115.579956, -242.990005, -1213.910034, 1659.680053, 900.000000},
+    {CITY_TIERRA_ROBADA, -2997.469970, 1659.680053, -242.990005, -480.539001, 2993.870117, 900.000000},
+    {CITY_WHETSTONE, -2997.469970, -2892.969970, -242.990005, -1213.910034, -1115.579956, 900.000000},
+    {CITY_TIERRA_ROBADA, -1213.910034, 596.348999, -242.990005, -480.539001, 1659.680053, 900.000000},
+    {CITY_RED_COUNTY, -1213.910034, -768.026977, -242.990005, 2997.060058, 596.348999, 900.000000},
+    {CITY_FLINT_COUNTY, -1213.910034, -2892.969970, -242.990005, 44.614700, -768.026977, 900.000000},
+    {CITY_BONE_COUNTY, -480.539001, 596.348999, -242.990005, 869.460998, 2993.870117, 900.000000},
+    {CITY_LOS_SANTOS, 44.614700, -2892.969970, -242.990005, 2997.060058, -768.026977, 900.000000},
+    {CITY_LAS_VENTURAS, 869.460998, 596.348999, -242.990005, 2997.060058, 2993.870117, 900.000000}
+};
+ 
+ 
+stock MapCity:GetMapCityAtPoint3D(Float:x, Float:y, Float:z)
+{
+    for (new i = sizeof(g_s_MapCityAreaData); --i >= 0;)
+    {
+        if (x < g_s_MapCityAreaData[i][E_MAP_CITY_AREA_MAX_X] && 
+            (g_s_MapCityAreaData[i][E_MAP_CITY_AREA_MIN_Y] <= y < g_s_MapCityAreaData[i][E_MAP_CITY_AREA_MAX_Y]) && 
+            (g_s_MapCityAreaData[i][E_MAP_CITY_AREA_MIN_Z] <= z < g_s_MapCityAreaData[i][E_MAP_CITY_AREA_MAX_Z])
+        ) {
+            return g_s_MapCityAreaData[i][E_MAP_CITY_AREA_ID];
+        }
+    }
+    return INVALID_MAP_CITY_ID;
+}
+ 
+stock MapCity:GetPlayerMapCity(playerid)
+{
+    new
+        Float:x, Float:y, Float:z;
+ 
+    if (!GetPlayerPos(playerid, x, y, z)) {
+        return INVALID_MAP_CITY_ID;
+    }
+ 
+    return GetMapCityAtPoint3D(x, y, z);
+}
+ 
+stock bool:GetMapCityName(MapCity:id, name[], size = sizeof(name))
+{
+    if (!(0 <= _:id < sizeof(g_s_MapCityData))) {
+        return false;
+    }
+ 
+    strunpack(name, g_s_MapCityData[_:id], size);
+    return true;
+}
+ 
+stock bool:IsValidMapCity(MapCity:id)
+{
+    if (!(0 <= _:id < sizeof(g_s_MapCityAreaData))) {
+        return false;
+    }
+    return true;
+}

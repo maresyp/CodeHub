@@ -1,0 +1,14 @@
+On *:action:*slaps*with*a*:*:{
+  if ((%antiflood != on) && ($me isin $1-)) {
+    if (fish isin $1-) { /describe $chan releases the fish into the wild and has $nick arrested for animal abuse - %animals animals saved by $me 
+    set %antiflood on
+    .timerflood 1 300 unset %antiflood
+    set %animals $calc(%animals + 1)
+}
+    elseif (trout isin $1-) { /describe $chan releases the trout into the wild and has $nick arrested for animal abuse - %animals animals saved by $me
+    set %antiflood on
+    .timerflood 1 300 unset %antiflood
+    set %animals $calc(%animals + 1)
+ }
+}
+}

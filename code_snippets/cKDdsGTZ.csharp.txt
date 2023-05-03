@@ -1,0 +1,88 @@
+//CRIADO POR FELIPE ESTRELA DE ALBUQUERQUE
+using System;
+using System.Collections.Generic;
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        FiguraComplexa figuraComplexa = new FiguraComplexa();
+ 
+        Quadrado quadrado1 = new Quadrado(3);
+        Quadrado quadrado2 = new Quadrado(10);
+        Retangulo retangulo1 = new Retangulo(2, 7);
+        Retangulo retangulo2 = new Retangulo(5, 3);
+ 
+        figuraComplexa.AdicionarFigura(quadrado1);
+        figuraComplexa.AdicionarFigura(quadrado2);
+        figuraComplexa.AdicionarFigura(retangulo1);
+        figuraComplexa.AdicionarFigura(retangulo2);
+ 
+        double areaTotal = figuraComplexa.CalcularArea();
+ 
+        Console.WriteLine($"A área total da figura complexa é: {areaTotal}");
+    }
+}
+ 
+public abstract class Figura
+{
+    public abstract double CalcularArea();
+}
+ 
+public class Quadrado : Figura
+{
+    public double Lado { get; private set; }
+ 
+    public Quadrado(double lado)
+    {
+        this.Lado = lado;
+    }
+ 
+    public override double CalcularArea()
+    {
+        return Lado * Lado;
+    }
+}
+ 
+public class Retangulo : Figura
+{
+    public double Base { get; private set; }
+    public double Altura { get; private set; }
+ 
+    public Retangulo(double @base, double altura)
+    {
+        this.Base = @base;
+        this.Altura = altura;
+    }
+ 
+    public override double CalcularArea()
+    {
+        return Base * Altura;
+    }
+}
+ 
+public class FiguraComplexa : Figura
+{
+    private List<Figura> _figuras = new List<Figura>();
+ 
+    public FiguraComplexa()
+    {
+    }
+ 
+    public void AdicionarFigura(Figura figura)
+    {
+        _figuras.Add(figura);
+    }
+ 
+    public override double CalcularArea()
+    {
+        double areaTotal = 0;
+ 
+        foreach (Figura figura in _figuras)
+        {
+            areaTotal += figura.CalcularArea();
+        }
+ 
+        return areaTotal;
+    }
+}

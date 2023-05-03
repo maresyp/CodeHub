@@ -1,0 +1,26 @@
+#
+# ~/.bashrc
+#
+ 
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+ 
+alias ls='ls --color=auto'
+alias ll='ls -la'
+alias grep='grep --color=auto'
+ 
+# Color Definition
+RESET="\[\033[00m\]"
+GREEN="\[\033[01;32m\]"
+BLUE="\[\033[97;104m\]"
+YELLOW="\[\033[00;33m\]"
+ 
+# Definition parts of console line
+USER_AT_HOST="${GREEN}\u@\h${RESET}"
+DIRECTORY="${BLUE}\w${RESET}"
+TIME="${YELLOW}\t${RESET}"
+SEPARATOR=">"
+ 
+ 
+#PS1='[\u@\h \W]\$ '
+PS1="${USER_AT_HOST} ${DIRECTORY} ${SEPARATOR} \[${TIME}\] ${SEPARATOR} "

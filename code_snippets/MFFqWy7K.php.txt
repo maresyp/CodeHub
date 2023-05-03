@@ -1,0 +1,3 @@
+add_filter( 'wcfm_is_allow_menu_lable_length', function($length) {
+    return 50;
+} );

@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/home/pi/Swimbot/server_manager.py", line 62, in purge
+    await ctx.send('Deleted {} message(s)'.format(len(deleted)), delete_after=2) #confirms purge number and deletes after 2 seconds
+  File "/home/pi/Swimbot/venv/lib/python3.9/site-packages/discord/abc.py", line 1065, in send
+    data = await state.http.send_message(channel.id, content, tts=tts, embed=embed,
+  File "/home/pi/Swimbot/venv/lib/python3.9/site-packages/discord/http.py", line 248, in request
+    raise Forbidden(r, data)
+discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
+ 
+During handling of the above exception, another exception occurred:
+ 
+Traceback (most recent call last):
+  File "/home/pi/Swimbot/venv/lib/python3.9/site-packages/discord/ext/commands/core.py", line 85, in wrapped
+    ret = await coro(*args, **kwargs)
+  File "/home/pi/Swimbot/server_manager.py", line 64, in purge
+    await ctx.send(f'`Swimbot does not have the proper permissions.')
+  File "/home/pi/Swimbot/venv/lib/python3.9/site-packages/discord/abc.py", line 1065, in send
+    data = await state.http.send_message(channel.id, content, tts=tts, embed=embed,
+  File "/home/pi/Swimbot/venv/lib/python3.9/site-packages/discord/http.py", line 248, in request
+    raise Forbidden(r, data)
+discord.errors.Forbidden: 403 Forbidden (error code: 50013): Missing Permissions

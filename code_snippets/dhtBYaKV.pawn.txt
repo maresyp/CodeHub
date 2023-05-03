@@ -1,0 +1,468 @@
+/**************** Include ********************/
+#include < amxmodx >
+#include < fakemeta >
+ 
+/*************** Defines *****************/
+#define Prefix              "AMXX"
+#define ADMIN_ACCESS            ADMIN_IMMUNITY
+ 
+/**************** News ********************/
+new MenuType[ 33 ], AdminTarget[ 33 ], AskForRemove[ 33 ], WhoAskMe[ 33 ]
+new bool: VoiceMute[ 33 ][ 33 ], bool: ChatMute[ 33 ][ 33 ], bool: MuteAll[ 33 ], bool:AskForRemoveMute[ 33 ][ 33 ]
+ 
+/**************** Plugin init ********************/
+public plugin_init()
+{
+    register_plugin( "Mute Menu", "v1.0", "RanAway" )
+    
+    /**************** Commands ********************/
+    register_clcmd( "say /mute", "MainMenu" )
+    
+    /**************** chat ********************/
+    register_message( get_user_msgid( "SayText" ), "Chat" )
+    
+    /**************** voice ********************/
+    register_forward( FM_Voice_SetClientListening, "Voice" )
+}
+ 
+/**************** chat ********************/
+public Chat( Msgid, Msgdest, id )
+{
+    new tempid = get_msg_arg_int( 1 )
+    
+    if( is_user_connected( tempid ) ) 
+        if( ChatMute[ id ][ tempid ] )
+            return 1
+    
+    return 0
+}
+ 
+/**************** voice ********************/
+public Voice( Rec, Send, List )
+{
+    if( Rec == Send ) return FMRES_IGNORED
+    
+    if( VoiceMute[ Rec ][ Send ] )
+    {
+        engfunc( EngFunc_SetClientListening, Rec, Send, 0 )
+        return FMRES_SUPERCEDE
+    }
+    
+    return FMRES_IGNORED
+}
+ 
+/**************** Mute menu ********************/
+public MainMenu( id )
+{
+    new szMenu[ 250 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Mute menu", Prefix )
+    new menu = menu_create( szMenu, "sub_mainmenu" )
+    
+    menu_additem( menu, "Voice", .callback = menu_makecallback( "Blockmute" ) )
+    menu_additem( menu, "Chat^n", .callback = menu_makecallback( "Blockmute" ) )
+    
+    formatex( szMenu, charsmax( szMenu ), "%sute everyone^n", MuteAll[ id ] ? "Unm" : "M" )
+    menu_additem( menu, szMenu, .callback = menu_makecallback( "Blockmute" ) )
+    
+    menu_additem( menu, "See who muted you", .callback = menu_makecallback( "Blocksee" ) )
+    menu_additem( menu, "Admin options", .callback = menu_makecallback( "Blockaccess" ) )
+    
+    menu_display( id, menu )
+    return 1
+}
+ 
+/********* Block "Mute" if there is no one but you in the server *********/
+public Blockmute( id, menu, item )
+{
+    for( new i; i < get_maxplayers(); i++ )
+        if( is_user_connected( i ) && !is_user_bot( i ) && !is_user_hltv( i ) && i != id ) return ITEM_ENABLED
+    
+    return ITEM_DISABLED
+}
+ 
+/********* Block "see who muted you" and "Remove everyone's mute on me" in the admin menu if no one is muted you *********/
+public Blocksee( id, menu, item )
+{
+    for( new i; i < get_maxplayers(); i++ )
+        if( VoiceMute[ i ][ id ] || ChatMute[ i ][ id ] ) return ITEM_ENABLED
+    
+    return ITEM_DISABLED
+}
+ 
+/********* Block admin options for who is not admin *********/
+public Blockaccess( id, menu, item )
+{
+    if( !( get_user_flags( id ) & ADMIN_ACCESS ) )
+        return ITEM_DISABLED
+    
+    return 1
+}
+ 
+public sub_mainmenu( id, menu, item )
+{
+    if( item == MENU_EXIT ) return menu_destroy( menu )
+    if( item == 0 ) MenuType[ id ] = true           // Change the menu to voice
+    if( item == 1 ) MenuType[ id ] = false          // Change the menu to chat
+    if( item == 2 )                     // Mute everyone
+    {
+        MuteAll[ id ] = !MuteAll[ id ]
+        ColorChat( id, "You've ^3%smuted^1 everyone.", MuteAll[ id ] ? "" : "un" )
+        
+        for( new i; i < get_maxplayers(); i++ )
+        {
+            if( !is_user_connected( i ) || is_user_bot( i ) || is_user_hltv( i ) || i == id ) continue
+            
+            VoiceMute[ id ][ i ] = MuteAll[ id ]
+            ChatMute[ id ][ i ] = MuteAll[ id ]
+            AskForRemoveMute[ id ][ i ] = false
+        }
+        return MainMenu( id )
+    }
+    if( item == 3 ) return WhoMuteMe( id, 0 )       // See who mute you
+    if( item == 4 ) return AdminMenu( id )          // Admin menu
+    
+    return MuteMenu( id, 0 )                    // Open the mute menu
+}
+ 
+/**************** Mute chat/voice menu ********************/
+public MuteMenu( id, page )
+{
+    new szMenu[ 250 ], num[ 33 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Mute %s", Prefix, MenuType[ id ] ? "voice" : "chat" )
+    new menu = menu_create( szMenu, "sub_mutemenu" )
+    
+    for( new i ; i < get_maxplayers(); i++ )
+    {
+        if( !is_user_connected( i ) || is_user_bot( i ) || is_user_hltv( i ) || i == id ) continue
+        
+        num_to_str( i, num, charsmax( num ) )
+        formatex( szMenu, charsmax( szMenu ), "%s \d%s", GetName( i ), MenuType[ id ] ? ( VoiceMute[ id ][ i ] ? "- [\r Muted \d]" : "" ) : ( ChatMute[ id ][ i ] ? "- [\r Muted \d]" : "" ) )
+        menu_additem( menu, szMenu, num )
+    }
+    
+    menu_setprop( menu, MPROP_BACKNAME, "Previous Page" )
+    menu_setprop( menu, MPROP_NEXTNAME, "Next Page" )
+    menu_setprop( menu, MPROP_EXITNAME, "Back" )
+    menu_display( id, menu, page )
+    return 1
+}
+ 
+public sub_mutemenu( id, menu, item )
+{
+    if( item == MENU_EXIT ) return MainMenu( id )
+    
+    new access, callback, info[ 6 ], page
+    menu_item_getinfo( menu, item, access, info, charsmax( info ), "", 0, callback )
+    player_menu_info( id, menu, menu, page )
+    
+    new tempid = str_to_num( info )
+    
+    if( MenuType[ id ] )
+    {
+        VoiceMute[ id ][ tempid ] = !VoiceMute[ id ][ tempid ]
+        ColorChat( id, "%s", VoiceMute[ id ][ tempid ] ? "you canno't hear ^3%s^1 until you remove his mute." : "you can hear ^3%s^1 now.", GetName( tempid ) )
+    }
+    else
+    {
+        ChatMute[ id ][ tempid ] = !ChatMute[ id ][ tempid ]
+        ColorChat( id, "%s", ChatMute[ id ][ tempid ] ? "you canno't see what ^3%s^1 write until you remove his mute." : "you can see what ^3%s^1 write now.", GetName( tempid ) )
+    }
+    
+    /********* If there is even 1 player that you dont mute him ( voice / chat ) turn the "Mute everyone" off *********/
+    for( new i; i < get_maxplayers(); i++ ) if( !ChatMute[ id ][ i ] && !VoiceMute[ id ][ i ] ) MuteAll[ id ] = false
+    
+    /********* If the player that you muted has asked you to remove his mute it will remove his block *********/
+    AskForRemoveMute[ id ][ tempid ] = false
+    
+    return MuteMenu( id, page )
+}
+ 
+/**************** See who mute you ********************/
+public WhoMuteMe( id, page )
+{
+    new szMenu[ 1500 ], num[ 33 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w see who muted you", Prefix )
+    new menu = menu_create( szMenu, "sub_whomenu" )
+    
+    for( new i ; i < get_maxplayers(); i++ )
+    {
+        if( !is_user_connected( i ) || is_user_bot( i ) || is_user_hltv( i ) || ( !VoiceMute[ i ][ id ] && !ChatMute[ i ][ id ] ) ) continue
+        
+        num_to_str( i, num, charsmax( num ) )
+        formatex( szMenu, charsmax( szMenu ), "%s \r[\w %s%s%s \r]%s", GetName( i ),
+        VoiceMute[ i ][ id ] ? "Voice" : "", VoiceMute[ i ][ id ] && ChatMute[ i ][ id ] ? " \y&\w " : "", ChatMute[ i ][ id ] ? "Chat" : "",
+        AskForRemoveMute[ id ][ AskForRemove[ id ] ] ? " \d- \wIgnored your request" : "" )
+        menu_additem( menu, szMenu, num, .callback = menu_makecallback( "BlockAsk" ) )
+    }
+    
+    menu_setprop( menu, MPROP_BACKNAME, "Previous Page" )
+    menu_setprop( menu, MPROP_NEXTNAME, "Next Page" )
+    menu_setprop( menu, MPROP_EXITNAME, "Back" )
+    menu_display( id, menu, page )
+    return 1
+}
+ 
+/**************** Block after you asked ********************/
+public BlockAsk( id, menu, item )
+{
+    if( AskForRemoveMute[ id ][ AskForRemove[ id ] ] )
+        return ITEM_DISABLED
+    
+    return 1
+}
+ 
+public sub_whomenu( id, menu, item )
+{
+    if( item == MENU_EXIT ) return MainMenu( id )
+    
+    new access, callback, info[ 6 ], page
+    menu_item_getinfo( menu, item, access, info, charsmax( info ), "", 0, callback )
+    player_menu_info( id, menu, menu, page )
+    
+    AskForRemove[ id ] = str_to_num( info )
+    
+    AskForRemoveMute[ id ][ AskForRemove[ id ] ] = true     // Block after you asked
+    WhoAskMe[ AskForRemove[ id ] ] = id             // Show who ask for remove
+    
+    if( AskForRemoveMute[ id ][ AskForRemove[ id ] ] )      // Open menu for the player you asked
+        AcceptionMenu( AskForRemove[ id ] )
+    
+    return WhoMuteMe( id, page )
+}
+ 
+/**************** Acception menu ********************/
+public AcceptionMenu( id )
+{
+    new szMenu[ 500 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r] \r%s\w ask you to remove his mute", Prefix, GetName( WhoAskMe[ id ] ) )
+    new menu = menu_create( szMenu, "sub_acceptionmenu" )
+    
+    menu_additem( menu, "Accept" )
+    menu_additem( menu, "Ignore" )
+    
+    menu_setprop( menu, MPROP_EXIT, MEXIT_NEVER )
+    menu_display( id, menu )
+    return 1
+}
+ 
+public sub_acceptionmenu( id, menu, item )
+{
+    /********** Accept the request *********/
+    if( item == 0 )
+    {
+        VoiceMute[ id ][ WhoAskMe[ id ] ] = false
+        ChatMute[ id ][ WhoAskMe[ id ] ] = false
+        MuteAll[ id ] = false
+        
+        AskForRemoveMute[ WhoAskMe[ id ] ][ id ] = false
+        
+        ColorChat( WhoAskMe[ id ], "^3%s^1 has accept your request and remove your mute.", GetName( AskForRemove[ id ] ) )
+        return ColorChat( id, "You accept ^3%s^1 request and remove his mute.", GetName( WhoAskMe[ id ] ) )
+    }
+    
+    /********** Ignore the request *********/
+    ColorChat( WhoAskMe[ id ], "^3%s^1 has ignored your request to remove your mute.", GetName( AskForRemove[ id ] ) )
+    return ColorChat( id, "You ignored ^3%s^1 request to remove his mute.", GetName( WhoAskMe[ id ] ) )
+}
+ 
+/**************** Admin menu ********************/
+public AdminMenu( id )
+{
+    new szMenu[ 250 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Admin menu", Prefix )
+    new menu = menu_create( szMenu, "sub_adminmenu" )
+    
+    menu_additem( menu, "Remove \reveryone's\w mutes", .callback = menu_makecallback( "BlockSeeWho" ) )
+    menu_additem( menu, "Remove \reveryone's\w mute on you^n", .callback = menu_makecallback( "Blocksee" ) )
+    menu_additem( menu, "Show everyone's mutes in menu", .callback = menu_makecallback( "BlockSeeWho" ) )
+    
+    menu_setprop( menu, MPROP_EXITNAME, "Back" )
+    menu_display( id, menu )
+    return 1
+}
+ 
+/********* Block "Show everyone's mute" if no one is muted *********/
+public BlockSeeWho( id, menu, item )
+{
+    for( new i; i < get_maxplayers(); i++ )
+        for( new j; j < get_maxplayers(); j++ )
+            if( VoiceMute[ i ][ j ] || ChatMute[ i ][ j ] ) return ITEM_ENABLED
+    
+    return ITEM_DISABLED
+}
+ 
+public sub_adminmenu( id, menu, item )
+{
+    if( item == MENU_EXIT ) return MainMenu( id )
+    if( item == 0 )                 // Remove everyone's mutes
+    {
+        ColorChat( 0, "Everyone's ^3mutes^1 has ^3removed^1." )
+        
+        for( new i; i < get_maxplayers(); i++ )
+        {
+            if( !is_user_connected( i ) || is_user_bot( i ) || is_user_hltv( i ) ) continue
+            
+            for( new j; j < get_maxplayers(); j++ )
+            {
+                if( !is_user_connected( j ) || is_user_bot( j ) || is_user_hltv( j ) ) continue
+                
+                VoiceMute[ i ][ j ] = false
+                ChatMute[ i ][ j ] = false
+                MuteAll[ i ] = false
+                AskForRemoveMute[ i ][ j ] = false
+            }
+        }
+    }
+    if( item == 1 )                 // Remove everyone's mutes on you
+    {
+        ColorChat( id, "Everyone's ^3mutes^1 on you has ^3removed^1." )
+        
+        for( new i; i < get_maxplayers(); i++ )
+        {
+            if( !is_user_connected( i ) || is_user_bot( i ) || is_user_hltv( i ) ) continue
+            
+            VoiceMute[ i ][ id ] = false
+            ChatMute[ i ][ id ] = false
+            MuteAll[ i ] = false
+            AskForRemoveMute[ i ][ id ] = false
+        }
+    }
+    if( item == 2 ) return ShowMutes( id )      // Show who has mute who
+    
+    return AdminMenu( id )
+}
+ 
+/**************** Show players mute menu ********************/
+public ShowMutes( id )
+{
+    new szMenu[ 250 ], num[ 33 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Show players that mute someone", Prefix )
+    new menu = menu_create( szMenu, "sub_showmutes" )
+    
+    for( new i; i < get_maxplayers(); i++ )
+    {
+        if( !is_user_connected( i ) || is_user_bot( i ) || is_user_hltv( i ) ) continue
+        
+        for( new j; j < get_maxplayers(); j++ )
+        {
+            if( ( !VoiceMute[ i ][ j ] && !ChatMute[ i ][ j ] ) || i == j ) continue
+            
+            num_to_str( i, num, charsmax( num ) )
+            formatex( szMenu, charsmax( szMenu ), "%s", GetName( i ) )
+            menu_additem( menu, szMenu, num )
+        }
+    }
+    
+    menu_setprop( menu, MPROP_EXITNAME, "Back" )
+    menu_display( id, menu )
+    return 1
+}
+ 
+public sub_showmutes( id, menu, item )
+{
+    if( item == MENU_EXIT ) return MainMenu( id )
+    
+    new access, callback, info[ 6 ]
+    menu_item_getinfo( menu, item, access, info, charsmax( info ), "", 0, callback )
+    
+    AdminTarget[ id ] = str_to_num( info )      // Get the name of the player
+    
+    return ShowPlayerMutes( id, 0 )         // Show player mutes
+}
+ 
+/**************** Show players mutes ********************/
+public ShowPlayerMutes( id, page )
+{
+    new szMenu[ 250 ], num[ 33 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w %s \r]\w Show \r%s\w mutes", Prefix, GetName( AdminTarget[ id ] ) )
+    new menu = menu_create( szMenu, "sub_showplayermutes" )
+    
+    formatex( szMenu, charsmax( szMenu ), "Remove all \r%s\w mutes", GetName( AdminTarget[ id ] ) )
+    menu_additem( menu, szMenu )
+    
+    for( new i; i < get_maxplayers(); i++ )
+    {
+        if( !is_user_connected( i ) || is_user_bot( i ) || is_user_hltv( i ) || ( !VoiceMute[ AdminTarget[ id ] ][ i ] && !ChatMute[ AdminTarget[ id ] ][ i ] ) ) continue
+        
+        num_to_str( i, num, charsmax( num ) )
+        formatex( szMenu, charsmax( szMenu ), "%s \r[\w %s%s%s \r]", GetName( i ),
+        VoiceMute[ AdminTarget[ id ] ][ i ] ? "Voice" : "",
+        VoiceMute[ AdminTarget[ id ] ][ i ] && ChatMute[ AdminTarget[ id ] ][ i ] ? " \y&\w " : "",
+        ChatMute[ AdminTarget[ id ] ][ i ] ? "Chat" : "" )
+        menu_additem( menu, szMenu, num )
+    }
+    
+    menu_setprop( menu, MPROP_EXITNAME, "Back" )
+    menu_display( id, menu, page )
+    return 1
+}
+ 
+public sub_showplayermutes( id, menu, item )
+{
+    if( item == MENU_EXIT ) return MainMenu( id )
+    
+    new access, callback, info[ 6 ], page
+    menu_item_getinfo( menu, item, access, info, charsmax( info ), "", 0, callback )
+    player_menu_info( id, menu, menu, page )
+    
+    new tempid = str_to_num( info )
+    
+    if( item == 0 )                     // Remove all his mutes
+    {
+        for( new i; i < get_maxplayers(); i++ )
+        {
+            VoiceMute[ AdminTarget[ id ] ][ i ] = false
+            ChatMute[ AdminTarget[ id ] ][ i ] = false
+            MuteAll[ AdminTarget[ id ] ] = false
+        }
+        
+        return AdminMenu( id )
+    }
+    
+    /********** Remove specific mute from him ************/
+    VoiceMute[ AdminTarget[ id ] ][ tempid ] = false
+    ChatMute[ AdminTarget[ id ] ][ tempid ] = false
+    MuteAll[ AdminTarget[ id ] ] = false
+    
+    return ShowPlayerMutes( id, page )
+}
+ 
+/**************** Stocks ********************/
+stock GetName( id )
+{
+    new name[ 32 ]
+    get_user_name( id, name, charsmax( name ) )
+    return name
+}
+ 
+stock ColorChat( const client, const string[ ], { Float, Sql, Resul,_ }:... )
+{
+    new msg[ 191 ], players[ 32 ], count = 1
+    
+    static len; len = formatex( msg, charsmax( msg ), "^3[^1 %s ^3]^1 ", Prefix )
+    vformat( msg[ len ], charsmax( msg ) - len, string, 3 )
+    
+    if( client )
+        players[ 0 ] = client
+    else
+        get_players( players, count, "ch" )
+    
+    for( new i; i < count; i++ )
+    {
+        if( is_user_connected( players[ i ] ) )
+        {
+            message_begin( MSG_ONE_UNRELIABLE, get_user_msgid( "SayText" ), _, players[ i ] )
+            write_byte( players[ i ] )
+            write_string( msg )
+            message_end()
+        }
+    }
+    return 1
+}

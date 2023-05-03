@@ -1,0 +1,1 @@
+add_filter('wcfm_allow_withdrawal_requests_manually_approve', '__return_true');

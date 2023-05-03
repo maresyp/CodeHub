@@ -1,0 +1,33 @@
+#pip install pushbullet.py
+ 
+import requests
+import hashlib
+import time
+import pushbullet
+ 
+def check_data_file(url):
+    response = requests.get(url)
+    content_hash = hashlib.md5(response.content).hexdigest()
+    return content_hash
+ 
+# Set the URL of the CSV file
+url = "https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv/data.csv"
+ 
+# Set the interval for checking updates (in seconds)
+interval = 3600
+ 
+# Set your Pushbullet API key and target device ID
+pb = pushbullet.Pushbullet("x.XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+ 
+# Initial hash value
+last_hash = check_data_file(url)
+ 
+while True:
+    current_hash = check_data_file(url)
+    if current_hash != last_hash:
+        print("The data file has been updated!")
+        # Send a push notification using Pushbullet
+        pb.push_note("Data file updated", "The COVID-19 data file has been updated!")
+        last_hash = current_hash
+    print("Next cycle starting in", interval, "seconds…")
+    time.sleep(interval)

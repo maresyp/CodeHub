@@ -1,0 +1,28 @@
+f(X, 0):-
+    X < 3, !.
+f(X, 1):-
+    X < 6, !.
+f(X, 2).
+%red cut green cut
+ 
+%maximum of two numbers
+%without cut
+max(X, Y, X):-
+    X >= Y.
+max(X, Y, Y):-
+    X < Y.
+ 
+%with cut
+max_cut(X, Y, X):-
+    X >= Y, !.
+max_cut(X, Y, Y).
+ 
+%member function with cut
+member(X, [X | _ ]) :- !.
+ 
+member(X, [Y | Rest]):-
+    member(X, Rest).
+ 
+%add an element to an list without duplication
+add(X,L,L):- member(X, L), !.
+add(X, L, [X|L]).

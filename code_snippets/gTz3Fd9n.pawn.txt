@@ -1,0 +1,73 @@
+/******** Includes *********/
+#include < amxmodx >
+ 
+/******** Defines *********/
+#define Prefix          "AMXX"
+ 
+/******** News *********/
+new const Lights[][] = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "#OFF" }
+new BrightnessID[ 33 ]
+ 
+/******** Plugin init *********/
+public plugin_init()
+{
+    register_plugin( "Brightness", "v1.0", "RanAway`" )
+    
+    /******** Commands *********/
+    register_clcmd( "say /brightness", "BrightnessMenu" )
+}
+ 
+/******** Connect *********/
+public client_connect( id ) BrightnessID[ id ] = 12
+ 
+/******** Menu *********/
+public BrightnessMenu( id )
+{
+    new szMenu[ 500 ]
+    
+    formatex( szMenu, charsmax( szMenu ), "\r[\w AMXX \r]\w Brightness ajuster", Prefix )
+    new menu = menu_create( szMenu, "sub_brightness" )
+    
+    menu_additem( menu, "Light" )
+    menu_additem( menu, "Dark" )
+    menu_additem( menu, "Normal^n" )
+    
+    menu_additem( menu, "Custom \r+" )
+    menu_additem( menu, "Custom \r-" )
+    
+    menu_display( id, menu )
+    return 1
+}
+ 
+public sub_brightness( id, menu, item )
+{
+    if( item == MENU_EXIT ) return menu_destroy( menu )
+    if( item == 0 ) set_player_light( id, "#OFF" ), BrightnessID[ id ] = 26
+    if( item == 1 ) set_player_light( id, "a" ), BrightnessID[ id ] = 0
+    if( item == 2 ) set_player_light( id, "m"), BrightnessID[ id ] = 12
+    if( item == 3 )
+    {
+        if( BrightnessID[ id ] == sizeof Lights - 1 ) return BrightnessMenu( id )
+        
+        BrightnessID[ id ]++
+        set_player_light( id, Lights[ BrightnessID[ id ] ] )
+    }
+    
+    if( item == 4 )
+    {
+        if( BrightnessID[ id ] == 0 ) return BrightnessMenu( id )
+        
+        BrightnessID[ id ]--
+        set_player_light( id, Lights[ BrightnessID[ id ] ] )
+    }
+    return BrightnessMenu( id )
+}
+ 
+/******** Stocks *********/
+stock set_player_light( id, const LightStyle[] ) // Stock by unknown
+{
+    message_begin( MSG_ONE_UNRELIABLE, SVC_LIGHTSTYLE, .player = id )
+    write_byte( 0 )
+    write_string( LightStyle )
+    message_end()
+}

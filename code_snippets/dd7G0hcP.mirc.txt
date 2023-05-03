@@ -1,0 +1,60 @@
+menu menubar,channel { 
+  Ayar
+  .Muaf Ayar:muaf
+}
+alias muaf /dialog -m muafayar muafayar
+alias muafn /dialog -m muafn muafn
+dialog muafayar {
+  title "Muaf Ayarları"
+  size -1 -1 145 178
+  option dbu
+  Box "Muaf Kanal Ayarları ! ", 1, 8 37 130 139
+  list 3, 14 45 62 116, tab 1 size
+  edit "#", 4, 81 61 50 10, tab 1,center
+  button "Ekle", 5, 85 80 37 12,
+  button "Sil", 6, 85 100 37 12, 
+  text "Örnek : #Sohbet", 8, 81 51 42 8, 
+  button "Muaf Nick", 9, 85 120 37 12,
+}
+on *:dialog:muafayar:*:* {
+  if ($devent == init) {
+    var %i 1
+    while (%i <= $lines(txt/muafk.txt)) {
+      did -a muafayar 3 $read(txt/muafk.txt,%i)
+      inc %i
+    }
+  }
+  if ($devent == sclick) {
+    if ($did == 5) { write txt/muafk.txt $did(4) | did -a muafayar 3 $did(4) }
+    if ($did == 6) { write -d txt/muafk.txt $did(3).seltext | did -d muafayar 3 $did(3).sel }
+    if ($did == 9) { dialog -x muafayar muafayar | .muafn }
+  }
+}
+ 
+--
+dialog muafn {
+  title "Muaf Ayarları"
+  size -1 -1 145 178
+  option dbu
+  Box "  Muaf Nick Ayarları ! ", 1, 8 37 130 139
+  list 3, 14 45 62 116, tab 1 size
+  edit "Nick", 4, 81 61 50 10, tab 1,center
+  button "Ekle", 5, 85 80 37 12,
+  button "Sil", 6, 85 100 37 12, 
+  text "Örnek : Gezgin", 8, 81 51 42 8, 
+  button "Muaf Kanal", 9, 85 120 37 12,
+}
+on *:dialog:muafn:*:* {
+  if ($devent == init) {
+    var %i 1
+    while (%i <= $lines(txt/muafn.txt)) {
+      did -a muafn 3 $read(txt/muafn.txt,%i)
+      inc %i
+    }
+  }
+  if ($devent == sclick) {
+    if ($did == 5) { write txt/muafn.txt $did(4) | did -a muafn 3 $did(4) }
+    if ($did == 6) { write -d txt/muafn.txt $did(3).seltext | did -d muafn 3 $did(3).sel }
+    if ($did == 9) { dialog -x muafn muafn | .muaf }
+  }
+}

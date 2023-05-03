@@ -1,0 +1,214 @@
+import math
+from PyQt5 import QtCore, QtGui, QtWidgets
+ 
+ 
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 300)
+ 
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+ 
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Домашка"))
+ 
+ 
+class Window(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+ 
+        self.setWindowIcon(QtGui.QIcon("shapes.png"))
+        self.toolBar = QtWidgets.QToolBar(self)
+        self.toolBar.setObjectName("toolBar")
+        self.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
+        self.pira_btn = QtWidgets.QAction(QtGui.QIcon("pira.png"), "Пирамида", self)
+        self.toolBar.addAction(self.pira_btn)
+        self.sphere_btn = QtWidgets.QAction(QtGui.QIcon("sphere.png"), "Круг", self)
+        self.toolBar.addAction(self.sphere_btn)
+        self.para_btn = QtWidgets.QAction(QtGui.QIcon("para.png"), "Параллелепипед", self)
+        self.toolBar.addAction(self.para_btn)
+ 
+ 
+        self.pira_btn.triggered.connect(self.pira)
+        self.sphere_btn.triggered.connect(self.sphere)
+        self.para_btn.triggered.connect(self.para)
+ 
+    def pira(self):
+        # Создание кнопок
+        self.centralwidget = QtWidgets.QWidget(self)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(60, 70, 161, 21))
+        self.label.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label.setObjectName("label")
+        self.ai = QtWidgets.QLineEdit(self.centralwidget)
+        self.ai.setGeometry(QtCore.QRect(60, 100, 151, 31))
+        self.ai.setObjectName("ai")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(240, 70, 161, 21))
+        self.label_2.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_2.setObjectName("label_2")
+        self.bi = QtWidgets.QLineEdit(self.centralwidget)
+        self.bi.setGeometry(QtCore.QRect(240, 100, 151, 31))
+        self.bi.setObjectName("bi")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(140, 150, 161, 21))
+        self.label_3.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_3.setObjectName("label_3")
+        self.hi = QtWidgets.QLineEdit(self.centralwidget)
+        self.hi.setGeometry(QtCore.QRect(140, 180, 151, 31))
+        self.hi.setObjectName("hi")
+        self.equal = QtWidgets.QPushButton(self.centralwidget)
+        self.equal.setGeometry(QtCore.QRect(410, 130, 111, 41))
+        self.equal.setStyleSheet("font: 24pt")
+        self.equal.setObjectName("equal")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(570, 50, 181, 81))
+        self.label_4.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_4.setScaledContents(False)
+        self.label_4.setWordWrap(True)
+        self.label_4.setObjectName("label_4")
+        self.answer = QtWidgets.QLabel(self.centralwidget)
+        self.answer.setGeometry(QtCore.QRect(580, 130, 211, 41))
+        self.answer.setStyleSheet("font: 16pt \"Calibri\";")
+        self.answer.setText("")
+        self.answer.setObjectName("answer")
+        self.setCentralWidget(self.centralwidget)
+ 
+        # Транслирование надписей
+        _translate = QtCore.QCoreApplication.translate
+        self.label.setText(_translate("MainWindow", "Введи сторону A"))
+        self.label_2.setText(_translate("MainWindow", "Введи сторону B"))
+        self.label_3.setText(_translate("MainWindow", "Введи высоту H"))
+        self.equal.setText(_translate("MainWindow", "="))
+        self.label_4.setText(_translate("MainWindow", "Согласно формуле V=⅓SH, объем пирамиды равен"))
+ 
+        # Действия
+        self.equal.clicked.connect(self.math)
+ 
+    def sphere(self):
+        # Создание кнопок
+        self.centralwidget = QtWidgets.QWidget(self)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(170, 100, 161, 21))
+        self.label_2.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_2.setObjectName("label_2")
+        self.ri = QtWidgets.QLineEdit(self.centralwidget)
+        self.ri.setGeometry(QtCore.QRect(170, 130, 151, 31))
+        self.ri.setObjectName("ri")
+        self.equal = QtWidgets.QPushButton(self.centralwidget)
+        self.equal.setGeometry(QtCore.QRect(340, 120, 111, 41))
+        self.equal.setStyleSheet("font: 24pt")
+        self.equal.setObjectName("equal")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(500, 40, 181, 81))
+        self.label_4.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_4.setScaledContents(False)
+        self.label_4.setWordWrap(True)
+        self.label_4.setObjectName("label_4")
+        self.answer = QtWidgets.QLabel(self.centralwidget)
+        self.answer.setGeometry(QtCore.QRect(470, 120, 211, 41))
+        self.answer.setStyleSheet("font: 16pt \"Calibri\";")
+        self.answer.setText("")
+        self.answer.setObjectName("answer")
+        self.setCentralWidget(self.centralwidget)
+ 
+        # Транслирование надписей
+        _translate = QtCore.QCoreApplication.translate
+        self.label_2.setText(_translate("MainWindow", "Введи радиус R"))
+        self.equal.setText(_translate("MainWindow", "="))
+        self.label_4.setText(_translate("MainWindow", "Согласно формуле V=1⅓πR³, объем сферы равен"))
+        self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
+ 
+        # Действия
+        self.equal.clicked.connect(self.math)
+ 
+    def para(self):
+        # Создание кнопок
+        self.centralwidget = QtWidgets.QWidget(self)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(60, 70, 161, 21))
+        self.label.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label.setObjectName("label")
+        self.ai = QtWidgets.QLineEdit(self.centralwidget)
+        self.ai.setGeometry(QtCore.QRect(60, 100, 151, 31))
+        self.ai.setObjectName("ai")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(240, 70, 161, 21))
+        self.label_2.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_2.setObjectName("label_2")
+        self.bi = QtWidgets.QLineEdit(self.centralwidget)
+        self.bi.setGeometry(QtCore.QRect(240, 100, 151, 31))
+        self.bi.setObjectName("bi")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(140, 150, 161, 21))
+        self.label_3.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_3.setObjectName("label_3")
+        self.hi = QtWidgets.QLineEdit(self.centralwidget)
+        self.hi.setGeometry(QtCore.QRect(140, 180, 151, 31))
+        self.hi.setObjectName("hi")
+        self.equal = QtWidgets.QPushButton(self.centralwidget)
+        self.equal.setGeometry(QtCore.QRect(410, 130, 111, 41))
+        self.equal.setStyleSheet("font: 24pt")
+        self.equal.setObjectName("equal")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(570, 20, 181, 111))
+        self.label_4.setStyleSheet("font: 16pt \"Calibri\";")
+        self.label_4.setScaledContents(False)
+        self.label_4.setWordWrap(True)
+        self.label_4.setObjectName("label_4")
+        self.answer = QtWidgets.QLabel(self.centralwidget)
+        self.answer.setGeometry(QtCore.QRect(560, 140, 161, 21))
+        self.answer.setStyleSheet("font: 16pt \"Calibri\";")
+        self.answer.setObjectName("answer")
+        self.setCentralWidget(self.centralwidget)
+ 
+ 
+        # Транслирование надписей
+        _translate = QtCore.QCoreApplication.translate
+        self.label.setText(_translate("MainWindow", "Введи длину A"))
+        self.label_2.setText(_translate("MainWindow", "Введи длину B"))
+        self.label_3.setText(_translate("MainWindow", "Введи высоту С"))
+        self.equal.setText(_translate("MainWindow", "="))
+        self.label_4.setText(_translate("MainWindow", "Согласно формуле V=abc, объем параллелепипеда равен"))
+        self.answer.setText(_translate("MainWindow", ""))
+ 
+        # Действия
+        self.equal.clicked.connect(self.math)
+ 
+    def math(self, type):
+        if self.label_4.text() == "Согласно формуле V=⅓SH, объем пирамиды равен":
+            try:
+                s = float(self.ai.text()) * float(self.bi.text())
+                h = float(self.hi.text())
+                self.answer.setText(str(s*h/3))
+            except:
+                self.answer.setText(str(0))
+        elif self.label_4.text() == "Согласно формуле V=1⅓πR³, объем сферы равен":
+            try:
+                r = float(self.ri.text())
+                self.answer.setText(str(4/3 * math.pi * r**3))
+            except:
+                self.answer.setText(str(0))
+        else:
+            try:
+                a = float(self.ai.text())
+                b = float(self.bi.text())
+                c = float(self.hi.text())
+                self.answer.setText(str(a * b * c))
+            except:
+                self.answer.setText(str(0))
+ 
+ 
+if __name__ == "__main__":
+    import sys
+ 
+    app = QtWidgets.QApplication(sys.argv)
+    w = Window()
+    w.show()
+    sys.exit(app.exec_())

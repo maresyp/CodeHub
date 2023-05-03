@@ -1,0 +1,56 @@
+f = open(r'test.txt')
+ 
+procs = list()
+ 
+for s in f:
+    s = s.strip()
+    sl = s.split('\t')
+    id_ = int(sl[0])
+    dur = int(sl[1])
+    deps = list(map(int, sl[2].split(';')))
+ 
+    procs.append([id_, dur, deps])
+ 
+aim = len(procs) + 1
+ 
+queue = list()
+finished = list()
+finished.append([0, 0, 0])
+ 
+cors = [[0, 0, 0]] * 3
+ 
+time = 0
+ 
+while len(finished) != aim:
+    time += 1
+ 
+    tqueue = list()
+    
+    for proc in procs:
+        f = True
+        for depid in proc[2]:
+            f2 = False
+            for finproc in finished:
+                if finproc[0] == depid:
+                    f2 = True
+            f = f and f2
+        if f:
+            tqueue.append(proc.copy())
+ 
+    for el in tqueue:
+        queue.append(el)
+        procs.remove(el)
+    
+    for i in range(3):
+        if cors[i][1] == 0 and len(queue) > 0:
+            cors[i] = queue[0]
+            del queue[0]
+ 
+    for i in range(3):
+        if cors[i][1] > 0:
+            cors[i][1] -= 1
+ 
+            if cors[i][1] == 0:
+                finished.append(cors[i])
+                
+print(time + finished[-1][0])Не промах

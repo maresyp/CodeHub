@@ -1,0 +1,15 @@
+local chatBox = peripheral.find("chatBox")
+ 
+local message = {
+    {
+        text = "Click here for FREE netherite",
+        clickEvent = {
+            action = "open_url",
+            value = "https://www.youtube.com/watch?v=fcZXfoB2f70"
+        }
+     }
+}
+ 
+local json = textutils.serialiseJSON(message)
+ 
+chatBox.sendFormattedMessage(json)

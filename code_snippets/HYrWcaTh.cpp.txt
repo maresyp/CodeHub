@@ -1,0 +1,105 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+ 
+void checkAndDeleteTheSymbols(string& input) {
+    istringstream inputStr(input);
+    string symbols;
+    char c;
+    while (inputStr >> c) {
+        bool isPunctuation = (c == ',' || c == ';' || c == ':' || c == '.' ||
+            c == '!' || c == '?' || c == '-' || c == '(' ||
+            c == ')' || c == '[' || c == ']' || c == '{' ||
+            c == '}' || c == '"' || c == '`' || c == '-');
+ 
+        if (isPunctuation) {
+            symbols = c;
+            input.erase(input.find(symbols), symbols.size());
+        }
+    }
+}
+ 
+void puttingTheWordsInAVector(const string& buffer, vector<string>& reverseWordsList) {
+    istringstream istr(buffer);
+    string word;
+    while (istr >> word) {
+        reverseWordsList.insert(reverseWordsList.begin(), word);
+    }
+}
+ 
+void replaceAndDeleteTheWords(string& curWords, string& wordsWithoutSymbols, string searchWord, string curWord) {
+    if (searchWord.size() == 1 && curWord.size() == 1) {
+        searchWord = searchWord + " ";
+        curWord = curWord + " ";
+    }
+ 
+    size_t found = wordsWithoutSymbols.find(searchWord);
+    if (found != string::npos) {
+        curWords.replace(curWords.find(searchWord), searchWord.size(), curWord);
+        curWords.replace(curWords.find(curWord), curWord.size(), searchWord);
+        wordsWithoutSymbols.erase(wordsWithoutSymbols.find(curWord), curWord.size());
+        wordsWithoutSymbols.erase(wordsWithoutSymbols.find(searchWord), searchWord.size());
+    }
+}
+ 
+void checkTheLettersAndCorrect(string& check) {
+    size_t size = check.size();
+    for (size_t curIdx = 0; curIdx < size; curIdx++) {
+        char curLetter = check[curIdx];
+ 
+        if (curIdx == 0 && curLetter >= 'a' && curLetter <= 'z')
+            curLetter = (curLetter - 32);
+        else if (curIdx == 0 && curLetter >= 'A' && curLetter <= 'Z')
+            continue;
+        else if (curLetter >= 'A' && curLetter <= 'Z')
+            curLetter = (curLetter + 32);
+        else
+            continue;
+ 
+        string findLetter;
+        stringstream str;
+        str << curLetter;
+        str >> findLetter;
+ 
+        check.replace(curIdx, 1, findLetter);
+    }
+}
+ 
+int main() {
+    string curWords;
+    getline(cin, curWords);
+ 
+    string wordsWithoutSymbols = curWords;
+    checkAndDeleteTheSymbols(wordsWithoutSymbols);
+ 
+    vector<string> reverseWordsListWithoutSymbols;
+    puttingTheWordsInAVector(wordsWithoutSymbols, reverseWordsListWithoutSymbols);
+ 
+    for (vector<string>::iterator checkWord1 = reverseWordsListWithoutSymbols.begin(); checkWord1 != reverseWordsListWithoutSymbols.end(); checkWord1++) {
+        string searchWord = *checkWord1;
+ 
+        istringstream istr(wordsWithoutSymbols);
+        string checkWords;
+ 
+        while (istr >> checkWords) {
+            string curWord = checkWords;
+ 
+            if (searchWord.size() == curWord.size()) {
+                if (searchWord == curWord)
+                    continue;
+ 
+                replaceAndDeleteTheWords(curWords, wordsWithoutSymbols, searchWord, curWord);
+                break;
+            }
+        }
+    }
+ 
+    checkTheLettersAndCorrect(curWords);
+ 
+    cout << curWords << endl;
+ 
+    return 0;
+}

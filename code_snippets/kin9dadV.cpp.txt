@@ -1,0 +1,435 @@
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1331.h>
+// переменные и константы для обработки сигнала кнопки
+boolean flagPress = false;   // признак кнопка в нажатом состоянии
+boolean flagClick = false;   // признак нажатия кнопки (фронт)
+byte buttonCount = 0;        // счетчик подтверждений состояния кнопки
+uint8_t timeDrebezg;         // время устойчивого состояния кнопки (* 2 мс)
+boolean ledState;            // переменная состояния светодиода
+boolean ledState1;           // переменная состояния светодиода
+boolean flagPress1 = false;  // признак кнопка в нажатом состоянии
+boolean flagClick1 = false;  // признак нажатия кнопки (фронт)
+byte buttonCount1 = 0;       // счетчик подтверждений состояния кнопки
+ 
+ 
+#include <SPI.h>
+#define sclk 13//SCL 19 PB5
+#define mosi 11//SDA 17 PB3
+#define rst  7//A2  13  PD7
+#define dc   8//DC   14 PB0
+#define cs   10//CS  16 PB2
+ 
+// Задание цветов
+#define  BLACK           0x0000
+#define BLUE            0x001F
+#define RED             0xF800
+#define GREEN           0x07E0
+#define CYAN            0x07FF
+#define MAGENTA         0xF81F
+#define YELLOW          0xFFE0  
+#define WHITE           0xFFFF
+Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, rst);
+ 
+ 
+ 
+void setup() {
+  pinMode(5, OUTPUT);        // определяем вывод 5(светодиод) как выход  11    PD5
+  pinMode(6, OUTPUT);        // определяем вывод 6 (светодиод) как выход  12   PD6
+  pinMode(12, OUTPUT);        // определяем вывод 12 (светодиод) как выход 18   PB4
+  pinMode(9, OUTPUT);        // определяем вывод 9 (светодиод) как выход 15 PB1
+  pinMode(4, INPUT_PULLUP);  // определяем вывод 4 (кнопка) как вход    6 PD4
+  pinMode(3, INPUT_PULLUP);  // определяем вывод 3 (кнопка) как вход 5 PD3
+  pinMode(A0, OUTPUT);       // определяем вывод 5(светодиод) как выход   PC0 23
+  pinMode(A1, OUTPUT);       // определяем вывод 6 (светодиод) как выход  PC1  24
+int analogPin = 3;
+ 
+ 
+display.begin();
+  display.fillScreen(RED);
+  delay(30);
+  display.fillScreen(GREEN);
+  delay(30);
+  display.fillScreen(BLUE);
+  delay(30);
+  display.fillScreen(BLACK);
+  delay(100);
+  display.setCursor(20,5);
+  display.setTextColor(0x07E0);
+  display.setTextSize(2);
+  display.print(" OFF ");
+   display.setCursor(8,30);
+display.setTextColor(GREEN);
+  display.setTextSize(2);
+  display.print("POZITIV");
+ delay(1000);    
+}
+ 
+// бесконечный цикл с периодом 2 мс
+void loop() {
+  
+  button_click_KA();
+  button_click_KA1();
+  blink_click_KA();
+  blink_click_KA1();
+  adc();
+}
+ 
+ 
+void button_click_KA() {
+  /* блок обработки сигнала кнопки
+ * при нажатой кнопке flagPress= true
+ * при отжатой кнопке flagPress= false
+ * при нажатии на кнопку flagClick= true */
+  timeDrebezg = 15;
+  if (flagPress == (!digitalRead(4))) {
+    // признак flagPress = текущему состоянию кнопки
+    // (инверсия т.к. активное состояние кнопки LOW)
+    // т.е. состояние кнопки осталось прежним
+    buttonCount = 0;  // сброс счетчика подтверждений состояния кнопки
+  } else {
+    // признак flagPress не = текущему состоянию кнопки
+    // состояние кнопки изменилось
+    buttonCount++;  // +1 к счетчику состояния кнопки
+ 
+    if (buttonCount >= timeDrebezg) {
+      // состояние кнопки не мянялось в течение заданного времени
+      // состояние кнопки стало устойчивым
+      flagPress = !flagPress;  // инверсия признака состояния
+      buttonCount = 0;         // сброс счетчика подтверждений состояния кнопки
+ 
+      if (flagPress == true) flagClick = true;  // признак фронта кнопки на нажатие
+    }
+  }
+  delay(2);  // задержка на 2 мс
+}
+ 
+ 
+ 
+ 
+ 
+void button_click_KA1() {
+  /* блок обработки сигнала кнопки
+ * при нажатой кнопке flagPress1= true
+ * при отжатой кнопке flagPress1= false
+ * при нажатии на кнопку flagClick1= true */
+  timeDrebezg = 15;
+  if (flagPress1 == (!digitalRead(3))) {
+    // признак flagPress1 = текущему состоянию кнопки
+    // (инверсия т.к. активное состояние кнопки LOW)
+    // т.е. состояние кнопки осталось прежним
+    buttonCount1 = 0;  // сброс счетчика подтверждений состояния кнопки
+  } else {
+    // признак flagPress1 не = текущему состоянию кнопки
+    // состояние кнопки изменилось
+    buttonCount1++;  // +1 к счетчику состояния кнопки
+ 
+    if (buttonCount1 >= timeDrebezg) {
+      // состояние кнопки не мянялось в течение заданного времени
+      // состояние кнопки стало устойчивым
+      flagPress1 = !flagPress1;  // инверсия признака состояния
+      buttonCount1 = 0;          // сброс счетчика подтверждений состояния кнопки
+ 
+      if (flagPress1 == true) flagClick1 = true;  // признак фронта кнопки на нажатие
+    }
+  }
+  delay(2);  // задержка на 2 мс
+}
+ 
+ 
+void blink_click_KA(void) {
+  static uint8_t status=1;
+ 
+  switch (status) {
+ 
+    case 0:
+      if (flagClick == true) {
+        // было нажатие кнопки
+        flagClick = false;  // сброс признака фронта кнопки
+          digitalWrite(5, LOW);  // вывод состояния светодиода
+        digitalWrite(6, LOW);  // вывод состояния светодиода
+        digitalWrite(12, LOW);  // вывод состояния светодиода
+       
+display.setCursor(20,5);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print(" 003 ");
+  display.setCursor(20,5);
+  display.setTextColor(0x008080);
+  display.setTextSize(2);
+  display.print(" OFF ");
+        status = 1; 
+      
+  
+ 
+      }
+ 
+      break;
+ 
+ 
+    case 1:
+      if (flagClick == true) {
+        // было нажатие кнопки
+        flagClick = false;  // сброс признака фронта кнопки
+           digitalWrite(5, HIGH);  // вывод состояния светодиода
+        digitalWrite(6, LOW);  // вывод состояния светодиода
+        digitalWrite(12, LOW);  // вывод состояния светодиода
+ display.setCursor(20,5);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print(" OFF ");
+  display.setCursor(20,5);
+  display.setTextColor(RED);
+  display.setTextSize(2);
+  display.print(" 001 ");
+        status = 2;
+      }
+      break;
+ 
+ 
+    case 2:
+      if (flagClick == true) {
+        // было нажатие кнопки
+        flagClick = false;  // сброс признака фронта кнопки
+          digitalWrite(5, LOW);  // вывод состояния светодиода
+        digitalWrite(6, HIGH); // вывод состояния светодиода
+        digitalWrite(12, LOW);  // вывод состояния светодиода
+        display.setCursor(20,5);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print(" 001 ");
+  display.setCursor(20,5);
+  display.setTextColor(YELLOW);
+  display.setTextSize(2);
+  display.print(" 002 ");
+        status = 3;
+      }
+      break;
+ 
+    case 3:
+      if (flagClick == true) {
+        // было нажатие кнопки
+        flagClick = false;  // сброс признака фронта кнопки
+          digitalWrite(5, LOW);  // вывод состояния светодиода
+        digitalWrite(6, LOW);  // вывод состояния светодиода
+        digitalWrite(12,HIGH);  // вывод состояния светодиода
+        display.setCursor(20,5);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print(" 002 ");
+  display.setCursor(20,5);
+  display.setTextColor(RED);
+  display.setTextSize(2);
+  display.print(" 003 ");
+        status = 0;
+      }
+      break;
+  }
+ 
+ 
+  
+}
+ 
+void blink_click_KA1(void) {
+  static uint8_t mode = 1;
+  switch (mode) {
+    case 0:
+    //  oled.setCursor(0, 5);
+    //     oled.print("  000");   
+      if (flagClick1 == true) {
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+        TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
+        TCCR1A &= ~(1 << COM1A1);
+        TCCR1A &= ~(1 << COM1A0);
+        pinMode(9, OUTPUT);
+        digitalWrite(9, LOW);
+  display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("125Hz");
+  
+   display.setCursor(8,30);
+  display.setTextColor(WHITE);
+  display.setTextSize(2);
+  display.print("POZITIV");
+        mode = 1;
+      }
+      break;
+ 
+    case 1:
+ 
+      if (flagClick1 == true) {
+        TCCR1A = 0x40;
+        TCCR1B = 0xD;
+ 
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+         pinMode(9, OUTPUT);
+        digitalWrite(9, HIGH);
+     display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("POZITIV");
+   display.setCursor(8,30);
+  display.setTextColor(GREEN);
+  display.setTextSize(2);
+  display.print("NEGANIV");
+        mode = 2;
+      }
+      break;
+ 
+ 
+    case 2:
+      if (flagClick1 == true) {
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+        //  digitalWrite(2, LOW);
+        pinMode(9, OUTPUT);
+        TCCR1A = 0x40;
+        TCCR1B = 0xD;
+        OCR1A = 7811;  //1
+display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("NEGANIV");
+   display.setCursor(8,30);
+  display.setTextColor(YELLOW);
+  display.setTextSize(2);
+  display.print("1Hz");
+       
+        mode = 3;
+      }
+ 
+      break;
+ 
+ 
+    case 3:
+      if (flagClick1 == true) {
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+        pinMode(9, OUTPUT);
+        TCCR1A = 0x40;
+        TCCR1B = 0xD;
+        OCR1A = 2603;  //3
+ 
+        display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("1Hz");
+   display.setCursor(8,30);
+  display.setTextColor(WHITE);
+  display.setTextSize(2);
+  display.print("3Hz");
+        mode = 4;
+      }
+      break;
+ 
+ 
+    case 4:
+      if (flagClick1 == true) {
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+        pinMode(9, OUTPUT);
+        TCCR1A = 0x40;
+        TCCR1B = 0xD;
+        OCR1A = 520;  //15
+           display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("3Hz");
+   display.setCursor(8,30);
+  display.setTextColor(WHITE);
+  display.setTextSize(2);
+  display.print("15Hz");
+        mode = 5;
+      }
+      break;
+ 
+ 
+    case 5:
+      if (flagClick1 == true) {
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+        pinMode(9, OUTPUT);
+        TCCR1A = 0x40;
+        TCCR1B = 0xD;
+        OCR1A = 312;  //25
+        display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("15Hz");
+   display.setCursor(8,30);
+  display.setTextColor(WHITE);
+  display.setTextSize(2);
+  display.print("25Hz");
+        mode = 6;
+      }
+      break;
+    case 6:
+      if (flagClick1 == true) {
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+        pinMode(9, OUTPUT);
+        TCCR1A = 0x40;
+        TCCR1B = 0xD;
+        OCR1A = 130;  //60
+         display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("25Hz");
+   display.setCursor(8,30);
+  display.setTextColor(WHITE);
+  display.setTextSize(2);
+  display.print("60Hz");
+        mode = 7;
+      }
+      break;
+ 
+    case 7:
+      if (flagClick1 == true) {
+        // было нажатие кнопки
+        flagClick1 = false;  // сброс признака фронта кнопки
+        pinMode(9, OUTPUT);
+        TCCR1A = 0x40;
+        TCCR1B = 0xD;
+        OCR1A = 62;  //125
+        display.setCursor(8,30);
+  display.setTextColor(BLACK);
+  display.setTextSize(2);
+  display.print("60Hz");
+   display.setCursor(8,30);
+  display.setTextColor(WHITE);
+  display.setTextSize(2);
+  display.print("125Hz");
+        mode = 0;
+      }
+      break;
+ 
+    // case 8:
+    //   if (flagClick1 == true) {
+    //     // было нажатие кнопки
+    //     flagClick1 = false;  // сброс признака фронта кнопки
+    //     mode = 0;
+    //   }
+    //   break;
+ 
+  }  // exit switch (mode)
+}
+void adc() {
+  int analogPin = 3;
+  int val = 0;
+ 
+ 
+  val = analogRead(analogPin);  // считываем напряжение с аналогового входа
+                                // наблюдаем считанное значение
+  if (val > 680) {
+    digitalWrite(A0, HIGH);
+    digitalWrite(A1, LOW);
+  }
+ 
+  else {
+    digitalWrite(A0, LOW);
+    digitalWrite(A1, HIGH);
+  }
+  // delay(1000);
+}

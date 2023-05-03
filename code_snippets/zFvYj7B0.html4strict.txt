@@ -1,0 +1,11 @@
+<center><div class="card p-3" style="border:4px inset rgba(000, 0, 0, 0.4); background-clip: padding-box; width: 15rem; background-image: url('https://data.whicdn.com/images/308009649/original.jpg'); color:white; background-size: cover; background-repeat: no-repeat;">
+    
+<p>hi dewe</p>
+ 
+<p>am fwen</p>
+ 
+<p>wan play</p>
+ 
+<p>hab beawr</p>
+ 
+</div>

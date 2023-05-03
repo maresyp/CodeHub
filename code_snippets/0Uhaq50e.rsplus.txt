@@ -1,0 +1,82 @@
+# подключение библиотек
+library (factoextra)
+library (cluster)
+library(ggplot2)
+library(dplyr)
+library(dendextend)
+library(reshape2)
+library(RColorBrewer)
+ 
+data <- read.csv("Kvartiry_Ufa11.csv", sep = ",")
+ 
+# вычисляем корреляцию признаков
+cormat <- round(cor(data),2)
+# "растопим" корелялционную мутрицу
+melted_cormat <- melt(cormat)
+# достаем верхний треугольник кореляционной матрицы
+get_upper_tri <- function(cormat){
+  cormat[lower.tri(cormat)]<- NA
+  return(cormat)
+}
+upper_tri <- get_upper_tri(cormat)
+melted_cormat <- melt(upper_tri, na.rm = TRUE)
+# строим хитмэп
+ggheatmap <- ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
+  geom_tile(color = "white")+
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab", 
+                       name="Pearson\nCorrelation") +
+  theme_minimal()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1))+
+  coord_fixed()
+# расположим значения на хитмэпе
+ggheatmap + 
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.ticks = element_blank(),
+    legend.justification = c(1, 0),
+    legend.position = c(0.6, 0.7),
+    legend.direction = "horizontal")+
+  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
+                               title.position = "top", title.hjust = 0.5))
+ 
+# исходя из матрицы корреляции необходимо избавиться от living area
+drop <- c("living_area")
+data = data[,!(names(data) %in% drop)]
+ 
+# стандартизируем значения для корректной кластеризации
+data_scaled <- scale(data)
+ 
+# определим оптимальное количество кластеров методом силуэта
+fviz_nbclust(data_scaled, kmeans, method = "silhouette")
+n_clust <- 4
+ 
+# проведем кластеризацию методом kmeans
+km <- kmeans(data_scaled, n_clust)
+# сохраним вектор с кластером в отдельной переменной
+grp <- km$cluster
+ 
+# отобразим кластеризацию с использованием метода главных компонентов
+fviz_cluster(km, data_scaled,
+             palette = "Set2", ggtheme = theme_minimal())
+ 
+# отобразим диаграмму рассеяния признаков
+pairs(data, upper.panel=NULL)
+ 
+# необходимо избавиться от parks_around, citycenter_near, floors_total, ceiling, rooms
+drop <- c("X","parks_around3", "rooms", "floors_total", "ceiling_height", "room", "balcony")
+data = data[,!(names(data) %in% drop)]
+ 
+# отобразим диаграмму рассеяния признаков с учетом кластеризации
+pairs(data, col = brewer.pal(n = n_clust, name = "Set2")[grp], upper.panel=NULL)
+ 
+# посмотрим на расположение центроидов кластеров
+km_centroids <- aggregate(data, by=list(cluster=km$cluster), mean)
+# загрузим датасет с описанием центров кластеров
+# write.csv(km_centroids, "File_Name.csv", row.names=FALSE)

@@ -1,0 +1,79 @@
+import java.util.Arrays;
+ 
+class Seat {
+    private boolean available;
+    private int tier;
+ 
+    public Seat(boolean isAvail, int tierNum) {
+        available = isAvail;
+        tier = tierNum;
+    }
+ 
+    public boolean isAvailable() {
+        return available;
+    }
+ 
+    public int getTier() {
+        return tier;
+    }
+ 
+    public void setAvailability(boolean isAvail) {
+        available = isAvail;
+    }
+ 
+    @Override
+    public String toString() {
+        return available + "-" + tier;
+    }
+}
+ 
+class Theater {
+    private Seat[][] theaterSeats;
+ 
+    public Theater(int seatsPerRow, int tier1Rows, int tier2Rows) {
+        theaterSeats = new Seat[tier1Rows + tier2Rows][seatsPerRow];
+ 
+        for (int i = 0; i < tier1Rows + tier2Rows; i++)
+            for (int j = 0; j < seatsPerRow; j++) {
+                if (i < tier1Rows)
+                    theaterSeats[i][j] = new Seat(true, 1);
+                if (i >= tier1Rows)
+                    theaterSeats[i][j] = new Seat(true, 2);
+            }
+ 
+        theaterSeats[0][0].setAvailability(false);
+        theaterSeats[4][4].setAvailability(false);
+    }
+ 
+    public boolean reassignSeat(int fromRow, int fromCol, int toRow, int toCol) {
+        if (theaterSeats[toRow][toCol].isAvailable() &&
+                theaterSeats[toRow][toCol].getTier() >= theaterSeats[fromRow][fromCol].getTier()) {
+            theaterSeats[toRow][toCol].setAvailability(false);
+            theaterSeats[fromRow][fromCol].setAvailability(true);
+            return true;
+        }
+        return false;
+    }
+ 
+    @Override
+    public String toString() {
+        String output = "";
+        for (Seat[] row : theaterSeats) {
+            for (Seat element : row)
+                output += element.isAvailable() + "-" + element.getTier() + " ";
+            output += "\n";
+        }
+        return output;
+    }
+}
+ 
+public class TheaterRunner {
+    public static void main(String[] args) {
+        Theater test = new Theater(5, 2, 3);
+        System.out.println(test);
+        System.out.println("reassignment from 0,0 to 2,2 successful :: " + test.reassignSeat(0, 0, 2, 2) + "\n");
+        System.out.println(test);
+        System.out.println("reassignment from 4,4 to 1,1 successful :: " + test.reassignSeat(4, 4, 1, 1) + "\n");
+        System.out.println(test);
+    }
+}

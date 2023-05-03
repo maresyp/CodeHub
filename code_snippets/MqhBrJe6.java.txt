@@ -1,0 +1,101 @@
+import java.util.ArrayList;
+ 
+public class Team 
+{
+    private String name; // Team's name
+    private ArrayList<Player> players; // Team's player list
+    
+    // Constructor Method: setting only team's name
+    public Team(String name)
+    {
+        this.name = name;
+    }
+    
+    // Method to set/update team's name
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+    
+    // Method to get team's name
+    public String getName()
+    {
+        return this.name;
+    }
+    
+    // Method to get team's total of players
+    public int getTotalPlayers()
+    {
+        return this.players.size();
+    }
+    
+    // Method to get team's sum of player's score
+    public int getScore()
+    {
+        int score = 0;
+        for (int i = 0; i < this.players.size(); i++)
+        {
+            score += this.players.get(i).getScore();
+        }
+        return score;
+    }
+    
+    // Method to print all players
+    public void listPlayers()
+    {
+        for (int i = 0; i < this.players.size(); i++)
+        {
+            this.players.get(i).print();
+        }
+    }
+ 
+    // Method to print all players ordered by jersey
+    public void listPlayersByJersey()
+    {
+        for (int i = 0; i < this.players.size(); i++)
+        {
+            // TODO
+        }
+    }
+ 
+    // Method to print all players ordered by score
+    public void listPlayersByScore()
+    {
+        for (int i = 0; i < this.players.size(); i++)
+        {
+            // TODO
+        }
+    }
+    
+    // Method to add a player to the team
+    public void addPlayer(Player player)
+    {
+        this.players.add(player);
+    }
+    
+    // Method to remove a player to the team based on player's jersey
+    public void removePlayer(int jersey)
+    {
+        for (int i = 0; i < this.players.size(); i++)
+        {
+            if (this.players.get(i).getJersey() == jersey)
+            {
+                this.players.remove(i); 
+            }
+        }
+    }
+    
+    // Method to print team's basic information
+    public void print()
+    {
+        System.out.println(" - Team's name: " + this.name);
+    }
+    
+    // Method to print team's basic information and list of players
+    public void printFull()
+    {
+        System.out.println("Team: " + this.name);
+        System.out.println("Players:");
+        this.listPlayersByJersey();
+    }
+}

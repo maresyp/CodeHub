@@ -1,0 +1,25 @@
+#!/bin/bash
+ 
+# Check if an argument is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <source_file.c>"
+    exit 1
+fi
+ 
+# Extract the filename and extension
+filename=$(basename "$1")
+extension="${filename##*.}"
+filename="${filename%.*}"
+ 
+# Compile the C program and check for errors
+gcc -o "$filename" "$1"
+if [ $? -ne 0 ]; then
+    echo "Compilation failed"
+    exit 1
+fi
+ 
+# Run the executable
+./"$filename"
+ 
+# Delete the executable
+rm "$filename"

@@ -1,0 +1,213 @@
+/*
+ * oled Frequency Counter
+ *
+ * Created: 10/01/2021
+ *  Author: moty22.co.uk
+ */ 
+#include <Wire.h>
+#include "font_8x5.c"
+#define yi 1  //Y of count display
+ 
+unsigned char addr=0x3C;  //0x78
+ 
+void setup() {
+ 
+          //set timer0 in=250Hz out=1Hz
+    OCR0A = 249;    //divide by 250
+    TCCR0A=0b1000011;  //
+    TCCR0B=0b1110;  //  PWM mode, input T0 pin D4
+    pinMode(6, OUTPUT);// PD6  12
+    
+      // set timer2 in=16MHz out=250Hz
+    OCR2A =249;
+    OCR2B = 125;    //50% duty cycle
+    TCCR2A=0b110011;  //output B in phase, fast PWM mode
+    TCCR2B=0b1110; // set prescaler to 256 and start the timer
+    pinMode(3, OUTPUT); // PD3   5
+    
+        //  set timer1
+    OCR1A = 32767;   //32768 counts
+    TCCR1A = 0b1000011;  
+    TCCR1B = 0b11110; //input pin D5
+    pinMode(9, OUTPUT);// PB1  15
+ 
+    Wire.begin();        // init i2c bus
+    Wire.setClock(100000);  //200khz
+    oled_init();
+    clrScreen();
+}
+ 
+void loop()
+{
+  unsigned char d[7], nz, i;
+  byte overF=0;
+  unsigned long total, period;
+ 
+    nz=1;
+      //wait for high output
+    while(digitalRead(6)){}
+    while(!digitalRead(6)){}
+      //start the count
+    TIFR1 = _BV(OCF1A);    //reset int
+    OCR1A = 32767;
+    TCNT1=0;
+    overF=0;
+    while(digitalRead(6)){
+    if(TIFR1 & _BV(1)) {++overF; TIFR1 |= _BV(1);}   //on overflow reset interrupt 
+    }
+        //count end
+    total = (unsigned long)TCNT1 + ((unsigned long)overF * 32768);  //sum up registers
+ 
+        //convert to 7 decimal digits
+    d[6]=total/1000000 + 16;    //1MHz digit, 16 is the ofset of 0 in font array
+    d[5]=(total/100000) %10 + 16;  //100KHz digit
+    d[4]=(total/10000) %10 + 16;
+    d[3]=(total/1000) %10 + 16;
+    d[2]=(total/100) %10 + 16;
+    d[1]=(total/10) %10 + 16;    //10Hz digit  
+    d[0]=total %10 + 16;
+ 
+    if(total > 999999){drawChar2(d[6], yi, 0); drawChar2(12, yi, 10);}else{drawChar2(0, yi, 0); drawChar2(0, yi, 10);}    //12=, 0=blank
+    if(total > 99999){drawChar2(d[5], yi, 18);}else{drawChar2(0, yi, 18);}
+    if(total > 9999){drawChar2(d[4], yi, 30);}else{drawChar2(0, yi, 30);}
+    if(total > 999){drawChar2(d[3], yi, 42);  drawChar2(12, yi, 52);}else{drawChar2(0, yi, 42); drawChar2(0, yi, 52);}
+    drawChar2(d[2], yi, 60);
+    drawChar2(d[1], yi, 72);
+    drawChar2(d[0], yi, 84);
+    drawChar2(40, 1, 104); //H 
+    drawChar2(90, 1, 116); //z
+ 
+    nz=1;
+    if(total<1000){
+        period=1000000/total; 
+        drawChar2(85, 5, 104); //u
+    }else{
+        period=1000000000/total;
+        drawChar2(78, 5, 104);}    //n
+    if(total==0)period=0;    
+ 
+    //convert to 7 decimal digits
+    d[6]=period/1000000 + 16;   //1MHz digit
+    d[5]=(period/100000) %10 + 16;  //100KHz digit
+    d[4]=(period/10000) %10 + 16;
+    d[3]=(period/1000) %10 + 16;
+    d[2]=(period/100) %10 + 16;
+    d[1]=(period/10) %10 + 16;    //10Hz digit  
+    d[0]=period %10 + 16;
+ 
+    for(i=7;i>1;i--){
+        if(d[i-1]==16 && nz){drawChar2(0, 5, (7-i)*12+12);} //if leading 0 display blank
+        if(d[i-1]>16 && nz){nz=0; }
+        if(!nz){drawChar2(d[i-1], 5, (7-i)*12+12);}
+    } 
+     drawChar2(d[0], 5, 84);  //display digit 0
+ 
+     drawChar2(51, 5, 116); //S
+     
+}
+ 
+void clrScreen()    //fill screen with 0
+{
+    unsigned char y, x;
+ 
+    for ( y = 0; y < 8; y++ ) {
+      for (x = 0; x < 17; x++){
+          command(0x21);     //col addr
+          command(8 * x); //col start
+          command(8 * x + 7);  //col end
+          command(0x22);    //0x22
+          command(y); // Page start
+          command(y); // Page end
+          
+          Wire.beginTransmission(addr);
+          Wire.write(0x40);
+          for (unsigned char i = 0; i < 8; i++){
+               Wire.write(0x00);          
+          }
+          Wire.endTransmission();         
+      }
+     
+    }
+}
+ 
+void command( unsigned char comm){
+    Wire.beginTransmission(addr); 
+    Wire.write(0x00);    
+    Wire.write(comm); // LSB
+    Wire.endTransmission();       
+}
+ 
+void oled_init() {
+    
+    command(0xAE);   // DISPLAYOFF
+    command(0x8D);         // CHARGEPUMP *
+    command(0x14);     //0x14-pump on
+    command(0x20);         // MEMORYMODE
+    command(0x0);      //0x0=horizontal, 0x01=vertical, 0x02=page
+    command(0xA1);        //SEGREMAP * A0/A1=top/bottom 
+    command(0xC8);     //COMSCANDEC * C0/C8=left/right
+    command(0xDA);         // SETCOMPINS *
+    command(0x12);   //0x22=4rows, 0x12=8rows
+    command(0x81);        // SETCONTRAST
+    command(0x9F);     //0x8F
+    //following settings are set by default
+//    command(0xD5);  //SETDISPLAYCLOCKDIV 
+//    command(0x80);  
+//    command(0xA8);       // SETMULTIPLEX
+//    command(0x3F);     //0x1F
+//    command(0xD3);   // SETDISPLAYOFFSET
+//    command(0x0);  
+//    command(0x40); // SETSTARTLINE  
+//    command(0xD9);       // SETPRECHARGE
+//    command(0xF1);
+//    command(0xDB);      // SETVCOMDETECT
+//    command(0x40);
+//    command(0xA4);     // DISPLAYALLON_RESUME
+//    command(0xA6);      // NORMALDISPLAY
+    command(0xAF);          //DISPLAYON
+ 
+}
+ 
+    //size x2 chars
+void drawChar2(char fig, unsigned char y, unsigned char x)
+{
+    unsigned char i, line, btm, top;    //
+    
+    command(0x20);    // vert mode
+    command(0x01);
+ 
+    command(0x21);     //col addr
+    command(x); //col start
+    command(x + 9);  //col end
+    command(0x22);    //0x22
+    command(y); // Page start
+    command(y+1); // Page end
+    
+    Wire.beginTransmission(addr);
+    Wire.write(0x40);
+ 
+    for (i = 0; i < 5; i++){
+        line=font[5*(fig)+i];  //fig+16
+        btm=0; top=0;
+            // expend char    
+        if(line & 64) {btm +=192;}
+        if(line & 32) {btm +=48;}
+        if(line & 16) {btm +=12;}           
+        if(line & 8) {btm +=3;}
+        
+        if(line & 4) {top +=192;}
+        if(line & 2) {top +=48;}
+        if(line & 1) {top +=12;} 
+               
+         Wire.write(top); //top page
+         Wire.write(btm);  //second page
+         Wire.write(top);
+         Wire.write(btm);
+ 
+    }
+    Wire.endTransmission();
+        
+    command(0x20);      // horizontal mode
+    command(0x00);    
+        
+}

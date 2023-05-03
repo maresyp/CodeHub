@@ -1,0 +1,30 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+const short ROZMIAR = 10;
+ 
+void wypelnij_tablice(int* tablica)
+{
+    for(short i = 0; i < ROZMIAR; ++i)
+        tablica[i] = i * i;
+}
+ 
+void wypisz_tablice(int* tablica)
+{
+    for(short i = 0; i < ROZMIAR; ++i)
+        cout << tablica[i] << '\t';
+    cout << endl;
+}
+ 
+int main()
+{
+    int tablica[ROZMIAR];
+    for(short i = 0; i < ROZMIAR; ++i)
+        tablica[i] = 0;
+    wypisz_tablice(tablica);
+    wypelnij_tablice(tablica);
+    wypisz_tablice(tablica);
+ 
+    return 0;
+}

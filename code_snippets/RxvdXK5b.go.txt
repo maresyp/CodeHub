@@ -1,0 +1,24 @@
+/*
+https://gocoding.org/es/ejercicios-de-pr%C3%A1ctica-de-golang/
+ Escriba un programa que tome una lista de números como entrada y encuentre el número más grande y más pequeño en la lista.
+*/
+ 
+package main
+ 
+import "fmt"
+ 
+func main() {
+    numeros := []int{1, 2, 3, 4, 5, 500, 6, 7, 8, -1}
+    var menor int
+    var mayor int
+    for _, v := range numeros {
+        //fmt.Println(k, "=", v)
+        if menor > v {
+            menor = v
+        }
+        if mayor < v {
+            mayor = v
+        }
+    }
+    fmt.Println("menor = %v , mayor = %v \n", menor, mayor)
+}

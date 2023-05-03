@@ -1,0 +1,44 @@
+import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+ 
+public class Task2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+ 
+        HashMap<String, Integer> balls = new HashMap<>();
+ 
+        String input = scanner.nextLine();
+        while (!input.equals("End")) {
+            String[] parts = input.split(": ");
+            String color = parts[0];
+            int count = Integer.parseInt(parts[1]);
+            balls.put(color, count);
+            input = scanner.nextLine();
+        }
+ 
+        int totalBalls = 0;
+        int maxBalls = 0;
+ 
+        for (Map.Entry<String, Integer> entry : balls.entrySet()) {
+            totalBalls += entry.getValue();
+            maxBalls = Math.max(maxBalls, entry.getValue());
+        }
+ 
+        int result = totalBalls - maxBalls;
+        System.out.println(result);
+ 
+    }
+}
+ 
+//This code reads input from the user in the format “Color: count” until the user enters “End”. 
+//The input represents the count of balls of different colors in a box. 
+//The program then calculates and prints the smallest count of balls that must be taken out of the box so that only one color is left.
+//
+//The program uses a HashMap to store the count of balls for each color. 
+//It reads input from the user using a Scanner and splits the input into color and count using the split method. 
+//The color and count are then added to the HashMap.
+//
+//After reading all the input, the program calculates the total number of balls and the maximum number of balls of any one color. 
+//The result is then calculated as the difference between the total number of balls and the maximum number of balls of any one color. 
+//This result is then printed to the console.

@@ -1,0 +1,66 @@
+<?php
+/*
+* Plugin Name: Ranking Widget
+*
+*
+*/
+ 
+class top_rankings_widget extends WP_Widget {
+    public function __construct() {
+        $widget_options = array(
+            'classname' => 'ranking_widget',
+            'description' => 'A widget that displays the top ranking users in order of posts and comments'
+        );
+ 
+        parent::__construct("ranking_widget", "Ranking Widget", $widget_options);
+    }
+ 
+    public function widget($args, $i) {
+        $title = isset($i["title"]) ? apply_filter('widget_title', $i['title']) : "";
+ 
+        echo $args["before_widget"] . $args["before_title"] . $title . $args["after_title"]; 
+        global $wpdb;
+ 
+        $rows = $wpdb->get_results("SELECT ID, display_name FROM wp_users");
+ 
+        $map_fn = function($obj) {
+            return (object)array(
+                "ID" => $obj->ID,
+                "display_name" => $obj->display_name
+            );
+        };
+ 
+        $results = array_map($map_fn, $rows);
+ 
+        foreach($results as $user) {
+            $comment_count = $wpdb->get_var("SELECT COUNT(*) FROM wp_comments WHERE user_id = {$user->ID}");
+            $user->comments = $comment_count;
+ 
+            $post_count = $wpdb->get_var("SELECT COUNT(*) FROM wp_posts WHERE post_author = '{$user->ID}' AND post_status='publish' AND post_type='post'");
+            $user->posts = $post_count;
+        }
+ 
+        echo "<table>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Comments</td>
+                        <td>Posts</td>
+                    </tr>
+                </thead>
+                <tbody>";
+        foreach($results as $user) {
+            echo "<tr><td>{$user->display_name}</td><td>{$user->comments}</td><td>{$user->posts}</td></tr>";
+        }
+        echo "</tbody></table>";     
+        echo $args["after_widget"];
+    }
+}
+ 
+function register_ranking_widget() {
+    register_widget("top_rankings_widget");
+}
+ 
+add_action("widgets_init", "register_ranking_widget");
+ 
+?>

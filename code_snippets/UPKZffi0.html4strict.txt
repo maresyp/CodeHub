@@ -1,0 +1,391 @@
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Mono&display=swap" rel="stylesheet">
+<style>
+::-webkit-scrollbar {width: 5px; background: #bbb}
+::-webkit-scrollbar-thumb {background: #000;}
+ 
+.body{
+background: linear-gradient(90deg, #B0BC98 35%, #1c1c1c 35%);
+border: 1px solid rgba(0,0,0,0.2);
+width: 850px;
+height: 600px;
+margin: auto;
+padding: 20px;
+position: relative;
+font-family: 'Montserrat'
+}
+ 
+.quote{
+    padding: 20px;
+    font-family:'Roboto Mono';
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #8C1A1A;
+    display: flex;
+    font-weight: 800;
+    align-items: center;
+}
+.imgbg {
+background: url(https://i.pinimg.com/originals/2b/cb/35/2bcb35b777da14f7cb1a6df704ef1ed7.gif)center;
+filter: grayscale(50%);
+background-size: cover;
+width: 312px;
+height: 400px;
+clip-path: polygon(0 0, 80% 0%, 100% 0, 100% 100%, 100% 100%, 0 58%, 0 57%, 0% 20%);
+margin-top:-20px;
+margin-left:-20px;}
+ 
+ 
+.list {
+width: 310px;
+height: 200px;
+margin-left:-20px;
+margin-top: -50px;
+padding:10px;
+overflow: auto;
+position: absolute;
+color: #f5f7f1;
+font-size: 16px}
+ 
+.bold{
+        display:inline-block;
+        margin:3px 3px -1px 0px;
+        color:#fff;
+        background-color:#8C1A1A;
+        padding:3px;
+}
+    ul {
+    padding-left:15px;
+    font-size: 20px;
+    margin-top:5px
+}
+    ul li {
+        list-style-type:none;
+        font-size: 14px
+    }
+    ul li:before {
+          content: "— ";
+          text-indent: -5px
+    }
+.content {
+background:#f5f7f1;
+width: 550px;
+height: 600px;
+margin-left:305px;
+margin-top:-380px;
+overflow: auto;
+position: absolute;
+border-radius: 5px;
+text-align: justify
+}
+.blurb{
+    padding: 20px;
+    width: 250px;
+    height: 100px;
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,0.3);
+    border-radius: 5px;
+    outline: 1px solid #B0BC98;
+    outline-offset: -10px;
+    border: 1px solid rgba(0,0,0,0.2);
+    position: absolute;
+    margin-top: -200px;
+    margin-left: -10px;
+    color: #f5f7f1;
+    font-size: 16px;
+    text-align: center;
+    transition: all 1s;
+}
+.blurb:hover{
+        transform: scale(1.05);
+        animation-fill-mode: both;
+}
+.container {
+background-color:#f5f7f1;
+width: 890px;
+height: 80px;
+border: 1px solid rgba(0,0,0,0.2);
+margin: auto}
+ 
+.tabcontent{
+    overflow: hidden;
+    padding: 20px;
+    font-size: 13px
+}
+.tablinks{
+    border: 1px solid rgba(0,0,0,0.2);
+    background: #B0BC98;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    font-size: 14px;
+    transition: all 1s;
+    font-family: 'Roboto Mono'
+}
+.cred{
+    font-family:'Montserrat';
+    font-size: 13px;
+    text-decoration: none!important;
+    color: #000;
+    transition: all 1s;
+}
+.cred:hover{
+    letter-spacing: 2px
+}
+.butts{
+    margin-top: -60px;
+    margin-left: 50px;
+    position: absolute;
+    }
+.tablinks:hover, .active{
+    background: #1c1c1c;
+}
+h2{
+    color: #8C1A1A;
+    margin:0px;
+    margin-bottom: 5px;
+    font-family:'Roboto Mono';
+    text-transform: uppercase;
+    font-size: 20px
+}
+h3{
+    background: #8C1A1A;
+    color: #fff;
+    padding: 5px;
+    font-size: 12px;
+    text-align: center;
+    margin: 5px 0px
+}
+.header{
+    text-style: underline
+}
+img{
+    object-fit: cover;
+    outline: 1px solid #B0BC98;
+    outline-offset: -10px;
+    border-radius: 5px
+}
+ 
+.user img{
+        object-fit: cover;
+        height: 75px;
+        width: 75px;
+        margin-right: 10px;
+        border: 1px solid rgba(0,0,0,0.2);
+        border-radius: 5px;
+        transition: 1s all
+}
+.user h3{
+    color: #fff;
+    font-family: 'Roboto Mono';
+    text-align: left;
+    border: none;
+    margin-bottom: 3px
+}
+.user{
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        width: auto;
+        border: 1px solid rgba(0,0,0,0.2);
+        background: #fff;
+        color: #000;
+        padding: 5px 10px;
+        font-size: 12px;
+        border-radius: 5px;
+        
+        }
+.user:hover img{
+        transform: scale(1.05);
+        cursor: pointer;
+        animation-fill-mode: both;
+    }
+.aesth > img{
+    border: 1px solid #646464;
+    display:block;
+    width: 100%;
+    margin-bottom: 5px;
+    transition: 1s all
+}
+.aesth img:hover{
+    filter: grayscale(50%);
+    transform: scale(1.05);
+    animation-fill-mode: both;
+}
+.aesth{
+    column-count: 2;
+    column-gap: 10px;
+}
+.column-shit{
+    float: left;
+    border-right: 4px solid #B0BC98;
+    width: 100px;
+    margin-top: -5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-right: 5px;
+    color: #8C1A1A;
+}
+.info-shit{
+    float: left;
+    margin-top:-5px;
+    padding-left: 10px
+}
+i,b, legend, a{
+    color: #8C1A1A;
+    text-decoration: none;
+}
+ 
+fieldset{
+    margin-bottom: 10px; 
+    border:1px solid rgba(0,0,0,0.2);
+    text-align:justify
+}
+</style>
+<div class="body">
+   <div class="imgbg"></div>
+   <div class="blurb">
+   <h2>i ate some food and shat it out</h2>
+   who's this lady she's a hottie, meow</div>
+  <div class="list"><div class="bold">list goes here</div> i've done nothing wrong in my life i swear
+  <ul>
+       <li><b>Age:</b> this color is ew</li>
+       <li><b>Height:</b> blurb</li>
+       <li><b>Weight:</b> blurb</li>
+       <li><b>House:</b> blurb</li>
+       <li><b>Year:</b> blurb</li>
+       <li><b>Occupation:</b> blurb</li>
+       <li><b>Sexuality:</b> blurb</li>
+    </ul>
+  </div>
+  <div class="content">
+<div class="tabcontent" id="1">
+<h2>about</h2>
+<h3>overview</h3>
+<img src="https://64.media.tumblr.com/1614ce2d79642af0c1453e12b2a12da4/tumblr_inline_obrxhu2GRr1r7z4ar_640.jpg" style="width: 100%; height: 200px">
+<p>Lorem ipsum dolor sit amet, at justo iuvaret qui, id augue erant sea. Ei eius propriae similique nam. Pri viderer debitis conclusionemque ne. Nam ad modo graeci, pri ei modus mollis. Regione quaestio ut has, habeo signiferumque sed ne.
+ 
+<p>Cu eum invenire recteque consequat, vix quaeque fastidii et. Vel brute graeci et, nulla labore aeterno per cu. No pri malorum maiorum disputando, eum at quod harum tantas. Sed solum veniam putent et, vocibus quaestio complectitur vim ut. Movet ancillae nec an.
+<h3>personality</h3>
+<p>Sit cu impetus noluisse delicatissimi, ne soluta splendide eum. Nam altera accusamus temporibus ad, mea et debet albucius, ad pri esse lucilius perfecto. Ne aliquid vocibus fabellas vel. Mea impedit epicurei cu, ius feugait deterruisset comprehensam ad. Pro erant affert assentior ex.
+ 
+<p>Cu omnium integre molestiae vim, oratio liberavisse in qui. Has ad erat voluptatum, no ius antiopam tractatos. Meis dolor quaestio et per. Errem tibique accusamus has no, nulla senserit efficiantur id eam. Nam ignota integre at, his ut ancillae incorrupte definitionem. Ut eos civibus temporibus.
+<h3>appearance</h3>
+<p>Pri commune constituto cu. Ut nemore conceptam eum. Ne pro case ubique expetendis. Ad duo idque copiosae complectitur, pro bonorum blandit et, omnis maiorum expetenda mea ex. Qui et tamquam definiebas, exerci patrioque delicatissimi eos et.
+<p>Cu eum invenire recteque consequat, vix quaeque fastidii et. Vel brute graeci et, nulla labore aeterno per cu. No pri malorum maiorum disputando, eum at quod harum tantas. Sed solum veniam putent et, vocibus quaestio complectitur vim ut. Movet ancillae nec an.
+ 
+<p>Sit cu impetus noluisse delicatissimi, ne soluta splendide eum. Nam altera accusamus temporibus ad, mea et debet albucius, ad pri esse lucilius perfecto. Ne aliquid vocibus fabellas vel. Mea impedit epicurei cu, ius feugait deterruisset comprehensam ad. Pro erant affert assentior ex.
+ 
+<p>Cu omnium integre molestiae vim, oratio liberavisse in qui. Has ad erat voluptatum, no ius antiopam tractatos. Meis dolor quaestio et per. Errem tibique accusamus has no, nulla senserit efficiantur id eam. Nam ignota integre at, his ut ancillae incorrupte definitionem. Ut eos civibus temporibus.
+ 
+<p>Pri commune constituto cu. Ut nemore conceptam eum. Ne pro case ubique expetendis. Ad duo idque copiosae complectitur, pro bonorum blandit et, omnis maiorum expetenda mea ex. Qui et tamquam definiebas, exerci patrioque delicatissimi eos et.
+</div>
+<div class="tabcontent" id="2">
+<h2>information</h2>
+<fieldset><legend>sussy impostor</legend>
+<div class="column-shit">
+Name:
+<br>Nickname:
+<br>Age:
+<br>Birthday:
+<br>Height:
+<br>Gender:
+<br>Pronouns:
+<br>Sexuality:
+<br>Mart. Status:
+<br>Occupation:
+</div>
+<div class="info-shit">
+asdf
+<br>asdf 
+<br>Seeasd
+<br>asdf
+<br>asdfasd
+<br>asdf
+<br>
+<br>
+<br>asdfa
+<br>asdfa
+</div></fieldset>
+<h3>topics</h3>
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <i>Vel eros donec ac odio tempor orci dapibus ultrices in. Vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt."</i> -- <a href="LINK" target="_blank">[LINK]</a>
+<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <i>Vel eros donec ac odio tempor orci dapibus ultrices in. Vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt."</i> -- <a href="LINK" target="_blank">[LINK]</a>
+<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <i>Vel eros donec ac odio tempor orci dapibus ultrices in. Vestibulum lectus mauris ultrices eros in cursus turpis massa tincidunt."</i> -- <a href="LINK" target="_blank">[LINK]</a>
+</div>
+<div class="tabcontent" id="3">
+<h2>playlist</h2>
+<fieldset><legend><a href="LINK" target="_blank">MMMM YUMMY YUMMY</a></legend>
+Fruit Salad, Yummy Yummy
+<br>Fruit Salad, Yummy Yummy
+<br>Fruit Salad, Yummy Yummy
+</fieldset>
+<fieldset><legend><a href="LINK" target="_blank">MMMM YUMMY YUMMY</a></legend>
+Fruit Salad, Yummy Yummy
+<br>Fruit Salad, Yummy Yummy
+<br>Fruit Salad, Yummy Yummy
+</fieldset>
+<fieldset><legend><a href="LINK" target="_blank">MMMM YUMMY YUMMY</a></legend>
+Fruit Salad, Yummy Yummy
+<br>Fruit Salad, Yummy Yummy
+<br>Fruit Salad, Yummy Yummy
+</fieldset>
+</div>
+<div class="tabcontent" id="4">
+<h2>aesthetic</h2>
+<div class="aesth">
+            <img src="https://i.pinimg.com/564x/e7/66/67/e76667e5d3069bcbd5eb1dc2e46856d5.jpg">
+            <img src="https://i.pinimg.com/564x/e7/66/67/e76667e5d3069bcbd5eb1dc2e46856d5.jpg">
+            <img src="https://i.pinimg.com/564x/e7/66/67/e76667e5d3069bcbd5eb1dc2e46856d5.jpg">
+            <img src="https://i.pinimg.com/564x/e7/66/67/e76667e5d3069bcbd5eb1dc2e46856d5.jpg">
+            </div>
+</div>
+<div class="tabcontent" id="5">
+<h2>relations</h2>
+<h3>familial</h3>
+<div class="user"><a href="PROFILELINK" target="_blank"><img src="https://64.media.tumblr.com/9cbc1ad74730ee3f09d84c1046bf1970/dcd21359f9f91803-8b/s540x810/907bdaf4c54bda6cbf2cdf4e762ad0d604f06f73.gifv"></a><div><h3>da riddler</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget leo consectetur, volutpat nibh nec, efficitur elit. Phasellus orci turpis, consequat elementum massa ullamcorper, venenatis semper nunc. Morbi porttitor id velit et congue. Fusce lobortis in risus in rhoncus.</div></div>
+            <div class="user"><a href="PROFILELINK" target="_blank"><img src="https://64.media.tumblr.com/9cbc1ad74730ee3f09d84c1046bf1970/dcd21359f9f91803-8b/s540x810/907bdaf4c54bda6cbf2cdf4e762ad0d604f06f73.gifv"></a><div><h3>da riddler</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget leo consectetur, volutpat nibh nec, efficitur elit. Phasellus orci turpis, consequat elementum massa ullamcorper, venenatis semper nunc. Morbi porttitor id velit et congue. Fusce lobortis in risus in rhoncus.</div></div>
+<h3>romantic</h3>
+        <div class="user"><a href="PROFILELINK" target="_blank"><img src="https://64.media.tumblr.com/9cbc1ad74730ee3f09d84c1046bf1970/dcd21359f9f91803-8b/s540x810/907bdaf4c54bda6cbf2cdf4e762ad0d604f06f73.gifv"></a><div><h3>da riddler</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget leo consectetur, volutpat nibh nec, efficitur elit. Phasellus orci turpis, consequat elementum massa ullamcorper, venenatis semper nunc. Morbi porttitor id velit et congue. Fusce lobortis in risus in rhoncus.</div></div>
+        <div class="user"><a href="PROFILELINK" target="_blank"><img src="https://64.media.tumblr.com/9cbc1ad74730ee3f09d84c1046bf1970/dcd21359f9f91803-8b/s540x810/907bdaf4c54bda6cbf2cdf4e762ad0d604f06f73.gifv"></a><div><h3>da riddler</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget leo consectetur, volutpat nibh nec, efficitur elit. Phasellus orci turpis, consequat elementum massa ullamcorper, venenatis semper nunc. Morbi porttitor id velit et congue. Fusce lobortis in risus in rhoncus.</div></div>
+<h3>camaraderie</h3>
+        <div class="user"><a href="PROFILELINK" target="_blank"><img src="https://64.media.tumblr.com/9cbc1ad74730ee3f09d84c1046bf1970/dcd21359f9f91803-8b/s540x810/907bdaf4c54bda6cbf2cdf4e762ad0d604f06f73.gifv"></a><div><h3>da riddler</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget leo consectetur, volutpat nibh nec, efficitur elit. Phasellus orci turpis, consequat elementum massa ullamcorper, venenatis semper nunc. Morbi porttitor id velit et congue. Fusce lobortis in risus in rhoncus.</div></div>
+        <div class="user"><a href="PROFILELINK" target="_blank"><img src="https://64.media.tumblr.com/9cbc1ad74730ee3f09d84c1046bf1970/dcd21359f9f91803-8b/s540x810/907bdaf4c54bda6cbf2cdf4e762ad0d604f06f73.gifv"></a><div><h3>da riddler</h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget leo consectetur, volutpat nibh nec, efficitur elit. Phasellus orci turpis, consequat elementum massa ullamcorper, venenatis semper nunc. Morbi porttitor id velit et congue. Fusce lobortis in risus in rhoncus.</div></div>
+      
+</div>
+</div>
+</div>
+  <div class="container"><div class="butts"><button class="tablinks" onclick="openCity(event, '1')" id="defaultOpen">i</button>
+<button class="tablinks" onclick="openCity(event, '2')">ii</button>
+<button class="tablinks" onclick="openCity(event, '3')">iii</button>
+<button class="tablinks" onclick="openCity(event, '4')">iv</button>
+<button class="tablinks" onclick="openCity(event, '5')">v</button>
+</div><div class="quote">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="float: left; margin-right: 20px; fill:#1c1c1c"><path d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z"/></svg>
+hi mom i'm on tv, i'm going to jail for a funny, i commited several breachs of the geneva convention
+</div></div>
+  <center><div class="cred">
+CODED BY <a style="text-decoration: none; color: #000" href="https://alyscodes.tumblr.com" >ALY</a> & <a  style="text-decoration: none; color: #000" href="https://finchscodes.tumblr.com">FINCH </a></div>
+</center>
+  
+<script>
+document.getElementsByClassName('tablinks')[0].click()
+function openCity(evt, cityName) {
+    
+var i,
+        tabcontent,
+        tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    
+for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+ 
+for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>

@@ -1,0 +1,73 @@
+side = "top"
+mon = peripheral.wrap(side)
+mon.setTextScale(1)
+mon.setBackgroundColor(32768)
+mon.clear()
+ 
+function calc_color(color)
+    return math.pow(2, color - 1)
+end
+ 
+function msg(gap, line, color, groundb, text) 
+    mon.setBackgroundColor(calc_color(groundb))
+    mon.setCursorPos(gap,line)
+    mon.setTextColor(calc_color(color))
+    text = mon.write(text)
+end  
+ 
+function clear()
+    for x = 3,22 do
+        msg(01,x,16,16,"                                                        ")
+    end
+end
+ 
+function page1()
+    a = 1
+    clear()
+    msg(41,18,16,01,"          ")
+    msg(41,19,16,01,"  page 2  ")
+    msg(01,08,09,16,"- Activate Highlite Informations")
+    msg(01,09,09,16,"  with NumPad 1 open config with NumPad 0")
+    msg(01,03,09,16,"- Use /warps to teleport to other worldspawns")
+    msg(07,03,10,16,"/warps")
+    msg(01,05,09,16,"- To enter the Nether you have to build a")
+    msg(01,06,09,16,"  Netherportal on your own, therefore is no warp")
+    msg(01,11,09,16,"- All villager trades with emeralds are disabled")
+    msg(01,13,09,16,"- Open Banneditem list with:")
+    msg(30,13,10,16,"/banneditems")
+    msg(01,16,09,16,"  every hour of playtime you get 120 claim blocks")
+    msg(01,15,09,16,"- New players get 1000 claim blocks for free")
+end
+ 
+function page2()
+    a = 2
+    clear()
+    msg(41,18,16,01,"          ")
+    msg(41,19,16,01,"  page 1  ")
+    msg(01,03,09,16,"- You want Optifine? download Optifine1.12.2.jar")
+    msg(01,04,09,16,"  and insert it into the ´Mods´ folder")
+    msg(01,06,09,16,"- Want to store much EMC? use Industrial Credits")
+    msg(01,07,09,16,"  Buy your first one at:")
+    msg(26,07,10,16,"/gsm industrial-credit")
+    msg(01,06,09,16," ")
+    msg(01,06,09,16," ")
+    msg(01,06,09,16," ")
+    msg(01,06,09,16," ")
+    msg(01,06,09,16," ")
+    msg(01,06,09,16," ")
+    msg(01,06,09,16," ")
+end
+ 
+msg(08,01,05,16,"         Useful Informations               |")
+msg(08,02,05,16,"         ~~~~~~~~~~~~~~~~~~~               |")
+page1()
+ 
+while true do
+    local event, button, X, Y = os.pullEvent("monitor_touch")
+    if X >= 41 and X <= 50 and Y >= 18 and Y <= 20 and a == 1 then --open page2
+        page2()
+    elseif X >= 41 and X <= 50 and Y >= 18 and Y <= 20 and a == 2 then --open page1
+        page1()
+    end
+    sleep(0.5)
+end

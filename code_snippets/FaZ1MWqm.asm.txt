@@ -1,0 +1,45 @@
+org 7c00h
+use16
+ 
+ 
+debut:
+    mov si, message
+    call print
+ 
+    jmp $
+ 
+ 
+print:
+    include "./video.asm"
+;    include "./color.asm"
+;    t720x400
+    g640x480
+    red
+.loop:
+    lodsb
+    cmp al, 00h
+    jz .done
+    call print_char
+    jmp .loop
+.done:
+    ret
+ 
+print_char:
+    mov ah, 00eh ; write charcter and advance cursor
+    int 010h
+    ret
+ 
+;    jmp $
+;    include "./stoschar.asm"
+ 
+ 
+message:
+    db 'Hello, World!', 00h
+;    stoschar 048h, 065h, 06ch, 06ch, 06fh, 0afh, 00h
+ 
+fin:
+    cli
+    hlt
+ 
+    times 510-($-$$) db 0
+    dw 0aa55h

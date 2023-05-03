@@ -1,0 +1,45 @@
+import java.io.IOException;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+ 
+public class Laba13 {
+    public static void main(String[] args) {
+        // Выводим на экран запрос на ввод строки с IP адресом
+        System.out.print("Введите строку с IP адресом: ");
+ 
+        // Создаем новый объект Scanner для чтения ввода пользователя
+        Scanner in = new Scanner(System.in);
+ 
+        // Считываем ввод пользователя в строку
+        String input = in.nextLine();
+ 
+        // Закрываем объект Scanner для освобождения ресурсов
+        in.close();
+ 
+        // Создаем объект Pattern для поиска IP адресов в строке, используя регулярное выражение
+        Pattern p = Pattern.compile("(((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|\\d{1,2})\\.){3}(((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|\\d{1,2}))");
+ 
+        // Создаем объект Matcher для поиска соответствий регулярному выражению в строке ввода
+        Matcher m = p.matcher(input);
+ 
+        // Если найдено соответствие, записываем результат в файл с помощью метода writeResult()
+        if (m.find()) writeResult("Vvod: "+input+"\nIP-adres: "+input.substring(m.start(), m.end()));
+ 
+        // Если соответствие не найдено, записываем сообщение об ошибке в файл
+        else writeResult("Vvod: "+input+"\nNet korrektnogo IP-adresa");
+    }
+ 
+    // Метод для записи результата в файл
+    public static void writeResult(String result) {
+        // Создаем объект FileWriter для записи в файл
+        try (FileWriter fw = new FileWriter("result.txt")) {
+ 
+            // Записываем результат в файл
+            fw.write(result);
+        }
+        // Обрабатываем ошибку, если не удалось записать в файл
+        catch (IOException e) {System.out.println("Ошибка записи в файл");}
+    }
+}

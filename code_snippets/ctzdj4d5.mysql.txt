@@ -1,0 +1,127 @@
+#Aufgabe 3.8.1.1
+ 
+mysql> SELECT artikelname AS a, herstellername AS h 
+FROM artikel 
+JOIN hersteller WHERE hersteller.herstellernummer = artikel.herstellernummer;
++------------+-----------------+
+| a          | h               |
++------------+-----------------+
+| Maus       | Logitech        |
+| Tastatur   | Logitech        |
+| Drucker    | Hewlett Packard |
+| Festplatte | Maxtor          |
+| Monitor    | SONY            |
++------------+-----------------+
+5 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+#Aufgabe 3.8.1.2
+ 
+mysql> SELECT artikelname AS a, herstellername AS h, preis AS p 
+FROM artikel 
+JOIN hersteller WHERE hersteller.herstellernummer = artikel.herstellernummer AND preis >200;
++------------+-----------------+--------+
+| a          | h               | p      |
++------------+-----------------+--------+
+| Drucker    | Hewlett Packard | 300.00 |
+| Festplatte | Maxtor          | 400.00 |
+| Monitor    | SONY            | 500.00 |
++------------+-----------------+--------+
+3 rows in set (0.00 sec)
+ 
+mysql> SELECT artikelname AS a, herstellername AS h 
+FROM artikel 
+JOIN hersteller WHERE hersteller.herstellernummer = artikel.herstellernummer AND preis >200;
++------------+-----------------+
+| a          | h               |
++------------+-----------------+
+| Drucker    | Hewlett Packard |
+| Festplatte | Maxtor          |
+| Monitor    | SONY            |
++------------+-----------------+
+3 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+#Aufgabe 3.8.2.1
+ 
+mysql> SELECT bestellung.bestellnummer AS Bestellnummer, person.nachname AS Nachname, person.vorname AS Vorname, bestellung.artikelanzahl AS Artikelanzahl, bestellung.bestellsumme AS Bestellsumme 
+FROM bestellung 
+JOIN person 
+WHERE bestellung.kundennummer = person.personennummer;
++---------------+---------------+---------+---------------+--------------+
+| Bestellnummer | Nachname      | Vorname | Artikelanzahl | Bestellsumme |
++---------------+---------------+---------+---------------+--------------+
+|             1 | Virtanen      | Veera   |             2 |        20.00 |
+|             2 | Blotzek       | Ulrich  |             1 |        20.00 |
+|             3 | Schatter      | Peter   |             3 |        30.00 |
+|             4 | Wojack        | Albert  |             1 |       300.00 |
+|             5 | Hämäläinen    | Ahvo    |             5 |      2500.00 |
++---------------+---------------+---------+---------------+--------------+
+5 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+#Aufgabe 3.8.2.2
+ 
+mysql> SELECT bestellung.bestellnummer AS Bestellnummer, person.nachname AS Nachname, person.vorname AS Vorname, artikel.artikelname AS Artikelname, bestellung.artikelanzahl AS Artikelanzahl, artikel.preis AS Artikelpreis 
+FROM bestellung 
+JOIN person 
+JOIN artikel 
+ON bestellung.kundennummer = person.personennummer 
+AND artikel.artikelnummer = bestellung.artikelnummer 
+AND bestellung.artikelanzahl >2;
++---------------+---------------+---------+-------------+---------------+--------------+
+| Bestellnummer | Nachname      | Vorname | Artikelname | Artikelanzahl | Artikelpreis |
++---------------+---------------+---------+-------------+---------------+--------------+
+|             3 | Schatter      | Peter   | Maus        |             3 |        10.00 |
+|             5 | Hämäläinen    | Ahvo    | Monitor     |             5 |       500.00 |
++---------------+---------------+---------+-------------+---------------+--------------+
+2 rows in set (0.00 sec)
+ 
+ 
+mysql> SELECT bestellung.bestellnummer AS Bestellnummer, person.nachname AS Nachname, person.vorname AS Vorname, artikel.artikelname AS Artikelname, bestellung.artikelanzahl AS Artikelanzahl, artikel.preis AS Artikelpreis, bestellung.bestellsumme AS Bestellsumme 
+FROM bestellung 
+JOIN person 
+JOIN artikel 
+ON bestellung.kundennummer = person.personennummer 
+AND artikel.artikelnummer = bestellung.artikelnummer 
+AND bestellung.artikelanzahl >2;
++---------------+---------------+---------+-------------+---------------+--------------+--------------+
+| Bestellnummer | Nachname      | Vorname | Artikelname | Artikelanzahl | Artikelpreis | Bestellsumme |
++---------------+---------------+---------+-------------+---------------+--------------+--------------+
+|             3 | Schatter      | Peter   | Maus        |             3 |        10.00 |        30.00 |
+|             5 | Hämäläinen    | Ahvo    | Monitor     |             5 |       500.00 |      2500.00 |
++---------------+---------------+---------+-------------+---------------+--------------+--------------+
+2 rows in set (0.00 sec)
+ 
+mysql> NOTEE
+ 
+ 
+ 
+#Aufgabe 3.8.2.3
+ 
+mysql> SELECT person.nachname AS Nachname, person.vorname AS Vorname, artikel.artikelname AS Artikelname, hersteller.herstellername AS Herstellername, hersteller.land AS Herstellerland 
+FROM person 
+JOIN artikel 
+JOIN hersteller 
+JOIN bestellung 
+ON hersteller.land = 'Japan' 
+AND hersteller.herstellernummer = artikel.herstellernummer 
+AND bestellung.bestellnummer = person.personennummer 
+AND artikel.artikelnummer = bestellung.artikelnummer;
++---------------+---------+-------------+----------------+----------------+
+| Nachname      | Vorname | Artikelname | Herstellername | Herstellerland |
++---------------+---------+-------------+----------------+----------------+
+| Hämäläinen    | Ahvo    | Monitor     | SONY           | Japan          |
++---------------+---------+-------------+----------------+----------------+
+1 row in set (0.00 sec)
+ 
+mysql> NOTEE

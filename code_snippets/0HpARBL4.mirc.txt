@@ -1,0 +1,52 @@
+alias Epirate.FindPath.Estimate {
+  ;$Epirate.FindPath.Estimate(start,destination,N) - returns the estimated (straight line) moves it will take to get to goal/destination
+  ;if N is 1, returns cells to move and saves epirate.findpath q
+  ;if N is 2, returns cells to move
+  ;if N is 3, shows # of moves
+ 
+  var %current.x $left($1,1), %current.y $right($1,-1), %d.x $left($2,1), %d.y $right($2,-1)
+  var %total 0, %moves $1, %i 0
+ 
+  if ($3 == 1) hdel epirate.pathfind q
+ 
+  while (%i < 75) {
+    inc %i
+    if ($isodd(%i)) {
+      if ($alph(%current.x) < $alph(%d.x)) set %current.x $alph($calc($alph(%current.x) + 1))
+      elseif ($alph(%current.x) > $alph(%d.x)) set %current.x $alph($calc($alph(%current.x) - 1))
+      inc %total
+    }
+    else {
+      if (%current.y < %d.y) set %current.y $calc(%current.y + 1)
+      elseif (%current.y > %d.y) set %current.y $calc(%current.y - 1)
+      inc %total
+    }
+    set %current.x $upper(%current.x)
+    set %current.y $upper(%current.y)
+    set %moves $addtok(%moves,%current.x $+ %current.y,44)
+ 
+    if (%current.x == %d.x) && (%current.y == %d.y) {
+      set %total $gettok(%moves,0,44)
+ 
+      if ($3) {
+        if ($3 == 1) {
+          if (!$hget(epirate.pathfind)) hmake epirate.pathfind
+          hadd epirate.pathfind q $addtok($hget(epirate.pathfind,q),%moves,44)
+          return %moves
+        }
+        elseif ($3 == 2) return %moves
+      }
+      return %total
+ 
+      break
+    }
+  }
+}
+alias alph {
+  var %i $lower($1)
+  if (%i < 1) return
+  elseif (%i isalpha) return $calc($asc(%i) - 96)
+  elseif ($1 isnum) return $chr($calc($1 + 96))
+  else return
+}
+alias isodd return $iif(!$iseven($1-),$true,$false)

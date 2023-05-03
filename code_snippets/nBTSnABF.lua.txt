@@ -1,0 +1,152 @@
+local valuable_blocks = {
+    -- Vanilla Minecraft
+    ["minecraft:coal_ore"] = true,
+    ["minecraft:iron_ore"] = true,
+    ["minecraft:diamond_ore"] = true,
+    ["minecraft:gold_ore"] = true,
+    ["minecraft:redstone_ore"] = true,
+    ["minecraft:emerald_ore"] = true,
+    ["minecraft:lapis_ore"] = true,
+    ["minecraft:nether_gold_ore"] = true,
+    ["minecraft:nether_quartz_ore"] = true,
+    ["minecraft:ancient_debris"] = true,
+    
+    -- IndustrialCraft 2
+    ["ic2:copper_ore"] = true,
+    ["ic2:tin_ore"] = true,
+    ["ic2:lead_ore"] = true,
+    ["ic2:uranium_ore"] = true,
+    
+    -- Thermal Expansion
+    ["thermalfoundation:ore_copper"] = true,
+    ["thermalfoundation:ore_tin"] = true,
+    ["thermalfoundation:ore_silver"] = true,
+    ["thermalfoundation:ore_lead"] = true,
+    ["thermalfoundation:ore_nickel"] = true,
+    ["thermalfoundation:ore_platinum"] = true,
+}
+ 
+function isValuable(blockName)
+    return valuable_blocks[blockName] ~= nil
+end
+ 
+function tryMine()
+    local success, blockData = turtle.inspect()
+    if success and isValuable(blockData.name) then
+        turtle.dig()
+    end
+end
+ 
+function tryMineUp()
+    local success, blockData = turtle.inspectUp()
+    if success and isValuable(blockData.name) then
+        turtle.digUp()
+    end
+end
+ 
+function tryMineDown()
+    local success, blockData = turtle.inspectDown()
+    if success and isValuable(blockData.name) then
+        turtle.digDown()
+    end
+end
+ 
+function clearBlock()
+    while turtle.detect() do
+        turtle.dig()
+    end
+end
+ 
+function clearBlockUp()
+    while turtle.detectUp() do
+        turtle.digUp()
+    end
+end
+ 
+function clearBlockDown()
+    while turtle.detectDown() do
+        turtle.digDown()
+    end
+end
+ 
+function moveForward()
+    clearBlock()
+    turtle.forward()
+end
+ 
+function moveUp()
+    clearBlockUp()
+    turtle.up()
+end
+ 
+function moveDown()
+    clearBlockDown()
+    turtle.down()
+end
+ 
+function mineLayer(layerSize)
+    for row = 1, layerSize do
+        for column = 1, layerSize - 1 do
+            tryMine()
+            tryMineUp()
+            tryMineDown()
+            moveForward()
+        end
+        
+        if row < layerSize then
+            if row % 2 == 1 then
+                turtle.turnRight()
+                tryMine()
+                moveForward()
+                turtle.turnRight()
+            else
+                turtle.turnLeft()
+                tryMine()
+                moveForward()
+                turtle.turnLeft()
+            end
+        end
+    end
+end
+ 
+function returnToStartPosition(layerSize)
+    local direction = layerSize % 2 == 1 and "right" or "left"
+    turtle.turnLeft()
+    turtle.turnLeft()
+    for _ = 1, layerSize - 1 do
+        moveForward()
+    end
+    if direction == "right" then
+        turtle.turnLeft()
+    else
+        turtle.turnRight()
+    end
+    for _ = 1, layerSize - 1 do
+        moveForward()
+    end
+    if direction == "right" then
+        turtle.turnRight()
+    else
+        turtle.turnLeft()
+    end
+end
+ 
+function main()
+    local layersToMine = 5
+    local distanceBetweenLayers = 3
+    local layerSize = 10
+ 
+    for layer = 1, layersToMine do
+        print("Mining layer " .. layer)
+        mineLayer(layerSize)
+ 
+        if layer < layersToMine then
+            returnToStartPosition(layerSize)
+            for _ = 1, distanceBetweenLayers do
+                moveUp()
+            end
+        end
+    end
+end
+ 
+main()

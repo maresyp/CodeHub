@@ -1,0 +1,664 @@
+//LRC Menu made by Knyazev aka SexyArturo
+CMD:lrchelp(playerid, params[])
+{
+    #pragma unused params
+    if(PlayerInfo[playerid][LRC] >= 1) {
+        new string[1900];
+        strcat(string, "\n{FF0000}>>> Los Reyes General Commands Rank (1/10) <<<", 1900 );
+        strcat(string, "\n{DCDCDC}Official LRC Vehicle Commands:", 1900 );
+        strcat(string, "\n{008000}/lrcheli - /lrchy - /lrcboat - /lrcbike", 1900 );
+        strcat(string, "\n{008000}/lrctune - /lrchu - /lrccar(1/3)", 1900 );
+        strcat(string, "\n{DCDCDC}Special LRC Commands:", 1900 );
+        strcat(string, "\n{008000}/lrcafk -  /lrcback - /lrcsay", 1900 );
+        strcat(string, "\n{008000}/lrcskin(1/4) - /lrcroom - /lrcco", 1900 );
+        strcat(string, "\n{DCDCDC}Official LRC Weapons Commands:", 1900);
+        strcat(string, "\n{008000}/lrcweaps - /lrcm4 - /lrcd - /lrcso", 1900 );
+        strcat(string, "\n{FF0000}>>> Los Reyes Leader Commands Rank (7/10) <<<", 1900 );
+        strcat(string, "\n{DCDCDC}Official LRC Leader Commands:", 1900 );
+        strcat(string, "\n{008000}/lrcm - /lrcann - /setlrc", 1900 );
+        strcat(string, "\n{008000}/settemplrc - /osetlrc", 1900 );
+        strcat(string, "\n\n{FF0000}Commands Menu Scripter by, Knyazev aka SexyArturo", 1900 );
+        ShowPlayerDialog(playerid,1235, DIALOG_STYLE_MSGBOX, "LRC Commands Menu", string, "OK","Cancel");
+    } else return SendClientMessage(playerid,COLOR_RED, "ERROR: You need to be LRC member to use this command");
+    return 1;}
+ 
+CMD:lrcann(playerid,params[]) {
+    if(isnull(params)) return SendClientMessage(playerid, red, "USAGE: /LRCann [text]");
+    if(PlayerInfo[playerid][LRC] >= 7) {
+    for(new i = 0; i < MAX_PLAYERS; i++) {
+    if(IsPlayerConnected(i)) {
+    if(PlayerInfo[i][LRC] >= 1){
+    if(PlayerInfo[i][LoggedIn] == 1) {
+    PlayerPlaySound(i,1057,0.0,0.0,0.0); GameTextForPlayer(i,params, 4000, 3); GameTextForPlayer(playerid,params, 4000, 3);}}}}
+    new string[128]; format(string,sizeof(string),"{008000}[boTLRC]: {DCDCDC}Management \"%s\" has announced to {008000}Los Reyes Members.", pName(playerid) );
+    MessageToLRC(0x00FFFFAA, string);
+    CMDMessageToLRC(playerid,"/lrcann");
+    } else return ShowPlayerDialog(playerid,1,DIALOG_STYLE_MSGBOX,"ERROR","You need to be LRC member to use this command", "OK", "");
+    return 1;
+}
+ 
+static LRCDutyPlaying[MAX_PLAYERS];
+CMD:lrcmembers(playerid,params[])
+{
+    #pragma unused params
+    new count = 0;
+    new string[128];
+    new ChangeColor;
+    new LRCR[128];
+    new LRCDUTY[128];
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+    SendClientMessage(playerid, 0x5DA755AA, " ");
+    SendClientMessage(playerid, 0xDCDCDCAA, "__________ | {008000}Los Reyes De Las Calles {DCDCDC}| __________");
+    SendClientMessage(playerid, 0x5DA755AA, " ");
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(!IsPlayerConnected(i)) continue;
+        if(PlayerInfo[i][LoggedIn] == 0) continue;
+        if(PlayerInfo[i][LRC] == 0) continue;
+ 
+        if(PlayerInfo[i][LRC] == 1) { LRCR = "Newbie"; ChangeColor = 0xDCDCDCFF; }
+        if(PlayerInfo[i][LRC] == 2) { LRCR = "Rookie"; ChangeColor = 0x008000FF; }
+        if(PlayerInfo[i][LRC] == 3) { LRCR = "Recruit"; ChangeColor = 0xFF8C00FF; }
+        if(PlayerInfo[i][LRC] == 4) { LRCR = "Cadet"; ChangeColor = 0x4682B4FF; }
+        if(PlayerInfo[i][LRC] == 5) { LRCR = "Assassin"; ChangeColor = 0x0000FFFF; }
+        if(PlayerInfo[i][LRC] == 6) { LRCR = "Gangster"; ChangeColor = 0x3CB371FF; }
+        if(PlayerInfo[i][LRC] == 7) { LRCR = "Professional"; ChangeColor = 0xDAA520FF; }
+        if(PlayerInfo[i][LRC] == 8) { LRCR = "Manager"; ChangeColor = 0x800080FF; }
+        if(PlayerInfo[i][LRC] == 9) { LRCR = "Captain"; ChangeColor = 0x8B0000FF; }
+        if(PlayerInfo[i][LRC] == 10) { LRCR = "King"; ChangeColor = 0x000000FF; }
+        if(LRCDutyPlaying[i] == 0) LRCDUTY = "{FFFF00}Playing!";
+        if(LRCDutyPlaying[i] == 1) LRCDUTY = "{FF0000}AFK.";
+ 
+        format(string, 128, "LRC Level: %d - {%06x} %s (id:%i) - {%06x}| %s | - %s",PlayerInfo[i][LRC], ChangeColor >>> 8, PlayerName2(i), i, ChangeColor >>> 8, LRCR, LRCDUTY);
+        SendClientMessage(playerid, ChangeColor, string);
+        count++;
+    }
+    if (count == 0) SendClientMessage(playerid,0xFF0000AA,"No Online LRC Members.");
+    SendClientMessage(playerid, 0xDCDCDCAA, "_______________________________________________");
+    return 1;
+}
+CMD:lrcroom(playerid,params[]) {
+    if(PlayerInfo[playerid][LRC] >= 1) {
+    if(PlayerInfo[playerid][Jailed] == 1) return SendClientMessage(playerid,COLOR_BRIGHTRED,"You cannot escape your punishment!");
+    TeleTimer[playerid] = SetTimerEx("ttimer", 1000, true, "i",playerid);
+    tseconds[playerid] = 5;
+    format(tstring,45,"You Must wait %d seconds before teleporting", tseconds[playerid]-1);
+    if(PlayerInfo[playerid][Level] == 0) SendClientMessage(playerid,COLOR_LIGHTBLUE, tstring);
+    vCount[playerid] = 1;
+    Tx[playerid] = 1523.509887;
+    Ty[playerid] = -47.821197;
+    Tz[playerid] = 1002.130981;
+    Ti[playerid] = 2;
+    new string[128];
+    new dsname[MAX_PLAYER_NAME];
+    format(telestring,43,"~b~[] ~r~LRC Room ~b~[]");
+    GetPlayerName(playerid, dsname, sizeof(dsname));
+    format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s Has Just Teleported To {008000}LRC Room", dsname);
+    SendClientMessageToAll(COLOR_ORANGE, string);
+    } else return SendClientMessage(playerid,red,"ERROR: You need to be a [LRC] Member to use this command.");
+    CMDMessageToLRC(playerid, "/lrcroom");
+    return 1;
+}
+CMD:lrctune(playerid, params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid, red, "ERROR : You need to be Logged in to use this command");
+    if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCtune again!");
+    if(PlayerInfo[playerid][LRC] >= 1) {
+        RepairVehicle(GetPlayerVehicleID(playerid));
+        SetVehicleHealth(GetPlayerVehicleID(playerid),1000.0);
+        new vehicleid = GetPlayerVehicleID(playerid);
+        LRCTune(vehicleid);
+        SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+        CMDMessageToLRC(playerid, "/lrctune");
+        return PlayerPlaySound(playerid,1133,0.0,0.0,0.0);
+    } else return SendClientMessage(playerid , red, "ERROR : You need to be [LRC] member to use this command!");
+}
+LRCTune(vehicleid)
+{
+    ChangeVehicleColor(vehicleid,44,0);
+    AddVehicleComponent(vehicleid, 1010);
+    AddVehicleComponent(vehicleid,1080);
+    return 1;
+}
+ 
+CMD:lrcafk(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][LRC] >= 1) {
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCafk again!");
+        SendClientMessage(playerid,0x99FF00AA,"Type /LRCback when you back.");
+        GameTextForPlayer(playerid,"~r~ You now AFK", 5000, 1);
+        TogglePlayerControllable(playerid, 0);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s - %s: {FF0000}Is Away From Keyboard    ",GetLRCRank(playerid), ename);
+        SendClientMessageToAll(0x00B934AA, string);
+        CMDMessageToLRC(playerid, "/lrcafk");
+        LRCDutyPlaying[playerid] = 1;
+    } else return SendClientMessage(playerid,COLOR_RED,"ERROR: You need to be [LRC] Member to use this command.");
+    SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+    return 1;
+}
+ 
+CMD:lrcback(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][LRC] >= 1) {
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCback again!");
+        GameTextForPlayer(playerid,"~g~ Welcome Back", 5000, 1);
+        TogglePlayerControllable(playerid, 1);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s - %s: {008000}Is Now Back",GetLRCRank(playerid), ename);
+        SendClientMessageToAll(0x00B934AA, string);
+        CMDMessageToLRC(playerid, "/lrcback");
+        LRCDutyPlaying[playerid] = 0;
+    } else return SendClientMessage(playerid,COLOR_RED,"ERROR: You need to be [LRC] Member to use this command.");
+    SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+    return 1;
+}
+ 
+CMD:lrcweaps(playerid,params[]) {
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You have to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        GivePlayerWeapon(playerid,31,9000); GivePlayerWeapon(playerid,16,9000); GivePlayerWeapon(playerid,43,9000);
+        GivePlayerWeapon(playerid,24,9000); GivePlayerWeapon(playerid,26,9000); GivePlayerWeapon(playerid,42,9000);
+        GivePlayerWeapon(playerid,46,9000); GivePlayerWeapon(playerid,7,9000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s has used command: {008000}Official Reyes Weapons",ename,playerid);
+        SendClientMessageToAll(0x00B934AA, string);
+        CMDMessageToLRC(playerid,"/lrcweaps");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy with LRC Weapons :)");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be LRC member to use this command", "OK", "Cancel");
+}
+ 
+CMD:lrcd(playerid,params[]) {
+        ResetPlayerWeapons(playerid);
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        GivePlayerWeapon(playerid,24,1000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s has used command: {008000}Official LRC Desert-Eagle", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[boTLRC] %s (%d) has used the command: /lrcd",ename,playerid);
+        CMDMessageToLRC(playerid,"/lrcd");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy your LRC Desert-Eagle ");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be higher [LRC] Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrcso(playerid,params[]) {
+        ResetPlayerWeapons(playerid);
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        GivePlayerWeapon(playerid,26,1000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s has used command: {008000}Official LRC Sawn Off", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[boTLRC] %s (%d) has used the command: /lrcso",ename,playerid);
+        CMDMessageToLRC(playerid,"/lrcso");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy your LRC Sawn Off ");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be higher [LRC] Level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrcm4(playerid,params[]) {
+        ResetPlayerWeapons(playerid);
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        GivePlayerWeapon(playerid,31,1000);
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s has used the command: {008000}Official LRC M4 Rifle", ename);
+        SendClientMessageToAll(0x00FFFFAA, string);
+        format(string,sizeof(string),"9[boTLRC] %s (%d) has used command: /nm4",ename,playerid);
+        CMDMessageToLRC(playerid,"/lrcm4");
+        return SendClientMessage(playerid,0xFF0000AA,"Enjoy your LRC M4");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be higher [LRC] Level 1+ to use this command", "OK", "Cancel");
+}
+ 
+CMD:lrcsay(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCsay again!");
+        if(isnull(params)) return SendClientMessage(playerid,COLOR_RED, "USAGE: /LRCsay [text]");
+        new string[128];
+        new ename[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, ename, sizeof(ename));
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        format(string, sizeof(string), "{008000}[boTLRC]: {DCDCDC}%s - %s | Says: {66CDAA}%s",GetLRCRank(playerid), ename, params[0]);
+        SendClientMessageToAll(COLOR_BRIGHTRED,string);
+ 
+        } else return SendClientMessage(playerid,COLOR_RED,"ERROR: You need to be [LRC] Member to use this command.");
+        SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+        return 1;
+}
+CMD:lrcco(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][LRC] >= 1) {
+    SetPlayerColor(playerid,0xBFD023FF);
+    SendClientMessage(playerid,0xBFD023AA,"Official LRC Colour");
+    CMDMessageToLRC(playerid,"/lrcco");
+    } else return ShowPlayerDialog(playerid, 1, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be a [LRC] Member to use this command.", "OK", "");
+    return 1;
+}
+//LRC Clan private chat
+CMD:lrc(playerid,params[]) {
+    #pragma unused params
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+        if(PlayerInfo[playerid][LRC] >= 1) {
+            new string[128];
+            format(string, sizeof(string), "{FF0000}| LRC Chat |: {DCDCDC}Newbie - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 2)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {008000}Rookie - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 3)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {FF8C00}Recruit - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 4)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {4682B4}Cadet - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 5)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {0000FF}Assassin - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 6)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {3CB371}Gangster - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 7)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {DAA520}Professional - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 8)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {800080}Manager - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 9)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {8B0000}Captain - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            if(PlayerInfo[playerid][LRC] >= 10)
+                format(string, sizeof(string), "{FF0000}| LRC Chat |: {000000}King - %s: {98FB98}%s", PlayerName2(playerid), params[0] );
+            MessageToLRC(0x037683FF,string);
+            } else return SendClientMessage(playerid,red,"ERROR: You need to be [LRC] Member to use this command");
+    } else return SendClientMessage(playerid,red,"ERROR: You need to be Logged in to use this command");
+    return 1;
+}
+CMD:lrcskin1(playerid,params[]) {
+    #pragma unused params
+    if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCskin1 again!");
+    if(PlayerInfo[playerid][LRC] >= 1) {
+    SetPlayerSkin(playerid,105);
+    CMDMessageToLRC(playerid,"/lrcskin1");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be LRC member to use this command", "OK", "Cancel");
+    SetPVarInt(playerid, "LRCABUSE", GetTickCount()+2000);
+    return 1;
+}
+CMD:lrcskin2(playerid,params[]) {
+    #pragma unused params
+    if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCskin2 again!");
+    if(PlayerInfo[playerid][LRC] >= 1) {
+    SetPlayerSkin(playerid,106);
+    CMDMessageToLRC(playerid,"/lrcskin2");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be LRC member to use this command", "OK", "Cancel");
+    SetPVarInt(playerid, "LRCABUSE", GetTickCount()+2000);
+    return 1;
+}
+CMD:lrcskin3(playerid,params[]) {
+    #pragma unused params
+    if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCskin3 again!");
+    if(PlayerInfo[playerid][LRC] >= 1) {
+    SetPlayerSkin(playerid,107);
+    CMDMessageToLRC(playerid,"/lrcskin3");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be LRC member to use this command", "OK", "Cancel");
+    SetPVarInt(playerid, "LRCABUSE", GetTickCount()+2000);
+    return 1;
+}
+CMD:lrcskin4(playerid,params[]) {
+    #pragma unused params
+    if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCskin4 again!");
+    if(PlayerInfo[playerid][LRC] >= 1) {
+    SetPlayerSkin(playerid,250);
+    CMDMessageToLRC(playerid,"/lrcskin4");
+    } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be LRC member to use this command", "OK", "Cancel");
+    SetPVarInt(playerid, "LRCABUSE", GetTickCount()+2000);
+    return 1;
+}
+CMD:lrccar1(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCcar1 again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,502);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrccar1");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC Hotring Racer A!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrcboat(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCboat again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,446);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrcboat");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC Squallo!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrcbike(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCboat again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,522);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrcbike");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC NRG 500!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrccar2(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCcar2 again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,411);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrccar2");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC Infernus!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrccar3(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCcar3 again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,492);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrccar3");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC Greenwood!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrchy(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCHy again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,520);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrchy");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC Hydra!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrchu(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCHu again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,425);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrchu");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC Hunter!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:lrcheli(playerid,params[]) {
+    #pragma unused params
+        if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /LRCHeli again!");
+        if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+        if(PlayerInfo[playerid][LRC] >= 1) {
+        if (!IsPlayerInAnyVehicle(playerid)) {
+            CarSpawner(playerid,487);
+            AddVehicleComponent(GetPlayerVehicleID(playerid),1010);
+            CMDMessageToLRC(playerid,"/lrcheli");
+            SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+            return SendClientMessage(playerid,0x00FFFFAA,"You have spawned LRC Maverick!");
+        } else return SendClientMessage(playerid,0xFF0000AA,"Error: You already have a vehicle");
+        } else return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 1+ to use this command", "OK", "Cancel");
+}
+CMD:osetlrc(playerid,params[])
+{
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid,0xFF0000AA,"ERROR: You need to be Logged in to use this command");
+    if(PlayerInfo[playerid][LRC] >= 7)
+    {
+            new file[256],string[120];
+            new tmp[128], tmp2[128], Index, level;             tmp = strtok(params,Index), tmp2 = strtok(params,Index), level = strval(tmp2);
+            if(level > 10) return SendClientMessage(playerid, red, "ERROR:Max LRC level is 10!");
+            if(isnull(params)) return SendClientMessage(playerid, red, "USAGE: /OSetLRC [name] [level]");
+            if(isnull(tmp2)) return SendClientMessage(playerid, red, "ERROR: You must input a level");
+            format(file,sizeof(file),"/ladmin/users/%s.sav",udb_encode(tmp));
+            if(!fexist(file)) return SendClientMessage(playerid, red, "ERROR: that account don't even exist!");
+            dini_Set(file,"LRC",tmp2);
+            new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+            format(string,sizeof(string),"You have set %s's LRC level to %s on %d/%d/%d at %d:%d:%d",tmp,tmp2 ,day, month, year, hour, minute, second );
+            SendClientMessage(playerid,yellow,string);
+            PlayerPlaySound(playerid,1057,0.0,0.0,0.0);
+    }
+    return 1;
+}
+ 
+CMD:lrcm(playerid, params[])
+{
+    if(PlayerInfo[playerid][LoggedIn] == 0) return SendClientMessage(playerid, red, "ERROR: You need to be logged in to use this command!");
+    if(PlayerInfo[playerid][LRC] >= 7)
+    {
+        new opermessage[256];
+        format(opermessage, sizeof opermessage, "{FF0000}| Reyes Management |: {DCDCDC}%s - %s: {848484}%s", PlayerName2(playerid), GetLRCRank(playerid), params);
+        for(new i = 0; i < MAX_PLAYERS; i++)
+        {
+            if(PlayerInfo[i][LRC] >= 7 && PlayerInfo[i][LoggedIn] == 1) SendClientMessage(i, -1, opermessage);
+        }
+ 
+    } else return ShowPlayerDialog(playerid, 3245, DIALOG_STYLE_MSGBOX, "ERROR", "{FF0000}You need to be [LRC] rank 7+ to use this command!", "Ok", "");
+    return 1;
+}
+CMD:settemplrc(playerid,params[]) {
+    if(GetPVarInt(playerid, "LRCABUSE") > GetTickCount())return SendClientMessage(playerid, red, "You must wait before using /SetTempLRC again!");
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+            if(PlayerInfo[playerid][LRC] < 7) return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You need to be [LRC] level 7+ to use this command", "OK", "Cancel");
+            new tmp[128], tmp2[128], Index;     tmp = strtok(params,Index), tmp2 = strtok(params,Index);
+            if(isnull(params)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /SetTempLRC [playerid] [level]");
+            new player1, level, playername[MAX_PLAYER_NAME], adminname[MAX_PLAYER_NAME], string[128];
+            player1 = strval(tmp);
+            if(isnull(tmp2)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /SetTempLRC [playerid] [level]");
+            level = strval(tmp2);
+ 
+            if(IsPlayerConnected(player1) && player1 != INVALID_PLAYER_ID) {
+                if(PlayerInfo[player1][LoggedIn] == 1) {
+                    if(level > 9 ) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Max [LRC] temp level is 9");
+                    if(level == PlayerInfo[player1][LRC]) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player is already this [LRC] level");
+                    CMDMessageToLRC(playerid,"/SetTempLRC");
+                    GetPlayerName(player1, playername, sizeof(playername)); GetPlayerName(playerid, adminname, sizeof(adminname));
+                    new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+ 
+                    if(level > 0) format(string,sizeof(string)," %s has set your [LRC] Status to level %d",adminname, level);
+                    else format(string,sizeof(string)," %s has set your [LRC] Status to level %d",adminname, level);
+                    SendClientMessage(player1,0x00FFFFAA,string);
+ 
+                    if(level > PlayerInfo[player1][LRC]) GameTextForPlayer(player1,"~g~[LRC] Promotion", 2000, 3);
+                    else GameTextForPlayer(player1,"~r~[LRC] Demotion", 2000, 3);
+ 
+                    format(string,sizeof(string),"You have made %s [LRC] Temp Level %d on %d/%d/%d at %d:%d:%d", playername, level, day, month, year, hour, minute, second); SendClientMessage(playerid,0x00FFFFAA,string);
+                    format(string,sizeof(string),"%s has made %s [LRC] Temp Level %d on %d/%d/%d at %d:%d:%d",adminname, playername, level, day, month, year, hour, minute, second);
+                    PlayerInfo[player1][LRC] = level;
+                    SetPVarInt(playerid, "LRCABUSE", GetTickCount()+5000);
+                    return PlayerPlaySound(player1,1057,0.0,0.0,0.0);
+                } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player must be registered and logged in to be setted as LRC member");
+            } else return SendClientMessage(playerid, 0xFF0000AA, "Player is not connected");
+    } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: You must be logged in to use this commands");
+}
+CMD:setlrc(playerid,params[]) {
+    if(PlayerInfo[playerid][LoggedIn] == 1) {
+            if(!IsPlayerAdmin(playerid) && PlayerInfo[playerid][LRC] < 7) return ShowPlayerDialog(playerid, 5, DIALOG_STYLE_MSGBOX, "ERROR", "You must be a level 7+ LRC member to use this command", "OK", "Cancel");
+            new tmp[128], tmp2[128], Index;     tmp = strtok(params,Index), tmp2 = strtok(params,Index);
+            if(isnull(params)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /SetLRC [playerid] [level]")
+            &&
+            SendClientMessage(playerid, orange, "Function: Will set the Level of LRC of the Specific Player");
+            new player1, level, playername[MAX_PLAYER_NAME], adminname[MAX_PLAYER_NAME], string[128];
+            player1 = strval(tmp);
+            if(isnull(tmp2)) return SendClientMessage(playerid, 0xFF0000AA, "USAGE: /SetLRC [playerid] [level]")
+            &&
+            SendClientMessage(playerid, orange, "Function: Will set the Level of LRC of the Specific Player");
+            level = strval(tmp2);
+ 
+            if(IsPlayerConnected(player1) && player1 != INVALID_PLAYER_ID) {
+                if(PlayerInfo[player1][LoggedIn] == 1) {
+                    if(level > 10 ) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Max LRC Level is 10");
+                    if(level == PlayerInfo[player1][LRC]) return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player is already this LRC level");
+                    CMDMessageToAdmins(playerid,"SetLRC");
+                    CMDMessageToLRC(playerid,"SetLRC");
+                    GetPlayerName(player1, playername, sizeof(playername)); GetPlayerName(playerid, adminname, sizeof(adminname));
+                    new year,month,day;   getdate(year, month, day); new hour,minute,second; gettime(hour,minute,second);
+ 
+                    if(level > 0) format(string,sizeof(string)," %s has set your LRC Status to level %d",adminname, level);
+                    else format(string,sizeof(string)," %s has set your LRC Status to level %d",adminname, level);
+                    SendClientMessage(player1,0x00FFFFAA,string);
+ 
+                    if(level > PlayerInfo[player1][LRC]) GameTextForPlayer(player1,"~g~LRC LEVEL UP", 2000, 3);
+                    else GameTextForPlayer(player1,"~r~LRC LEVEL DOWN", 2000, 3);
+ 
+                    format(string,sizeof(string),"You have made %s LRC Level %d on %d/%d/%d at %d:%d:%d", playername, level, day, month, year, hour, minute, second); SendClientMessage(playerid,0x00FFFFAA,string);
+                    format(string,sizeof(string),"%s has made %s LRC Level %d on %d/%d/%d at %d:%d:%d",adminname, playername, level, day, month, year, hour, minute, second);
+                    SaveToFile("LRCmembers",string);
+                    dUserSetINT(PlayerName2(player1)).("LRC",(level));
+                    PlayerInfo[player1][LRC] = level;
+                    return PlayerPlaySound(player1,1057,0.0,0.0,0.0);
+                } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: Player must be registered and logged in to be set as a LRC member");
+            } else return SendClientMessage(playerid, 0xFF0000AA, "Player is not connected");
+    } else return SendClientMessage(playerid,0xFF0000AA,"ERROR: You must be logged in to use this commands");
+}
+GetLRCRank(playerid)
+{
+    new handle[500], string[128];
+    switch(PlayerInfo[playerid][LRC])
+    {
+        case 1: {
+            format(string, sizeof string, "Newbie");
+            strcat(handle, string);
+        }
+        case 2: {
+            format(string, sizeof string, "Rookie");
+            strcat(handle, string);
+        }
+        case 3: {
+            format(string, sizeof string, "Recruit");
+            strcat(handle, string);
+        }
+        case 4: {
+            format(string, sizeof string, "Cadet");
+            strcat(handle, string);
+        }
+        case 5: {
+            format(string, sizeof string, "Assassin");
+            strcat(handle, string);
+        }
+        case 6: {
+            format(string, sizeof string, "Gangster");
+            strcat(handle, string);
+        }
+        case 7: {
+            format(string, sizeof string, "Professional");
+            strcat(handle, string);
+        }
+        case 8: {
+            format(string, sizeof string, "Manager");
+            strcat(handle, string);
+        }
+        case 9: {
+            format(string, sizeof string, "Captain");
+            strcat(handle, string);
+        }
+        case 10: {
+            format(string, sizeof string, "King");
+            strcat(handle, string);
+        }
+ 
+    }
+    return handle;
+}
+CMDMessageToLRC(playerid,command[])
+{
+    new string[128];
+    GetPlayerName(playerid,string,sizeof(string));
+    format(string,sizeof(string),"{008000}[boTLRC]: {DCDCDC}%s | Level: {008000}(%d) {DCDCDC}| Command: {008000}%s",string,PlayerInfo[playerid][LRC],command);
+    MessageToLRC(0x81DEE9FF,string);
+    return 1;
+}
+MessageToLRC(color,const string[])
+{
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(IsPlayerConnected(i) == 1 && PlayerInfo[i][LRC] >= 1 && PlayerInfo[i][LoggedIn] == 1)
+        {
+            SendClientMessage(i, color, string);
+        }
+    }
+    return 1;
+}
+IRCCMD:lrcmembers(botid, channel[], user[], host[], params[])
+{
+    if (IRC_IsVoice(botid, channel, user))
+    {
+    new count = 0,string[128],LRCRank[128];
+    IRC_GroupSay(gGroupID, channel,"___ |- LRC Members -| ___");
+    for(new i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (IsPlayerConnected(i))
+        {
+            if(PlayerInfo[i][LRC] >= 1 && PlayerInfo[i][LoggedIn] == 1)
+            {
+ 
+                {
+                    switch(PlayerInfo[i][LRC])
+                    {
+                        case 1: {
+                            LRCRank = "Newbie";
+                        }
+                        case 2: {
+                            LRCRank = "Rookie";
+                        }
+                        case 3: {
+                            LRCRank = "Recruit";
+                        }
+                        case 4: {
+                            LRCRank = "Cadet";
+                        }
+                        case 5: {
+                            LRCRank = "Assassin";
+                        }
+                        case 6: {
+                            LRCRank = "Gangster";
+                        }
+                        case 7: {
+                            LRCRank = "Professional";
+                        }
+                        case 8: {
+                            LRCRank = "Manager";
+                        }
+                        case 9: {
+                            LRCRank = "Captain";
+                        }
+                        case 10: {
+                            LRCRank = "King";
+                        }
+                    }
+                }
+                format(string, 128, "Rank: %d - %s (id:%i) | %s |",PlayerInfo[i][LRC], PlayerName2(i),i,LRCRank);
+                IRC_GroupSay(gGroupID, channel, string);
+                count++;
+            }
+        }
+    }
+    if (count == 0) IRC_GroupSay(gGroupID, channel,"04No LRC Online");
+    } else return IRC_GroupSay(gGroupID, channel, "4ERROR: You are must be Voice to use this command");
+    return 1;
+}

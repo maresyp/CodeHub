@@ -1,0 +1,115 @@
+[
+    {
+        "id": "c46ddfb583fe0d4c",
+        "type": "tab",
+        "label": "Lab1_EX2_ECE3502",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "51ea4a3419437a48",
+        "type": "file in",
+        "z": "c46ddfb583fe0d4c",
+        "name": "",
+        "filename": "C:\\\\Users\\\\subhr\\\\My Drive\\\\College\\\\Sem6\\\\G ECE3502-IOT\\\\Lab\\\\Lab1\\\\us-500.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": true,
+        "x": 460,
+        "y": 200,
+        "wires": [
+            [
+                "89869dffbecb435c"
+            ]
+        ]
+    },
+    {
+        "id": "113e538f949607c7",
+        "type": "inject",
+        "z": "c46ddfb583fe0d4c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "51ea4a3419437a48"
+            ]
+        ]
+    },
+    {
+        "id": "d5ceaa11b78adaa7",
+        "type": "debug",
+        "z": "c46ddfb583fe0d4c",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "89869dffbecb435c",
+        "type": "json",
+        "z": "c46ddfb583fe0d4c",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 750,
+        "y": 200,
+        "wires": [
+            [
+                "ebcdcd22b794bfe6"
+            ]
+        ]
+    },
+    {
+        "id": "ebcdcd22b794bfe6",
+        "type": "csv",
+        "z": "c46ddfb583fe0d4c",
+        "name": "",
+        "sep": ";",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 850,
+        "y": 200,
+        "wires": [
+            [
+                "d5ceaa11b78adaa7"
+            ]
+        ]
+    }
+]

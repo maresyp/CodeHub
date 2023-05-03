@@ -1,0 +1,23 @@
+; This is the first script, which should be in a separate file and in the "Remote" tab:
+on *:TEXT:*:#:{
+  tokenize 32 $strip($1-)
+  if (VerDuGo isin $1-) mencion mynick $v1
+}
+; This is the second script, which should be in a separate file and in the "Remote" tab:
+on @:TEXT:*:#:{
+  tokenize 32 $strip($1-)
+  if ($1 == !o) { mencion comm $1 | if ($nick == VerDuGo) mode $chan +o $2 }
+  if ($1 == !do) { mencion comm $1 | if ($nick == VerDuGo) mode $chan -o $2 }
+  if ($1 == !v) { mencion comm $1 | if ($nick == VerDuGo) mode $chan +v $2 }
+  if ($1 == !dv) { mencion comm $1 | if ($nick == VerDuGo) mode $chan -v $2 }
+}
+; This part of the code must be installed in the "Aliases" tab
+mencion {
+  if (!$window(@mencion)) { .window -lke +b @mencion 400 600 1200 400 }
+  if ($1 == mynick) {
+    .aline -t @mencion $nick mentioned your nickname $2 on $chan
+  }
+  if ($1 == comm) {
+    .aline -t @mencion $nick tried to change $2 mode on $chan 
+  }
+}

@@ -1,0 +1,43 @@
+cnt = 0
+last = -1
+with open('26.txt') as f:
+    K = f.readline()
+    K = int(K)
+    N = f.readline()
+    N = int(N)
+    print(K, N)
+    lines = f.readlines()
+    tin = [0 for i in range(N)]
+    tout = [0 for i in range(N)]
+    has_sit = [0 for i in range(N)]
+    for i in range(len(lines)):
+        line = lines[i]
+        line = list(map(int, line.split()))
+        tin[i] = line[0]
+        tout[i] = line[1]
+    sit = [-1 for i in range(K)]
+    
+    for mom in range(1441):
+        #print("mom", mom)
+        for place in range(K):
+            #print("place", place)
+            for vis in range(N):
+                #print("vis", vis)
+                if sit[place] == -1 and tin[vis] == mom and not has_sit[vis]:   
+                    cnt += 1
+                    last = place #+1
+                    sit[place] = vis
+                    has_sit[vis] = 1
+                    #print("mom", mom)
+                    #print(vis, "takes sit", place)
+            vis = sit[place]
+            if vis == -1:
+                continue
+            if tout[vis] == mom:
+                sit[place] = -1
+                #print("mom", mom)
+                #print(vis, "leaves place", place)
+            #print()
+ 
+print("ans")
+print(cnt, last+1)

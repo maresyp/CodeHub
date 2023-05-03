@@ -1,0 +1,75 @@
+// Define the motor objects
+DcMotor frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
+ 
+// Define variables for controlling the robot's movement
+double drivePower, strafePower, rotatePower;
+double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
+ 
+// Define variables for calculating wheel powers using trigonometry
+double angle, r;
+double sinAngle, cosAngle;
+ 
+// Initialize the motor objects in the robot initialization method
+public void init() {
+  frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
+  frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
+  backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
+  backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
+ 
+  // Initialize the gamepad controller
+  gamepad1 = new Gamepad();
+}
+ 
+// Define a method for calculating wheel powers using trigonometry
+public void calculateWheelPowers() {
+  // Calculate the angle and magnitude of the joystick vector
+  angle = Math.atan2(strafePower, drivePower) - Math.PI / 4;
+  r = Math.sqrt(drivePower * drivePower + strafePower * strafePower);
+ 
+  // Calculate the sine and cosine of the angle
+  sinAngle = Math.sin(angle);
+  cosAngle = Math.cos(angle);
+ 
+  // Calculate the power for each wheel using the sine and cosine of the angle and the rotation power
+  frontLeftPower = r * sinAngle + rotatePower;
+  frontRightPower = r * cosAngle - rotatePower;
+  backLeftPower = r * cosAngle + rotatePower;
+  backRightPower = r * sinAngle - rotatePower;
+ 
+  // Scale the wheel powers so that they are within the range of -1 to 1
+  double maxPower = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)), Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
+  if (maxPower > 1) {
+    frontLeftPower /= maxPower;
+    frontRightPower /= maxPower;
+    backLeftPower /= maxPower;
+    backRightPower /= maxPower;
+  }
+}
+ 
+// Define a method for setting the power of the motors
+public void setMotorPowers() {
+  frontLeftMotor.setPower(frontLeftPower);
+  frontRightMotor.setPower(frontRightPower);
+  backLeftMotor.setPower(backLeftPower);
+  backRightMotor.setPower(backRightPower);
+}
+ 
+// Define a method for controlling the robot's movement using the gamepad inputs
+public void drive() {
+  // Read the joystick inputs from the gamepad
+  drivePower = -gamepad1.left_stick_y;
+  strafePower = gamepad1.left_stick_x;
+  rotatePower = gamepad1.right_stick_x;
+ 
+  // Calculate the wheel powers using trigonometry
+  calculateWheelPowers();
+ 
+  // Set the power of the motors
+  setMotorPowers();
+}
+ 
+// Define the robot's main loop
+public void loop() {
+  // Call the drive method to control the robot's movement
+  drive();
+}

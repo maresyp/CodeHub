@@ -1,0 +1,113 @@
+[
+    {
+        "id": "cf59d42465ce38b0",
+        "type": "tab",
+        "label": "Lab2_EX3_ECE3502",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "836a5f814abb05b2",
+        "type": "serial in",
+        "z": "cf59d42465ce38b0",
+        "name": "COM5",
+        "serial": "bf7e6daf6a5b6ad2",
+        "x": 150,
+        "y": 340,
+        "wires": [
+            [
+                "dac16acbf830327a",
+                "7589cc03245ad186",
+                "c2196554b6e80671"
+            ]
+        ]
+    },
+    {
+        "id": "c2196554b6e80671",
+        "type": "ui_text",
+        "z": "cf59d42465ce38b0",
+        "group": "0bbb541de5e04cf2",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 370,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "7589cc03245ad186",
+        "type": "ui_toast",
+        "z": "cf59d42465ce38b0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "topic": "",
+        "name": "",
+        "x": 410,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "dac16acbf830327a",
+        "type": "debug",
+        "z": "cf59d42465ce38b0",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "bf7e6daf6a5b6ad2",
+        "type": "serial-port",
+        "serialport": "COM5",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "0bbb541de5e04cf2",
+        "type": "ui_group",
+        "name": "lab2_exp3_grp",
+        "tab": "fd33e80f84a15a60",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "fd33e80f84a15a60",
+        "type": "ui_tab",
+        "name": "lab2_exp3",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
