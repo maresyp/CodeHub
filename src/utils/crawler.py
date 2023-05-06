@@ -1,6 +1,5 @@
 import requests
 import random
-import string
 import os
 from bs4 import BeautifulSoup
 

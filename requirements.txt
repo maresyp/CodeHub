@@ -4,3 +4,4 @@ beautifulsoup4~=4.12.2
 python-dotenv~=1.0.0
 
 Django~=4.1.7
+requests
