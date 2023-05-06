@@ -26,7 +26,7 @@ jobs:
         pip install -r requirements-dev.txt
     - name: Run Tests
       run: |
-        python ./src/CodeHub/manage.py test
+        python manage.py test
   ruff:
     runs-on: ubuntu-latest
     steps:
