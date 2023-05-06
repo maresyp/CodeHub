@@ -1,4 +1,6 @@
-faker
-httpx
-beautifulsoup4
-python-dotenv
+faker~=18.3.1
+httpx~=0.24.0
+beautifulsoup4~=4.12.2
+python-dotenv~=1.0.0
+
+Django~=4.1.7
