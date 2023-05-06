@@ -35,5 +35,5 @@ jobs:
   mypy:
     runs-on: ubuntu-latest
     steps:
-      run: |
-        mypy .
+      - run: |
+          mypy .
