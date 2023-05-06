@@ -27,7 +27,8 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
-    - name: Run Ruff analysis
-      uses: chartboost/ruff-action@v1
-      run: |
-        ruff --config pyproject.toml
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: chartboost/ruff-action@v1
