@@ -36,4 +36,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          python mypy .
+          pip install mypy
+          mypy .
