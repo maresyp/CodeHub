@@ -21,10 +21,10 @@ class PlagiarismResult:
     cosine_similarity: float
 
     def judge_result(
-        self,
-        jaccard_threshold: float = 0.8,
-        euclidian_threshold: float = 0.8,
-        cosine_threshold: float = 0.8
+            self,
+            jaccard_threshold: float = 0.8,
+            euclidian_threshold: float = 0.8,
+            cosine_threshold: float = 0.8
     ) -> bool:
         """ Judge if the result is plagiarized """
         if self.jaccard_similarity > jaccard_threshold:
@@ -87,14 +87,14 @@ class PlagiarismChecker:
         return len(intersection) / len(union)
 
     @staticmethod
-    def __normalized_euclidian_distance(x, y) -> float:
+    def __normalized_euclidian_distance(x: np.ndarray, y: np.ndarray) -> float:
         """ Calculates Euclidian distance """
         dist = math.sqrt(sum(pow(a - b, 2) for a, b in zip(x, y)))
         # normalization to 0-1 range
         return 1 / math.exp(dist)
 
     @staticmethod
-    def __cosine_similarity(x, y) -> float:
+    def __cosine_similarity(x: np.ndarray, y: np.ndarray) -> float:
         """ Calculates cosine similarity """
         dot_product = sum(a * b for a, b in zip(x, y))
         magnitude = math.sqrt(sum(pow(a, 2) for a in x)) * math.sqrt(sum(pow(b, 2) for b in y))
@@ -109,6 +109,10 @@ class PlagiarismChecker:
         """ Creates embeddings for reference code and tested code """
         embeddings = TfidfVectorizer(lowercase=False).fit_transform([self.reference_code, code]).toarray()
         return embeddings[0], embeddings[1]
+
+    def __whitespace_analysis(self, code: str) -> float:
+        """ Calculates whitespace similarity between two codes """
+        pass
 
 
 if __name__ == '__main__':
