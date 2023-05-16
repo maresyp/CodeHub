@@ -5,3 +5,6 @@ __pycache__/
 .DS_Store
 /code_base/
 .idea/
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
