@@ -1,5 +1,20 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <h1>Profiles</h1>
+
+<!-- Print every profile -->
+{% for profile in profiles %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ profile.username }}</h1>
+            <p>{{ profile.email }}</p>
+            <p>{{ profile.first_name }}</p>
+            <p>{{ profile.last_name }}</p>
+            <p>{{ profile.date_joined }}</p>
+            <p>{{ profile.last_login }}</p>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock content %}
