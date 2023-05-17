@@ -1,7 +1,6 @@
 from django.db import models
 from Users.models import Profile
 
-
 # Create your models here.
 
 class Code(models.Model):
