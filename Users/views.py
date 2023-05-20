@@ -4,9 +4,13 @@ from .models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
+
 # Create your views here.
 
 def login_user(request):
+    page = 'login'
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -30,6 +34,12 @@ def logout_user(request):
     logout(request)
     messages.success(request, 'User was logged out')
     return redirect('login')
+
+
+def register_user(request):
+    page = 'register'
+    context: dict = {'page': page}
+    return render(request, 'Users/login_register.html', context=context)
 
 
 def profiles(request):

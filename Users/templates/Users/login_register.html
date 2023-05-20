@@ -2,10 +2,17 @@
 
 {% block content %}
 
+{% if page == 'register' %}
+<h1>Register</h1>
+<p>Alread have an account ?<a href="{% url 'login' %}">Login Here</a></p>
+{% else %}
 <form action="{% url 'login' %}" method="POST">
     {% csrf_token %}
     <input type="text" name="username" placeholder="Username">
-    <input type="text" name="password" placeholder="Password">
+    <input type="password" name="password" placeholder="Password">
     <input type="submit" value="Login">
+
+    <p>If you don't have an account <a href="{% url 'register' %}">Register Here</a></p>
 </form>
+{% endif %}
 {% endblock content %}
