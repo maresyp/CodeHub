@@ -1,53 +1,70 @@
-from django.shortcuts import render
-from .models import Profile
-from .models import User
+from django.dispatch.dispatcher import receiver
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.urls import conf
+from django.db.models import Q
+from .models import Profile
+from .forms import CustomUserCreationForm #ProfileForm, SkillForm, MessageForm
+#from .utils import searchProfiles, paginateProfiles
 
 
 # Create your views here.
 
-def login_user(request):
+def loginUser(request):
     page = 'login'
 
+    # if request.user.is_authenticated:
+    #     return redirect('profile')
+
     if request.method == 'POST':
-        username = request.POST['username']
+        username = request.POST['username'].lower()
         password = request.POST['password']
 
         try:
             user = User.objects.get(username=username)
-        except Exception as e:
-            messages.error(request, 'Username does not exist')
+        except:
+            messages.error(request, 'Nie istnieje uzytkownik o podanej nazwie.')
 
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            return redirect('profiles')
+            return redirect(request.GET['next'] if 'next' in request.GET else 'account')
+
         else:
-            messages.error(request, 'Username OR password is incorrect')
+            messages.error(request, 'Nazwa uzytkownika lub haslo jest niepoprawne.')
 
-    return render(request, 'Users/login_register.html')
+    return render(request, 'users/login_register.html')
 
 
-def logout_user(request):
+def logoutUser(request):
     logout(request)
-    messages.success(request, 'User was logged out')
+    messages.info(request, 'User was logged out!')
     return redirect('login')
 
 
-def register_user(request):
+def registerUser(request):
     page = 'register'
-    context: dict = {'page': page}
-    return render(request, 'Users/login_register.html', context=context)
+    form = CustomUserCreationForm()
 
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
 
-def profiles(request):
-    context = {'profiles': Profile.objects.all()}
-    return render(request, 'Users/profiles.html', context=context)
+            messages.success(request, 'User account was created!')
 
+            login(request, user)
+            return redirect('edit-account')
 
-def UserProfile(request, pk):
-    profile = Profile.objects.get(id=pk)
-    context = {'profile': profile}
-    return render(request, 'Users/user-profile.html', context=context)
+        else:
+            messages.success(
+                request, 'An error has occurred during registration')
+
+    context = {'page': page, 'form': form}
+    return render(request, 'users/login_register.html', context)
