@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ profile.username }}</h1>
+            <p>{{ profile.email }}</p>
+            <p>{{ profile.first_name }}</p>
+            <p>{{ profile.last_name }}</p>
+            <p>{{ profile.date_joined }}</p>
+            <p>{{ profile.last_login }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
