@@ -60,7 +60,7 @@ def registerUser(request):
             messages.success(request, 'User account was created!')
 
             login(request, user)
-            return redirect('edit-account')
+            return redirect('account')
 
         else:
             messages.success(
@@ -68,3 +68,11 @@ def registerUser(request):
 
     context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
+
+
+@login_required(login_url='login')
+def userAccount(request):
+    profile = request.user.profile
+
+    context = {'profile': profile}
+    return render(request, 'users/account.html', context)
