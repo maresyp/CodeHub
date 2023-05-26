@@ -3,9 +3,10 @@ httpx~=0.24.0
 beautifulsoup4~=4.12.2
 python-dotenv~=1.0.0
 
-Django~=4.1.7
+Django==4.0.0
 requests
 pillow
-whitenoise~=2.30.0
+whitenoise
 scikit-learn~=1.2.2
 numpy~=1.24.3
+channels==3.0.4

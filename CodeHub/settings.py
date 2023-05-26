@@ -35,6 +35,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,9 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'Users.apps.UsersConfig',
+    'Chat.apps.ChatConfig',
     'Codes.apps.CodesConfig',
 ]
 
+ASGI_APPLICATION = 'CodeHub.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 

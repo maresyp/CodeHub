@@ -861,3 +861,32 @@ img {
 
   z-index: 99999;
 }
+.friends {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.friends p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.friends ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.friends li {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+.friends li:hover {
+    background-color: #d9d9d9;
+}
