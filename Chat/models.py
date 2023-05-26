@@ -7,7 +7,7 @@ from Users.models import User
 class Message(models.Model):
     message_id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     sender_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender_id')
-    # recipient_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient_id')
+    recipient_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient_id')
     body = models.TextField(max_length=5000)
     # attachment =  ???
     is_read = models.BooleanField(default=False)

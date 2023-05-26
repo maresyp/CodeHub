@@ -3,13 +3,13 @@ from channels.db import database_sync_to_async
 from django.contrib.auth.models import User
 from .models import Message
 import json
-from asgiref.sync import sync_to_async
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     PAGE_SIZE = 10
 
     async def connect(self):
-        self.room_group_name = 'test'
+        self.room_group_name = f"chat_{self.scope['user'].id}"
         self.page_number = 1
 
         await self.channel_layer.group_add(
@@ -17,7 +17,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        user = await self.get_user()
+        user = await self.get_user(self.scope['user'].id)
         print(f"User {user.username} connected")
 
         # Fetch messages from the database
@@ -27,44 +27,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send messages to the client
         await self.send_messages(messages)
 
-
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        recipient = await self.get_user(text_data_json['recipient'])
+        user = await self.get_user(self.scope['user'].id)
 
-        user = await self.get_user()
-        await self.save_message(user, message)
+        # TODO: check if user and recipiend are matched before saving the message
+        await self.save_message(user, recipient.id, message)
 
         # Update the client with the new message
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type':'chat_message',
-                'message':message,
-                'username':user.username
+                'type': 'chat_message',
+                'message': message,
+                'sender': user,
+                'recipient': recipient
             }
         )
 
     async def chat_message(self, event):
         message = event['message']
-        username = event['username']
+        sender = event['sender']
+        recipient = event['recipient']
 
         await self.send(text_data=json.dumps({
-            'type':'chat',
+            'type': 'chat',
             'message': message,
-            'username': username
+            'sender': sender.username,
+            'recipient': recipient.username,
+            'timestamp': 'now'
         }))
-
-    async def scroll_messages(self, event):
-        direction = event['direction']
-
-        if direction == 'up':
-            self.page_number += 1
-        elif direction == 'down':
-            self.page_number -= 1
-
-        messages = await self.get_messages()
-        await self.send_messages(messages)
 
     async def send_messages(self, messages):
         for message in messages:
@@ -73,19 +67,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 'type': 'chat',
                 'message': data['message'],
-                'username': data['username'],
+                'sender': data['sender'],
+                'recipient': data['recipient'],
                 'timestamp': timestamp_str
             }))
 
     @database_sync_to_async
-    def get_user(self):
-        return User.objects.get(id=self.scope['user'].id)
+    def get_user(self, id: str):
+        return User.objects.get(id=id)
 
     @database_sync_to_async
-    def save_message(self, user, message):
+    def save_message(self, sender, recipient, message):
+        print(recipient)
         Message.objects.create(
-            sender_id = user,
-            body = message
+            sender_id=sender,
+            recipient_id=User.objects.get(id=recipient),
+            body=message
         )
 
     @database_sync_to_async
@@ -98,6 +95,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_message_data(self, message):
         return {
             'message': message.body,
-            'username': message.sender_id.username,
+            'sender': message.sender_id.username,
+            'recipient': message.recipient_id.username,
             'timestamp': message.send_timestamp
         }
