@@ -25,7 +25,7 @@
             <div id="messages"></div>
             <script type="text/javascript">
                 let other_user_uuid = document.querySelector('a[user-uuid]').getAttribute('user-uuid')
-                let url = `ws://${window.location.host}/ws/socket-server/?user_uuid=${other_user_uuid}`
+                let url = `ws://${window.location.host}/ws/socket-server/?recipient_id=${other_user_uuid}`
 
                 const chatSocket = new WebSocket(url)
 
@@ -52,14 +52,14 @@
                     form.reset()
                 })
 
-                    let friends = document.querySelectorAll('a[user-uuid]');
-                    friends.forEach((friend) => {
-                        friend.addEventListener('click', (e) => {
-                            e.preventDefault()
-                            other_user_uuid = friend.getAttribute('user-uuid')
-                            console.log('Other user uuid:', other_user_uuid)
-                        })
+                let friends = document.querySelectorAll('a[user-uuid]');
+                friends.forEach((friend) => {
+                    friend.addEventListener('click', (e) => {
+                        e.preventDefault()
+                        other_user_uuid = friend.getAttribute('user-uuid')
+                        console.log('Other user uuid:', other_user_uuid)
                     })
+                })
             </script>
         </div>
     </div>

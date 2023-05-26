@@ -38,6 +38,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Update the client with the new message
         await self.channel_layer.group_send(
+            f"chat_{recipient.id}",
+            {
+                'type': 'chat_message',
+                'message': message,
+                'sender': user,
+                'recipient': recipient
+            }
+        )
+
+        await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
