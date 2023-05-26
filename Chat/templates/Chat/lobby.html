@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="friends">
+    <p>Lista znajomych</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Chat</h1>
+            <form id="chat-form">
+                <input type="text" id="chat-message-input" name="message" placeholder="Type your message here..." />
+            </form>
+            <div id="messages"></div>
+            <script type="text/javascript">
+                let url = `ws://${window.location.host}/ws/socket-server/`
+
+                const chatSocket = new WebSocket(url)
+
+                chatSocket.onmessage = function (e) {
+                    let data = JSON.parse(e.data)
+                    console.log('Data:', data)
+
+                    if (data.type === 'chat') {
+                        let messages = document.getElementById('messages')
+
+                        messages.insertAdjacentHTML('beforeend', `<div>
+                                                <p>${data.timestamp} ${data.username} ${data.message}</p>
+                                            </div>`)
+                    }
+                }
+
+                let form = document.getElementById('chat-form')
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault()
+                    let message = e.target.message.value
+                    chatSocket.send(JSON.stringify({
+                        'message': message
+                    }))
+                    form.reset()
+                })
+
+            </script>
+        </div>
+    </div>
+</div>
+{% endblock %}
