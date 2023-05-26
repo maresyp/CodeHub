@@ -85,23 +85,3 @@ class FavouritesTags(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
-
-class Code(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=500)
-    description = models.CharField(max_length=5000)
-    source_code = models.TextField(max_length=10000)
-    plagiarism_ratio = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_edit = models.DateTimeField()
-
-    def __str__(self) -> str:
-        return str(self.owner)
-
-class CodeTags(models.Model):
-    code_id = models.ForeignKey(Code, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-            return str(self.code_id)
