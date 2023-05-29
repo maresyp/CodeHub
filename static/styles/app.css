@@ -37,6 +37,14 @@ img {
   align-items: center;
 }
 
+.header > .container > p {
+  position: absolute;
+  font-weight: 400;
+  font-size: 2rem;
+  margin: 5rem 0rem 0rem 13rem;
+  color: var(--color-sub-light);
+}
+
 .header__logo > img {
   height: 3.8rem;
 }
@@ -682,6 +690,14 @@ img {
   font-weight: 400;
   font-size: 1.8rem;
   margin-bottom: 2rem;
+}
+
+.auth__header__heart p {
+  font-size: 12rem;
+  position:absolute;
+  color: var(--color-sub);
+  transform: rotate(25deg);
+  margin: -12rem 0rem 0rem 40rem;
 }
 
 .auth__form {
