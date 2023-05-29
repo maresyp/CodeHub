@@ -1,7 +1,8 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
-<div class="row">
+<div class="container">
+    <!-- Friends list on the left -->
     <div class="col-md-3">
         <div class="friends">
             <p>Twoje Matche</p>
@@ -12,55 +13,16 @@
                 </a>
                 {% endfor %}
             </ul>
-            </div>
-            </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
+        </div>
+
+        <!-- Chat on the right -->
+        <div class="col-md-9">
             <h1>Chat</h1>
             <form id="chat-form">
                 <input type="text" id="chat-message-input" name="message" placeholder="Type your message here..." />
             </form>
             <div id="messages"></div>
-            <script type="text/javascript">
-                let other_user_uuid = document.querySelector('a[user-uuid]').getAttribute('user-uuid')
-                let url = `ws://${window.location.host}/ws/socket-server/?recipient_id=${other_user_uuid}`
-
-                const chatSocket = new WebSocket(url)
-
-                chatSocket.onmessage = function (e) {
-                    let data = JSON.parse(e.data)
-                    console.log('Data:', data)
-
-                    if (data.type === 'chat') {
-                        let messages = document.getElementById('messages')
-
-                        messages.insertAdjacentHTML('beforeend', `<div><p>${data.timestamp}: ${data.sender} -> ${data.recipient} ${data.message}</p></div>`)
-                    }
-                }
-
-                let form = document.getElementById('chat-form')
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault()
-                    let message = e.target.message.value
-                    chatSocket.send(JSON.stringify({
-                        'message': message,
-                        'sender': {{ user.id }},
-                        'recipient': other_user_uuid
-                    }))
-                    form.reset()
-                })
-
-                let friends = document.querySelectorAll('a[user-uuid]');
-                friends.forEach((friend) => {
-                    friend.addEventListener('click', (e) => {
-                        e.preventDefault()
-                        other_user_uuid = friend.getAttribute('user-uuid')
-                        console.log('Other user uuid:', other_user_uuid)
-                    })
-                })
-            </script>
+            <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
         </div>
     </div>
 </div>

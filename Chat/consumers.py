@@ -17,12 +17,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
+        await self.accept()
+
         user = await self.get_user(self.scope['user'].id)
         print(f"User {user.username} connected")
 
         # Fetch messages from the database
         messages = await self.get_messages()
-        await self.accept()
 
         # Send messages to the client
         await self.send_messages(messages)
@@ -36,7 +37,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # TODO: check if user and recipiend are matched before saving the message
         await self.save_message(user, recipient.id, message)
 
-        # Update the client with the new message
+        # Update the recipient with the new message
         await self.channel_layer.group_send(
             f"chat_{recipient.id}",
             {
@@ -50,7 +51,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'chat_message',
+                'type': 'chat_message',  # chat_message method will be called
                 'message': message,
                 'sender': user,
                 'recipient': recipient
@@ -99,6 +100,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_messages(self):
         start_index = (self.page_number - 1) * self.PAGE_SIZE
         end_index = start_index + self.PAGE_SIZE
+        # TODO: filter messages by sender and recipient
         return list(Message.objects.order_by('send_timestamp')[start_index:end_index])
 
     @database_sync_to_async
