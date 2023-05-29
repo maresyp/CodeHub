@@ -8,11 +8,7 @@
 <div class="auth">
     <div class="card">
         <div class="auth__header text-center">
-            <a href="/">
-                <img src="{% static 'images/icon.svg' %}" alt="icon" />
-            </a>
             <h3>Zarejestruj konto</h3>
-            <p>Create a new developer account</p>
         </div>
 
         <form method="POST" action="{% url 'register' %}" class="form auth__form">
@@ -22,10 +18,6 @@
             <div class="form__field">
                 <label for="formInput#text">{{field.label}}</label>
                 {{field}}
-
-                <!-- {% if field.help_text %}
-                <small>{{field.help_text}}</small>
-                {% endif %} -->
 
                 {% for error in field.errors %}
                 <p style="color: red;">{{error}}</p>
@@ -55,31 +47,28 @@
     <div class="card">
 
         <div class="auth__header text-center">
-            <a href="/">
-                <img src="{% static 'images/icon.svg' %}" alt="icon" />
-            </a>
-            <h3>Account Login</h3>
-            <p>Hello Developer, Welcome Back!</p>
+            <h3>Logowanie</h3>
+            <p>Witaj spowrotem deweloperze!</p>
         </div>
 
         <form action="" method="POST" class="form auth__form">
             {% csrf_token %}
             <!-- Input:Username -->
             <div class="form__field">
-                <label for="formInput#text">Username: </label>
+                <label for="formInput#text">Nazwa użytkownika: </label>
                 <input class="input input--text" id="formInput#text" type="text" name="username"
-                    placeholder="Enter your username..." />
+                    placeholder="Podaj nazwę użytkownika..." />
             </div>
 
             <!-- Input:Password -->
             <div class="form__field">
-                <label for="formInput#password">Password: </label>
+                <label for="formInput#password">Hasło: </label>
                 <input class="input input--password" id="formInput#passowrd" type="password" name="password"
                     placeholder="••••••••" />
             </div>
 
             <div class="auth__actions">
-                <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
+                <input class="btn btn--sub btn--lg" type="submit" value="Zaloguj się!" />
                 
             </div>
         </form>

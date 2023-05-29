@@ -1,8 +1,8 @@
 :root {
-  --color-main: #D77229;
+  --color-main: #ff6a00;
   --color-main-light: #e6faff;
   --color-sub: #252525;
-  --color-sub-light: #51546e;
+  --color-sub-light: #D77229;
   --color-sub-lighter: #ededfd;
   --color-text: #737373;
   --color-gray: #8b8b8b;
@@ -13,7 +13,7 @@
   --color-white-light: #f3f3f3;
   --color-success: #359e64;
   --color-success-bg: #def8e8;
-  --color-error: #fc4b0b;
+  --color-error: #fc0b0b;
   --color-error-bg: #fff2ee;
   --font-base: 'Poppins', arial, helvetica, 'Segoe UI', roboto, ubuntu, sans-serif;
   --font-monospace: 'Fira Code', 'Courier New', courier, monospace;

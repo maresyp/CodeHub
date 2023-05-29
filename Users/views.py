@@ -15,9 +15,7 @@ from .forms import CustomUserCreationForm #ProfileForm, SkillForm, MessageForm
 
 def loginUser(request):
     page = 'login'
-
-    # if request.user.is_authenticated:
-    #     return redirect('profile')
+    context = {'page': page}
 
     if request.method == 'POST':
         username = request.POST['username'].lower()
@@ -26,7 +24,7 @@ def loginUser(request):
         try:
             user = User.objects.get(username=username)
         except:
-            messages.error(request, 'Nie istnieje uzytkownik o podanej nazwie.')
+            messages.error(request, 'Nie istnieje użytkownik o podanej nazwie.')
 
         user = authenticate(request, username=username, password=password)
 
@@ -35,14 +33,14 @@ def loginUser(request):
             return redirect(request.GET['next'] if 'next' in request.GET else 'account')
 
         else:
-            messages.error(request, 'Nazwa uzytkownika lub haslo jest niepoprawne.')
+            messages.error(request, 'Nazwa użytkownika lub hasło jest niepoprawne.')
 
-    return render(request, 'users/login_register.html')
+    return render(request, 'users/login_register.html', context)
 
 
 def logoutUser(request):
     logout(request)
-    messages.info(request, 'User was logged out!')
+    messages.info(request, 'Pomyślnie wylogowano!')
     return redirect('login')
 
 
@@ -57,14 +55,14 @@ def registerUser(request):
             user.username = user.username.lower()
             user.save()
 
-            messages.success(request, 'User account was created!')
+            messages.success(request, 'Konto użytkownika zostało utworzone!')
 
             login(request, user)
             return redirect('account')
 
         else:
             messages.success(
-                request, 'An error has occurred during registration')
+                request, 'Wystąpił problem podczas rejestracji')
 
     context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
@@ -72,7 +70,8 @@ def registerUser(request):
 
 @login_required(login_url='login')
 def userAccount(request):
+    page = 'login'
     profile = request.user.profile
 
-    context = {'profile': profile}
+    context = {'profile': profile, 'page': page}
     return render(request, 'users/account.html', context)

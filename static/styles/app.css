@@ -1,7 +1,3 @@
-:root {
-  --color-sub: #252525;
-}
-
 .btn--sub {
   background-color: var(--color-sub-light);
 }
@@ -692,19 +688,30 @@ img {
   margin: 3rem 0;
 }
 
-.auth .auth__form label,
-.auth .auth__alternative p {
+.auth .auth__form label {
   font-size: 1.4rem;
   font-weight: 500;
   color: var(--color-sub-light);
 }
 
+.auth .auth__alternative p {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
 .auth .auth__actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin: 2.5rem 0;
+  align-items: center;
+  justify-content: center;
 }
+
+.auth .auth__alternative {
+  display: grid;
+  justify-items: end;
+}
+
 .auth .auth__actions a {
   text-decoration: underline;
 }
