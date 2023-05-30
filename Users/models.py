@@ -24,13 +24,7 @@ class GenderField(models.BooleanField):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    email = models.EmailField(unique=True, max_length=254, blank=True, null=True) 
-    # the maximum length of an email address according to the RFC 5321 specification
-    is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
-    username = models.CharField(max_length=50, blank=True, null=True)
-    first_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
     city = models.CharField(max_length=50, null=True, blank=True)
     age = models.PositiveSmallIntegerField(validators=[MinValueValidator(18), MaxValueValidator(125)], default=125)
     bio = models.TextField(max_length=1000, null=True, blank=True)

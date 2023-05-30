@@ -39,6 +39,12 @@ def loginUser(request):
 
 
 def logoutUser(request):
+    # Get logged in user
+    user = request.user
+
+    # Update user status
+    Profile.objects.filter(user=user.id).update(is_active=False)
+
     logout(request)
     messages.info(request, 'Pomyślnie wylogowano!')
     return redirect('login')
@@ -51,14 +57,23 @@ def registerUser(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
+            username = form.cleaned_data['username'].lower()
+            email = form.cleaned_data['email'].lower()
+            
             user = form.save(commit=False)
             user.username = user.username.lower()
-            user.save()
+            user.email = user.email.lower()
 
-            messages.success(request, 'Konto użytkownika zostało utworzone!')
-
-            login(request, user)
-            return redirect('account')
+            # Check if user with the same username or email already exists
+            if User.objects.filter(email=email).exists():
+                form.add_error('email', 'Ten adres email jest już w użyciu.')
+            elif User.objects.filter(username=username).exists():
+                form.add_error('username', 'Użytkownik o takiej nazwie już istnieje.')
+            else:
+                user.save()
+                messages.success(request, 'Konto użytkownika zostało utworzone!')
+                login(request, user)
+                return redirect('account')
 
         else:
             messages.success(
@@ -70,7 +85,7 @@ def registerUser(request):
 
 @login_required(login_url='login')
 def userAccount(request):
-    page = 'login'
+    page = 'account'
     profile = request.user.profile
 
     context = {'profile': profile, 'page': page}
