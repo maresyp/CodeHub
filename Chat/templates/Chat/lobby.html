@@ -11,11 +11,7 @@
                 <a user-uuid="{{ friend.id }}" href="#">
                     <li>{{ friend.username }}</li>
                 </a>
-                {% for user, message in top_messages.items %}
-                {% if message.sender_id.id == friend.id or message.recipient_id.id == friend.id %}
-                <p>{{ message }}</p>
-                {% endif %}
-                {% endfor %}
+                <p>{{ friend.last_message.body }}</p>
                 {% endfor %}
             </ul>
         </div>
@@ -24,6 +20,20 @@
         <div class="col-md-9">
             <h1>Chat</h1>
             <form id="chat-form">
+                {% for friend in friends %}
+                {% if friend.messages %}
+                {% for message in friend.messages %}
+                <div class="message">
+                    {% if message.sender_id == user %}
+                    <p style="text-align: right;">{{ message.body }}</p>
+                    {% else %}
+                    <p style="text-align: left;">{{ message.body }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+                {% csrf_token %}
                 <input type="text" id="chat-message-input" name="message" placeholder="Type your message here..." />
             </form>
             <div id="messages"></div>

@@ -19,15 +19,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        user = await self.get_user(self.scope['user'].id)
-        print(f"User {user.username} connected")
-
-        # Fetch messages from the database
-        messages = await self.get_messages()
-
-        # Send messages to the client
-        await self.send_messages(messages)
-
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
