@@ -15,4 +15,4 @@ class Message(models.Model):
     # view_timestamp = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return str(f"{self.send_timestamp}: {self.sender_id} -> {self.recipient_id}")
+        return str(f"{self.send_timestamp}: {self.sender_id}: {self.body}")
