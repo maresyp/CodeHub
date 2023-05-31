@@ -7,9 +7,9 @@
         <div class="friends">
             <p>Twoje Matche</p>
             <ul>
-                {% for user in users %}
-                <a user-uuid="{{ user.id }}" href="#">
-                    <li>{{ user.username }}</li>
+                {% for friend in friends %}
+                <a user-uuid="{{ friend.id }}" href="#">
+                    <li>{{ friend.username }}</li>
                 </a>
                 {% endfor %}
             </ul>

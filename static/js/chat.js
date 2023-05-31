@@ -5,6 +5,8 @@ let friends = document.querySelectorAll('a[user-uuid]');
 
 const chatSocket = new WebSocket(url)
 
+// TODO: handle case when user has no friends yet
+
 chatSocket.onmessage = function (e) {
     let data = JSON.parse(e.data)
     console.log('Data:', data)
