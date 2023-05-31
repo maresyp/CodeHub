@@ -11,6 +11,11 @@
                 <a user-uuid="{{ friend.id }}" href="#">
                     <li>{{ friend.username }}</li>
                 </a>
+                {% for user, message in top_messages.items %}
+                {% if message.sender_id.id == friend.id or message.recipient_id.id == friend.id %}
+                <p>{{ message }}</p>
+                {% endif %}
+                {% endfor %}
                 {% endfor %}
             </ul>
         </div>
