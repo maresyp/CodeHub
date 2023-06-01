@@ -19,11 +19,12 @@
         <!-- Chat on the right -->
         <div class="col-md-9">
             <h1>Chat</h1>
-            <form id="chat-form">
+            <a href="#">Call</a>
+            <div id="messages">
                 {% for friend in friends %}
                 {% if friend.messages %}
                 {% for message in friend.messages %}
-                <div class="message">
+                <div id="message">
                     {% if message.sender_id == user %}
                     <p style="text-align: right;">{{ message.body }}</p>
                     {% else %}
@@ -33,10 +34,11 @@
                 {% endfor %}
                 {% endif %}
                 {% endfor %}
+            </div>
+            <form id="chat-form">
                 {% csrf_token %}
-                <input type="text" id="chat-message-input" name="message" placeholder="Type your message here..." />
+                <input type="text" id="chat-message-input" name="message" placeholder="Napisz wiadomość..." />
             </form>
-            <div id="messages"></div>
             <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
         </div>
     </div>
