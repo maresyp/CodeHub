@@ -30,6 +30,7 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
+            Profile.objects.filter(user=user.id).update(is_active=True)
             return redirect(request.GET['next'] if 'next' in request.GET else 'account')
 
         else:
@@ -53,6 +54,7 @@ def logoutUser(request):
 def registerUser(request):
     page = 'register'
     form = CustomUserCreationForm()
+    context = {'page': page, 'form': form}
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -74,19 +76,19 @@ def registerUser(request):
                 messages.success(request, 'Konto użytkownika zostało utworzone!')
                 login(request, user)
                 return redirect('account')
-
         else:
-            messages.success(
+            messages.error(
                 request, 'Wystąpił problem podczas rejestracji')
 
-    context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
 
 
 @login_required(login_url='login')
 def userAccount(request):
     page = 'account'
+    user = request.user
     profile = request.user.profile
+    tags = user.favouritestags_set.all()
 
-    context = {'profile': profile, 'page': page}
+    context = {'user': user, 'profile': profile, 'tags': tags, 'page': page}
     return render(request, 'users/account.html', context)

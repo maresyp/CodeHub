@@ -4,7 +4,7 @@
 <header class="header">
     <div class="container container--narrow">
         <a href="" class="header__logo">
-            <img src="{% static 'images/logo.svg' %} " alt="DevSearch Logo" />
+            <img src="{% static 'images/logo.svg' %} " alt="CodeHub Logo" />
         </a>
         <p>#code together</p>
 
@@ -16,15 +16,13 @@
             </label>
             <ul class="header__menu">
                 {% if request.user.is_authenticated %}
-
-                <li class="header__menuItem"><a href="{% url 'chat-lobby' %}">Chat</a></li>
-
-                <li class="header__menuItem"><a href="{% url 'account' %}">Account</a></li>
-
-                <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--sub">Logout</a></li>
+                <li class="header__menuItem"><a href="">Dopasowanie</a></li>
+                <li class="header__menuItem"><a href="{% url 'chat-lobby' %}">Wiadomości</a></li>
+                <li class="header__menuItem"><a href="{% url 'account' %}">Moje konto</a></li>
+                <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--sub">Wyloguj</a></li>
                 {% else %}
                     {% if page == 'login' %}
-                    <li class="header__menuItem"><a href="{% url 'register' %}" class="btn btn--sub">Rejestrtacja</a></li>
+                    <li class="header__menuItem"><a href="{% url 'register' %}" class="btn btn--sub">Rejestracja</a></li>
                     {% else %}
                     <li class="header__menuItem"><a href="{% url 'login' %}" class="btn btn--sub">Logowanie</a></li>
                     {% endif %}

@@ -1,5 +1,5 @@
 from django.db import models
-from Users.models import User, Tag
+from Users.models import User
 import uuid
 from django.core.validators import MinValueValidator, MaxValueValidator
 import hashlib
@@ -11,10 +11,12 @@ class Code(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=500)
-    description = models.CharField(max_length=5000)
+    description = models.CharField(max_length=5000, null=True, blank=True)
     source_code = models.TextField(max_length=10000)
     _source_code_hash = models.CharField(max_length=256, editable=False)
-    plagiarism_ratio = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], blank=True)
+    plagiarism_ratio = models.PositiveIntegerField(validators=[MinValueValidator(0), 
+                                                               MaxValueValidator(100)], 
+                                                   null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_edit = models.DateTimeField()
 
@@ -42,9 +44,17 @@ class Code(models.Model):
             queue = PlagiarismQueue()
             queue.put(PlagiarismQueueEntry(self.id))
 
+class Tag(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self) -> str:
+        return str(self.name)
+
 class CodeTags(models.Model):
     code_id = models.ForeignKey(Code, on_delete=models.CASCADE)
     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
             return str(self.code_id)
+            
