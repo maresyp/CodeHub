@@ -10,7 +10,7 @@ from datetime import datetime
 @login_required(login_url='login')
 def lobby(request):
     AMOUNT_OF_FRIENDS = 10
-
+    page = 'chat'
     matches = Matches.objects.filter(
         Q(first_user=request.user, first_status=True) |
         Q(second_user=request.user, second_status=True)
@@ -48,5 +48,6 @@ def lobby(request):
 
     context = {
         'friends': friends[:AMOUNT_OF_FRIENDS],
+        'page': page
     }
     return render(request, 'Chat/lobby.html', context=context)

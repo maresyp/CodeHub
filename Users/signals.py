@@ -1,16 +1,40 @@
-from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
-from .models import Profile
 from django.contrib.auth.models import User
+from .models import Profile
+
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 @receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
+def createProfile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance, username=instance.username, email=instance.email)
+        user = instance
+        Profile.objects.create(
+            user=user,
+        )
+
+        subject = 'Witamy w CodeHub'
+        message = 'Jesteśmy wdzięczni, że do na dołączyłeś!'
+
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [user.email],
+            fail_silently=False,
+        )
 
 
 @receiver(post_delete, sender=Profile)
 def delete_user(sender, instance, **kwargs):
-    instance.user.delete()
+    try:
+        instance.user.delete()
+    except:
+        pass
+
+
+#post_save.connect(createProfile, sender=User)
+#post_delete.connect(delete_user, sender=Profile)

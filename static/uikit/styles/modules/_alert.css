@@ -12,8 +12,8 @@
 
 .alert,
 .alert > .alert__message {
-  background-color: var(--color-main-light);
-  color: var(--color-main);
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
   font-size: 1.4rem;
   font-weight: var(--font-medium);
 }

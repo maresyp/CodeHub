@@ -9,55 +9,106 @@
       <div class="column column--1of3">
         <div class="card text-center">
           <div class="card__body dev">
-            <a class="tag tag--pill tag--main settings__btn" href=""><i class="im im-edit"></i>
-              Edit</a>
-            <img class="avatar avatar--xl dev__avatar" src="{{profile.imageURL}}" />
-            <h2 class="dev__name">{{profile.name}}</h2>
-            <p class="dev__title"></p>
-            <p class="dev__location">Based in </p>
+            <a class="tag tag--pill tag--main settings__btn" href="">Edytuj profil</a>
+            <img class="avatar avatar--xl dev__avatar" src="{{profile.imageURL}}" alt="Profile_logo"/>
+            <h2 class="dev__name">{{user.first_name}} {{user.last_name}}</h2>
+            <p class="dev__title">Wiek: {{profile.age}}</p>
+            <p class="dev__location">Lokalizacja: {{profile.city}}</p>
 
             <ul class="dev__social">
               {% if profile.social_github %}
               <li>
-                <a title="Github" href="" target="_blank"><i class="im im-github"></i></a>
+                <a title="Github" href="{{profile.social_github}}" target="_blank"><i class="fa fa-github"></i></a>
               </li>
               {% endif %}
 
-
               {% if profile.social_twitter %}
               <li>
-                <a title="Twitter" href="" target="_blank"><i class="im im-twitter"></i></a>
+                <a title="Twitter" href="{{profile.social_twitter}}" target="_blank"><i class="fa fa-twitter"></i></a>
+              </li>
+              {% endif %}
+
+              {% if profile.social_youtube %}
+              <li>
+                <a title="YouTube" href="{{profile.social_youtube}}" target="_blank"><i class="fa fa-youtube"></i></a>
+              </li>
+              {% endif %}
+
+              {% if profile.social_facebook %}
+              <li>
+                <a title="Facebook" href="{{profile.social_facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
               </li>
               {% endif %}
 
               {% if profile.social_linkedin %}
               <li>
-                <a title="LinkedIn" href="" target="_blank"><i
-                    class="im im-linkedin"></i></a>
+                <a title="Linkedin" href="{{profile.social_linkedin}}" target="_blank"><i class="fa fa-linkedin"></i></a>
               </li>
               {% endif %}
             </ul>
-
-
           </div>
         </div>
       </div>
+
+
       <div class="column column--2of3">
         <div class="devInfo">
-          <h3 class="devInfo__title">About Me</h3>
-          <p class="devInfo__about"></p>
+          <h3 class="devInfo__title">O mnie</h3>
+          <p class="devInfo__about">{{profile.bio}}</p>
         </div>
         <div class="settings">
-          <h3 class="settings__title">Skills</h3>
+          <h3 class="settings__title">Ulubione technologie</h3>
           <a class="tag tag--pill tag--sub settings__btn tag--lg" href=""><i
-              class="im im-plus"></i> Add Skill</a>
+              class="im im-plus"></i> Edytuj</a>
         </div>
 
+        <table class="settings__table">
+          {% for tag in tags %}
+          <tr>
+            <td class="settings__tableInfo">
+              <h4>{{tag.name}}</h4>
+              <p>
+                {{skill.description}}
+              </p>
+            </td>
+            <td class="settings__tableActions">
+              <a class="tag tag--pill tag--main settings__btn" href=""><i
+                  class="im im-edit"></i> Edytuj</a>
+              <a class="tag tag--pill tag--main settings__btn" href=""><i
+                  class="im im-x-mark-circle-o"></i>
+                Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+
         <div class="settings">
-          <h3 class="settings__title">Projects</h3>
+          <h3 class="settings__title">Moje kody</h3>
           <a class="tag tag--pill tag--sub settings__btn tag--lg" href=""><i
-              class="im im-plus"></i> Add Project</a>
+              class="im im-plus"></i> Dodaj kod</a>
         </div>
+
+        <table class="settings__table">
+          {% for project in projects %}
+          <tr>
+            <td class="settings__thumbnail">
+              <a href=""><img src="" alt="Project Thumbnail" /></a>
+            </td>
+            <td class="settings__tableInfo">
+              <a href="">{{project.title}}</a>
+              <p>{{project.description|slice:"150"}}</p>
+            </td>
+            <td class="settings__tableActions">
+              <a class="tag tag--pill tag--main settings__btn" href=""><i
+                  class="im im-edit"></i> Edit</a>
+              <a class="tag tag--pill tag--main settings__btn"
+                href=""><i class="im im-x-mark-circle-o"></i>
+                Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+
+        </table>
       </div>
     </div>
   </div>
