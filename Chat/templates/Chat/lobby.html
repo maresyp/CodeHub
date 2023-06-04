@@ -7,11 +7,18 @@
         <div class="friends">
             <p>Twoje Matche</p>
             <ul>
+                {% if not friends %}
+                <p>Nie masz jeszcze żadnych matchy</p>
+                {% endif %}
                 {% for friend in friends %}
                 <a user-uuid="{{ friend.id }}" href="#">
                     <li>{{ friend.username }}</li>
                 </a>
+                {% if not friend.last_message %}
+                <p>Nie masz jeszcze żadnych wiadomości</p>
+                {% else %}
                 <p>{{ friend.last_message.body }}</p>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>
