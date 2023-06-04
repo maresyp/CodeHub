@@ -13,12 +13,12 @@
                 {% for friend in friends %}
                 <a user-uuid="{{ friend.id }}" href="#">
                     <li>{{ friend.username }}</li>
+                    {% if not friend.last_message %}
+                    <span>Nie masz jeszcze żadnych wiadomości</span>
+                    {% else %}
+                    <span>{{ friend.last_message.body }}</span>
+                    {% endif %}
                 </a>
-                {% if not friend.last_message %}
-                <p>Nie masz jeszcze żadnych wiadomości</p>
-                {% else %}
-                <p>{{ friend.last_message.body }}</p>
-                {% endif %}
                 {% endfor %}
             </ul>
         </div>
