@@ -30,7 +30,7 @@ class Profile(models.Model):
     age = models.PositiveSmallIntegerField(validators=[MinValueValidator(18), MaxValueValidator(125)], default=125)
     bio = models.TextField(max_length=1000, null=True, blank=True)
     profile_image = models.ImageField(upload_to='profiles', null=True, 
-                                      blank=True, default='profiles/user_default.png')
+                                      blank=True, default='profiles/user-default.png')
     gender = GenderField(null=True, blank=True)
     social_github = models.CharField(max_length=2000, null=True, blank=True)
     social_twitter = models.CharField(max_length=2000, null=True, blank=True)

@@ -16,17 +16,6 @@ def createProfile(sender, instance, created, **kwargs):
             user=user,
         )
 
-        subject = 'Witamy w CodeHub'
-        message = 'Jesteśmy wdzięczni, że do na dołączyłeś!'
-
-        send_mail(
-            subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [user.email],
-            fail_silently=False,
-        )
-
 
 @receiver(post_delete, sender=Profile)
 def delete_user(sender, instance, **kwargs):
@@ -34,7 +23,3 @@ def delete_user(sender, instance, **kwargs):
         instance.user.delete()
     except:
         pass
-
-
-#post_save.connect(createProfile, sender=User)
-#post_delete.connect(delete_user, sender=Profile)
