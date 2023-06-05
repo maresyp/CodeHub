@@ -40,14 +40,14 @@
 .tag--main,
 .tag--main > small {
   background: var(--color-main-light);
-  color: var(--color-main);
+  color: var(--color-white);
   font-weight: 500;
 }
 
 .tag--sub,
 .tag--sub > small {
   background: var(--color-sub-lighter);
-  color: var(--color-sub-light);
+  color: var(--color-white);
   font-weight: 500;
 }
 
