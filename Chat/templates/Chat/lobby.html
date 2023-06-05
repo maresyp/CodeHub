@@ -1,8 +1,8 @@
 {% extends 'main.html' %}
 {% load static %}
+
 {% block content %}
 <div class="container">
-    <!-- Friends list on the left -->
     <div class="col-md-3">
         <div class="friends">
             <p>Twoje Matche</p>
@@ -23,11 +23,10 @@
             </ul>
         </div>
 
-        <!-- Chat on the right -->
         <div class="col-md-9">
             <h1>Chat</h1>
             <a href="#">Call</a>
-            <div id="messages">
+            <div class="messages" id="messages">
                 {% for friend in friends %}
                 {% if friend.messages %}
                 {% for message in friend.messages %}

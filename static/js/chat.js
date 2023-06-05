@@ -1,10 +1,16 @@
-let selected_recipient = document.querySelector('a[user-uuid]').getAttribute('user-uuid')
 let url = `ws://${window.location.host}/ws/socket-server/`
 let form = document.getElementById('chat-form')
 let friends = document.querySelectorAll('a[user-uuid]');
+let selected_recipient = document.querySelector('a[user-uuid]').getAttribute('user-uuid')
 
 const chatSocket = new WebSocket(url)
 
+function send_message_read() {
+    chatSocket.send(JSON.stringify({
+        'type': 'chat_message_read',
+        'recipient': selected_recipient
+    }))
+}
 function appendMessage(message, position= 'afterbegin') {
     let messages = document.getElementById('messages')
     messages.insertAdjacentHTML(
@@ -13,13 +19,17 @@ function appendMessage(message, position= 'afterbegin') {
     )
 }
 
-function new_message_notofication(friend_id) {
+function new_message_notification(friend_id) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
     friend.classList.add('new-message')
 }
 function update_top_message(friend_id, message) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
     friend.querySelector('span').innerHTML = message
+}
+
+chatSocket.onopen = function (e) {
+    send_message_read()
 }
 
 chatSocket.onmessage = function (e) {
@@ -31,8 +41,9 @@ chatSocket.onmessage = function (e) {
         if (data.sender == selected_recipient) {
             message_body = `<p style="text-align: left;">${data.message}</p>`
             appendMessage(message_body, 'beforeend')
+            send_message_read()
         } else {
-            new_message_notofication(data.sender)
+            new_message_notification(data.sender)
         }
 
         update_top_message(data.sender, data.message)
@@ -87,9 +98,6 @@ friends.forEach((friend) => {
 
     friend.addEventListener('click', (e) => {
         friend.classList.remove('new-message')
-        chatSocket.send(JSON.stringify({
-            'type': 'chat_message_read',
-            'recipient': selected_recipient
-        }))
+        send_message_read()
     })
 })
