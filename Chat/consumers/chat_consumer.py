@@ -2,7 +2,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from django.db.models import Q
 from django.contrib.auth.models import User
-from .models import Message
+from Chat.models import Message
 import json
 from asgiref.sync import sync_to_async
 from django.utils import timezone

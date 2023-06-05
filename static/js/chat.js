@@ -1,4 +1,4 @@
-let url = `ws://${window.location.host}/ws/socket-server/`
+let url = `ws://${window.location.host}/ws/socket-server/chat`
 let form = document.getElementById('chat-form')
 let friends = document.querySelectorAll('a[user-uuid]');
 let selected_recipient = document.querySelector('a[user-uuid]').getAttribute('user-uuid')
