@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Message
 import json
 from asgiref.sync import sync_to_async
+from django.utils import timezone
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -26,12 +27,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return
 
         text_data_json = json.loads(text_data)
+        # TODO: check if user and recipient are matched before doing any actions
         try:
             match text_data_json['type']:
                 case 'chat-message':
                     await self.chat_message_handler(text_data_json)
                 case 'recipient-change':
                     await self.recipient_change_handler(text_data_json)
+                case 'chat_message_read':
+                    await self.chat_message_read_handler(text_data_json)
         except KeyError:
             return
 
@@ -46,7 +50,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         recipient = await self.get_user(data['recipient'])
         user = await self.get_user(self.scope['user'].id)
 
-        # TODO: check if user and recipiend are matched before saving the message
         await self.save_message(user, recipient.id, message)
 
         # Update the recipient with the new message
@@ -63,6 +66,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def recipient_change_handler(self, data):
         await self.send_messages(data['recipient'])
 
+    @sync_to_async
+    def chat_message_read_handler(self, data):
+        messages = Message.objects.filter(
+            (Q(sender_id=data['recipient'], recipient_id=self.scope['user']) |
+             Q(sender_id=self.scope['user'], recipient_id=data['recipient']))
+            & Q(view_timestamp__isnull=True)
+        )
+
+        if messages:
+            messages.update(view_timestamp=timezone.now())
+
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
             'type': 'chat-single-message',
@@ -73,8 +87,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
     async def send_messages(self, recipient_id):
-        print(f"Sending messages to {recipient_id}")
-
         @sync_to_async
         def get_messages():
             start_index = (self.page_number - 1) * self.PAGE_SIZE
@@ -112,4 +124,3 @@ class ChatConsumer(AsyncWebsocketConsumer):
             recipient_id=User.objects.get(id=recipient),
             body=message
         )
-

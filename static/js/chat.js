@@ -5,10 +5,10 @@ let friends = document.querySelectorAll('a[user-uuid]');
 
 const chatSocket = new WebSocket(url)
 
-function appendMessage(message) {
+function appendMessage(message, position= 'afterbegin') {
     let messages = document.getElementById('messages')
     messages.insertAdjacentHTML(
-        'beforeend',
+        position,
         message
     )
 }
@@ -16,10 +16,6 @@ function appendMessage(message) {
 function new_message_notofication(friend_id) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
     friend.classList.add('new-message')
-    friend.addEventListener('click', (e) => {
-        friend.classList.remove('new-message')
-        // TODO: send read message to server
-    })
 }
 function update_top_message(friend_id, message) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
@@ -28,15 +24,13 @@ function update_top_message(friend_id, message) {
 
 chatSocket.onmessage = function (e) {
     let data = JSON.parse(e.data)
-    console.log('Data:', data) // TODO: remove this
-
     if (data.type === 'chat-single-message') {
         let message_body = null
 
         // Update chat window
         if (data.sender == selected_recipient) {
             message_body = `<p style="text-align: left;">${data.message}</p>`
-            appendMessage(message_body)
+            appendMessage(message_body, 'beforeend')
         } else {
             new_message_notofication(data.sender)
         }
@@ -69,10 +63,11 @@ form.addEventListener('submit', (e) => {
         'recipient': selected_recipient
     }))
     form.reset()
-    appendMessage(`<p style="text-align: right;">${message}</p>`)
+    appendMessage(`<p style="text-align: right;">${message}</p>`, 'beforeend')
     update_top_message(selected_recipient, message)
 })
 
+// TODO: matke this a function and update when new friend appears
 friends.forEach((friend) => {
     friend.addEventListener('click', (e) => {
         e.preventDefault()
@@ -88,5 +83,13 @@ friends.forEach((friend) => {
         // clear messages
         let messages = document.getElementById('messages')
         messages.innerHTML = ''
+    })
+
+    friend.addEventListener('click', (e) => {
+        friend.classList.remove('new-message')
+        chatSocket.send(JSON.stringify({
+            'type': 'chat_message_read',
+            'recipient': selected_recipient
+        }))
     })
 })
