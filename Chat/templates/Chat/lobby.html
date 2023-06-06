@@ -25,7 +25,7 @@
 
         <div class="col-md-9">
             <h1>Chat</h1>
-            <a href="#">Call</a>
+            <a href="#" id="video-start-call">Call</a>
             <div class="messages" id="messages">
                 {% for friend in friends %}
                 {% if friend.messages %}
@@ -46,6 +46,7 @@
                 <input type="text" id="chat-message-input" name="message" placeholder="Napisz wiadomość..." />
             </form>
             <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+            <script type="text/javascript" src="{% static 'js/video.js' %}"></script>
         </div>
     </div>
 </div>
