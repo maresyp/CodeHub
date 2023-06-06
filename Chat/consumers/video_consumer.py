@@ -29,14 +29,51 @@ class VideoConsumer(AsyncWebsocketConsumer):
 
         try:
             match text_data_json['type']:
-                case 'video-offer':
+                case 'video_offer':
                     await self.video_offer_handler(text_data_json)
-                case 'video-answer':
+                case 'video_answer':
                     await self.video_answer_handler(text_data_json)
                 case 'new-ice-candidate':
                     await self.new_ice_candidate_handler(text_data_json)
         except KeyError:
             return
+
+    async def video_offer_handler(self, data):
+        await self.channel_layer.group_send(
+            f"video_{data['recipient']}",
+            {
+                'type': 'video_offer',
+                'recipient': self.scope['user'].id,
+                'offer': data['offer'],
+            }
+        )
+
+    async def video_offer(self, data):
+        await self.send(text_data=json.dumps({
+            'type': 'video_offer',
+            'recipient': data['recipient'],
+            'offer': data['offer'],
+        }))
+
+    async def video_answer_handler(self, data):
+        await self.channel_layer.group_send(
+            f"video_{data['recipient']}",
+            {
+                'type': 'video_result',
+                'recipient': self.scope['user'].id,
+                'answer': data['answer'],
+            }
+        )
+
+    async def video_result(self, data):
+        await self.send(text_data=json.dumps({
+            'type': 'video_result',
+            'recipient': data['recipient'],
+            'answer': data['answer'],
+        }))
+
+    async def new_ice_candidate_handler(self, data):
+        print(f"new_ice_candidate_handler: {data}")
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(

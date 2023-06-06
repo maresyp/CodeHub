@@ -50,4 +50,20 @@
         </div>
     </div>
 </div>
+<style>
+    #videos{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        padding: 10px;
+    }
+    video {
+        width: 100%;
+        border: 2px solid red;
+    }
+</style>
+<div class="videos">
+    <video class="video-player" id="video-local" autoplay playsinline></video>
+    <video class="video-player" id="video-remote" autoplay playsinline></video>
+</div>
 {% endblock %}
