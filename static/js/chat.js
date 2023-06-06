@@ -3,7 +3,56 @@ let form = document.getElementById('chat-form')
 let friends = document.querySelectorAll('a[user-uuid]');
 let selected_recipient = document.querySelector('a[user-uuid]').getAttribute('user-uuid')
 
-const chatSocket = new WebSocket(url)
+// Create a web socket
+let chatSocket = null; startWebSocket();
+
+function startWebSocket() {
+    chatSocket = new WebSocket(url);
+
+    chatSocket.onopen = function (e) {
+        send_message_read()
+    }
+
+    chatSocket.onmessage = function (e) {
+        let data = JSON.parse(e.data)
+        if (data.type === 'chat-single-message') {
+            let message_body = null
+
+            // Update chat window
+            if (data.sender == selected_recipient) {
+                message_body = `<p style="text-align: left;">${data.message}</p>`
+                appendMessage(message_body, 'beforeend')
+                send_message_read()
+            } else {
+                new_message_notification(data.sender)
+            }
+
+            update_top_message(data.sender, data.message)
+
+        } else if (data.type === 'chat-new-window') {
+            [data.messages].forEach(msg => {
+                Object.keys(msg).forEach(key => {
+                    let message_body = null
+
+                    if (msg[key].sender == selected_recipient) {
+                        message_body = `<p style="text-align: left;">${msg[key].message}</p>`
+                    } else {
+                        message_body = `<p style="text-align: right;">${msg[key].message}</p>`
+                    }
+
+                    appendMessage(message_body)
+                })
+            })
+        }
+    }
+
+    // add an onclose event listener to handle unexpected closure
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly. Trying to reconnect...', e);
+        // Wait for a bit before trying to reconnect
+        setTimeout(startWebSocket, 10000); // 10 seconds
+    };
+}
 
 function send_message_read() {
     chatSocket.send(JSON.stringify({
@@ -26,43 +75,6 @@ function new_message_notification(friend_id) {
 function update_top_message(friend_id, message) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
     friend.querySelector('span').innerHTML = message
-}
-
-chatSocket.onopen = function (e) {
-    send_message_read()
-}
-
-chatSocket.onmessage = function (e) {
-    let data = JSON.parse(e.data)
-    if (data.type === 'chat-single-message') {
-        let message_body = null
-
-        // Update chat window
-        if (data.sender == selected_recipient) {
-            message_body = `<p style="text-align: left;">${data.message}</p>`
-            appendMessage(message_body, 'beforeend')
-            send_message_read()
-        } else {
-            new_message_notification(data.sender)
-        }
-
-        update_top_message(data.sender, data.message)
-
-    } else if (data.type === 'chat-new-window') {
-        [data.messages].forEach(msg => {
-            Object.keys(msg).forEach(key => {
-                let message_body = null
-
-                if (msg[key].sender == selected_recipient) {
-                    message_body = `<p style="text-align: left;">${msg[key].message}</p>`
-                } else {
-                    message_body = `<p style="text-align: right;">${msg[key].message}</p>`
-                }
-
-                appendMessage(message_body)
-            })
-        })
-    }
 }
 
 form.addEventListener('submit', (e) => {
