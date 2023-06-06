@@ -7,12 +7,16 @@ import json
 from django.utils import timezone
 from .utils import is_valid_match
 
+
 class ChatConsumer(AsyncWebsocketConsumer):
     PAGE_SIZE = 10
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+        self.room_group_name = None
+
     async def connect(self):
         self.room_group_name = f"chat_{self.scope['user'].id}"
-        self.page_number = 1
 
         await self.channel_layer.group_add(
             self.room_group_name,
