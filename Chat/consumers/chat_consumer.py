@@ -4,9 +4,8 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from Chat.models import Message
 import json
-from asgiref.sync import sync_to_async
 from django.utils import timezone
-
+from .utils import is_valid_match
 
 class ChatConsumer(AsyncWebsocketConsumer):
     PAGE_SIZE = 10
@@ -25,9 +24,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         if text_data is None:
             return
-
         text_data_json = json.loads(text_data)
-        # TODO: check if user and recipient are matched before doing any actions
+
+        # Before we do anything, check if the user is in a match with the recipient
+        if not is_valid_match(self.scope['user'], text_data_json['recipient']):
+            # TODO: maybe add some error message
+            return
+
         try:
             match text_data_json['type']:
                 case 'chat-message':
@@ -66,7 +69,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def recipient_change_handler(self, data):
         await self.send_messages(data['recipient'])
 
-    @sync_to_async
+    @database_sync_to_async
     def chat_message_read_handler(self, data):
         messages = Message.objects.filter(
             (Q(sender_id=data['recipient'], recipient_id=self.scope['user']) |
@@ -87,7 +90,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
     async def send_messages(self, recipient_id):
-        @sync_to_async
+        @database_sync_to_async
         def get_messages():
             start_index = (self.page_number - 1) * self.PAGE_SIZE
             end_index = start_index + self.PAGE_SIZE
