@@ -73,7 +73,21 @@ class VideoConsumer(AsyncWebsocketConsumer):
         }))
 
     async def new_ice_candidate_handler(self, data):
-        print(f"new_ice_candidate_handler: {data}")
+        await self.channel_layer.group_send(
+            f"video_{data['recipient']}",
+            {
+                'type': 'new-ice-candidate',
+                'recipient': self.scope['user'].id,
+                'candidate': data['candidate'],
+            }
+        )
+
+    async def new_ice_candidate(self, data):
+        await self.send(text_data=json.dumps({
+            'type': 'new-ice-candidate',
+            'recipient': data['recipient'],
+            'candidate': data['candidate'],
+        }))
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(

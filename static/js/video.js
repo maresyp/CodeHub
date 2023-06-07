@@ -5,9 +5,9 @@ let localStream;
 let remoteStream;
 let peerConnection;
 let servers = {
-    'iceServers': [
+    'iceServers':[
         {
-            'urls': ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302']
+            urls:['stun:stun1.1.google.com:19302', 'stun:stun2.1.google.com:19302']
         }
     ]
 }
@@ -20,7 +20,7 @@ call_button.addEventListener('click', async function (e) {
         'type': 'video_offer',
         'recipient': selected_recipient,
         'offer': peerConnection.localDescription
-    })
+        })
     )
 
 })
@@ -46,6 +46,10 @@ function startWebSocket() {
 
         } else if (data.type === 'video_result') {
             await addAnswer(data.answer)
+        } else if (data.type === 'new-ice-candidate') {
+            console.log('New ICE candidate received')
+            let candidate = new RTCIceCandidate(JSON.parse(data.candidate));
+            await peerConnection.addIceCandidate(candidate);
         }
     }
 
@@ -90,6 +94,7 @@ let createOffer = async () => {
     await createPeerConnection()
     let offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offer);
+    console.log(peerConnection.connectionState)
     console.log('Local', peerConnection.localDescription)
 
 }
@@ -99,10 +104,12 @@ let createAnswer = async (offer) => {
 
     let rtcOffer = new RTCSessionDescription(offer)
     await peerConnection.setRemoteDescription(rtcOffer)
+    console.log(peerConnection.connectionState)
     console.log('Remote', peerConnection.remoteDescription)
 
     let answer = await peerConnection.createAnswer();
     await peerConnection.setLocalDescription(answer);
+    console.log(peerConnection.connectionState)
     console.log('Local', peerConnection.localDescription)
 
 }
@@ -110,6 +117,7 @@ let createAnswer = async (offer) => {
 let addAnswer = async (answer) => {
     if (!peerConnection.currentRemoteDescription) {
         await peerConnection.setRemoteDescription(answer)
+        console.log(peerConnection.connectionState)
         console.log('Remote', peerConnection.remoteDescription)
     }
 }
