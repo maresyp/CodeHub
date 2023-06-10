@@ -411,6 +411,11 @@ img {
 }
 
 /*=======================
+  Plagiarism indicator
+========================*/
+
+
+/*=======================
   Single Projects
 ========================*/
 
@@ -639,6 +644,8 @@ img {
 
 .settings__tableInfo p {
   font-size: 1.4rem;
+    margin-right: 1rem;
+    width: max-content;
 }
 
 .settings__tableActions {

@@ -12,15 +12,15 @@ class GenderField(models.BooleanField):
     def from_db_value(self, value, expression, connection):
         if value is None:
             return value
-        return 'M' if value else 'K'
+        return 'Mężczyzna' if value else 'Kobieta'
 
     def to_python(self, value):
         if value in (True, False):
-            return 'M' if value else 'K'
+            return 'Mężczyzna' if value else 'Kobieta'
         return value
 
     def get_prep_value(self, value):
-        return value == 'M'
+        return value == 'Mężczyzna'
 
 
 class Profile(models.Model):
@@ -52,13 +52,13 @@ class Profile(models.Model):
 
 class Matches(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    first_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fisr_user')
+    first_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='first_user')
     second_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='second_user')
     first_status = models.BooleanField()
     second_status = models.BooleanField()
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.first_user) + " + " + str(self.second_user) + " = " + str(self.second_status)
 
 
 class FavouritesTags(models.Model):

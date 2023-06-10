@@ -74,32 +74,35 @@
 
         <div class="settings__tags">
           {% for tag in tags %}
-            <h4 class="tag tag--pill tag--main tag--lg">{{ tag.name }}</h4>
+            <h4 class="tag tag--pill tag--sub tag--lg">{{ tag.name }}</h4>
           {% endfor %}
         </div>
 
         <div class="settings">
           <h3 class="settings__title">Moje kody</h3>
-          <a class="tag tag--main tag--sub settings__btn tag--lg" href=""><i
+          <a class="tag tag--pill tag--main settings__btn tag--lg" href=""><i
               class="im im-plus"></i> Dodaj kod</a>
         </div>
 
         <table class="settings__table">
-          {% for project in projects %}
+          {% for code in codes %}
           <tr>
-            <td class="settings__thumbnail">
-              <a href=""><img src="" alt="Project Thumbnail" /></a>
-            </td>
             <td class="settings__tableInfo">
-              <a href="">{{project.title}}</a>
-              <p>{{project.description|slice:"150"}}</p>
+              <a href="">{{code.title}}</a>
             </td>
-            <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href=""><i
-                  class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn"
-                href=""><i class="im im-x-mark-circle-o"></i>
-                Delete</a>
+
+            <td class="settings__tableInfo">
+              <p>Współczynnik plagiatu:</p>
+            </td>
+
+            <td class="settings__tableInfo">
+              <div class="progress-circle" data-progress="{{ code.plagiarism_ratio }}">
+                <svg class="progress-circle__svg">
+                  <circle class="progress-circle__background" cx="30" cy="30" r="23"></circle>
+                  <circle class="progress-circle__progress" cx="30" cy="30" r="25"></circle>
+                </svg>
+                <span class="progress-circle__value">{{ code.plagiarism_ratio }}%</span>
+              </div>
             </td>
           </tr>
           {% endfor %}

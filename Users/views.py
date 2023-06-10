@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.urls import conf
 from django.db.models import Case, When, PositiveSmallIntegerField, OuterRef
-from .models import Profile, FavouritesTags, Tag
+from .models import Profile, FavouritesTags, Tag, Code
 from .forms import CustomUserCreationForm #ProfileForm, SkillForm, MessageForm
 #from .utils import searchProfiles, paginateProfiles
 
@@ -94,5 +94,9 @@ def userAccount(request):
         value=FavouritesTags.objects.filter(tag_id=OuterRef('pk'), user_id=user).values('value')
     ).order_by('-value')
 
-    context = {'user': user, 'profile': profile, 'tags': tags, 'page': page}
+    codes = Code.objects.filter(owner=user).order_by('creation_date')
+
+
+
+    context = {'user': user, 'profile': profile, 'tags': tags, 'codes': codes, 'page': page}
     return render(request, 'users/account.html', context)
