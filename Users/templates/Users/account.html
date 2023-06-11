@@ -11,9 +11,20 @@
           <div class="card__body dev">
             <a class="tag tag--pill tag--main settings__btn" href="">Edytuj profil</a>
             <img class="avatar avatar--xl dev__avatar" src="{{profile.imageURL}}" alt="Profile_logo"/>
-            <h2 class="dev__name">{{user.first_name}} {{user.last_name}}</h2>
-            <p class="dev__title">Wiek: {{profile.age}}</p>
+            <h2 class="dev__username">{{user.username}}</h2>
+            <p class="dev__fullname">{{user.first_name }} {{user.last_name}}</p>
+
+            {% if profile.age %}
+            <p class="dev__location">Wiek: {{profile.age}}</p>
+            {% endif %}
+
+            {% if profile.city %}
             <p class="dev__location">Lokalizacja: {{profile.city}}</p>
+            {% endif %}
+
+            {% if profile.city %}
+            <p class="dev__location">Płeć: {{profile.gender}}</p>
+            {% endif %}
 
             <ul class="dev__social">
               {% if profile.social_github %}
@@ -56,54 +67,42 @@
           <h3 class="devInfo__title">O mnie</h3>
           <p class="devInfo__about">{{profile.bio}}</p>
         </div>
+
         <div class="settings">
           <h3 class="settings__title">Ulubione technologie</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href=""><i
-              class="im im-plus"></i> Edytuj</a>
         </div>
 
-        <table class="settings__table">
+        <div class="settings__tags">
           {% for tag in tags %}
-          <tr>
-            <td class="settings__tableInfo">
-              <h4>{{tag.name}}</h4>
-              <p>
-                {{skill.description}}
-              </p>
-            </td>
-            <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href=""><i
-                  class="im im-edit"></i> Edytuj</a>
-              <a class="tag tag--pill tag--main settings__btn" href=""><i
-                  class="im im-x-mark-circle-o"></i>
-                Delete</a>
-            </td>
-          </tr>
+            <h4 class="tag tag--pill tag--sub tag--lg">{{ tag.name }}</h4>
           {% endfor %}
-        </table>
+        </div>
 
         <div class="settings">
           <h3 class="settings__title">Moje kody</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href=""><i
+          <a class="tag tag--pill tag--main settings__btn tag--lg" href=""><i
               class="im im-plus"></i> Dodaj kod</a>
         </div>
 
         <table class="settings__table">
-          {% for project in projects %}
+          {% for code in codes %}
           <tr>
-            <td class="settings__thumbnail">
-              <a href=""><img src="" alt="Project Thumbnail" /></a>
-            </td>
             <td class="settings__tableInfo">
-              <a href="">{{project.title}}</a>
-              <p>{{project.description|slice:"150"}}</p>
+              <a href="">{{code.title}}</a>
             </td>
-            <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href=""><i
-                  class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn"
-                href=""><i class="im im-x-mark-circle-o"></i>
-                Delete</a>
+
+            <td class="settings__tableInfo">
+              <p>Współczynnik plagiatu:</p>
+            </td>
+
+            <td class="settings__tableInfo">
+              <div class="progress-circle" data-progress="{{ code.plagiarism_ratio }}">
+                <svg class="progress-circle__svg">
+                  <circle class="progress-circle__background" cx="30" cy="30" r="23"></circle>
+                  <circle class="progress-circle__progress" cx="30" cy="30" r="25"></circle>
+                </svg>
+                <span class="progress-circle__value">{{ code.plagiarism_ratio }}%</span>
+              </div>
             </td>
           </tr>
           {% endfor %}

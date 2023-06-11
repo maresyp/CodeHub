@@ -38,8 +38,8 @@
 }
 
 .btn--main {
-  background-color: var(--color-main);
-  color: var(--color-white);
+  background-color: var(--color-main-light);
+  color: var(--color-sub);
 }
 
 .btn.btn--main--outline {
@@ -50,7 +50,7 @@
 
 .btn--sub {
   background-color: var(--color-sub);
-  color: var(--color-white);
+  color: var(--color-main);
 }
 
 .btn.btn--sub--outline {

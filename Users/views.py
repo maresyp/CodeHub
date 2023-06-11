@@ -1,12 +1,12 @@
 from django.dispatch.dispatcher import receiver
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.contrib.auth.models import User
 from django.urls import conf
-from django.db.models import Q
-from .models import Profile
+from django.db.models import Case, When, PositiveSmallIntegerField, OuterRef
+from .models import Profile, FavouritesTags, Tag, Code
 from .forms import CustomUserCreationForm #ProfileForm, SkillForm, MessageForm
 #from .utils import searchProfiles, paginateProfiles
 
@@ -54,7 +54,6 @@ def logoutUser(request):
 def registerUser(request):
     page = 'register'
     form = CustomUserCreationForm()
-    context = {'page': page, 'form': form}
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -79,7 +78,8 @@ def registerUser(request):
         else:
             messages.error(
                 request, 'Wystąpił problem podczas rejestracji')
-
+            
+    context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
 
 
@@ -88,7 +88,15 @@ def userAccount(request):
     page = 'account'
     user = request.user
     profile = request.user.profile
-    tags = user.favouritestags_set.all()
+    
+    # Get tags and values defined by logged in user
+    tags = Tag.objects.filter(favouritestags__user_id=user).annotate(
+        value=FavouritesTags.objects.filter(tag_id=OuterRef('pk'), user_id=user).values('value')
+    ).order_by('-value')
 
-    context = {'user': user, 'profile': profile, 'tags': tags, 'page': page}
+    codes = Code.objects.filter(owner=user).order_by('creation_date')
+
+
+
+    context = {'user': user, 'profile': profile, 'tags': tags, 'codes': codes, 'page': page}
     return render(request, 'users/account.html', context)

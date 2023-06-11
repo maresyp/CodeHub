@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{% static 'uikit/styles/uikit.css' %}" />
     <!-- CodeHub UI -->
     <link rel="stylesheet" href="{% static 'styles/app.css' %}" />
+    <!-- Plagiarism ratio -->
+    <link rel="stylesheet" href="{% static 'styles/circular_progress_bar.css' %}" />
 
     <title>CodeHub</title>
 </head>
@@ -38,7 +40,9 @@
     {% endblock content %}
 </body>
 
-<script src="{% static 'uikit/app.js' %}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/circular_progress_bar.js' %}"></script>
 
 </html>
