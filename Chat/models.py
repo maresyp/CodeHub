@@ -16,4 +16,4 @@ class Message(models.Model):
     view_timestamp = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return str(f"{self.send_timestamp}: {self.sender_id}: {self.body}")
+        return str(f"{self.message_id} {self.send_timestamp}: {self.sender_id}: {self.body}")

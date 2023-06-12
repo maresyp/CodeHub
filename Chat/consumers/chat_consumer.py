@@ -60,10 +60,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def chat_message_handler(self, data):
         message = data['message']
+        # check if message is not empty
+        if not message:
+            return
+
         recipient = await self.get_user(data['recipient'])
         user = await self.get_user(self.scope['user'].id)
 
-        await self.save_message(user, recipient.id, message)
+        message_id = await self.save_message(user, recipient.id, message)
 
         # Update the recipient with the new message
         await self.channel_layer.group_send(
@@ -71,10 +75,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'chat_message',
                 'message': message,
+                'message_id': message_id,
                 'sender': user,
                 'recipient': recipient
             }
         )
+
+    async def chat_message(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'chat-single-message',
+            'message': event['message'],
+            'message_id': str(event['message_id']),
+            'sender': event['sender'].id,
+            'recipient': event['recipient'].id,
+            'timestamp': timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+        }))
 
     async def recipient_change_handler(self, data):
         await self.send_messages(data['recipient'])
@@ -89,15 +104,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if messages:
             messages.update(view_timestamp=timezone.now())
-
-    async def chat_message(self, event):
-        await self.send(text_data=json.dumps({
-            'type': 'chat-single-message',
-            'message': event['message'],
-            'sender': event['sender'].id,
-            'recipient': event['recipient'].id,
-            'timestamp': 'now'
-        }))
 
     async def send_messages(self, recipient_id):
         @database_sync_to_async
@@ -132,8 +138,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def save_message(self, sender, recipient, message):
-        Message.objects.create(
+        message_obj = Message.objects.create(
             sender_id=sender,
             recipient_id=User.objects.get(id=recipient),
             body=message
         )
+        return message_obj.message_id

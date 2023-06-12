@@ -18,10 +18,10 @@ function startWebSocket() {
         let data = JSON.parse(e.data)
         if (data.type === 'chat-single-message') {
             let message_body = null
-
+            console.log(data)
             // Update chat window
             if (data.sender == selected_recipient) {
-                message_body = `<p style="text-align: left;">${data.message}</p>`
+                message_body = `<p msg-uuid="${data.message_id}" style="text-align: left;">${data.message}</p>`
                 appendMessage(message_body, 'beforeend')
                 send_message_read()
             } else {
@@ -36,9 +36,9 @@ function startWebSocket() {
                     let message_body = null
 
                     if (msg[key].sender == selected_recipient) {
-                        message_body = `<p style="text-align: left;">${msg[key].message}</p>`
+                        message_body = `<p msg-uuid="${key}" style="text-align: left;">${msg[key].message}</p>`
                     } else {
-                        message_body = `<p style="text-align: right;">${msg[key].message}</p>`
+                        message_body = `<p msg-uuid="${key}" style="text-align: right;">${msg[key].message}</p>`
                     }
 
                     appendMessage(message_body)
@@ -61,11 +61,12 @@ function send_message_read() {
         'recipient': selected_recipient
     }))
 }
+
 function appendMessage(message, position= 'afterbegin') {
     let messages = document.getElementById('messages')
     messages.insertAdjacentHTML(
         position,
-        message
+        '<div id="message">' + message + '</div>'
     )
 }
 
@@ -81,6 +82,9 @@ function update_top_message(friend_id, message) {
 form.addEventListener('submit', (e) => {
     e.preventDefault()
     let message = e.target.message.value
+    if (message === '') {
+        return
+    }
     chatSocket.send(JSON.stringify({
         'type': 'chat-message',
         'message': message,
@@ -97,7 +101,6 @@ friends.forEach((friend) => {
     friend.addEventListener('click', (e) => {
         e.preventDefault()
         selected_recipient = friend.getAttribute('user-uuid')
-        console.log('Selected user with uuid:', selected_recipient)
 
         // send information to server that recipient has been changed
         chatSocket.send(JSON.stringify({
@@ -125,13 +128,18 @@ message_container.addEventListener('wheel', function (event) {
 });
 
 message_container.onscroll = function () {
-    if (message_container.scrollTop == 0) {
+    if (message_container.scrollTop === 0) {
+        // select top message uuid
+        let top_message_uuid = document
+            .querySelector('#messages p:first-child')
+            .getAttribute('message-uuid')
+
+        console.log(top_message_uuid)
         // request more messages
-        console.log('request more messages')
         chatSocket.send(JSON.stringify({
             'type': 'chat-request-more-messages',
             'recipient': selected_recipient,
-
+            'top_message_uuid': top_message_uuid
         }))
     }
 }

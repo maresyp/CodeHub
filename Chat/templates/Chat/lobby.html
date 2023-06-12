@@ -32,9 +32,9 @@
                 {% for message in friend.messages %}
                 <div id="message">
                     {% if message.sender_id == user %}
-                    <p style="text-align: right;">{{ message.body }}</p>
+                    <p msg-uuid="{{ message.message_id }}" style="text-align: right;">{{ message.body }}</p>
                     {% else %}
-                    <p style="text-align: left;">{{ message.body }}</p>
+                    <p msg-uuid="{{ message.message_id }}" style="text-align: left;">{{ message.body }}</p>
                     {% endif %}
                 </div>
                 {% endfor %}
