@@ -5,11 +5,13 @@ from .models import Message
 from django.db.models import Q
 from django.utils import timezone
 from datetime import datetime
+
+
 # Create your views here.
 
 @login_required(login_url='login')
 def lobby(request):
-    AMOUNT_OF_FRIENDS = 10
+    AMOUNT_OF_FRIENDS = 10  # TODO: maybe change ?
     page = 'chat'
     matches = Matches.objects.filter(
         Q(first_user=request.user, first_status=True) |

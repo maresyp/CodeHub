@@ -18,7 +18,7 @@ function startWebSocket() {
         let data = JSON.parse(e.data)
         if (data.type === 'chat-single-message') {
             let message_body = null
-            console.log(data)
+
             // Update chat window
             if (data.sender == selected_recipient) {
                 message_body = `<p msg-uuid="${data.message_id}" style="text-align: left;">${data.message}</p>`
@@ -131,10 +131,9 @@ message_container.onscroll = function () {
     if (message_container.scrollTop === 0) {
         // select top message uuid
         let top_message_uuid = document
-            .querySelector('#messages p:first-child')
-            .getAttribute('message-uuid')
+            .querySelector('#messages div:first-child p')
+            .getAttribute('msg-uuid')
 
-        console.log(top_message_uuid)
         // request more messages
         chatSocket.send(JSON.stringify({
             'type': 'chat-request-more-messages',

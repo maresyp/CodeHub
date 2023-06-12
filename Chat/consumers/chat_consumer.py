@@ -9,12 +9,11 @@ from .utils import is_valid_match
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    PAGE_SIZE = 10
+    PAGE_SIZE = 20
 
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.room_group_name = None
-        self.page_number = 1
 
     async def connect(self):
         self.room_group_name = f"chat_{self.scope['user'].id}"
@@ -56,7 +55,32 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def chat_send_more_messages_handler(self, data):
-        print(data)
+        @database_sync_to_async
+        def get_more_messages():
+            last_message = Message.objects.filter(message_id=data['top_message_uuid']).first()
+            if not last_message:
+                return {}
+
+            messages = Message.objects.filter(
+                Q(sender_id=last_message.sender_id, recipient_id=last_message.recipient_id) |
+                Q(sender_id=last_message.recipient_id, recipient_id=last_message.sender_id),
+                send_timestamp__lt=last_message.send_timestamp
+            ).exclude(message_id=data['top_message_uuid']).order_by('-send_timestamp')[:self.PAGE_SIZE]
+
+            messages_data = {
+                str(msg.message_id): {
+                    'message': msg.body,
+                    'sender': msg.sender_id.id,
+                    'recipient': msg.recipient_id.id,
+                    'timestamp': msg.send_timestamp.strftime('%Y-%m-%d %H:%M:%S')
+                } for msg in messages
+            }
+            return messages_data
+
+        await self.send(text_data=json.dumps({
+            'type': 'chat-new-window',
+            'messages': await get_more_messages(),
+        }))
 
     async def chat_message_handler(self, data):
         message = data['message']
@@ -108,7 +132,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def send_messages(self, recipient_id):
         @database_sync_to_async
         def get_messages():
-            start_index = (self.page_number - 1) * self.PAGE_SIZE
+            start_index = 0
             end_index = start_index + self.PAGE_SIZE
 
             messages = Message.objects.filter(
