@@ -44,6 +44,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     await self.recipient_change_handler(text_data_json)
                 case 'chat_message_read':
                     await self.chat_message_read_handler(text_data_json)
+                case 'chat-request-more-messages':
+                    await self.chat_send_more_messages_handler(text_data_json)
         except KeyError:
             return
 
@@ -52,6 +54,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+    async def chat_send_more_messages_handler(self, data):
+        print(data)
 
     async def chat_message_handler(self, data):
         message = data['message']

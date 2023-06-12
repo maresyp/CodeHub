@@ -2,6 +2,7 @@ let url = `ws://${window.location.host}/ws/socket-server/chat`
 let form = document.getElementById('chat-form')
 let friends = document.querySelectorAll('a[user-uuid]');
 let selected_recipient = document.querySelector('a[user-uuid]').getAttribute('user-uuid')
+let message_container = document.getElementById('messages')
 
 // Create a web socket
 let chatSocket = null; startWebSocket();
@@ -88,6 +89,7 @@ form.addEventListener('submit', (e) => {
     form.reset()
     appendMessage(`<p style="text-align: right;">${message}</p>`, 'beforeend')
     update_top_message(selected_recipient, message)
+    message_container.scrollTop = message_container.scrollHeight;
 })
 
 // TODO: matke this a function and update when new friend appears
@@ -113,3 +115,23 @@ friends.forEach((friend) => {
         send_message_read()
     })
 })
+
+// Prevent scrolling the whole page when scrolling the chat window
+message_container.addEventListener('wheel', function (event) {
+    event.preventDefault();
+    let delta = event.deltaY;
+    let container = event.currentTarget;
+    container.scrollTop += delta;
+});
+
+message_container.onscroll = function () {
+    if (message_container.scrollTop == 0) {
+        // request more messages
+        console.log('request more messages')
+        chatSocket.send(JSON.stringify({
+            'type': 'chat-request-more-messages',
+            'recipient': selected_recipient,
+
+        }))
+    }
+}
