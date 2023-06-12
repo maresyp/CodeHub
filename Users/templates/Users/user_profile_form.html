@@ -1,0 +1,51 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<!-- Main Section -->
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'account' %}">
+                <i class="im im-plus"></i>Powrót</a>
+            <br>
+
+            <form class="form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in profile_form %}
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}}</label>
+                    {{field}}
+
+                    {% for error in field.errors %}
+                    <p style="color: red;">{{error}}</p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+
+                <input class="btn btn--main btn--lg  my-md" type="submit" value="Zapisz" name="profile_save"/>
+            </form>
+
+            <form class="form" method="POST">
+                {% csrf_token %}
+
+                {% for field in password_form %}
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}}</label>
+                    {{field}}
+
+                    {% for error in field.errors %}
+                    <p style="color: red;">{{error}}</p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+
+                <input class="btn btn--main btn--lg  my-md" type="submit" value="Zmień hasło" name="password_save" />
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

@@ -9,7 +9,7 @@
       <div class="column column--1of3">
         <div class="card text-center">
           <div class="card__body dev">
-            <a class="tag tag--pill tag--main settings__btn" href="">Edytuj profil</a>
+            <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_account' %}">Edytuj profil</a>
             <img class="avatar avatar--xl dev__avatar" src="{{profile.imageURL}}" alt="Profile_logo"/>
             <h2 class="dev__username">{{user.username}}</h2>
             <p class="dev__fullname">{{user.first_name }} {{user.last_name}}</p>
@@ -22,7 +22,7 @@
             <p class="dev__location">Lokalizacja: {{profile.city}}</p>
             {% endif %}
 
-            {% if profile.city %}
+            {% if profile.gender %}
             <p class="dev__location">Płeć: {{profile.gender}}</p>
             {% endif %}
 
@@ -81,7 +81,7 @@
         <div class="settings">
           <h3 class="settings__title">Moje kody</h3>
           <a class="tag tag--pill tag--main settings__btn tag--lg" href=""><i
-              class="im im-plus"></i> Dodaj kod</a>
+              class="im im-plus"></i>Dodaj kod</a>
         </div>
 
         <table class="settings__table">
@@ -106,8 +106,8 @@
             </td>
           </tr>
           {% endfor %}
-
         </table>
+        
       </div>
     </div>
   </div>

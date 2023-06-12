@@ -1,21 +1,17 @@
-from django.dispatch.dispatcher import receiver
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.urls import conf
-from django.db.models import Case, When, PositiveSmallIntegerField, OuterRef
+from django.db.models import OuterRef
 from .models import Profile, FavouritesTags, Tag, Code
-from .forms import CustomUserCreationForm #ProfileForm, SkillForm, MessageForm
-#from .utils import searchProfiles, paginateProfiles
+from .forms import CustomUserCreationForm, ProfileForm, ChangePasswordForm
 
 
 # Create your views here.
 
 def loginUser(request):
     page = 'login'
-    context = {'page': page}
 
     if request.method == 'POST':
         username = request.POST['username'].lower()
@@ -36,6 +32,7 @@ def loginUser(request):
         else:
             messages.error(request, 'Nazwa użytkownika lub hasło jest niepoprawne.')
 
+    context = {'page': page}
     return render(request, 'users/login_register.html', context)
 
 
@@ -94,9 +91,55 @@ def userAccount(request):
         value=FavouritesTags.objects.filter(tag_id=OuterRef('pk'), user_id=user).values('value')
     ).order_by('-value')
 
+    #Get all codes created by logged in user
     codes = Code.objects.filter(owner=user).order_by('creation_date')
 
-
-
-    context = {'user': user, 'profile': profile, 'tags': tags, 'codes': codes, 'page': page}
+    context = {
+        'user': user, 
+        'profile': profile, 
+        'tags': tags, 
+        'codes': codes, 
+        'page': page
+    }
     return render(request, 'users/account.html', context)
+
+
+@login_required(login_url='login')
+def editAccount(request):
+    page = 'edit_account'
+    user = request.user
+    profile = user.profile
+    profile_form = ProfileForm(instance=profile)
+    password_form = ChangePasswordForm(user)
+
+    if request.method == 'POST':
+        if 'profile_save' in request.POST:
+            profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, 'Dane zostały zaktualizowane.')
+                return redirect('edit_account')
+        elif 'password_save' in request.POST:
+            password_form = ChangePasswordForm(user, request.POST)
+            if password_form.is_valid():
+                old_password = password_form.cleaned_data['old_password']
+                new_password1 = password_form.cleaned_data.get('new_password1')
+                new_password2 = password_form.cleaned_data.get('new_password2')
+                if not password_form.user.check_password(old_password):
+                    password_form.add_error('old_password', "Podane hasło jest niepoprawne!")
+                elif new_password1 and new_password2 and old_password == new_password1:
+                    password_form.add_error('new_password1', "Nowe hasło jest takie same jak stare!")
+                elif new_password1 and new_password2 and new_password2 != new_password1:
+                    password_form.add_error('new_password2', "Hasła nie są takie same!")
+                else:
+                    password_form.save(commit=True)
+                    messages.success(request, 'Hasło zostało zmienione. Zaloguj się ponownie.')
+                    return redirect('edit_account')
+
+    context = {
+        'profile_form': profile_form,
+        'password_form': password_form,
+        'page': page,
+    }
+
+    return render(request, 'users/user_profile_form.html', context)
