@@ -9,7 +9,7 @@ from .utils import is_valid_match
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    PAGE_SIZE = 20
+    PAGE_SIZE = 10
 
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
