@@ -116,15 +116,24 @@ def editAccount(request):
         if 'profile_save' in request.POST:
             profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
             if profile_form.is_valid():
-                profile_form.save()
-                messages.success(request, 'Dane zostały zaktualizowane.')
-                return redirect('edit_account')
+                email = profile_form.cleaned_data['email'].lower()
+
+                #ToDo: System will set default user avatar if user deletes its current
+
+                if profile_form.instance.user and User.objects.exclude(id=profile_form.instance.user.id).filter(email=email).exists():
+                    profile_form.add_error('email', "Podany adres e-mail jest już w użyciu.")
+                else:
+                    profile_form.instance.user.email = email
+                    profile_form.save()
+                    messages.success(request, 'Dane zostały zaktualizowane.')
+                    return redirect('edit_account')
         elif 'password_save' in request.POST:
             password_form = ChangePasswordForm(user, request.POST)
             if password_form.is_valid():
                 old_password = password_form.cleaned_data['old_password']
                 new_password1 = password_form.cleaned_data.get('new_password1')
                 new_password2 = password_form.cleaned_data.get('new_password2')
+
                 if not password_form.user.check_password(old_password):
                     password_form.add_error('old_password', "Podane hasło jest niepoprawne!")
                 elif new_password1 and new_password2 and old_password == new_password1:

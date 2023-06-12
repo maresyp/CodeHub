@@ -52,11 +52,8 @@ class ProfileForm(ModelForm):
         if self.instance.user:
             self.fields['email'].initial = self.instance.user.email
 
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if self.instance.user and User.objects.exclude(id=self.instance.user.id).filter(email=email).exists():
-            self.add_error('email', "Podany adres e-mail jest już w użyciu.")
-        return email
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
 
     def save(self, commit=True):
         profile = super(ProfileForm, self).save(commit=False)
@@ -85,6 +82,9 @@ class ChangePasswordForm(Form):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
 
     def save(self, commit=True):
         password = self.cleaned_data['new_password1']

@@ -22,7 +22,9 @@
 .form__field > label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--color-text);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-sub-light);
 }
 
 .form__label--inline {
