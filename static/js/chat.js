@@ -31,19 +31,11 @@ function startWebSocket() {
             update_top_message(data.sender, data.message)
 
         } else if (data.type === 'chat-new-window') {
-            [data.messages].forEach(msg => {
-                Object.keys(msg).forEach(key => {
-                    let message_body = null
-
-                    if (msg[key].sender == selected_recipient) {
-                        message_body = `<p msg-uuid="${key}" style="text-align: left;">${msg[key].message}</p>`
-                    } else {
-                        message_body = `<p msg-uuid="${key}" style="text-align: right;">${msg[key].message}</p>`
-                    }
-
-                    appendMessage(message_body)
-                })
-            })
+            extractMultipleMessages(data.messages)
+            message_container.scrollTop = message_container.scrollHeight;
+        } else if (data.type === 'chat-more-messages') {
+            extractMultipleMessages(data.messages)
+            message_container.scrollTop = 25; // TODO : add fancy way of scrolling to the previous top message
         }
     }
 
@@ -68,6 +60,22 @@ function appendMessage(message, position= 'afterbegin') {
         position,
         '<div id="message">' + message + '</div>'
     )
+}
+
+function extractMultipleMessages(messages, position= 'afterbegin') {
+    [messages].forEach(msg => {
+        Object.keys(msg).forEach(key => {
+            let message_body = null
+
+            if (msg[key].sender == selected_recipient) {
+                message_body = `<p msg-uuid="${key}" style="text-align: left;">${msg[key].message}</p>`
+            } else {
+                message_body = `<p msg-uuid="${key}" style="text-align: right;">${msg[key].message}</p>`
+            }
+
+            appendMessage(message_body, position)
+        })
+    })
 }
 
 function new_message_notification(friend_id) {
@@ -132,7 +140,7 @@ message_container.onscroll = function () {
         // select top message uuid
         let top_message_uuid = document
             .querySelector('#messages div:first-child p')
-            .getAttribute('msg-uuid')
+            .getAttribute('msg-uuid') // TODO : handle null ( when no messages )
 
         // request more messages
         chatSocket.send(JSON.stringify({

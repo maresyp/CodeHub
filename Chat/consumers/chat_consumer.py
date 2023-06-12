@@ -78,7 +78,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return messages_data
 
         await self.send(text_data=json.dumps({
-            'type': 'chat-new-window',
+            'type': 'chat-more-messages',
             'messages': await get_more_messages(),
         }))
 
