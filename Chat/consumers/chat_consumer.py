@@ -32,7 +32,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Before we do anything, check if the user is in a match with the recipient
         if not is_valid_match(self.scope['user'], text_data_json['recipient']):
-            # TODO: maybe add some error message
+            self.chat_error_handler('You are not in a match with this user')
             return
 
         try:
@@ -52,6 +52,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
+        )
+
+    async def chat_error_handler(self, error):
+        self.send(
+            text_data=json.dumps({
+                'type': 'chat-error',
+                'error': error
+            })
         )
 
     async def chat_send_more_messages_handler(self, data):

@@ -36,12 +36,15 @@ function startWebSocket() {
         } else if (data.type === 'chat-more-messages') {
             extractMultipleMessages(data.messages)
             message_container.scrollTop = 25; // TODO : add fancy way of scrolling to the previous top message
+        } else if (data.type === 'chat-error') {
+            alert(data.error)
         }
     }
 
     // add an onclose event listener to handle unexpected closure
     chatSocket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly. Trying to reconnect...', e);
+        alert('Trying to reconnect to the chat server...')
         // Wait for a bit before trying to reconnect
         setTimeout(startWebSocket, 10000); // 10 seconds
     };
