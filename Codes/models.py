@@ -18,7 +18,7 @@ class Code(models.Model):
                                                                MaxValueValidator(100)], 
                                                    null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    last_edit = models.DateTimeField()
+    last_edit = models.DateTimeField(auto_now=True)
 
     def __init__(self, *args, **kwargs):
         super(Code, self).__init__(*args, **kwargs)
