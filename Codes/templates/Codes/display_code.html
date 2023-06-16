@@ -66,11 +66,15 @@
         <div class="settings">
           <h3 class="settings__title">{{code.title}}</h3>
           
-          <a class="tag tag--pill tag--main settings__btn tag--lg" href=""><i
-            class="im im-plus"></i>Usuń</a>
-
-          <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_code' code.id %}"><i
-              class="im im-plus"></i>Edytuj</a>
+          <div>
+            <a class="tag tag--pill tag--red settings__btn tag--lg" href="{% url 'delete_code' code.id %}"><i
+              class="im im-plus"></i>Usuń</a>
+  
+            <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_code' code.id %}"><i
+                class="im im-plus"></i>Edytuj</a>
+          </div>
+          
+          
         </div>
 
         <div class="devInfo">

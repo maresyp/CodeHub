@@ -51,6 +51,13 @@
   font-weight: 500;
 }
 
+.tag--red,
+.tag--red > small {
+  background: var(--color-error);
+  color: var(--color-sub);
+  font-weight: 500;
+}
+
 .tag--lg {
   padding: 0.8rem 3rem;
   font-size: 1.4rem;

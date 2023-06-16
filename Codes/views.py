@@ -83,3 +83,12 @@ def displayMyCode(request, code_id):
         'user': user, 
     }
     return render(request, 'Codes/display_code.html', context)
+
+@login_required(login_url='login')
+def deleteCode(request, code_id):
+    code = get_object_or_404(Code, id=code_id)
+
+    code.delete()
+    messages.success(request, 'Kod został usunięty.')
+    return redirect('account')
+
