@@ -88,7 +88,7 @@
           {% for code in codes %}
           <tr>
             <td class="settings__tableInfo">
-              <a href="">{{code.title}}</a>
+              <a href="{% url 'display_code' code.id %}">{{code.title}}</a>
             </td>
 
             <td class="settings__tableInfo">

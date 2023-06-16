@@ -10,7 +10,13 @@
             <div class="formHead">
                 <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'account' %}">
                     <i class="im im-plus"></i>Powrót</a>
+
+                {% if page == 'add_code' %}
                 <h3>Dodaj nowy kod</h3>
+                {% else %}
+                <h3>Edytuj kod</h3>
+                {% endif %}
+
             </div>
             <br>
 
@@ -20,7 +26,7 @@
                 {% for field in form %}
                 <div class="form__field">
                     <label for="formInput#text">{{field.label}}</label>
-                    {{field}}
+                    {{field|escape}}
 
                     {% for error in field.errors %}
                     <p style="color: red;">{{error}}</p>
@@ -29,7 +35,11 @@
                 {% endfor %}
 
                 <div class="settings__saveBtn">
+                    {% if page == 'add_code' %}
                     <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Dodaj"/>
+                    {% else %}
+                    <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Zapisz zmiany "/>
+                    {% endif %}
                 </div>
             </form>
         </div>

@@ -599,6 +599,7 @@ img {
   margin-bottom: 5rem;
   padding: 0 3rem;
   background: var(--color-white);
+  width: -webkit-fill-available;
 }
 
 .settings__table tr {
@@ -639,8 +640,8 @@ img {
 
 .settings__tableInfo p {
   font-size: 1.4rem;
-    margin-right: 1rem;
-    width: max-content;
+  margin-right: 1rem;
+  width: max-content;
 }
 
 .settings__tableActions {
