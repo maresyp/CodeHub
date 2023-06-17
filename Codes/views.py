@@ -68,7 +68,7 @@ def editCode(request, code_id):
         'page': page,
         'form': form
     }
-    return render(request, 'Codes/add-edit_code.html', context)
+    return render(request, 'account', context)
 
 @login_required(login_url='login')
 def displayMyCode(request, code_id):
