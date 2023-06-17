@@ -67,7 +67,8 @@
           <h3 class="settings__title">{{code.title}}</h3>
           
           <div>
-            <a class="tag tag--pill tag--red settings__btn tag--lg" href="{% url 'delete_code' code.id %}"><i
+            <a class="tag tag--pill tag--red settings__btn tag--lg" href="{% url 'delete_code' code.id %}" 
+            onclick="return confirm('Czy na pewno chcesz usunąć ten kod?')"><i
               class="im im-plus"></i>Usuń</a>
   
             <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_code' code.id %}"><i

@@ -29,7 +29,7 @@ def addCode(request):
                 new_code.save()
 
                 messages.success(request, 'Kod został poprawnie utworzony.')
-                return redirect('edit_code')
+                return redirect('account')
     else:
         form = CodeForm()
 
@@ -68,7 +68,7 @@ def editCode(request, code_id):
         'page': page,
         'form': form
     }
-    return render(request, 'account', context)
+    return render(request, 'Codes/add-edit_code.html', context)
 
 @login_required(login_url='login')
 def displayMyCode(request, code_id):
