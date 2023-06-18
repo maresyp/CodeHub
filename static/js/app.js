@@ -1,14 +1,24 @@
-// Invoke Functions Call on Document Loaded
-// document.addEventListener('DOMContentLoaded', function () {
-//   hljs.highlightAll();
-// });
+setInterval(() => {
+  const alerts = document.querySelectorAll('.alert');
 
+  alerts.forEach((alert) => {
+    // Sprawdza, czy już jest ustawiony timer na zamykanie
+    if (!alert.dataset.timerSet) {
+      alert.dataset.timerSet = 'true';
 
-let alertWrapper = document.querySelector('.alert')
-let alertClose = document.querySelector('.alert__close')
+      const closeBtn = alert.querySelector('.alert__close');
 
-if (alertWrapper) {
-  alertClose.addEventListener('click', () =>
-    alertWrapper.style.display = 'none'
-  )
-}
+      // Obsługa zamknięcia przez użytkownika
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          alert.style.display = 'none';
+        });
+      }
+
+      // Automatyczne zamknięcie po 5 sekundach
+      setTimeout(() => {
+        alert.style.display = 'none';
+      }, 5000);
+    }
+  });
+}, 1000);
