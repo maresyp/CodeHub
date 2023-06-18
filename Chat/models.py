@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from Users.models import User
 
+
 # Create your models here.
 
 class Message(models.Model):
@@ -12,7 +13,7 @@ class Message(models.Model):
     # attachment =  ???
     is_read = models.BooleanField(default=False)
     send_timestamp = models.DateTimeField(auto_now_add=True)
-    # view_timestamp = models.DateTimeField(null=True, blank=True)
+    view_timestamp = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return str(f"{self.send_timestamp}: {self.sender_id}: {self.body}")
+        return str(f"{self.message_id} {self.send_timestamp}: {self.sender_id}: {self.body}")

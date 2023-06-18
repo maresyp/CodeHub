@@ -779,16 +779,14 @@ img {
   padding: 0.5rem 3rem;
   border: 2px solid var(--color-light);
   border-radius: 0.7rem;
+  height: 400px;
+  overflow-y: scroll;
 }
 
 .message {
   padding: 2.5rem 0;
 }
 
-.message > a span {
-  font-size: 1.45rem;
-  font-weight: 500;
-}
 
 .message.message--unread a span {
   font-weight: 700;
@@ -797,11 +795,6 @@ img {
 
 .message:not(:last-child) {
   border-bottom: 2px solid var(--color-white-light);
-}
-
-.message > a {
-  display: flex;
-  gap: 1rem;
 }
 
 .message__author,
