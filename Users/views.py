@@ -13,6 +13,9 @@ from .forms import CustomUserCreationForm, ProfileForm, ChangePasswordForm
 def loginUser(request):
     page = 'login'
 
+    if request.user.is_authenticated:
+        return redirect('account')
+
     if request.method == 'POST':
         username = request.POST['username'].lower()
         password = request.POST['password']
