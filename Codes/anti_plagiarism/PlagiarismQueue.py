@@ -27,12 +27,12 @@ class PlagiarismQueue(Queue):
         super().put(item)
 
     def worker(self) -> None:
-        from Codes.models import Code
+        from Codes.models import Project
         while True:
             item = self.get()
-            checker = PlagiarismChecker(Code.objects.get(id=item.reference_code_id).source_code)
+            checker = PlagiarismChecker(Project.objects.get(id=item.reference_code_id).source_code)
 
-            for code in Code.objects.exclude(id=item.reference_code_id):
+            for code in Project.objects.exclude(id=item.reference_code_id):
                 print(f"checking {code} {code.source_code}")
                 result, *_ = checker.check_code(code.source_code, method={PlagiarismMethod.TFIDF})
                 if result.judge_result():

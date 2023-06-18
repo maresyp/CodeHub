@@ -7,7 +7,7 @@ from .anti_plagiarism.PlagiarismQueue import PlagiarismQueue, PlagiarismQueueEnt
 
 # Create your models here.
 
-class Code(models.Model):
+class Project(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=500)
@@ -18,10 +18,10 @@ class Code(models.Model):
                                                                MaxValueValidator(100)], 
                                                    null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
-    last_edit = models.DateTimeField()
+    last_edit = models.DateTimeField(auto_now=True)
 
     def __init__(self, *args, **kwargs):
-        super(Code, self).__init__(*args, **kwargs)
+        super(Project, self).__init__(*args, **kwargs)
         self._source_code_hash = self._compute_hash(self.source_code)
 
     def __str__(self) -> str:
@@ -37,7 +37,7 @@ class Code(models.Model):
         if self._compute_hash(self.source_code) != self._source_code_hash:
             check_plagiarism = True
 
-        super(Code, self).save(force_insert, force_update, *args, **kwargs)
+        super(Project, self).save(force_insert, force_update, *args, **kwargs)
         self._source_code_hash = self._compute_hash(self.source_code)
 
         if check_plagiarism:
@@ -52,7 +52,7 @@ class Tag(models.Model):
         return str(self.name)
 
 class CodeTags(models.Model):
-    code_id = models.ForeignKey(Code, on_delete=models.CASCADE)
+    code_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     def __str__(self) -> str:

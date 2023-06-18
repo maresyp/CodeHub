@@ -1,0 +1,114 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<!-- Main Section -->
+<main class="settingsPage profile my-md">
+  <div class="container">
+    <div class="layout">
+      <div class="column column--1of3">
+        <div class="card text-center">
+          <div class="card__body dev">
+            <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'account' %}">Powrót do profilu</a>
+            <img class="avatar avatar--xl dev__avatar" src="{{user.profile.imageURL}}" alt="Profile_logo"/>
+            <h2 class="dev__username">{{user.username}}</h2>
+            <p class="dev__fullname">{{user.first_name }} {{user.last_name}}</p>
+
+            {% if user.profile.age %}
+            <p class="dev__location">Wiek: {{user.profile.age}}</p>
+            {% endif %}
+
+            {% if user.profile.city %}
+            <p class="dev__location">Lokalizacja: {{user.profile.city}}</p>
+            {% endif %}
+
+            {% if user.profile.gender %}
+            <p class="dev__location">Płeć: {{user.profile.gender}}</p>
+            {% endif %}
+
+            <ul class="dev__social">
+              {% if user.profile.social_github %}
+              <li>
+                <a title="Github" href="{{user.profile.social_github}}" target="_blank"><i class="fa fa-github"></i></a>
+              </li>
+              {% endif %}
+
+              {% if user.profile.social_twitter %}
+              <li>
+                <a title="Twitter" href="{{user.profile.social_twitter}}" target="_blank"><i class="fa fa-twitter"></i></a>
+              </li>
+              {% endif %}
+
+              {% if user.profile.social_youtube %}
+              <li>
+                <a title="YouTube" href="{{user.profile.social_youtube}}" target="_blank"><i class="fa fa-youtube"></i></a>
+              </li>
+              {% endif %}
+
+              {% if user.profile.social_facebook %}
+              <li>
+                <a title="Facebook" href="{{user.profile.social_facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
+              </li>
+              {% endif %}
+
+              {% if user.profile.social_linkedin %}
+              <li>
+                <a title="Linkedin" href="{{user.profile.social_linkedin}}" target="_blank"><i class="fa fa-linkedin"></i></a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="column column--2of3">
+        <div class="settings">
+          <h3 class="settings__title">{{project.title}}</h3>
+          
+          <div>
+            <a class="tag tag--pill tag--red settings__btn tag--lg" href="#" data-href="{% url 'delete_project' project.id %}" 
+            onclick="deleteProject(event, this.getAttribute('data-href'))"><i class="im im-plus"></i>Usuń</a>
+
+            <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_project' project.id %}"><i
+                class="im im-plus"></i>Edytuj</a>
+          </div>
+          
+          
+        </div>
+
+        <div class="devInfo">
+          <p class="devInfo__about">{{ project.description }}</p>
+        </div>
+
+
+
+        <table class="settings__table">
+          <tr>
+            <td class="settings__tableInfo">
+                <pre class="devInfo__about">{{ project.source_code|escape }}</pre>
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td class="settings__tableInfo">
+              
+            </td>
+            <td>
+              <div class="progress-circle" data-progress="{{ project.plagiarism_ratio }}">
+                <svg class="progress-circle__svg">
+                  <circle class="progress-circle__background" cx="30" cy="30" r="23"></circle>
+                  <circle class="progress-circle__progress" cx="30" cy="30" r="25"></circle>
+                </svg>
+                <span class="progress-circle__value">{{ project.plagiarism_ratio }}%</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% endblock %}

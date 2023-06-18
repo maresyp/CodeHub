@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<!-- Main Section -->
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <div class="formHead">
+                <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'account' %}">
+                    <i class="im im-plus"></i>Powrót</a>
+                <h3>Edutuj swoje dane</h3>
+            </div>
+            <br>
+
+            <form class="form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in profile_form %}
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}}</label>
+                    {{field}}
+
+                    {% for error in field.errors %}
+                    <p style="color: red;">{{error}}</p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+
+                <div class="settings__saveBtn">
+                    <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Zapisz" name="profile_save"/>
+                </div>
+            </form>
+
+            <form class="form" method="POST">
+                {% csrf_token %}
+
+                {% for field in password_form %}
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}}</label>
+                    {{field}}
+
+                    {% for error in field.errors %}
+                    <p style="color: red;">{{error}}</p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+
+                <div class="settings__saveBtn">
+                    <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Zmień hasło" name="password_save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

@@ -1,16 +1,20 @@
-from django.forms import ModelForm
+from django.forms import CharField, Form, ModelForm, EmailField, PasswordInput, ValidationError
+from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from .models import Profile
 
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['first_name',
-                  'email', 
-                  'username', 
-                  'password1', 
-                  'password2']
+        fields = [
+            'first_name',
+            'email', 
+            'username', 
+            'password1', 
+            'password2']
         labels = {
             'first_name': 'Imię',
         }
@@ -22,29 +26,69 @@ class CustomUserCreationForm(UserCreationForm):
             field.widget.attrs.update({'class': 'input'})
 
 
-# class ProfileForm(ModelForm):
-#     class Meta:
-#         model = Profile
-#         fields = ['name', 'email', 'username',
-#                   'location', 'bio', 'short_intro', 'profile_image',
-#                   'social_github', 'social_linkedin', 'social_twitter',
-#                   'social_youtube', 'social_website']
+class ProfileForm(ModelForm):
+    email = EmailField(required=True)
 
-#     def __init__(self, *args, **kwargs):
-#         super(ProfileForm, self).__init__(*args, **kwargs)
+    class Meta:
+        model = Profile
+        fields = ['city', 'age', 'bio', 'profile_image', 'gender',
+                  'social_github', 'social_twitter', 'social_youtube',
+                  'social_linkedin', 'social_facebook']
+        labels = {
+            'city': 'Lokalizacja',
+            'age': 'Wiek',
+            'bio': 'O mnie',
+            'profile_image': 'Zdjęcie profilowe',
+            'gender': 'Płeć',
+            'social_github': 'GitHub', 
+            'social_twitter': 'Twitter', 
+            'social_youtube': 'Youtube',
+            'social_linkedin': 'LinkedIn', 
+            'social_facebook': 'Facebook',
+        }
 
-#         for name, field in self.fields.items():
-#             field.widget.attrs.update({'class': 'input'})
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        if self.instance.user:
+            self.fields['email'].initial = self.instance.user.email
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
+
+    def save(self, commit=True):
+        profile = super(ProfileForm, self).save(commit=False)
+        profile.user.email = self.cleaned_data['email'].lower()
+        if commit:
+            profile.save()
+            profile.user.save()
+        return profile
 
 
-# class SkillForm(ModelForm):
-#     class Meta:
-#         model = Skill
-#         fields = '__all__'
-#         exclude = ['owner']
+class ChangePasswordForm(Form):
+    old_password = CharField(
+        label="Aktualne hasło",
+        widget=PasswordInput(attrs={'autocomplete': 'current-password'}))
 
-#     def __init__(self, *args, **kwargs):
-#         super(SkillForm, self).__init__(*args, **kwargs)
+    new_password1 = CharField(
+        label="Nowe hasło",
+        widget=PasswordInput(attrs={'autocomplete': 'new-password'}),
+        validators=[validate_password]
+    )
+    new_password2 = CharField(
+        label="Potwierdź nowe hasło",
+        widget=PasswordInput(attrs={'autocomplete': 'new-password'})
+    )
 
-#         for name, field in self.fields.items():
-#             field.widget.attrs.update({'class': 'input'})
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
+
+    def save(self, commit=True):
+        password = self.cleaned_data['new_password1']
+        self.user.set_password(password)
+        if commit:
+            self.user.save()
+        return self.user
