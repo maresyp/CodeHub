@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.contrib.auth.models import User
-from Codes.models import Code, Tag
+from Codes.models import Project, Tag
 import uuid
 
 
@@ -26,7 +26,7 @@ class Profile(models.Model):
     social_youtube = models.CharField(max_length=2000, null=True, blank=True)
     social_linkedin = models.CharField(max_length=2000, null=True, blank=True)
     social_facebook = models.CharField(max_length=2000, null=True, blank=True)
-    favourite_code = models.ForeignKey(Code, on_delete=models.SET_NULL, null=True, blank=True)
+    favourite_code = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return str(self.user)

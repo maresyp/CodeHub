@@ -1,16 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Code
-from .forms import CodeForm
+from .models import Project
+from .forms import ProjectForm
 
 
 @login_required(login_url='login')
-def addCode(request):
-    page = 'add_code'
+def addProject(request):
+    page = 'add_project'
 
     if request.method == 'POST':
-        form = CodeForm(request.POST)
+        form = ProjectForm(request.POST)
         if form.is_valid():
             title = form.cleaned_data.get('title')
             description = form.cleaned_data.get('description')
@@ -23,30 +23,30 @@ def addCode(request):
             elif not source_code:
                 form.add_error('source_code', 'Kolego, nie można dodać kodu bez kodu.')
             else:
-                new_code = form.save(commit=False)
-                new_code.owner = request.user
-                new_code.plagiarism_ratio = 0
-                new_code.save()
+                new_project = form.save(commit=False)
+                new_project.owner = request.user
+                new_project.plagiarism_ratio = 0
+                new_project.save()
 
-                messages.success(request, 'Kod został poprawnie utworzony.')
+                messages.success(request, 'Projekt został poprawnie utworzony.')
                 return redirect('account')
     else:
-        form = CodeForm()
+        form = ProjectForm()
 
     context = {
         'page': page,
         'form': form
     }
-    return render(request, 'Codes/add-edit_code.html', context)
+    return render(request, 'Projects/add-edit_project.html', context)
 
 
 @login_required(login_url='login')
-def editCode(request, code_id):
-    page = 'edit_code'
-    code = get_object_or_404(Code, id=code_id)
+def editProject(request, project_id):
+    page = 'edit_project'
+    project = get_object_or_404(Project, id=project_id)
 
     if request.method == 'POST':
-        form = CodeForm(request.POST, instance=code)
+        form = ProjectForm(request.POST, instance=project)
         if form.is_valid():
             title = form.cleaned_data.get('title')
             description = form.cleaned_data.get('description')
@@ -62,33 +62,33 @@ def editCode(request, code_id):
                 form.save()
                 messages.success(request, 'Zapisano zmiany.')
     else:
-        form = CodeForm(instance=code)
+        form = ProjectForm(instance=project)
 
     context = {
         'page': page,
         'form': form
     }
-    return render(request, 'Codes/add-edit_code.html', context)
+    return render(request, 'Projects/add-edit_project.html', context)
 
 @login_required(login_url='login')
-def displayMyCode(request, code_id):
-    page = 'display_code'
+def displayMyProject(request, project_id):
+    page = 'display_my_project'
     user = request.user
 
-    code = get_object_or_404(Code, id=code_id)
+    project = get_object_or_404(Project, id=project_id)
 
     context = {
         'page': page,
-        'code': code,
+        'project': project,
         'user': user, 
     }
-    return render(request, 'Codes/display_code.html', context)
+    return render(request, 'Projects/display_project.html', context)
 
 @login_required(login_url='login')
-def deleteCode(request, code_id):
-    code = get_object_or_404(Code, id=code_id)
+def deleteProject(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
 
-    code.delete()
-    messages.success(request, 'Kod został usunięty.')
+    project.delete()
+    messages.success(request, 'Projekt został usunięty.')
     return redirect('account')
 

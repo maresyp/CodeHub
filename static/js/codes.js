@@ -1,8 +1,8 @@
-function deleteCode(event, deleteUrl) {
+function deleteProject(event, deleteUrl) {
     event.preventDefault();
 
     Swal.fire({
-        title: 'Czy na pewno chcesz usunąć ten kod?',
+        title: 'Czy na pewno chcesz usunąć ten projekt?',
         text: "Nie będziesz mógł tego cofnąć!",
         icon: 'warning',
         showCancelButton: true,

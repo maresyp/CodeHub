@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import OuterRef
-from .models import Profile, FavouritesTags, Tag, Code
+from .models import Profile, FavouritesTags, Tag, Project
 from .forms import CustomUserCreationForm, ProfileForm, ChangePasswordForm
 
 
@@ -95,13 +95,13 @@ def userAccount(request):
     ).order_by('-value')
 
     #Get all codes created by logged in user
-    codes = Code.objects.filter(owner=user).order_by('creation_date')
+    projects = Project.objects.filter(owner=user).order_by('creation_date')
 
     context = {
         'user': user, 
         'profile': profile, 
         'tags': tags, 
-        'codes': codes, 
+        'projects': projects, 
         'page': page
     }
     return render(request, 'users/account.html', context)
