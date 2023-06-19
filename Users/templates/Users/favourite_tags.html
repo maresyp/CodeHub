@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Ulubione tagi</h1>
+
+<h2>Dodaj tag</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ add_form.as_p }}
+    <button type="submit" name="add">Dodaj</button>
+</form>
+
+<ul>
+    {% for tag in favourite_tags %}
+        <li>
+            {{ tag.tag_id.name }}: {{ tag.value }}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="tag_id" value="{{ tag.id }}">
+                {% if not forloop.first %}
+                    <button type="submit" name="increase">Dodaj</button>
+                {% endif %}
+                {% if not forloop.last %}
+                    <button type="submit" name="decrease">Odejmij</button>
+                {% endif %}
+                <button type="submit" name="remove">Usuń</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

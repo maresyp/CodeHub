@@ -8,4 +8,7 @@ urlpatterns = [
 
     path('account/', views.userAccount, name="account"),
     path('edit_account/', views.editAccount, name="edit_account"),
+
+    path('favourite_tags/', views.favouriteTagsView, name='favourite_tags'),
+    path('favourite_tags/<uuid:favourite_tag_id>/', views.favouriteTagsView, name='edit_favourite_tag'),
 ]
