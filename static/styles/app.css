@@ -944,3 +944,103 @@ img {
 .friends li:hover {
     background-color: #d9d9d9;
 }
+
+/*=======================
+  Arrow common style
+========================*/
+
+.arrow {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-top: 2px solid #000;
+  border-right: 2px solid #000;
+}
+
+.arrow-top {
+  transform: rotate(-45deg);
+}
+.arrow-right {
+  transform: rotate(45deg);
+}
+.arrow-bottom {
+  transform: rotate(135deg);
+}
+.arrow-left {
+  transform: rotate(-135deg);
+}
+.arrow-top-narrow {
+  transform: rotate(-45deg) skew(-15deg, -15deg);
+}
+.arrow-top-wide {
+  transform: rotate(-45deg) skew(7deg, 7deg);
+}
+.arrow-top-left {
+  transform: rotate(-90deg) skew(-10deg, -10deg);
+}
+.arrow-top-right {
+  transform: rotate(0) skew(-10deg, -10deg);
+}
+.arrow-bottom-left {
+  transform: rotate(180deg) skew(-10deg, -10deg);
+}
+.arrow-bottom-right {
+  transform: rotate(90deg) skew(-10deg, -10deg);
+}
+
+/*=======================
+  Edit tags
+========================*/
+
+
+.tag-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-main-light);
+  color: var(--color-white);
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.tag-container::before,
+.tag-container::after {
+  content: '';
+  flex-grow: 1;
+  height: 0;
+}
+
+.tag-container form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tag-name {
+  flex: 1;
+  margin: 0 10px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  font-size: xx-large;
+  cursor: pointer;
+}
+
+.tag-button {
+  border: none;
+  background: none;
+  font-size: xx-large;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.tag-button.hidden {
+  visibility: hidden;
+}
+
+
