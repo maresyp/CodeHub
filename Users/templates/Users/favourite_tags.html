@@ -8,7 +8,7 @@
         <div class="column column--1of3">
           <div class="card text-center">
             <div class="card__body dev">
-              <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_account' %}">Edytuj profil</a>
+              <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'account' %}">Powrót do profilu</a>
               <img class="avatar avatar--xl dev__avatar" src="{{user.profile.imageURL}}" alt="Profile_logo"/>
               <h2 class="dev__username">{{user.username}}</h2>
               <p class="dev__fullname">{{user.first_name }} {{user.last_name}}</p>
@@ -66,26 +66,25 @@
             <h3 class="devInfo__title">Edycja ulubionych technologii</h3>
           </div>
 
-          <h5>Wybierz technologię do dodania:</h5>
-          <form method="post">
-              {% csrf_token %}
-              {{ add_form.as_p }}
-              <button type="submit" name="add">Dodaj</button>
-          </form>
-          
+          <div class="tag-container-form">
+            <form method="post">
+                {% csrf_token %}
+                {{ add_form.as_p }}
+                <button class="btn btn--sub tag-container__form-btn" type="submit" name="add">Dodaj</button>
+            </form>
+          </div>
+    
           {% for tag in favourite_tags %}
-              <div class="tag-container">
-                  <form method="post">
-                      {% csrf_token %}
-                      <button class="tag-button {% if forloop.first %}hidden{% endif %}" type="submit" name="increase">+</button>
-                      <button class="tag-name" type="submit" name="remove">{{ tag.tag_id.name }}</button>
-                      <input type="hidden" name="tag_id" value="{{ tag.id }}">
-                      <button class="tag-button {% if forloop.last %}hidden{% endif %}" type="submit" name="decrease">-</button>
-                  </form>
-              </div>
+            <div class="tag-container">
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="tag-button {% if forloop.first %}hidden{% endif %}" type="submit" name="increase">+</button>
+                    <button class="tag-name" type="submit" name="remove">{{ tag.tag_id.name }}</button>
+                    <input type="hidden" name="tag_id" value="{{ tag.id }}">
+                    <button class="tag-button {% if forloop.last %}hidden{% endif %}" type="submit" name="decrease">-</button>
+                </form>
+            </div>
           {% endfor %}
-
-
         </div>
       </div>
     </div>

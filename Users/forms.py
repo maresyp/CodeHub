@@ -97,12 +97,18 @@ class AddFavouriteTagForm(ModelForm):
     class Meta:
         model = FavouritesTags
         fields = ['tag_id']
+        labels = {
+            'tag_id': 'Nazwa technologii',
+        }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(AddFavouriteTagForm, self).__init__(*args, **kwargs)
         if self.user:
             self.fields['tag_id'].queryset = Tag.objects.exclude(favouritestags__user_id=self.user)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
 
     def clean_tag_id(self):
         tag_id = self.cleaned_data['tag_id']

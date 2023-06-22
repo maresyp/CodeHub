@@ -1001,7 +1001,23 @@ img {
   border-radius: 25px;
   padding: 10px 20px;
   margin-bottom: 10px;
+  margin-left: 35%;
   position: relative;
+  width: 30%;
+}
+
+.tag-container-form {
+  display: flex;
+  align-items: center;
+  color: var(--color-sub);
+  margin-bottom: 50px;
+  margin-left: 25%;
+  position: relative;
+  width: 50%;
+}
+
+.tag-container__form-btn {
+  margin: 5% 0% 0% 75%;
 }
 
 .tag-container::before,
@@ -1027,14 +1043,14 @@ img {
   white-space: nowrap;
   background: none;
   border: none;
-  font-size: xx-large;
+  font-size: large;
   cursor: pointer;
 }
 
 .tag-button {
   border: none;
   background: none;
-  font-size: xx-large;
+  font-size: large;
   cursor: pointer;
   opacity: 1;
 }
