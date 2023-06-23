@@ -2,68 +2,64 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="col-md-3">
-        <div class="friends">
-            <p>Twoje Matche</p>
-            <ul>
-                {% if not friends %}
-                <p>Nie masz jeszcze żadnych matchy</p>
-                {% endif %}
-                {% for friend in friends %}
-                <a user-uuid="{{ friend.id }}" href="#">
-                    <li>{{ friend.username }}</li>
-                    {% if not friend.last_message %}
-                    <span>Nie masz jeszcze żadnych wiadomości</span>
-                    {% else %}
-                    <span>{{ friend.last_message.body }}</span>
-                    {% endif %}
-                </a>
-                {% endfor %}
-            </ul>
-        </div>
+<main class="settingsPage profile my-md">
+    <div class="container">
+        <div class="layout">
+            <div class="column column--1of3">
+                <div class="card text-center">
+                    <div class="card__body dev">
+                        <h2 class="dev__username">Kontakty</h2>
 
-        <div class="col-md-9">
-            <h1>Chat</h1>
-            <a href="#" id="video-start-call">Call</a>
-            <div class="messages" id="messages">
-                {% for friend in friends %}
-                {% if friend.messages %}
-                {% for message in friend.messages %}
-                <div id="message">
-                    {% if message.sender_id == user %}
-                    <p msg-uuid="{{ message.message_id }}" style="text-align: right;">{{ message.body }}</p>
-                    {% else %}
-                    <p msg-uuid="{{ message.message_id }}" style="text-align: left;">{{ message.body }}</p>
-                    {% endif %}
+                        {% if not friends %}
+                        <p>Nie masz jeszcze żadnych matchy</p>
+                        {% endif %}
+                        {% for friend in friends %}
+                        <div class="contact">
+                            <a user-uuid="{{ friend.id }}" href="#">
+                                <li>{{ friend.username }}</li>
+                                {% if not friend.last_message %}
+                                <span>Nie masz jeszcze żadnych wiadomości</span>
+                                {% else %}
+                                <span>{{ friend.last_message.body }}</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                        {% endfor %}
+
+                    </div>
                 </div>
-                {% endfor %}
-                {% endif %}
-                {% endfor %}
             </div>
-            <form id="chat-form">
-                {% csrf_token %}
-                <input type="text" id="chat-message-input" name="message" placeholder="Napisz wiadomość..." />
-            </form>
-            <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
-            <script type="text/javascript" src="{% static 'js/video.js' %}"></script>
+    
+            <div class="col-md-9">
+                <h1>Chat</h1>
+                <a href="#" id="video-start-call">Call</a>
+                <div class="messages" id="messages">
+                    {% for friend in friends %}
+                    {% if friend.messages %}
+                    {% for message in friend.messages %}
+                    <div id="message">
+                        {% if message.sender_id == user %}
+                        <p class="tag tag--pill tag--main" msg-uuid="{{ message.message_id }}" style="text-align: right;">{{ message.body }}</p>
+                        {% else %}
+                        <p class="tag tag--pill tag--sub" msg-uuid="{{ message.message_id }}" style="text-align: left;">{{ message.body }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <form id="chat-form">
+                    {% csrf_token %}
+                    <input type="text" id="chat-message-input" name="message" placeholder="Napisz wiadomość..." />
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<style>
-    #videos{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        width: 100%;
-        padding: 10px;
-    }
-    video {
-        width: 49%;
-        border: 2px solid red;
-    }
-</style>
-<div class="videos">
-    <video class="video-player" id="video-local" autoplay playsinline></video>
-    <video class="video-player" id="video-remote" autoplay playsinline></video>
-</div>
+    
+    <div class="videos">
+        <video class="video-player" id="video-local" autoplay playsinline></video>
+        <video class="video-player" id="video-remote" autoplay playsinline></video>
+    </div>
+</main>
+
 {% endblock %}
