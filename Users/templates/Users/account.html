@@ -92,24 +92,8 @@
             <td class="settings__tableInfo">
               <a href="{% url 'display_project' project.id %}">{{project.title}}</a>
             </td>
-
-            <td class="settings__tableInfo">
-              <p>Współczynnik plagiatu:</p>
-            </td>
-
-            <td class="settings__tableInfo">
-              <div class="progress-circle" data-progress="{{ code.plagiarism_ratio }}">
-                <svg class="progress-circle__svg">
-                  <circle class="progress-circle__background" cx="30" cy="30" r="23"></circle>
-                  <circle class="progress-circle__progress" cx="30" cy="30" r="25"></circle>
-                </svg>
-                <span class="progress-circle__value">{{ project.plagiarism_ratio }}%</span>
-              </div>
-            </td>
-          </tr>
           {% endfor %}
         </table>
-        
       </div>
     </div>
   </div>

@@ -6,4 +6,5 @@ urlpatterns = [
     path('edit_project/<uuid:project_id>/', views.editProject, name="edit_project"),
     path('display_project/<uuid:project_id>/', views.displayMyProject, name="display_project"),
     path('delete_project/<uuid:project_id>/', views.deleteProject, name="delete_project"),
+    path('display_code/<uuid:code_id>', views.display_code, name="display_code")
 ]
