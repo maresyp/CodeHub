@@ -1,16 +1,16 @@
 from django import forms
 from .models import Project
 
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'description', 'source_code']
+        fields = ['title', 'description']
         labels = {
-            'title': 'Tytuł', 
-            'description': 'Krótki opis', 
-            'source_code': 'Kod',
+            'title': 'Tytuł',
+            'description': 'Krótki opis',
         }
-    
+
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
 
