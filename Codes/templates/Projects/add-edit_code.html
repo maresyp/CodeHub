@@ -8,8 +8,13 @@
     <div class="content-box">
         <div class="formWrapper">
             <div class="formHead">
-                <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'account' %}">
+                {% if page == 'add_code' %}
+                <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'display_project' project.id %}">
                     <i class="im im-plus"></i>Powrót</a>
+                {% else %}
+                <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'display_project' code.project.id %}">
+                    <i class="im im-plus"></i>Powrót</a>
+                {% endif %}
 
                 {% if page == 'add_code' %}
                 <h3>Dodaj nowy kod</h3>
