@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project
+from .models import Project, Code, Document
 
 
 class ProjectForm(forms.ModelForm):
@@ -16,3 +16,27 @@ class ProjectForm(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
+
+class CodeForm(forms.ModelForm):
+    class Meta:
+        model = Code
+        fields = ['title', 'description', 'source_code']
+        labels = {
+            'title': 'Tytuł',
+            'description': 'Krótki opis',
+            'source_code': 'Kod',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ('file', )
+        labels = {
+            'file': 'Plik',
+        }

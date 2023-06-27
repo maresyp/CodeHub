@@ -71,3 +71,6 @@ class CodeTags(models.Model):
 
     def __str__(self) -> str:
         return str(self.code_id)
+
+class Document(models.Model):
+    file = models.FileField()
