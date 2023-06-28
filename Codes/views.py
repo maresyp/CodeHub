@@ -1,11 +1,12 @@
+from turtle import title
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from httpx import delete
 
-from .models import Project, Code
-from .forms import ProjectForm, CodeForm
+from .models import Project, Code, Document
+from .forms import ProjectForm, CodeForm, DocumentForm
 
 
 @login_required(login_url='login')
@@ -113,9 +114,39 @@ def add_code(request, project_id):
         return redirect('account')
 
     if request.method == 'POST':
-        ...
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            for file in request.FILES.getlist('file'):
+                document = Document(file=file)
+
+                # check if project contains file with the same name
+                if Code.objects.filter(Q(owner=request.user) & Q(project=project) & Q(title=document.file.name)).exists():
+                    messages.error(request, f'Projekt zawiera już plik o nazwie {document.file.name}.')
+                    return redirect('add_code', project_id=project_id)
+
+                try:
+                    source_code = str(document.file.read())
+
+                    if len(source_code) > Code.source_code.field.max_length:
+                        messages.error(request, f'Plik {document.file.name} jest za duży.')
+                        return redirect('add_code', project_id=project_id)
+
+                except Exception:
+                    messages.error(request, f'Wystąpił błąd podczas przesyłania {document.file.name}.')
+                    return redirect('add_code', project_id=project_id)
+
+                Code.objects.create(
+                    owner=request.user,
+                    project=project,
+                    source_code=source_code,
+                    title=document.file.name,
+                    description='Brak opisu',
+                )
+
+            messages.success(request, 'Pliki zostały przesłane.')
+            return redirect('add_code', project_id=project_id)
     else:
-        form = CodeForm() # TODO : change
+        form = DocumentForm()
 
     context = {
         'page': page,
