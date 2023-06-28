@@ -21,7 +21,7 @@ function startWebSocket() {
 
             // Update chat window
             if (data.sender == selected_recipient) {
-                message_body = `<p msg-uuid="${data.message_id}" style="text-align: left;">${data.message}</p>`
+                message_body = `<div id="message" class="friend_message"><p class="tag tag--pill tag--sub" msg-uuid="${data.message_id}">${data.message}</p></div>`
                 appendMessage(message_body, 'beforeend')
                 send_message_read()
             } else {
@@ -59,10 +59,8 @@ function send_message_read() {
 
 function appendMessage(message, position= 'afterbegin') {
     let messages = document.getElementById('messages')
-    messages.insertAdjacentHTML(
-        position,
-        '<div id="message">' + message + '</div>'
-    )
+    messages.insertAdjacentHTML(position, message)
+    messages.scrollTop = messages.scrollHeight;
 }
 
 function extractMultipleMessages(messages, position= 'afterbegin') {
@@ -71,9 +69,9 @@ function extractMultipleMessages(messages, position= 'afterbegin') {
             let message_body = null
 
             if (msg[key].sender == selected_recipient) {
-                message_body = `<p msg-uuid="${key}" style="text-align: left;">${msg[key].message}</p>`
+                message_body = `<div id="message" class="friend_message"><p class="tag tag--pill tag--sub" msg-uuid="${key}">${msg[key].message}</p></div>`
             } else {
-                message_body = `<p msg-uuid="${key}" style="text-align: right;">${msg[key].message}</p>`
+                message_body = `<div id="message" class="user_message"><p class="tag tag--pill tag--main" msg-uuid="${key}">${msg[key].message}</p></div>`
             }
 
             appendMessage(message_body, position)
@@ -102,7 +100,7 @@ form.addEventListener('submit', (e) => {
         'recipient': selected_recipient
     }))
     form.reset()
-    appendMessage(`<p style="text-align: right;">${message}</p>`, 'beforeend')
+    appendMessage(`<div id="message" class="user_message"><p class="tag tag--pill tag--main">${message}</p></div>`, 'beforeend')
     update_top_message(selected_recipient, message)
     message_container.scrollTop = message_container.scrollHeight;
 })
