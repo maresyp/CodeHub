@@ -27,18 +27,21 @@
 
             <form class="form" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-
+                {% if page == 'edit_code' %}
                 {% for field in form %}
                 <div class="form__field">
                     <label for="formInput#text">{{field.label}}</label>
                     {{field|escape}}
 
-                    {% for error in field.errors %}
-                    <p style="color: red;">{{error}}</p>
-                    {% endfor %}
-                </div>
-                {% endfor %}
-
+                        {% for error in field.errors %}
+                        <p style="color: red;">{{error}}</p>
+                        {% endfor %}
+                        </div>
+                        {% endfor %}
+                {% else %}
+                    {{ form.as_p }}
+                    <div id="selected-files"></div>
+                {% endif %}
                 <div class="settings__saveBtn">
                     {% if page == 'add_code' %}
                     <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Dodaj" />
@@ -50,5 +53,15 @@
         </div>
     </div>
 </main>
-
+<script>
+    function displaySelectedFiles(event) {
+        const selectedFiles = document.querySelector('#selected-files');
+        selectedFiles.innerHTML = '';
+        for (const file of event.target.files) {
+            const fileName = document.createElement('div');
+            fileName.textContent = file.name;
+            selectedFiles.appendChild(fileName);
+        }
+    }
+</script>
 {% endblock content %}

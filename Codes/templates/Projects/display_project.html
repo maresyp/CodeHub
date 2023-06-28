@@ -84,7 +84,7 @@
 
         <table class="settings__table">
             {% for code in codes %}
-            <tr>
+            <tr class="code-row">
                 <td>
                     <a class="" href="#">{{ code.title }}</a>
                 </td>
@@ -103,8 +103,8 @@
                     </div>
                 </td>
                 <td>
-                    <div style="display: none;">
-                        <pre><code>{{ code.source_code }}</code></pre>
+                    <div class="code-container" style="display: none;">
+                        <pre><code>{{ code.source_code|escape }}</code></pre>
                     </div>
                 </td>
             </tr>
@@ -114,5 +114,17 @@
     </div>
   </div>
 </main>
-
+<script>
+    var codeRows = document.getElementsByClassName('code-row');
+    for (var i = 0; i < codeRows.length; i++) {
+    codeRows[i].addEventListener('click', function() {
+        var codeContainer = this.getElementsByClassName('code-container')[0];
+        if (codeContainer.style.display === 'none') {
+        codeContainer.style.display = 'block';
+        } else {
+        codeContainer.style.display = 'none';
+        }
+    });
+    }
+</script>
 {% endblock %}

@@ -36,11 +36,14 @@ class PlagiarismQueue(Queue):
             checker = PlagiarismChecker(checked_code.source_code)
             other_codes = Code.objects.all().exclude(id=checked_code.id, owner=checked_code.owner)
 
+            highest_similarity = 0
             for code in other_codes:
                 result, *_ = checker.check_code(code.source_code, method={PlagiarismMethod.TFIDF})
                 print(result)
-                if checked_code.plagiarism_ratio < int(result.cosine_similarity * 100):
-                    checked_code.plagiarism_ratio = int(result.cosine_similarity * 100)  # TODO: change data type
-                    checked_code.save()
+                if int(result.cosine_similarity * 100) > highest_similarity:
+                    highest_similarity = int(result.cosine_similarity * 100)
+
+            checked_code.plagiarism_ratio = highest_similarity
+            checked_code.save()
 
             self.task_done()

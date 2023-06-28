@@ -1,6 +1,7 @@
 from django import forms
 from .models import Project, Code, Document
-
+from django.forms.widgets import ClearableFileInput
+from django.utils.translation import gettext_lazy as _
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -33,10 +34,18 @@ class CodeForm(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
 
+class CustomClearableFileInput(ClearableFileInput):
+    initial_text = _('Aktualny plik')
+    input_text = _('')
+    clear_checkbox_label = _('Usuń')
+
 class DocumentForm(forms.ModelForm):
+    file = forms.FileField(widget=CustomClearableFileInput(attrs={'multiple': True}), label=_('Plik'))
+
     class Meta:
         model = Document
         fields = ('file', )
-        labels = {
-            'file': 'Plik',
-        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['file'].widget.attrs.update({'onchange': 'displaySelectedFiles(event)'})
