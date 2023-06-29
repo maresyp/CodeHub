@@ -1,3 +1,7 @@
+from django.core.management.base import BaseCommand, CommandParser
+from Users.models import User, Profile
+from Codes.models import Project, Code, Tag
+
 from abc import ABC, abstractmethod
 from faker import Faker
 from faker.providers import BaseProvider
@@ -5,6 +9,78 @@ from typing import Iterable
 import random
 from pathlib import Path
 
+class Command(BaseCommand):
+    help = 'Populates the database with the users'
+
+    def add_arguments(self, parser: CommandParser) -> None:
+        parser.add_argument('amount', type=int, help='The number of users to be created')
+        return super().add_arguments(parser)
+
+    def handle(self, *args, **kwargs):
+        available_tags = [tag.name for tag in Tag.objects.all()]
+        if not available_tags:
+            raise ValueError("There are no tags in the database. Please add some tags first.")
+
+        user_generator = UserGenerator(available_tags)
+        existing_emails = set(User.objects.values_list('email', flat=True))
+        creations: int = 0
+
+        requested = int(kwargs['amount'])
+        if requested < 1:
+            raise ValueError("Amount must be greater than 0.")
+
+        print('Keep in mind that creation of Codes involves anti plagiarism checks')
+        print('This can take a while. Do not interrupt the process.')
+
+        while creations < requested:
+            for data in user_generator.generate(requested - creations):
+                if data['email'] in existing_emails:
+                    print(f'User with email {data["email"]} already exists. Skipping')
+                    continue
+                else:
+                    existing_emails.add(data['email'])
+
+                # create user
+                user = User.objects.create_user(
+                    first_name=data['name'],
+                    email=data['email'],
+                    username=data['email'],
+                    password='default'
+                )
+
+                # create profile for given user
+                profile = user.profile
+                profile.city = 'Warsaw'
+                profile.age = data['age']
+                profile.bio = data['bio']
+                profile.gender = data['gender']
+                profile.social_github = 'www.github.com/maresyp/CodeHub'
+                profile.save()
+
+                # create project for given user
+                project = Project.objects.create(
+                    owner=user,
+                    title=f'Project of {data["name"]}',
+                    description=f'This is a mock project generated for {data["name"]}',
+                )
+
+                for key, value in data['code_snippets'].items():
+                    for snippet in value:
+                        Code.objects.create(
+                            owner=user,
+                            project=project,
+                            title=f'{key} code snippet',
+                            description='This is a mock code snippet',
+                            source_code=snippet
+                        )
+
+                profile.favorite_project = project
+                profile.save()
+
+                creations += 1
+                print(f'Created User with email {data["email"]}.')
+
+        print(f'Created {creations} mock users.')
 
 class Generator(ABC):
     """ Abstract class for generating mock users. """

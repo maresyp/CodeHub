@@ -3,6 +3,8 @@ from django.db.models.signals import pre_save
 from .models import Code
 from .anti_plagiarism.PlagiarismQueue import PlagiarismQueue, PlagiarismQueueEntry
 
+__queue = PlagiarismQueue()
+
 @receiver(pre_save, sender=Code)
 def start_plagiarism_checks(sender, instance, **kwargs):
     check_plagiarism: bool = True
@@ -15,7 +17,7 @@ def start_plagiarism_checks(sender, instance, **kwargs):
         if old_value == new_value:
             check_plagiarism = False
 
-    print(check_plagiarism)
     if check_plagiarism:
-        queue = PlagiarismQueue()
-        queue.put(PlagiarismQueueEntry(instance.id))
+        global __queue
+        __queue = PlagiarismQueue()
+        __queue.put(PlagiarismQueueEntry(instance.id))
