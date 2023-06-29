@@ -8,13 +8,17 @@
     <div class="content-box">
         <div class="formWrapper">
             <div class="formHead">
+                {% if page == 'edit_project' %}
+                <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'display_project' project.id %}">
+                    {% else %}
                 <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'account' %}">
+                    {% endif %}
                     <i class="im im-plus"></i>Powrót</a>
 
-                {% if page == 'add_code' %}
+                {% if page == 'add_project' %}
                 <h3>Dodaj nowy kod</h3>
                 {% else %}
-                <h3>Edytuj kod</h3>
+                <h3>Edytuj projekt</h3>
                 {% endif %}
 
             </div>
@@ -35,7 +39,7 @@
                 {% endfor %}
 
                 <div class="settings__saveBtn">
-                    {% if page == 'add_code' %}
+                    {% if page == 'add_project' %}
                     <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Dodaj"/>
                     {% else %}
                     <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Zapisz zmiany "/>

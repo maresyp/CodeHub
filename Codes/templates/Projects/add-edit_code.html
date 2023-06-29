@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<!-- Main Section -->
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <div class="formHead">
+                {% if page == 'add_code' %}
+                <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'display_project' project.id %}">
+                    <i class="im im-plus"></i>Powrót</a>
+                {% else %}
+                <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'display_project' code.project.id %}">
+                    <i class="im im-plus"></i>Powrót</a>
+                {% endif %}
+
+                {% if page == 'add_code' %}
+                <h3>Dodaj nowy kod</h3>
+                {% else %}
+                <h3>Edytuj kod</h3>
+                {% endif %}
+
+            </div>
+            <br>
+
+            <form class="form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if page == 'edit_code' %}
+                {% for field in form %}
+                <div class="form__field">
+                    <label for="formInput#text">{{field.label}}</label>
+                    {% if field.name == 'source_code' %}
+                        <pre><code>{{ field|escape }}</code></pre>
+                    {% else %}
+                        {{field|escape}}
+                    {% endif %}
+                        {% for error in field.errors %}
+                        <p style="color: red;">{{error}}</p>
+                        {% endfor %}
+                        </div>
+                        {% endfor %}
+                {% else %}
+                    {{ form.as_p }}
+                    <div id="selected-files"></div>
+                {% endif %}
+                <div class="settings__saveBtn">
+                    {% if page == 'add_code' %}
+                    <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Dodaj" />
+                    {% else %}
+                    <input class="btn tag--main btn--main my-md tag--pill" type="submit" value="Zapisz zmiany " />
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<script>
+    function displaySelectedFiles(event) {
+        const selectedFiles = document.querySelector('#selected-files');
+        selectedFiles.innerHTML = '';
+        for (const file of event.target.files) {
+            const fileName = document.createElement('div');
+            fileName.textContent = file.name;
+            selectedFiles.appendChild(fileName);
+        }
+    }
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.highlightAll();
+</script>
+{% endblock content %}

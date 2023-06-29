@@ -26,16 +26,16 @@ class Profile(models.Model):
     social_youtube = models.CharField(max_length=2000, null=True, blank=True)
     social_linkedin = models.CharField(max_length=2000, null=True, blank=True)
     social_facebook = models.CharField(max_length=2000, null=True, blank=True)
-    favourite_code = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
+    favorite_project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return str(self.user)
-    
+
     @property
     def imageURL(self):
         try:
             url = self.profile_image.url
-        except:
+        except Exception:
             url = ''
         return url
 
@@ -52,7 +52,7 @@ class Matches(models.Model):
 
 class FavouritesTags(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE) 
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
     value = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
 

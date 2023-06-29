@@ -97,8 +97,12 @@ class PlagiarismChecker:
     def __cosine_similarity(x: np.ndarray, y: np.ndarray) -> float:
         """ Calculates cosine similarity """
         dot_product = sum(a * b for a, b in zip(x, y))
-        magnitude = math.sqrt(sum(pow(a, 2) for a in x)) * math.sqrt(sum(pow(b, 2) for b in y))
-        return dot_product / magnitude
+        magnitude_x = math.sqrt(sum(pow(a, 2) for a in x))
+        magnitude_y = math.sqrt(sum(pow(b, 2) for b in y))
+        if magnitude_x == 0.0 or magnitude_y == 0.0:
+            return 0.0
+        else:
+            return dot_product / (magnitude_x * magnitude_y)
 
     def __create_bow_embeddings(self, code: str) -> tuple[np.ndarray, np.ndarray]:
         """ Creates embeddings for reference code and tested code """
@@ -122,7 +126,7 @@ if __name__ == '__main__':
     from pathlib import Path
     from html.parser import HTMLParser
     from utils.async_crawler import AsyncCrawler
-    
+
     class PasteParser(HTMLParser):
         def __init__(self):
             super().__init__()
@@ -135,7 +139,7 @@ if __name__ == '__main__':
         int b = 6;
         int c = a + b;
         printf("%d", c);
-        
+
     }
     """
 

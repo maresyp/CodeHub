@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import OuterRef
 from .models import Profile, FavouritesTags, Tag, Project
 from .forms import CustomUserCreationForm, ProfileForm, ChangePasswordForm
+from django.db.models import Q
 
 
 # Create your views here.
@@ -60,7 +61,7 @@ def registerUser(request):
         if form.is_valid():
             username = form.cleaned_data['username'].lower()
             email = form.cleaned_data['email'].lower()
-            
+
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.email = user.email.lower()
@@ -78,7 +79,7 @@ def registerUser(request):
         else:
             messages.error(
                 request, 'Wystąpił problem podczas rejestracji')
-            
+
     context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
 
@@ -88,20 +89,20 @@ def userAccount(request):
     page = 'account'
     user = request.user
     profile = request.user.profile
-    
+
     # Get tags and values defined by logged in user
     tags = Tag.objects.filter(favouritestags__user_id=user).annotate(
         value=FavouritesTags.objects.filter(tag_id=OuterRef('pk'), user_id=user).values('value')
     ).order_by('-value')
 
-    #Get all codes created by logged in user
+    #Get all projects created by logged in user
     projects = Project.objects.filter(owner=user).order_by('creation_date')
 
     context = {
-        'user': user, 
-        'profile': profile, 
-        'tags': tags, 
-        'projects': projects, 
+        'user': user,
+        'profile': profile,
+        'tags': tags,
+        'projects': projects,
         'page': page
     }
     return render(request, 'users/account.html', context)
@@ -121,9 +122,10 @@ def editAccount(request):
             if profile_form.is_valid():
                 email = profile_form.cleaned_data['email'].lower()
 
-                #ToDo: System will set default user avatar if user deletes its current
+                # ToDo: System will set default user avatar if user deletes its current
 
-                if profile_form.instance.user and User.objects.exclude(id=profile_form.instance.user.id).filter(email=email).exists():
+                if profile_form.instance.user and User.objects.exclude(id=profile_form.instance.user.id).filter(
+                        email=email).exists():
                     profile_form.add_error('email', "Podany adres e-mail jest już w użyciu.")
                 else:
                     profile_form.instance.user.email = email
