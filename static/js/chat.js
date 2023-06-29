@@ -28,7 +28,7 @@ function startWebSocket() {
                 new_message_notification(data.sender)
             }
 
-            update_top_message(data.sender, data.message)
+            update_top_message(data.sender, data.message, data.sender == selected_recipient)
 
         } else if (data.type === 'chat-new-window') {
             extractMultipleMessages(data.messages)
@@ -83,9 +83,13 @@ function new_message_notification(friend_id) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
     friend.classList.add('new-message')
 }
-function update_top_message(friend_id, message) {
-    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
-    friend.querySelector('span').innerHTML = message
+function update_top_message(friend_id, message, sender_is_user=false) {
+    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`);
+    if (sender_is_user) {
+        friend.querySelector('span').innerHTML = "Ty: " + message;
+    } else {
+        friend.querySelector('span').innerHTML = message;
+    }
 }
 
 form.addEventListener('submit', (e) => {
@@ -101,7 +105,7 @@ form.addEventListener('submit', (e) => {
     }))
     form.reset()
     appendMessage(`<div id="message" class="user_message"><p class="tag tag--pill tag--main">${message}</p></div>`, 'beforeend')
-    update_top_message(selected_recipient, message)
+    update_top_message(selected_recipient, message, true)
     message_container.scrollTop = message_container.scrollHeight;
 })
 
