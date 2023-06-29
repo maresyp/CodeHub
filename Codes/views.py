@@ -125,7 +125,7 @@ def add_code(request, project_id):
                     return redirect('add_code', project_id=project_id)
 
                 try:
-                    source_code = str(document.file.read())
+                    source_code = document.file.read().decode('utf-8')
 
                     if len(source_code) > Code.source_code.field.max_length:
                         messages.error(request, f'Plik {document.file.name} jest za duży.')
