@@ -26,6 +26,7 @@ class Code(models.Model):
     description = models.CharField(max_length=5000, null=True, blank=True)
     source_code = models.TextField(max_length=10000)
     plagiarism_ratio = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], null=False, blank=True, default=0)
+    plagiarized_from = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True, default=None)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_edit = models.DateTimeField(auto_now=True)
 

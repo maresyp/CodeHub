@@ -1,9 +1,9 @@
 from queue import Queue
 from typing import Self
 import threading
-from .PlagiarismChecker import PlagiarismChecker, PlagiarismMethod, PlagiarismResult
+from .PlagiarismChecker import PlagiarismChecker, PlagiarismMethod
 import uuid
-
+import time
 
 class PlagiarismQueueEntry:
     __slots__ = ['reference_code_id']
@@ -18,12 +18,19 @@ class PlagiarismQueue(Queue):
     def __new__(cls, *args, **kwargs) -> Self:
         if not cls._instance:
             cls._instance = super().__new__(cls, *args, **kwargs)
+            cls._instance.__initialized: bool = False
         return cls._instance
 
     def __init__(self, *args, **kwargs) -> None:
+        if self.__initialized: return
+        self.__initialized: bool = True
+
         super().__init__(*args, **kwargs)
         self.thread = threading.Thread(target=self.worker, daemon=True)
         self.thread.start()
+        self.cleaner_thread = threading.Thread(target=self.cleaner, daemon=True)
+        self.cleaner_thread.start()
+
 
     def put(self, item: PlagiarismQueueEntry, *args, **kwargs) -> None:
         super().put(item)
@@ -31,19 +38,38 @@ class PlagiarismQueue(Queue):
     def worker(self) -> None:
         from Codes.models import Code
         while True:
-            item = self.get()
-            checked_code = Code.objects.get(id=item.reference_code_id)
-            checker = PlagiarismChecker(checked_code.source_code)
-            other_codes = Code.objects.all().exclude(id=checked_code.id, owner=checked_code.owner)
+            try:
+                item = self.get()
+                checked_code = Code.objects.get(id=item.reference_code_id)
+                checker = PlagiarismChecker(checked_code.source_code)
+                other_codes = Code.objects.all().exclude(id=checked_code.id, owner=checked_code.owner)
 
-            highest_similarity = 0
-            for code in other_codes:
-                result, *_ = checker.check_code(code.source_code, method={PlagiarismMethod.TFIDF})
-                print(result)
-                if int(result.cosine_similarity * 100) > highest_similarity:
-                    highest_similarity = int(result.cosine_similarity * 100)
+                highest_similarity: tuple[int, Code] = (0, other_codes.first())
+                for code in other_codes:
+                    result, *_ = checker.check_code(code.source_code, method={PlagiarismMethod.TFIDF})
+                    if int(result.cosine_similarity * 100) > highest_similarity[0]:
+                        highest_similarity = int(result.cosine_similarity * 100), code
 
-            checked_code.plagiarism_ratio = highest_similarity
-            checked_code.save()
+                checked_code.plagiarism_ratio = highest_similarity[0]
+                checked_code.plagiarized_from = highest_similarity[1]
+                checked_code.save()
 
-            self.task_done()
+                self.task_done()
+            except Exception as e:
+                print(f'Error: {e} during plagiarism check')
+                self.task_done()
+
+    def cleaner(self) -> None:
+        # This thread runs in the background and periodically adds not checked codes to queue.
+        # This is needed because some codes may be skipped due to server malfunction.
+        # This way we can be sure that all codes will be checked.
+        from Codes.models import Code
+        while True:
+            try:
+                time.sleep(60 * 60) # 1 hour
+                codes = Code.objects.filter(plagiarized_from__isnull=True)
+                print(f'Plagiarism cleaner thread: {len(codes)} codes to check')
+                for code in codes:
+                    self.put(PlagiarismQueueEntry(code.id))
+            except Exception as e:
+                print(f'Error: {e} inside plagiarism cleaner thread')
