@@ -1,9 +1,8 @@
-from django.forms import CharField, Form, ModelForm, EmailField, PasswordInput, ValidationError
+from django.forms import CharField, Form, ModelChoiceField, ModelForm, EmailField, PasswordInput, ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
-from .models import Profile
+from .models import Profile, FavouritesTags, Tag
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -92,3 +91,45 @@ class ChangePasswordForm(Form):
         if commit:
             self.user.save()
         return self.user
+    
+
+class AddFavouriteTagForm(ModelForm):
+    class Meta:
+        model = FavouritesTags
+        fields = ['tag_id']
+        labels = {
+            'tag_id': 'Nazwa technologii',
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(AddFavouriteTagForm, self).__init__(*args, **kwargs)
+        if self.user:
+            self.fields['tag_id'].queryset = Tag.objects.exclude(favouritestags__user_id=self.user)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
+
+    def clean_tag_id(self):
+        tag_id = self.cleaned_data['tag_id']
+        if FavouritesTags.objects.filter(user_id=self.user, tag_id=tag_id).count() >= 10:
+            raise ValidationError("Nie możesz dodać więcej niż 10 tagów.")
+        return tag_id
+
+
+class RemoveFavouriteTagForm(Form):
+    tag_id = ModelChoiceField(queryset=Tag.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['tag_id'].queryset = Tag.objects.filter(favouritestags__user_id=self.user)
+
+    def clean_tag_id(self):
+        tag_id = self.cleaned_data.get('tag_id')
+
+        if not FavouritesTags.objects.filter(user_id=self.user, tag_id=tag_id).exists():
+            raise ValidationError("Ten tag nie jest dodany.")
+        return tag_id
+
+

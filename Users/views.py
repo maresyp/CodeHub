@@ -3,10 +3,9 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import OuterRef
+from django.db.models import OuterRef, Min, F
 from .models import Profile, FavouritesTags, Tag, Project
-from .forms import CustomUserCreationForm, ProfileForm, ChangePasswordForm
-from django.db.models import Q
+from .forms import AddFavouriteTagForm, CustomUserCreationForm, ProfileForm, ChangePasswordForm, RemoveFavouriteTagForm
 
 
 # Create your views here.
@@ -157,3 +156,62 @@ def editAccount(request):
     }
 
     return render(request, 'users/user_profile_form.html', context)
+
+
+@login_required(login_url='login')
+def favouriteTagsView(request):
+    user = request.user
+    add_form = AddFavouriteTagForm(user=user)
+    remove_form = RemoveFavouriteTagForm(user=user)
+
+    if request.method == 'POST':
+        if 'add' in request.POST:
+            add_form = AddFavouriteTagForm(request.POST, user=request.user)
+
+            if add_form.is_valid():
+                tag = add_form.cleaned_data['tag_id']
+                if FavouritesTags.objects.filter(user_id=user, tag_id=tag).exists():
+                    messages.error(request, 'Ten tag został już dodany.')
+                elif FavouritesTags.objects.filter(user_id=user).count() >= 10:
+                    messages.error(request, 'Nie możesz dodać więcej niż 10 tagów.')
+                else:
+                    new_fav_tag = add_form.save(commit=False)
+                    new_fav_tag.user_id_id = user.id
+                    lowest_value = FavouritesTags.objects.filter(user_id=user).aggregate(Min('value'))['value__min']
+                    if lowest_value is not None:
+                        new_fav_tag.value = lowest_value - 1
+                    else:
+                        new_fav_tag.value = 10
+                    new_fav_tag.save()
+        elif 'remove' in request.POST:
+            tag_id = request.POST.get('tag_id')
+            tag_to_delete = FavouritesTags.objects.get(user_id=user, id=tag_id)
+            FavouritesTags.objects.filter(user_id=user, value__lt=tag_to_delete.value).update(value=F('value') + 1)
+            messages.success(request, 'Pomyślnie usunięto tag.')
+            tag_to_delete.delete()
+        elif 'increase' in request.POST:
+            tag_id = request.POST.get('tag_id')
+            favourite_tag = FavouritesTags.objects.get(user_id=user, id=tag_id)
+            next_favourite_tag = FavouritesTags.objects.filter(user_id=user, value__gt=favourite_tag.value).order_by('value').first()
+
+            if next_favourite_tag:
+                favourite_tag.value, next_favourite_tag.value = next_favourite_tag.value, favourite_tag.value
+                favourite_tag.save()
+                next_favourite_tag.save()
+        elif 'decrease' in request.POST:
+            tag_id = request.POST.get('tag_id')
+            favourite_tag = FavouritesTags.objects.get(user_id=user, id=tag_id)
+            previous_favourite_tag = FavouritesTags.objects.filter(user_id=user, value__lt=favourite_tag.value).order_by('-value').first()
+
+            if previous_favourite_tag:
+                favourite_tag.value, previous_favourite_tag.value = previous_favourite_tag.value, favourite_tag.value
+                favourite_tag.save()
+                previous_favourite_tag.save()
+
+    context = {
+        'user': user,
+        'add_form': add_form,
+        'remove_form': remove_form,
+        'favourite_tags': FavouritesTags.objects.filter(user_id=user).order_by('-value'),
+    }
+    return render(request, 'Users/favourite_tags.html', context)
