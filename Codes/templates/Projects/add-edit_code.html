@@ -31,8 +31,11 @@
                 {% for field in form %}
                 <div class="form__field">
                     <label for="formInput#text">{{field.label}}</label>
-                    {{field|escape}}
-
+                    {% if field.name == 'source_code' %}
+                        <pre><code>{{ field|escape }}</code></pre>
+                    {% else %}
+                        {{field|escape}}
+                    {% endif %}
                         {% for error in field.errors %}
                         <p style="color: red;">{{error}}</p>
                         {% endfor %}
@@ -63,5 +66,9 @@
             selectedFiles.appendChild(fileName);
         }
     }
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.highlightAll();
 </script>
 {% endblock content %}

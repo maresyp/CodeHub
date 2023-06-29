@@ -84,8 +84,8 @@
 
         <table class="settings__table">
             {% for code in codes %}
-            <tr class="code-row">
-                <td>
+            <tr>
+                <td class="code-row">
                     <a class="" href="#">{{ code.title }}</a>
                 </td>
                 <td class="settings__tableInfo"></td>
@@ -126,5 +126,9 @@
         }
     });
     }
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.highlightAll();
 </script>
 {% endblock %}
