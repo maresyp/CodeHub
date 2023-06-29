@@ -4,6 +4,7 @@ import threading
 from .PlagiarismChecker import PlagiarismChecker, PlagiarismMethod
 import uuid
 import time
+from django.db.models import Q
 
 class PlagiarismQueueEntry:
     __slots__ = ['reference_code_id']
@@ -18,11 +19,12 @@ class PlagiarismQueue(Queue):
     def __new__(cls, *args, **kwargs) -> Self:
         if not cls._instance:
             cls._instance = super().__new__(cls, *args, **kwargs)
-            cls._instance.__initialized: bool = False
+            cls._instance.__initialized = False
         return cls._instance
 
     def __init__(self, *args, **kwargs) -> None:
-        if self.__initialized: return
+        if self.__initialized:
+            return
         self.__initialized: bool = True
 
         super().__init__(*args, **kwargs)
@@ -41,10 +43,20 @@ class PlagiarismQueue(Queue):
             try:
                 item = self.get()
                 checked_code = Code.objects.get(id=item.reference_code_id)
-                checker = PlagiarismChecker(checked_code.source_code)
-                other_codes = Code.objects.all().exclude(id=checked_code.id, owner=checked_code.owner)
 
+                other_codes = Code.objects.exclude(
+                    Q(id=item.reference_code_id) |
+                    Q(owner=checked_code.owner)
+                )
+                # If there are no other codes to check, skip this code
+                if not other_codes:
+                    self.task_done()
+                    continue
+
+                checker = PlagiarismChecker(checked_code.source_code)
                 highest_similarity: tuple[int, Code] = (0, other_codes.first())
+
+                # Check all codes and find the one with highest similarity
                 for code in other_codes:
                     result, *_ = checker.check_code(code.source_code, method={PlagiarismMethod.TFIDF})
                     if int(result.cosine_similarity * 100) > highest_similarity[0]:
