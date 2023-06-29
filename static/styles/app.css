@@ -1216,7 +1216,7 @@ video {
   display: inline-flex;
   width: 12px;
   height: 12px;
-  background-color: #009aff;
+  background-color: var(--color-main-light);
   border-radius: 50%;
   cursor: pointer;
 }
@@ -1268,7 +1268,7 @@ video {
 .user_message, .friend_message {
   max-width: 45%;
   word-break: break-all;
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
 }
 
 .user_message {

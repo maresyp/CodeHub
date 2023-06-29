@@ -18,17 +18,16 @@ function startWebSocket() {
         let data = JSON.parse(e.data)
         if (data.type === 'chat-single-message') {
             let message_body = null
-
-            // Update chat window
             if (data.sender == selected_recipient) {
                 message_body = `<div id="message" class="friend_message"><p class="tag tag--pill tag--sub" msg-uuid="${data.message_id}">${data.message}</p></div>`
                 appendMessage(message_body, 'beforeend')
                 send_message_read()
+                hideNewMessageNotification(data.sender); // Ukryj powiadomienie dla bieżącego przyjaciela
             } else {
                 new_message_notification(data.sender)
+                showNewMessageNotification(data.sender); // Pokaż powiadomienie dla przyjaciela, który wysłał wiadomość
             }
-
-            update_top_message(data.sender, data.message, data.sender == selected_recipient)
+            update_top_message(data.sender, data.message)
 
         } else if (data.type === 'chat-new-window') {
             extractMultipleMessages(data.messages)
@@ -124,6 +123,8 @@ friends.forEach((friend) => {
         // clear messages
         let messages = document.getElementById('messages')
         messages.innerHTML = ''
+
+        hideNewMessageNotification(selected_recipient);
     })
 
     friend.addEventListener('click', (e) => {
@@ -176,3 +177,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 window.addEventListener('resize', (event) => {
     updateMessageWidths();
 });
+
+// Funkcje do pokazywania/ukrywania powiadomień
+function showNewMessageNotification(friend_id) {
+    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`);
+    let newMessageNotification = friend.querySelector('.message_card__content__end');
+    if (newMessageNotification) {
+        newMessageNotification.style.display = 'flex'; // Używamy 'flex', ponieważ tak jest w twoim stylu CSS
+    }
+}
+
+function hideNewMessageNotification(friend_id) {
+    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`);
+    let newMessageNotification = friend.querySelector('.message_card__content__end');
+    if (newMessageNotification) {
+        newMessageNotification.style.display = 'none';
+    }
+}
