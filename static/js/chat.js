@@ -151,3 +151,24 @@ message_container.onscroll = function () {
         }))
     }
 }
+
+function updateMessageWidths() {
+    let messagesContainerWidth = document.getElementById('messages').offsetWidth;
+    let userMessages = document.getElementsByClassName('user_message');
+    let friendMessages = document.getElementsByClassName('friend_message');
+
+    for(let message of userMessages) {
+        message.style.maxWidth = `${messagesContainerWidth * 0.45}px`;
+    }
+    for(let message of friendMessages) {
+        message.style.maxWidth = `${messagesContainerWidth * 0.45}px`;
+    }
+}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    updateMessageWidths();
+});
+
+window.addEventListener('resize', (event) => {
+    updateMessageWidths();
+});
