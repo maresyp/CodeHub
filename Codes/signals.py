@@ -1,6 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save, post_delete
-from .models import Code, Project
+from .models import Code, Project, Tag
 from .anti_plagiarism.PlagiarismQueue import PlagiarismQueue, PlagiarismQueueEntry
 
 __queue = PlagiarismQueue()
@@ -43,3 +43,15 @@ def delete_favorite_project(sender, instance, **kwargs):
         if other_projects:
             profile.favorite_project = other_projects.first()
             profile.save()
+
+@receiver(post_save, sender=Code)
+def update_code_tag(sender, instance, created, **kwargs):
+    # based of file extension, try to find corresponding tag
+    extension = instance.title.split('.')[-1]
+    tag = Tag.objects.filter(file_extension=extension).first()
+    if instance.code_tag == tag:
+        return
+
+    if tag is not None:
+        instance.code_tag = tag
+        instance.save()

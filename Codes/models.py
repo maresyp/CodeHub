@@ -25,6 +25,7 @@ class Code(models.Model):
     title = models.CharField(max_length=500)
     description = models.CharField(max_length=5000, null=True, blank=True)
     source_code = models.TextField(max_length=10000)
+    code_tag = models.ForeignKey('Tag', on_delete=models.DO_NOTHING, null=True, blank=True, default=None)
     plagiarism_ratio = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], null=False, blank=True, default=0)
     plagiarized_from = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True, default=None)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -41,14 +42,6 @@ class Tag(models.Model):
 
     def __str__(self) -> str:
         return str(self.name)
-
-
-class CodeTags(models.Model):
-    code_id = models.ForeignKey(Code, on_delete=models.CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return str(self.code_id)
 
 class Document(models.Model):
     file = models.FileField()
