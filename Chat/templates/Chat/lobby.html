@@ -10,8 +10,9 @@
           <div class="card__body dev">
             {% if not friends %}
             <p>Nie masz jeszcze żadnych kontaktów</p>
-            {% endif %}
+            {% else %}
             <h2 class="dev__username">Kontakty</h2>
+            {% endif %}
 
             {% for friend in friends %}
             <a style="all: initial; cursor: pointer" user-uuid="{{ friend.id }}" href="#">
@@ -36,21 +37,15 @@
                       {% if not friend.last_message %}
                       <p>Nie masz żadnych wiadomości</p>
                       {% else %}
-                        {% if friend.last_message.sender_id == user %}
-                        <p>Ty: {{ friend.last_message.body }}</p>
-                        {% else %}
-                        <p>{{ friend.last_message.body }}</p>
-                        {% endif %}
-                        <span class="message_separator">|</span>
-                        <time style="font-size: 13px">{{ friend.last_message.send_timestamp|timesince }}</time>
+                      <span>{{ friend.last_message.body }}</span>
+                      <span class="message_separator">|</span>
+                      <time style="font-size: 13px">{{ friend.last_message.send_timestamp|timesince }}</time>
                       {% endif %}
                     </div>
                   </div>
-                  {% if friend.has_unread_messages %}
-                  <div class="message_card__content__end">
+                  <div class="message_card__content__end" style="display: none;">
                     <div class="message_new"></div>
                   </div>
-                  {% endif %}
                 </div>
               </div>
             </a>
@@ -88,4 +83,5 @@
   </div>
 </main>
 
+<script type="text/javascript" src="{% static 'js/video.js' %}"></script>
 {% endblock %}

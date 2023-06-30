@@ -1216,7 +1216,7 @@ video {
   display: inline-flex;
   width: 12px;
   height: 12px;
-  background-color: #009aff;
+  background-color: var(--color-main-light);
   border-radius: 50%;
   cursor: pointer;
 }
@@ -1256,16 +1256,23 @@ video {
   margin-left: 12px;
 }
 
-.user_message {
-  justify-content: flex-end;
-}
-
-.friend_message {
-  justify-content: flex-start;
-}
-
-#message {
+#messages {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.user_message, .friend_message {
+  max-width: 45%;
+  word-break: break-all;
+  margin-bottom: 0.2rem;
+}
+
+.user_message {
+  align-self: flex-end;
 }
 
 .chat-form {

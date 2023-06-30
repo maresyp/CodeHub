@@ -18,16 +18,15 @@ function startWebSocket() {
         let data = JSON.parse(e.data)
         if (data.type === 'chat-single-message') {
             let message_body = null
-
-            // Update chat window
             if (data.sender == selected_recipient) {
                 message_body = `<div id="message" class="friend_message"><p class="tag tag--pill tag--sub" msg-uuid="${data.message_id}">${data.message}</p></div>`
                 appendMessage(message_body, 'beforeend')
                 send_message_read()
+                hideNewMessageNotification(data.sender); // Ukryj powiadomienie dla bieżącego przyjaciela
             } else {
                 new_message_notification(data.sender)
+                showNewMessageNotification(data.sender); // Pokaż powiadomienie dla przyjaciela, który wysłał wiadomość
             }
-
             update_top_message(data.sender, data.message)
 
         } else if (data.type === 'chat-new-window') {
@@ -83,9 +82,13 @@ function new_message_notification(friend_id) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
     friend.classList.add('new-message')
 }
-function update_top_message(friend_id, message) {
-    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
-    friend.querySelector('span').innerHTML = message
+function update_top_message(friend_id, message, sender_is_user=false) {
+    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`);
+    if (sender_is_user) {
+        friend.querySelector('span').innerHTML = "Ty: " + message;
+    } else {
+        friend.querySelector('span').innerHTML = message;
+    }
 }
 
 form.addEventListener('submit', (e) => {
@@ -101,7 +104,7 @@ form.addEventListener('submit', (e) => {
     }))
     form.reset()
     appendMessage(`<div id="message" class="user_message"><p class="tag tag--pill tag--main">${message}</p></div>`, 'beforeend')
-    update_top_message(selected_recipient, message)
+    update_top_message(selected_recipient, message, true)
     message_container.scrollTop = message_container.scrollHeight;
 })
 
@@ -120,6 +123,8 @@ friends.forEach((friend) => {
         // clear messages
         let messages = document.getElementById('messages')
         messages.innerHTML = ''
+
+        hideNewMessageNotification(selected_recipient);
     })
 
     friend.addEventListener('click', (e) => {
@@ -149,5 +154,43 @@ message_container.onscroll = function () {
             'recipient': selected_recipient,
             'top_message_uuid': top_message_uuid
         }))
+    }
+}
+
+function updateMessageWidths() {
+    let messagesContainerWidth = document.getElementById('messages').offsetWidth;
+    let userMessages = document.getElementsByClassName('user_message');
+    let friendMessages = document.getElementsByClassName('friend_message');
+
+    for(let message of userMessages) {
+        message.style.maxWidth = `${messagesContainerWidth * 0.45}px`;
+    }
+    for(let message of friendMessages) {
+        message.style.maxWidth = `${messagesContainerWidth * 0.45}px`;
+    }
+}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    updateMessageWidths();
+});
+
+window.addEventListener('resize', (event) => {
+    updateMessageWidths();
+});
+
+// Funkcje do pokazywania/ukrywania powiadomień
+function showNewMessageNotification(friend_id) {
+    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`);
+    let newMessageNotification = friend.querySelector('.message_card__content__end');
+    if (newMessageNotification) {
+        newMessageNotification.style.display = 'flex'; // Używamy 'flex', ponieważ tak jest w twoim stylu CSS
+    }
+}
+
+function hideNewMessageNotification(friend_id) {
+    let friend = document.querySelector(`a[user-uuid="${friend_id}"]`);
+    let newMessageNotification = friend.querySelector('.message_card__content__end');
+    if (newMessageNotification) {
+        newMessageNotification.style.display = 'none';
     }
 }
