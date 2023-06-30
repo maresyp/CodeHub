@@ -3,11 +3,11 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import OuterRef, Min, F
+from django.db.models import OuterRef, Min, F, Count
 from .models import Profile, FavouritesTags, Tag, Project
+from Codes.models import Code
 from .forms import AddFavouriteTagForm, CustomUserCreationForm, ProfileForm, ChangePasswordForm, RemoveFavouriteTagForm
 from django.shortcuts import get_object_or_404
-
 # Create your views here.
 
 def loginUser(request):
@@ -96,6 +96,17 @@ def userAccount(request):
 
     #Get all projects created by logged in user
     projects = Project.objects.filter(owner=user).order_by('creation_date')
+
+    # Calculate the top 3 tags for each project
+    for project in projects:
+        top_tags = (Code.objects
+                    .filter(project=project)  # filter codes by project
+                    .values('code_tag__name')  # group by tag name
+                    .annotate(tag_count=Count('code_tag'))  # count number of each tag
+                    .order_by('-tag_count'))  # order by count
+
+        # Add the tags as a new attribute to the project
+        project.top_tags = list(top_tags[:3])
 
     context = {
         'user': user,
