@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import OuterRef, Min, F
 from .models import Profile, FavouritesTags, Tag, Project
 from .forms import AddFavouriteTagForm, CustomUserCreationForm, ProfileForm, ChangePasswordForm, RemoveFavouriteTagForm
-
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -22,7 +22,7 @@ def loginUser(request):
 
         try:
             user = User.objects.get(username=username)
-        except:
+        except Exception:
             messages.error(request, 'Nie istnieje użytkownik o podanej nazwie.')
 
         user = authenticate(request, username=username, password=password)
@@ -215,3 +215,15 @@ def favouriteTagsView(request):
         'favourite_tags': FavouritesTags.objects.filter(user_id=user).order_by('-value'),
     }
     return render(request, 'Users/favourite_tags.html', context)
+
+@login_required(login_url='login')
+def change_favorite_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if project.owner != request.user:
+        messages.error(request, 'Nie jesteś właścicielem tego projektu.')
+        return redirect('account')
+
+    request.user.profile.favorite_project = project
+    request.user.profile.save()
+
+    return redirect('account')
