@@ -25,6 +25,3 @@ def delete_user(sender, instance, **kwargs):
 @receiver(post_save, sender=Matches)
 def notify_about_new_match(sender, instance, created, **kwargs):
     pass  # TODO : if user is currently inside chat new match should appear inside friend list
-
-# post_save.connect(createProfile, sender=User)
-# post_delete.connect(delete_user, sender=Profile)
