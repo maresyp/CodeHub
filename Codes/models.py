@@ -37,13 +37,14 @@ class Code(models.Model):
 class Tag(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=50, unique=True)
+    file_extension = models.CharField(max_length=10, unique=True)
 
     def __str__(self) -> str:
         return str(self.name)
 
 
 class CodeTags(models.Model):
-    code_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    code_id = models.ForeignKey(Code, on_delete=models.CASCADE)
     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
