@@ -44,7 +44,7 @@ class Command(BaseCommand):
                 user = User.objects.create_user(
                     first_name=data['name'],
                     email=data['email'],
-                    username=data['email'],
+                    username=data['email'].replace('@', '_').replace('.', '_'),
                     password='default'
                 )
 
@@ -65,6 +65,7 @@ class Command(BaseCommand):
                 )
 
                 for key, value in data['code_snippets'].items():
+                    print(f'Creating {key} code snippet for {data["name"]}')
                     for snippet in value:
                         Code.objects.create(
                             owner=user,
@@ -73,9 +74,6 @@ class Command(BaseCommand):
                             description='This is a mock code snippet',
                             source_code=snippet
                         )
-
-                profile.favorite_project = project
-                profile.save()
 
                 creations += 1
                 print(f'Created User with email {data["email"]}.')

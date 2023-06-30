@@ -84,8 +84,11 @@
 
         <table class="settings__table">
             {% for code in codes %}
-            <tr>
-                <td class="code-row">
+            <tr class="code-row">
+                <td>
+                    {% if code.code_tag %}
+                    <h4 class="tag tag--sub tag--pill">{{ code.code_tag }}</h4>
+                    {% endif %}
                     <a class="" href="#">{{ code.title }}</a>
                 </td>
                 <td class="settings__tableInfo"></td>
