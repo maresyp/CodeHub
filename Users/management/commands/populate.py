@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandParser
-from Users.models import User, Profile
+from Users.models import User
 from Codes.models import Project, Code, Tag
 
 from abc import ABC, abstractmethod
