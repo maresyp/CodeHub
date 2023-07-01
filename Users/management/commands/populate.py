@@ -21,6 +21,14 @@ class Command(BaseCommand):
         if not available_tags:
             raise ValueError("There are no tags in the database. Please add some tags first.")
 
+        # check if every tag has a corresponding file
+        to_remove: set[Tag] = set()
+        for tag in available_tags:
+            possible_files = list(Path("./code_snippets/").glob(f"*.{tag.lower()}.txt"))
+            if not possible_files:
+                to_remove.add(tag)
+        available_tags = [tag for tag in available_tags if tag not in to_remove]
+
         user_generator = UserGenerator(available_tags)
         existing_emails = set(User.objects.values_list('email', flat=True))
         creations: int = 0
@@ -147,9 +155,7 @@ class UserGenerator(Generator, BaseProvider):
         try:
             file = random.choice(list(Path("./code_snippets/").glob(f"*.{tag.lower()}.txt")))
         except IndexError as e:
-            print(f"There are no {tag} files in code_snippets directory.")
-            print("Please run src/utils/async_crawler.py to download some.")
-            raise e
+            raise IndexError(f"No matching files for {tag} found.") from e
 
         with file.open('r') as f:
             return f.read()
