@@ -89,11 +89,13 @@
                     {% if code.code_tag %}
                     <h4 class="tag tag--sub tag--pill">{{ code.code_tag }}</h4>
                     {% endif %}
-                    <a class="" href="#">{{ code.title }}</a>
+                    <a class="toggle-code" href="#">{{ code.title }}</a>
                 </td>
-                <td class="settings__tableInfo"></td>
+                <td class="settings__tableInfo">
+                </td>
                 <td><a class="tag tag--pill tag--red settings__btn tag--lg" href="#" data-href="{% url 'delete_code' code.id %}"
-                        onclick="deleteCode(event, this.getAttribute('data-href'))"><i class="im im-plus"></i>Usuń</a></td>
+                        onclick="deleteCode(event, this.getAttribute('data-href'))"><i class="im im-plus"></i>Usuń</a>
+                </td>
                 <td><a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_code' code.id %}""><i class=" im
                         im-plus"></i>Edytuj</a></td>
                 <td>
@@ -105,11 +107,13 @@
                         <span class="progress-circle__value">{{ code.plagiarism_ratio }}%</span>
                     </div>
                 </td>
-                <td>
-                    <div class="code-container" style="display: none;">
-                        <pre><code>{{ code.source_code|escape }}</code></pre>
-                    </div>
-                </td>
+            </tr>
+            <tr class="code-row">
+              <td colspan="5">
+                <div class="code-container" style="display: none;">
+                  <pre><code>{{ code.source_code|escape }}</code></pre>
+                </div>
+              </td>
             </tr>
             {% endfor %}
         </table>
@@ -117,18 +121,16 @@
     </div>
   </div>
 </main>
+
 <script>
-    var codeRows = document.getElementsByClassName('code-row');
-    for (var i = 0; i < codeRows.length; i++) {
-    codeRows[i].addEventListener('click', function() {
-        var codeContainer = this.getElementsByClassName('code-container')[0];
-        if (codeContainer.style.display === 'none') {
-        codeContainer.style.display = 'block';
-        } else {
-        codeContainer.style.display = 'none';
-        }
+  $(document).ready(function()
+  {
+    $(".code-row .toggle-code").click(function(event)
+    {
+      event.preventDefault(); // zapobiega przejściu do adresu URL linka
+      $(this).closest(".code-row").next().find(".code-container").toggle(); // przełącza widoczność dla code-container
     });
-    }
+  });
 </script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
