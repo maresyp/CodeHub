@@ -43,8 +43,8 @@ class Matches(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     first_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='first_user')
     second_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='second_user')
-    first_status = models.BooleanField()
-    second_status = models.BooleanField()
+    first_status = models.BooleanField(null=True, blank=True)
+    second_status = models.BooleanField(null=True, blank=True)
 
     def __str__(self) -> str:
         return str(self.first_user) + " + " + str(self.second_user) + " = " + str(self.second_status)
