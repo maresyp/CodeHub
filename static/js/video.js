@@ -63,7 +63,7 @@ function startWebSocket() {
 }
 
 let init = async () => {
-    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     document.getElementById('video-local').srcObject = localStream;
 
 }
@@ -135,3 +135,32 @@ let addAnswer = async (answer) => {
         console.log('Remote', peerConnection.remoteDescription)
     }
 }
+
+let muteButton = document.getElementById('mute-mic');
+let cameraButton = document.getElementById('turn-off-camera');
+
+muteButton.addEventListener('click', function () {
+    // Check if localStream is defined and has an audio track
+    if (localStream && localStream.getAudioTracks().length > 0) {
+        localStream.getAudioTracks().forEach((track) => {
+            track.enabled = !track.enabled;
+        });
+
+        // Change button text accordingly
+        this.textContent = localStream.getAudioTracks()[0].enabled ? 'Mute Mic' : 'Unmute Mic';
+    } else {
+        console.log('No audio tracks available to mute/unmute');
+    }
+});
+
+cameraButton.addEventListener('click', function () {
+    // Toggle video on and off
+    if (localStream && localStream.getVideoTracks().length > 0) {
+        localStream.getVideoTracks().forEach((track) => {
+            track.enabled = !track.enabled;
+        });
+
+        // Change button text accordingly
+        this.textContent = localStream.getVideoTracks()[0].enabled ? 'Turn Off Camera' : 'Turn On Camera';
+    }
+});
