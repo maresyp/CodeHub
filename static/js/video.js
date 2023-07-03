@@ -7,23 +7,25 @@ let peerConnection;
 let servers = {
     'iceServers':[
         {
-            urls:['stun:stun1.1.google.com:19302', 'stun:stun2.1.google.com:19302']
+            urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302']
         }
     ]
 }
+
 call_button.addEventListener('click', async function (e) {
     e.preventDefault()
     await init()
-    await createOffer()
+
+    let localDescription = await createOffer()
 
     videoSocket.send(JSON.stringify({
         'type': 'video_offer',
         'recipient': selected_recipient,
-        'offer': peerConnection.localDescription
+        'offer': localDescription
         })
     )
-
 })
+
 function startWebSocket() {
     videoSocket = new WebSocket(`ws://${window.location.host}/ws/socket-server/video`);
 
@@ -90,13 +92,25 @@ let createPeerConnection = async () => {
 }
 
 let createOffer = async () => {
-
     await createPeerConnection()
+
     let offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offer);
-    console.log(peerConnection.connectionState)
-    console.log('Local', peerConnection.localDescription)
 
+    return new Promise((resolve, reject) => {
+        if (peerConnection.iceGatheringState === 'complete') {
+            resolve(peerConnection.localDescription)
+        } else {
+            function checkState() {
+                if (peerConnection.iceGatheringState === 'complete') {
+                    peerConnection.removeEventListener('icegatheringstatechange', checkState);
+                    resolve(peerConnection.localDescription)
+                }
+            }
+
+            peerConnection.addEventListener('icegatheringstatechange', checkState);
+        }
+    })
 }
 
 let createAnswer = async (offer) => {
