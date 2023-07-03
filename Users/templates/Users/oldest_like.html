@@ -10,60 +10,60 @@
         <div class="card text-center">
           <div class="card__body dev">
             <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_account' %}">Edytuj profil</a>
-            <img class="avatar avatar--xl dev__avatar" src="{{best_match_user.profile.imageURL}}" alt="Profile_logo"/>
-            <h2 class="dev__username">{{best_match_user.username}}</h2>
-            <p class="dev__fullname">{{best_match_user.first_name }} {{best_match_user.last_name}}</p>
+            <img class="avatar avatar--xl dev__avatar" src="{{matched_user.profile.imageURL}}" alt="Profile_logo"/>
+            <h2 class="dev__username">{{matched_user.username}}</h2>
+            <p class="dev__fullname">{{matched_user.first_name }} {{matched_user.last_name}}</p>
 
-            {% if best_match_user.profile.age %}
-            <p class="dev__location">Wiek: {{best_match_user.profile.age}}</p>
+            {% if matched_user.profile.age %}
+            <p class="dev__location">Wiek: {{matched_user.profile.age}}</p>
             {% endif %}
 
-            {% if best_match_user.profile.city %}
-            <p class="dev__location">Lokalizacja: {{best_match_user.profile.city}}</p>
+            {% if matched_user.profile.city %}
+            <p class="dev__location">Lokalizacja: {{matched_user.profile.city}}</p>
             {% endif %}
 
-            {% if best_match_user.profile.gender %}
-            <p class="dev__location">Płeć: {{best_match_user.profile.gender}}</p>
+            {% if matched_user.profile.gender %}
+            <p class="dev__location">Płeć: {{matched_user.profile.gender}}</p>
             {% endif %}
 
             <ul class="dev__social">
-              {% if best_match_user.profile.social_github %}
+              {% if matched_user.profile.social_github %}
               <li>
-                <a title="Github" href="{{best_match_user.profile.social_github}}" target="_blank"><i class="fa fa-github"></i></a>
+                <a title="Github" href="{{matched_user.profile.social_github}}" target="_blank"><i class="fa fa-github"></i></a>
               </li>
               {% endif %}
 
-              {% if best_match_user.profile.social_twitter %}
+              {% if matched_user.profile.social_twitter %}
               <li>
-                <a title="Twitter" href="{{best_match_user.profile.social_twitter}}" target="_blank"><i class="fa fa-twitter"></i></a>
+                <a title="Twitter" href="{{matched_user.profile.social_twitter}}" target="_blank"><i class="fa fa-twitter"></i></a>
               </li>
               {% endif %}
 
-              {% if best_match_user.profile.social_youtube %}
+              {% if matched_user.profile.social_youtube %}
               <li>
-                <a title="YouTube" href="{{best_match_user.profile.social_youtube}}" target="_blank"><i class="fa fa-youtube"></i></a>
+                <a title="YouTube" href="{{matched_user.profile.social_youtube}}" target="_blank"><i class="fa fa-youtube"></i></a>
               </li>
               {% endif %}
 
-              {% if best_match_user.profile.social_facebook %}
+              {% if matched_user.profile.social_facebook %}
               <li>
-                <a title="Facebook" href="{{best_match_user.profile.social_facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
+                <a title="Facebook" href="{{matched_user.profile.social_facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
               </li>
               {% endif %}
 
-              {% if best_match_user.profile.social_linkedin %}
+              {% if matched_user.profile.social_linkedin %}
               <li>
-                <a title="Linkedin" href="{{best_match_user.profile.social_linkedin}}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <a title="Linkedin" href="{{matched_user.profile.social_linkedin}}" target="_blank"><i class="fa fa-linkedin"></i></a>
               </li>
               {% endif %}
             </ul>
 
-            <form action="{% url 'accept' best_match_user.id %}" method="post">
+            <form action="{% url 'accept_like' matched_user.id %}" method="post">
               {% csrf_token %}
               <input class="btn btn--success btn--lg" type="submit" value="Akceptuj">
             </form>
             <br/>
-            <form action="{% url 'reject' best_match_user.id %}" method="post">
+            <form action="{% url 'reject_like' matched_user.id %}" method="post">
               {% csrf_token %}
               <input class="btn btn--error btn--lg" type="submit" value="  Odrzuć  ">
             </form>
@@ -75,7 +75,7 @@
       <div class="column column--2of3">
         <div class="devInfo">
           <h3 class="devInfo__title">O mnie</h3>
-          <p class="devInfo__about">{{best_match_user.profile.bio}}</p>
+          <p class="devInfo__about">{{matched_user.profile.bio}}</p>
         </div>
 
         {% if tags %}
@@ -94,13 +94,13 @@
         </div>
         {% endif %}
         
-        {% if best_match_user.profile.favorite_project %}
+        {% if matched_user.profile.favorite_project %}
         <div class="settings">
-            <h3 class="settings__title">{{ best_match_user.profile.favorite_project.title }}</h3>
+            <h3 class="settings__title">{{ matched_user.profile.favorite_project.title }}</h3>
         </div>
   
         <div class="devInfo">
-            <p class="devInfo__about">{{ best_match_user.profile.favorite_project.description }}</p>
+            <p class="devInfo__about">{{ matched_user.profile.favorite_project.description }}</p>
         </div>
 
         <table class="settings__table">

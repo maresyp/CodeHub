@@ -317,7 +317,7 @@ def acceptMatch(request, user_id):
     other_user = User.objects.get(id=user_id)
 
     # Create a new Match object with first_status=True
-    match = Matches(first_user=request.user, second_user=other_user, first_status=True)
+    match = Matches(first_user=request.user, second_user=other_user, first_status=True, second_status=None)
     match.save()
 
     return redirect('find_best_match')
@@ -333,3 +333,83 @@ def rejectMatch(request, user_id):
     match.save()
 
     return redirect('find_best_match')
+
+@login_required(login_url='login')
+def getOldestLike(request):
+    # pobierz aktualnie zalogowanego użytkownika
+    user = request.user
+
+    # szukaj pasujących rekordów, gdzie zalogowany użytkownik jest 'second_user',
+    # 'first_status' jest True, a 'second_status' jest None
+    matches = Matches.objects.filter(second_user=user, first_status=True, second_status=None)
+
+    # jeśli nie znaleziono żadnego pasującego rekordu, oldest_match będzie None
+    if not matches:
+        messages.error(request, 'Aktualnie nie masz żadnych polubień swojego profilu.')
+        return redirect('account')
+    
+    # znajdź najstarszy z pasujących rekordów
+    oldest_match = matches.earliest('id')
+    
+    # Get tags and values defined by best match user
+    tags = Tag.objects.filter(favouritestags__user_id=oldest_match.first_user).annotate(
+            value=Subquery(FavouritesTags.objects.filter(tag_id=OuterRef('pk'), user_id=oldest_match.first_user).values('value'))
+            ).order_by('-value')
+
+    # Get favorite project of the best match user
+    favorite_project_id = getattr(oldest_match.first_user.profile.favorite_project, 'id', None)
+    if favorite_project_id is not None:
+        project = get_object_or_404(Project, id=favorite_project_id)
+        codes = Code.objects.filter(
+            Q(owner=oldest_match.first_user) & Q(project=project)
+        ).order_by('-creation_date')
+    else:
+        project = None
+        codes = []
+
+    context = {
+            'matched_user': oldest_match.first_user,
+            'tags': tags,
+            'project': project,
+            'codes': codes,
+        }
+
+    return render(request, 'Users/oldest_like.html', context)
+
+@require_POST
+@login_required(login_url='login')
+def acceptLike(request, user_id):
+    # Pobierz innego użytkownika
+    other_user = get_object_or_404(User, id=user_id)
+
+    # Znajdź obiekt Matches, który spełnia określone kryteria
+    match = get_object_or_404(Matches, 
+                              first_user=other_user, 
+                              second_user=request.user, 
+                              first_status=True, 
+                              second_status=None)
+
+    # Zaktualizuj wartość second_status na True
+    match.second_status = True
+    match.save()
+
+    return redirect('get_oldest_like')
+
+@require_POST
+@login_required(login_url='login')
+def rejectLike(request, user_id):
+    # Pobierz innego użytkownika
+    other_user = get_object_or_404(User, id=user_id)
+
+    # Znajdź obiekt Matches, który spełnia określone kryteria
+    match = get_object_or_404(Matches, 
+                              first_user=other_user, 
+                              second_user=request.user, 
+                              first_status=True, 
+                              second_status=None)
+
+    # Zaktualizuj wartość second_status na True
+    match.second_status = False
+    match.save()
+
+    return redirect('get_oldest_like')

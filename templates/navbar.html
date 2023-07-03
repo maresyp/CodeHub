@@ -16,7 +16,7 @@
             </label>
             <ul class="header__menu">
                 {% if request.user.is_authenticated %}
-                <li class="header__menuItem"><a href="">Nowe polubienia</a></li>
+                <li class="header__menuItem"><a href="{% url 'get_oldest_like' %}">Nowe polubienia</a></li>
                 <li class="header__menuItem"><a href="{% url 'find_best_match' %}">Poszukiwanie</a></li>
                 <li class="header__menuItem"><a href="{% url 'chat-lobby' %}">Wiadomości</a></li>
                 <li class="header__menuItem"><a href="{% url 'account' %}">Moje konto</a></li>
