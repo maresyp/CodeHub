@@ -7,23 +7,25 @@ let peerConnection;
 let servers = {
     'iceServers':[
         {
-            urls:['stun:stun1.1.google.com:19302', 'stun:stun2.1.google.com:19302']
+            urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302']
         }
     ]
 }
+
 call_button.addEventListener('click', async function (e) {
     e.preventDefault()
     await init()
-    await createOffer()
+
+    let localDescription = await createOffer()
 
     videoSocket.send(JSON.stringify({
         'type': 'video_offer',
         'recipient': selected_recipient,
-        'offer': peerConnection.localDescription
+        'offer': localDescription
         })
     )
-
 })
+
 function startWebSocket() {
     videoSocket = new WebSocket(`ws://${window.location.host}/ws/socket-server/video`);
 
@@ -61,7 +63,7 @@ function startWebSocket() {
 }
 
 let init = async () => {
-    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     document.getElementById('video-local').srcObject = localStream;
 
 }
@@ -90,13 +92,25 @@ let createPeerConnection = async () => {
 }
 
 let createOffer = async () => {
-
     await createPeerConnection()
+
     let offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offer);
-    console.log(peerConnection.connectionState)
-    console.log('Local', peerConnection.localDescription)
 
+    return new Promise((resolve, reject) => {
+        if (peerConnection.iceGatheringState === 'complete') {
+            resolve(peerConnection.localDescription)
+        } else {
+            function checkState() {
+                if (peerConnection.iceGatheringState === 'complete') {
+                    peerConnection.removeEventListener('icegatheringstatechange', checkState);
+                    resolve(peerConnection.localDescription)
+                }
+            }
+
+            peerConnection.addEventListener('icegatheringstatechange', checkState);
+        }
+    })
 }
 
 let createAnswer = async (offer) => {
@@ -121,3 +135,32 @@ let addAnswer = async (answer) => {
         console.log('Remote', peerConnection.remoteDescription)
     }
 }
+
+let muteButton = document.getElementById('mute-mic');
+let cameraButton = document.getElementById('turn-off-camera');
+
+muteButton.addEventListener('click', function () {
+    // Check if localStream is defined and has an audio track
+    if (localStream && localStream.getAudioTracks().length > 0) {
+        localStream.getAudioTracks().forEach((track) => {
+            track.enabled = !track.enabled;
+        });
+
+        // Change button text accordingly
+        this.textContent = localStream.getAudioTracks()[0].enabled ? 'Mute Mic' : 'Unmute Mic';
+    } else {
+        console.log('No audio tracks available to mute/unmute');
+    }
+});
+
+cameraButton.addEventListener('click', function () {
+    // Toggle video on and off
+    if (localStream && localStream.getVideoTracks().length > 0) {
+        localStream.getVideoTracks().forEach((track) => {
+            track.enabled = !track.enabled;
+        });
+
+        // Change button text accordingly
+        this.textContent = localStream.getVideoTracks()[0].enabled ? 'Turn Off Camera' : 'Turn On Camera';
+    }
+});
