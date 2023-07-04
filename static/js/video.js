@@ -1,6 +1,7 @@
 // Create a video socket
 let videoSocket = null; startWebSocket();
 let call_button = document.getElementById('video-start-call')
+let end_call_button = document.getElementById('video-end-call')
 let localStream;
 let remoteStream;
 let peerConnection;
