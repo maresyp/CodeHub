@@ -91,9 +91,9 @@
           <tr>
             <td class="settings__tableInfo">
               <a href="{% url 'display_project' project.id %}">{{project.title}}</a>
-                {% for tag in project.top_tags %}
-                    <h4 class="tag tag--sub tag--pill">{{ tag.code_tag__name }}</h4>
-                {% endfor %}
+              {% for tag in project.top_tags %}
+              <h4 class="tag tag--sub tag--pill">{{ tag.code_tag__name }}</h4>
+              {% endfor %}
               {% if profile.favorite_project == project %}
               <a style="float: right;"><span style="font-size: 19px;">&#9733;</span></a>
               {% else %}

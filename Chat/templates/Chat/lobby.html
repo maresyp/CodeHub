@@ -28,18 +28,20 @@
                       <circle class="message_border" cx="28" cy="28" r="28"></circle>
                     </g>
                   </svg>
+                  {% if friend.profile.is_active %}
                   <div class="message_badge"></div>
+                  {% endif %}
                 </div>
                 <div class="message_card__content">
                   <div class="message_card__content__start">
                     <h4>{{ friend.first_name }} {{ friend.last_name }}</h4>
                     <div>
-                      {% if not friend.last_message %}
-                      <p>Nie masz żadnych wiadomości</p>
+                      {% if friend.last_message.body %}
+                        <span>{{ friend.last_message.body }}</span>
+                        <span class="message_separator">|</span>
+                        <time style="font-size: 13px">{{ friend.last_message.send_timestamp|timesince }}</time>
                       {% else %}
-                      <span>{{ friend.last_message.body }}</span>
-                      <span class="message_separator">|</span>
-                      <time style="font-size: 13px">{{ friend.last_message.send_timestamp|timesince }}</time>
+                        <span>Nie masz żadnych wiadomości</span>
                       {% endif %}
                     </div>
                   </div>

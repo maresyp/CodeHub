@@ -42,6 +42,16 @@
   color: var(--color-sub);
 }
 
+.btn--success {
+  background-color: var(--color-success);
+  color: var(--color-success-bg);
+}
+
+.btn--error {
+  background-color: var(--color-error);
+  color: var(--color-error-bg);
+}
+
 .btn.btn--main--outline {
   background-color: transparent;
   color: var(--color-main);

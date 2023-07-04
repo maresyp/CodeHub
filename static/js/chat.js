@@ -82,14 +82,36 @@ function new_message_notification(friend_id) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`)
     friend.classList.add('new-message')
 }
+
 function update_top_message(friend_id, message, sender_is_user=false) {
     let friend = document.querySelector(`a[user-uuid="${friend_id}"]`);
-    if (sender_is_user) {
-        friend.querySelector('span').innerHTML = "Ty: " + message;
+    let displayMessage = "";
+    let prefix = "";
+
+    // jeśli nie ma wiadomości, wyświetl "Nie masz żadnych wiadomości"
+    if (!message) {
+        displayMessage = "Nie masz żadnych wiadomości";
     } else {
-        friend.querySelector('span').innerHTML = message;
+        if (sender_is_user) {
+            prefix = "Ty: ";
+            // Uwzględniamy długość prefixu w limicie 27 znaków.
+            if ((message.length + prefix.length) > 27) {
+                displayMessage = message.substring(0, 27 - prefix.length) + "...";
+            } else {
+                displayMessage = message;
+            }
+        } else {
+            if (message.length > 27) {
+                displayMessage = message.substring(0, 27) + "...";
+            } else {
+                displayMessage = message;
+            }
+        }
     }
+
+    friend.querySelector('span').innerHTML = prefix + displayMessage;
 }
+
 
 form.addEventListener('submit', (e) => {
     e.preventDefault()

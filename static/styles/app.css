@@ -512,6 +512,12 @@ img {
   margin-top: 8rem;
 }
 
+.code-container pre {
+  display: grid;
+  overflow-x: scroll;
+  width: 100%;
+}
+
 /*========== Projects ==========*/
 
 .project__thumbnail {
@@ -629,7 +635,7 @@ img {
   width: 100%;
 }
 
-.settings__tableInfo h4,
+.settings__tableInfo h4:not(.tag),
 .settings__tableInfo a {
   padding-right: 1rem;
   width: auto;
@@ -1121,13 +1127,13 @@ video {
   display: flex;
   margin-right: 12px;
 
-  .badge {
+  .message_badge {
     position: absolute;
     right: 3px;
     bottom: 3px;
     width: 10px;
     height: 10px;
-    background: #5ad539;
+    background: var(--color-success);
     border-radius: 50%;
   }
 }
@@ -1144,18 +1150,18 @@ video {
     top: 0;
   }
 
-  .avatar-2 {
+  .message_avatar-2 {
     position: absolute;
     left: 0;
     bottom: 0;
   }
 
-  .badge {
+  .message_badge {
     right: 6px;
     bottom: 6px;
   }
 
-  .border {
+  .message_border {
     stroke-width: 2;
   }
 }
@@ -1181,7 +1187,7 @@ video {
     border-radius: 50%;
   }
 
-  .border {
+  .message_border {
     position: absolute;
     width: 56px;
     height: 56px;
@@ -1189,10 +1195,10 @@ video {
     opacity: 0.1;
   }
 
-  .badge {
+  .message_badge {
     width: 14px;
     height: 14px;
-    border: 2px solid #fff;
+    border: 2px solid var(--color-white);
   }
 }
 
@@ -1235,6 +1241,7 @@ video {
   > div {
     display: flex;
     align-items: center;
+    max-width: fit-content;
   }
 
   h4,
