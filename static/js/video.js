@@ -45,6 +45,7 @@ function startWebSocket() {
         if (data.type === 'end_call') {
             // End the call and send a confirmation back to the server
             endCall();
+
             videoSocket.send(JSON.stringify({
                 'type': 'end_call_confirmed',
                 'recipient': selected_recipient
@@ -159,9 +160,10 @@ muteButton.addEventListener('click', function () {
         });
 
         // Change button text accordingly
-        this.textContent = localStream.getAudioTracks()[0].enabled ? 'Mute Mic' : 'Unmute Mic';
+        this.textContent = localStream.getAudioTracks()[0].enabled ? 'Wycisz mikrofon' : 'Wyłącz wyciszenie';
     } else {
         console.log('No audio tracks available to mute/unmute');
+        showMessage("Brak dostępnego mikrofonu!", "error");
     }
 });
 
@@ -173,7 +175,10 @@ cameraButton.addEventListener('click', function () {
         });
 
         // Change button text accordingly
-        this.textContent = localStream.getVideoTracks()[0].enabled ? 'Turn Off Camera' : 'Turn On Camera';
+        this.textContent = localStream.getVideoTracks()[0].enabled ? 'Wyłącz kamerę' : 'Włącz kamerę';
+    } else {
+        console.log('No camera available.');
+        showMessage("Brak dostępnej kamery!", "error");
     }
 });
 
@@ -206,4 +211,15 @@ let endCall = () => {
     document.getElementById('video-div').style.display = "none";
     document.getElementById('video-start-call').style.display = "block";
     document.getElementById('video-end-call').style.display = "none";
+
+    showMessage("Połączenie zostało zakończone.", "success");
+}
+
+function showMessage(message, level) {
+    let messageBox = document.getElementById('alerts');
+    messageBox.innerHTML = `
+    <div class="alert alert--${level}">
+        <p class="alert__message">${message}</p>
+        <button class="alert__close" onclick="closeMessage()">x</button>
+    </div>`;
 }
