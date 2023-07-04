@@ -49,7 +49,6 @@ function startWebSocket() {
         } else if (data.type === 'video_result') {
             await addAnswer(data.answer)
         } else if (data.type === 'new-ice-candidate') {
-            console.log('New ICE candidate received')
             let candidate = new RTCIceCandidate(JSON.parse(data.candidate));
             await peerConnection.addIceCandidate(candidate);
         }
@@ -118,21 +117,14 @@ let createAnswer = async (offer) => {
 
     let rtcOffer = new RTCSessionDescription(offer)
     await peerConnection.setRemoteDescription(rtcOffer)
-    console.log(peerConnection.connectionState)
-    console.log('Remote', peerConnection.remoteDescription)
 
     let answer = await peerConnection.createAnswer();
     await peerConnection.setLocalDescription(answer);
-    console.log(peerConnection.connectionState)
-    console.log('Local', peerConnection.localDescription)
-
 }
 
 let addAnswer = async (answer) => {
     if (!peerConnection.currentRemoteDescription) {
         await peerConnection.setRemoteDescription(answer)
-        console.log(peerConnection.connectionState)
-        console.log('Remote', peerConnection.remoteDescription)
     }
 }
 
@@ -148,8 +140,6 @@ muteButton.addEventListener('click', function () {
 
         // Change button text accordingly
         this.textContent = localStream.getAudioTracks()[0].enabled ? 'Mute Mic' : 'Unmute Mic';
-    } else {
-        console.log('No audio tracks available to mute/unmute');
     }
 });
 
