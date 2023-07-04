@@ -7,22 +7,53 @@ import time
 from django.db.models import Q
 
 class PlagiarismQueueEntry:
+    """
+    Represents a queue entry for plagiarism checks.
+
+    Attributes:
+        reference_code_id (uuid.UUID): The unique identifier of the code to be checked.
+    """
     __slots__ = ['reference_code_id']
 
     def __init__(self, reference_code_id: uuid.UUID) -> None:
+        """
+        Initializes a new instance of the PlagiarismQueueEntry class.
+
+        Args:
+            reference_code_id (uuid.UUID): The unique identifier of the code to be checked.
+        """
         self.reference_code_id = reference_code_id
 
 
 class PlagiarismQueue(Queue):
+    """
+    Represents a queue for handling plagiarism checks.
+
+    This class extends the built-in Queue class and uses threading to perform plagiarism checks in the background.
+
+    Attributes:
+        _instance (PlagiarismQueue): A singleton instance of the PlagiarismQueue.
+    """
     _instance = None
 
     def __new__(cls, *args, **kwargs) -> Self:
+        """
+        Create a new instance of PlagiarismQueue or return the existing one.
+
+        Returns:
+            PlagiarismQueue: The singleton instance of the PlagiarismQueue.
+        """
         if not cls._instance:
             cls._instance = super().__new__(cls, *args, **kwargs)
             cls._instance.__initialized = False
         return cls._instance
 
     def __init__(self, *args, **kwargs) -> None:
+        """
+        Initializes a new instance of the PlagiarismQueue class.
+
+        Starts the worker and cleaner threads.
+        """
         if self.__initialized:
             return
         self.__initialized: bool = True
@@ -35,9 +66,22 @@ class PlagiarismQueue(Queue):
 
 
     def put(self, item: PlagiarismQueueEntry, *args, **kwargs) -> None:
+        """
+        Add a new item to the queue.
+
+        Args:
+            item (PlagiarismQueueEntry): The item to add to the queue.
+        """
         super().put(item)
 
     def worker(self) -> None:
+        """
+        Worker thread that continuously checks the queue for new items.
+
+        For each item, retrieves the associated code and checks it against all other codes for plagiarism.
+
+        If an exception occurs during the plagiarism check, the error is printed and the item is marked as done.
+        """
         from Codes.models import Code
         while True:
             try:
@@ -72,9 +116,12 @@ class PlagiarismQueue(Queue):
                 self.task_done()
 
     def cleaner(self) -> None:
-        # This thread runs in the background and periodically adds not checked codes to queue.
-        # This is needed because some codes may be skipped due to server malfunction.
-        # This way we can be sure that all codes will be checked.
+        """
+        Cleaner thread that runs in the background and periodically adds not checked codes to queue.
+
+        This is needed because some codes may be skipped due to server malfunction.
+        This way we can be sure that all codes will be checked.
+        """
         from Codes.models import Code
         while True:
             try:
