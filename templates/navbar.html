@@ -16,10 +16,18 @@
             </label>
             <ul class="header__menu">
                 {% if request.user.is_authenticated %}
-                <li class="header__menuItem"><a href="{% url 'get_oldest_like' %}">Nowe polubienia</a></li>
-                <li class="header__menuItem"><a href="{% url 'find_best_match' %}">Poszukiwanie</a></li>
-                <li class="header__menuItem"><a href="{% url 'chat-lobby' %}">Wiadomości</a></li>
-                <li class="header__menuItem"><a href="{% url 'account' %}">Moje konto</a></li>
+                <li class="header__menuItem">
+                    <a {% if request.resolver_match.url_name == 'get_oldest_like' %}style="color: var(--color-main-light);"{% endif %} 
+                    href="{% url 'get_oldest_like' %}">Nowe polubienia</a></li>
+                <li class="header__menuItem">
+                    <a {% if request.resolver_match.url_name == 'find_best_match' %}style="color: var(--color-main-light);"{% endif %}
+                    href="{% url 'find_best_match' %}">Poszukiwanie</a></li>
+                <li class="header__menuItem">
+                    <a {% if request.resolver_match.url_name == 'chat-lobby' %}style="color: var(--color-main-light);"{% endif %}
+                    href="{% url 'chat-lobby' %}">Wiadomości</a></li>
+                <li class="header__menuItem">
+                    <a {% if request.resolver_match.url_name == 'account' %}style="color: var(--color-main-light);"{% endif %} 
+                    href="{% url 'account' %}">Moje konto</a></li>
                 <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--main">Wyloguj</a></li>
                 {% else %}
                     {% if page == 'login' %}
