@@ -14,6 +14,11 @@ let servers = {
 
 call_button.addEventListener('click', async function (e) {
     e.preventDefault()
+    document.getElementById('contacts-div').style.display = "none";
+    document.getElementById('video-div').style.display = "block";
+    document.getElementById('video-start-call').style.display = "none";
+    document.getElementById('video-end-call').style.display = "block";
+
     await init()
 
     let localDescription = await createOffer()
