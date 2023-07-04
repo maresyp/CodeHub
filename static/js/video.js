@@ -2,6 +2,8 @@
 let videoSocket = null; startWebSocket();
 let call_button = document.getElementById('video-start-call')
 let end_call_button = document.getElementById('video-end-call')
+let muteButton = document.getElementById('mute-mic');
+let cameraButton = document.getElementById('turn-off-camera');
 let localStream;
 let remoteStream;
 let peerConnection;
@@ -40,7 +42,14 @@ function startWebSocket() {
 
     videoSocket.onmessage = async function (e) {
         let data = JSON.parse(e.data)
-        if (data.type === 'video_offer') {
+        if (data.type === 'end_call') {
+            // End the call and send a confirmation back to the server
+            endCall();
+            videoSocket.send(JSON.stringify({
+                'type': 'end_call_confirmed',
+                'recipient': selected_recipient
+            }));
+        } else if (data.type === 'video_offer') {
             // TODO: After receiving an offer, user should get notified and asked to accept or reject the call
             await init()
 
@@ -142,9 +151,6 @@ let addAnswer = async (answer) => {
     }
 }
 
-let muteButton = document.getElementById('mute-mic');
-let cameraButton = document.getElementById('turn-off-camera');
-
 muteButton.addEventListener('click', function () {
     // Check if localStream is defined and has an audio track
     if (localStream && localStream.getAudioTracks().length > 0) {
@@ -170,3 +176,34 @@ cameraButton.addEventListener('click', function () {
         this.textContent = localStream.getVideoTracks()[0].enabled ? 'Turn Off Camera' : 'Turn On Camera';
     }
 });
+
+end_call_button.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Send a message to the server to end the call
+    videoSocket.send(JSON.stringify({
+        'type': 'end_call',
+        'recipient': selected_recipient
+    }));
+
+    // Clean up the call on our side
+    endCall();
+});
+
+let endCall = () => {
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+    }
+
+    // Reset the UI
+    document.getElementById('contacts-div').style.display = "block";
+    document.getElementById('video-div').style.display = "none";
+    document.getElementById('video-start-call').style.display = "block";
+    document.getElementById('video-end-call').style.display = "none";
+}
