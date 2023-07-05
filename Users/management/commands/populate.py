@@ -123,9 +123,8 @@ class UserGenerator(Generator, BaseProvider):
             data["email"] = self.generate_email(data["name"])
             data["pwd"] = self.generate_password()
             data["age"] = random.randint(18, 69)
-            data["tags"] = random.sample(self.__tags, random.randint(1, len(self.__tags)))
-            data["code_snippets"] = {tag: [self.generate_code_snippet(tag) for tag in data["tags"]] for tag in
-                                     data["tags"]}
+            data["tags"] = random.sample(self.__tags, random.randint(1, 5))
+            data["code_snippets"] = {tag: [self.generate_code_snippet(tag)] for tag in data["tags"]}
             data["bio"] = self.generate_bio()
 
             yield data
