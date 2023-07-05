@@ -48,18 +48,17 @@ function startWebSocket() {
                 'recipient': selected_recipient
             }));
         } else if (data.type === 'video_offer') {
-            swal({
+            Swal.fire({
                 title: "Czy chcesz zaakceptować połączenie wideo?",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true,
+                showDenyButton: true,
                 confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--color-success'),
-                cancelButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--color-error'),
                 confirmButtonText: 'Akceptuj',
-                cancelButtonText: 'Odrzuć'
+                denyButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--color-error'),
+                denyButtonText: 'Odrzuć'
             })
-            .then((willAccept) => {
-                if (willAccept) {
+                .then((result) => {
+                    if (result.isConfirmed) {
                     switchVideoState('video');
                     init().then(() => {
                         createAnswer(data.offer).then(() => {
@@ -71,7 +70,7 @@ function startWebSocket() {
                             }));
                         });
                     });
-                } else {
+                    } else if (result.isDenied) {
                     showMessage("Odrzucono połączenie!", "error");
                     videoSocket.send(JSON.stringify({
                         'type': 'video_rejected',
