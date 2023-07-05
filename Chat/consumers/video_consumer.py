@@ -37,8 +37,8 @@ class VideoConsumer(AsyncWebsocketConsumer):
                     await self.new_ice_candidate_handler(text_data_json)
                 case 'end_call':
                     await self.end_call_handler(text_data_json)
-                case 'end_call_confirmed':
-                    await self.end_call_confirmed_handler(text_data_json)
+                case 'video_rejected':
+                    await self.video_rejected_handler(text_data_json)
         except KeyError:
             return
 
@@ -47,6 +47,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
             f"video_{data['recipient']}",
             {
                 'type': 'video_offer',
+                'caller_name': self.scope['user'].username,
                 'recipient': self.scope['user'].id,
                 'offer': data['offer'],
             }
@@ -55,6 +56,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
     async def video_offer(self, data):
         await self.send(text_data=json.dumps({
             'type': 'video_offer',
+            'caller_name': data['caller_name'],
             'recipient': data['recipient'],
             'offer': data['offer'],
         }))
@@ -104,27 +106,25 @@ class VideoConsumer(AsyncWebsocketConsumer):
             f"video_{data['recipient']}",
             {
                 'type': 'end_call',
+                'reason': 'finished',
                 'recipient': self.scope['user'].id,
             }
         )
 
-    async def end_call_confirmed_handler(self, data):
+    # Handler for the video_rejected message
+    async def video_rejected_handler(self, data):
         await self.channel_layer.group_send(
             f"video_{data['recipient']}",
             {
-                'type': 'end_call_confirmed',
-                'recipient': self.scope['user'].id,
+                'type': 'end_call',
+                'reason': 'rejected',
+                'recipient': data['recipient'],
             }
         )
 
     async def end_call(self, data):
         await self.send(text_data=json.dumps({
             'type': 'end_call',
-            'recipient': data['recipient'],
-        }))
-
-    async def end_call_confirmed(self, data):
-        await self.send(text_data=json.dumps({
-            'type': 'end_call_confirmed',
+            'reason': data['reason'],
             'recipient': data['recipient'],
         }))
