@@ -48,18 +48,26 @@ function startWebSocket() {
                 'recipient': selected_recipient
             }));
         } else if (data.type === 'video_offer') {
-            // TODO: After receiving an offer, user should get notified and asked to accept or reject the call
+            // Użytkownik otrzymał prośbę o połączenie wideo. Pytamy go, czy akceptuje.
+            if (confirm('Czy chcesz zaakceptować połączenie wideo?')) {
+                switchVideoState('video');
+                await init();
+                await createAnswer(data.offer);
 
-            switchVideoState('video')
-            await init()
-            await createAnswer(data.offer)
-
-            videoSocket.send(JSON.stringify({
-                'type': 'video_answer',
-                'recipient': data.recipient,
-                'answer': peerConnection.localDescription
-            }))
-
+                showMessage("Zaakceptowano połączenie!", "success");
+                videoSocket.send(JSON.stringify({
+                    'type': 'video_answer',
+                    'recipient': data.recipient,
+                    'answer': peerConnection.localDescription
+                }));
+            } else {
+                // Użytkownik odrzucił połączenie wideo. Wysyłamy odpowiednią informację do użytkownika, który inicjował połączenie.
+                showMessage("Odrzucono połączenie!", "error");
+                videoSocket.send(JSON.stringify({
+                    'type': 'video_rejected',
+                    'recipient': data.recipient
+                }));
+            }
         } else if (data.type === 'video_result') {
             await addAnswer(data.answer)
         } else if (data.type === 'new-ice-candidate') {

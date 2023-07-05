@@ -39,6 +39,8 @@ class VideoConsumer(AsyncWebsocketConsumer):
                     await self.end_call_handler(text_data_json)
                 case 'end_call_confirmed':
                     await self.end_call_confirmed_handler(text_data_json)
+                case 'video_rejected':
+                    await self.video_rejected_handler(text_data_json)
         except KeyError:
             return
 
@@ -126,5 +128,22 @@ class VideoConsumer(AsyncWebsocketConsumer):
     async def end_call_confirmed(self, data):
         await self.send(text_data=json.dumps({
             'type': 'end_call_confirmed',
+            'recipient': data['recipient'],
+        }))
+
+    # Handler for the video_rejected message
+    async def video_rejected_handler(self, data):
+        await self.channel_layer.group_send(
+            f"video_{data['recipient']}",
+            {
+                'type': 'video_rejected',
+                'recipient': self.scope['user'].id,
+            }
+        )
+
+    # Method to send a video_rejected message
+    async def video_rejected(self, data):
+        await self.send(text_data=json.dumps({
+            'type': 'video_rejected',
             'recipient': data['recipient'],
         }))
