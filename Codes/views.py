@@ -78,7 +78,7 @@ def displayMyProject(request, project_id):
 
     project = get_object_or_404(Project, id=project_id)
     codes = Code.objects.filter(
-        Q(owner=user) & Q(project=project)
+        Q(project__owner=user) & Q(project=project)
     ).order_by('-creation_date')
 
     context = {

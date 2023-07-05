@@ -17,14 +17,14 @@ class Command(BaseCommand):
         return super().add_arguments(parser)
 
     def handle(self, *args, **kwargs):
-        available_tags = [tag.name for tag in Tag.objects.all()]
+        available_tags: list[Tag] = Tag.objects.all()
         if not available_tags:
             raise ValueError("There are no tags in the database. Please add some tags first.")
 
         # check if every tag has a corresponding file
         to_remove: set[Tag] = set()
         for tag in available_tags:
-            possible_files = list(Path("./code_snippets/").glob(f"*.{tag.lower()}.txt"))
+            possible_files = list(Path("./code_snippets/").glob(f"*.{tag.name.lower()}.txt"))
             if not possible_files:
                 to_remove.add(tag)
         available_tags = [tag for tag in available_tags if tag not in to_remove]
@@ -50,9 +50,9 @@ class Command(BaseCommand):
 
                 # create user
                 user = User.objects.create_user(
-                    first_name=data['name'].lower(),
-                    email=data['email'].lower(),
-                    username=data['email'].lower(),
+                    first_name=data['name'],
+                    email=data['email'],
+                    username=data['email'].split('@')[0],
                     password='default'
                 )
 
@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 profile.age = data['age']
                 profile.bio = data['bio']
                 profile.gender = data['gender']
-                profile.social_github = 'https://github.com/maresyp/CodeHub'
+                profile.social_github = r'https://github.com/maresyp/CodeHub'
                 profile.save()
 
                 # create project for given user
@@ -72,15 +72,14 @@ class Command(BaseCommand):
                     description=f'This is a mock project generated for {data["name"]}',
                 )
 
-                for key, value in data['code_snippets'].items():
-                    print(f'Creating {key} code snippet for {data["name"]}')
-                    for snippet in value:
+                for tag, snippet in data['code_snippets'].items():
+                    print(f'Creating {tag} code snippet for {data["name"]}')
+                    for snip in snippet:
                         Code.objects.create(
-                            owner=user,
                             project=project,
-                            title=f'{key} code snippet',
+                            title=f'snippet.{tag.file_extension}',
                             description='This is a mock code snippet',
-                            source_code=snippet
+                            source_code=snip
                         )
 
                 creations += 1
@@ -100,16 +99,13 @@ class Generator(ABC):
 class UserGenerator(Generator, BaseProvider):
     """ Class for generating mock users. """
 
-    def __init__(self, available_tags: list[str] | None = None):
+    def __init__(self, available_tags: list[Tag]):
         """ Constructor for UserGenerator class. """
         self.__faker = Faker()
         Faker.seed(2137)
         random.seed(2137)
 
-        if available_tags is None:
-            self.__tags = ["Python", "C", "Cpp", "Java", "Javascript"]
-        else:
-            self.__tags: list[str] = available_tags  # type: ignore
+        self.__tags: list[Tag] = available_tags
 
     def generate(self, amount: int = 1) -> Iterable[dict]:
         """ Method for generating mock users. """
@@ -124,7 +120,7 @@ class UserGenerator(Generator, BaseProvider):
             data["pwd"] = self.generate_password()
             data["age"] = random.randint(18, 69)
             data["tags"] = random.sample(self.__tags, random.randint(1, 5))
-            data["code_snippets"] = {tag: [self.generate_code_snippet(tag)] for tag in data["tags"]}
+            data["code_snippets"] = {tag: [self.generate_code_snippet(tag.name)] for tag in data["tags"]}
             data["bio"] = self.generate_bio()
 
             yield data
@@ -132,12 +128,12 @@ class UserGenerator(Generator, BaseProvider):
     def generate_name(self, gender: str) -> str:
         """ Method for generating a random name. """
         if gender == "M":
-            return f'{self.__faker.first_name_male()} {self.__faker.last_name_male()}'
-        return f'{self.__faker.first_name_female()} {self.__faker.last_name_female()}'
+            return f'{self.__faker.first_name_male()} {self.__faker.last_name_male()}'.lower()
+        return f'{self.__faker.first_name_female()} {self.__faker.last_name_female()}'.lower()
 
     def generate_email(self, name: str) -> str:
         """ Method for generating a random email from given name. """
-        return f'{name.replace(" ", ".")}{random.randint(0, 2137)}@{self.__faker.free_email_domain()}'
+        return f'{name.replace(" ", ".")}{random.randint(0, 2137)}@{self.__faker.free_email_domain()}'.lower()
 
     def generate_password(self) -> str:
         """ Method for generating a random password. """
@@ -159,8 +155,3 @@ class UserGenerator(Generator, BaseProvider):
         with file.open('r') as f:
             return f.read()
 
-
-if __name__ == "__main__":
-    user_generator = UserGenerator()
-    for user in user_generator.generate(amount=50):
-        print(user)

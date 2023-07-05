@@ -46,13 +46,12 @@ class PlagiarismQueue(Queue):
 
                 other_codes = Code.objects.exclude(
                     Q(id=item.reference_code_id) |
-                    Q(owner=checked_code.project.owner)
+                    Q(project__owner=checked_code.project.owner)
                 )
                 # If there are no other codes to check, skip this code
                 if not other_codes:
                     self.task_done()
                     continue
-
                 checker = PlagiarismChecker(checked_code.source_code)
                 highest_similarity: tuple[int, Code] = (0, other_codes.first())
 
