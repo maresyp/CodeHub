@@ -50,9 +50,9 @@ class Command(BaseCommand):
 
                 # create user
                 user = User.objects.create_user(
-                    first_name=data['name'],
-                    email=data['email'],
-                    username=data['email'].replace('@', '_').replace('.', '_'),
+                    first_name=data['name'].lower(),
+                    email=data['email'].lower(),
+                    username=data['email'].lower(),
                     password='default'
                 )
 
@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 profile.age = data['age']
                 profile.bio = data['bio']
                 profile.gender = data['gender']
-                profile.social_github = 'www.github.com/maresyp/CodeHub'
+                profile.social_github = 'https://github.com/maresyp/CodeHub'
                 profile.save()
 
                 # create project for given user
