@@ -40,7 +40,6 @@ function startWebSocket() {
     videoSocket.onmessage = async function (e) {
         let data = JSON.parse(e.data)
         if (data.type === 'end_call') {
-            console.log(data)
             if (data.reason === 'rejected') {
                 showMessage("Połączenie zostało odrzucone!", "error");
             } else {
