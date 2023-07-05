@@ -119,31 +119,18 @@ class VideoConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    async def end_call(self, data):
-        await self.send(text_data=json.dumps({
-            'type': 'end_call',
-            'recipient': data['recipient'],
-        }))
-
-    async def end_call_confirmed(self, data):
-        await self.send(text_data=json.dumps({
-            'type': 'end_call_confirmed',
-            'recipient': data['recipient'],
-        }))
-
     # Handler for the video_rejected message
     async def video_rejected_handler(self, data):
         await self.channel_layer.group_send(
             f"video_{data['recipient']}",
             {
-                'type': 'video_rejected',
-                'recipient': self.scope['user'].id,
+                'type': 'end_call',
+                'recipient': data['recipient'],
             }
         )
 
-    # Method to send a video_rejected message
-    async def video_rejected(self, data):
+    async def end_call(self, data):
         await self.send(text_data=json.dumps({
-            'type': 'video_rejected',
+            'type': 'end_call',
             'recipient': data['recipient'],
         }))

@@ -40,13 +40,8 @@ function startWebSocket() {
     videoSocket.onmessage = async function (e) {
         let data = JSON.parse(e.data)
         if (data.type === 'end_call') {
-            // End the call and send a confirmation back to the server
             endCall();
-
-            videoSocket.send(JSON.stringify({
-                'type': 'end_call_confirmed',
-                'recipient': selected_recipient
-            }));
+            showMessage("Połączenie zostało odrzucone!", "error");
         } else if (data.type === 'video_offer') {
             Swal.fire({
                 title: "Czy chcesz zaakceptować połączenie wideo?",
@@ -71,7 +66,7 @@ function startWebSocket() {
                         });
                     });
                     } else if (result.isDenied) {
-                    showMessage("Odrzucono połączenie!", "error");
+                        showMessage("Odrzucono połączenie!", "success");
                     videoSocket.send(JSON.stringify({
                         'type': 'video_rejected',
                         'recipient': data.recipient
