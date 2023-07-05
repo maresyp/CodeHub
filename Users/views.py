@@ -257,7 +257,7 @@ def findBestMatch(request):
     # create an empty dictionary to store the scores
     scores = {}
 
-    
+
     # iterate over all users
     for other_user in User.objects.exclude(id__in=matched_user_ids):
         # get the favourite tags of the other user
@@ -269,12 +269,12 @@ def findBestMatch(request):
             for other_tag in other_user_tags:
                 if user_tag.tag_id == other_tag.tag_id:
                     score += user_tag.value + other_tag.value
-        
+
         # store the score for the other user
         scores[other_user.id] = score
 
     # Check if scores dictionary is not empty
-    if scores:  
+    if scores:
         # find the user with the maximum score
         best_match_user_id = max(scores, key=scores.get)
         best_match_user = User.objects.get(id=best_match_user_id)
@@ -290,7 +290,7 @@ def findBestMatch(request):
         if favorite_project_id is not None:
             project = get_object_or_404(Project, id=favorite_project_id)
             codes = Code.objects.filter(
-                Q(owner=best_match_user_id) & Q(project=project)
+                Q(project__owner=best_match_user_id) & Q(project=project)
             ).order_by('-creation_date')
         else:
             project = None
@@ -347,10 +347,10 @@ def getOldestLike(request):
     if not matches:
         messages.error(request, 'Aktualnie nie masz żadnych polubień swojego profilu.')
         return redirect('account')
-    
+
     # znajdź najstarszy z pasujących rekordów
     oldest_match = matches.earliest('id')
-    
+
     # Get tags and values defined by best match user
     tags = Tag.objects.filter(favouritestags__user_id=oldest_match.first_user).annotate(
             value=Subquery(FavouritesTags.objects.filter(tag_id=OuterRef('pk'), user_id=oldest_match.first_user).values('value'))
@@ -383,10 +383,10 @@ def acceptLike(request, user_id):
     other_user = get_object_or_404(User, id=user_id)
 
     # Znajdź obiekt Matches, który spełnia określone kryteria
-    match = get_object_or_404(Matches, 
-                              first_user=other_user, 
-                              second_user=request.user, 
-                              first_status=True, 
+    match = get_object_or_404(Matches,
+                              first_user=other_user,
+                              second_user=request.user,
+                              first_status=True,
                               second_status=None)
 
     # Zaktualizuj wartość second_status na True
@@ -402,10 +402,10 @@ def rejectLike(request, user_id):
     other_user = get_object_or_404(User, id=user_id)
 
     # Znajdź obiekt Matches, który spełnia określone kryteria
-    match = get_object_or_404(Matches, 
-                              first_user=other_user, 
-                              second_user=request.user, 
-                              first_status=True, 
+    match = get_object_or_404(Matches,
+                              first_user=other_user,
+                              second_user=request.user,
+                              first_status=True,
                               second_status=None)
 
     # Zaktualizuj wartość second_status na True

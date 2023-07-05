@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandParser
-from Users.models import User
+from Users.models import User, FavouritesTags
 from Codes.models import Project, Code, Tag
 
 from abc import ABC, abstractmethod
@@ -81,6 +81,12 @@ class Command(BaseCommand):
                             description='This is a mock code snippet',
                             source_code=snip
                         )
+
+                FavouritesTags.objects.create(
+                    user_id=user,
+                    tag_id=random.choice(available_tags),
+                    value=10
+                )
 
                 creations += 1
                 print(f'Created User with email {data["email"]}.')
