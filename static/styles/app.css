@@ -1300,9 +1300,12 @@ video {
 
 .progressBarContainer{
   margin-bottom: 20px;
-  margin-right: -9rem;
   width: 14rem;
   height: 5rem;
+  display: flex;
+  align-items: flex-start;
+  display: flex;
+  float: right;
 }
 
 .numOfLikes {

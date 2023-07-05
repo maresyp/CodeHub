@@ -61,6 +61,7 @@
 .tag--lg {
   padding: 0.8rem 3rem;
   font-size: 1.4rem;
+  margin: 5px;
 }
 
 .tag--lg:not(:last-child) {
