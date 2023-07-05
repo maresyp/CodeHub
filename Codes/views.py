@@ -118,7 +118,7 @@ def add_code(request, project_id):
                 document = Document(file=file)
 
                 # check if project contains file with the same name
-                if Code.objects.filter(Q(owner=request.user) & Q(project=project) & Q(title=document.file.name)).exists():
+                if Code.objects.filter(Q(project__owner=request.user) & Q(project=project) & Q(title=document.file.name)).exists():
                     messages.error(request, f'Projekt zawiera już plik o nazwie {document.file.name}.')
                     return redirect('add_code', project_id=project_id)
 
@@ -134,7 +134,6 @@ def add_code(request, project_id):
                     return redirect('add_code', project_id=project_id)
 
                 Code.objects.create(
-                    owner=request.user,
                     project=project,
                     source_code=source_code,
                     title=document.file.name,

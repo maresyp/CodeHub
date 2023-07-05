@@ -37,7 +37,7 @@ def select_favorite_project(sender, instance, created, **kwargs):
 def delete_favorite_project(sender, instance, **kwargs):
     profile = instance.owner.profile
     if profile.favorite_project is None:
-        other_projects = Project.objects.exclude(pk=instance.pk)
+        other_projects = Project.objects.filter(owner=instance.owner).exclude(pk=instance.pk)
 
         # if possible set other project as favorite
         if other_projects:
