@@ -1304,3 +1304,16 @@ video {
   width: 14rem;
   height: 5rem;
 }
+
+.numOfLikes {
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  display: flex;
+  margin-left: 12rem;
+  margin-top: -3.5rem;
+  background-color: var(--color-main-light);
+  border-radius: 5rem;
+  justify-content: center;
+  color: var(--color-sub);
+}
