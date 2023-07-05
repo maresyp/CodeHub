@@ -1,14 +1,41 @@
-// Po załadowaniu strony
 document.addEventListener("DOMContentLoaded", function() {
-    var progressCircles = document.querySelectorAll(".progress-circle");
+  var containers = document.querySelectorAll(".progressBarContainer");
   
-    progressCircles.forEach(function(circle) {
-      var progress = parseInt(circle.getAttribute("data-progress"));
-      var radius = parseInt(circle.querySelector(".progress-circle__background").getAttribute("r"));
-      var circumference = 2 * Math.PI * radius;
-      var offset = circumference - (progress / 100) * circumference;
-  
-      circle.querySelector(".progress-circle__progress").style.strokeDashoffset = offset;
+  containers.forEach((container) => {
+    var progress = container.getAttribute("data-progress");
+
+    var bar = new ProgressBar.SemiCircle(container, {
+      strokeWidth: 6,
+      color: '#FFEA82',
+      trailColor: '#eee',
+      trailWidth: 1,
+      easing: 'easeInOut',
+      duration: 1400,
+      svgStyle: null,
+      text: {
+        value: '',
+        alignToBottom: false
+      },
+      from: {color: '#008000'},
+      to: {color: '#FF0000'},
+      step: (state, bar) => {
+        bar.path.setAttribute('stroke', state.color);
+        var value = Math.round(bar.value() * 100);
+        if (value === 0) {
+          bar.setText('');
+        } else {
+          bar.setText(value);
+        }
+        bar.text.style.color = state.color;
+      }
     });
+
+    bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    bar.text.style.fontSize = '2rem';
+
+    // Przełożenie wartości na skale od 0 do 1
+    var progressDecimal = progress / 100;
+
+    bar.animate(progressDecimal);  // Number from 0.0 to 1.0
   });
-  
+});
