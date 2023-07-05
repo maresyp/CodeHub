@@ -48,26 +48,37 @@ function startWebSocket() {
                 'recipient': selected_recipient
             }));
         } else if (data.type === 'video_offer') {
-            // Użytkownik otrzymał prośbę o połączenie wideo. Pytamy go, czy akceptuje.
-            if (confirm('Czy chcesz zaakceptować połączenie wideo?')) {
-                switchVideoState('video');
-                await init();
-                await createAnswer(data.offer);
-
-                showMessage("Zaakceptowano połączenie!", "success");
-                videoSocket.send(JSON.stringify({
-                    'type': 'video_answer',
-                    'recipient': data.recipient,
-                    'answer': peerConnection.localDescription
-                }));
-            } else {
-                // Użytkownik odrzucił połączenie wideo. Wysyłamy odpowiednią informację do użytkownika, który inicjował połączenie.
-                showMessage("Odrzucono połączenie!", "error");
-                videoSocket.send(JSON.stringify({
-                    'type': 'video_rejected',
-                    'recipient': data.recipient
-                }));
-            }
+            swal({
+                title: "Czy chcesz zaakceptować połączenie wideo?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--color-success'),
+                cancelButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--color-error'),
+                confirmButtonText: 'Akceptuj',
+                cancelButtonText: 'Odrzuć'
+            })
+            .then((willAccept) => {
+                if (willAccept) {
+                    switchVideoState('video');
+                    init().then(() => {
+                        createAnswer(data.offer).then(() => {
+                            showMessage("Zaakceptowano połączenie!", "success");
+                            videoSocket.send(JSON.stringify({
+                                'type': 'video_answer',
+                                'recipient': data.recipient,
+                                'answer': peerConnection.localDescription
+                            }));
+                        });
+                    });
+                } else {
+                    showMessage("Odrzucono połączenie!", "error");
+                    videoSocket.send(JSON.stringify({
+                        'type': 'video_rejected',
+                        'recipient': data.recipient
+                    }));
+                }
+            });
         } else if (data.type === 'video_result') {
             await addAnswer(data.answer)
         } else if (data.type === 'new-ice-candidate') {
