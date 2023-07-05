@@ -20,7 +20,6 @@ class Project(models.Model):
 
 class Code(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     title = models.CharField(max_length=500)
     description = models.CharField(max_length=5000, null=True, blank=True)
@@ -32,7 +31,7 @@ class Code(models.Model):
     last_edit = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return f"{self.owner} {self.project} {self.title}"
+        return f"{self.project.owner} {self.title}"
 
 
 class Tag(models.Model):

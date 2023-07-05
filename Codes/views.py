@@ -78,7 +78,7 @@ def displayMyProject(request, project_id):
 
     project = get_object_or_404(Project, id=project_id)
     codes = Code.objects.filter(
-        Q(owner=user) & Q(project=project)
+        Q(project__owner=user) & Q(project=project)
     ).order_by('-creation_date')
 
     context = {
@@ -159,7 +159,7 @@ def edit_code(request, code_id):
     page = 'edit_code'
     code = get_object_or_404(Code, id=code_id)
 
-    if request.user != code.owner:
+    if request.user != code.project.owner:
         messages.error(request, 'Nie jesteś właścicielem tego kodu.')
         return redirect('account')
 
@@ -198,7 +198,7 @@ def delete_code(request, code_id):
     code = get_object_or_404(Code, id=code_id)
     project = code.project
 
-    if request.user != code.owner:
+    if request.user != code.project.owner:
         messages.error(request, 'Nie jesteś właścicielem tego kodu.')
         return redirect('account')
 

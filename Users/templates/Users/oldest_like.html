@@ -9,7 +9,6 @@
       <div class="column column--1of3">
         <div class="card text-center">
           <div class="card__body dev">
-            <a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_account' %}">Edytuj profil</a>
             <img class="avatar avatar--xl dev__avatar" src="{{matched_user.profile.imageURL}}" alt="Profile_logo"/>
             <h2 class="dev__username">{{matched_user.username}}</h2>
             <p class="dev__fullname">{{matched_user.first_name }} {{matched_user.last_name}}</p>
