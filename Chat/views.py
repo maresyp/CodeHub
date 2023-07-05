@@ -14,8 +14,8 @@ def lobby(request):
     AMOUNT_OF_FRIENDS = 10  # TODO: maybe change ?
     page = 'chat'
     matches = Matches.objects.filter(
-        Q(first_user=request.user, first_status=True) |
-        Q(second_user=request.user, second_status=True)
+        Q(first_user=request.user, first_status=True, second_status=True) |
+        Q(second_user=request.user, second_status=True, first_status=True)
     )
 
     friends = list(User.objects.filter(
