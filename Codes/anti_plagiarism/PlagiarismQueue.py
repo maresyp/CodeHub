@@ -46,7 +46,7 @@ class PlagiarismQueue(Queue):
 
                 other_codes = Code.objects.exclude(
                     Q(id=item.reference_code_id) |
-                    Q(owner=checked_code.owner)
+                    Q(owner=checked_code.project.owner)
                 )
                 # If there are no other codes to check, skip this code
                 if not other_codes:
