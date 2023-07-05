@@ -35,6 +35,10 @@ class VideoConsumer(AsyncWebsocketConsumer):
                     await self.video_answer_handler(text_data_json)
                 case 'new-ice-candidate':
                     await self.new_ice_candidate_handler(text_data_json)
+                case 'end_call':
+                    await self.end_call_handler(text_data_json)
+                case 'end_call_confirmed':
+                    await self.end_call_confirmed_handler(text_data_json)
         except KeyError:
             return
 
@@ -94,3 +98,33 @@ class VideoConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+    async def end_call_handler(self, data):
+        await self.channel_layer.group_send(
+            f"video_{data['recipient']}",
+            {
+                'type': 'end_call',
+                'recipient': self.scope['user'].id,
+            }
+        )
+
+    async def end_call_confirmed_handler(self, data):
+        await self.channel_layer.group_send(
+            f"video_{data['recipient']}",
+            {
+                'type': 'end_call_confirmed',
+                'recipient': self.scope['user'].id,
+            }
+        )
+
+    async def end_call(self, data):
+        await self.send(text_data=json.dumps({
+            'type': 'end_call',
+            'recipient': data['recipient'],
+        }))
+
+    async def end_call_confirmed(self, data):
+        await self.send(text_data=json.dumps({
+            'type': 'end_call_confirmed',
+            'recipient': data['recipient'],
+        }))

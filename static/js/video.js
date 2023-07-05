@@ -1,6 +1,9 @@
 // Create a video socket
 let videoSocket = null; startWebSocket();
 let call_button = document.getElementById('video-start-call')
+let end_call_button = document.getElementById('video-end-call')
+let muteButton = document.getElementById('mute-mic');
+let cameraButton = document.getElementById('turn-off-camera');
 let localStream;
 let remoteStream;
 let peerConnection;
@@ -14,6 +17,8 @@ let servers = {
 
 call_button.addEventListener('click', async function (e) {
     e.preventDefault()
+
+    switchVideoState('video')
     await init()
 
     let localDescription = await createOffer()
@@ -34,10 +39,19 @@ function startWebSocket() {
 
     videoSocket.onmessage = async function (e) {
         let data = JSON.parse(e.data)
-        if (data.type === 'video_offer') {
-            // TODO: After receiving an offer, user should get notified and asked to accept or reject the call
-            await init()
+        if (data.type === 'end_call') {
+            // End the call and send a confirmation back to the server
+            endCall();
 
+            videoSocket.send(JSON.stringify({
+                'type': 'end_call_confirmed',
+                'recipient': selected_recipient
+            }));
+        } else if (data.type === 'video_offer') {
+            // TODO: After receiving an offer, user should get notified and asked to accept or reject the call
+
+            switchVideoState('video')
+            await init()
             await createAnswer(data.offer)
 
             videoSocket.send(JSON.stringify({
@@ -136,9 +150,6 @@ let addAnswer = async (answer) => {
     }
 }
 
-let muteButton = document.getElementById('mute-mic');
-let cameraButton = document.getElementById('turn-off-camera');
-
 muteButton.addEventListener('click', function () {
     // Check if localStream is defined and has an audio track
     if (localStream && localStream.getAudioTracks().length > 0) {
@@ -147,9 +158,10 @@ muteButton.addEventListener('click', function () {
         });
 
         // Change button text accordingly
-        this.textContent = localStream.getAudioTracks()[0].enabled ? 'Mute Mic' : 'Unmute Mic';
+        this.textContent = localStream.getAudioTracks()[0].enabled ? 'Wycisz mikrofon' : 'Wyłącz wyciszenie';
     } else {
         console.log('No audio tracks available to mute/unmute');
+        showMessage("Brak dostępnego mikrofonu!", "error");
     }
 });
 
@@ -161,6 +173,61 @@ cameraButton.addEventListener('click', function () {
         });
 
         // Change button text accordingly
-        this.textContent = localStream.getVideoTracks()[0].enabled ? 'Turn Off Camera' : 'Turn On Camera';
+        this.textContent = localStream.getVideoTracks()[0].enabled ? 'Wyłącz kamerę' : 'Włącz kamerę';
+    } else {
+        console.log('No camera available.');
+        showMessage("Brak dostępnej kamery!", "error");
     }
 });
+
+end_call_button.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Send a message to the server to end the call
+    videoSocket.send(JSON.stringify({
+        'type': 'end_call',
+        'recipient': selected_recipient
+    }));
+
+    // Clean up the call on our side
+    endCall();
+});
+
+let endCall = () => {
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+    }
+
+    // Reset the UI
+    switchVideoState('contacts')
+    showMessage("Połączenie zostało zakończone.", "success");
+}
+
+function showMessage(message, level) {
+    let messageBox = document.getElementById('alerts');
+    messageBox.innerHTML = `
+    <div class="alert alert--${level}">
+        <p class="alert__message">${message}</p>
+        <button class="alert__close" onclick="closeMessage()">x</button>
+    </div>`;
+}
+
+function switchVideoState(state) {
+    if (state === 'contacts') {
+        document.getElementById('contacts-div').style.display = "block";
+        document.getElementById('video-div').style.display = "none";
+        document.getElementById('video-start-call').style.display = "block";
+        document.getElementById('video-end-call').style.display = "none";
+    } else if (state === 'video') {
+        document.getElementById('contacts-div').style.display = "none";
+        document.getElementById('video-div').style.display = "block";
+        document.getElementById('video-start-call').style.display = "none";
+        document.getElementById('video-end-call').style.display = "block";
+    }
+}

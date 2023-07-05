@@ -1067,13 +1067,10 @@ img {
 ========================*/
 
 .videos{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   width: 100%;
-  padding: 10px;
 }
 video {
-  width: 49%;
+  width: 100%;
   border: 2px solid var(--color-main);
 }
 

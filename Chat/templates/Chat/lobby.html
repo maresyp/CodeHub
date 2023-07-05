@@ -5,9 +5,10 @@
 <main class="settingsPage profile my-md">
   <div class="container">
     <div class="layout">
+      <div id="alerts"></div>
       <div class="column column--1of2">
         <div class="text-center">
-          <div class="card__body dev">
+          <div class="card__body dev" id="contacts-div">
             {% if not friends %}
             <p>Nie masz jeszcze żadnych kontaktów</p>
             {% else %}
@@ -53,12 +54,22 @@
             </a>
             {% endfor %}
           </div>
+
+          <div class="card__body dev" id="video-div" style="display: none;">
+            <div class="videos">
+              <video class="video-player" id="video-remote" autoplay playsinline></video>
+              <video class="video-player" id="video-local" autoplay playsinline></video>
+            </div>
+            <button class="btn btn--sub" id="mute-mic">Wycisz mikrofon</button>
+            <button class="btn btn--sub" id="turn-off-camera">Wyłącz kamerę</button>
+          </div>
         </div>
       </div>
 
       <div class="column column--1of2">
           <div class="chat-form">
             <button type="button" id="video-start-call" class="btn btn--sub btn--sm">Połączenie wideo</button>
+            <button type="button" id="video-end-call" class="btn btn--sub btn--sm" style="display: none;">Zakończ połączenie</button>
           </div>
           <div class="messages" id="messages">
               {% for friend in friends %}
@@ -77,15 +88,6 @@
         </form>
       </div>
     </div>
-  </div>
-
-  <div class="videos">
-      <video class="video-player" id="video-local" autoplay playsinline></video>
-      <video class="video-player" id="video-remote" autoplay playsinline></video>
-  </div>
-  <div>
-    <button id="mute-mic">Mute Mic</button>
-    <button id="turn-off-camera">Turn Off Camera</button>
   </div>
 </main>
 
