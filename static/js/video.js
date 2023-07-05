@@ -17,11 +17,8 @@ let servers = {
 
 call_button.addEventListener('click', async function (e) {
     e.preventDefault()
-    document.getElementById('contacts-div').style.display = "none";
-    document.getElementById('video-div').style.display = "block";
-    document.getElementById('video-start-call').style.display = "none";
-    document.getElementById('video-end-call').style.display = "block";
 
+    switchVideoState('video')
     await init()
 
     let localDescription = await createOffer()
@@ -52,8 +49,9 @@ function startWebSocket() {
             }));
         } else if (data.type === 'video_offer') {
             // TODO: After receiving an offer, user should get notified and asked to accept or reject the call
-            await init()
 
+            switchVideoState('video')
+            await init()
             await createAnswer(data.offer)
 
             videoSocket.send(JSON.stringify({
@@ -207,11 +205,7 @@ let endCall = () => {
     }
 
     // Reset the UI
-    document.getElementById('contacts-div').style.display = "block";
-    document.getElementById('video-div').style.display = "none";
-    document.getElementById('video-start-call').style.display = "block";
-    document.getElementById('video-end-call').style.display = "none";
-
+    switchVideoState('contacts')
     showMessage("Połączenie zostało zakończone.", "success");
 }
 
@@ -222,4 +216,18 @@ function showMessage(message, level) {
         <p class="alert__message">${message}</p>
         <button class="alert__close" onclick="closeMessage()">x</button>
     </div>`;
+}
+
+function switchVideoState(state) {
+    if (state === 'contacts') {
+        document.getElementById('contacts-div').style.display = "block";
+        document.getElementById('video-div').style.display = "none";
+        document.getElementById('video-start-call').style.display = "block";
+        document.getElementById('video-end-call').style.display = "none";
+    } else if (state === 'video') {
+        document.getElementById('contacts-div').style.display = "none";
+        document.getElementById('video-div').style.display = "block";
+        document.getElementById('video-start-call').style.display = "none";
+        document.getElementById('video-end-call').style.display = "block";
+    }
 }
