@@ -40,21 +40,35 @@ function startWebSocket() {
     videoSocket.onmessage = async function (e) {
         let data = JSON.parse(e.data)
         if (data.type === 'end_call') {
+            console.log(data)
+            if (data.reason === 'rejected') {
+                showMessage("Połączenie zostało odrzucone!", "error");
+            } else {
+                showMessage("Połączenie zostało zakończone.", "success");
+            }
             endCall();
-            showMessage("Połączenie zostało odrzucone!", "error");
         } else if (data.type === 'video_offer') {
             Swal.fire({
-                title: "Czy chcesz zaakceptować połączenie wideo?",
+                title: "Czy chcesz zaakceptować połączenie wideo od " + data.caller_name + "?",
                 icon: "warning",
                 showDenyButton: true,
                 confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--color-success'),
                 confirmButtonText: 'Akceptuj',
                 denyButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--color-error'),
                 denyButtonText: 'Odrzuć'
-            })
-                .then((result) => {
-                    if (result.isConfirmed) {
+            }).then((result) => {
+                if (result.isConfirmed) {
                     switchVideoState('video');
+                    // switch to correct chat window if not already there
+                    if (selected_recipient !== data.recipient) {
+                        selected_recipient = data.recipient;
+                        friends.forEach(friend => {
+                            if (friend.getAttribute('user-uuid') == selected_recipient) {
+                                friend.click();
+                            }
+                        })
+                    }
+
                     init().then(() => {
                         createAnswer(data.offer).then(() => {
                             showMessage("Zaakceptowano połączenie!", "success");
@@ -65,8 +79,8 @@ function startWebSocket() {
                             }));
                         });
                     });
-                    } else if (result.isDenied) {
-                        showMessage("Odrzucono połączenie!", "success");
+                } else if (result.isDenied) {
+                    showMessage("Odrzucono połączenie!", "success");
                     videoSocket.send(JSON.stringify({
                         'type': 'video_rejected',
                         'recipient': data.recipient
@@ -204,6 +218,7 @@ end_call_button.addEventListener('click', function(e) {
 
     // Clean up the call on our side
     endCall();
+    showMessage("Połączenie zostało zakończone.", "success");
 });
 
 let endCall = () => {
@@ -219,7 +234,6 @@ let endCall = () => {
 
     // Reset the UI
     switchVideoState('contacts')
-    showMessage("Połączenie zostało zakończone.", "success");
 }
 
 function showMessage(message, level) {
