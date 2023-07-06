@@ -96,16 +96,11 @@
                 <td><a class="tag tag--pill tag--red settings__btn tag--lg" href="#" data-href="{% url 'delete_code' code.id %}"
                         onclick="deleteCode(event, this.getAttribute('data-href'))"><i class="im im-plus"></i>Usuń</a>
                 </td>
-                <td><a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_code' code.id %}""><i class=" im
+                <td><a class="tag tag--pill tag--main settings__btn tag--lg" href="{% url 'edit_code' code.id %}"><i class=" im
                         im-plus"></i>Edytuj</a></td>
                 <td>
-                    <div class="progress-circle" data-progress="{{ code.plagiarism_ratio }}">
-                        <svg class="progress-circle__svg">
-                            <circle class="progress-circle__background" cx="30" cy="30" r="23"></circle>
-                            <circle class="progress-circle__progress" cx="30" cy="30" r="25"></circle>
-                        </svg>
-                        <span class="progress-circle__value">{{ code.plagiarism_ratio }}%</span>
-                    </div>
+                  <div class="progressBarContainer" data-progress="{{ code.plagiarism_ratio }}"></div>
+                  </div>
                 </td>
             </tr>
             <tr class="code-row">

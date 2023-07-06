@@ -289,9 +289,7 @@ def findBestMatch(request):
         favorite_project_id = getattr(best_match_user.profile.favorite_project, 'id', None)
         if favorite_project_id is not None:
             project = get_object_or_404(Project, id=favorite_project_id)
-            codes = Code.objects.filter(
-                Q(project__owner=best_match_user_id) & Q(project=project)
-            ).order_by('-creation_date')
+            codes = Code.objects.filter(Q(project=project)).order_by('-creation_date')
         else:
             project = None
             codes = []
@@ -360,9 +358,7 @@ def getOldestLike(request):
     favorite_project_id = getattr(oldest_match.first_user.profile.favorite_project, 'id', None)
     if favorite_project_id is not None:
         project = get_object_or_404(Project, id=favorite_project_id)
-        codes = Code.objects.filter(
-            Q(owner=oldest_match.first_user) & Q(project=project)
-        ).order_by('-creation_date')
+        codes = Code.objects.filter(Q(project=project)).order_by('-creation_date')
     else:
         project = None
         codes = []

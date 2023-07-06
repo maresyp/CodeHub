@@ -112,13 +112,8 @@
                     <a class="toggle-code" href="#">{{ code.title }}</a>
                 </td>
                 <td>
-                    <div class="progress-circle" data-progress="{{ code.plagiarism_ratio }}">
-                        <svg class="progress-circle__svg">
-                            <circle class="progress-circle__background" cx="30" cy="30" r="23"></circle>
-                            <circle class="progress-circle__progress" cx="30" cy="30" r="25"></circle>
-                        </svg>
-                        <span class="progress-circle__value">{{ code.plagiarism_ratio }}%</span>
-                    </div>
+                  <div class="progressBarContainer" data-progress="{{ code.plagiarism_ratio }}"></div>
+                  </div>
                 </td>
             </tr>
             <tr class="code-row">
