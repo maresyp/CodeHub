@@ -10,3 +10,4 @@ CodeHub
    Users
    manage
    test
+   utils
