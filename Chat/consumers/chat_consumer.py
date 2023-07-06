@@ -203,6 +203,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if messages:
             messages.update(view_timestamp=timezone.now())
+            messages.update(is_read=True)
 
     async def send_messages(self, recipient_id):
         """
