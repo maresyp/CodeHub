@@ -26,6 +26,9 @@
                 <li class="header__menuItem">
                     <a {% if request.resolver_match.url_name == 'chat-lobby' %}style="color: var(--color-main-light);"{% endif %}
                     href="{% url 'chat-lobby' %}">Czat</a></li>
+                    {% if unread_messages_count %}
+                    <div class="numOfMessages">{{ unread_messages_count }}</div></li>
+                    {% endif %}
                 <li class="header__menuItem">
                     <a {% if request.resolver_match.url_name == 'account' %}style="color: var(--color-main-light);"{% endif %}
                     href="{% url 'account' %}">Moje konto</a></li>

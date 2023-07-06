@@ -1320,3 +1320,16 @@ video {
   justify-content: center;
   color: var(--color-sub);
 }
+
+.numOfMessages {
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  display: flex;
+  margin-left: -7rem;
+  margin-top: -2.5rem;
+  background-color: var(--color-main-light);
+  border-radius: 5rem;
+  justify-content: center;
+  color: var(--color-sub);
+}
