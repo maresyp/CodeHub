@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeHub &mdash; CodeHub 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chat package" href="Chat.html" />
+    <link rel="prev" title="Welcome to CodeHub’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CodeHub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CodeHub</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html">Chat package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html">CodeHub package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html">Codes package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html">Users package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">test package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CodeHub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CodeHub</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="codehub">
+<h1>CodeHub<a class="headerlink" href="#codehub" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Chat.html">Chat package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Chat.consumers.html">Chat.consumers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers.chat_consumer">Chat.consumers.chat_consumer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers.utils">Chat.consumers.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers.video_consumer">Chat.consumers.video_consumer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat.admin">Chat.admin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat.apps">Chat.apps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Chat.html#Chat.apps.ChatConfig"><code class="docutils literal notranslate"><span class="pre">ChatConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.apps.ChatConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">ChatConfig.default_auto_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.apps.ChatConfig.name"><code class="docutils literal notranslate"><span class="pre">ChatConfig.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat.models">Chat.models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Chat.html#Chat.models.Message"><code class="docutils literal notranslate"><span class="pre">Message</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Message.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Message.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message._meta"><code class="docutils literal notranslate"><span class="pre">Message._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.body"><code class="docutils literal notranslate"><span class="pre">Message.body</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.get_next_by_send_timestamp"><code class="docutils literal notranslate"><span class="pre">Message.get_next_by_send_timestamp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.get_previous_by_send_timestamp"><code class="docutils literal notranslate"><span class="pre">Message.get_previous_by_send_timestamp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.is_read"><code class="docutils literal notranslate"><span class="pre">Message.is_read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.message_id"><code class="docutils literal notranslate"><span class="pre">Message.message_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.objects"><code class="docutils literal notranslate"><span class="pre">Message.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.recipient_id"><code class="docutils literal notranslate"><span class="pre">Message.recipient_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.recipient_id_id"><code class="docutils literal notranslate"><span class="pre">Message.recipient_id_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.send_timestamp"><code class="docutils literal notranslate"><span class="pre">Message.send_timestamp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.sender_id"><code class="docutils literal notranslate"><span class="pre">Message.sender_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.sender_id_id"><code class="docutils literal notranslate"><span class="pre">Message.sender_id_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.html#Chat.models.Message.view_timestamp"><code class="docutils literal notranslate"><span class="pre">Message.view_timestamp</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat.routing">Chat.routing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat.tests">Chat.tests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat.urls">Chat.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat.views">Chat.views module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Chat.html#Chat.views.lobby"><code class="docutils literal notranslate"><span class="pre">lobby()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.html#module-Chat">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CodeHub.html">CodeHub package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html#module-CodeHub.asgi">CodeHub.asgi module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html#module-CodeHub.settings">CodeHub.settings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html#module-CodeHub.urls">CodeHub.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html#module-CodeHub.wsgi">CodeHub.wsgi module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html#module-CodeHub">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Codes.html">Codes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Codes.anti_plagiarism.html">Codes.anti_plagiarism package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.anti_plagiarism.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.anti_plagiarism.html#module-Codes.anti_plagiarism.PlagiarismChecker">Codes.anti_plagiarism.PlagiarismChecker module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.anti_plagiarism.html#module-Codes.anti_plagiarism.PlagiarismQueue">Codes.anti_plagiarism.PlagiarismQueue module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.anti_plagiarism.html#module-Codes.anti_plagiarism">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.admin">Codes.admin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.apps">Codes.apps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.apps.CodesConfig"><code class="docutils literal notranslate"><span class="pre">CodesConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.apps.CodesConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">CodesConfig.default_auto_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.apps.CodesConfig.name"><code class="docutils literal notranslate"><span class="pre">CodesConfig.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.apps.CodesConfig.ready"><code class="docutils literal notranslate"><span class="pre">CodesConfig.ready()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.forms">Codes.forms module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.forms.CodeForm"><code class="docutils literal notranslate"><span class="pre">CodeForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CodeForm.Meta"><code class="docutils literal notranslate"><span class="pre">CodeForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CodeForm._meta"><code class="docutils literal notranslate"><span class="pre">CodeForm._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CodeForm.base_fields"><code class="docutils literal notranslate"><span class="pre">CodeForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CodeForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">CodeForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CodeForm.media"><code class="docutils literal notranslate"><span class="pre">CodeForm.media</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.forms.CustomClearableFileInput"><code class="docutils literal notranslate"><span class="pre">CustomClearableFileInput</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CustomClearableFileInput.clear_checkbox_label"><code class="docutils literal notranslate"><span class="pre">CustomClearableFileInput.clear_checkbox_label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CustomClearableFileInput.initial_text"><code class="docutils literal notranslate"><span class="pre">CustomClearableFileInput.initial_text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CustomClearableFileInput.input_text"><code class="docutils literal notranslate"><span class="pre">CustomClearableFileInput.input_text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.CustomClearableFileInput.media"><code class="docutils literal notranslate"><span class="pre">CustomClearableFileInput.media</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.forms.DocumentForm"><code class="docutils literal notranslate"><span class="pre">DocumentForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.DocumentForm.Meta"><code class="docutils literal notranslate"><span class="pre">DocumentForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.DocumentForm._meta"><code class="docutils literal notranslate"><span class="pre">DocumentForm._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.DocumentForm.base_fields"><code class="docutils literal notranslate"><span class="pre">DocumentForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.DocumentForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">DocumentForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.DocumentForm.media"><code class="docutils literal notranslate"><span class="pre">DocumentForm.media</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.forms.ProjectForm"><code class="docutils literal notranslate"><span class="pre">ProjectForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.ProjectForm.Meta"><code class="docutils literal notranslate"><span class="pre">ProjectForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.ProjectForm._meta"><code class="docutils literal notranslate"><span class="pre">ProjectForm._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.ProjectForm.base_fields"><code class="docutils literal notranslate"><span class="pre">ProjectForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.ProjectForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">ProjectForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.forms.ProjectForm.media"><code class="docutils literal notranslate"><span class="pre">ProjectForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.models">Codes.models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.models.Code"><code class="docutils literal notranslate"><span class="pre">Code</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Code.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Code.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code._meta"><code class="docutils literal notranslate"><span class="pre">Code._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.code_set"><code class="docutils literal notranslate"><span class="pre">Code.code_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.code_tag"><code class="docutils literal notranslate"><span class="pre">Code.code_tag</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.code_tag_id"><code class="docutils literal notranslate"><span class="pre">Code.code_tag_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.creation_date"><code class="docutils literal notranslate"><span class="pre">Code.creation_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.description"><code class="docutils literal notranslate"><span class="pre">Code.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.get_next_by_creation_date"><code class="docutils literal notranslate"><span class="pre">Code.get_next_by_creation_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.get_next_by_last_edit"><code class="docutils literal notranslate"><span class="pre">Code.get_next_by_last_edit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.get_previous_by_creation_date"><code class="docutils literal notranslate"><span class="pre">Code.get_previous_by_creation_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.get_previous_by_last_edit"><code class="docutils literal notranslate"><span class="pre">Code.get_previous_by_last_edit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.id"><code class="docutils literal notranslate"><span class="pre">Code.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.last_edit"><code class="docutils literal notranslate"><span class="pre">Code.last_edit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.objects"><code class="docutils literal notranslate"><span class="pre">Code.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.plagiarism_ratio"><code class="docutils literal notranslate"><span class="pre">Code.plagiarism_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.plagiarized_from"><code class="docutils literal notranslate"><span class="pre">Code.plagiarized_from</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.plagiarized_from_id"><code class="docutils literal notranslate"><span class="pre">Code.plagiarized_from_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.project"><code class="docutils literal notranslate"><span class="pre">Code.project</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.project_id"><code class="docutils literal notranslate"><span class="pre">Code.project_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.source_code"><code class="docutils literal notranslate"><span class="pre">Code.source_code</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Code.title"><code class="docutils literal notranslate"><span class="pre">Code.title</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.models.Document"><code class="docutils literal notranslate"><span class="pre">Document</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Document.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Document.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Document.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Document.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Document._meta"><code class="docutils literal notranslate"><span class="pre">Document._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Document.file"><code class="docutils literal notranslate"><span class="pre">Document.file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Document.id"><code class="docutils literal notranslate"><span class="pre">Document.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Document.objects"><code class="docutils literal notranslate"><span class="pre">Document.objects</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.models.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Project.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Project.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project._meta"><code class="docutils literal notranslate"><span class="pre">Project._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.code_set"><code class="docutils literal notranslate"><span class="pre">Project.code_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.creation_date"><code class="docutils literal notranslate"><span class="pre">Project.creation_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.description"><code class="docutils literal notranslate"><span class="pre">Project.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.get_next_by_creation_date"><code class="docutils literal notranslate"><span class="pre">Project.get_next_by_creation_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.get_next_by_last_edit"><code class="docutils literal notranslate"><span class="pre">Project.get_next_by_last_edit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.get_previous_by_creation_date"><code class="docutils literal notranslate"><span class="pre">Project.get_previous_by_creation_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.get_previous_by_last_edit"><code class="docutils literal notranslate"><span class="pre">Project.get_previous_by_last_edit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.id"><code class="docutils literal notranslate"><span class="pre">Project.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.last_edit"><code class="docutils literal notranslate"><span class="pre">Project.last_edit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.objects"><code class="docutils literal notranslate"><span class="pre">Project.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.owner"><code class="docutils literal notranslate"><span class="pre">Project.owner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.owner_id"><code class="docutils literal notranslate"><span class="pre">Project.owner_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.profile_set"><code class="docutils literal notranslate"><span class="pre">Project.profile_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Project.title"><code class="docutils literal notranslate"><span class="pre">Project.title</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.models.Tag"><code class="docutils literal notranslate"><span class="pre">Tag</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Tag.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Tag.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag._meta"><code class="docutils literal notranslate"><span class="pre">Tag._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.code_set"><code class="docutils literal notranslate"><span class="pre">Tag.code_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.favouritestags_set"><code class="docutils literal notranslate"><span class="pre">Tag.favouritestags_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.file_extension"><code class="docutils literal notranslate"><span class="pre">Tag.file_extension</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.id"><code class="docutils literal notranslate"><span class="pre">Tag.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.name"><code class="docutils literal notranslate"><span class="pre">Tag.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Codes.html#Codes.models.Tag.objects"><code class="docutils literal notranslate"><span class="pre">Tag.objects</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.signals">Codes.signals module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.signals.delete_favorite_project"><code class="docutils literal notranslate"><span class="pre">delete_favorite_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.signals.select_favorite_project"><code class="docutils literal notranslate"><span class="pre">select_favorite_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.signals.start_plagiarism_checks"><code class="docutils literal notranslate"><span class="pre">start_plagiarism_checks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.signals.update_code_tag"><code class="docutils literal notranslate"><span class="pre">update_code_tag()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.tests">Codes.tests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.urls">Codes.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes.views">Codes.views module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.views.addProject"><code class="docutils literal notranslate"><span class="pre">addProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.views.add_code"><code class="docutils literal notranslate"><span class="pre">add_code()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.views.deleteProject"><code class="docutils literal notranslate"><span class="pre">deleteProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.views.delete_code"><code class="docutils literal notranslate"><span class="pre">delete_code()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.views.displayMyProject"><code class="docutils literal notranslate"><span class="pre">displayMyProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.views.editProject"><code class="docutils literal notranslate"><span class="pre">editProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Codes.html#Codes.views.edit_code"><code class="docutils literal notranslate"><span class="pre">edit_code()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html#module-Codes">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Users.html">Users package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.management.html">Users.management package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.management.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.management.html#module-Users.management">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.admin">Users.admin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.apps">Users.apps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.apps.UsersConfig"><code class="docutils literal notranslate"><span class="pre">UsersConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.apps.UsersConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">UsersConfig.default_auto_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.apps.UsersConfig.name"><code class="docutils literal notranslate"><span class="pre">UsersConfig.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.apps.UsersConfig.ready"><code class="docutils literal notranslate"><span class="pre">UsersConfig.ready()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.context_processors">Users.context_processors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.context_processors.count_matches"><code class="docutils literal notranslate"><span class="pre">count_matches()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.forms">Users.forms module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.forms.AddFavouriteTagForm"><code class="docutils literal notranslate"><span class="pre">AddFavouriteTagForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.AddFavouriteTagForm.Meta"><code class="docutils literal notranslate"><span class="pre">AddFavouriteTagForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.AddFavouriteTagForm._meta"><code class="docutils literal notranslate"><span class="pre">AddFavouriteTagForm._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.AddFavouriteTagForm.base_fields"><code class="docutils literal notranslate"><span class="pre">AddFavouriteTagForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.AddFavouriteTagForm.clean_tag_id"><code class="docutils literal notranslate"><span class="pre">AddFavouriteTagForm.clean_tag_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.AddFavouriteTagForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">AddFavouriteTagForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.AddFavouriteTagForm.media"><code class="docutils literal notranslate"><span class="pre">AddFavouriteTagForm.media</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.forms.ChangePasswordForm"><code class="docutils literal notranslate"><span class="pre">ChangePasswordForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ChangePasswordForm.base_fields"><code class="docutils literal notranslate"><span class="pre">ChangePasswordForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ChangePasswordForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">ChangePasswordForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ChangePasswordForm.media"><code class="docutils literal notranslate"><span class="pre">ChangePasswordForm.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ChangePasswordForm.save"><code class="docutils literal notranslate"><span class="pre">ChangePasswordForm.save()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.forms.CustomUserCreationForm"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.CustomUserCreationForm.Meta"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.CustomUserCreationForm._meta"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.CustomUserCreationForm.base_fields"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.CustomUserCreationForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.CustomUserCreationForm.media"><code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm.media</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.forms.ProfileForm"><code class="docutils literal notranslate"><span class="pre">ProfileForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ProfileForm.Meta"><code class="docutils literal notranslate"><span class="pre">ProfileForm.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ProfileForm._meta"><code class="docutils literal notranslate"><span class="pre">ProfileForm._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ProfileForm.base_fields"><code class="docutils literal notranslate"><span class="pre">ProfileForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ProfileForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">ProfileForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ProfileForm.media"><code class="docutils literal notranslate"><span class="pre">ProfileForm.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.ProfileForm.save"><code class="docutils literal notranslate"><span class="pre">ProfileForm.save()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.forms.RemoveFavouriteTagForm"><code class="docutils literal notranslate"><span class="pre">RemoveFavouriteTagForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.RemoveFavouriteTagForm.base_fields"><code class="docutils literal notranslate"><span class="pre">RemoveFavouriteTagForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.RemoveFavouriteTagForm.clean_tag_id"><code class="docutils literal notranslate"><span class="pre">RemoveFavouriteTagForm.clean_tag_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.RemoveFavouriteTagForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">RemoveFavouriteTagForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.forms.RemoveFavouriteTagForm.media"><code class="docutils literal notranslate"><span class="pre">RemoveFavouriteTagForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.models">Users.models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.models.FavouritesTags"><code class="docutils literal notranslate"><span class="pre">FavouritesTags</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags._meta"><code class="docutils literal notranslate"><span class="pre">FavouritesTags._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.id"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.objects"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.tag_id"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.tag_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.tag_id_id"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.tag_id_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.user_id"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.user_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.user_id_id"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.user_id_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.FavouritesTags.value"><code class="docutils literal notranslate"><span class="pre">FavouritesTags.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.models.Matches"><code class="docutils literal notranslate"><span class="pre">Matches</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Matches.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Matches.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches._meta"><code class="docutils literal notranslate"><span class="pre">Matches._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.first_status"><code class="docutils literal notranslate"><span class="pre">Matches.first_status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.first_user"><code class="docutils literal notranslate"><span class="pre">Matches.first_user</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.first_user_id"><code class="docutils literal notranslate"><span class="pre">Matches.first_user_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.id"><code class="docutils literal notranslate"><span class="pre">Matches.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.objects"><code class="docutils literal notranslate"><span class="pre">Matches.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.second_status"><code class="docutils literal notranslate"><span class="pre">Matches.second_status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.second_user"><code class="docutils literal notranslate"><span class="pre">Matches.second_user</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Matches.second_user_id"><code class="docutils literal notranslate"><span class="pre">Matches.second_user_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.models.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Profile.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.GENDER_CHOICES"><code class="docutils literal notranslate"><span class="pre">Profile.GENDER_CHOICES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Profile.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile._meta"><code class="docutils literal notranslate"><span class="pre">Profile._meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.age"><code class="docutils literal notranslate"><span class="pre">Profile.age</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.bio"><code class="docutils literal notranslate"><span class="pre">Profile.bio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.city"><code class="docutils literal notranslate"><span class="pre">Profile.city</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.favorite_project"><code class="docutils literal notranslate"><span class="pre">Profile.favorite_project</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.favorite_project_id"><code class="docutils literal notranslate"><span class="pre">Profile.favorite_project_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.gender"><code class="docutils literal notranslate"><span class="pre">Profile.gender</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.get_gender_display"><code class="docutils literal notranslate"><span class="pre">Profile.get_gender_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.id"><code class="docutils literal notranslate"><span class="pre">Profile.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.imageURL"><code class="docutils literal notranslate"><span class="pre">Profile.imageURL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.is_active"><code class="docutils literal notranslate"><span class="pre">Profile.is_active</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.objects"><code class="docutils literal notranslate"><span class="pre">Profile.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.profile_image"><code class="docutils literal notranslate"><span class="pre">Profile.profile_image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.social_facebook"><code class="docutils literal notranslate"><span class="pre">Profile.social_facebook</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.social_github"><code class="docutils literal notranslate"><span class="pre">Profile.social_github</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.social_linkedin"><code class="docutils literal notranslate"><span class="pre">Profile.social_linkedin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.social_twitter"><code class="docutils literal notranslate"><span class="pre">Profile.social_twitter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.social_youtube"><code class="docutils literal notranslate"><span class="pre">Profile.social_youtube</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.user"><code class="docutils literal notranslate"><span class="pre">Profile.user</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.html#Users.models.Profile.user_id"><code class="docutils literal notranslate"><span class="pre">Profile.user_id</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.signals">Users.signals module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.signals.createProfile"><code class="docutils literal notranslate"><span class="pre">createProfile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.signals.delete_user"><code class="docutils literal notranslate"><span class="pre">delete_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.signals.notify_about_new_match"><code class="docutils literal notranslate"><span class="pre">notify_about_new_match()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.tests">Users.tests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.urls">Users.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users.views">Users.views module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.acceptLike"><code class="docutils literal notranslate"><span class="pre">acceptLike()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.acceptMatch"><code class="docutils literal notranslate"><span class="pre">acceptMatch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.changeFavoriteProject"><code class="docutils literal notranslate"><span class="pre">changeFavoriteProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.editAccount"><code class="docutils literal notranslate"><span class="pre">editAccount()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.favouriteTagsView"><code class="docutils literal notranslate"><span class="pre">favouriteTagsView()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.findBestMatch"><code class="docutils literal notranslate"><span class="pre">findBestMatch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.getOldestLike"><code class="docutils literal notranslate"><span class="pre">getOldestLike()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.loginUser"><code class="docutils literal notranslate"><span class="pre">loginUser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.logoutUser"><code class="docutils literal notranslate"><span class="pre">logoutUser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.registerUser"><code class="docutils literal notranslate"><span class="pre">registerUser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.rejectLike"><code class="docutils literal notranslate"><span class="pre">rejectLike()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.rejectMatch"><code class="docutils literal notranslate"><span class="pre">rejectMatch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Users.html#Users.views.userAccount"><code class="docutils literal notranslate"><span class="pre">userAccount()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html#module-Users">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manage.html">manage module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manage.html#manage.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">test package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="test.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#module-test.test_dummy">test.test_dummy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="test.html#test.test_dummy.TestDummyTest"><code class="docutils literal notranslate"><span class="pre">TestDummyTest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="test.html#test.test_dummy.TestDummyTest.test_dummy"><code class="docutils literal notranslate"><span class="pre">TestDummyTest.test_dummy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="test.html#module-test">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#module-utils.async_crawler">utils.async_crawler module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.async_crawler.Crawler"><code class="docutils literal notranslate"><span class="pre">Crawler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.Crawler.crawl"><code class="docutils literal notranslate"><span class="pre">Crawler.crawl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.Crawler.parse_links"><code class="docutils literal notranslate"><span class="pre">Crawler.parse_links()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.Crawler.push_todo_url"><code class="docutils literal notranslate"><span class="pre">Crawler.push_todo_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.Crawler.run"><code class="docutils literal notranslate"><span class="pre">Crawler.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.Crawler.update_links"><code class="docutils literal notranslate"><span class="pre">Crawler.update_links()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.Crawler.worker"><code class="docutils literal notranslate"><span class="pre">Crawler.worker()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.async_crawler.PasteParser"><code class="docutils literal notranslate"><span class="pre">PasteParser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.PasteParser.handle_starttag"><code class="docutils literal notranslate"><span class="pre">PasteParser.handle_starttag()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.async_crawler.UrlFilter"><code class="docutils literal notranslate"><span class="pre">UrlFilter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.UrlFilter.url_filter"><code class="docutils literal notranslate"><span class="pre">UrlFilter.url_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.async_crawler.UrlParser"><code class="docutils literal notranslate"><span class="pre">UrlParser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.async_crawler.UrlParser.handle_starttag"><code class="docutils literal notranslate"><span class="pre">UrlParser.handle_starttag()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#module-utils.crawler">utils.crawler module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.crawler.get_list_of_paste_ids"><code class="docutils literal notranslate"><span class="pre">get_list_of_paste_ids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.crawler.get_random_code"><code class="docutils literal notranslate"><span class="pre">get_random_code()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#module-utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to CodeHub’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Chat.html" class="btn btn-neutral float-right" title="Chat package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, mpsr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

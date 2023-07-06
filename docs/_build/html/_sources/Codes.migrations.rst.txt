@@ -1,0 +1,21 @@
+Codes.migrations package
+========================
+
+Submodules
+----------
+
+Codes.migrations.0001\_initial module
+-------------------------------------
+
+.. automodule:: Codes.migrations.0001_initial
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Codes.migrations
+   :members:
+   :undoc-members:
+   :show-inheritance:

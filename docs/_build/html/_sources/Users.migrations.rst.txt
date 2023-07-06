@@ -1,0 +1,21 @@
+Users.migrations package
+========================
+
+Submodules
+----------
+
+Users.migrations.0001\_initial module
+-------------------------------------
+
+.. automodule:: Users.migrations.0001_initial
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Users.migrations
+   :members:
+   :undoc-members:
+   :show-inheritance:

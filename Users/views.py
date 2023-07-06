@@ -11,6 +11,14 @@ from .forms import AddFavouriteTagForm, CustomUserCreationForm, ProfileForm, Cha
 
 
 def loginUser(request):
+    """
+    Login a user.
+
+    :param request: A Django HttpRequest object.
+    :type request: django.http.HttpRequest
+    :returns:  A Django HttpResponse object.
+    :rtype: django.http.HttpResponse
+    """
     page = 'login'
 
     if request.user.is_authenticated:
@@ -40,6 +48,14 @@ def loginUser(request):
 
 
 def logoutUser(request):
+    """
+    Logout a user.
+
+    :param request: A Django HttpRequest object.
+    :type request: django.http.HttpRequest
+    :returns:  A Django HttpResponse object.
+    :rtype: django.http.HttpResponse
+    """
     # Get logged in user
     user = request.user
 
@@ -52,6 +68,14 @@ def logoutUser(request):
 
 
 def registerUser(request):
+    """
+    Register a new user.
+
+    :param request: A Django HttpRequest object.
+    :type request: django.http.HttpRequest
+    :returns:  A Django HttpResponse object.
+    :rtype: django.http.HttpResponse
+    """
     page = 'register'
     form = CustomUserCreationForm()
 
@@ -85,6 +109,14 @@ def registerUser(request):
 
 @login_required(login_url='login')
 def userAccount(request):
+    """
+    Retrieve account details of the logged in user, user's projects and favourite tags.
+
+    :param request: A Django HttpRequest object.
+    :type request: django.http.HttpRequest
+    :returns:  A Django HttpResponse object.
+    :rtype: django.http.HttpResponse
+    """
     page = 'account'
     user = request.user
     profile = request.user.profile
@@ -120,6 +152,14 @@ def userAccount(request):
 
 @login_required(login_url='login')
 def editAccount(request):
+    """
+    Enable the logged in user to edit their account details and password.
+
+    :param request: A Django HttpRequest object.
+    :type request: django.http.HttpRequest
+    :returns:  A Django HttpResponse object.
+    :rtype: django.http.HttpResponse
+    """
     page = 'edit_account'
     user = request.user
     profile = user.profile
@@ -171,6 +211,14 @@ def editAccount(request):
 
 @login_required(login_url='login')
 def favouriteTagsView(request):
+    """
+    View and manage the favourite tags of the logged in user.
+
+    :param request: A Django HttpRequest object.
+    :type request: django.http.HttpRequest
+    :returns:  A Django HttpResponse object.
+    :rtype: django.http.HttpResponse
+    """
     user = request.user
     add_form = AddFavouriteTagForm(user=user)
     remove_form = RemoveFavouriteTagForm(user=user)
@@ -229,6 +277,19 @@ def favouriteTagsView(request):
 
 @login_required(login_url='login')
 def changeFavoriteProject(request, project_id):
+    """
+    Change the favorite project of the currently logged-in user.
+
+    Args:
+        request (HttpRequest): The request instance.
+        project_id (int): The ID of the project to be set as favorite.
+
+    Returns:
+        HttpResponseRedirect: Redirect to the 'account' view.
+
+    Raises:
+        Http404: The project with provided ID does not exist.
+    """
     project = get_object_or_404(Project, id=project_id)
     if project.owner != request.user:
         messages.error(request, 'Nie jesteś właścicielem tego projektu.')
@@ -241,6 +302,16 @@ def changeFavoriteProject(request, project_id):
 
 @login_required(login_url='login')
 def findBestMatch(request):
+    """
+    Find the user with the most matching favorite tags compared to the currently logged-in user.
+
+    Args:
+        request (HttpRequest): The request instance.
+
+    Returns:
+        HttpResponse: Render the 'Users/best_match.html' template.
+        HttpResponseRedirect: Redirect to the 'account' view if no other users are available to match.
+    """
     # get the current logged in user
     user = request.user
 
@@ -311,6 +382,16 @@ def findBestMatch(request):
 @require_POST
 @login_required(login_url='login')
 def acceptMatch(request, user_id):
+    """
+    Accept a match by creating a new Match instance with the first_status set to True.
+
+    Args:
+        request (HttpRequest): The request instance.
+        user_id (int): The ID of the user to be matched with.
+
+    Returns:
+        HttpResponseRedirect: Redirect to the 'find_best_match' view.
+    """
     # Get the other user
     other_user = User.objects.get(id=user_id)
 
@@ -323,6 +404,16 @@ def acceptMatch(request, user_id):
 @require_POST
 @login_required(login_url='login')
 def rejectMatch(request, user_id):
+    """
+    Reject a match by creating a new Match instance with the first_status set to False.
+
+    Args:
+        request (HttpRequest): The request instance.
+        user_id (int): The ID of the user to be matched with.
+
+    Returns:
+        HttpResponseRedirect: Redirect to the 'find_best_match' view.
+    """
     # Get the other user
     other_user = User.objects.get(id=user_id)
 
@@ -334,6 +425,16 @@ def rejectMatch(request, user_id):
 
 @login_required(login_url='login')
 def getOldestLike(request):
+    """
+    Get the oldest like received by the currently logged-in user.
+
+    Args:
+        request (HttpRequest): The request instance.
+
+    Returns:
+        HttpResponse: Render the 'Users/oldest_like.html' template.
+        HttpResponseRedirect: Redirect to the 'account' view if there are no likes.
+    """
     # pobierz aktualnie zalogowanego użytkownika
     user = request.user
 
@@ -375,6 +476,19 @@ def getOldestLike(request):
 @require_POST
 @login_required(login_url='login')
 def acceptLike(request, user_id):
+    """
+    Accept a like by setting the second_status of the Match instance to True.
+
+    Args:
+        request (HttpRequest): The request instance.
+        user_id (int): The ID of the user who liked the currently logged-in user.
+
+    Returns:
+        HttpResponseRedirect: Redirect to the 'get_oldest_like' view.
+
+    Raises:
+        Http404: The match instance does not exist.
+    """
     # Pobierz innego użytkownika
     other_user = get_object_or_404(User, id=user_id)
 
@@ -394,6 +508,19 @@ def acceptLike(request, user_id):
 @require_POST
 @login_required(login_url='login')
 def rejectLike(request, user_id):
+    """
+    Reject a like by setting the second_status of the Match instance to False.
+
+    Args:
+        request (HttpRequest): The request instance.
+        user_id (int): The ID of the user who liked the currently logged-in user.
+
+    Returns:
+        HttpResponseRedirect: Redirect to the 'get_oldest_like' view.
+
+    Raises:
+        Http404: The match instance does not exist.
+    """
     # Pobierz innego użytkownika
     other_user = get_object_or_404(User, id=user_id)
 

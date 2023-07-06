@@ -4,11 +4,29 @@ from .utils import is_valid_match
 
 
 class VideoConsumer(AsyncWebsocketConsumer):
+    """
+    This class defines a WebSocket consumer that handles video call functionality.
+
+    :param AsyncWebsocketConsumer: Inherits from Django Channels' AsyncWebsocketConsumer class.
+    :type AsyncWebsocketConsumer: class
+    """
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the WebSocket consumer instance. Set up room_group_name to None.
+
+        :param args: Variable length argument list.
+        :type args: list
+        :param kwargs: Arbitrary keyword arguments.
+        :type kwargs: dict
+        """
         super().__init__(args, kwargs)
         self.room_group_name = None
 
     async def connect(self):
+        """
+        Asynchronous method to handle the connection event.
+        Sets up the user's group and adds the connection to the channel layer.
+        """
         self.room_group_name = f"video_{self.scope['user'].id}"
 
         await self.channel_layer.group_add(
@@ -19,6 +37,15 @@ class VideoConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def receive(self, text_data=None, bytes_data=None):
+        """
+        Asynchronous method to handle receiving data from WebSocket.
+        Uses a match-case structure to handle different types of received messages.
+
+        :param text_data: Text data received from the WebSocket.
+        :type text_data: str
+        :param bytes_data: Binary data received from the WebSocket.
+        :type bytes_data: bytes
+        """
         if text_data is None:
             return
         text_data_json = json.loads(text_data)
@@ -43,6 +70,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
             return
 
     async def video_offer_handler(self, data):
+        """
+        Asynchronous method to handle video offer.
+
+        :param data: The data received from the WebSocket.
+        :type data: dict
+        """
         await self.channel_layer.group_send(
             f"video_{data['recipient']}",
             {
@@ -54,6 +87,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
         )
 
     async def video_offer(self, data):
+        """
+        Asynchronous method to send video offer.
+
+        :param data: The event data.
+        :type data: dict
+        """
         await self.send(text_data=json.dumps({
             'type': 'video_offer',
             'caller_name': data['caller_name'],
@@ -62,6 +101,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
         }))
 
     async def video_answer_handler(self, data):
+        """
+        Asynchronous method to handle video answer.
+
+        :param data: The data received from the WebSocket.
+        :type data: dict
+        """
         await self.channel_layer.group_send(
             f"video_{data['recipient']}",
             {
@@ -72,6 +117,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
         )
 
     async def video_result(self, data):
+        """
+        Asynchronous method to send video result.
+
+        :param data: The event data.
+        :type data: dict
+        """
         await self.send(text_data=json.dumps({
             'type': 'video_result',
             'recipient': data['recipient'],
@@ -79,6 +130,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
         }))
 
     async def new_ice_candidate_handler(self, data):
+        """
+        Asynchronous method to handle new ICE candidate.
+
+        :param data: The data received from the WebSocket.
+        :type data: dict
+        """
         await self.channel_layer.group_send(
             f"video_{data['recipient']}",
             {
@@ -89,6 +146,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
         )
 
     async def new_ice_candidate(self, data):
+        """
+        Asynchronous method to send new ICE candidate.
+
+        :param data: The event data.
+        :type data: dict
+        """
         await self.send(text_data=json.dumps({
             'type': 'new-ice-candidate',
             'recipient': data['recipient'],
@@ -96,12 +159,25 @@ class VideoConsumer(AsyncWebsocketConsumer):
         }))
 
     async def disconnect(self, code):
+        """
+        Asynchronous method to handle the disconnection event.
+        Removes the connection from the channel layer.
+
+        :param code: The code for the disconnection event.
+        :type code: int
+        """
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
     async def end_call_handler(self, data):
+        """
+        Asynchronous method to handle end of call.
+
+        :param data: The data received from the WebSocket.
+        :type data: dict
+        """
         await self.channel_layer.group_send(
             f"video_{data['recipient']}",
             {
@@ -113,6 +189,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
 
     # Handler for the video_rejected message
     async def video_rejected_handler(self, data):
+        """
+        Asynchronous method to handle rejection of video call.
+
+        :param data: The data received from the WebSocket.
+        :type data: dict
+        """
         await self.channel_layer.group_send(
             f"video_{data['recipient']}",
             {
@@ -123,6 +205,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
         )
 
     async def end_call(self, data):
+        """
+        Asynchronous method to send end of call message.
+
+        :param data: The event data.
+        :type data: dict
+        """
         await self.send(text_data=json.dumps({
             'type': 'end_call',
             'reason': data['reason'],

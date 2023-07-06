@@ -5,6 +5,16 @@ from django.db.models import Q
 
 @database_sync_to_async
 def is_valid_match(sender, recipient):
+    """
+    Sync to async function to check if a valid match exists.
+
+    :param sender: The sender's ID.
+    :type sender: str
+    :param recipient: The recipient's ID.
+    :type recipient: str
+    :return: A boolean value indicating whether a valid match exists.
+    :rtype: bool
+    """
     match = Matches.objects.filter(
         (
                 Q(first_user=sender, second_user=recipient) |

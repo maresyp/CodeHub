@@ -63,9 +63,24 @@ tags = {
 }
 
 class Command(BaseCommand):
+    """
+    A Django management command class that populates the database with default
+    users, tags, and other required items.
+
+    :param BaseCommand: Inherits from Django's BaseCommand class.
+    :type BaseCommand: class
+    """
     help = 'Populates the database with default users, tags and other needed stuff'
 
     def handle(self, *args, **kwargs):
+        """
+        The function that executes the command logic.
+
+        :param args: Command arguments.
+        :type args: tuple
+        :param kwargs: Command keyword arguments.
+        :type kwargs: dict
+        """
         # create default admins
         for key, value in admins.items():
             try:

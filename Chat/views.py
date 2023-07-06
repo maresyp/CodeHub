@@ -11,6 +11,19 @@ from datetime import datetime
 
 @login_required(login_url='login')
 def lobby(request):
+    """
+    Lobby view that displays chat conversations to a logged in user.
+    It fetches a list of friends that the user has matched with,
+    fetches the most recent message for each friend, and sorts the friends
+    list by the timestamp of the last message.
+    For the friend with the most recent message, it fetches the last 10 messages.
+
+    :param request: The request object.
+    :type request: HttpRequest
+
+    :return: Rendered HTML page.
+    :rtype: HttpResponse
+    """
     AMOUNT_OF_FRIENDS = 10  # TODO: maybe change ?
     page = 'chat'
     matches = Matches.objects.filter(
