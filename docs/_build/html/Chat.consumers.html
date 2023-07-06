@@ -107,6 +107,12 @@
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Chat.consumers.chat_consumer.</span></span><span class="sig-name descname"><span class="pre">ChatConsumer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncWebsocketConsumer</span></code></p>
+<p>This class defines a WebSocket consumer that handles chat functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AsyncWebsocketConsumer</strong> (<em>class</em>) – Inherits from Django Channels’ AsyncWebsocketConsumer class.</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.PAGE_SIZE">
 <span class="sig-name descname"><span class="pre">PAGE_SIZE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.PAGE_SIZE" title="Permalink to this definition"></a></dt>
@@ -115,64 +121,148 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.chat_error_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chat_error_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.chat_error_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.chat_error_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle chat errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>error</strong> (<em>str</em>) – The error message.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.chat_message">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chat_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.chat_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.chat_message" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle sending a chat message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>dict</em>) – The event data.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.chat_message_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chat_message_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.chat_message_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.chat_message_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle chat message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.chat_message_read_handler">
 <span class="sig-name descname"><span class="pre">chat_message_read_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.chat_message_read_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.chat_message_read_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Sync to async method to handle reading chat message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.chat_send_more_messages_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chat_send_more_messages_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.chat_send_more_messages_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.chat_send_more_messages_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle sending more messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.connect">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.connect" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle the connection event.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.disconnect">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">close_code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.disconnect" title="Permalink to this definition"></a></dt>
-<dd><p>Called when a WebSocket connection is closed.</p>
+<dd><p>Asynchronous method to handle the disconnection event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>close_code</strong> (<em>int</em>) – The code for the disconnection event.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.get_user">
 <span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.get_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.get_user" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Sync to async method to get a User model instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – The ID of the user.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A User model instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>User</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.receive">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.receive" title="Permalink to this definition"></a></dt>
-<dd><p>Called with a decoded WebSocket frame.</p>
+<dd><p>Asynchronous method to handle receiving data from WebSocket.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_data</strong> (<em>str</em>) – Text data received from the WebSocket.</p></li>
+<li><p><strong>bytes_data</strong> (<em>bytes</em>) – Binary data received from the WebSocket.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.recipient_change_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">recipient_change_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.recipient_change_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.recipient_change_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle changing recipient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.save_message">
 <span class="sig-name descname"><span class="pre">save_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.save_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.save_message" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Sync to async method to save a chat message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sender</strong> (<em>str</em>) – The sender’s ID.</p></li>
+<li><p><strong>recipient</strong> (<em>str</em>) – The recipient’s ID.</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – The message content.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ID of the saved message.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.chat_consumer.ChatConsumer.send_messages">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">send_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipient_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/chat_consumer.html#ChatConsumer.send_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.chat_consumer.ChatConsumer.send_messages" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to send messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>recipient_id</strong> (<em>str</em>) – The ID of the recipient.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -182,7 +272,22 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="Chat.consumers.utils.is_valid_match">
 <span class="sig-prename descclassname"><span class="pre">Chat.consumers.utils.</span></span><span class="sig-name descname"><span class="pre">is_valid_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/utils.html#is_valid_match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.utils.is_valid_match" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Sync to async function to check if a valid match exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sender</strong> (<em>str</em>) – The sender’s ID.</p></li>
+<li><p><strong>recipient</strong> (<em>str</em>) – The recipient’s ID.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A boolean value indicating whether a valid match exists.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-Chat.consumers.video_consumer">
@@ -191,67 +296,144 @@
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Chat.consumers.video_consumer.</span></span><span class="sig-name descname"><span class="pre">VideoConsumer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncWebsocketConsumer</span></code></p>
+<p>This class defines a WebSocket consumer that handles video call functionality.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AsyncWebsocketConsumer</strong> (<em>class</em>) – Inherits from Django Channels’ AsyncWebsocketConsumer class.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.connect">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.connect" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle the connection event.
+Sets up the user’s group and adds the connection to the channel layer.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.disconnect">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.disconnect" title="Permalink to this definition"></a></dt>
-<dd><p>Called when a WebSocket connection is closed.</p>
+<dd><p>Asynchronous method to handle the disconnection event.
+Removes the connection from the channel layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code</strong> (<em>int</em>) – The code for the disconnection event.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.end_call">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.end_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.end_call" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to send end of call message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The event data.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.end_call_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_call_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.end_call_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.end_call_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle end of call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_ice_candidate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.new_ice_candidate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to send new ICE candidate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The event data.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_ice_candidate_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.new_ice_candidate_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle new ICE candidate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.receive">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.receive" title="Permalink to this definition"></a></dt>
-<dd><p>Called with a decoded WebSocket frame.</p>
+<dd><p>Asynchronous method to handle receiving data from WebSocket.
+Uses a match-case structure to handle different types of received messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_data</strong> (<em>str</em>) – Text data received from the WebSocket.</p></li>
+<li><p><strong>bytes_data</strong> (<em>bytes</em>) – Binary data received from the WebSocket.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.video_answer_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video_answer_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.video_answer_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.video_answer_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle video answer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.video_offer">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video_offer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.video_offer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.video_offer" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to send video offer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The event data.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.video_offer_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video_offer_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.video_offer_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.video_offer_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle video offer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.video_rejected_handler">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video_rejected_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.video_rejected_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.video_rejected_handler" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to handle rejection of video call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The data received from the WebSocket.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Chat.consumers.video_consumer.VideoConsumer.video_result">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">video_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/consumers/video_consumer.html#VideoConsumer.video_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.consumers.video_consumer.VideoConsumer.video_result" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Asynchronous method to send video result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The event data.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

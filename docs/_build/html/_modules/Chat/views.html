@@ -82,6 +82,19 @@
 
 <div class="viewcode-block" id="lobby"><a class="viewcode-back" href="../../Chat.html#Chat.views.lobby">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">lobby</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lobby view that displays chat conversations to a logged in user.</span>
+<span class="sd">    It fetches a list of friends that the user has matched with,</span>
+<span class="sd">    fetches the most recent message for each friend, and sorts the friends</span>
+<span class="sd">    list by the timestamp of the last message.</span>
+<span class="sd">    For the friend with the most recent message, it fetches the last 10 messages.</span>
+
+<span class="sd">    :param request: The request object.</span>
+<span class="sd">    :type request: HttpRequest</span>
+
+<span class="sd">    :return: Rendered HTML page.</span>
+<span class="sd">    :rtype: HttpResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">AMOUNT_OF_FRIENDS</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># TODO: maybe change ?</span>
     <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;chat&#39;</span>
     <span class="n">matches</span> <span class="o">=</span> <span class="n">Matches</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>

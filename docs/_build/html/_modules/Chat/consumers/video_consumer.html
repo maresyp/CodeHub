@@ -75,11 +75,29 @@
 
 
 <div class="viewcode-block" id="VideoConsumer"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer">[docs]</a><span class="k">class</span> <span class="nc">VideoConsumer</span><span class="p">(</span><span class="n">AsyncWebsocketConsumer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class defines a WebSocket consumer that handles video call functionality.</span>
+
+<span class="sd">    :param AsyncWebsocketConsumer: Inherits from Django Channels&#39; AsyncWebsocketConsumer class.</span>
+<span class="sd">    :type AsyncWebsocketConsumer: class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the WebSocket consumer instance. Set up room_group_name to None.</span>
+
+<span class="sd">        :param args: Variable length argument list.</span>
+<span class="sd">        :type args: list</span>
+<span class="sd">        :param kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">        :type kwargs: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">room_group_name</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="VideoConsumer.connect"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.connect">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle the connection event.</span>
+<span class="sd">        Sets up the user&#39;s group and adds the connection to the channel layer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">room_group_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;video_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scope</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_add</span><span class="p">(</span>
@@ -90,6 +108,15 @@
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.receive"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.receive">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bytes_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle receiving data from WebSocket.</span>
+<span class="sd">        Uses a match-case structure to handle different types of received messages.</span>
+
+<span class="sd">        :param text_data: Text data received from the WebSocket.</span>
+<span class="sd">        :type text_data: str</span>
+<span class="sd">        :param bytes_data: Binary data received from the WebSocket.</span>
+<span class="sd">        :type bytes_data: bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">text_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">text_data_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text_data</span><span class="p">)</span>
@@ -114,6 +141,12 @@
             <span class="k">return</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.video_offer_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_offer_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">video_offer_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle video offer.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_send</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;video_</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">{</span>
@@ -125,6 +158,12 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.video_offer"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_offer">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">video_offer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to send video offer.</span>
+
+<span class="sd">        :param data: The event data.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">text_data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;video_offer&#39;</span><span class="p">,</span>
             <span class="s1">&#39;caller_name&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;caller_name&#39;</span><span class="p">],</span>
@@ -133,6 +172,12 @@
         <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.video_answer_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_answer_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">video_answer_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle video answer.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_send</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;video_</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">{</span>
@@ -143,6 +188,12 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.video_result"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_result">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">video_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to send video result.</span>
+
+<span class="sd">        :param data: The event data.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">text_data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;video_result&#39;</span><span class="p">,</span>
             <span class="s1">&#39;recipient&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">],</span>
@@ -150,6 +201,12 @@
         <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.new_ice_candidate_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">new_ice_candidate_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle new ICE candidate.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_send</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;video_</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">{</span>
@@ -160,6 +217,12 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.new_ice_candidate"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">new_ice_candidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to send new ICE candidate.</span>
+
+<span class="sd">        :param data: The event data.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">text_data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;new-ice-candidate&#39;</span><span class="p">,</span>
             <span class="s1">&#39;recipient&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">],</span>
@@ -167,12 +230,25 @@
         <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.disconnect"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.disconnect">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle the disconnection event.</span>
+<span class="sd">        Removes the connection from the channel layer.</span>
+
+<span class="sd">        :param code: The code for the disconnection event.</span>
+<span class="sd">        :type code: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_discard</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">room_group_name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">channel_name</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.end_call_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.end_call_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">end_call_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle end of call.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_send</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;video_</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">{</span>
@@ -184,6 +260,12 @@
 
     <span class="c1"># Handler for the video_rejected message</span>
 <div class="viewcode-block" id="VideoConsumer.video_rejected_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_rejected_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">video_rejected_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle rejection of video call.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_send</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;video_</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">{</span>
@@ -194,6 +276,12 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="VideoConsumer.end_call"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.end_call">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">end_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to send end of call message.</span>
+
+<span class="sd">        :param data: The event data.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">text_data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;end_call&#39;</span><span class="p">,</span>
             <span class="s1">&#39;reason&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">],</span>

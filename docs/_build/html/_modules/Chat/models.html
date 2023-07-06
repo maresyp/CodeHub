@@ -77,11 +77,24 @@
 <span class="c1"># Create your models here.</span>
 
 <div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../Chat.html#Chat.models.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This Django model represents a chat message between users.</span>
+
+<span class="sd">    :param models.Model: Inherits from Django&#39;s Model class.</span>
+<span class="sd">    :type models.Model: class</span>
+
+<span class="sd">    :ivar UUIDField message_id: Unique ID for the message, auto-generated.</span>
+<span class="sd">    :ivar ForeignKey sender_id: Reference to User who sent the message.</span>
+<span class="sd">    :ivar ForeignKey recipient_id: Reference to User who is the recipient of the message.</span>
+<span class="sd">    :ivar TextField body: Body of the message.</span>
+<span class="sd">    :ivar BooleanField is_read: Field to mark whether the message has been read.</span>
+<span class="sd">    :ivar DateTimeField send_timestamp: Timestamp when the message was sent.</span>
+<span class="sd">    :ivar DateTimeField view_timestamp: Timestamp when the message was viewed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">message_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">UUIDField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">sender_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;sender_id&#39;</span><span class="p">)</span>
     <span class="n">recipient_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;recipient_id&#39;</span><span class="p">)</span>
     <span class="n">body</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
-    <span class="c1"># attachment =  ???</span>
     <span class="n">is_read</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">send_timestamp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">view_timestamp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

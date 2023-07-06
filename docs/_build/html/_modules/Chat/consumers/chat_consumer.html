@@ -80,13 +80,30 @@
 
 
 <div class="viewcode-block" id="ChatConsumer"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer">[docs]</a><span class="k">class</span> <span class="nc">ChatConsumer</span><span class="p">(</span><span class="n">AsyncWebsocketConsumer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class defines a WebSocket consumer that handles chat functions.</span>
+
+<span class="sd">    :param AsyncWebsocketConsumer: Inherits from Django Channels&#39; AsyncWebsocketConsumer class.</span>
+<span class="sd">    :type AsyncWebsocketConsumer: class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">PAGE_SIZE</span> <span class="o">=</span> <span class="mi">10</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the WebSocket consumer instance.</span>
+
+<span class="sd">        :param args: Variable length argument list.</span>
+<span class="sd">        :type args: list</span>
+<span class="sd">        :param kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">        :type kwargs: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">room_group_name</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="ChatConsumer.connect"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.connect">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle the connection event.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">room_group_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;chat_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scope</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_add</span><span class="p">(</span>
@@ -97,6 +114,14 @@
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.receive"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.receive">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bytes_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle receiving data from WebSocket.</span>
+
+<span class="sd">        :param text_data: Text data received from the WebSocket.</span>
+<span class="sd">        :type text_data: str</span>
+<span class="sd">        :param bytes_data: Binary data received from the WebSocket.</span>
+<span class="sd">        :type bytes_data: bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">text_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">text_data_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text_data</span><span class="p">)</span>
@@ -120,12 +145,24 @@
             <span class="k">return</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.disconnect"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.disconnect">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">close_code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle the disconnection event.</span>
+
+<span class="sd">        :param close_code: The code for the disconnection event.</span>
+<span class="sd">        :type close_code: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_layer</span><span class="o">.</span><span class="n">group_discard</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">room_group_name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">channel_name</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.chat_error_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_error_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">chat_error_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle chat errors.</span>
+
+<span class="sd">        :param error: The error message.</span>
+<span class="sd">        :type error: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
             <span class="n">text_data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
                 <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;chat-error&#39;</span><span class="p">,</span>
@@ -134,6 +171,12 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.chat_send_more_messages_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_send_more_messages_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">chat_send_more_messages_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle sending more messages.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nd">@database_sync_to_async</span>
         <span class="k">def</span> <span class="nf">get_more_messages</span><span class="p">():</span>
             <span class="n">last_message</span> <span class="o">=</span> <span class="n">Message</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">message_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;top_message_uuid&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
@@ -162,6 +205,12 @@
         <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.chat_message_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_message_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">chat_message_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle chat message.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">message</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span>
         <span class="c1"># check if message is not empty</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">message</span><span class="p">:</span>
@@ -185,6 +234,12 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.chat_message"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_message">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">chat_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle sending a chat message.</span>
+
+<span class="sd">        :param event: The event data.</span>
+<span class="sd">        :type event: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">text_data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;chat-single-message&#39;</span><span class="p">,</span>
             <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">],</span>
@@ -195,10 +250,22 @@
         <span class="p">}))</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.recipient_change_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.recipient_change_handler">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">recipient_change_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to handle changing recipient.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_messages</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.chat_message_read_handler"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_message_read_handler">[docs]</a>    <span class="nd">@database_sync_to_async</span>
     <span class="k">def</span> <span class="nf">chat_message_read_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sync to async method to handle reading chat message.</span>
+
+<span class="sd">        :param data: The data received from the WebSocket.</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">messages</span> <span class="o">=</span> <span class="n">Message</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
             <span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">sender_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">],</span> <span class="n">recipient_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scope</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">])</span> <span class="o">|</span>
              <span class="n">Q</span><span class="p">(</span><span class="n">sender_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scope</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">],</span> <span class="n">recipient_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">]))</span>
@@ -209,6 +276,12 @@
             <span class="n">messages</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">view_timestamp</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.send_messages"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.send_messages">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">send_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recipient_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronous method to send messages.</span>
+
+<span class="sd">        :param recipient_id: The ID of the recipient.</span>
+<span class="sd">        :type recipient_id: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nd">@database_sync_to_async</span>
         <span class="k">def</span> <span class="nf">get_messages</span><span class="p">():</span>
             <span class="n">start_index</span> <span class="o">=</span> <span class="mi">0</span>
@@ -237,10 +310,30 @@
 
 <div class="viewcode-block" id="ChatConsumer.get_user"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.get_user">[docs]</a>    <span class="nd">@database_sync_to_async</span>
     <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sync to async method to get a User model instance.</span>
+
+<span class="sd">        :param id: The ID of the user.</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        :return: A User model instance.</span>
+<span class="sd">        :rtype: User</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ChatConsumer.save_message"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.save_message">[docs]</a>    <span class="nd">@database_sync_to_async</span>
     <span class="k">def</span> <span class="nf">save_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sync to async method to save a chat message.</span>
+
+<span class="sd">        :param sender: The sender&#39;s ID.</span>
+<span class="sd">        :type sender: str</span>
+<span class="sd">        :param recipient: The recipient&#39;s ID.</span>
+<span class="sd">        :type recipient: str</span>
+<span class="sd">        :param message: The message content.</span>
+<span class="sd">        :type message: str</span>
+<span class="sd">        :return: The ID of the saved message.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">message_obj</span> <span class="o">=</span> <span class="n">Message</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">sender_id</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">recipient_id</span><span class="o">=</span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">recipient</span><span class="p">),</span>

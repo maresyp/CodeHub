@@ -76,6 +76,16 @@
 
 <div class="viewcode-block" id="is_valid_match"><a class="viewcode-back" href="../../../Chat.consumers.html#Chat.consumers.utils.is_valid_match">[docs]</a><span class="nd">@database_sync_to_async</span>
 <span class="k">def</span> <span class="nf">is_valid_match</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">recipient</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sync to async function to check if a valid match exists.</span>
+
+<span class="sd">    :param sender: The sender&#39;s ID.</span>
+<span class="sd">    :type sender: str</span>
+<span class="sd">    :param recipient: The recipient&#39;s ID.</span>
+<span class="sd">    :type recipient: str</span>
+<span class="sd">    :return: A boolean value indicating whether a valid match exists.</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">match</span> <span class="o">=</span> <span class="n">Matches</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
         <span class="p">(</span>
                 <span class="n">Q</span><span class="p">(</span><span class="n">first_user</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">second_user</span><span class="o">=</span><span class="n">recipient</span><span class="p">)</span> <span class="o">|</span>

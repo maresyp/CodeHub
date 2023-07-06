@@ -188,8 +188,25 @@
 <span id="chat-models-module"></span><h2>Chat.models module<a class="headerlink" href="#module-Chat.models" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="Chat.models.Message">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Chat.models.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_read</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">send_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_timestamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/models.html#Message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.models.Message" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Chat.models.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/models.html#Message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.models.Message" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>This Django model represents a chat message between users.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>models.Model</strong> (<em>class</em>) – Inherits from Django’s Model class.</p>
+</dd>
+<dt class="field-even">Variables<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>message_id</strong> (<em>UUIDField</em>) – Unique ID for the message, auto-generated.</p></li>
+<li><p><strong>sender_id</strong> (<em>ForeignKey</em>) – Reference to User who sent the message.</p></li>
+<li><p><strong>recipient_id</strong> (<em>ForeignKey</em>) – Reference to User who is the recipient of the message.</p></li>
+<li><p><strong>body</strong> (<em>TextField</em>) – Body of the message.</p></li>
+<li><p><strong>is_read</strong> (<em>BooleanField</em>) – Field to mark whether the message has been read.</p></li>
+<li><p><strong>send_timestamp</strong> (<em>DateTimeField</em>) – Timestamp when the message was sent.</p></li>
+<li><p><strong>view_timestamp</strong> (<em>DateTimeField</em>) – Timestamp when the message was viewed.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py exception">
 <dt class="sig sig-object py" id="Chat.models.Message.DoesNotExist">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#Chat.models.Message.DoesNotExist" title="Permalink to this definition"></a></dt>
@@ -310,7 +327,23 @@ object the first time, the query is executed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="Chat.views.lobby">
 <span class="sig-prename descclassname"><span class="pre">Chat.views.</span></span><span class="sig-name descname"><span class="pre">lobby</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/views.html#lobby"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.views.lobby" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Lobby view that displays chat conversations to a logged in user.
+It fetches a list of friends that the user has matched with,
+fetches the most recent message for each friend, and sorts the friends
+list by the timestamp of the last message.
+For the friend with the most recent message, it fetches the last 10 messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rendered HTML page.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-Chat">
