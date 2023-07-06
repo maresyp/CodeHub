@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users.management.commands package &mdash; CodeHub 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CodeHub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">CodeHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CodeHub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Users.management.commands package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Users.management.commands.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="users-management-commands-package">
+<h1>Users.management.commands package<a class="headerlink" href="#users-management-commands-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Users.management.commands.defaultdb">
+<span id="users-management-commands-defaultdb-module"></span><h2>Users.management.commands.defaultdb module<a class="headerlink" href="#module-Users.management.commands.defaultdb" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Users.management.commands.defaultdb.Command">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.management.commands.defaultdb.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/management/commands/defaultdb.html#Command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.defaultdb.Command" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCommand</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.defaultdb.Command.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/management/commands/defaultdb.html#Command.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.defaultdb.Command.handle" title="Permalink to this definition"></a></dt>
+<dd><p>The actual logic of the command. Subclasses must implement
+this method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Users.management.commands.defaultdb.Command.help">
+<span class="sig-name descname"><span class="pre">help</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Populates</span> <span class="pre">the</span> <span class="pre">database</span> <span class="pre">with</span> <span class="pre">default</span> <span class="pre">users,</span> <span class="pre">tags</span> <span class="pre">and</span> <span class="pre">other</span> <span class="pre">needed</span> <span class="pre">stuff'</span></em><a class="headerlink" href="#Users.management.commands.defaultdb.Command.help" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Users.management.commands.populate">
+<span id="users-management-commands-populate-module"></span><h2>Users.management.commands.populate module<a class="headerlink" href="#module-Users.management.commands.populate" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Users.management.commands.populate.Command">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.management.commands.populate.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/management/commands/populate.html#Command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.Command" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCommand</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.Command.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CommandParser</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#Command.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.Command.add_arguments" title="Permalink to this definition"></a></dt>
+<dd><p>Entry point for subclassed commands to add custom arguments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.Command.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/management/commands/populate.html#Command.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.Command.handle" title="Permalink to this definition"></a></dt>
+<dd><p>The actual logic of the command. Subclasses must implement
+this method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Users.management.commands.populate.Command.help">
+<span class="sig-name descname"><span class="pre">help</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Populates</span> <span class="pre">the</span> <span class="pre">database</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">users'</span></em><a class="headerlink" href="#Users.management.commands.populate.Command.help" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Users.management.commands.populate.Generator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.management.commands.populate.</span></span><span class="sig-name descname"><span class="pre">Generator</span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#Generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.Generator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract class for generating mock users.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Users.management.commands.populate.Generator._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#Users.management.commands.populate.Generator._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.Generator.generate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/management/commands/populate.html#Generator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.Generator.generate" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract method for generating mock users.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.management.commands.populate.</span></span><span class="sig-name descname"><span class="pre">UserGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">available_tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="Codes.html#Codes.models.Tag" title="Codes.models.Tag"><span class="pre">Codes.models.Tag</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/management/commands/populate.html#UserGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.UserGenerator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Users.management.commands.populate.Generator" title="Users.management.commands.populate.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseProvider</span></code></p>
+<p>Class for generating mock users.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#Users.management.commands.populate.UserGenerator._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#UserGenerator.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.UserGenerator.generate" title="Permalink to this definition"></a></dt>
+<dd><p>Method for generating mock users.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator.generate_bio">
+<span class="sig-name descname"><span class="pre">generate_bio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#UserGenerator.generate_bio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.UserGenerator.generate_bio" title="Permalink to this definition"></a></dt>
+<dd><p>Method for generating a random bio.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator.generate_code_snippet">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_code_snippet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#UserGenerator.generate_code_snippet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.UserGenerator.generate_code_snippet" title="Permalink to this definition"></a></dt>
+<dd><p>Method for acquiring code snippet with given tag</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator.generate_email">
+<span class="sig-name descname"><span class="pre">generate_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#UserGenerator.generate_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.UserGenerator.generate_email" title="Permalink to this definition"></a></dt>
+<dd><p>Method for generating a random email from given name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator.generate_name">
+<span class="sig-name descname"><span class="pre">generate_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#UserGenerator.generate_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.UserGenerator.generate_name" title="Permalink to this definition"></a></dt>
+<dd><p>Method for generating a random name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Users.management.commands.populate.UserGenerator.generate_password">
+<span class="sig-name descname"><span class="pre">generate_password</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/Users/management/commands/populate.html#UserGenerator.generate_password"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.management.commands.populate.UserGenerator.generate_password" title="Permalink to this definition"></a></dt>
+<dd><p>Method for generating a random password.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Users.management.commands">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Users.management.commands" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, mpsr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

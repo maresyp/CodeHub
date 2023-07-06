@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codes.signals &mdash; CodeHub 1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CodeHub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">CodeHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CodeHub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Codes.signals</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Codes.signals</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.dispatch</span> <span class="kn">import</span> <span class="n">receiver</span>
+<span class="kn">from</span> <span class="nn">django.db.models.signals</span> <span class="kn">import</span> <span class="n">pre_save</span><span class="p">,</span> <span class="n">post_save</span><span class="p">,</span> <span class="n">post_delete</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Code</span><span class="p">,</span> <span class="n">Project</span><span class="p">,</span> <span class="n">Tag</span>
+<span class="kn">from</span> <span class="nn">.anti_plagiarism.PlagiarismQueue</span> <span class="kn">import</span> <span class="n">PlagiarismQueue</span><span class="p">,</span> <span class="n">PlagiarismQueueEntry</span>
+
+<span class="n">__queue</span> <span class="o">=</span> <span class="n">PlagiarismQueue</span><span class="p">()</span>
+
+<div class="viewcode-block" id="start_plagiarism_checks"><a class="viewcode-back" href="../../Codes.html#Codes.signals.start_plagiarism_checks">[docs]</a><span class="nd">@receiver</span><span class="p">(</span><span class="n">pre_save</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Code</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">start_plagiarism_checks</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is triggered before a code snippet instance is saved.</span>
+<span class="sd">    It checks if there are any changes in the source code and if so, it queues it for plagiarism check.</span>
+
+<span class="sd">    :param sender: The model class.</span>
+<span class="sd">    :type sender: django.db.models.Model</span>
+<span class="sd">    :param instance: The actual instance being saved.</span>
+<span class="sd">    :type instance: models.Model</span>
+<span class="sd">    :param kwargs: Keyword arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_plagiarism</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># when updated</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">instance</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">adding</span><span class="p">:</span>
+        <span class="n">old_instance</span> <span class="o">=</span> <span class="n">Code</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+        <span class="n">old_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">old_instance</span><span class="p">,</span> <span class="s1">&#39;source_code&#39;</span><span class="p">)</span>
+        <span class="n">new_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="s1">&#39;source_code&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">old_value</span> <span class="o">==</span> <span class="n">new_value</span><span class="p">:</span>
+            <span class="n">check_plagiarism</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">check_plagiarism</span><span class="p">:</span>
+        <span class="k">global</span> <span class="n">__queue</span>
+        <span class="n">__queue</span> <span class="o">=</span> <span class="n">PlagiarismQueue</span><span class="p">()</span>
+        <span class="n">__queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">PlagiarismQueueEntry</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="select_favorite_project"><a class="viewcode-back" href="../../Codes.html#Codes.signals.select_favorite_project">[docs]</a><span class="nd">@receiver</span><span class="p">(</span><span class="n">post_save</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Project</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">select_favorite_project</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">created</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is triggered after a project instance is saved.</span>
+<span class="sd">    It checks if the project&#39;s owner has a favorite project, if not, it sets the current project as favorite.</span>
+
+<span class="sd">    :param sender: The model class.</span>
+<span class="sd">    :type sender: django.db.models.Model</span>
+<span class="sd">    :param instance: The actual instance being saved.</span>
+<span class="sd">    :type instance: models.Model</span>
+<span class="sd">    :param created: A boolean; True if a new record was created.</span>
+<span class="sd">    :type created: bool</span>
+<span class="sd">    :param kwargs: Keyword arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">created</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">elif</span> <span class="n">instance</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">favorite_project</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># if user has no favorite project, set this project as favorite</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">favorite_project</span> <span class="o">=</span> <span class="n">instance</span>
+    <span class="n">instance</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="delete_favorite_project"><a class="viewcode-back" href="../../Codes.html#Codes.signals.delete_favorite_project">[docs]</a><span class="nd">@receiver</span><span class="p">(</span><span class="n">post_delete</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Project</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">delete_favorite_project</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is triggered after a project instance is deleted.</span>
+<span class="sd">    If the deleted project was set as favorite, it attempts to set another project as favorite.</span>
+
+<span class="sd">    :param sender: The model class.</span>
+<span class="sd">    :type sender: django.db.models.Model</span>
+<span class="sd">    :param instance: The actual instance being deleted.</span>
+<span class="sd">    :type instance: models.Model</span>
+<span class="sd">    :param kwargs: Keyword arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">profile</span>
+    <span class="k">if</span> <span class="n">profile</span><span class="o">.</span><span class="n">favorite_project</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">other_projects</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">owner</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+
+        <span class="c1"># if possible set other project as favorite</span>
+        <span class="k">if</span> <span class="n">other_projects</span><span class="p">:</span>
+            <span class="n">profile</span><span class="o">.</span><span class="n">favorite_project</span> <span class="o">=</span> <span class="n">other_projects</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="n">profile</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="update_code_tag"><a class="viewcode-back" href="../../Codes.html#Codes.signals.update_code_tag">[docs]</a><span class="nd">@receiver</span><span class="p">(</span><span class="n">post_save</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Code</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">update_code_tag</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">created</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is triggered after a code snippet instance is saved.</span>
+<span class="sd">    It updates the code tag of the snippet based on its file extension.</span>
+
+<span class="sd">    :param sender: The model class.</span>
+<span class="sd">    :type sender: django.db.models.Model</span>
+<span class="sd">    :param instance: The actual instance being saved.</span>
+<span class="sd">    :type instance: models.Model</span>
+<span class="sd">    :param created: A boolean; True if a new record was created.</span>
+<span class="sd">    :type created: bool</span>
+<span class="sd">    :param kwargs: Keyword arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># based of file extension, try to find corresponding tag</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">file_extension</span><span class="o">=</span><span class="n">extension</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">code_tag</span> <span class="o">==</span> <span class="n">tag</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">code_tag</span> <span class="o">=</span> <span class="n">tag</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, mpsr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

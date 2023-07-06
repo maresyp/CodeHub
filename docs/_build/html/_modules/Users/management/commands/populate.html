@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users.management.commands.populate &mdash; CodeHub 1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            CodeHub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">CodeHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">CodeHub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Users.management.commands.populate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Users.management.commands.populate</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.core.management.base</span> <span class="kn">import</span> <span class="n">BaseCommand</span><span class="p">,</span> <span class="n">CommandParser</span>
+<span class="kn">from</span> <span class="nn">Users.models</span> <span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">FavouritesTags</span>
+<span class="kn">from</span> <span class="nn">Codes.models</span> <span class="kn">import</span> <span class="n">Project</span><span class="p">,</span> <span class="n">Code</span><span class="p">,</span> <span class="n">Tag</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">faker.providers</span> <span class="kn">import</span> <span class="n">BaseProvider</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+    <span class="n">help</span> <span class="o">=</span> <span class="s1">&#39;Populates the database with the users&#39;</span>
+
+<div class="viewcode-block" id="Command.add_arguments"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.Command.add_arguments">[docs]</a>    <span class="k">def</span> <span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">:</span> <span class="n">CommandParser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of users to be created&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Command.handle"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.Command.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">available_tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">available_tags</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;There are no tags in the database. Please add some tags first.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># check if every tag has a corresponding file</span>
+        <span class="n">to_remove</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">Tag</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">available_tags</span><span class="p">:</span>
+            <span class="n">possible_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./code_snippets/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;*.</span><span class="si">{</span><span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">possible_files</span><span class="p">:</span>
+                <span class="n">to_remove</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">available_tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">tag</span> <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">available_tags</span> <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_remove</span><span class="p">]</span>
+
+        <span class="n">user_generator</span> <span class="o">=</span> <span class="n">UserGenerator</span><span class="p">(</span><span class="n">available_tags</span><span class="p">)</span>
+        <span class="n">existing_emails</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">creations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">requested</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">requested</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Amount must be greater than 0.&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Keep in mind that creation of Codes involves anti plagiarism checks&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This can take a while. Do not interrupt the process.&#39;</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="n">creations</span> <span class="o">&lt;</span> <span class="n">requested</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">user_generator</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">requested</span> <span class="o">-</span> <span class="n">creations</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">existing_emails</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;User with email </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> already exists. Skipping&#39;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">existing_emails</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">])</span>
+
+                <span class="c1"># create user</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+                    <span class="n">first_name</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                    <span class="n">email</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">],</span>
+                    <span class="n">username</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">password</span><span class="o">=</span><span class="s1">&#39;default&#39;</span>
+                <span class="p">)</span>
+
+                <span class="c1"># create profile for given user</span>
+                <span class="n">profile</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">profile</span>
+                <span class="n">profile</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="s1">&#39;Warsaw&#39;</span>
+                <span class="n">profile</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span>
+                <span class="n">profile</span><span class="o">.</span><span class="n">bio</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;bio&#39;</span><span class="p">]</span>
+                <span class="n">profile</span><span class="o">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span>
+                <span class="n">profile</span><span class="o">.</span><span class="n">social_github</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;https://github.com/maresyp/CodeHub&#39;</span>
+                <span class="n">profile</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+                <span class="c1"># create project for given user</span>
+                <span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">owner</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Project of </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;This is a mock project generated for </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">snippet</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;code_snippets&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating </span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s1"> code snippet for </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">snip</span> <span class="ow">in</span> <span class="n">snippet</span><span class="p">:</span>
+                        <span class="n">Code</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                            <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;snippet.</span><span class="si">{</span><span class="n">tag</span><span class="o">.</span><span class="n">file_extension</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                            <span class="n">description</span><span class="o">=</span><span class="s1">&#39;This is a mock code snippet&#39;</span><span class="p">,</span>
+                            <span class="n">source_code</span><span class="o">=</span><span class="n">snip</span>
+                        <span class="p">)</span>
+
+                <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
+                    <span class="n">tag_id</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">available_tags</span><span class="p">),</span>
+                    <span class="n">value</span><span class="o">=</span><span class="mi">10</span>
+                <span class="p">)</span>
+
+                <span class="n">creations</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Created User with email </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Created </span><span class="si">{</span><span class="n">creations</span><span class="si">}</span><span class="s1"> mock users.&#39;</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="Generator"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.Generator">[docs]</a><span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Abstract class for generating mock users. &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Generator.generate"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.Generator.generate">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Abstract method for generating mock users. &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="UserGenerator"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.UserGenerator">[docs]</a><span class="k">class</span> <span class="nc">UserGenerator</span><span class="p">(</span><span class="n">Generator</span><span class="p">,</span> <span class="n">BaseProvider</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Class for generating mock users. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">available_tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tag</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Constructor for UserGenerator class. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+        <span class="n">Faker</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2137</span><span class="p">)</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2137</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">available_tags</span>
+
+<div class="viewcode-block" id="UserGenerator.generate"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.UserGenerator.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method for generating mock users. &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">amount</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Amount must be greater than 0.&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">amount</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_name</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_email</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pwd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_password</span><span class="p">()</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">69</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;code_snippets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">tag</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_code_snippet</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span> <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">]}</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;bio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_bio</span><span class="p">()</span>
+
+            <span class="k">yield</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="UserGenerator.generate_name"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.UserGenerator.generate_name">[docs]</a>    <span class="k">def</span> <span class="nf">generate_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gender</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method for generating a random name. &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;M&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__faker</span><span class="o">.</span><span class="n">first_name_male</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__faker</span><span class="o">.</span><span class="n">last_name_male</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__faker</span><span class="o">.</span><span class="n">first_name_female</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__faker</span><span class="o">.</span><span class="n">last_name_female</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="UserGenerator.generate_email"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.UserGenerator.generate_email">[docs]</a>    <span class="k">def</span> <span class="nf">generate_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method for generating a random email from given name. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2137</span><span class="p">)</span><span class="si">}</span><span class="s1">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__faker</span><span class="o">.</span><span class="n">free_email_domain</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="UserGenerator.generate_password"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.UserGenerator.generate_password">[docs]</a>    <span class="k">def</span> <span class="nf">generate_password</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method for generating a random password. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__faker</span><span class="o">.</span><span class="n">password</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">special_chars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">upper_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lower_case</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UserGenerator.generate_bio"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.UserGenerator.generate_bio">[docs]</a>    <span class="k">def</span> <span class="nf">generate_bio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method for generating a random bio. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__faker</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">max_nb_chars</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UserGenerator.generate_code_snippet"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.populate.UserGenerator.generate_code_snippet">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate_code_snippet</span><span class="p">(</span><span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method for acquiring code snippet with given tag &quot;&quot;&quot;</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./code_snippets/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;*.</span><span class="si">{</span><span class="n">tag</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">)))</span>
+        <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No matching files for </span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> found.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">with</span> <span class="n">file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, mpsr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

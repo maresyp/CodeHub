@@ -9,6 +9,15 @@ from .forms import ProjectForm, CodeForm, DocumentForm
 
 @login_required(login_url='login')
 def addProject(request):
+    """
+    This view is used to handle the creation of new projects. It takes a POST request with the new project's information,
+    validates it, and if everything checks out, creates a new project and redirects the user to their account page.
+
+    :param request: The HTTP request.
+    :type request: django.core.handlers.wsgi.WSGIRequest
+    :return: The HTTP response.
+    :rtype: django.http.HttpResponse
+    """
     page = 'add_project'
 
     if request.method == 'POST':
@@ -41,6 +50,17 @@ def addProject(request):
 
 @login_required(login_url='login')
 def editProject(request, project_id):
+    """
+    This view is used to handle the editing of an existing project. The user must be the owner of the project to edit it.
+    If the user is not the owner, they are redirected to their account page with an error message.
+
+    :param request: The HTTP request.
+    :type request: django.core.handlers.wsgi.WSGIRequest
+    :param project_id: The ID of the project to be edited.
+    :type project_id: int
+    :return: The HTTP response.
+    :rtype: django.http.HttpResponse
+    """
     page = 'edit_project'
     project = get_object_or_404(Project, id=project_id)
 
@@ -73,6 +93,17 @@ def editProject(request, project_id):
 
 @login_required(login_url='login')
 def displayMyProject(request, project_id):
+    """
+    This view is used to display a specific project's details. It only shows the projects that are owned by the current user.
+    If the project is not found or the user is not the owner, a 404 error is raised.
+
+    :param request: The HTTP request.
+    :type request: django.core.handlers.wsgi.WSGIRequest
+    :param project_id: The ID of the project to be displayed.
+    :type project_id: int
+    :return: The HTTP response.
+    :rtype: django.http.HttpResponse
+    """
     page = 'display_my_project'
     user = request.user
 
@@ -91,6 +122,17 @@ def displayMyProject(request, project_id):
 
 @login_required(login_url='login')
 def deleteProject(request, project_id):
+    """
+    This view is used to handle the deletion of an existing project. The user must be the owner of the project to delete it.
+    If the user is not the owner, they are redirected to their account page with an error message.
+
+    :param request: The HTTP request.
+    :type request: django.core.handlers.wsgi.WSGIRequest
+    :param project_id: The ID of the project to be deleted.
+    :type project_id: int
+    :return: The HTTP response.
+    :rtype: django.http.HttpResponse
+    """
     project = get_object_or_404(Project, id=project_id)
 
     # check if user is owner of project
@@ -104,6 +146,17 @@ def deleteProject(request, project_id):
 
 @login_required(login_url='login')
 def add_code(request, project_id):
+    """
+    This view is used to add a code to a project. The user must be the owner of the project to add code to it.
+    If the user is not the owner, they are redirected to their account page with an error message.
+
+    :param request: The HTTP request.
+    :type request: django.core.handlers.wsgi.WSGIRequest
+    :param project_id: The ID of the project to which code will be added.
+    :type project_id: int
+    :return: The HTTP response.
+    :rtype: django.http.HttpResponse
+    """
     page = 'add_code'
     project = get_object_or_404(Project, id=project_id)
 
@@ -155,6 +208,17 @@ def add_code(request, project_id):
 
 @login_required(login_url='login')
 def edit_code(request, code_id):
+    """
+    This view is used to handle the editing of an existing code. The user must be the owner of the code to edit it.
+    If the user is not the owner, they are redirected to their account page with an error message.
+
+    :param request: The HTTP request.
+    :type request: django.core.handlers.wsgi.WSGIRequest
+    :param code_id: The ID of the code to be edited.
+    :type code_id: int
+    :return: The HTTP response.
+    :rtype: django.http.HttpResponse
+    """
     page = 'edit_code'
     code = get_object_or_404(Code, id=code_id)
 
@@ -194,6 +258,17 @@ def edit_code(request, code_id):
 
 @login_required(login_url='login')
 def delete_code(request, code_id):
+    """
+    This view is used to handle the deletion of an existing code. The user must be the owner of the code to delete it.
+    If the user is not the owner, they are redirected to their account page with an error message.
+
+    :param request: The HTTP request.
+    :type request: django.core.handlers.wsgi.WSGIRequest
+    :param code_id: The ID of the code to be deleted.
+    :type code_id: int
+    :return: The HTTP response.
+    :rtype: django.http.HttpResponse
+    """
     code = get_object_or_404(Code, id=code_id)
     project = code.project
 

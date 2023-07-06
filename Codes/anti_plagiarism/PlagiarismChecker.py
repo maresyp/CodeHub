@@ -7,14 +7,28 @@ import numpy as np
 
 
 class PlagiarismMethod(Enum):
-    """ Enum for plagiarism checking methods """
+    """
+    Enum representing the methods used for plagiarism checking.
+
+    Attributes:
+        BOW: Bag of Words method.
+        TFIDF: Term Frequency-Inverse Document Frequency method.
+    """
     BOW = 1  # Bag of words
     TFIDF = 2  # TF-IDF
 
 
 @dataclass(frozen=True)
 class PlagiarismResult:
-    """ Class for storing plagiarism check result. """
+    """
+    Class for storing plagiarism check result.
+
+    Attributes:
+        method (PlagiarismMethod): The method used for checking.
+        jaccard_similarity (float): The Jaccard similarity index.
+        euclidian_distance (float): The Euclidian distance between document embeddings.
+        cosine_similarity (float): The cosine similarity between document embeddings.
+    """
     method: PlagiarismMethod
     jaccard_similarity: float
     euclidian_distance: float
@@ -26,7 +40,17 @@ class PlagiarismResult:
             euclidian_threshold: float = 0.8,
             cosine_threshold: float = 0.8
     ) -> bool:
-        """ Judge if the result is plagiarized """
+        """
+        Determines whether the document is likely plagiarized based on the calculated metrics.
+
+        Args:
+            jaccard_threshold (float): Threshold value for the Jaccard similarity index.
+            euclidian_threshold (float): Threshold value for the Euclidian distance.
+            cosine_threshold (float): Threshold value for the cosine similarity.
+
+        Returns:
+            bool: True if any of the metrics exceed the corresponding thresholds.
+        """
         if self.jaccard_similarity > jaccard_threshold:
             return True
         if self.euclidian_distance > euclidian_threshold:
@@ -38,13 +62,33 @@ class PlagiarismResult:
 
 
 class PlagiarismChecker:
-    """ Class for checking plagiarism in the code """
+    """
+    Class to check for plagiarism in code.
+
+    Attributes:
+        reference_code (str): The reference code against which other code will be checked.
+    """
 
     def __init__(self, reference_code: str) -> None:
+        """
+        Initializes PlagiarismChecker with a reference code.
+
+        Args:
+            reference_code (str): The code to check against.
+        """
         self.reference_code: str = reference_code
 
     def check_code(self, code: str, method: set[PlagiarismMethod]) -> set[PlagiarismResult]:
-        """ Checks plagiarism in the code using all methods specified """
+        """
+        Checks for plagiarism in the given code using the specified methods.
+
+        Args:
+            code (str): The code to check.
+            method (set[PlagiarismMethod]): The set of methods to use for checking.
+
+        Returns:
+            set[PlagiarismResult]: A set of PlagiarismResults for each method used.
+        """
         results: set[PlagiarismResult] = set()
         embeddings = []
 
@@ -68,7 +112,15 @@ class PlagiarismChecker:
         return results
 
     def __construct_bow(self, code: str) -> tuple[list[int], list[int]]:
-        """ Returns bag of words for reference code and tested code """
+        """
+        Returns bag of words for reference code and tested code.
+
+        Args:
+            code (str): The code to test.
+
+        Returns:
+            tuple[list[int], list[int]]: Two lists representing bag of words vectors for reference and test code.
+        """
         reference_words = Counter(self.reference_code.split())
         code_words = Counter(code.split())
 
@@ -80,7 +132,16 @@ class PlagiarismChecker:
 
     @staticmethod
     def __jaccard_similarity(reference_words: set[str], code_words: set[str]) -> float:
-        """ Calculates Jaccard similarity between two sets of words """
+        """
+        Calculates Jaccard similarity between two sets of words.
+
+        Args:
+            reference_words (set[str]): Words from the reference code.
+            code_words (set[str]): Words from the tested code.
+
+        Returns:
+            float: Jaccard similarity score.
+        """
         intersection = reference_words & code_words
         union = reference_words | code_words
 
@@ -88,14 +149,32 @@ class PlagiarismChecker:
 
     @staticmethod
     def __normalized_euclidian_distance(x: np.ndarray, y: np.ndarray) -> float:
-        """ Calculates Euclidian distance """
+        """
+        Calculates Euclidian distance between two vectors.
+
+        Args:
+            x (np.ndarray): First vector.
+            y (np.ndarray): Second vector.
+
+        Returns:
+            float: Normalized Euclidian distance.
+        """
         dist = math.sqrt(sum(pow(a - b, 2) for a, b in zip(x, y)))
         # normalization to 0-1 range
         return 1 / math.exp(dist)
 
     @staticmethod
     def __cosine_similarity(x: np.ndarray, y: np.ndarray) -> float:
-        """ Calculates cosine similarity """
+        """
+        Calculates cosine similarity between two vectors.
+
+        Args:
+            x (np.ndarray): First vector.
+            y (np.ndarray): Second vector.
+
+        Returns:
+            float: Cosine similarity score.
+        """
         dot_product = sum(a * b for a, b in zip(x, y))
         magnitude_x = math.sqrt(sum(pow(a, 2) for a in x))
         magnitude_y = math.sqrt(sum(pow(b, 2) for b in y))
@@ -105,17 +184,41 @@ class PlagiarismChecker:
             return dot_product / (magnitude_x * magnitude_y)
 
     def __create_bow_embeddings(self, code: str) -> tuple[np.ndarray, np.ndarray]:
-        """ Creates embeddings for reference code and tested code """
+        """
+        Creates Bag of Words embeddings for reference code and tested code.
+
+        Args:
+            code (str): The code to test.
+
+        Returns:
+            tuple[np.ndarray, np.ndarray]: Two numpy arrays representing Bag of Words vectors for reference and test code.
+        """
         bow = CountVectorizer(lowercase=False).fit_transform([self.reference_code, code]).toarray()
         return bow[0], bow[1]
 
     def __create_tfid_embeddings(self, code: str) -> tuple[np.ndarray, np.ndarray]:
-        """ Creates embeddings for reference code and tested code """
+        """
+        Creates TF-IDF embeddings for reference code and tested code.
+
+        Args:
+            code (str): The code to test.
+
+        Returns:
+            tuple[np.ndarray, np.ndarray]: Two numpy arrays representing TF-IDF vectors for reference and test code.
+        """
         embeddings = TfidfVectorizer(lowercase=False).fit_transform([self.reference_code, code]).toarray()
         return embeddings[0], embeddings[1]
 
     def __whitespace_analysis(self, code: str) -> float:
-        """ Calculates whitespace similarity between two codes """
+        """
+        Calculates whitespace similarity between the reference code and the given code.
+
+        Args:
+            code (str): The code to compare.
+
+        Returns:
+            float: The whitespace similarity.
+        """
         pass
 
 

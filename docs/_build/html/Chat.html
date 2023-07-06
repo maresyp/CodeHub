@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat package &mdash; CodeHub 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chat.consumers package" href="Chat.consumers.html" />
+    <link rel="prev" title="CodeHub" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CodeHub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">CodeHub</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Chat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html">Chat.consumers package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat.admin">Chat.admin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat.apps">Chat.apps module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Chat.apps.ChatConfig"><code class="docutils literal notranslate"><span class="pre">ChatConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat.models">Chat.models module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Chat.models.Message"><code class="docutils literal notranslate"><span class="pre">Message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat.routing">Chat.routing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat.tests">Chat.tests module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat.urls">Chat.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat.views">Chat.views module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Chat.views.lobby"><code class="docutils literal notranslate"><span class="pre">lobby()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Chat">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CodeHub.html">CodeHub package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Codes.html">Codes package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Users.html">Users package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage.html">manage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">test package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CodeHub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">CodeHub</a></li>
+      <li class="breadcrumb-item active">Chat package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Chat.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="chat-package">
+<h1>Chat package<a class="headerlink" href="#chat-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Chat.consumers.html">Chat.consumers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Chat.consumers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers.chat_consumer">Chat.consumers.chat_consumer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer"><code class="docutils literal notranslate"><span class="pre">ChatConsumer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.PAGE_SIZE"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.PAGE_SIZE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_error_handler"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.chat_error_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_message"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.chat_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_message_handler"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.chat_message_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_message_read_handler"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.chat_message_read_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.chat_send_more_messages_handler"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.chat_send_more_messages_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.connect"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.disconnect"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.disconnect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.get_user"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.receive"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.receive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.recipient_change_handler"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.recipient_change_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.save_message"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.save_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.chat_consumer.ChatConsumer.send_messages"><code class="docutils literal notranslate"><span class="pre">ChatConsumer.send_messages()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers.utils">Chat.consumers.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.utils.is_valid_match"><code class="docutils literal notranslate"><span class="pre">is_valid_match()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers.video_consumer">Chat.consumers.video_consumer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer"><code class="docutils literal notranslate"><span class="pre">VideoConsumer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.connect"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.disconnect"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.disconnect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.end_call"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.end_call()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.end_call_handler"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.end_call_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.new_ice_candidate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.new_ice_candidate_handler"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.new_ice_candidate_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.receive"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.receive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_answer_handler"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.video_answer_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_offer"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.video_offer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_offer_handler"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.video_offer_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_rejected_handler"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.video_rejected_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="Chat.consumers.html#Chat.consumers.video_consumer.VideoConsumer.video_result"><code class="docutils literal notranslate"><span class="pre">VideoConsumer.video_result()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Chat.consumers.html#module-Chat.consumers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Chat.admin">
+<span id="chat-admin-module"></span><h2>Chat.admin module<a class="headerlink" href="#module-Chat.admin" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Chat.apps">
+<span id="chat-apps-module"></span><h2>Chat.apps module<a class="headerlink" href="#module-Chat.apps" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Chat.apps.ChatConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Chat.apps.</span></span><span class="sig-name descname"><span class="pre">ChatConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/apps.html#ChatConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.apps.ChatConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.apps.ChatConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#Chat.apps.ChatConfig.default_auto_field" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.apps.ChatConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Chat'</span></em><a class="headerlink" href="#Chat.apps.ChatConfig.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Chat.models">
+<span id="chat-models-module"></span><h2>Chat.models module<a class="headerlink" href="#module-Chat.models" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Chat.models.Message">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Chat.models.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_read</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">send_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_timestamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/models.html#Message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.models.Message" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="Chat.models.Message.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#Chat.models.Message.DoesNotExist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="Chat.models.Message.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#Chat.models.Message.MultipleObjectsReturned" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message._meta">
+<span class="sig-name descname"><span class="pre">_meta</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Options</span> <span class="pre">for</span> <span class="pre">Message&gt;</span></em><a class="headerlink" href="#Chat.models.Message._meta" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.body">
+<span class="sig-name descname"><span class="pre">body</span></span><a class="headerlink" href="#Chat.models.Message.body" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Chat.models.Message.get_next_by_send_timestamp">
+<span class="sig-name descname"><span class="pre">get_next_by_send_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">send_timestamp&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Chat.models.Message.get_next_by_send_timestamp" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Chat.models.Message.get_previous_by_send_timestamp">
+<span class="sig-name descname"><span class="pre">get_previous_by_send_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">send_timestamp&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Chat.models.Message.get_previous_by_send_timestamp" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.is_read">
+<span class="sig-name descname"><span class="pre">is_read</span></span><a class="headerlink" href="#Chat.models.Message.is_read" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.message_id">
+<span class="sig-name descname"><span class="pre">message_id</span></span><a class="headerlink" href="#Chat.models.Message.message_id" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#Chat.models.Message.objects" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.recipient_id">
+<span class="sig-name descname"><span class="pre">recipient_id</span></span><a class="headerlink" href="#Chat.models.Message.recipient_id" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.recipient_id_id">
+<span class="sig-name descname"><span class="pre">recipient_id_id</span></span><a class="headerlink" href="#Chat.models.Message.recipient_id_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.send_timestamp">
+<span class="sig-name descname"><span class="pre">send_timestamp</span></span><a class="headerlink" href="#Chat.models.Message.send_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.sender_id">
+<span class="sig-name descname"><span class="pre">sender_id</span></span><a class="headerlink" href="#Chat.models.Message.sender_id" title="Permalink to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.sender_id_id">
+<span class="sig-name descname"><span class="pre">sender_id_id</span></span><a class="headerlink" href="#Chat.models.Message.sender_id_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Chat.models.Message.view_timestamp">
+<span class="sig-name descname"><span class="pre">view_timestamp</span></span><a class="headerlink" href="#Chat.models.Message.view_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Chat.routing">
+<span id="chat-routing-module"></span><h2>Chat.routing module<a class="headerlink" href="#module-Chat.routing" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Chat.tests">
+<span id="chat-tests-module"></span><h2>Chat.tests module<a class="headerlink" href="#module-Chat.tests" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Chat.urls">
+<span id="chat-urls-module"></span><h2>Chat.urls module<a class="headerlink" href="#module-Chat.urls" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Chat.views">
+<span id="chat-views-module"></span><h2>Chat.views module<a class="headerlink" href="#module-Chat.views" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Chat.views.lobby">
+<span class="sig-prename descclassname"><span class="pre">Chat.views.</span></span><span class="sig-name descname"><span class="pre">lobby</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Chat/views.html#lobby"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Chat.views.lobby" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-Chat">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Chat" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="CodeHub" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Chat.consumers.html" class="btn btn-neutral float-right" title="Chat.consumers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, mpsr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

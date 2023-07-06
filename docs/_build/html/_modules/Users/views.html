@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users.views &mdash; CodeHub 1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CodeHub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">CodeHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CodeHub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Users.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Users.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">login</span><span class="p">,</span> <span class="n">authenticate</span><span class="p">,</span> <span class="n">logout</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.views.decorators.http</span> <span class="kn">import</span> <span class="n">require_POST</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">OuterRef</span><span class="p">,</span> <span class="n">Min</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">Count</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">Subquery</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">FavouritesTags</span><span class="p">,</span> <span class="n">Tag</span><span class="p">,</span> <span class="n">Project</span><span class="p">,</span> <span class="n">Matches</span>
+<span class="kn">from</span> <span class="nn">Codes.models</span> <span class="kn">import</span> <span class="n">Code</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">AddFavouriteTagForm</span><span class="p">,</span> <span class="n">CustomUserCreationForm</span><span class="p">,</span> <span class="n">ProfileForm</span><span class="p">,</span> <span class="n">ChangePasswordForm</span><span class="p">,</span> <span class="n">RemoveFavouriteTagForm</span>
+
+
+<div class="viewcode-block" id="loginUser"><a class="viewcode-back" href="../../Users.html#Users.views.loginUser">[docs]</a><span class="k">def</span> <span class="nf">loginUser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;login&#39;</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;account&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Nie istnieje użytkownik o podanej nazwie.&#39;</span><span class="p">)</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+            <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s1">&#39;next&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;next&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span> <span class="k">else</span> <span class="s1">&#39;account&#39;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Nazwa użytkownika lub hasło jest niepoprawne.&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">page</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;users/login_register.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="logoutUser"><a class="viewcode-back" href="../../Users.html#Users.views.logoutUser">[docs]</a><span class="k">def</span> <span class="nf">logoutUser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># Get logged in user</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="c1"># Update user status</span>
+    <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_active</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Pomyślnie wylogowano!&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="registerUser"><a class="viewcode-back" href="../../Users.html#Users.views.registerUser">[docs]</a><span class="k">def</span> <span class="nf">registerUser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;register&#39;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">email</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+            <span class="c1"># Check if user with the same username or email already exists</span>
+            <span class="k">if</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;Ten adres email jest już w użyciu.&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;Użytkownik o takiej nazwie już istnieje.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Konto użytkownika zostało utworzone!&#39;</span><span class="p">)</span>
+                <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;account&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Wystąpił problem podczas rejestracji&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;users/login_register.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="userAccount"><a class="viewcode-back" href="../../Users.html#Users.views.userAccount">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">userAccount</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;account&#39;</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span>
+
+    <span class="c1"># Get tags and values defined by logged in user</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">favouritestags__user_id</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">tag_id</span><span class="o">=</span><span class="n">OuterRef</span><span class="p">(</span><span class="s1">&#39;pk&#39;</span><span class="p">),</span> <span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-value&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Get all projects created by logged in user</span>
+    <span class="n">projects</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;creation_date&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the top 3 tags for each project</span>
+    <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">:</span>
+        <span class="n">top_tags</span> <span class="o">=</span> <span class="p">(</span><span class="n">Code</span><span class="o">.</span><span class="n">objects</span>
+                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>  <span class="c1"># filter codes by project</span>
+                    <span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;code_tag__name&#39;</span><span class="p">)</span>  <span class="c1"># group by tag name</span>
+                    <span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">tag_count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;code_tag&#39;</span><span class="p">))</span>  <span class="c1"># count number of each tag</span>
+                    <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-tag_count&#39;</span><span class="p">))</span>  <span class="c1"># order by count</span>
+
+        <span class="c1"># Add the tags as a new attribute to the project</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">top_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">top_tags</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+        <span class="s1">&#39;profile&#39;</span><span class="p">:</span> <span class="n">profile</span><span class="p">,</span>
+        <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tags</span><span class="p">,</span>
+        <span class="s1">&#39;projects&#39;</span><span class="p">:</span> <span class="n">projects</span><span class="p">,</span>
+        <span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">page</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;users/account.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="editAccount"><a class="viewcode-back" href="../../Users.html#Users.views.editAccount">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">editAccount</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;edit_account&#39;</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">profile</span>
+    <span class="n">profile_form</span> <span class="o">=</span> <span class="n">ProfileForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">profile</span><span class="p">)</span>
+    <span class="n">password_form</span> <span class="o">=</span> <span class="n">ChangePasswordForm</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;profile_save&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">profile_form</span> <span class="o">=</span> <span class="n">ProfileForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">profile</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">profile_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+                <span class="n">email</span> <span class="o">=</span> <span class="n">profile_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+                <span class="c1"># ToDo: System will set default user avatar if user deletes its current</span>
+
+                <span class="k">if</span> <span class="n">profile_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span> <span class="ow">and</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">profile_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                        <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">profile_form</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s2">&quot;Podany adres e-mail jest już w użyciu.&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">profile_form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
+                    <span class="n">profile_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Dane zostały zaktualizowane.&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;edit_account&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s1">&#39;password_save&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">password_form</span> <span class="o">=</span> <span class="n">ChangePasswordForm</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">password_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+                <span class="n">old_password</span> <span class="o">=</span> <span class="n">password_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;old_password&#39;</span><span class="p">]</span>
+                <span class="n">new_password1</span> <span class="o">=</span> <span class="n">password_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_password1&#39;</span><span class="p">)</span>
+                <span class="n">new_password2</span> <span class="o">=</span> <span class="n">password_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_password2&#39;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">password_form</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="n">old_password</span><span class="p">):</span>
+                    <span class="n">password_form</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="s1">&#39;old_password&#39;</span><span class="p">,</span> <span class="s2">&quot;Podane hasło jest niepoprawne!&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">new_password1</span> <span class="ow">and</span> <span class="n">new_password2</span> <span class="ow">and</span> <span class="n">old_password</span> <span class="o">==</span> <span class="n">new_password1</span><span class="p">:</span>
+                    <span class="n">password_form</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="s1">&#39;new_password1&#39;</span><span class="p">,</span> <span class="s2">&quot;Nowe hasło jest takie same jak stare!&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">new_password1</span> <span class="ow">and</span> <span class="n">new_password2</span> <span class="ow">and</span> <span class="n">new_password2</span> <span class="o">!=</span> <span class="n">new_password1</span><span class="p">:</span>
+                    <span class="n">password_form</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="s1">&#39;new_password2&#39;</span><span class="p">,</span> <span class="s2">&quot;Hasła nie są takie same!&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">password_form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Hasło zostało zmienione. Zaloguj się ponownie.&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;edit_account&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;profile_form&#39;</span><span class="p">:</span> <span class="n">profile_form</span><span class="p">,</span>
+        <span class="s1">&#39;password_form&#39;</span><span class="p">:</span> <span class="n">password_form</span><span class="p">,</span>
+        <span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;users/user_profile_form.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="favouriteTagsView"><a class="viewcode-back" href="../../Users.html#Users.views.favouriteTagsView">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">favouriteTagsView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="n">add_form</span> <span class="o">=</span> <span class="n">AddFavouriteTagForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">remove_form</span> <span class="o">=</span> <span class="n">RemoveFavouriteTagForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;add&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">add_form</span> <span class="o">=</span> <span class="n">AddFavouriteTagForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">add_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="n">add_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;tag_id&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">tag_id</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Ten tag został już dodany.&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Nie możesz dodać więcej niż 10 tagów.&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_fav_tag</span> <span class="o">=</span> <span class="n">add_form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">new_fav_tag</span><span class="o">.</span><span class="n">user_id_id</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span>
+                    <span class="n">lowest_value</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">Min</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">))[</span><span class="s1">&#39;value__min&#39;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">lowest_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">new_fav_tag</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">lowest_value</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">new_fav_tag</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span>
+                    <span class="n">new_fav_tag</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="s1">&#39;remove&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">tag_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">)</span>
+            <span class="n">tag_to_delete</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">tag_id</span><span class="p">)</span>
+            <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">value__lt</span><span class="o">=</span><span class="n">tag_to_delete</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Pomyślnie usunięto tag.&#39;</span><span class="p">)</span>
+            <span class="n">tag_to_delete</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="s1">&#39;increase&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">tag_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">)</span>
+            <span class="n">favourite_tag</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">tag_id</span><span class="p">)</span>
+            <span class="n">next_favourite_tag</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">value__gt</span><span class="o">=</span><span class="n">favourite_tag</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">next_favourite_tag</span><span class="p">:</span>
+                <span class="n">favourite_tag</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">next_favourite_tag</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">next_favourite_tag</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">favourite_tag</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">favourite_tag</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">next_favourite_tag</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="s1">&#39;decrease&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+            <span class="n">tag_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">)</span>
+            <span class="n">favourite_tag</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">tag_id</span><span class="p">)</span>
+            <span class="n">previous_favourite_tag</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">value__lt</span><span class="o">=</span><span class="n">favourite_tag</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-value&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">previous_favourite_tag</span><span class="p">:</span>
+                <span class="n">favourite_tag</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">previous_favourite_tag</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">previous_favourite_tag</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">favourite_tag</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">favourite_tag</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">previous_favourite_tag</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+        <span class="s1">&#39;add_form&#39;</span><span class="p">:</span> <span class="n">add_form</span><span class="p">,</span>
+        <span class="s1">&#39;remove_form&#39;</span><span class="p">:</span> <span class="n">remove_form</span><span class="p">,</span>
+        <span class="s1">&#39;favourite_tags&#39;</span><span class="p">:</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-value&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Users/favourite_tags.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="changeFavoriteProject"><a class="viewcode-back" href="../../Users.html#Users.views.changeFavoriteProject">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">changeFavoriteProject</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">project_id</span><span class="p">):</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">project</span><span class="o">.</span><span class="n">owner</span> <span class="o">!=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Nie jesteś właścicielem tego projektu.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;account&#39;</span><span class="p">)</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">favorite_project</span> <span class="o">=</span> <span class="n">project</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;account&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="findBestMatch"><a class="viewcode-back" href="../../Users.html#Users.views.findBestMatch">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">findBestMatch</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># get the current logged in user</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="c1"># get the favourite tags of the logged in user</span>
+    <span class="n">user_tags</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="c1"># get a list of user ids who are already matched with the logged in user</span>
+    <span class="n">matched_users</span> <span class="o">=</span> <span class="n">Matches</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">first_user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">second_user</span><span class="o">=</span><span class="n">user</span><span class="p">))</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s1">&#39;first_user&#39;</span><span class="p">,</span> <span class="s1">&#39;second_user&#39;</span><span class="p">)</span>
+
+    <span class="c1"># flatten the list of matched users</span>
+    <span class="n">matched_user_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">matched_users</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+    <span class="n">matched_user_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="c1"># create an empty dictionary to store the scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+    <span class="c1"># iterate over all users</span>
+    <span class="k">for</span> <span class="n">other_user</span> <span class="ow">in</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">id__in</span><span class="o">=</span><span class="n">matched_user_ids</span><span class="p">):</span>
+        <span class="c1"># get the favourite tags of the other user</span>
+        <span class="n">other_user_tags</span> <span class="o">=</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">other_user</span><span class="p">)</span>
+
+        <span class="c1"># calculate the score for the other user</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">user_tag</span> <span class="ow">in</span> <span class="n">user_tags</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">other_tag</span> <span class="ow">in</span> <span class="n">other_user_tags</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">user_tag</span><span class="o">.</span><span class="n">tag_id</span> <span class="o">==</span> <span class="n">other_tag</span><span class="o">.</span><span class="n">tag_id</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">+=</span> <span class="n">user_tag</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">other_tag</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="c1"># store the score for the other user</span>
+        <span class="n">scores</span><span class="p">[</span><span class="n">other_user</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+
+    <span class="c1"># Check if scores dictionary is not empty</span>
+    <span class="k">if</span> <span class="n">scores</span><span class="p">:</span>
+        <span class="c1"># find the user with the maximum score</span>
+        <span class="n">best_match_user_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">scores</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+        <span class="n">best_match_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">best_match_user_id</span><span class="p">)</span>
+
+        <span class="c1"># Get tags and values defined by best match user</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">favouritestags__user_id</span><span class="o">=</span><span class="n">best_match_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">Subquery</span><span class="p">(</span><span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">tag_id</span><span class="o">=</span><span class="n">OuterRef</span><span class="p">(</span><span class="s1">&#39;pk&#39;</span><span class="p">),</span> <span class="n">user_id</span><span class="o">=</span><span class="n">best_match_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">))</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-value&#39;</span><span class="p">)</span>
+
+
+        <span class="c1"># Get favorite project of the best match user</span>
+        <span class="n">favorite_project_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">best_match_user</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">favorite_project</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">favorite_project_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">project</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">favorite_project_id</span><span class="p">)</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="n">Code</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-creation_date&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">project</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;best_match_user&#39;</span><span class="p">:</span> <span class="n">best_match_user</span><span class="p">,</span>
+            <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tags</span><span class="p">,</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span>
+            <span class="s1">&#39;codes&#39;</span><span class="p">:</span> <span class="n">codes</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Aktualnie nie ma więcej użytkowników, których moglibyśmy do Ciebie dopasować.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;account&#39;</span><span class="p">)</span>
+
+    <span class="c1"># return the result</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Users/best_match.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="acceptMatch"><a class="viewcode-back" href="../../Users.html#Users.views.acceptMatch">[docs]</a><span class="nd">@require_POST</span>
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">acceptMatch</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="c1"># Get the other user</span>
+    <span class="n">other_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+
+    <span class="c1"># Create a new Match object with first_status=True</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">Matches</span><span class="p">(</span><span class="n">first_user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">second_user</span><span class="o">=</span><span class="n">other_user</span><span class="p">,</span> <span class="n">first_status</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">second_status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">match</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;find_best_match&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="rejectMatch"><a class="viewcode-back" href="../../Users.html#Users.views.rejectMatch">[docs]</a><span class="nd">@require_POST</span>
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">rejectMatch</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="c1"># Get the other user</span>
+    <span class="n">other_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+
+    <span class="c1"># Create a new Match object with first_status=False</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">Matches</span><span class="p">(</span><span class="n">first_user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">second_user</span><span class="o">=</span><span class="n">other_user</span><span class="p">,</span> <span class="n">first_status</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">second_status</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">match</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;find_best_match&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="getOldestLike"><a class="viewcode-back" href="../../Users.html#Users.views.getOldestLike">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">getOldestLike</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># pobierz aktualnie zalogowanego użytkownika</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="c1"># szukaj pasujących rekordów, gdzie zalogowany użytkownik jest &#39;second_user&#39;,</span>
+    <span class="c1"># &#39;first_status&#39; jest True, a &#39;second_status&#39; jest None</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">Matches</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">second_user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">first_status</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">second_status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># jeśli nie znaleziono żadnego pasującego rekordu, oldest_match będzie None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Aktualnie nie masz żadnych polubień swojego profilu.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;account&#39;</span><span class="p">)</span>
+
+    <span class="c1"># znajdź najstarszy z pasujących rekordów</span>
+    <span class="n">oldest_match</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">earliest</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Get tags and values defined by best match user</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">favouritestags__user_id</span><span class="o">=</span><span class="n">oldest_match</span><span class="o">.</span><span class="n">first_user</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">Subquery</span><span class="p">(</span><span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">tag_id</span><span class="o">=</span><span class="n">OuterRef</span><span class="p">(</span><span class="s1">&#39;pk&#39;</span><span class="p">),</span> <span class="n">user_id</span><span class="o">=</span><span class="n">oldest_match</span><span class="o">.</span><span class="n">first_user</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">))</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-value&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Get favorite project of the best match user</span>
+    <span class="n">favorite_project_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">oldest_match</span><span class="o">.</span><span class="n">first_user</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">favorite_project</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">favorite_project_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">favorite_project_id</span><span class="p">)</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="n">Code</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-creation_date&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;matched_user&#39;</span><span class="p">:</span> <span class="n">oldest_match</span><span class="o">.</span><span class="n">first_user</span><span class="p">,</span>
+            <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tags</span><span class="p">,</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span>
+            <span class="s1">&#39;codes&#39;</span><span class="p">:</span> <span class="n">codes</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Users/oldest_like.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="acceptLike"><a class="viewcode-back" href="../../Users.html#Users.views.acceptLike">[docs]</a><span class="nd">@require_POST</span>
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">acceptLike</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="c1"># Pobierz innego użytkownika</span>
+    <span class="n">other_user</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+
+    <span class="c1"># Znajdź obiekt Matches, który spełnia określone kryteria</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Matches</span><span class="p">,</span>
+                              <span class="n">first_user</span><span class="o">=</span><span class="n">other_user</span><span class="p">,</span>
+                              <span class="n">second_user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                              <span class="n">first_status</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">second_status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Zaktualizuj wartość second_status na True</span>
+    <span class="k">match</span><span class="o">.</span><span class="n">second_status</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">match</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;get_oldest_like&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="rejectLike"><a class="viewcode-back" href="../../Users.html#Users.views.rejectLike">[docs]</a><span class="nd">@require_POST</span>
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">rejectLike</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="c1"># Pobierz innego użytkownika</span>
+    <span class="n">other_user</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+
+    <span class="c1"># Znajdź obiekt Matches, który spełnia określone kryteria</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Matches</span><span class="p">,</span>
+                              <span class="n">first_user</span><span class="o">=</span><span class="n">other_user</span><span class="p">,</span>
+                              <span class="n">second_user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                              <span class="n">first_status</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">second_status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Zaktualizuj wartość second_status na True</span>
+    <span class="k">match</span><span class="o">.</span><span class="n">second_status</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">match</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;get_oldest_like&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, mpsr.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
