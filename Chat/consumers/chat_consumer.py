@@ -200,10 +200,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
              Q(sender_id=self.scope['user'], recipient_id=data['recipient']))
             & Q(view_timestamp__isnull=True)
         )
-
-        if messages:
-            messages.update(view_timestamp=timezone.now())
-            messages.update(is_read=True)
+        for message in messages:
+            message.view_timestamp = timezone.now()
+            message.is_read = True
+            message.save()
 
     async def send_messages(self, recipient_id):
         """
