@@ -80,6 +80,32 @@
 <span class="c1"># Create your models here.</span>
 
 <div class="viewcode-block" id="Profile"><a class="viewcode-back" href="../../Users.html#Users.forms.Profile">[docs]</a><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class used to represent the Profile model.</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    user (User): One-to-one relation with User model</span>
+<span class="sd">    is_active (bool): To indicate whether the user is active</span>
+<span class="sd">    city (str): The city of the user</span>
+<span class="sd">    age (int): The age of the user</span>
+<span class="sd">    bio (str): The bio of the user</span>
+<span class="sd">    profile_image (ImageField): The profile image of the user</span>
+<span class="sd">    gender (str): The gender of the user</span>
+<span class="sd">    social_github (str): The github account link of the user</span>
+<span class="sd">    social_twitter (str): The twitter account link of the user</span>
+<span class="sd">    social_youtube (str): The youtube account link of the user</span>
+<span class="sd">    social_linkedin (str): The linkedin account link of the user</span>
+<span class="sd">    social_facebook (str): The facebook account link of the user</span>
+<span class="sd">    favorite_project (Project): The favorite project of the user</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">    __str__(): Returns the string representation of the user</span>
+<span class="sd">    imageURL: Returns the URL of the user&#39;s profile image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">GENDER_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;Mężczyzna&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="s1">&#39;Kobieta&#39;</span><span class="p">),</span>
@@ -104,6 +130,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">imageURL</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the URL of the user&#39;s profile image.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        str: The URL of the profile image</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_image</span><span class="o">.</span><span class="n">url</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -111,6 +143,23 @@
         <span class="k">return</span> <span class="n">url</span></div>
 
 <div class="viewcode-block" id="Matches"><a class="viewcode-back" href="../../Users.html#Users.forms.Matches">[docs]</a><span class="k">class</span> <span class="nc">Matches</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class used to represent the Matches model.</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    id (UUIDField): The UUID of the match</span>
+<span class="sd">    first_user (User): The first user involved in the match</span>
+<span class="sd">    second_user (User): The second user involved in the match</span>
+<span class="sd">    first_status (bool): The status of the first user</span>
+<span class="sd">    second_status (bool): The status of the second user</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">    __str__(): Returns the string representation of the match</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">UUIDField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">first_user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;first_user&#39;</span><span class="p">)</span>
     <span class="n">second_user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;second_user&#39;</span><span class="p">)</span>
@@ -122,6 +171,22 @@
 
 
 <div class="viewcode-block" id="FavouritesTags"><a class="viewcode-back" href="../../Users.html#Users.forms.FavouritesTags">[docs]</a><span class="k">class</span> <span class="nc">FavouritesTags</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class used to represent the FavouritesTags model.</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    id (UUIDField): The UUID of the favourite tag</span>
+<span class="sd">    user_id (User): The user to which the tag belongs</span>
+<span class="sd">    tag_id (Tag): The tag that is marked as favourite</span>
+<span class="sd">    value (int): The value of the tag</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">    __str__(): Returns the string representation of the favourite tag</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">UUIDField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">user_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
     <span class="n">tag_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Tag</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>

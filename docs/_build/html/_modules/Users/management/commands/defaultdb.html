@@ -134,9 +134,24 @@
 <span class="p">}</span>
 
 <div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.defaultdb.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Django management command class that populates the database with default</span>
+<span class="sd">    users, tags, and other required items.</span>
+
+<span class="sd">    :param BaseCommand: Inherits from Django&#39;s BaseCommand class.</span>
+<span class="sd">    :type BaseCommand: class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">help</span> <span class="o">=</span> <span class="s1">&#39;Populates the database with default users, tags and other needed stuff&#39;</span>
 
 <div class="viewcode-block" id="Command.handle"><a class="viewcode-back" href="../../../../Users.management.commands.html#Users.management.commands.defaultdb.Command.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The function that executes the command logic.</span>
+
+<span class="sd">        :param args: Command arguments.</span>
+<span class="sd">        :type args: tuple</span>
+<span class="sd">        :param kwargs: Command keyword arguments.</span>
+<span class="sd">        :type kwargs: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># create default admins</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">admins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>

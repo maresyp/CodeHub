@@ -82,6 +82,14 @@
 
 
 <div class="viewcode-block" id="loginUser"><a class="viewcode-back" href="../../Users.html#Users.views.loginUser">[docs]</a><span class="k">def</span> <span class="nf">loginUser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Login a user.</span>
+
+<span class="sd">    :param request: A Django HttpRequest object.</span>
+<span class="sd">    :type request: django.http.HttpRequest</span>
+<span class="sd">    :returns:  A Django HttpResponse object.</span>
+<span class="sd">    :rtype: django.http.HttpResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;login&#39;</span>
 
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
@@ -111,6 +119,14 @@
 
 
 <div class="viewcode-block" id="logoutUser"><a class="viewcode-back" href="../../Users.html#Users.views.logoutUser">[docs]</a><span class="k">def</span> <span class="nf">logoutUser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logout a user.</span>
+
+<span class="sd">    :param request: A Django HttpRequest object.</span>
+<span class="sd">    :type request: django.http.HttpRequest</span>
+<span class="sd">    :returns:  A Django HttpResponse object.</span>
+<span class="sd">    :rtype: django.http.HttpResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Get logged in user</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
 
@@ -123,6 +139,14 @@
 
 
 <div class="viewcode-block" id="registerUser"><a class="viewcode-back" href="../../Users.html#Users.views.registerUser">[docs]</a><span class="k">def</span> <span class="nf">registerUser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Register a new user.</span>
+
+<span class="sd">    :param request: A Django HttpRequest object.</span>
+<span class="sd">    :type request: django.http.HttpRequest</span>
+<span class="sd">    :returns:  A Django HttpResponse object.</span>
+<span class="sd">    :rtype: django.http.HttpResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;register&#39;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">()</span>
 
@@ -156,6 +180,14 @@
 
 <div class="viewcode-block" id="userAccount"><a class="viewcode-back" href="../../Users.html#Users.views.userAccount">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">userAccount</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve account details of the logged in user, user&#39;s projects and favourite tags.</span>
+
+<span class="sd">    :param request: A Django HttpRequest object.</span>
+<span class="sd">    :type request: django.http.HttpRequest</span>
+<span class="sd">    :returns:  A Django HttpResponse object.</span>
+<span class="sd">    :rtype: django.http.HttpResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;account&#39;</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
     <span class="n">profile</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span>
@@ -191,6 +223,14 @@
 
 <div class="viewcode-block" id="editAccount"><a class="viewcode-back" href="../../Users.html#Users.views.editAccount">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">editAccount</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enable the logged in user to edit their account details and password.</span>
+
+<span class="sd">    :param request: A Django HttpRequest object.</span>
+<span class="sd">    :type request: django.http.HttpRequest</span>
+<span class="sd">    :returns:  A Django HttpResponse object.</span>
+<span class="sd">    :rtype: django.http.HttpResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;edit_account&#39;</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
     <span class="n">profile</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">profile</span>
@@ -242,6 +282,14 @@
 
 <div class="viewcode-block" id="favouriteTagsView"><a class="viewcode-back" href="../../Users.html#Users.views.favouriteTagsView">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">favouriteTagsView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    View and manage the favourite tags of the logged in user.</span>
+
+<span class="sd">    :param request: A Django HttpRequest object.</span>
+<span class="sd">    :type request: django.http.HttpRequest</span>
+<span class="sd">    :returns:  A Django HttpResponse object.</span>
+<span class="sd">    :rtype: django.http.HttpResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
     <span class="n">add_form</span> <span class="o">=</span> <span class="n">AddFavouriteTagForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
     <span class="n">remove_form</span> <span class="o">=</span> <span class="n">RemoveFavouriteTagForm</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
@@ -300,6 +348,19 @@
 
 <div class="viewcode-block" id="changeFavoriteProject"><a class="viewcode-back" href="../../Users.html#Users.views.changeFavoriteProject">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">changeFavoriteProject</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">project_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change the favorite project of the currently logged-in user.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request instance.</span>
+<span class="sd">        project_id (int): The ID of the project to be set as favorite.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: Redirect to the &#39;account&#39; view.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Http404: The project with provided ID does not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">project</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">project</span><span class="o">.</span><span class="n">owner</span> <span class="o">!=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
         <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Nie jesteś właścicielem tego projektu.&#39;</span><span class="p">)</span>
@@ -312,6 +373,16 @@
 
 <div class="viewcode-block" id="findBestMatch"><a class="viewcode-back" href="../../Users.html#Users.views.findBestMatch">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">findBestMatch</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the user with the most matching favorite tags compared to the currently logged-in user.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request instance.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: Render the &#39;Users/best_match.html&#39; template.</span>
+<span class="sd">        HttpResponseRedirect: Redirect to the &#39;account&#39; view if no other users are available to match.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># get the current logged in user</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
 
@@ -382,6 +453,16 @@
 <div class="viewcode-block" id="acceptMatch"><a class="viewcode-back" href="../../Users.html#Users.views.acceptMatch">[docs]</a><span class="nd">@require_POST</span>
 <span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">acceptMatch</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accept a match by creating a new Match instance with the first_status set to True.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request instance.</span>
+<span class="sd">        user_id (int): The ID of the user to be matched with.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: Redirect to the &#39;find_best_match&#39; view.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Get the other user</span>
     <span class="n">other_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
 
@@ -394,6 +475,16 @@
 <div class="viewcode-block" id="rejectMatch"><a class="viewcode-back" href="../../Users.html#Users.views.rejectMatch">[docs]</a><span class="nd">@require_POST</span>
 <span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">rejectMatch</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reject a match by creating a new Match instance with the first_status set to False.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request instance.</span>
+<span class="sd">        user_id (int): The ID of the user to be matched with.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: Redirect to the &#39;find_best_match&#39; view.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Get the other user</span>
     <span class="n">other_user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
 
@@ -405,6 +496,16 @@
 
 <div class="viewcode-block" id="getOldestLike"><a class="viewcode-back" href="../../Users.html#Users.views.getOldestLike">[docs]</a><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">getOldestLike</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the oldest like received by the currently logged-in user.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request instance.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: Render the &#39;Users/oldest_like.html&#39; template.</span>
+<span class="sd">        HttpResponseRedirect: Redirect to the &#39;account&#39; view if there are no likes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># pobierz aktualnie zalogowanego użytkownika</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
 
@@ -446,6 +547,19 @@
 <div class="viewcode-block" id="acceptLike"><a class="viewcode-back" href="../../Users.html#Users.views.acceptLike">[docs]</a><span class="nd">@require_POST</span>
 <span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">acceptLike</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accept a like by setting the second_status of the Match instance to True.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request instance.</span>
+<span class="sd">        user_id (int): The ID of the user who liked the currently logged-in user.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: Redirect to the &#39;get_oldest_like&#39; view.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Http404: The match instance does not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Pobierz innego użytkownika</span>
     <span class="n">other_user</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
 
@@ -465,6 +579,19 @@
 <div class="viewcode-block" id="rejectLike"><a class="viewcode-back" href="../../Users.html#Users.views.rejectLike">[docs]</a><span class="nd">@require_POST</span>
 <span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">rejectLike</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reject a like by setting the second_status of the Match instance to False.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request instance.</span>
+<span class="sd">        user_id (int): The ID of the user who liked the currently logged-in user.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: Redirect to the &#39;get_oldest_like&#39; view.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Http404: The match instance does not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Pobierz innego użytkownika</span>
     <span class="n">other_user</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
 

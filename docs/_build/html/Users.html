@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="manage module" href="manage.html" />
+    <link rel="next" title="Users.management package" href="Users.management.html" />
     <link rel="prev" title="Codes.anti_plagiarism package" href="Codes.anti_plagiarism.html" /> 
 </head>
 
@@ -49,13 +49,18 @@
 <li class="toctree-l2"><a class="reference internal" href="CodeHub.html">CodeHub package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Codes.html">Codes package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Users package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.management.html">Users.management package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-Users.admin">Users.admin module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-Users.apps">Users.apps module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Users.apps.UsersConfig"><code class="docutils literal notranslate"><span class="pre">UsersConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Users.context_processors">Users.context_processors module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Users.context_processors.count_matches"><code class="docutils literal notranslate"><span class="pre">count_matches()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-Users.forms">Users.forms module</a><ul>
@@ -135,6 +140,22 @@
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Users.management.html">Users.management package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Users.management.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Users.management.commands.html">Users.management.commands package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Users.management.commands.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.management.commands.html#module-Users.management.commands.defaultdb">Users.management.commands.defaultdb module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.management.commands.html#module-Users.management.commands.populate">Users.management.commands.populate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Users.management.commands.html#module-Users.management.commands">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Users.management.html#module-Users.management">Module contents</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </section>
 <section id="submodules">
@@ -168,12 +189,26 @@
 </dd></dl>
 
 </section>
+<section id="module-Users.context_processors">
+<span id="users-context-processors-module"></span><h2>Users.context_processors module<a class="headerlink" href="#module-Users.context_processors" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Users.context_processors.count_matches">
+<span class="sig-prename descclassname"><span class="pre">Users.context_processors.</span></span><span class="sig-name descname"><span class="pre">count_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/context_processors.html#count_matches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.context_processors.count_matches" title="Permalink to this definition"></a></dt>
+<dd><p>Function to count the number of matches for the authenticated user where <cite>first_status</cite> is True and <cite>second_status</cite> is null.</p>
+<p>Parameters:
+request (WSGIRequest): An HttpRequest instance.</p>
+<p>Returns:
+dict: A dictionary containing <cite>matches_count</cite> key with the count of matches as value. Returns an empty dictionary if user is not authenticated.</p>
+</dd></dl>
+
+</section>
 <section id="module-Users.forms">
 <span id="users-forms-module"></span><h2>Users.forms module<a class="headerlink" href="#module-Users.forms" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="Users.forms.AddFavouriteTagForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.forms.</span></span><span class="sig-name descname"><span class="pre">AddFavouriteTagForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#AddFavouriteTagForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.AddFavouriteTagForm" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<p>A form for adding a favorite tag to a user.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Users.forms.AddFavouriteTagForm.Meta">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/Users/forms.html#AddFavouriteTagForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.AddFavouriteTagForm.Meta" title="Permalink to this definition"></a></dt>
@@ -209,7 +244,19 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Users.forms.AddFavouriteTagForm.clean_tag_id">
 <span class="sig-name descname"><span class="pre">clean_tag_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#AddFavouriteTagForm.clean_tag_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.AddFavouriteTagForm.clean_tag_id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Validate the tag ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValidationError</strong> – If the user already has 10 favorite tags.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cleaned tag ID.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Users.forms.AddFavouriteTagForm.declared_fields">
@@ -228,6 +275,7 @@
 <dt class="sig sig-object py" id="Users.forms.ChangePasswordForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.forms.</span></span><span class="sig-name descname"><span class="pre">ChangePasswordForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#ChangePasswordForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.ChangePasswordForm" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Form</span></code></p>
+<p>A form for changing a user’s password.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Users.forms.ChangePasswordForm.base_fields">
 <span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'new_password1':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'new_password2':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'old_password':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#Users.forms.ChangePasswordForm.base_fields" title="Permalink to this definition"></a></dt>
@@ -247,7 +295,19 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Users.forms.ChangePasswordForm.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#ChangePasswordForm.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.ChangePasswordForm.save" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Change the user’s password and save the User instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>commit</strong> (<em>bool</em>) – Whether to save the form to the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated User instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>User</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -255,6 +315,9 @@
 <dt class="sig sig-object py" id="Users.forms.CustomUserCreationForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.forms.</span></span><span class="sig-name descname"><span class="pre">CustomUserCreationForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#CustomUserCreationForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.CustomUserCreationForm" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserCreationForm</span></code></p>
+<p>A custom user creation form based on Django’s UserCreationForm.</p>
+<p>This form updates the attributes of its fields and uses a custom list of
+fields.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Users.forms.CustomUserCreationForm.Meta">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/Users/forms.html#CustomUserCreationForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.CustomUserCreationForm.Meta" title="Permalink to this definition"></a></dt>
@@ -304,6 +367,7 @@
 <dt class="sig sig-object py" id="Users.forms.ProfileForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.forms.</span></span><span class="sig-name descname"><span class="pre">ProfileForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#ProfileForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.ProfileForm" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<p>A form for creating and editing Profile instances.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Users.forms.ProfileForm.Meta">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/Users/forms.html#ProfileForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.ProfileForm.Meta" title="Permalink to this definition"></a></dt>
@@ -350,9 +414,18 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Users.forms.ProfileForm.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#ProfileForm.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.ProfileForm.save" title="Permalink to this definition"></a></dt>
-<dd><p>Save this form’s self.instance object if commit=True. Otherwise, add
-a save_m2m() method to the form which can be called after the instance
-is saved manually at a later time. Return the model instance.</p>
+<dd><p>Save the form.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>commit</strong> (<em>bool</em>) – Whether to save the form to the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The saved Profile instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Users.models.Profile" title="Users.models.Profile">Profile</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -361,6 +434,7 @@ is saved manually at a later time. Return the model instance.</p>
 <dt class="sig sig-object py" id="Users.forms.RemoveFavouriteTagForm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.forms.</span></span><span class="sig-name descname"><span class="pre">RemoveFavouriteTagForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#RemoveFavouriteTagForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.RemoveFavouriteTagForm" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Form</span></code></p>
+<p>A form for removing a favorite tag from a user.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Users.forms.RemoveFavouriteTagForm.base_fields">
 <span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'tag_id':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#Users.forms.RemoveFavouriteTagForm.base_fields" title="Permalink to this definition"></a></dt>
@@ -369,7 +443,20 @@ is saved manually at a later time. Return the model instance.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Users.forms.RemoveFavouriteTagForm.clean_tag_id">
 <span class="sig-name descname"><span class="pre">clean_tag_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/forms.html#RemoveFavouriteTagForm.clean_tag_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.forms.RemoveFavouriteTagForm.clean_tag_id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Validate the tag ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValidationError</strong> – If the user doesn’t have the given tag as a
+favorite.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cleaned tag ID.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Users.forms.RemoveFavouriteTagForm.declared_fields">
@@ -389,8 +476,18 @@ is saved manually at a later time. Return the model instance.</p>
 <span id="users-models-module"></span><h2>Users.models module<a class="headerlink" href="#module-Users.models" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="Users.models.FavouritesTags">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.models.</span></span><span class="sig-name descname"><span class="pre">FavouritesTags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/models.html#FavouritesTags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.models.FavouritesTags" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.models.</span></span><span class="sig-name descname"><span class="pre">FavouritesTags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/models.html#FavouritesTags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.models.FavouritesTags" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>A class used to represent the FavouritesTags model.</p>
+<p>…</p>
+<p>Attributes:
+id (UUIDField): The UUID of the favourite tag
+user_id (User): The user to which the tag belongs
+tag_id (Tag): The tag that is marked as favourite
+value (int): The value of the tag</p>
+<p>…</p>
+<p>Methods:
+__str__(): Returns the string representation of the favourite tag</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="Users.models.FavouritesTags.DoesNotExist">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#Users.models.FavouritesTags.DoesNotExist" title="Permalink to this definition"></a></dt>
@@ -467,8 +564,19 @@ object the first time, the query is executed.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="Users.models.Matches">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.models.</span></span><span class="sig-name descname"><span class="pre">Matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/models.html#Matches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.models.Matches" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.models.</span></span><span class="sig-name descname"><span class="pre">Matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/models.html#Matches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.models.Matches" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>A class used to represent the Matches model.</p>
+<p>…</p>
+<p>Attributes:
+id (UUIDField): The UUID of the match
+first_user (User): The first user involved in the match
+second_user (User): The second user involved in the match
+first_status (bool): The status of the first user
+second_status (bool): The status of the second user</p>
+<p>…</p>
+<p>Methods:
+__str__(): Returns the string representation of the match</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="Users.models.Matches.DoesNotExist">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#Users.models.Matches.DoesNotExist" title="Permalink to this definition"></a></dt>
@@ -552,8 +660,28 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="Users.models.Profile">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.models.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">profile_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">social_github</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">social_twitter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">social_youtube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">social_linkedin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">social_facebook</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">favorite_project</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/models.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.models.Profile" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Users.models.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/models.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.models.Profile" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>A class used to represent the Profile model.</p>
+<p>…</p>
+<p>Attributes:
+user (User): One-to-one relation with User model
+is_active (bool): To indicate whether the user is active
+city (str): The city of the user
+age (int): The age of the user
+bio (str): The bio of the user
+profile_image (ImageField): The profile image of the user
+gender (str): The gender of the user
+social_github (str): The github account link of the user
+social_twitter (str): The twitter account link of the user
+social_youtube (str): The youtube account link of the user
+social_linkedin (str): The linkedin account link of the user
+social_facebook (str): The facebook account link of the user
+favorite_project (Project): The favorite project of the user</p>
+<p>…</p>
+<p>Methods:
+__str__(): Returns the string representation of the user
+imageURL: Returns the URL of the user’s profile image</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="Users.models.Profile.DoesNotExist">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#Users.models.Profile.DoesNotExist" title="Permalink to this definition"></a></dt>
@@ -637,7 +765,10 @@ object the first time, the query is executed.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="Users.models.Profile.imageURL">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">imageURL</span></span><a class="headerlink" href="#Users.models.Profile.imageURL" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Returns the URL of the user’s profile image.</p>
+<p>Returns:
+str: The URL of the profile image</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Users.models.Profile.is_active">
@@ -718,17 +849,46 @@ object the first time, the query is executed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.signals.createProfile">
 <span class="sig-prename descclassname"><span class="pre">Users.signals.</span></span><span class="sig-name descname"><span class="pre">createProfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/signals.html#createProfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.signals.createProfile" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Signal for creating a Profile instance whenever a new User is created.</p>
+<p>This signal receiver listens to the post_save signal sent by User model
+and creates a new Profile instance associated with the User.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>sender (model): The model that sends the signal.
+instance (User instance): The instance of User model that has been saved.
+created (bool): A boolean value indicating whether a new record was created.
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Arbitrary keyword arguments.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.signals.delete_user">
 <span class="sig-prename descclassname"><span class="pre">Users.signals.</span></span><span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/signals.html#delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.signals.delete_user" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Signal for deleting a User instance when associated Profile is deleted.</p>
+<p>This signal receiver listens to the post_delete signal sent by Profile model
+and deletes the associated User instance.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>sender (model): The model that sends the signal.
+instance (Profile instance): The instance of Profile model that has been deleted.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Arbitrary keyword arguments.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.signals.notify_about_new_match">
 <span class="sig-prename descclassname"><span class="pre">Users.signals.</span></span><span class="sig-name descname"><span class="pre">notify_about_new_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/signals.html#notify_about_new_match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.signals.notify_about_new_match" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Signal to notify about a new match.</p>
+<p>This signal receiver listens to the post_save signal sent by Matches model.
+If a user is currently inside a chat, the new match should appear inside the friend list.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>sender (model): The model that sends the signal.
+instance (Matches instance): The instance of Matches model that has been saved.
+created (bool): A boolean value indicating whether a new record was created.
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Arbitrary keyword arguments.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-Users.tests">
@@ -742,67 +902,201 @@ object the first time, the query is executed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.acceptLike">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">acceptLike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#acceptLike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.acceptLike" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Accept a like by setting the second_status of the Match instance to True.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (HttpRequest): The request instance.
+user_id (int): The ID of the user who liked the currently logged-in user.</p>
+</dd>
+<dt>Returns:</dt><dd><p>HttpResponseRedirect: Redirect to the ‘get_oldest_like’ view.</p>
+</dd>
+<dt>Raises:</dt><dd><p>Http404: The match instance does not exist.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.acceptMatch">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">acceptMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#acceptMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.acceptMatch" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Accept a match by creating a new Match instance with the first_status set to True.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (HttpRequest): The request instance.
+user_id (int): The ID of the user to be matched with.</p>
+</dd>
+<dt>Returns:</dt><dd><p>HttpResponseRedirect: Redirect to the ‘find_best_match’ view.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.changeFavoriteProject">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">changeFavoriteProject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#changeFavoriteProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.changeFavoriteProject" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Change the favorite project of the currently logged-in user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (HttpRequest): The request instance.
+project_id (int): The ID of the project to be set as favorite.</p>
+</dd>
+<dt>Returns:</dt><dd><p>HttpResponseRedirect: Redirect to the ‘account’ view.</p>
+</dd>
+<dt>Raises:</dt><dd><p>Http404: The project with provided ID does not exist.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.editAccount">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">editAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#editAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.editAccount" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Enable the logged in user to edit their account details and password.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – A Django HttpRequest object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Django HttpResponse object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.favouriteTagsView">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">favouriteTagsView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#favouriteTagsView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.favouriteTagsView" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>View and manage the favourite tags of the logged in user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – A Django HttpRequest object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Django HttpResponse object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.findBestMatch">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">findBestMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#findBestMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.findBestMatch" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Find the user with the most matching favorite tags compared to the currently logged-in user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (HttpRequest): The request instance.</p>
+</dd>
+<dt>Returns:</dt><dd><p>HttpResponse: Render the ‘Users/best_match.html’ template.
+HttpResponseRedirect: Redirect to the ‘account’ view if no other users are available to match.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.getOldestLike">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">getOldestLike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#getOldestLike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.getOldestLike" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Get the oldest like received by the currently logged-in user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (HttpRequest): The request instance.</p>
+</dd>
+<dt>Returns:</dt><dd><p>HttpResponse: Render the ‘Users/oldest_like.html’ template.
+HttpResponseRedirect: Redirect to the ‘account’ view if there are no likes.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.loginUser">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">loginUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#loginUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.loginUser" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Login a user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – A Django HttpRequest object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Django HttpResponse object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.logoutUser">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">logoutUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#logoutUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.logoutUser" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Logout a user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – A Django HttpRequest object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Django HttpResponse object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.registerUser">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">registerUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#registerUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.registerUser" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Register a new user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – A Django HttpRequest object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Django HttpResponse object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.rejectLike">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">rejectLike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#rejectLike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.rejectLike" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Reject a like by setting the second_status of the Match instance to False.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (HttpRequest): The request instance.
+user_id (int): The ID of the user who liked the currently logged-in user.</p>
+</dd>
+<dt>Returns:</dt><dd><p>HttpResponseRedirect: Redirect to the ‘get_oldest_like’ view.</p>
+</dd>
+<dt>Raises:</dt><dd><p>Http404: The match instance does not exist.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.rejectMatch">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">rejectMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#rejectMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.rejectMatch" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Reject a match by creating a new Match instance with the first_status set to False.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (HttpRequest): The request instance.
+user_id (int): The ID of the user to be matched with.</p>
+</dd>
+<dt>Returns:</dt><dd><p>HttpResponseRedirect: Redirect to the ‘find_best_match’ view.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Users.views.userAccount">
 <span class="sig-prename descclassname"><span class="pre">Users.views.</span></span><span class="sig-name descname"><span class="pre">userAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Users/views.html#userAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Users.views.userAccount" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Retrieve account details of the logged in user, user’s projects and favourite tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – A Django HttpRequest object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Django HttpResponse object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-Users">
@@ -815,7 +1109,7 @@ object the first time, the query is executed.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Codes.anti_plagiarism.html" class="btn btn-neutral float-left" title="Codes.anti_plagiarism package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="manage.html" class="btn btn-neutral float-right" title="manage module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Users.management.html" class="btn btn-neutral float-right" title="Users.management package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -78,6 +78,18 @@
 
 <div class="viewcode-block" id="createProfile"><a class="viewcode-back" href="../../Users.html#Users.signals.createProfile">[docs]</a><span class="nd">@receiver</span><span class="p">(</span><span class="n">post_save</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">User</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">createProfile</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">created</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Signal for creating a Profile instance whenever a new User is created.</span>
+
+<span class="sd">    This signal receiver listens to the post_save signal sent by User model</span>
+<span class="sd">    and creates a new Profile instance associated with the User.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sender (model): The model that sends the signal.</span>
+<span class="sd">        instance (User instance): The instance of User model that has been saved.</span>
+<span class="sd">        created (bool): A boolean value indicating whether a new record was created.</span>
+<span class="sd">        **kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">created</span><span class="p">:</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">instance</span>
         <span class="n">Profile</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -87,14 +99,37 @@
 
 <div class="viewcode-block" id="delete_user"><a class="viewcode-back" href="../../Users.html#Users.signals.delete_user">[docs]</a><span class="nd">@receiver</span><span class="p">(</span><span class="n">post_delete</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Profile</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Signal for deleting a User instance when associated Profile is deleted.</span>
+
+<span class="sd">    This signal receiver listens to the post_delete signal sent by Profile model</span>
+<span class="sd">    and deletes the associated User instance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sender (model): The model that sends the signal.</span>
+<span class="sd">        instance (Profile instance): The instance of Profile model that has been deleted.</span>
+<span class="sd">        **kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">pass</span></div>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1"> raised during deleting user&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="notify_about_new_match"><a class="viewcode-back" href="../../Users.html#Users.signals.notify_about_new_match">[docs]</a><span class="nd">@receiver</span><span class="p">(</span><span class="n">post_save</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">Matches</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">notify_about_new_match</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">created</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Signal to notify about a new match.</span>
+
+<span class="sd">    This signal receiver listens to the post_save signal sent by Matches model.</span>
+<span class="sd">    If a user is currently inside a chat, the new match should appear inside the friend list.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sender (model): The model that sends the signal.</span>
+<span class="sd">        instance (Matches instance): The instance of Matches model that has been saved.</span>
+<span class="sd">        created (bool): A boolean value indicating whether a new record was created.</span>
+<span class="sd">        **kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span>  <span class="c1"># TODO : if user is currently inside chat new match should appear inside friend list</span></div>
 </pre></div>
 

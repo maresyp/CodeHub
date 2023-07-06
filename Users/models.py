@@ -9,6 +9,32 @@ import uuid
 # Create your models here.
 
 class Profile(models.Model):
+    """
+    A class used to represent the Profile model.
+
+    ...
+
+    Attributes:
+    user (User): One-to-one relation with User model
+    is_active (bool): To indicate whether the user is active
+    city (str): The city of the user
+    age (int): The age of the user
+    bio (str): The bio of the user
+    profile_image (ImageField): The profile image of the user
+    gender (str): The gender of the user
+    social_github (str): The github account link of the user
+    social_twitter (str): The twitter account link of the user
+    social_youtube (str): The youtube account link of the user
+    social_linkedin (str): The linkedin account link of the user
+    social_facebook (str): The facebook account link of the user
+    favorite_project (Project): The favorite project of the user
+
+    ...
+
+    Methods:
+    __str__(): Returns the string representation of the user
+    imageURL: Returns the URL of the user's profile image
+    """
     GENDER_CHOICES = [
         ('M', 'Mężczyzna'),
         ('K', 'Kobieta'),
@@ -33,6 +59,12 @@ class Profile(models.Model):
 
     @property
     def imageURL(self):
+        """
+        Returns the URL of the user's profile image.
+
+        Returns:
+        str: The URL of the profile image
+        """
         try:
             url = self.profile_image.url
         except Exception:
@@ -40,6 +72,23 @@ class Profile(models.Model):
         return url
 
 class Matches(models.Model):
+    """
+    A class used to represent the Matches model.
+
+    ...
+
+    Attributes:
+    id (UUIDField): The UUID of the match
+    first_user (User): The first user involved in the match
+    second_user (User): The second user involved in the match
+    first_status (bool): The status of the first user
+    second_status (bool): The status of the second user
+
+    ...
+
+    Methods:
+    __str__(): Returns the string representation of the match
+    """
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     first_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='first_user')
     second_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='second_user')
@@ -51,6 +100,22 @@ class Matches(models.Model):
 
 
 class FavouritesTags(models.Model):
+    """
+    A class used to represent the FavouritesTags model.
+
+    ...
+
+    Attributes:
+    id (UUIDField): The UUID of the favourite tag
+    user_id (User): The user to which the tag belongs
+    tag_id (Tag): The tag that is marked as favourite
+    value (int): The value of the tag
+
+    ...
+
+    Methods:
+    __str__(): Returns the string representation of the favourite tag
+    """
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)

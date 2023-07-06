@@ -77,19 +77,31 @@
 
 
 <div class="viewcode-block" id="CustomUserCreationForm"><a class="viewcode-back" href="../../Users.html#Users.forms.CustomUserCreationForm">[docs]</a><span class="k">class</span> <span class="nc">CustomUserCreationForm</span><span class="p">(</span><span class="n">UserCreationForm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A custom user creation form based on Django&#39;s UserCreationForm.</span>
+
+<span class="sd">    This form updates the attributes of its fields and uses a custom list of</span>
+<span class="sd">    fields.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="CustomUserCreationForm.Meta"><a class="viewcode-back" href="../../Users.html#Users.forms.CustomUserCreationForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s1">&#39;first_name&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;email&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;username&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;password1&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;password1&#39;</span><span class="p">,</span>
             <span class="s1">&#39;password2&#39;</span><span class="p">]</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Imię&#39;</span><span class="p">,</span>
         <span class="p">}</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the form and update its fields&#39; attributes.</span>
+
+<span class="sd">        :param args: Variable length argument list.</span>
+<span class="sd">        :param kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CustomUserCreationForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -97,6 +109,9 @@
 
 
 <div class="viewcode-block" id="ProfileForm"><a class="viewcode-back" href="../../Users.html#Users.forms.ProfileForm">[docs]</a><span class="k">class</span> <span class="nc">ProfileForm</span><span class="p">(</span><span class="n">ModelForm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A form for creating and editing Profile instances.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">EmailField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ProfileForm.Meta"><a class="viewcode-back" href="../../Users.html#Users.forms.ProfileForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
@@ -110,14 +125,21 @@
             <span class="s1">&#39;bio&#39;</span><span class="p">:</span> <span class="s1">&#39;O mnie&#39;</span><span class="p">,</span>
             <span class="s1">&#39;profile_image&#39;</span><span class="p">:</span> <span class="s1">&#39;Zdjęcie profilowe&#39;</span><span class="p">,</span>
             <span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;Płeć&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;social_github&#39;</span><span class="p">:</span> <span class="s1">&#39;GitHub&#39;</span><span class="p">,</span> 
-            <span class="s1">&#39;social_twitter&#39;</span><span class="p">:</span> <span class="s1">&#39;Twitter&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;social_github&#39;</span><span class="p">:</span> <span class="s1">&#39;GitHub&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;social_twitter&#39;</span><span class="p">:</span> <span class="s1">&#39;Twitter&#39;</span><span class="p">,</span>
             <span class="s1">&#39;social_youtube&#39;</span><span class="p">:</span> <span class="s1">&#39;Youtube&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;social_linkedin&#39;</span><span class="p">:</span> <span class="s1">&#39;LinkedIn&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;social_linkedin&#39;</span><span class="p">:</span> <span class="s1">&#39;LinkedIn&#39;</span><span class="p">,</span>
             <span class="s1">&#39;social_facebook&#39;</span><span class="p">:</span> <span class="s1">&#39;Facebook&#39;</span><span class="p">,</span>
         <span class="p">}</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the form, set the initial email value, and update its</span>
+<span class="sd">        fields&#39; attributes.</span>
+
+<span class="sd">        :param args: Variable length argument list.</span>
+<span class="sd">        :param kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ProfileForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">initial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span>
@@ -126,6 +148,14 @@
             <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">})</span>
 
 <div class="viewcode-block" id="ProfileForm.save"><a class="viewcode-back" href="../../Users.html#Users.forms.ProfileForm.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the form.</span>
+
+<span class="sd">        :param commit: Whether to save the form to the database.</span>
+<span class="sd">        :type commit: bool</span>
+<span class="sd">        :return: The saved Profile instance.</span>
+<span class="sd">        :rtype: Profile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">profile</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ProfileForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">profile</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
@@ -135,6 +165,9 @@
 
 
 <div class="viewcode-block" id="ChangePasswordForm"><a class="viewcode-back" href="../../Users.html#Users.forms.ChangePasswordForm">[docs]</a><span class="k">class</span> <span class="nc">ChangePasswordForm</span><span class="p">(</span><span class="n">Form</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A form for changing a user&#39;s password.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">old_password</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">(</span>
         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Aktualne hasło&quot;</span><span class="p">,</span>
         <span class="n">widget</span><span class="o">=</span><span class="n">PasswordInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;autocomplete&#39;</span><span class="p">:</span> <span class="s1">&#39;current-password&#39;</span><span class="p">}))</span>
@@ -150,6 +183,14 @@
     <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the form and update its fields&#39; attributes.</span>
+
+<span class="sd">        :param user: The User instance whose password will be changed.</span>
+<span class="sd">        :type user: User</span>
+<span class="sd">        :param args: Variable length argument list.</span>
+<span class="sd">        :param kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ChangePasswordForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -157,14 +198,25 @@
             <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">})</span>
 
 <div class="viewcode-block" id="ChangePasswordForm.save"><a class="viewcode-back" href="../../Users.html#Users.forms.ChangePasswordForm.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change the user&#39;s password and save the User instance.</span>
+
+<span class="sd">        :param commit: Whether to save the form to the database.</span>
+<span class="sd">        :type commit: bool</span>
+<span class="sd">        :return: The updated User instance.</span>
+<span class="sd">        :rtype: User</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">password</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;new_password1&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span></div></div>
-    
+
 
 <div class="viewcode-block" id="AddFavouriteTagForm"><a class="viewcode-back" href="../../Users.html#Users.forms.AddFavouriteTagForm">[docs]</a><span class="k">class</span> <span class="nc">AddFavouriteTagForm</span><span class="p">(</span><span class="n">ModelForm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A form for adding a favorite tag to a user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AddFavouriteTagForm.Meta"><a class="viewcode-back" href="../../Users.html#Users.forms.AddFavouriteTagForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">FavouritesTags</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tag_id&#39;</span><span class="p">]</span>
@@ -173,6 +225,13 @@
         <span class="p">}</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the form, set the initial queryset, and update its fields&#39;</span>
+<span class="sd">        attributes.</span>
+
+<span class="sd">        :param args: Variable length argument list.</span>
+<span class="sd">        :param kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">AddFavouriteTagForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
@@ -182,6 +241,13 @@
             <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;input&#39;</span><span class="p">})</span>
 
 <div class="viewcode-block" id="AddFavouriteTagForm.clean_tag_id"><a class="viewcode-back" href="../../Users.html#Users.forms.AddFavouriteTagForm.clean_tag_id">[docs]</a>    <span class="k">def</span> <span class="nf">clean_tag_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the tag ID.</span>
+
+<span class="sd">        :raise ValidationError: If the user already has 10 favorite tags.</span>
+<span class="sd">        :return: The cleaned tag ID.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tag_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;tag_id&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">tag_id</span><span class="o">=</span><span class="n">tag_id</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Nie możesz dodać więcej niż 10 tagów.&quot;</span><span class="p">)</span>
@@ -189,14 +255,31 @@
 
 
 <div class="viewcode-block" id="RemoveFavouriteTagForm"><a class="viewcode-back" href="../../Users.html#Users.forms.RemoveFavouriteTagForm">[docs]</a><span class="k">class</span> <span class="nc">RemoveFavouriteTagForm</span><span class="p">(</span><span class="n">Form</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A form for removing a favorite tag from a user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tag_id</span> <span class="o">=</span> <span class="n">ModelChoiceField</span><span class="p">(</span><span class="n">queryset</span><span class="o">=</span><span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the form and set the initial queryset.</span>
+
+<span class="sd">        :param args: Variable length argument list.</span>
+<span class="sd">        :param kwargs: Arbitrary keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;tag_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">favouritestags__user_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RemoveFavouriteTagForm.clean_tag_id"><a class="viewcode-back" href="../../Users.html#Users.forms.RemoveFavouriteTagForm.clean_tag_id">[docs]</a>    <span class="k">def</span> <span class="nf">clean_tag_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the tag ID.</span>
+
+<span class="sd">        :raise ValidationError: If the user doesn&#39;t have the given tag as a</span>
+<span class="sd">                                favorite.</span>
+<span class="sd">        :return: The cleaned tag ID.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tag_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag_id&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">FavouritesTags</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">tag_id</span><span class="o">=</span><span class="n">tag_id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>

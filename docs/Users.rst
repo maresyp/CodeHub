@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   Users.management
 
 Submodules
 ----------
@@ -23,6 +24,14 @@ Users.apps module
 -----------------
 
 .. automodule:: Users.apps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Users.context\_processors module
+--------------------------------
+
+.. automodule:: Users.context_processors
    :members:
    :undoc-members:
    :show-inheritance:
