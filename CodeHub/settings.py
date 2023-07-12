@@ -96,6 +96,19 @@ WSGI_APPLICATION = 'CodeHub.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# postgres database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'codehub',
+#         'USER': 'postgres',
+#         'PASSWORD': 'mysecretpassword',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+# sqlite database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

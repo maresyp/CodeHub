@@ -107,7 +107,7 @@ class PlagiarismQueue(Queue):
 
                 checked_code.plagiarism_ratio = highest_similarity[0]
                 checked_code.plagiarized_from = highest_similarity[1]
-                checked_code.save()
+                checked_code.save(anti_plagiarism_checked=True)
 
                 self.task_done()
             except Exception as e:

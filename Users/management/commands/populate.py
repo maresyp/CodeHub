@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandParser
 from Users.models import User, FavouritesTags
 from Codes.models import Project, Code, Tag
-
+from Codes.anti_plagiarism.PlagiarismQueue import PlagiarismQueue
 from abc import ABC, abstractmethod
 from faker import Faker
 from faker.providers import BaseProvider
@@ -111,6 +111,8 @@ class Command(BaseCommand):
                 creations += 1
                 print(f'Created User with email {data["email"]}.')
 
+        print('Waiting for anti plagiarism checks to finish.')
+        PlagiarismQueue().join()
         print(f'Created {creations} mock users.')
 
 class Generator(ABC):

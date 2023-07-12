@@ -1,36 +1,6 @@
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save, post_delete
 from .models import Code, Project, Tag
-from .anti_plagiarism.PlagiarismQueue import PlagiarismQueue, PlagiarismQueueEntry
-
-__queue = PlagiarismQueue()
-
-@receiver(pre_save, sender=Code)
-def start_plagiarism_checks(sender, instance, **kwargs):
-    """
-    This function is triggered before a code snippet instance is saved.
-    It checks if there are any changes in the source code and if so, it queues it for plagiarism check.
-
-    :param sender: The model class.
-    :type sender: django.db.models.Model
-    :param instance: The actual instance being saved.
-    :type instance: models.Model
-    :param kwargs: Keyword arguments
-    """
-    check_plagiarism: bool = True
-
-    # when updated
-    if not instance._state.adding:
-        old_instance = Code.objects.get(pk=instance.pk)
-        old_value = getattr(old_instance, 'source_code')
-        new_value = getattr(instance, 'source_code')
-        if old_value == new_value:
-            check_plagiarism = False
-
-    if check_plagiarism:
-        global __queue
-        __queue = PlagiarismQueue()
-        __queue.put(PlagiarismQueueEntry(instance.id))
 
 @receiver(post_save, sender=Project)
 def select_favorite_project(sender, instance, created, **kwargs):

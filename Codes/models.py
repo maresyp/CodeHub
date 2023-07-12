@@ -2,7 +2,7 @@ from django.db import models
 from Users.models import User
 import uuid
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from .anti_plagiarism.PlagiarismQueue import PlagiarismQueue, PlagiarismQueueEntry
 
 # Create your models here.
 
@@ -70,12 +70,19 @@ class Code(models.Model):
     source_code = models.TextField(max_length=10000)
     code_tag = models.ForeignKey('Tag', on_delete=models.DO_NOTHING, null=True, blank=True, default=None)
     plagiarism_ratio = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], null=False, blank=True, default=0)
-    plagiarized_from = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True, default=None)
+    plagiarized_from = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, default=None)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_edit = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.project.owner} {self.title}"
+
+    def save(self, force_insert=False, force_update=False, anti_plagiarism_checked=False, *args, **kwargs) -> None:
+        super(Code, self).save(force_insert, force_update, *args, **kwargs)
+
+        if not anti_plagiarism_checked:
+            queue = PlagiarismQueue()
+            queue.put(PlagiarismQueueEntry(self.id))
 
 
 class Tag(models.Model):
