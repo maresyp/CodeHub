@@ -52,7 +52,7 @@ class Profile(models.Model):
     social_youtube = models.CharField(max_length=2000, null=True, blank=True)
     social_linkedin = models.CharField(max_length=2000, null=True, blank=True)
     social_facebook = models.CharField(max_length=2000, null=True, blank=True)
-    favorite_project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
+    favorite_project = models.OneToOneField(Project, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return str(self.user)
